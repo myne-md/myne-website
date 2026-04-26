@@ -1,0 +1,94 @@
+---
+import HeroSpecCard from "./HeroSpecCard.astro";
+---
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">
+      <span class="dot"></span>v0.1 pre-alpha &middot; open source
+    </div>
+    <h1>
+      Encrypted markdown notes.<br />
+      <em>No email at signup.</em>
+    </h1>
+    <p class="lede">
+      Myne is a notes app that encrypts on your device before anything leaves it.
+      The server stores ciphertext. Your account is a number you generate, not an
+      email we keep.
+    </p>
+    <div class="actions">
+      <a href="#how" class="btn btn-primary btn-lg">
+        How it works
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </a>
+      <a href="#specs" class="btn btn-secondary btn-lg">
+        See the specs
+      </a>
+    </div>
+
+    <HeroSpecCard />
+  </div>
+</header>
+
+<style>
+  .hero {
+    padding: 96px 0 64px;
+    border-bottom: 1px solid var(--line-1);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    padding: 5px 10px;
+    border: 1px solid var(--line-1);
+    border-radius: 999px;
+    background: var(--paper-2);
+    margin-bottom: 24px;
+  }
+  .eyebrow .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--fg-3);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: 64px;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+    margin: 0 0 24px;
+    max-width: 800px;
+    color: var(--fg-display);
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--fg-3);
+  }
+  .lede {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--fg-2);
+    max-width: 620px;
+    margin: 0 0 32px;
+  }
+  .actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 920px) {
+    .hero h1 { font-size: 44px; }
+  }
+</style>

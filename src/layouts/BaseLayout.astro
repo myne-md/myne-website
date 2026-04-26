@@ -1,0 +1,48 @@
+---
+import "../styles/tokens.css";
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!--
+                    o      o
+   888b     d888  o    o    o
+   8888b   d8888    o    o
+   88888b.d88888  o    o    o
+   888 888P 888                     myne-protocol-v0.1
+   888  Y8P  888                    encrypted markdown notes
+   888   "   888                    no email at signup
+   888       888                    your account is a number
+                                    you keep, not an email we keep
+
+   Hi. If you're reading this, you're our kind of person.
+   Specs, threat model, and source go public when Phase 1 ships.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

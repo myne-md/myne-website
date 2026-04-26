@@ -1,17 +1,26 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import HowItWorks from "../components/HowItWorks.astro";
+import AccountNumberFeature from "../components/AccountNumberFeature.astro";
+import RecoveryPhraseFeature from "../components/RecoveryPhraseFeature.astro";
+import NonFeatures from "../components/NonFeatures.astro";
+import Specs from "../components/Specs.astro";
+import Roadmap from "../components/Roadmap.astro";
+import CtaSection from "../components/CtaSection.astro";
 
+const title = "Myne — Encrypted markdown notes";
+const description =
+  "Open-source, end-to-end encrypted markdown notes. Privacy is the default; the recovery model is honest. Pre-alpha — spec-first.";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={title} description={description}>
+  <Hero />
+  <HowItWorks />
+  <AccountNumberFeature />
+  <RecoveryPhraseFeature />
+  <NonFeatures />
+  <Specs />
+  <Roadmap />
+  <CtaSection />
+</BaseLayout>

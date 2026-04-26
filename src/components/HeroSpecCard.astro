@@ -11,7 +11,7 @@
 <span class="k">aead             </span>= XChaCha20-Poly1305 + CTX commitment
 <span class="k">subkey-derivation</span>= HKDF-SHA-256 (libsodium)
 <span class="k">recovery         </span>= BIP-39 24-word &rarr; Argon2id
-<span class="k">account-number   </span>= MY&#8209;XXXX&#8209;XXXX&#8209;XXXX&#8209;XXXX&#8209;X (Crockford-base32)
+<span class="k">account-number   </span>= <span id="hero-acct" class="acct-live" aria-label="Live demo account number — click to regenerate">MY‑XXXX‑XXXX‑XXXX‑XXXX‑XXXX</span> <span class="hint">click to reroll</span>
 <span class="k">aad-prefix       </span>= "myne.v0.1|"
 <span class="k">on-disk-magic    </span>= MY01 (note blob), MYV1 (vault.meta)
 <span class="k">library          </span>= libsodium (RustCrypto fallback)
@@ -26,6 +26,12 @@
     </a>
   </div>
 </aside>
+
+<script>
+  import { mountAccountNumber } from "../scripts/account-number";
+  const el = document.getElementById("hero-acct");
+  if (el) mountAccountNumber(el);
+</script>
 
 <style>
   .card {
@@ -62,6 +68,23 @@
   .body .k {
     color: var(--fg-3);
   }
+  .body .acct-live {
+    color: var(--accent);
+    user-select: all;
+    transition: color 120ms var(--ease-standard);
+    border-bottom: 1px dashed transparent;
+  }
+  .body .acct-live:hover {
+    border-bottom-color: var(--accent);
+  }
+  .body .hint {
+    color: var(--fg-3);
+    font-size: 11px;
+    margin-left: 6px;
+    opacity: 0;
+    transition: opacity 180ms var(--ease-standard);
+  }
+  .body:hover .hint { opacity: 1; }
   .foot {
     padding: 14px 16px;
     border-top: 1px solid var(--line-1);

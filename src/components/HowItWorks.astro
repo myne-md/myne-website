@@ -1,0 +1,133 @@
+---
+---
+
+<section id="how">
+  <div class="container">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-title">End-to-end encryption, the boring way.</h2>
+    <p class="section-lede">
+      No new crypto. No proprietary protocol. Argon2id, XChaCha20-Poly1305, BIP-39 —
+      well-studied primitives, composed plainly.
+    </p>
+
+    <div class="grid">
+      <article class="card">
+        <div class="num">01 — KEY DERIVATION</div>
+        <h3>Your password becomes a key.</h3>
+        <p>
+          Argon2id stretches your master password and 24-word recovery phrase into
+          a root key. The server never sees either.
+        </p>
+<pre>kdf       = Argon2id v1.3
+m         = 256 MiB
+t         = 3
+p         = 2</pre>
+      </article>
+
+      <article class="card">
+        <div class="num">02 — ENCRYPTION</div>
+        <h3>Notes encrypt before sync.</h3>
+        <p>
+          Each note is sealed with XChaCha20-Poly1305 plus a CTX commitment.
+          The server stores opaque ciphertext blobs.
+        </p>
+<pre>aead    = XChaCha20-Poly1305
+commit  = CTX
+subkey  = HKDF-SHA-256
+nonce   = 24 bytes random</pre>
+      </article>
+
+      <article class="card">
+        <div class="num">03 — IDENTITY</div>
+        <h3>An account number, not an email.</h3>
+        <p>
+          You sign up by generating a 20-character Crockford-base32 account
+          number. We store its hash. There is no email field.
+        </p>
+<pre>id        = MY&#8209;XXXX&#8209;XXXX&#8209;XXXX&#8209;XXXX&#8209;X
+encoding  = Crockford-base32
+auth      = Argon2id(account_no)</pre>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    padding: 96px 0;
+    border-bottom: 1px solid var(--line-1);
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: var(--fg-display);
+  }
+  .section-lede {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--fg-2);
+    max-width: 620px;
+    margin: 0 0 56px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .card {
+    padding: 28px;
+    background: var(--paper-2);
+    border: 1px solid var(--line-1);
+    border-radius: 8px;
+  }
+  .num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg-3);
+    margin-bottom: 16px;
+    font-feature-settings: "ss02", "zero";
+  }
+  .card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: var(--fg-1);
+  }
+  .card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--fg-2);
+    margin: 0;
+  }
+  pre {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    background: var(--bg-1);
+    border: 1px solid var(--line-1);
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin: 16px 0 0;
+    color: var(--fg-2);
+    font-feature-settings: "ss02", "zero";
+    line-height: 1.5;
+    overflow: auto;
+  }
+
+  @media (max-width: 920px) {
+    .grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 32px; }
+  }
+</style>

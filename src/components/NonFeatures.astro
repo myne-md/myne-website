@@ -1,0 +1,101 @@
+---
+const items = [
+  "Email-based password reset",
+  "Server-side search",
+  "AI features that read your notes",
+  "Analytics, telemetry, crash reports",
+  "Social login (Google, Apple, GitHub)",
+  "Public sharing of decrypted notes",
+  "Recovery support tickets",
+  "Marketing email (we have no email)",
+];
+---
+
+<section id="non">
+  <div class="container">
+    <div class="section-eyebrow">By design</div>
+    <h2 class="section-title">Things Myne does not do.</h2>
+    <p class="section-lede">
+      A privacy product is defined by its no's. These are not on the roadmap.
+      They will not appear later.
+    </p>
+
+    <ul class="non">
+      {items.map((item) => (
+        <li>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+          {item}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  section {
+    padding: 96px 0;
+    border-bottom: 1px solid var(--line-1);
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: var(--fg-display);
+  }
+  .section-lede {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--fg-2);
+    max-width: 640px;
+    margin: 0 0 56px;
+  }
+  .link {
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition: border-color 120ms var(--ease-standard);
+  }
+  .link:hover { border-bottom-color: currentColor; }
+
+  .non {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 32px;
+    max-width: 760px;
+    padding: 0;
+    margin: 0;
+  }
+  .non li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid var(--line-1);
+    font-size: 14px;
+    color: var(--fg-1);
+    list-style: none;
+  }
+  .non li :global(svg) {
+    color: var(--fg-3);
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 920px) {
+    .non { grid-template-columns: 1fr; }
+    .section-title { font-size: 32px; }
+  }
+</style>

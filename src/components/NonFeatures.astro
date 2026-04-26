@@ -35,41 +35,6 @@ const items = [
 </section>
 
 <style>
-  section {
-    padding: 96px 0;
-    border-bottom: 1px solid var(--line-1);
-  }
-  .section-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--fg-3);
-    margin-bottom: 16px;
-  }
-  .section-title {
-    font-family: var(--font-display);
-    font-size: 40px;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    font-weight: 600;
-    margin: 0 0 16px;
-    color: var(--fg-display);
-  }
-  .section-lede {
-    font-size: 17px;
-    line-height: 1.6;
-    color: var(--fg-2);
-    max-width: 640px;
-    margin: 0 0 56px;
-  }
-  .link {
-    color: var(--accent);
-    border-bottom: 1px solid transparent;
-    transition: border-color 120ms var(--ease-standard);
-  }
-  .link:hover { border-bottom-color: currentColor; }
-
   .non {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -96,6 +61,5 @@ const items = [
 
   @media (max-width: 920px) {
     .non { grid-template-columns: 1fr; }
-    .section-title { font-size: 32px; }
   }
 </style>

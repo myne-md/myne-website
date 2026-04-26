@@ -1,4 +1,5 @@
 ---
+import { PLACEHOLDER } from "../scripts/account-number";
 ---
 
 <aside class="card" aria-label="Protocol summary">
@@ -11,7 +12,7 @@
 <span class="k">aead             </span>= XChaCha20-Poly1305 + CTX commitment
 <span class="k">subkey-derivation</span>= HKDF-SHA-256 (libsodium)
 <span class="k">recovery         </span>= BIP-39 24-word &rarr; Argon2id
-<span class="k">account-number   </span>= <span id="hero-acct" class="acct-live" aria-label="Live demo account number — click to regenerate">MY‑XXXX‑XXXX‑XXXX‑XXXX‑XXXX</span> <span class="hint">click to reroll</span>
+<span class="k">account-number   </span>= <span id="hero-acct" class="acct-live" aria-label="Live demo account number — click to regenerate">{PLACEHOLDER}</span> <span class="hint">click to reroll</span>
 <span class="k">aad-prefix       </span>= "myne.v0.1|"
 <span class="k">on-disk-magic    </span>= MY01 (note blob), MYV1 (vault.meta)
 <span class="k">library          </span>= libsodium (RustCrypto fallback)
@@ -35,8 +36,9 @@
 
 <style>
   .card {
-    background: var(--paper-2);
-    border: 1px solid var(--line-1);
+    /* Spec-card variant: no outer padding (titlebar/body/foot are self-padded),
+       deeper radius, and a subtle drop shadow that the workhorse .card lacks. */
+    padding: 0;
     border-radius: 10px;
     overflow: hidden;
     box-shadow:

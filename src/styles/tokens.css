@@ -8,21 +8,10 @@
    enough on macOS / Windows / Linux but not pixel-perfect.
    ========================================================================= */
 
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("/fonts/InterVariable.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "JetBrains Mono";
-  font-style: normal;
-  font-weight: 100 800;
-  font-display: swap;
-  src: url("/fonts/JetBrainsMono.woff2") format("woff2");
-}
+/* @font-face rules deliberately omitted: font binaries are not yet bundled.
+   Adding them now would 404 on every first paint. The system stack named in
+   --font-sans / --font-mono substitutes acceptably until WOFF2s land in
+   /public/fonts/InterVariable.woff2 and /public/fonts/JetBrainsMono.woff2. */
 
 :root {
   /* -- Type families --------------------------------------------------- */

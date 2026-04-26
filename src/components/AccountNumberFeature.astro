@@ -1,4 +1,5 @@
 ---
+import { PLACEHOLDER } from "../scripts/account-number";
 ---
 
 <section id="identity">
@@ -27,7 +28,7 @@
       <div class="visual">
         <div class="acct">
           <div class="big-row">
-            <span id="big-acct" class="big" aria-label="Live demo account number — click to regenerate">MY‑XXXX‑XXXX‑XXXX‑XXXX‑XXXX</span>
+            <span id="big-acct" class="big" aria-label="Live demo account number — click to regenerate">{PLACEHOLDER}</span>
             <button class="reroll" type="button" id="big-acct-reroll" aria-label="Generate a new account number">
               <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M3 12a9 9 0 0 1 15.5-6.3L21 8" />
@@ -54,77 +55,6 @@
 </section>
 
 <style>
-  section {
-    padding: 96px 0;
-    border-bottom: 1px solid var(--line-1);
-  }
-  .section-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--fg-3);
-    margin-bottom: 16px;
-  }
-  .feature {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: center;
-    padding: 48px 0;
-  }
-  .feature h3 {
-    font-family: var(--font-display);
-    font-size: 28px;
-    line-height: 1.2;
-    letter-spacing: -0.015em;
-    font-weight: 600;
-    margin: 0 0 16px;
-    color: var(--fg-display);
-  }
-  .feature p {
-    font-size: 15px;
-    line-height: 1.65;
-    color: var(--fg-2);
-    margin: 0 0 16px;
-  }
-  .feature ul {
-    margin: 16px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-  .feature li {
-    padding: 8px 0 8px 24px;
-    border-top: 1px solid var(--line-1);
-    position: relative;
-    font-size: 14px;
-    color: var(--fg-1);
-  }
-  .feature li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 16px;
-    width: 12px;
-    height: 1px;
-    background: var(--fg-3);
-  }
-  .feature code {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    background: var(--paper-2);
-    border: 1px solid var(--line-1);
-    padding: 1px 5px;
-    border-radius: 3px;
-  }
-
-  .visual {
-    background: var(--paper-2);
-    border: 1px solid var(--line-1);
-    border-radius: 8px;
-    padding: 32px;
-    min-height: 320px;
-  }
   .acct {
     display: flex;
     flex-direction: column;
@@ -195,29 +125,26 @@
   }
 
   @media (max-width: 920px) {
-    .feature {
-      grid-template-columns: 1fr;
-      gap: 32px;
-      padding: 32px 0;
-    }
     .big { font-size: 22px; }
   }
 </style>
 
 <script>
-  import { mountAccountNumber, generateAccountNumber, animateAccountNumber } from "../scripts/account-number";
+  import { mountAccountNumber } from "../scripts/account-number";
+  // Defer the entrance animation until the section enters the viewport, so it
+  // doesn't compete with the hero-card animation for paint budget on first load.
   const big = document.getElementById("big-acct");
-  const reroll = document.getElementById("big-acct-reroll");
+  const reroll = document.getElementById("big-acct-reroll") ?? undefined;
   if (big) {
-    mountAccountNumber(big);
-    if (reroll) {
-      reroll.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const next = generateAccountNumber();
-        if (reduce) big.textContent = next;
-        else animateAccountNumber(big, next);
-      });
-    }
+    const observer = new IntersectionObserver((entries, self) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          mountAccountNumber(big, reroll);
+          self.disconnect();
+          break;
+        }
+      }
+    }, { rootMargin: "0px 0px -10% 0px" });
+    observer.observe(big);
   }
 </script>

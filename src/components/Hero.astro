@@ -1,5 +1,5 @@
 ---
-import HeroSpecCard from "./HeroSpecCard.astro";
+import LiveEncryptionDemo from "./LiveEncryptionDemo.astro";
 ---
 
 <header class="hero">
@@ -8,7 +8,7 @@ import HeroSpecCard from "./HeroSpecCard.astro";
       <span class="dot"></span>v0.1 pre-alpha &middot; open source
     </div>
     <h1>
-      Encrypted markdown notes.<br />
+      <span id="hero-cycle">Encrypted</span> markdown notes.<br />
       <em>No email at signup.</em>
     </h1>
     <p class="lede">
@@ -29,9 +29,15 @@ import HeroSpecCard from "./HeroSpecCard.astro";
       </a>
     </div>
 
-    <HeroSpecCard />
+    <LiveEncryptionDemo />
   </div>
 </header>
+
+<script>
+  import { mountHeadlineCycle } from "../scripts/headline";
+  const el = document.getElementById("hero-cycle");
+  if (el) mountHeadlineCycle(el, { cycleMs: 14000, scrambleMs: 1300 });
+</script>
 
 <style>
   .hero {

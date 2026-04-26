@@ -19,7 +19,7 @@ import { PLACEHOLDER } from "../scripts/account-number";
         </p>
         <ul>
           <li>95 bits of entropy across 19 Crockford-base32 characters</li>
-          <li>1 Damm-32 check character — single-typo recovery</li>
+          <li>1 Damm-32 check character — single-typo detection</li>
           <li>Non-breaking hyphens — never wraps mid-group</li>
           <li>Single click selects the whole value</li>
           <li>Slashed-zero monospace — no <code>0/O</code> ambiguity</li>
@@ -44,7 +44,7 @@ import { PLACEHOLDER } from "../scripts/account-number";
             <code>1–4</code>
             <span>First entropy group. Non-breaking hyphens (U+2011) — never wraps mid-group.</span>
             <code>20</code>
-            <span>Damm-32 check character. Single-typo recovery, single-transposition recovery.</span>
+            <span>Damm-32 check character. Single-typo detection, single-adjacent-transposition detection.</span>
             <code>·</code>
             <span class="demo-note">Demo — fresh CSPRNG draw on every click. Production includes the spec §4 Damm-32 check.</span>
           </div>

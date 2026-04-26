@@ -15,8 +15,9 @@
         <div class="num">01 — KEY DERIVATION</div>
         <h3>Your password becomes a key.</h3>
         <p>
-          Argon2id stretches your master password and 24-word recovery phrase into
-          a root key. The server never sees either.
+          Argon2id stretches your master password and 24-word recovery phrase
+          into independent wrap keys. Each unwraps a copy of your random root
+          key. The server never sees any of them.
         </p>
 <pre>kdf       = Argon2id v1.3
 m         = 256 MiB
@@ -46,7 +47,7 @@ nonce   = 24 bytes random</pre>
         </p>
 <pre>id        = MY&#8209;XXXX&#8209;XXXX&#8209;XXXX&#8209;XXXX&#8209;X
 encoding  = Crockford-base32
-auth      = Argon2id(account_no)</pre>
+id-hash   = SHA-256(account_no)[:32]</pre>
       </article>
     </div>
   </div>

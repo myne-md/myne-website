@@ -1,13 +1,14 @@
 ---
-import { getCollection, render, type CollectionEntry } from "astro:content";
+import { render, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import EntryHeader from "../../components/ledger/EntryHeader.astro";
 import ArticleSchema from "../../components/ledger/ArticleSchema.astro";
-import { ledgerHref } from "../../lib/ledger";
+import { getPublishedLedgerEntries, ledgerHref } from "../../lib/ledger";
+import { absoluteLedgerOg } from "../../lib/og";
 import "../../styles/ledger.css";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("ledger", ({ data }) => !data.draft);
+  const entries = await getPublishedLedgerEntries();
   return entries.map((entry: CollectionEntry<"ledger">) => ({
     params: { slug: entry.id },
     props: { entry },
@@ -21,6 +22,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 
 const canonical = new URL(ledgerHref(entry), Astro.site!).toString();
+const ogImage = absoluteLedgerOg(entry, Astro.site!);
 ---
 
 <BaseLayout
@@ -28,8 +30,9 @@ const canonical = new URL(ledgerHref(entry), Astro.site!).toString();
   description={entry.data.summary}
   canonical={canonical}
   ogType="article"
+  ogImage={ogImage}
 >
-  <ArticleSchema entry={entry} url={canonical} />
+  <ArticleSchema entry={entry} url={canonical} ogImage={ogImage} />
 
   <section>
     <div class="ledger-reader">

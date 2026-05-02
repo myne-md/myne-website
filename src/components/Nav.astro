@@ -15,7 +15,7 @@ const homeLinks = [
   { label: "Roadmap",      section: "roadmap" },
 ];
 
-const isLedger = pathname.startsWith("/ledger");
+const isLedger = pathname === "/ledger" || pathname.startsWith("/ledger/");
 ---
 
 <nav class="nav">

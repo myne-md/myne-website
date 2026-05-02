@@ -53,8 +53,27 @@ export const FILTERS: readonly FilterDescriptor[] = [
   },
 ];
 
-export async function getSortedLedgerEntries(): Promise<CollectionEntry<"ledger">[]> {
+// Reserved by sibling routes under /ledger/: filter views (shipped/thinking/
+// milestones), the OG-image route, and the RSS feed. An entry whose id collides
+// would either overwrite a sibling page silently or crash the build with a
+// confusing duplicate-route error. Fail loudly with a useful message instead.
+const RESERVED_SLUGS = new Set(["shipped", "thinking", "milestones", "og", "rss", "rss.xml"]);
+
+export async function getPublishedLedgerEntries(): Promise<CollectionEntry<"ledger">[]> {
   const entries = await getCollection("ledger", ({ data }) => !data.draft);
+  for (const e of entries) {
+    if (RESERVED_SLUGS.has(e.id)) {
+      throw new Error(
+        `Ledger entry "${e.id}" uses a reserved slug. Rename the source file ` +
+          `(e.g. add a more specific suffix). Reserved: ${[...RESERVED_SLUGS].join(", ")}`,
+      );
+    }
+  }
+  return entries;
+}
+
+export async function getSortedLedgerEntries(): Promise<CollectionEntry<"ledger">[]> {
+  const entries = await getPublishedLedgerEntries();
   return entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 

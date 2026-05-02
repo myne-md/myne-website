@@ -1,0 +1,60 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EntryHeader from "../../components/ledger/EntryHeader.astro";
+import ArticleSchema from "../../components/ledger/ArticleSchema.astro";
+import { ledgerHref } from "../../lib/ledger";
+import "../../styles/ledger.css";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("ledger", ({ data }) => !data.draft);
+  return entries.map((entry: CollectionEntry<"ledger">) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"ledger">;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const canonical = new URL(ledgerHref(entry), Astro.site!).toString();
+---
+
+<BaseLayout
+  title={`${entry.data.title} — Myne ledger`}
+  description={entry.data.summary}
+  canonical={canonical}
+  ogType="article"
+>
+  <ArticleSchema entry={entry} url={canonical} />
+
+  <section>
+    <div class="ledger-reader">
+      <a class="ledger-back link-accent" href="/ledger/">
+        <span class="arrow" aria-hidden="true">←</span>
+        Ledger
+      </a>
+
+      <EntryHeader entry={entry} />
+
+      <hr class="ledger-divider" aria-hidden="true" />
+
+      <article class="ledger-prose">
+        <Content />
+      </article>
+
+      <hr class="ledger-divider" aria-hidden="true" />
+
+      <div class="ledger-link-bar">
+        <a class="link-accent" href={canonical}>Permalink</a>
+        <span class="dot" aria-hidden="true">·</span>
+        <span class="url">myne.md{ledgerHref(entry)}</span>
+        <span class="spacer"></span>
+        <a class="link-accent" href="/ledger/rss.xml">Subscribe — RSS</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

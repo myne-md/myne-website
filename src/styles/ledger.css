@@ -1,0 +1,165 @@
+/* Ledger — page-level layout chrome, prose styles for permalinks, and the
+   shared meta/list rules. Token recipes (eyebrows, h1, lede) come from
+   global.css/tokens.css; only the deltas are here. */
+
+.ledger-h1 { font-size: 36px; }
+.ledger-lede { max-width: 720px; font-size: 16px; }
+
+.ledger-pinned { margin: 0 0 var(--space-6); max-width: 1056px; }
+
+.ledger-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-8);
+}
+.ledger-filter-spacer { flex: 1; }
+
+.ledger-rss {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.ledger-rss .path {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--fg-3);
+  font-feature-settings: "ss02", "zero";
+}
+
+.ledger-list {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.ledger-quiet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: var(--space-8) 0 0;
+  text-align: center;
+}
+.ledger-quiet .title { font-size: 16px; font-weight: 500; color: var(--fg-2); margin: 0; }
+.ledger-quiet .body  { font-size: 13px; line-height: 1.65; color: var(--fg-3); margin: 0; max-width: 480px; }
+
+/* ---- Shared meta row (used by feed cards + permalink header) ---------- */
+
+.entry-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.entry-meta .date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-3);
+  font-feature-settings: "ss02", "zero";
+}
+.entry-meta .author { font-size: 13px; color: var(--fg-3); }
+
+/* ---- Permalink reader column ------------------------------------------ */
+
+.ledger-reader { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+.ledger-back   { display: inline-flex; align-items: center; gap: 6px; margin-bottom: var(--space-6); font-size: 13px; }
+.ledger-back .arrow { color: var(--fg-3); }
+
+.ledger-divider, .ledger-prose hr {
+  border: 0;
+  border-top: 1px solid var(--line-1);
+  margin: var(--space-7) 0;
+}
+
+/* ---- Markdown prose (.ledger-prose) ----------------------------------- */
+
+.ledger-prose { font-size: 16px; line-height: 1.75; color: var(--fg-1); }
+.ledger-prose > * + * { margin-top: 20px; }
+.ledger-prose p { margin: 0; }
+
+.ledger-prose h2 {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--fg-1);
+  margin: 32px 0 0;
+}
+.ledger-prose h2:first-child { margin-top: 0; }
+
+.ledger-prose h3 {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--fg-1);
+  margin: 24px 0 0;
+}
+
+.ledger-prose ul, .ledger-prose ol { margin: 0; padding-left: 22px; }
+.ledger-prose li { margin: 8px 0; }
+.ledger-prose li::marker { color: var(--fg-3); }
+
+.ledger-prose a {
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+.ledger-prose a:hover { border-bottom-color: currentColor; }
+
+.ledger-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--paper-2);
+  border: 1px solid var(--line-1);
+  padding: 1px 5px;
+  border-radius: var(--radius-1);
+  color: var(--fg-1);
+  font-feature-settings: "ss02", "zero", "calt";
+}
+
+.ledger-prose pre {
+  margin: 0;
+  padding: 16px;
+  background: var(--paper-2);
+  border: 1px solid var(--line-1);
+  border-radius: var(--radius-2);
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.ledger-prose pre code { background: transparent; border: 0; padding: 0; border-radius: 0; font-size: inherit; }
+
+.ledger-prose blockquote {
+  margin: 0;
+  padding: 8px 0 8px 16px;
+  border-left: 2px solid var(--line-2);
+  color: var(--fg-2);
+}
+
+/* ---- Permalink bottom link bar --------------------------------------- */
+
+.ledger-link-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--fg-3);
+}
+.ledger-link-bar .url {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-feature-settings: "ss02", "zero";
+}
+.ledger-link-bar .spacer { flex: 1; }
+
+@media (max-width: 920px) {
+  .ledger-h1 { font-size: 28px; }
+  .ledger-filter-row { gap: 16px; }
+  .ledger-filter-spacer { flex-basis: 100%; height: 0; }
+}

@@ -1,18 +1,43 @@
 ---
+interface Props {
+  /** Current page pathname, used for cross-route active state. */
+  pathname?: string;
+}
+const { pathname = "/" } = Astro.props;
+
+const isHome = pathname === "/" || pathname === "";
+const sectionHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
+
+const homeLinks = [
+  { label: "How it works", section: "how" },
+  { label: "Identity",     section: "identity" },
+  { label: "Specs",        section: "specs" },
+  { label: "Roadmap",      section: "roadmap" },
+];
+
+const isLedger = pathname.startsWith("/ledger");
 ---
 
 <nav class="nav">
   <div class="container nav-inner">
     <a href="/" class="brand">Myne</a>
     <div class="nav-links">
-      <a href="#how" data-section="how">How it works</a>
-      <a href="#identity" data-section="identity">Identity</a>
-      <a href="#specs" data-section="specs">Specs</a>
-      <a href="#roadmap" data-section="roadmap">Roadmap</a>
+      {homeLinks.map((l) => (
+        <a href={sectionHref(l.section)} data-section={isHome ? l.section : undefined}>
+          {l.label}
+        </a>
+      ))}
+      <a
+        href="/ledger/"
+        class:list={["ledger-link", { active: isLedger }]}
+        aria-current={isLedger ? "page" : undefined}
+      >
+        Ledger
+      </a>
     </div>
     <div class="nav-spacer"></div>
     <div class="nav-cta">
-      <a href="#cta" class="btn btn-primary">
+      <a href={sectionHref("cta")} class="btn btn-primary">
         Get notified
       </a>
     </div>
@@ -20,33 +45,44 @@
 </nav>
 
 <script>
-  // Scroll-spy: underline the nav link of the section closest to the viewport top.
-  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>(".nav-links a[data-section]"));
-  const map = new Map<string, HTMLAnchorElement>();
-  for (const a of links) map.set(a.dataset.section!, a);
-
-  const sections = Array.from(map.keys())
-    .map((id) => document.getElementById(id))
-    .filter((el): el is HTMLElement => el !== null);
-
-  const setActive = (id: string | null) => {
-    for (const a of links) a.classList.toggle("active", a.dataset.section === id);
-  };
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((e) => e.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-      if (visible.length > 0) setActive(visible[0].target.id);
-    },
-    {
-      rootMargin: "-15% 0px -70% 0px",
-      threshold: 0,
-    },
+  // Scroll-spy is home-page-only — guard against pages without sections.
+  // On /ledger/* there is no #how / #identity / etc. on the DOM, so skip.
+  const links = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>(
+      ".nav-links a[data-section]",
+    ),
   );
+  if (links.length > 0) {
+    const map = new Map<string, HTMLAnchorElement>();
+    for (const a of links) map.set(a.dataset.section!, a);
 
-  for (const s of sections) observer.observe(s);
+    const sections = Array.from(map.keys())
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length > 0) {
+      const setActive = (id: string | null) => {
+        for (const a of links) a.classList.toggle("active", a.dataset.section === id);
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort(
+              (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
+            );
+          if (visible.length > 0) setActive(visible[0].target.id);
+        },
+        {
+          rootMargin: "-15% 0px -70% 0px",
+          threshold: 0,
+        },
+      );
+
+      for (const s of sections) observer.observe(s);
+    }
+  }
 </script>
 
 <style>
@@ -100,6 +136,10 @@
   }
   .nav-links a.active::after {
     transform: scaleX(1);
+  }
+  /* Cross-route Ledger link gets a subtle separator from anchor links. */
+  .nav-links .ledger-link {
+    margin-left: 4px;
   }
   .nav-spacer { flex: 1; }
   .nav-cta { display: flex; gap: 8px; align-items: center; }

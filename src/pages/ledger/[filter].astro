@@ -1,0 +1,18 @@
+---
+import LedgerFeedLayout from "../../layouts/LedgerFeedLayout.astro";
+import { FILTERS, type FilterKey } from "../../lib/ledger";
+
+export async function getStaticPaths() {
+  return FILTERS.filter((f) => f.key !== "all").map((f) => ({
+    params: { filter: f.key },
+    props: { active: f.key },
+  }));
+}
+
+interface Props {
+  active: Exclude<FilterKey, "all">;
+}
+const { active } = Astro.props;
+---
+
+<LedgerFeedLayout active={active} />

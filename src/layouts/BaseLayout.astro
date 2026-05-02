@@ -7,9 +7,23 @@ import Footer from "../components/Footer.astro";
 interface Props {
   title: string;
   description: string;
+  /** Absolute canonical URL for this page. */
+  canonical?: string;
+  /** og:type — defaults to website; permalink pages pass "article". */
+  ogType?: "website" | "article";
+  /** Absolute og:image URL — falls back to nothing if absent. */
+  ogImage?: string;
 }
 
-const { title, description } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  ogType = "website",
+  ogImage,
+} = Astro.props;
+
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site!).toString();
 ---
 
 <!--
@@ -31,15 +45,25 @@ const { title, description } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Myne ledger"
+      href="/ledger/rss.xml"
+    />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
   </head>
   <body>
-    <Nav />
+    <Nav pathname={Astro.url.pathname} />
     <main>
       <slot />
     </main>

@@ -1,0 +1,26 @@
+---
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+
+<aside class="pinned" aria-label="Currently working on">
+  <span class="section-eyebrow">Currently</span>
+  <span class="dot" aria-hidden="true">·</span>
+  <span class="body">{text}</span>
+</aside>
+
+<style>
+  .pinned {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--paper-2);
+    border: 1px solid var(--line-1);
+    border-radius: var(--radius-2);
+  }
+  .pinned .section-eyebrow { margin: 0; flex-shrink: 0; }
+  .body { font-size: 14px; color: var(--fg-2); line-height: 1.5; }
+</style>

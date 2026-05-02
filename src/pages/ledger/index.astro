@@ -1,0 +1,10 @@
+---
+import LedgerFeedLayout from "../../layouts/LedgerFeedLayout.astro";
+
+// Single editable line; empty string disables the banner. Keep it short —
+// one sentence, no cadence promise.
+const currentlyWorkingOn =
+  "Sketching the desktop sync protocol against the test vector set. Next ledger entry when the wire format is stable.";
+---
+
+<LedgerFeedLayout active="all" pinned={currentlyWorkingOn} />

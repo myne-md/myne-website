@@ -1,0 +1,31 @@
+---
+import { FILTERS, type FilterKey } from "../../lib/ledger";
+
+interface Props {
+  active: FilterKey;
+}
+const { active } = Astro.props;
+---
+
+<nav class="seg" aria-label="Filter ledger entries">
+  {FILTERS.map((f, i) => (
+    <>
+      {i > 0 && <span class="sep" aria-hidden="true">·</span>}
+      <a
+        href={f.href}
+        class:list={["seg-item", { active: f.key === active }]}
+        aria-current={f.key === active ? "page" : undefined}
+      >
+        {f.label}
+      </a>
+    </>
+  ))}
+</nav>
+
+<style>
+  .seg { display: inline-flex; align-items: center; gap: 12px; font-size: 14px; }
+  .seg-item { color: var(--fg-3); transition: color var(--duration-fast) var(--ease-standard); }
+  .seg-item:hover { color: var(--fg-1); }
+  .seg-item.active { color: var(--fg-display); font-weight: 500; }
+  .sep { color: var(--line-2); user-select: none; }
+</style>

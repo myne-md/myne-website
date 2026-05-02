@@ -4,6 +4,7 @@ const links = {
     { label: "How it works", href: "/#how" },
     { label: "Specs", href: "/#specs" },
     { label: "Roadmap", href: "/#roadmap" },
+    { label: "Ledger", href: "/ledger/" },
   ],
   bydesign: [
     { label: "Things Myne does not do", href: "/#non" },
@@ -47,7 +48,11 @@ const year = new Date().getFullYear();
     </div>
     <div class="bottom">
       <span>© {year} Myne contributors · CC0 (docs) · AGPL-3.0 (client, on Phase 1)</span>
-      <span class="mono">myne-protocol-v0.1</span>
+      <div class="bottom-right">
+        <a class="link-accent" href="/ledger/rss.xml">RSS</a>
+        <span class="dot" aria-hidden="true">·</span>
+        <span class="mono">myne-protocol-v0.1</span>
+      </div>
     </div>
   </div>
 </footer>
@@ -110,7 +115,12 @@ const year = new Date().getFullYear();
     border-top: 1px solid var(--line-1);
     padding-top: 24px;
   }
-  .bottom .mono {
+  .bottom-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .bottom-right .mono {
     font-family: var(--font-mono);
     font-feature-settings: "ss02", "zero";
   }

@@ -1,0 +1,82 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import SegmentedFilter from "../components/ledger/SegmentedFilter.astro";
+import EntryCard from "../components/ledger/EntryCard.astro";
+import PinnedBanner from "../components/ledger/PinnedBanner.astro";
+import {
+  applyFilter,
+  FILTERS,
+  getSortedLedgerEntries,
+  type FilterKey,
+} from "../lib/ledger";
+import "../styles/ledger.css";
+
+interface Props {
+  active: FilterKey;
+  /** Optional pinned-banner text. Render the sparse-state pin if set. */
+  pinned?: string;
+  title?: string;
+  description?: string;
+}
+const { active, pinned, title, description } = Astro.props;
+
+const filter = FILTERS.find((f) => f.key === active)!;
+const filtered = applyFilter(await getSortedLedgerEntries(), active);
+
+const SPARSE_THRESHOLD = 4;
+const showSparseQuiet =
+  active === "all" && filtered.length > 0 && filtered.length < SPARSE_THRESHOLD;
+---
+
+<BaseLayout
+  title={title ?? filter.pageTitle}
+  description={description ?? filter.description}
+  canonical="https://myne.md/ledger/"
+>
+  <section>
+    <div class="container">
+      <p class="section-eyebrow">Ledger</p>
+      <h1 class="section-title ledger-h1">Notes from building Myne.</h1>
+      <p class="section-lede ledger-lede">
+        An append-only record of threat-model, protocol, and spec changes —
+        and the reasoning behind them. Not a blog. Not a roadmap. Updates
+        land when there is something worth saying.
+      </p>
+
+      {pinned && (
+        <div class="ledger-pinned">
+          <PinnedBanner text={pinned} />
+        </div>
+      )}
+
+      <div class="ledger-filter-row">
+        <SegmentedFilter active={active} />
+        <div class="ledger-filter-spacer"></div>
+        <a class="ledger-rss link-accent" href="/ledger/rss.xml">
+          RSS<span class="path">/ledger/rss.xml</span>
+        </a>
+      </div>
+
+      {filtered.length > 0 ? (
+        <div class="ledger-list">
+          {filtered.map((entry) => <EntryCard entry={entry} />)}
+        </div>
+      ) : (
+        <div class="ledger-quiet">
+          <p class="title">No entries yet under this filter.</p>
+          <p class="body">Try <a class="link-accent" href="/ledger/">All</a>, or check back later.</p>
+        </div>
+      )}
+
+      {showSparseQuiet && (
+        <div class="ledger-quiet">
+          <p class="title">That's all so far.</p>
+          <p class="body">
+            We post when there is something to post. The next entry might be
+            next week or next quarter — both are fine.
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

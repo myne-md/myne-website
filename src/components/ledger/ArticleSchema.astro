@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { people } from "../../data/people";
+
+interface Props {
+  entry: CollectionEntry<"ledger">;
+  url: string;
+  ogImage?: string;
+}
+const { entry, url, ogImage } = Astro.props;
+const { title, date, author, summary, tags } = entry.data;
+const person = people[author];
+const iso = date.toISOString();
+const siteOrigin = Astro.site?.toString().replace(/\/$/, "") ?? "https://myne.md";
+
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  datePublished: iso,
+  dateModified: iso,
+  author: { "@type": "Person", name: person.schemaName, sameAs: [person.github] },
+  publisher: { "@type": "Organization", name: "Myne", url: siteOrigin },
+  description: summary,
+  mainEntityOfPage: url,
+  url,
+  inLanguage: "en",
+  ...(tags.length > 0 ? { keywords: tags.join(", ") } : {}),
+  ...(ogImage ? { image: ogImage } : {}),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />

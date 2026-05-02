@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { people } from "../../data/people";
+import { formatLedgerDate } from "../../lib/ledger";
+import TypeBadge from "./TypeBadge.astro";
+
+interface Props {
+  entry: CollectionEntry<"ledger">;
+  /** Card uses person.name; permalink uses the schema.org name. */
+  authorAs?: "name" | "schemaName";
+}
+const { entry, authorAs = "name" } = Astro.props;
+const person = people[entry.data.author];
+const iso = formatLedgerDate(entry.data.date);
+---
+
+<header class="entry-meta">
+  <TypeBadge type={entry.data.type} />
+  <span class="dot" aria-hidden="true">·</span>
+  <time class="date" datetime={iso}>{iso}</time>
+  <span class="dot" aria-hidden="true">·</span>
+  <span class="author">{authorAs === "schemaName" ? person.schemaName : person.name}</span>
+</header>

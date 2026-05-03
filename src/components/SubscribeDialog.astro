@@ -1,0 +1,293 @@
+---
+const RSS_URL = new URL("/ledger/rss.xml", Astro.site!).toString();
+---
+
+<dialog
+  id="subscribe-dialog"
+  class="subscribe-dialog"
+  aria-labelledby="subscribe-dialog-title"
+>
+  <div class="card">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      data-subscribe-dialog-close
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M18 6 6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <h2 id="subscribe-dialog-title" class="title">Get updates</h2>
+
+    <p class="body">
+      Two ways to follow along — read the ledger, or subscribe via RSS.
+    </p>
+
+    <a href="/ledger/" class="btn btn-primary btn-lg primary">
+      Show updates
+    </a>
+
+    <button
+      type="button"
+      class="url-field"
+      data-copy-state="idle"
+      data-copy-url={RSS_URL}
+      aria-label="Copy RSS feed URL to clipboard"
+    >
+      <svg
+        class="ico-copy"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+      </svg>
+      <svg
+        class="ico-check"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M20 6 9 17l-5-5"></path>
+      </svg>
+      <span class="label-url">{RSS_URL}</span>
+      <span class="label-copied" aria-hidden="true">Copied</span>
+      <span class="copy-aria-status visually-hidden" aria-live="polite" aria-atomic="true"></span>
+    </button>
+  </div>
+</dialog>
+
+<script>
+  const COPIED_DURATION_MS = 1500;
+
+  const dialog = document.getElementById("subscribe-dialog") as HTMLDialogElement | null;
+  if (dialog) {
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog
+      .querySelectorAll<HTMLButtonElement>("[data-subscribe-dialog-close]")
+      .forEach((button) => {
+        button.addEventListener("click", () => dialog.close());
+      });
+
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-subscribe-trigger]")
+      .forEach((trigger) => {
+        trigger.addEventListener("click", () => dialog.showModal());
+      });
+
+    const copyButton = dialog.querySelector<HTMLButtonElement>("[data-copy-state]");
+    if (copyButton) {
+      const url = copyButton.dataset.copyUrl ?? "";
+      const ariaStatus = copyButton.querySelector<HTMLElement>(".copy-aria-status");
+      let revertTimer: number | undefined;
+
+      const flashCopied = () => {
+        copyButton.dataset.copyState = "copied";
+        if (ariaStatus) ariaStatus.textContent = "Copied";
+        if (revertTimer !== undefined) window.clearTimeout(revertTimer);
+        revertTimer = window.setTimeout(() => {
+          copyButton.dataset.copyState = "idle";
+          if (ariaStatus) ariaStatus.textContent = "";
+        }, COPIED_DURATION_MS);
+      };
+
+      const selectFallback = () => {
+        const urlLabel = copyButton.querySelector<HTMLElement>(".label-url");
+        if (!urlLabel) return;
+        const range = document.createRange();
+        range.selectNodeContents(urlLabel);
+        const selection = window.getSelection();
+        if (selection) {
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      };
+
+      copyButton.addEventListener("click", async () => {
+        try {
+          if (!navigator.clipboard?.writeText) throw new Error("no clipboard");
+          await navigator.clipboard.writeText(url);
+          flashCopied();
+        } catch {
+          selectFallback();
+        }
+      });
+    }
+  }
+</script>
+
+<style>
+  .subscribe-dialog {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: auto;
+    color: var(--fg-1);
+  }
+  .subscribe-dialog::backdrop {
+    background: color-mix(in srgb, var(--ink-0) 32%, transparent);
+  }
+
+  .subscribe-dialog .card {
+    width: 480px;
+    max-width: calc(100vw - 32px);
+    background: var(--paper);
+    border: 1px solid var(--line-1);
+    border-radius: var(--radius-3);
+    box-shadow: var(--shadow-3);
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    position: relative;
+  }
+
+  .subscribe-dialog .title {
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    font-weight: var(--weight-semibold);
+    color: var(--fg-1);
+    margin: 0;
+  }
+
+  .subscribe-dialog .body {
+    font-family: var(--font-sans);
+    font-size: var(--text-md);
+    line-height: var(--leading-relaxed);
+    font-weight: var(--weight-regular);
+    color: var(--fg-2);
+    margin: 0;
+  }
+
+  .subscribe-dialog .primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .subscribe-dialog .url-field {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--paper-2);
+    border: 1px solid var(--line-1);
+    border-radius: var(--radius-2);
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    line-height: var(--leading-mono);
+    font-feature-settings: "ss02", "zero", "calt";
+    color: var(--fg-3);
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    transition:
+      background var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard);
+  }
+  .subscribe-dialog .url-field:hover {
+    background: var(--paper-3);
+    border-color: var(--line-2);
+  }
+  .subscribe-dialog .url-field:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+  }
+
+  .subscribe-dialog .label-url {
+    user-select: none;
+  }
+
+  .subscribe-dialog .ico-copy,
+  .subscribe-dialog .ico-check {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .subscribe-dialog .url-field[data-copy-state="idle"] .ico-check,
+  .subscribe-dialog .url-field[data-copy-state="idle"] .label-copied {
+    display: none;
+  }
+  .subscribe-dialog .url-field[data-copy-state="copied"] .ico-copy,
+  .subscribe-dialog .url-field[data-copy-state="copied"] .label-url {
+    display: none;
+  }
+
+  .subscribe-dialog .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .subscribe-dialog .close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--fg-3);
+    cursor: pointer;
+    border-radius: var(--radius-2);
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard);
+    font-family: inherit;
+  }
+  .subscribe-dialog .close:hover {
+    color: var(--fg-1);
+    background: var(--paper-2);
+  }
+  .subscribe-dialog .close:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+  }
+  .subscribe-dialog .close svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: 480px) {
+    .subscribe-dialog .card {
+      width: calc(100vw - 40px);
+      padding: 24px 20px;
+      gap: var(--space-3);
+    }
+    .subscribe-dialog .title {
+      font-size: var(--text-lg);
+    }
+  }
+</style>

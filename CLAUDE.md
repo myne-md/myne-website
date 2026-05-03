@@ -38,6 +38,10 @@ Brand discipline lives in main repo `docs/vision.md` "Myne is" / "Myne is not" l
 
 This site is part of the trust chain (it serves the auto-updater manifest). Hash-pin `pnpm-lock.yaml`. Don't add Google Analytics, Plausible, or other trackers without a `decisions.md` entry justifying the trust trade-off (most of them are out per anti-features).
 
+## UI patterns
+
+`PRODUCT.md` line 73 lists "modals as the first reach for any interaction" as a banned pattern. A narrow carve-out is logged at `design-notes.md` 2026-05-03 — **"Modal carve-out for solicited single-action surfaces (subscribe-rss-dialog)"** — permitting native `<dialog>` modals only when **all three** conditions hold: (1) solicited click on a dedicated CTA element whose label telegraphs the dialog's contents, (2) single primary action plus at most one passive supporting affordance, (3) dismiss-default through `Esc` + backdrop + explicit `×`. Time-based, scroll-based, exit-intent, and multi-action overlays remain disallowed. Future modal proposals must measure against the three-condition criterion or add a superseding `decisions.md` entry.
+
 ## Common commands
 
 ```bash
@@ -49,7 +53,7 @@ pnpm preview        # serve dist/ locally
 
 ## Gotchas
 
-- **`.well-known/security.txt` MUST be served from `/`, not `/some-path/.well-known/`.** RFC 9116 is strict. Test with `curl https://myne.app/.well-known/security.txt` after deploy.
+- **`.well-known/security.txt` MUST be served from `/`, not `/some-path/.well-known/`.** RFC 9116 is strict. Test with `curl https://myne.md/.well-known/security.txt` after deploy.
 - **Don't link to internal-only docs** (anything in main repo `agent-tooling/`) — those are private. Stick to public main-repo `docs/` content (CC0).
 - **Astro islands are JS-on-demand** — but each island still ships a small runtime. For pure-static pages don't add islands.
 - **Update `Expires:` field in `security.txt` annually** or it becomes invalid per RFC 9116. Calendar reminder.

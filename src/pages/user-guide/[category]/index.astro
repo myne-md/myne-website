@@ -1,0 +1,64 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import UserGuideShellLayout from "../../../layouts/UserGuideShellLayout.astro";
+import TodoBanner from "../../../components/userguide/TodoBanner.astro";
+import CategoryLandingHeader from "../../../components/userguide/CategoryLandingHeader.astro";
+import { getCategoryBySlug, getManifest } from "../../../lib/userGuide";
+
+export async function getStaticPaths() {
+  return getManifest().map((cat) => ({
+    params: { category: cat.slug },
+    props: { categorySlug: cat.slug },
+  }));
+}
+
+interface Props {
+  categorySlug: string;
+}
+const { categorySlug } = Astro.props;
+const cat = getCategoryBySlug(categorySlug)!;
+
+const allArticles = await getCollection("userGuide");
+const articleEntries = cat.articles
+  .map((slug) => allArticles.find((a) => a.id === `${categorySlug}/${slug}`))
+  .filter(
+    (entry): entry is CollectionEntry<"userGuide"> => entry !== undefined,
+  );
+
+let IntroContent: Awaited<ReturnType<typeof render>>["Content"] | null = null;
+if (cat.intro) {
+  const introEntry = allArticles.find(
+    (a) => a.id === `${categorySlug}/${cat.intro}`,
+  );
+  if (introEntry) IntroContent = (await render(introEntry)).Content;
+}
+
+// Redirect to first article when category has articles but no intro markdown
+// (Penpot brief F2 spec). Empty categories (Self-host today) fall through to
+// landing render with the empty-state message.
+if (articleEntries.length > 0 && !IntroContent) {
+  return Astro.redirect(`/user-guide/${categorySlug}/${cat.articles[0]}/`);
+}
+
+const canonical = new URL(
+  `/user-guide/${categorySlug}/`,
+  Astro.site!,
+).toString();
+---
+
+<UserGuideShellLayout
+  title={`${cat.label} — Myne user guide`}
+  description={cat.description}
+  canonical={canonical}
+  currentCategory={categorySlug}
+>
+  <TodoBanner />
+
+  <CategoryLandingHeader
+    category={cat}
+    articles={articleEntries}
+    hasIntro={IntroContent !== null}
+  >
+    {IntroContent && <IntroContent />}
+  </CategoryLandingHeader>
+</UserGuideShellLayout>

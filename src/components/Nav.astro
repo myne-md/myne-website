@@ -1,4 +1,6 @@
 ---
+import Icon from "./Icon.astro";
+
 interface Props {
   /** Current page pathname, used for cross-route active state. */
   pathname?: string;
@@ -16,10 +18,11 @@ const homeLinks = [
 ];
 
 const isLedger = pathname === "/ledger" || pathname.startsWith("/ledger/");
+const isUserGuide = pathname === "/user-guide" || pathname.startsWith("/user-guide/");
 ---
 
 <nav class="nav">
-  <div class="container nav-inner">
+  <div class:list={["nav-inner", isUserGuide ? "nav-inner--fluid" : "container"]}>
     <a href="/" class="brand">Myne</a>
     <div class="nav-links">
       {homeLinks.map((l) => (
@@ -36,6 +39,15 @@ const isLedger = pathname === "/ledger" || pathname.startsWith("/ledger/");
       </a>
     </div>
     <div class="nav-spacer"></div>
+    <label class="nav-search" title="Search coming in Phase 2">
+      <Icon name="search" size={14} class="nav-search__icon" />
+      <input
+        type="search"
+        disabled
+        placeholder="Search coming soon"
+        aria-label="Search (coming in Phase 2)"
+      />
+    </label>
     <div class="nav-cta">
       <button type="button" class="btn btn-primary" data-subscribe-trigger>
         Get updates
@@ -101,6 +113,13 @@ const isLedger = pathname === "/ledger" || pathname.startsWith("/ledger/");
     gap: 32px;
     height: 56px;
   }
+  /* Full-bleed variant for /user-guide routes — brand snaps to viewport
+     padding edge instead of the .container 1120 cap. Keeps every other
+     route (home, /ledger, /security, /releases) on the centered .container. */
+  .nav-inner--fluid {
+    width: 100%;
+    padding: 0 24px;
+  }
   .brand {
     font-weight: 600;
     font-size: 16px;
@@ -142,7 +161,36 @@ const isLedger = pathname === "/ledger" || pathname.startsWith("/ledger/");
     margin-left: 4px;
   }
   .nav-spacer { flex: 1; }
+  .nav-search {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 240px;
+    height: 36px;
+    padding: 0 12px;
+    background: var(--paper);
+    border: 1px solid var(--line-1);
+    border-radius: var(--radius-2);
+    cursor: not-allowed;
+    margin-right: 12px;
+  }
+  .nav-search__icon { color: var(--ink-3); flex-shrink: 0; }
+  .nav-search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font: inherit;
+    font-size: 13px;
+    color: var(--ink-1);
+    cursor: not-allowed;
+  }
+  .nav-search input::placeholder { color: var(--ink-3); }
   .nav-cta { display: flex; gap: 8px; align-items: center; }
+
+  @media (max-width: 920px) {
+    .nav-search { display: none; }
+  }
 
   @media (max-width: 920px) {
     .nav-links { display: none; }

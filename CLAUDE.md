@@ -34,6 +34,8 @@ Marketing copy may NOT exceed the guarantees in main repo `docs/threat-model.md`
 
 Brand discipline lives in main repo `docs/vision.md` "Myne is" / "Myne is not" lists. **Read both before writing marketing copy.** When in doubt, downgrade the claim.
 
+The same threat-model-aşmama rule **explicitly extends to `/user-guide` content** — placeholder and real. Per `design-notes.md` 2026-05-04 "Placeholder-first /user-guide route on myne-website with atomic go-live + marketing-copy discipline extension", every user-guide article (recovery flow, vault creation, settings, etc.) must (i) not exceed `docs/threat-model.md` guarantees, (ii) match `PRODUCT.md` "careful engineer to careful engineer" voice, (iii) not contradict `docs/spec/protocol.md` or `docs/spec/account-number.md`. Real-content go-live is gated by a (g2) per-article checklist and ships atomically (banner + noindex + sitemap-filter all dropped in one PR).
+
 ## Reproducibility discipline
 
 This site is part of the trust chain (it serves the auto-updater manifest). Hash-pin `pnpm-lock.yaml`. Don't add Google Analytics, Plausible, or other trackers without a `decisions.md` entry justifying the trust trade-off (most of them are out per anti-features).

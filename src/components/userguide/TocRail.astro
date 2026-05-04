@@ -1,0 +1,85 @@
+---
+// Two render targets driven by CSS: desktop right rail (sticky) vs
+// mobile/narrow-desktop inline above body. CSS hides whichever variant
+// is wrong for the current viewport.
+
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+  variant: "desktop" | "mobile";
+}
+
+const { headings, variant } = Astro.props;
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{items.length > 0 && (
+  <nav
+    class:list={["ug-toc", `ug-toc--${variant}`]}
+    aria-label="On this page"
+  >
+    <p class="ug-eyebrow">
+      {variant === "mobile" ? "On this page — tap to jump" : "On this page"}
+    </p>
+    <ul class="ug-toc__list">
+      {items.map((h) => (
+        <li class:list={["ug-toc__item", `ug-toc__item--h${h.depth}`]}>
+          <a class="ug-toc__link" href={`#${h.slug}`} data-toc-link>{h.text}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  // Scroll-tracker: highlight the TOC link whose heading is closest to the
+  // top of the viewport. Observes both desktop + mobile variants together.
+  const headings = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      ".ledger-prose h2[id], .ledger-prose h3[id]",
+    ),
+  );
+  const links = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"),
+  );
+
+  if (headings.length > 0 && links.length > 0) {
+    const setActive = (id: string | null) => {
+      for (const link of links) {
+        const isActive = id !== null && link.getAttribute("href") === `#${id}`;
+        link.classList.toggle("active", isActive);
+      }
+    };
+
+    // Track which headings are "above the fold trigger line" (15% down).
+    // The first one above the line, scanning bottom-up, is the active one.
+    const TRIGGER_OFFSET = 0.15;
+    let activeId: string | null = null;
+
+    const recompute = () => {
+      const triggerY = window.innerHeight * TRIGGER_OFFSET;
+      let candidate: string | null = null;
+      for (const h of headings) {
+        const rect = h.getBoundingClientRect();
+        if (rect.top - triggerY <= 0) {
+          candidate = h.id;
+        } else {
+          break;
+        }
+      }
+      // Default to first heading if user is above all of them.
+      if (candidate === null && headings.length > 0) {
+        candidate = headings[0]!.id;
+      }
+      if (candidate !== activeId) {
+        activeId = candidate;
+        setActive(activeId);
+      }
+    };
+
+    recompute();
+    window.addEventListener("scroll", recompute, { passive: true });
+    window.addEventListener("resize", recompute, { passive: true });
+  }
+</script>

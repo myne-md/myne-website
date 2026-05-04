@@ -1,0 +1,30 @@
+---
+import { TAG_DISPLAY_CAP } from "../../lib/userGuide";
+
+interface Props {
+  tags: readonly string[];
+  ariaLabel: string;
+  /** BEM block name. Caller styles the container + chips via `<block>__tags` /
+   *  `<block>__chip` / `<block>__chip--more`. Lets the same primitive blend
+   *  visually into Recommended (`ug-recommended`) and CategoryLanding
+   *  (`ug-cat-articles`) without forking. */
+  block: string;
+}
+const { tags, ariaLabel, block } = Astro.props;
+
+const visible = tags.slice(0, TAG_DISPLAY_CAP);
+const overflow = tags.length - visible.length;
+---
+
+{visible.length > 0 && (
+  <ul class:list={[`${block}__tags`]} aria-label={ariaLabel}>
+    {visible.map((tag) => (
+      <li class:list={[`${block}__chip`]}>{tag}</li>
+    ))}
+    {overflow > 0 && (
+      <li class:list={[`${block}__chip`, `${block}__chip--more`]}>
+        +{overflow}
+      </li>
+    )}
+  </ul>
+)}

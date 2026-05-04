@@ -1,0 +1,653 @@
+/* User-guide — page chrome + placeholder banner. Article body typography
+   is reused from .ledger-prose (C8 EntryBody equivalent in the brief). */
+
+/* Shared recipes used across user-guide blocks. */
+.ug-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  margin: 0 0 16px;
+}
+.ug-h1 {
+  font-size: 36px;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--fg-display);
+  margin: 0;
+}
+
+.ug-shell {
+  /* No max-width / centering: the sidebar must bleed to viewport-left
+     edge (proper docs-page pattern). Main col stays capped at 720 and
+     centers via auto margins inside the flex row. */
+  padding: 0;
+  display: flex;
+  gap: 64px;
+  align-items: flex-start;
+}
+
+.ug-shell-main {
+  flex: 1;
+  min-width: 0;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 64px 0 96px;
+}
+
+/* C15 — desktop right rail (sticky), narrow-desktop hides + mobile inlines.
+   Right padding keeps rail off the viewport edge; tight top — the rail sits
+   close to the nav so the TOC is eye-level with the article opening. */
+.ug-rightrail {
+  flex-shrink: 0;
+  width: 240px;
+  position: sticky;
+  top: 56px;
+  align-self: flex-start;
+  padding: 24px 36px 0 0;
+}
+/* Linear-style rail: vertical guide line on the left of the list; active
+   item gets an accent-color bar segment overlaid on the rail. */
+.ug-toc__list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+}
+.ug-toc__list::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: var(--line-1);
+}
+.ug-toc__item { position: relative; }
+.ug-toc__item--h3 { padding-left: 16px; }
+.ug-toc__link {
+  display: block;
+  position: relative;
+  padding: 4px 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-3);
+  text-decoration: none;
+}
+.ug-toc__link:hover { color: var(--ink-1); }
+.ug-toc__link.active { color: var(--ink-0); font-weight: 500; }
+.ug-toc__item .ug-toc__link.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -16px;
+  width: 2px;
+  background: var(--accent);
+}
+.ug-toc__item--h3 .ug-toc__link.active::before { left: -32px; }
+
+/* Show only the desktop variant by default; mobile variant kicks in below. */
+.ug-toc--mobile { display: none; }
+
+@media (max-width: 1280px) {
+  .ug-rightrail { display: none; }
+  .ug-toc--mobile {
+    display: block;
+    background: var(--paper-2);
+    border: 1px solid var(--line-1);
+    border-radius: var(--radius-2);
+    padding: 16px 20px;
+  }
+}
+
+/* C16 — Prev/Next block. Two-card desktop side-by-side; single-card centered. */
+.ug-prevnext {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+.ug-prevnext--single { justify-content: center; }
+.ug-prevnext-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  background: var(--paper);
+  border: 1px solid var(--line-1);
+  border-radius: var(--radius-2);
+  text-decoration: none;
+  min-width: 0;
+}
+.ug-prevnext-card--right { text-align: right; }
+.ug-prevnext-card--back {
+  background: var(--paper-2);
+}
+.ug-prevnext-card:hover { border-color: var(--line-2); }
+.ug-prevnext-card__eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+.ug-prevnext-card__title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink-1);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Single-card variant — full width, horizontal icon + text */
+.ug-prevnext-card--single {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  text-align: left;
+  width: 100%;
+}
+.ug-prevnext-card__icon { color: var(--ink-3); flex-shrink: 0; }
+.ug-prevnext-card__text { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+
+@media (max-width: 768px) {
+  .ug-prevnext { flex-direction: column; }
+  .ug-prevnext-card--right { text-align: left; }
+}
+
+/* Recommended reading — rendered between body and prev/next per Penpot rev 1. */
+.ug-recommended__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-1);
+}
+.ug-recommended__list { margin: 0 -16px; }
+.ug-recommended__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line-1);
+  transition: background-color 120ms ease-out;
+}
+.ug-recommended__row:hover { background: var(--paper-2); }
+.ug-recommended__link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-decoration: none;
+  flex: 1;
+  min-width: 0;
+}
+.ug-recommended__cat {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+.ug-recommended__title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--fg-display);
+}
+.ug-recommended__tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.ug-recommended__chip {
+  font-size: 13px;
+  color: var(--ink-3);
+  background: var(--paper-2);
+  border-radius: var(--radius-1);
+  padding: 1px 6px;
+}
+.ug-recommended__chip--more {
+  background: transparent;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .ug-recommended__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+/* Prose-image styling (C8 spec). Applies to images inside .ledger-prose
+   wherever it's reused (ledger entries, user-guide articles, category
+   landing intro). Constrains width to the column, adds a hairline + radius,
+   and lazy-loads native (Astro emits loading="lazy" by default for
+   markdown images, but the rule keeps width safe even for absolute URLs). */
+.ledger-prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line-1);
+  border-radius: var(--radius-2);
+  margin: 24px 0;
+}
+
+/* Index page (showSidebar=false): no sidebar to provide edge breathing,
+   so main col adds horizontal padding and centers in the shell. */
+.ug-shell--no-sidebar { gap: 0; }
+.ug-shell--no-sidebar .ug-shell-main {
+  margin-inline: auto;
+  max-width: 720px;
+  flex: 1;
+  padding: 64px 36px 96px;
+}
+
+/* Index page chrome */
+.ug-index__lede {
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 640px;
+  margin: 0;
+}
+.ug-index__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Start-here featured card */
+.ug-starthere {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  background: var(--paper-2);
+  border: 1px solid var(--line-1);
+  border-radius: var(--radius-2);
+  text-decoration: none;
+}
+.ug-starthere:hover { border-color: var(--line-2); }
+.ug-starthere__eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+.ug-starthere__title {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--fg-display);
+}
+.ug-starthere__body {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin: 0;
+}
+.ug-starthere__cta {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* Category card (C18) */
+.ug-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background: var(--paper);
+  border: 1px solid var(--line-1);
+  border-radius: var(--radius-2);
+  text-decoration: none;
+}
+.ug-card:hover { border-color: var(--line-2); }
+.ug-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ug-card__icon { color: var(--accent); display: inline-flex; }
+.ug-card__icon--faded { opacity: 0.5; }
+.ug-card__title {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--fg-display);
+}
+.ug-card__description {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin: 0;
+}
+.ug-card__count {
+  font-size: 13px;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .ug-index__grid { grid-template-columns: 1fr; }
+}
+
+/* C19 — Category landing page */
+.ug-cat-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ug-cat-header__description {
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 640px;
+  margin: 0;
+}
+.ug-cat-divider {
+  border: 0;
+  border-top: 1px solid var(--line-1);
+  margin: 0;
+  width: 100%;
+}
+.ug-cat-articles {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ug-cat-articles__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-1);
+}
+.ug-cat-articles__row { border-bottom: 1px solid var(--line-1); }
+.ug-cat-articles__link {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0;
+  text-decoration: none;
+}
+.ug-cat-articles__title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--fg-display);
+}
+.ug-cat-articles__link:hover .ug-cat-articles__title {
+  border-bottom: 1px solid var(--accent);
+  align-self: flex-start;
+}
+.ug-cat-articles__summary {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.ug-cat-articles__tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.ug-cat-articles__chip {
+  font-size: 13px;
+  color: var(--ink-3);
+  background: var(--paper-2);
+  border-radius: var(--radius-1);
+  padding: 1px 6px;
+}
+.ug-cat-articles__chip--more {
+  background: transparent;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.ug-cat-empty {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+/* C11 LeftSidebar — manifest-driven category + article tree.
+   Edge-flush left (proper docs-page pattern), sticky on desktop; mobile
+   collapse handled in Task 6. */
+.ug-sidebar {
+  flex-shrink: 0;
+  width: 280px;
+  background: var(--paper-2);
+  border-right: 1px solid var(--line-1);
+  padding: 24px 16px;
+  position: sticky;
+  top: 56px; /* below nav, edge-flush left */
+  align-self: flex-start;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.ug-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ug-sidebar__category {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ug-sidebar__cat-link {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-1);
+  text-decoration: none;
+  padding: 4px 0;
+}
+.ug-sidebar__cat-link:hover { color: var(--ink-0); }
+.ug-sidebar__cat-link.active { color: var(--ink-0); }
+
+.ug-sidebar__articles {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ug-sidebar__article {
+  display: block;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  text-transform: capitalize;
+}
+.ug-sidebar__article:hover {
+  background: var(--paper-3);
+  color: var(--ink-1);
+}
+.ug-sidebar__article.active {
+  background: var(--paper-3);
+  color: var(--ink-0);
+}
+
+/* C13 — Mobile sidebar toggle bar (only visible <=920px). */
+.ug-mobile-toggle {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 16px;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--line-1);
+}
+.ug-mobile-toggle__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--ink-1);
+  cursor: pointer;
+  padding: 0;
+  margin-left: -8px;
+}
+.ug-mobile-toggle__btn:hover { color: var(--ink-0); }
+.ug-mobile-toggle__icon--close { display: none; }
+body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--menu { display: none; }
+body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: block; }
+
+.ug-mobile-toggle__breadcrumb {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+/* Backdrop is pre-mounted but kept invisible until sidebar opens on mobile. */
+.ug-sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 920px) {
+  .ug-mobile-toggle { display: flex; }
+
+  .ug-shell {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+  }
+  .ug-shell-main { padding: 24px 16px 64px; }
+
+  /* Sidebar becomes a slide-in overlay; default closed (translated off-canvas). */
+  .ug-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 280px;
+    border-right: 1px solid var(--line-1);
+    border-bottom: none;
+    padding: 32px 24px;
+    overflow-y: auto;
+    z-index: 30;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.06);
+    transform: translateX(-100%);
+    transition: transform 220ms var(--ease-standard, ease-out);
+  }
+  body[data-userguide-sidebar="open"] .ug-sidebar { transform: translateX(0); }
+
+  /* Backdrop fades in alongside the slide. */
+  .ug-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 11, 9, 0.32);
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms var(--ease-standard, ease-out);
+  }
+  body[data-userguide-sidebar="open"] .ug-sidebar-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .ug-shell-main { max-width: 100%; }
+}
+
+/* Article header */
+.ug-article-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  width: fit-content;
+}
+.ug-article-back:hover { color: var(--fg-1); border-bottom-color: currentColor; }
+.ug-article-back .arrow { font-size: 16px; line-height: 1; }
+
+
+.ug-article-updated {
+  font-size: 13px;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.ug-article-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Banner — C14 */
+.ug-banner {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-2);
+  padding: 12px 16px;
+}
+.ug-banner__icon {
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.ug-banner__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+.ug-banner__eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+.ug-banner__body {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-1);
+  margin: 0;
+}

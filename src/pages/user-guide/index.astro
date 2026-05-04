@@ -1,0 +1,40 @@
+---
+import UserGuideShellLayout from "../../layouts/UserGuideShellLayout.astro";
+import TodoBanner from "../../components/userguide/TodoBanner.astro";
+import CategoryCard from "../../components/userguide/CategoryCard.astro";
+import { getManifest } from "../../lib/userGuide";
+
+const manifest = getManifest();
+const canonical = new URL("/user-guide/", Astro.site!).toString();
+---
+
+<UserGuideShellLayout
+  title="User guide — Myne"
+  description="How to use Myne — vault creation, recovery, daily editing, backups, and self-hosting."
+  canonical={canonical}
+  showSidebar={false}
+>
+  <p class="ug-eyebrow">User guide</p>
+  <h1 class="ug-h1">User guide</h1>
+  <p class="ug-index__lede">
+    How to use Myne — step-by-step. Vault creation, recovery, daily editing,
+    backups, and self-hosting.
+  </p>
+
+  <TodoBanner />
+
+  <a class="ug-starthere" href="/user-guide/getting-started/vault-create/">
+    <span class="ug-starthere__eyebrow">Start here</span>
+    <span class="ug-starthere__title">New to Myne?</span>
+    <p class="ug-starthere__body">
+      Create your first vault, save your recovery phrase, and write your first
+      encrypted note. Five minutes.
+    </p>
+    <span class="ug-starthere__cta">Start with Vault creation →</span>
+  </a>
+
+  <p class="ug-eyebrow">Browse by topic</p>
+  <div class="ug-index__grid">
+    {manifest.map((cat) => <CategoryCard category={cat} />)}
+  </div>
+</UserGuideShellLayout>

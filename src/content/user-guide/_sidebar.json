@@ -1,0 +1,39 @@
+[
+  {
+    "slug": "getting-started",
+    "label": "Getting started",
+    "description": "Create your first vault, save your recovery phrase, and write your first encrypted note.",
+    "intro": "welcome",
+    "articles": ["welcome", "vault-create", "recovery-phrase", "first-note"]
+  },
+  {
+    "slug": "daily-use",
+    "label": "Daily use",
+    "description": "Editor, wikilinks, search, and tags — the building blocks of a Myne note workflow.",
+    "articles": ["editor", "wikilinks", "search", "tags"]
+  },
+  {
+    "slug": "recovery",
+    "label": "Recovery",
+    "description": "What happens when you forget your password, and how the 24-word phrase brings your vault back.",
+    "articles": ["lost-password", "restore-from-phrase"]
+  },
+  {
+    "slug": "backup-restore",
+    "label": "Backup & restore",
+    "description": "Export your encrypted vault, restore on a new device, and verify backup integrity.",
+    "articles": ["export-vault", "restore-on-new-device"]
+  },
+  {
+    "slug": "settings-privacy",
+    "label": "Settings & privacy",
+    "description": "Tweak Myne to your workflow without giving up zero-knowledge guarantees.",
+    "articles": ["privacy-defaults", "workflow-tweaks", "no-email-recovery"]
+  },
+  {
+    "slug": "self-host",
+    "label": "Self-host",
+    "description": "Run your own Myne sync server. Same protocol, same trust boundary as the hosted service.",
+    "articles": ["overview", "protocol", "server-setup"]
+  }
+]

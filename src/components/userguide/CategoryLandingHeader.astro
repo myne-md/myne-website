@@ -1,0 +1,67 @@
+---
+// Empty-articles state ("Articles for this section are coming.") covers
+// Self-host and any pre-Task-12 transient categories — graceful, no crash.
+
+import type { CollectionEntry } from "astro:content";
+import type { CategoryEntry } from "../../lib/userGuide";
+import TagChips from "./TagChips.astro";
+
+interface Props {
+  category: CategoryEntry;
+  articles: CollectionEntry<"userGuide">[];
+  hasIntro: boolean;
+}
+const { category, articles, hasIntro } = Astro.props;
+---
+
+<header class="ug-cat-header">
+  <a class="ug-article-back" href="/user-guide/">
+    <span class="arrow" aria-hidden="true">←</span>
+    Back to user guide
+  </a>
+  <h1 class="ug-h1">{category.label}</h1>
+  <p class="ug-cat-header__description">{category.description}</p>
+</header>
+
+{hasIntro && (
+  <>
+    <hr class="ug-cat-divider" aria-hidden="true" />
+    <article class="ledger-prose">
+      <slot />
+    </article>
+    <hr class="ug-cat-divider" aria-hidden="true" />
+  </>
+)}
+
+{articles.length > 0 && (
+  <section class="ug-cat-articles">
+    <p class="ug-eyebrow">Articles in this section</p>
+    <ul class="ug-cat-articles__list">
+      {articles.map((entry) => {
+        const slug = entry.id.split("/").slice(1).join("/");
+        return (
+          <li class="ug-cat-articles__row">
+            <a
+              class="ug-cat-articles__link"
+              href={`/user-guide/${category.slug}/${slug}/`}
+            >
+              <span class="ug-cat-articles__title">{entry.data.title}</span>
+              <span class="ug-cat-articles__summary">{entry.data.summary}</span>
+              <TagChips
+                tags={entry.data.tags}
+                ariaLabel="Article tags"
+                block="ug-cat-articles"
+              />
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+)}
+
+{articles.length === 0 && (
+  <p class="ug-cat-empty">
+    Articles for this section are coming. Check back near Phase 1 launch.
+  </p>
+)}

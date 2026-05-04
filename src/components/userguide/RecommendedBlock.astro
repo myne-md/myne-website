@@ -1,0 +1,37 @@
+---
+// Per Penpot rev 1 user feedback Q3: Related renders BEFORE Prev/Next.
+
+import type { RecommendedItem } from "../../lib/userGuide";
+import { getCategoryLabel } from "../../lib/userGuide";
+import TagChips from "./TagChips.astro";
+
+interface Props {
+  items: readonly RecommendedItem[];
+}
+const { items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <section class="ug-recommended" aria-label="Related reading">
+    <p class="ug-eyebrow">Related reading</p>
+    <ul class="ug-recommended__list">
+      {items.map((item) => {
+        const cat = item.article.data.category;
+        const slug = item.article.id.split("/").slice(1).join("/");
+        return (
+          <li class="ug-recommended__row">
+            <a class="ug-recommended__link" href={`/user-guide/${cat}/${slug}/`}>
+              <span class="ug-recommended__cat">{getCategoryLabel(cat) ?? cat}</span>
+              <span class="ug-recommended__title">{item.article.data.title}</span>
+            </a>
+            <TagChips
+              tags={item.sharedTags}
+              ariaLabel="Shared tags"
+              block="ug-recommended"
+            />
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+)}

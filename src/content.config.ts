@@ -22,4 +22,19 @@ const ledger = defineCollection({
   }),
 });
 
-export const collections = { ledger };
+const userGuide = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/user-guide",
+    generateId: ({ entry }) => entry.replace(/\.md$/, ""),
+  }),
+  schema: z.object({
+    title: z.string().min(1),
+    category: z.string().min(1),
+    updated: z.coerce.date(),
+    summary: z.string().min(80).max(360),
+    tags: z.array(z.string()).max(5).default([]),
+  }),
+});
+
+export const collections = { ledger, userGuide };

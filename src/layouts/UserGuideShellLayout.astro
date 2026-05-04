@@ -1,0 +1,145 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import SidebarMobileToggle from "../components/userguide/SidebarMobileToggle.astro";
+import { getCategoryLabel, getManifest } from "../lib/userGuide";
+import "../styles/userguide.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  /** Current category slug — used to highlight the active sidebar entry. */
+  currentCategory?: string;
+  /** Current article slug — used to highlight the active sidebar entry. */
+  currentSlug?: string;
+  /** Article display title — used by the mobile breadcrumb. */
+  currentArticleTitle?: string;
+  /** Render the L sidebar + mobile toggle + R rail slot. Default true.
+   *  Set false on the index page (per Penpot brief: index has no sidebar). */
+  showSidebar?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  currentCategory,
+  currentSlug,
+  currentArticleTitle,
+  showSidebar = true,
+} = Astro.props;
+
+const manifest = getManifest();
+const breadcrumbCategory = currentCategory
+  ? (getCategoryLabel(currentCategory) ?? currentCategory)
+  : undefined;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  robots="noindex,nofollow"
+>
+  {showSidebar && (
+    <SidebarMobileToggle
+      categoryLabel={breadcrumbCategory}
+      articleLabel={currentArticleTitle}
+    />
+  )}
+  <div class:list={["ug-shell", { "ug-shell--no-sidebar": !showSidebar }]}>
+    {showSidebar && (
+      <>
+        <div
+          class="ug-sidebar-backdrop"
+          data-userguide-backdrop
+          aria-hidden="true"
+        ></div>
+        <aside id="ug-sidebar" class="ug-sidebar" aria-label="User guide sections">
+          <p class="ug-eyebrow">Contents</p>
+          <nav class="ug-sidebar__nav">
+            {manifest.map((cat) => {
+              const isActiveCategory = cat.slug === currentCategory;
+              return (
+                <div class="ug-sidebar__category">
+                  <a
+                    href={`/user-guide/${cat.slug}/`}
+                    class:list={["ug-sidebar__cat-link", { active: isActiveCategory }]}
+                  >
+                    {cat.label}
+                  </a>
+                  {cat.articles.length > 0 && (
+                    <ul class="ug-sidebar__articles">
+                      {cat.articles.map((slug) => {
+                        const isActive =
+                          isActiveCategory && slug === currentSlug;
+                        return (
+                          <li>
+                            <a
+                              href={`/user-guide/${cat.slug}/${slug}/`}
+                              class:list={["ug-sidebar__article", { active: isActive }]}
+                              aria-current={isActive ? "page" : undefined}
+                            >
+                              {slug.replace(/-/g, " ")}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+        </aside>
+      </>
+    )}
+    <div class="ug-shell-main">
+      <slot />
+    </div>
+    {showSidebar && Astro.slots.has("rightRail") && (
+      <aside class="ug-rightrail" aria-label="On this page">
+        <slot name="rightRail" />
+      </aside>
+    )}
+  </div>
+
+  {showSidebar && (
+    <script is:inline>
+      // Persist sidebar scrollTop across full-page reloads (Astro static-site
+      // navs tear down the DOM). sessionStorage = current tab only; cleared
+      // when the tab closes. Inline script runs synchronously during parse,
+      // before first paint, so the restore happens flash-free.
+      (function () {
+        var KEY = "myne-website-userguide-sidebar-scroll";
+        var sidebar = document.getElementById("ug-sidebar");
+        if (!sidebar) return;
+        var lastWritten = null;
+        try {
+          var saved = sessionStorage.getItem(KEY);
+          if (saved) {
+            sidebar.scrollTop = parseInt(saved, 10);
+            lastWritten = sidebar.scrollTop;
+          }
+        } catch (e) {}
+        var pending = false;
+        sidebar.addEventListener(
+          "scroll",
+          function () {
+            if (pending) return;
+            pending = true;
+            requestAnimationFrame(function () {
+              var top = sidebar.scrollTop;
+              if (top !== lastWritten) {
+                try { sessionStorage.setItem(KEY, String(top)); } catch (e) {}
+                lastWritten = top;
+              }
+              pending = false;
+            });
+          },
+          { passive: true },
+        );
+      })();
+    </script>
+  )}
+</BaseLayout>

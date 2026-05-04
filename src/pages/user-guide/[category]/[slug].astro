@@ -1,0 +1,52 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import UserGuideArticleLayout from "../../../layouts/UserGuideArticleLayout.astro";
+import { getManifest, getPrevNext, getRecommended } from "../../../lib/userGuide";
+
+export async function getStaticPaths() {
+  const manifest = getManifest();
+  const known = new Set<string>();
+  for (const cat of manifest) {
+    for (const slug of cat.articles) {
+      known.add(`${cat.slug}/${slug}`);
+    }
+  }
+
+  const articles = await getCollection("userGuide");
+  const inGuide = articles.filter((entry) => known.has(entry.id));
+  return inGuide.map((entry: CollectionEntry<"userGuide">) => {
+    const [category, ...rest] = entry.id.split("/");
+    const slug = rest.join("/");
+    return {
+      params: { category, slug },
+      props: { entry, articles: inGuide },
+    };
+  });
+}
+
+interface Props {
+  entry: CollectionEntry<"userGuide">;
+  articles: CollectionEntry<"userGuide">[];
+}
+
+const { entry, articles } = Astro.props;
+const { Content, headings } = await render(entry);
+const canonical = new URL(`/user-guide/${entry.id}/`, Astro.site!).toString();
+const slug = entry.id.split("/").slice(1).join("/");
+const prevNext = getPrevNext(entry.data.category, slug, articles);
+const recommended = getRecommended(entry, articles);
+---
+
+<UserGuideArticleLayout
+  title={entry.data.title}
+  summary={entry.data.summary}
+  category={entry.data.category}
+  slug={slug}
+  updated={entry.data.updated}
+  canonical={canonical}
+  headings={headings}
+  prevNext={prevNext}
+  recommended={recommended}
+>
+  <Content />
+</UserGuideArticleLayout>

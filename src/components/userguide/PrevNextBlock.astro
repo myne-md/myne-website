@@ -1,0 +1,52 @@
+---
+import type { ArticleRef, BackRef, PrevNextResult } from "../../lib/userGuide";
+import Icon from "../Icon.astro";
+
+interface Props {
+  result: PrevNextResult | null;
+}
+const { result } = Astro.props;
+
+const articleHref = (a: ArticleRef) =>
+  `/user-guide/${a.categorySlug}/${a.slug}/`;
+const backHref = (b: BackRef) => `/user-guide/${b.categorySlug}/`;
+---
+
+{result?.layout === "two-card" && (
+  <nav class="ug-prevnext" aria-label="Previous and next article">
+    {result.prev.kind === "article" ? (
+      <a class="ug-prevnext-card" href={articleHref(result.prev)}>
+        <span class="ug-prevnext-card__eyebrow">← Previous</span>
+        <span class="ug-prevnext-card__title">{result.prev.title}</span>
+      </a>
+    ) : (
+      <a class="ug-prevnext-card ug-prevnext-card--back" href={backHref(result.prev)}>
+        <span class="ug-prevnext-card__eyebrow">Section overview</span>
+        <span class="ug-prevnext-card__title">{result.prev.categoryLabel}</span>
+      </a>
+    )}
+    {result.next.kind === "article" ? (
+      <a class="ug-prevnext-card ug-prevnext-card--right" href={articleHref(result.next)}>
+        <span class="ug-prevnext-card__eyebrow">Next →</span>
+        <span class="ug-prevnext-card__title">{result.next.title}</span>
+      </a>
+    ) : (
+      <a class="ug-prevnext-card ug-prevnext-card--back ug-prevnext-card--right" href={backHref(result.next)}>
+        <span class="ug-prevnext-card__eyebrow">Section overview</span>
+        <span class="ug-prevnext-card__title">{result.next.categoryLabel}</span>
+      </a>
+    )}
+  </nav>
+)}
+
+{result?.layout === "single-card" && (
+  <nav class="ug-prevnext ug-prevnext--single" aria-label="End of section">
+    <a class="ug-prevnext-card ug-prevnext-card--back ug-prevnext-card--single" href={backHref(result.back)}>
+      <Icon name="arrow-left" size={16} class="ug-prevnext-card__icon" />
+      <div class="ug-prevnext-card__text">
+        <span class="ug-prevnext-card__eyebrow">End of section</span>
+        <span class="ug-prevnext-card__title">Back to {result.back.categoryLabel}</span>
+      </div>
+    </a>
+  </nav>
+)}

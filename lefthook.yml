@@ -47,6 +47,10 @@ pre-commit:
         done
         exit $fail
 
-# No pre-push hook for now: `pnpm build` would be the natural gate, but a
-# pre-existing pnpm-lock / install state issue blocks it. Re-add once that
-# lands. `astro-check` in pre-commit already catches the common type errors.
+pre-push:
+  # Full build before publishing.
+  parallel: false
+  commands:
+
+    build:
+      run: pnpm build

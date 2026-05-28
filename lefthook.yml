@@ -1,0 +1,56 @@
+# Lefthook config — myne-website (Astro + TS + pnpm).
+# Install once per clone:  brew install lefthook && lefthook install
+# Skip ad-hoc:             LEFTHOOK=0 git commit ...   (or  git commit --no-verify)
+
+pre-commit:
+  parallel: true
+  commands:
+
+    whitespace:
+      run: git diff --cached --check
+
+    astro-check:
+      glob: "*.{astro,ts,tsx}"
+      # Skip with a clear message if deps aren't installed — avoids the
+      # interactive "@astrojs/check" install prompt during a commit.
+      run: |
+        if [ ! -d node_modules/@astrojs/check ]; then
+          echo "skip: run 'pnpm install' first to enable astro-check"
+          exit 0
+        fi
+        pnpm exec astro check
+
+    eof-newline:
+      run: |
+        fail=0
+        for f in {staged_files}; do
+          [ -f "$f" ] || continue
+          if file --mime "$f" | grep -q 'charset=binary'; then continue; fi
+          if [ -n "$(tail -c1 "$f")" ]; then
+            echo "missing EOF newline: $f"
+            fail=1
+          fi
+        done
+        exit $fail
+
+    secret-scan:
+      run: |
+        fail=0
+        for f in {staged_files}; do
+          [ -f "$f" ] || continue
+          if file --mime "$f" | grep -q 'charset=binary'; then continue; fi
+          if grep -nE 'BEGIN [A-Z ]*PRIVATE KEY|AKIA[A-Z0-9]{16}|aws_secret_access_key[[:space:]]*=' "$f" >/dev/null; then
+            echo "secret-like pattern in: $f"
+            grep -nE 'BEGIN [A-Z ]*PRIVATE KEY|AKIA[A-Z0-9]{16}|aws_secret_access_key[[:space:]]*=' "$f"
+            fail=1
+          fi
+        done
+        exit $fail
+
+pre-push:
+  # Full build before publishing.
+  parallel: false
+  commands:
+
+    build:
+      run: pnpm build

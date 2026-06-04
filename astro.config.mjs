@@ -4,7 +4,10 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://myne.md',
+  // `site` drives canonical URLs, the sitemap and RSS absolute links. The
+  // Docker build sets SITE per environment (release → https://myne.md,
+  // preview → https://preview.example.com); falls back to the prod apex locally.
+  site: process.env.SITE ?? 'https://myne.md',
   // Passthrough image service skips raster transforms (no `sharp` dep).
   // SVGs and pre-sized PNGs ship as-is; markdown still gets the asset
   // pipeline (hashed URLs, lazy-loading, width/height). Switch to the

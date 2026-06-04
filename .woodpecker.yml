@@ -1,0 +1,51 @@
+# Woodpecker CI — myne-website
+# Self-hosted Woodpecker (cicd.myne.md) via Forgejo (git.myne.md) pull-mirror of GitHub.
+#
+# Flow:  push to GitHub  →  Forgejo mirror sync  →  Woodpecker build + deploy.
+# Branch → environment:
+#   release  →  myne.md          (prod)    image myne-website:release  → /opt/myne-website/prod
+#   develop  →  preview.example.com  (staging) image myne-website:preview  → /opt/myne-website/preview
+#
+# Requires the repo to be marked **Trusted** in Woodpecker — the steps mount the
+# host docker socket and the deploy directory to build the image and run
+# `docker compose` against the host daemon (same pattern as portfolio-nano).
+
+when:
+  - event: push
+    branch: [release, develop]
+
+variables:
+  docker_image: &docker_image docker:28-cli
+  shared_volumes: &shared_volumes
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /opt/myne-website:/opt/myne-website
+
+steps:
+  build:
+    image: *docker_image
+    volumes: *shared_volumes
+    commands:
+      - |
+        if [ "$CI_COMMIT_BRANCH" = "release" ]; then
+          SITE="https://myne.md"; TAG="release"
+        else
+          SITE="https://preview.example.com"; TAG="preview"
+        fi
+      - echo "Building myne-website:$TAG with SITE=$SITE"
+      - docker build --build-arg SITE="$SITE" -t "myne-website:$TAG" .
+
+  deploy:
+    image: *docker_image
+    volumes: *shared_volumes
+    commands:
+      - |
+        if [ "$CI_COMMIT_BRANCH" = "release" ]; then
+          TARGET="/opt/myne-website/prod"
+        else
+          TARGET="/opt/myne-website/preview"
+        fi
+      - echo "Deploying in $TARGET"
+      - cd "$TARGET"
+      - docker compose up -d
+      - docker image prune -f
+    depends_on: [build]

@@ -11,7 +11,10 @@
 # `docker compose` against the host daemon (same pattern as portfolio-nano).
 
 when:
-  - event: push
+  # `push` covers the normal flow (GitHub → Forgejo mirror sync → build).
+  # `manual` lets an admin trigger a deploy from the Woodpecker UI — useful
+  # because a Forgejo *pull mirror* sync does not always fire the push webhook.
+  - event: [push, manual]
     branch: [release, develop]
 
 variables:

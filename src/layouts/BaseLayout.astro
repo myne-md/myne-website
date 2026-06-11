@@ -16,6 +16,8 @@ interface Props {
   ogImage?: string;
   /** Robots directive (e.g. "noindex,nofollow"). Omit to leave the header unset. */
   robots?: string;
+  /** Render the site footer. Defaults to true; the user guide opts out. */
+  showFooter?: boolean;
 }
 
 const {
@@ -25,6 +27,7 @@ const {
   ogType = "website",
   ogImage,
   robots,
+  showFooter = true,
 } = Astro.props;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site!).toString();
@@ -72,7 +75,7 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site!).toStr
     <main>
       <slot />
     </main>
-    <Footer />
+    {showFooter && <Footer />}
     <SubscribeDialog />
   </body>
 </html>

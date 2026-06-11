@@ -1,7 +1,6 @@
 ---
 import type { MarkdownHeading } from "astro";
 import UserGuideShellLayout from "./UserGuideShellLayout.astro";
-import TodoBanner from "../components/userguide/TodoBanner.astro";
 import TocRail from "../components/userguide/TocRail.astro";
 import PrevNextBlock from "../components/userguide/PrevNextBlock.astro";
 import RecommendedBlock from "../components/userguide/RecommendedBlock.astro";
@@ -53,8 +52,6 @@ const categoryLabel = getCategoryLabel(category) ?? category;
   currentArticleTitle={title}
 >
   <TocRail slot="rightRail" headings={headings} variant="desktop" />
-
-  <TodoBanner />
 
   <header class="ug-article-header">
     <a class="ug-article-back" href="/user-guide/">

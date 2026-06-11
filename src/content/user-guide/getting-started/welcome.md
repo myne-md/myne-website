@@ -1,25 +1,32 @@
 ---
 title: "Welcome to Myne"
 category: "getting-started"
-updated: 2026-05-04
-summary: "Myne is a local-first encrypted markdown notebook. This section walks you through your first vault, your recovery phrase, and your first note — about five minutes total."
-tags: ["onboarding", "vault", "recovery"]
+updated: 2026-06-11
+summary: "An orientation to Myne, the local-first encrypted markdown notebook, and a map of the Getting started section: installing the app, creating a vault, saving your recovery phrase, and writing your first note."
+tags: ["basics", "vault"]
 ---
 
-Myne is for people who write in markdown and want their notes encrypted on
-disk by default. There is no email signup, no remote account, and no server
-that can read what you write.
+Myne is a local-first, encrypted markdown notebook. You write in plain markdown, and Myne encrypts every note on disk, so the files on your computer stay unreadable without your password. There is no account email, no sign-up form, and no server that can read what you write. This section gets you from a fresh install to your first note in about five minutes.
 
-![A vault open in Myne — sidebar with note titles on the left, an editor on the right showing a markdown note in progress.](./welcome-vault.svg)
+![A vault open in Myne: a sidebar with note titles on the left, an editor on the right showing a markdown note in progress.](./welcome-vault.svg)
+
+## What makes Myne different
+
+- **Encrypted by default.** Encryption is the only mode; there is no plaintext option to forget to turn on.
+- **No account, no email.** You don't sign up. A vault is created locally, protected by a password only you know.
+- **A vault is a folder of encrypted files on your device.** It is not a single file and not a cloud account, but a directory Myne creates and manages on your disk, where each note is its own encrypted file.
+
+Myne today runs entirely on your device; nothing leaves it.
 
 ## What this section covers
 
-You will create a vault, save a recovery phrase, and write your first note.
-The whole thing should take about five minutes. Come back to *Daily use* once
-the vault is set up.
+1. [Install Myne](/user-guide/getting-started/install/): how the app is distributed and verified.
+2. [Create your vault](/user-guide/getting-started/create-your-vault/): the four-step setup wizard.
+3. [Your recovery phrase](/user-guide/getting-started/your-recovery-phrase/): the 24-word backstop that can unlock your vault.
+4. [Unlocking your vault](/user-guide/getting-started/unlocking-your-vault/): what you see each time you open Myne.
+5. [Your first note](/user-guide/getting-started/your-first-note/): writing, autosave, and where notes live.
+6. [A tour of the interface](/user-guide/getting-started/interface-tour/): every region of the window, named.
 
-### Before you start
+## Already have a vault to restore?
 
-You need the desktop app installed. If you do not have it yet, download it
-from the releases page. Myne does not run in a browser — the vault file lives
-on your device.
+If you are not starting fresh, and instead have a `.myne-backup` file from another machine that you want back, you don't need this chapter. The Welcome screen has a **Restore from backup** door; follow [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/) instead, then come back here once your vault is open.

@@ -37,6 +37,13 @@ const isUserGuide = pathname === "/user-guide" || pathname.startsWith("/user-gui
       >
         Ledger
       </a>
+      <a
+        href="/user-guide/"
+        class:list={["ledger-link", { active: isUserGuide }]}
+        aria-current={isUserGuide ? "page" : undefined}
+      >
+        User guide
+      </a>
     </div>
     <div class="nav-spacer"></div>
     <label class="nav-search" title="Search coming in Phase 2">
@@ -114,8 +121,9 @@ const isUserGuide = pathname === "/user-guide" || pathname.startsWith("/user-gui
     height: 56px;
   }
   /* Full-bleed variant for /user-guide routes — brand snaps to viewport
-     padding edge instead of the .container 1120 cap. Keeps every other
-     route (home, /ledger, /security, /releases) on the centered .container. */
+     padding edge instead of the .container 1120 cap, so the nav aligns with
+     the wide doc shell. Every other route (home, /ledger, /security,
+     /releases) stays on the centered .container. */
   .nav-inner--fluid {
     width: 100%;
     padding: 0 24px;

@@ -1,7 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import UserGuideShellLayout from "../../../layouts/UserGuideShellLayout.astro";
-import TodoBanner from "../../../components/userguide/TodoBanner.astro";
 import CategoryLandingHeader from "../../../components/userguide/CategoryLandingHeader.astro";
 import { getCategoryBySlug, getManifest } from "../../../lib/userGuide";
 
@@ -34,7 +33,7 @@ if (cat.intro) {
 }
 
 // Redirect to first article when category has articles but no intro markdown
-// (Penpot brief F2 spec). Empty categories (Self-host today) fall through to
+// (Penpot brief F2 spec). Categories with no articles fall through to the
 // landing render with the empty-state message.
 if (articleEntries.length > 0 && !IntroContent) {
   return Astro.redirect(`/user-guide/${categorySlug}/${cat.articles[0]}/`);
@@ -52,8 +51,6 @@ const canonical = new URL(
   canonical={canonical}
   currentCategory={categorySlug}
 >
-  <TodoBanner />
-
   <CategoryLandingHeader
     category={cat}
     articles={articleEntries}

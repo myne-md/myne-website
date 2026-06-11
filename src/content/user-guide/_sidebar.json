@@ -2,38 +2,107 @@
   {
     "slug": "getting-started",
     "label": "Getting started",
-    "description": "Create your first vault, save your recovery phrase, and write your first encrypted note.",
+    "description": "Install Myne, create your first encrypted vault, save your recovery phrase, and write your first note.",
     "intro": "welcome",
-    "articles": ["welcome", "vault-create", "recovery-phrase", "first-note"]
+    "articles": [
+      "welcome",
+      "install",
+      "create-your-vault",
+      "your-recovery-phrase",
+      "unlocking-your-vault",
+      "your-first-note",
+      "interface-tour"
+    ]
   },
   {
-    "slug": "daily-use",
-    "label": "Daily use",
-    "description": "Editor, wikilinks, search, and tags — the building blocks of a Myne note workflow.",
-    "articles": ["editor", "wikilinks", "search", "tags"]
+    "slug": "notes-and-organization",
+    "label": "Notes & organization",
+    "description": "Organize your vault with folders, favorites, trash, tabs and split view, templates, and daily notes.",
+    "intro": "overview",
+    "articles": [
+      "overview",
+      "notes-and-folders",
+      "favorites",
+      "trash",
+      "tabs-and-split-view",
+      "templates",
+      "daily-notes",
+      "sidebar-customization"
+    ]
   },
   {
-    "slug": "recovery",
-    "label": "Recovery",
-    "description": "What happens when you forget your password, and how the 24-word phrase brings your vault back.",
-    "articles": ["lost-password", "restore-from-phrase"]
+    "slug": "markdown",
+    "label": "Markdown",
+    "description": "The markdown Myne renders, from basics and tables to code blocks, math, diagrams, callouts, and frontmatter.",
+    "intro": "overview",
+    "articles": [
+      "overview",
+      "markdown-basics",
+      "tables",
+      "code-blocks",
+      "footnotes-and-reference-links",
+      "math",
+      "diagrams",
+      "callouts",
+      "html-and-inline-extras",
+      "frontmatter-properties"
+    ]
   },
   {
-    "slug": "backup-restore",
-    "label": "Backup & restore",
-    "description": "Export your encrypted vault, restore on a new device, and verify backup integrity.",
-    "articles": ["export-vault", "restore-on-new-device"]
+    "slug": "find-and-connect",
+    "label": "Find & connect",
+    "description": "Locate and relate notes with wikilinks, backlinks, unlinked mentions, tags, search, and the graph view.",
+    "intro": "overview",
+    "articles": [
+      "overview",
+      "wikilinks",
+      "backlinks",
+      "unlinked-mentions",
+      "tags",
+      "search",
+      "graph-view"
+    ]
   },
   {
-    "slug": "settings-privacy",
+    "slug": "attachments-and-import",
+    "label": "Attachments & import",
+    "description": "Attach files to your notes, manage them in the attachments library, and import an existing Obsidian vault.",
+    "intro": "overview",
+    "articles": [
+      "overview",
+      "attachments",
+      "attachments-library",
+      "import-from-obsidian"
+    ]
+  },
+  {
+    "slug": "safety-and-recovery",
+    "label": "Safety & recovery",
+    "description": "Recover a forgotten password, back up and restore your vault, use note snapshots, and manage multiple vaults.",
+    "intro": "overview",
+    "articles": [
+      "overview",
+      "if-you-forget-your-password",
+      "back-up-your-vault",
+      "restore-from-a-backup",
+      "note-snapshots",
+      "leftover-files",
+      "multiple-vaults"
+    ]
+  },
+  {
+    "slug": "settings-and-privacy",
     "label": "Settings & privacy",
-    "description": "Tweak Myne to your workflow without giving up zero-knowledge guarantees.",
-    "articles": ["privacy-defaults", "workflow-tweaks", "no-email-recovery"]
-  },
-  {
-    "slug": "self-host",
-    "label": "Self-host",
-    "description": "Run your own Myne sync server. Same protocol, same trust boundary as the hosted service.",
-    "articles": ["overview", "protocol", "server-setup"]
+    "description": "Adjust appearance, auto-lock, and screen-capture protection, change your password, and understand the privacy model.",
+    "intro": "overview",
+    "articles": [
+      "overview",
+      "privacy-model",
+      "appearance",
+      "auto-lock-and-screen-capture",
+      "change-your-password",
+      "delete-a-vault",
+      "what-myne-doesnt-do"
+    ]
   }
 ]

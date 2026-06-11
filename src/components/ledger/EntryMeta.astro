@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { people } from "../../data/people";
-import { formatLedgerDate } from "../../lib/ledger";
+import { formatLedgerDate, type EntryType } from "../../lib/ledger";
 import TypeBadge from "./TypeBadge.astro";
 
 interface Props {
@@ -15,7 +15,7 @@ const iso = formatLedgerDate(entry.data.date);
 ---
 
 <header class="entry-meta">
-  <TypeBadge type={entry.data.type} />
+  <TypeBadge type={entry.data.type as EntryType} />
   <span class="dot" aria-hidden="true">·</span>
   <time class="date" datetime={iso}>{iso}</time>
   <span class="dot" aria-hidden="true">·</span>

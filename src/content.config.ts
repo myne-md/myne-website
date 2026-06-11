@@ -24,7 +24,12 @@ const ledger = defineCollection({
 
 const userGuide = defineCollection({
   loader: glob({
-    pattern: "**/*.md",
+    // Exclude underscore-prefixed files (e.g. `_authoring.md`, the authoring
+    // conventions canon) from the collection. The glob loader does NOT honor
+    // the underscore convention on its own, so the negation is explicit — this
+    // keeps `_*.md` from being loaded as articles, matching how `_sidebar.json`
+    // already sits outside the `**/*.md` glob.
+    pattern: ["**/*.md", "!_*.md", "!**/_*.md"],
     base: "./src/content/user-guide",
     generateId: ({ entry }) => entry.replace(/\.md$/, ""),
   }),

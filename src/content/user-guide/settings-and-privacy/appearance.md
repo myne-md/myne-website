@@ -14,7 +14,16 @@ Choose **Light**, **Dark**, or **System** (which follows your operating system's
 
 One small privacy detail: while a vault is **locked**, Myne hasn't decrypted your preferences yet, so the app follows your operating system's appearance until you unlock. Your saved theme applies once the vault is open.
 
-A **Custom theme** option appears here but is not yet active. It is a tracked feature that will switch on when it ships, not a maybe.
+### Custom themes
+
+A **Custom theme** lets you use your own color palette instead of the built-in Light or Dark. Open **Settings → Appearance → Custom themes**:
+
+- **Open themes folder** reveals the folder where theme files live. The easiest way to start is to copy an existing theme, rename it, and edit the colors.
+- **Import theme** picks a `.json` theme file and adds it to the list after checking it.
+- Each theme shows a small color preview; **Apply** switches to it, and **Delete** removes it (with a confirm step).
+- If a theme is rejected, the list shows why — a missing color, an invalid value and its line — so you can fix the file.
+
+A custom theme replaces the Light / Dark / System choice while it is active, and it is checked on your device before use (nothing is uploaded). For the full file format — every color key and which value formats are allowed — see the [Custom theme reference](/user-guide/settings-and-privacy/custom-theme-reference/).
 
 ## Daily notes
 

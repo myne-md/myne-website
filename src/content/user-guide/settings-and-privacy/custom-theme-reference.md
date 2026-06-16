@@ -1,0 +1,79 @@
+---
+title: "Custom theme reference"
+category: "settings-and-privacy"
+updated: 2026-06-16
+summary: "The complete reference for writing a custom theme: the JSON file format, every required color key, which value formats are accepted, what gets rejected and why, and where the file lives on disk."
+tags: ["settings"]
+---
+
+A **custom theme** is a small JSON file of color values that you place in Myne's themes folder. Myne checks it, and if it is well formed it appears in Settings → Appearance → Custom themes, ready to apply. This page is the full reference; for a quick walkthrough see [Appearance](/user-guide/settings-and-privacy/appearance/).
+
+A custom theme is validated locally before it is used. Validation is not a sandbox and does not make a theme file from an untrusted source safe to trust — it is a strict check that the values are plain colors and nothing else (see [What gets rejected](#what-gets-rejected) below).
+
+## The file
+
+A theme is a single `.json` file: a flat object whose keys are CSS color variables and whose values are colors.
+
+```json
+{
+  "--paper": "#fbfbfa",
+  "--ink-1": "#1a1a17",
+  "--accent": "#2c4a7a"
+}
+```
+
+It is **one flat palette**, not a light/dark pair. When you apply a custom theme it *replaces* the built-in Light / Dark / System choice — the custom palette is what you see until you switch back to a built-in theme.
+
+The file name (without `.json`) is the theme's name in the picker. Names may use letters, digits, `-`, and `_` only — no spaces, dots, or slashes.
+
+## Where it goes
+
+Put the file in Myne's themes folder. The reliable way to find it: open **Settings → Appearance → Custom themes** and use **Open themes folder** — Myne reveals the exact directory in your file manager. Drop your `.json` file there (or use **Import theme** to pick it), and it shows up in the list.
+
+The easiest way to start is to copy an existing theme file, rename it, and edit the values.
+
+## Required keys
+
+A theme must define this core set of color variables. Supplying these is enough — the rest of the interface re-derives its colors from them.
+
+| Key | Role |
+| --- | --- |
+| `--paper`, `--paper-2`, `--paper-3` | Page background, recessed surfaces, hover surfaces |
+| `--ink-0`, `--ink-1`, `--ink-2`, `--ink-3` | Display, primary, secondary, tertiary text |
+| `--line-1`, `--line-2`, `--line-3` | Hairline borders, stronger borders, disabled controls |
+| `--accent`, `--accent-hover`, `--accent-press`, `--accent-soft`, `--accent-on` | Accent color and its hover / pressed / soft-background / on-accent-text variants |
+| `--danger`, `--danger-soft`, `--warning`, `--warning-soft`, `--success`, `--success-soft` | State colors and their soft backgrounds |
+
+If any required key is missing, the theme is rejected and the picker tells you which key to add.
+
+## Optional keys
+
+You may also set the editor's syntax-highlighting, color-label, and highlight colors (`--syntax-*`, `--label-*`, `--highlight-*`). These are optional. If you leave them out, they fall back to the built-in **light** values — so if you are making a **dark** theme, set them too, or your code highlighting and labels will look wrong against a dark background.
+
+## Accepted values
+
+A value is accepted only if it is one of these plain color (or length) formats:
+
+- **Hex** — `#fff`, `#ffff`, `#a1b2c3`, `#a1b2c3d4` (3, 4, 6, or 8 digits)
+- **`rgb()` / `rgba()`** — e.g. `rgb(44, 74, 122)`, `rgba(0, 0, 0, 0.5)`
+- **`hsl()` / `hsla()`** — e.g. `hsl(210, 50%, 40%)`
+- **Named colors** — e.g. `transparent`, `currentColor`, `red`
+- **Number with unit** — e.g. `0`, `12px`, `0.5rem`, `100%`
+
+If a value is not one of these, the theme is rejected and the picker names the key whose value was invalid (with the line number when it can).
+
+## What gets rejected
+
+Anything that is not a plain color is rejected — this is the point of the check. In particular these are never allowed in a value:
+
+- `url(...)`
+- `expression(...)`
+- `@import`
+- `javascript:`
+- CSS comments or escape tricks (`/* */`, `\` escapes), or anything appended after a valid value (e.g. a trailing `;`)
+
+This is an **allowlist**: Myne accepts the known color formats above and refuses everything else, rather than trying to blocklist bad patterns one by one. Custom themes apply real CSS values to the app, so this check is what keeps a theme file from carrying anything beyond color. It is a guard, not a guarantee — treat a theme from someone else the same way you would treat any file from that source.
+
+## When a theme is rejected
+
+A file that fails the check still appears in the list, greyed out, with the reason — a missing key, an invalid value (and the key it belongs to), a bad name, or a JSON syntax error with its line. Fix the file and it turns valid on the next read. Nothing is uploaded; the check runs entirely on your device.

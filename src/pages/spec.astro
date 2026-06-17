@@ -1,0 +1,571 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import GlassNav from "../components/GlassNav.astro";
+
+const title = "Protocol specification — Myne";
+const description =
+  "Myne's at-rest encryption is public by design — KDF parameters, AEAD construction, the key hierarchy, recovery derivation, and account-number scheme. Marketing copy may never exceed what this spec guarantees.";
+const canonical = new URL("/spec/", Astro.site!).toString();
+
+const navItems = [
+  { id: "primitives", label: "Primitives" },
+  { id: "hierarchy", label: "Key hierarchy" },
+  { id: "blob", label: "Note format" },
+  { id: "account", label: "Account number" },
+  { id: "recovery", label: "Recovery" },
+  { id: "threats", label: "Threat model" },
+  { id: "documents", label: "Documents" },
+];
+
+const statusColor: Record<string, string> = {
+  strong: "#7fb89a",
+  mitigated: "#8aa4d0",
+  "best-effort": "#c2a35e",
+  "out-of-scope": "#9a8a8a",
+};
+const statusLabel: Record<string, string> = {
+  strong: "Strong",
+  mitigated: "Mitigated",
+  "best-effort": "Best-effort",
+  "out-of-scope": "Out of scope",
+};
+
+const threats: [string, string, string, string][] = [
+  ["A1", "Passive cloud provider", "strong", "Server stores only opaque ciphertext. Keys and plaintext never leave the client."],
+  ["A2", "Compelled lawful access", "strong", "The server cannot disclose what it does not possess — no plaintext, titles, or structure."],
+  ["A3", "Passive network attacker", "strong", "TLS in transit plus client-side E2EE before transit — encrypted bytes between encrypted bytes."],
+  ["A5", "Lost / stolen device (locked)", "strong", "Root key derived via Argon2id from a password the device never stores."],
+  ["A11", "Insider threat (the Myne team)", "strong", "The team gets no more access than any external attacker. Keys never leave the client."],
+  ["A4", "Active network attacker (MitM)", "mitigated", "Strict TLS + certificate pinning. A MitM still cannot decrypt notes."],
+  ["A6", "Lost / stolen device (unlocked)", "mitigated", "Auto-lock on idle zeroizes keys and tears down the open note — narrows the window, not closes it."],
+  ["A9", "Compromised build / distribution", "mitigated", "Reproducible builds, code-signed releases, verified auto-update."],
+  ["A7", "Malware on your device", "best-effort", "Active malware defeats any user-mode encryption. Screen-capture exclusion is defense-in-depth."],
+  ["A8", "Compromised dependency / supply chain", "best-effort", "Hash-pinned lockfiles, a minimal dependency tree, and update reviews. A malicious transitive dependency can't be fully defended."],
+  ["A10", "State-level actor", "best-effort", "Boring vetted primitives, public spec. No claim against zero-days or hardware implants."],
+  ["A13", "Traffic analysis", "best-effort", "Sync timing and blob sizes are visible. Padding and cover traffic deferred beyond v1."],
+  ["A12", 'Coerced user ("rubber-hose")', "out-of-scope", "No plausibly-deniable encryption in v1. If compelled to enter your password, the data is exposed."],
+];
+
+const notProtected: [string, string][] = [
+  ["You lose both password and phrase", "Unrecoverable. We cannot help — no reset, no backdoor."],
+  ["Malware running as you", "A keylogger reads your password; a scraper reads decrypted notes. No user-mode app defends this."],
+  ["Coercion to enter your password", "No plausibly-deniable encryption in v1. The data is exposed."],
+  ["Files you export", "Exported markdown or PDF is ordinary unencrypted. Myne protects what it stores, not what you take out."],
+];
+
+const docs: [string, string, string][] = [
+  ["protocol.md", "The at-rest encryption protocol — key hierarchy, AEAD, recovery, blob formats.", "normative"],
+  ["threat-model.md", "Adversaries, assets, trust boundaries, and what is explicitly out of scope.", "normative"],
+  ["account-number.md", "The Crockford base32 + Damm-32 account-number format and validation.", "normative"],
+  ["recovery-flow.md", "The recovery-phrase presentation, confirmation, and re-key flow.", "normative"],
+  ["markdown-dialect.md", "The exact markdown Myne renders, including the safe-HTML allowlist.", "normative"],
+  ["wikilink.md", "Wikilink syntax, path encoding, resolution, and rename auto-update.", "normative"],
+];
+
+const blobRows: [string, string][] = [
+  ["MY01", "magic — per-note blob"],
+  ["1 B", "protocol version 0x01"],
+  ["1 B", "reserved (0x00)"],
+  ["16 B", "items_key_id — which itemsKey wrapped this note"],
+  ["24 B", "item_key_nonce"],
+  ["2 B", "enc_item_key_len (= 64, big-endian)"],
+  ["64 B", "enc_item_key — item_key + CTX commitment tag"],
+  ["24 B", "content_nonce"],
+  ["4 B", "ciphertext_len (big-endian)"],
+  ["M B", "ciphertext — encrypted markdown + CTX commitment tag"],
+];
+
+const cardStyle =
+  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px 22px;background:#0c0c0c;";
+const h2Style =
+  "font-size:clamp(24px,3vw,36px);font-weight:700;letter-spacing:-0.025em;line-height:1.05;";
+const eyebrowStyle = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const leadStyle =
+  "margin-top:16px;max-width:62ch;font-size:15px;line-height:1.65;color:#8a8a86;";
+---
+
+<LandingLayout title={title} description={description} canonical={canonical}>
+  <div
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+  >
+    <GlassNav active="spec" />
+
+    <!-- HERO -->
+    <section
+      id="top"
+      style="padding:128px 28px 56px;border-bottom:1px solid rgba(255,255,255,0.08);"
+    >
+      <div style="max-width:1180px;margin:0 auto;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+          <span class="mono up" style="font-size:11px;color:#8aa4d0;"
+            >Protocol specification</span
+          >
+          <span
+            class="mono up"
+            style="font-size:9px;color:#c2a35e;border:1px solid rgba(194,163,94,0.4);border-radius:999px;padding:3px 9px;"
+            >v0.1 · draft</span
+          >
+        </div>
+        <h1
+          style="font-size:clamp(34px,5vw,62px);line-height:1.0;font-weight:700;letter-spacing:-0.035em;max-width:16ch;"
+        >
+          The protocol, in the open.
+        </h1>
+        <p
+          style="margin-top:22px;max-width:66ch;font-size:16px;line-height:1.65;color:#8a8a86;"
+        >
+          Myne's at-rest encryption is public by design — KDF parameters, AEAD
+          construction, the key hierarchy, recovery derivation, and
+          account-number scheme, all detailed enough to review without reading
+          the source. Marketing copy may never exceed what this spec guarantees.
+        </p>
+        <div class="mono" style="margin-top:26px;display:flex;flex-wrap:wrap;gap:10px;">
+          {
+            ["myne-protocol-v0.1", "RFC 2119 conventions", "Cross-impl test vectors"].map(
+              (t) => (
+                <span
+                  style="font-size:11px;color:#c4c4c0;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:6px 13px;"
+                >
+                  {t}
+                </span>
+              ),
+            )
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- BODY -->
+    <div style="max-width:1180px;margin:0 auto;padding:56px 28px 100px;">
+      <div
+        style="display:grid;grid-template-columns:188px minmax(0,1fr);gap:56px;align-items:start;"
+      >
+        <!-- SECTION NAV -->
+        <aside
+          data-secnav
+          style="position:sticky;top:90px;display:flex;flex-direction:column;gap:2px;"
+        >
+          <div class="mono up" style="font-size:10px;color:#54544f;margin-bottom:8px;">
+            Contents
+          </div>
+          {
+            navItems.map((n) => (
+              <a
+                href={`#${n.id}`}
+                style="font-size:13px;color:#8a8a86;text-decoration:none;padding:7px 12px;border-left:2px solid transparent;transition:color .15s;"
+              >
+                {n.label}
+              </a>
+            ))
+          }
+        </aside>
+
+        <main style="min-width:0;display:flex;flex-direction:column;gap:72px;">
+          <!-- PRIMITIVES -->
+          <section id="primitives" style="scroll-margin-top:96px;">
+            <div class="mono up" style={eyebrowStyle}>§2 · Cryptographic primitives</div>
+            <h2 style={h2Style}>Boring, well-vetted, no custom crypto.</h2>
+            <p style={leadStyle}>
+              Every primitive is a published RFC implemented by an audited
+              library — RustCrypto on desktop, libsodium-equivalent elsewhere. No
+              client ships a hand-rolled primitive; cross-implementation
+              byte-compatibility is pinned by a public test-vector repo.
+            </p>
+            <div
+              style="margin-top:28px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;"
+            >
+              <div style={cardStyle}>
+                <div class="mono up" style="font-size:10px;color:#54544f;">
+                  KDF · password → wrap key
+                </div>
+                <div style="margin-top:9px;font-size:17px;font-weight:600;color:#e6e6e4;">Argon2id</div>
+                <div class="mono" style="margin-top:8px;font-size:12px;color:#8aa4d0;">
+                  m = 256 MiB · t = 3 · p = 2
+                </div>
+                <p style="margin-top:10px;font-size:12.5px;line-height:1.6;color:#8a8a86;">
+                  RFC 9106. ~1 s on a 2024 laptop. Parameters live in
+                  <span class="mono" style="font-size:11px;color:#cfd6e6;">vault.meta</span>,
+                  bound into the AEAD AAD against downgrade.
+                </p>
+              </div>
+              <div style={cardStyle}>
+                <div class="mono up" style="font-size:10px;color:#54544f;">AEAD · note encryption</div>
+                <div style="margin-top:9px;font-size:17px;font-weight:600;color:#e6e6e4;">
+                  XChaCha20-Poly1305
+                </div>
+                <div class="mono" style="margin-top:8px;font-size:12px;color:#8aa4d0;">
+                  256-bit key · 192-bit nonce · + CTX
+                </div>
+                <p style="margin-top:10px;font-size:12.5px;line-height:1.6;color:#8a8a86;">
+                  RFC 8439 extended-nonce, wrapped in the CTX commitment
+                  construction to close partitioning-oracle attacks on weak
+                  passwords.
+                </p>
+              </div>
+              <div style={cardStyle}>
+                <div class="mono up" style="font-size:10px;color:#54544f;">Recovery phrase</div>
+                <div style="margin-top:9px;font-size:17px;font-weight:600;color:#e6e6e4;">
+                  BIP-39 · 24 words
+                </div>
+                <div class="mono" style="margin-top:8px;font-size:12px;color:#8aa4d0;">256-bit entropy</div>
+                <p style="margin-top:10px;font-size:12.5px;line-height:1.6;color:#8a8a86;">
+                  Used only as an encoding. The phrase feeds Argon2id directly —
+                  not BIP-39's weak 2048-iteration PBKDF2 seed.
+                </p>
+              </div>
+              <div style={cardStyle}>
+                <div class="mono up" style="font-size:10px;color:#54544f;">Hashing · subkeys · RNG</div>
+                <div style="margin-top:9px;font-size:17px;font-weight:600;color:#e6e6e4;">
+                  SHA-256 · HKDF
+                </div>
+                <div class="mono" style="margin-top:8px;font-size:12px;color:#8aa4d0;">OS CSPRNG</div>
+                <p style="margin-top:10px;font-size:12.5px;line-height:1.6;color:#8a8a86;">
+                  HKDF-SHA-256 derives every subkey through one canonical helper
+                  with registered context strings. All randomness from the OS
+                  CSPRNG.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- KEY HIERARCHY -->
+          <section id="hierarchy" style="scroll-margin-top:96px;">
+            <div class="mono up" style={eyebrowStyle}>§3 · Key hierarchy</div>
+            <h2 style={h2Style}>A random root key, wrapped two ways.</h2>
+            <p style={leadStyle}>
+              The root key is 32 random bytes — never derived from the password.
+              Two independent credentials each wrap their own copy, so either
+              opens the vault, and a password change re-wraps one 64-byte field
+              instead of re-encrypting every note.
+            </p>
+            <div
+              style="margin-top:30px;border:1px solid rgba(255,255,255,0.1);border-radius:14px;background:#0c0c0c;padding:30px;"
+            >
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                <div
+                  style="border:1px solid rgba(138,164,208,0.3);border-radius:10px;padding:16px 18px;background:rgba(138,164,208,0.06);"
+                >
+                  <div class="mono up" style="font-size:9px;color:#8aa4d0;">Credential A</div>
+                  <div style="margin-top:6px;font-size:15px;font-weight:600;">Master password</div>
+                  <div class="mono" style="margin-top:6px;font-size:11px;color:#8a8a86;">
+                    Argon2id → password_wrap_key
+                  </div>
+                </div>
+                <div
+                  style="border:1px solid rgba(138,164,208,0.3);border-radius:10px;padding:16px 18px;background:rgba(138,164,208,0.06);"
+                >
+                  <div class="mono up" style="font-size:9px;color:#8aa4d0;">Credential B</div>
+                  <div style="margin-top:6px;font-size:15px;font-weight:600;">24-word recovery phrase</div>
+                  <div class="mono" style="margin-top:6px;font-size:11px;color:#8a8a86;">
+                    Argon2id → recovery_wrap_key
+                  </div>
+                </div>
+              </div>
+              <div class="mono" style="text-align:center;color:#54544f;font-size:18px;padding:10px 0 6px;">
+                ↓ &nbsp; each wraps a copy of &nbsp; ↓
+              </div>
+              <div
+                style="border:1px solid rgba(127,184,154,0.35);border-radius:10px;padding:16px 18px;background:rgba(127,184,154,0.06);text-align:center;"
+              >
+                <div class="mono up" style="font-size:9px;color:#7fb89a;">Root key</div>
+                <div style="margin-top:6px;font-size:16px;font-weight:600;">32 random bytes · client RAM only</div>
+              </div>
+              <div style="margin-top:18px;display:flex;flex-direction:column;gap:0;">
+                <div
+                  class="mono"
+                  style="display:flex;align-items:center;gap:14px;padding:13px 16px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;"
+                >
+                  <span style="flex:0 0 110px;font-size:11px;color:#8aa4d0;">itemsKey_wrap</span>
+                  <span style="flex:1;font-size:12.5px;color:#c4c4c0;">derived from root key — never stored</span>
+                </div>
+                <div class="mono" style="text-align:center;color:#33332f;font-size:13px;padding:3px;">↓</div>
+                <div
+                  class="mono"
+                  style="display:flex;align-items:center;gap:14px;padding:13px 16px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;"
+                >
+                  <span style="flex:0 0 110px;font-size:11px;color:#8aa4d0;">itemsKey</span>
+                  <span style="flex:1;font-size:12.5px;color:#c4c4c0;">one per vault — persists across password changes</span>
+                </div>
+                <div class="mono" style="text-align:center;color:#33332f;font-size:13px;padding:3px;">↓</div>
+                <div
+                  class="mono"
+                  style="display:flex;align-items:center;gap:14px;padding:13px 16px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;"
+                >
+                  <span style="flex:0 0 110px;font-size:11px;color:#8aa4d0;">item_key</span>
+                  <span style="flex:1;font-size:12.5px;color:#c4c4c0;">one per note — encrypts the note plaintext</span>
+                </div>
+                <div class="mono" style="text-align:center;color:#33332f;font-size:13px;padding:3px;">↓</div>
+                <div
+                  style="display:flex;align-items:center;gap:14px;padding:13px 16px;border:1px solid rgba(230,230,228,0.2);border-radius:8px;background:rgba(255,255,255,0.02);"
+                >
+                  <span class="mono" style="flex:0 0 110px;font-size:11px;color:#e6e6e4;">note.myn</span>
+                  <span style="flex:1;font-size:12.5px;color:#e6e6e4;"
+                    >encrypted markdown — title, folders, tags, links all inside the blob</span
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- NOTE FORMAT -->
+          <section id="blob" style="scroll-margin-top:96px;">
+            <div class="mono up" style={eyebrowStyle}>§6 · §9 · Per-note encryption</div>
+            <h2 style={h2Style}>What lands on disk is noise.</h2>
+            <p style={leadStyle}>
+              Each note is a flat
+              <span class="mono" style="font-size:13px;color:#cfd6e6;">&lt;uuid&gt;.myn</span>
+              file. Folders are virtual — the hierarchy is a path string inside
+              the encrypted frontmatter, so a filesystem observer sees only
+              opaque blobs. The on-disk layout:
+            </p>
+            <div
+              style="margin-top:24px;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;background:#0c0c0c;"
+            >
+              <div class="mono" style="display:grid;grid-template-columns:64px 1fr;gap:0;font-size:12px;">
+                <div
+                  class="up"
+                  style="padding:11px 14px;font-size:9px;color:#8a8a86;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.1);"
+                >
+                  Bytes
+                </div>
+                <div
+                  class="up"
+                  style="padding:11px 14px;font-size:9px;color:#8a8a86;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.1);border-left:1px solid rgba(255,255,255,0.08);"
+                >
+                  Field
+                </div>
+                {
+                  blobRows.map(([b, f], i) => (
+                    <>
+                      <div
+                        style={`padding:10px 14px;color:#8aa4d0;${i < blobRows.length - 1 ? "border-bottom:1px solid rgba(255,255,255,0.06);" : ""}`}
+                      >
+                        {b}
+                      </div>
+                      <div
+                        style={`padding:10px 14px;color:${i === blobRows.length - 1 ? "#e6e6e4" : "#c4c4c0"};border-left:1px solid rgba(255,255,255,0.08);${i < blobRows.length - 1 ? "border-bottom:1px solid rgba(255,255,255,0.06);" : ""}`}
+                      >
+                        {f}
+                      </div>
+                    </>
+                  ))
+                }
+              </div>
+            </div>
+            <p class="mono" style="margin-top:14px;font-size:11.5px;line-height:1.7;color:#6a6a66;">
+              A successful decrypt commits the encryptor to the protocol version,
+              the itemsKey identity, the note UUID, and the content type —
+              substitution, downgrade, and key-confusion all fail the single
+              constant-time CTX tag check.
+            </p>
+          </section>
+
+          <!-- ACCOUNT NUMBER -->
+          <section id="account" style="scroll-margin-top:96px;">
+            <div class="mono up" style={eyebrowStyle}>§8 · Account number</div>
+            <h2 style={h2Style}>An identifier, not a key.</h2>
+            <p style={leadStyle}>
+              A Mullvad-style self-generated number replaces email at signup.
+              Possessing it grants no read access — only the password or recovery
+              phrase derive the root key. Its hash is mixed into the Argon2id
+              salts to prevent cross-account precomputation.
+            </p>
+            <div
+              style="margin-top:26px;border:1px solid rgba(255,255,255,0.1);border-radius:12px;background:#0c0c0c;padding:28px;"
+            >
+              <div
+                class="mono"
+                style="font-size:clamp(16px,2.6vw,26px);letter-spacing:0.12em;color:#e6e6e4;text-align:center;"
+              >
+                MY-<span style="color:#8aa4d0;">XXXX-XXXX-XXXX-XXXX-XXX</span><span
+                  style="color:#7fb89a;">X</span
+                >
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;">
+                <div style="text-align:center;">
+                  <div class="mono" style="font-size:20px;font-weight:700;color:#e6e6e4;">95</div>
+                  <div class="mono up" style="font-size:9px;color:#8a8a86;margin-top:4px;">bits entropy</div>
+                </div>
+                <div style="text-align:center;">
+                  <div class="mono" style="font-size:20px;font-weight:700;color:#e6e6e4;">Crockford</div>
+                  <div class="mono up" style="font-size:9px;color:#8a8a86;margin-top:4px;">base32 · no I L O U</div>
+                </div>
+                <div style="text-align:center;">
+                  <div class="mono" style="font-size:20px;font-weight:700;color:#7fb89a;">Damm-32</div>
+                  <div class="mono up" style="font-size:9px;color:#8a8a86;margin-top:4px;">1 check char</div>
+                </div>
+              </div>
+            </div>
+            <p class="mono" style="margin-top:14px;font-size:11.5px;line-height:1.7;color:#6a6a66;">
+              Bearer-token semantics: treat it like cash. The Damm-32 check
+              catches every single-character substitution and every adjacent
+              transposition.
+            </p>
+          </section>
+
+          <!-- RECOVERY -->
+          <section id="recovery" style="scroll-margin-top:96px;">
+            <div class="mono up" style={eyebrowStyle}>§7 · Recovery</div>
+            <h2 style={h2Style}>Two ways in. No third.</h2>
+            <p style={leadStyle}>
+              The recovery phrase survives password changes — its wrapped
+              root-key copy and salt are preserved when you set a new password.
+              It is never sent to any server. v0.1 is hard zero-knowledge.
+            </p>
+            <div
+              style="margin-top:24px;border-left:2px solid #c2a35e;background:rgba(194,163,94,0.07);border-radius:0 10px 10px 0;padding:18px 22px;"
+            >
+              <div class="mono up" style="font-size:10px;color:#c2a35e;">
+                The one irreversible consequence
+              </div>
+              <p style="margin-top:8px;font-size:15px;line-height:1.6;color:#e6e6e4;max-width:60ch;">
+                Lose both the password and the phrase and the vault is
+                permanently unrecoverable. There is no forgot-password email, no
+                admin reset, no backdoor — the deliberate cost of zero-knowledge.
+              </p>
+            </div>
+          </section>
+
+          <!-- THREAT MODEL -->
+          <section id="threats" style="scroll-margin-top:96px;">
+            <div class="mono up" style={eyebrowStyle}>Threat model v0.1</div>
+            <h2 style={h2Style}>What we defend — and what we don't.</h2>
+            <p style={leadStyle}>
+              Every adversary is rated against one of four honest levels. The
+              not-protected list is published in the same document, in plain
+              language.
+            </p>
+            <div style="margin-top:22px;display:flex;flex-wrap:wrap;gap:10px;">
+              {
+                (["strong", "mitigated", "best-effort", "out-of-scope"] as const).map(
+                  (k) => (
+                    <span
+                      class="mono"
+                      style={`display:inline-flex;align-items:center;gap:7px;font-size:11px;color:${statusColor[k]};border:1px solid ${statusColor[k]}4d;border-radius:999px;padding:6px 12px;`}
+                    >
+                      <span
+                        style={`width:7px;height:7px;border-radius:50%;background:${statusColor[k]};`}
+                      />
+                      {k === "strong"
+                        ? "Strong guarantee"
+                        : k === "mitigated"
+                          ? "Mitigated"
+                          : k === "best-effort"
+                            ? "Best-effort"
+                            : "Out of scope"}
+                    </span>
+                  ),
+                )
+              }
+            </div>
+            <div
+              style="margin-top:22px;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;background:#0c0c0c;"
+            >
+              {
+                threats.map(([id, name, status, desc], i) => (
+                  <div
+                    style={`display:grid;grid-template-columns:54px 1fr 116px;gap:14px;align-items:start;padding:15px 18px;${i < threats.length - 1 ? "border-bottom:1px solid rgba(255,255,255,0.07);" : ""}`}
+                  >
+                    <span class="mono" style="font-size:12px;color:#54544f;padding-top:1px;">
+                      {id}
+                    </span>
+                    <div style="min-width:0;">
+                      <div style="font-size:14.5px;font-weight:500;color:#e6e6e4;">{name}</div>
+                      <div style="margin-top:4px;font-size:12.5px;line-height:1.55;color:#8a8a86;">
+                        {desc}
+                      </div>
+                    </div>
+                    <span
+                      class="mono up"
+                      style={`display:inline-flex;align-items:center;gap:6px;justify-self:end;font-size:9px;color:${statusColor[status]};white-space:nowrap;padding-top:2px;`}
+                    >
+                      <span
+                        style={`width:6px;height:6px;border-radius:50%;background:${statusColor[status]};`}
+                      />
+                      {statusLabel[status]}
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+            <h3 style="margin-top:36px;font-size:16px;font-weight:600;color:#e6e6e4;">
+              Not protected against
+            </h3>
+            <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              {
+                notProtected.map(([t, p]) => (
+                  <div style="border:1px solid rgba(154,138,138,0.22);border-radius:10px;padding:15px 17px;">
+                    <div style="font-size:14px;font-weight:500;color:#e6e6e4;">{t}</div>
+                    <p style="margin-top:6px;font-size:12.5px;line-height:1.6;color:#8a8a86;">{p}</p>
+                  </div>
+                ))
+              }
+            </div>
+          </section>
+
+          <!-- DOCUMENTS -->
+          <section id="documents" style="scroll-margin-top:96px;">
+            <div class="mono up" style={eyebrowStyle}>The spec layer</div>
+            <h2 style={h2Style}>Read the documents.</h2>
+            <p style={leadStyle}>
+              The full normative specification, public in the repository. Changes
+              ship as drafts with a review period before they reach production
+              clients.
+            </p>
+            <div style="margin-top:26px;display:flex;flex-direction:column;gap:2px;">
+              {
+                docs.map(([name, desc, tag]) => (
+                  <div
+                    style="display:flex;align-items:center;gap:18px;padding:18px 16px;border-bottom:1px solid rgba(255,255,255,0.08);"
+                  >
+                    <span class="mono" style="flex:0 0 auto;font-size:14px;color:#e6e6e4;">{name}</span>
+                    <span style="flex:1;font-size:13px;line-height:1.5;color:#8a8a86;">{desc}</span>
+                    <span class="mono up" style="flex:0 0 auto;font-size:9px;color:#54544f;">{tag}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <footer style="border-top:1px solid rgba(255,255,255,0.1);padding:36px 28px;">
+      <div
+        class="mono up"
+        style="max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;color:#54544f;"
+      >
+        <span>© 2026 Myne · AGPL-3.0 · CC0 docs</span><span>spec status · draft · v0.1</span>
+      </div>
+    </footer>
+  </div>
+
+  <style is:global>
+    [data-secnav] a.on {
+      color: #e6e6e4 !important;
+      border-left-color: #8aa4d0 !important;
+    }
+  </style>
+</LandingLayout>
+
+<script>
+  // Scroll-spy: highlight the section-nav link for the section in view.
+  const links = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-secnav] a"),
+  );
+  const secs = links
+    .map((l) => document.querySelector<HTMLElement>(l.getAttribute("href")!))
+    .filter((s): s is HTMLElement => s !== null);
+  if (links.length && secs.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 140;
+      let idx = 0;
+      secs.forEach((s, i) => {
+        if (s.offsetTop <= y) idx = i;
+      });
+      links.forEach((l, i) => l.classList.toggle("on", i === idx));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+</script>

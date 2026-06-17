@@ -1,0 +1,175 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import GlassNav from "../components/GlassNav.astro";
+
+const title = "404 — Myne";
+const description = "This page can't be decrypted.";
+---
+
+<LandingLayout title={title} description={description} robots="noindex,nofollow">
+  <div
+    data-root
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;position:relative;overflow:hidden;"
+  >
+    <GlassNav />
+
+    <!-- BACKGROUND CIPHER FIELD -->
+    <canvas
+      data-field
+      style="position:absolute;inset:0;width:100%;height:100%;display:block;"
+    ></canvas>
+    <div
+      style="position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 44%, rgba(10,10,10,0) 28%, rgba(10,10,10,0.7) 66%, rgba(10,10,10,0.95) 100%);pointer-events:none;"
+    >
+    </div>
+
+    <main
+      style="position:relative;z-index:3;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 28px 60px;"
+    >
+      <h1
+        class="mono"
+        data-glitch
+        style="font-size:clamp(72px,16vw,200px);line-height:0.86;font-weight:700;letter-spacing:-0.02em;"
+      >
+        404
+      </h1>
+
+      <h2
+        style="margin-top:24px;font-size:clamp(22px,3.2vw,38px);font-weight:700;letter-spacing:-0.03em;max-width:18ch;"
+      >
+        This page can't be decrypted.
+      </h2>
+      <p
+        style="margin-top:16px;max-width:50ch;font-size:15px;line-height:1.65;color:#8a8a86;"
+      >
+        Either it never existed, or it's sealed somewhere we can't read — which,
+        around here, is the whole point. No plaintext mode, no exceptions.
+      </p>
+
+      <div
+        style="display:flex;gap:10px;margin-top:34px;flex-wrap:wrap;justify-content:center;"
+      >
+        <a
+          href="/"
+          class="up"
+          style="background:#e6e6e4;color:#0a0a0a;text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border-radius:6px;"
+          >Back to home</a
+        >
+        <a
+          href="/user-guide/"
+          class="up"
+          style="background:transparent;color:#e6e6e4;text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px solid rgba(255,255,255,0.2);border-radius:6px;"
+          >Read the guide</a
+        >
+      </div>
+    </main>
+  </div>
+</LandingLayout>
+
+<script>
+  const reduce =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Glitch the "404" headline between glyphs.
+  const gl = document.querySelector("[data-glitch]");
+  if (gl && !reduce) {
+    const GLY = "0123456789ABCDEF#@$%&/";
+    const target = "404";
+    let frame = 0;
+    setInterval(() => {
+      frame++;
+      if (frame % 16 < 2) {
+        gl.textContent = target
+          .split("")
+          .map((c) =>
+            Math.random() < 0.5 ? GLY[(Math.random() * GLY.length) | 0] : c,
+          )
+          .join("");
+      } else {
+        gl.textContent = target;
+      }
+    }, 90);
+  }
+
+  // Background cipher field (same family as the hero noise).
+  const clamp = (v: number, a: number, b: number) =>
+    Math.max(a, Math.min(b, v));
+  const GLYPHS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ#@$%&/\\=+";
+  const rc = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
+  const cv = document.querySelector("[data-field]") as HTMLCanvasElement | null;
+  if (cv) {
+    const ctx = cv.getContext("2d")!;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    let W = 0,
+      H = 0,
+      cols = 0,
+      rows = 0,
+      grid: string[] = [],
+      CELL = 22,
+      raf = 0;
+    const mouse = { x: -9999, y: -9999 };
+    const parent = cv.parentElement!;
+    const resize = () => {
+      const r = parent.getBoundingClientRect();
+      W = r.width;
+      H = r.height;
+      cv.width = W * dpr;
+      cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      CELL = W < 640 ? 17 : 22;
+      cols = Math.ceil(W / CELL);
+      rows = Math.ceil(H / CELL);
+      grid = new Array(cols * rows);
+      for (let i = 0; i < grid.length; i++) grid[i] = rc();
+      ctx.font = CELL - 6 + "px 'JetBrains Mono', monospace";
+      ctx.textBaseline = "top";
+    };
+    parent.addEventListener("mousemove", (e) => {
+      const r = cv.getBoundingClientRect();
+      mouse.x = (e as MouseEvent).clientX - r.left;
+      mouse.y = (e as MouseEvent).clientY - r.top;
+    });
+    parent.addEventListener("mouseleave", () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+    let f = 0,
+      last = 0;
+    const draw = (t: number) => {
+      if (t - last > 55) {
+        last = t;
+        f++;
+        ctx.clearRect(0, 0, W, H);
+        for (let y = 0; y < rows; y++) {
+          for (let x = 0; x < cols; x++) {
+            const idx = y * cols + x;
+            if (Math.random() < 0.04) grid[idx] = rc();
+            const px = x * CELL,
+              py = y * CELL;
+            const d = Math.hypot(px - mouse.x, py - mouse.y);
+            let a = 0.05 + 0.05 * Math.sin((x + y) * 0.6 + f * 0.08);
+            if (d < 150) {
+              a = clamp(a + (1 - d / 150) * 0.45, 0, 0.6);
+              ctx.fillStyle = "rgba(236,235,231," + a.toFixed(3) + ")";
+            } else {
+              ctx.fillStyle = "rgba(138,164,208," + a.toFixed(3) + ")";
+            }
+            ctx.fillText(grid[idx], px, py);
+          }
+        }
+      }
+      raf = requestAnimationFrame(draw);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    if (reduce) {
+      ctx.clearRect(0, 0, W, H);
+      for (let y = 0; y < rows; y++)
+        for (let x = 0; x < cols; x++) {
+          ctx.fillStyle = "rgba(138,164,208,0.08)";
+          ctx.fillText(grid[y * cols + x], x * CELL, y * CELL);
+        }
+    } else raf = requestAnimationFrame(draw);
+  }
+</script>

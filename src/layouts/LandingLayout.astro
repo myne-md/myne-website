@@ -1,0 +1,128 @@
+---
+/*
+ * Self-contained shell for the dark, single-page landing (Myne v13 design).
+ * Deliberately does NOT pull in the shared light-theme Nav / Footer /
+ * SubscribeDialog or tokens.css / global.css — the landing carries its own
+ * fixed header, footer and fully inline-styled sections, so the rest of the
+ * site (/ledger, /user-guide) keeps its own theme untouched.
+ */
+interface Props {
+  title: string;
+  description: string;
+  /** Absolute canonical URL for this page. */
+  canonical?: string;
+  /** Absolute og:image URL — falls back to nothing if absent. */
+  ogImage?: string;
+  /** Robots directive (e.g. "noindex,nofollow"). Omit to leave it unset. */
+  robots?: string;
+  /** og:type — defaults to website; permalink pages pass "article". */
+  ogType?: "website" | "article";
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  robots,
+  ogType = "website",
+} = Astro.props;
+
+const canonicalUrl =
+  canonical ?? new URL(Astro.url.pathname, Astro.site!).toString();
+---
+
+<!--
+                    o      o
+   888b     d888  o    o    o
+   8888b   d8888    o    o
+   88888b.d88888  o    o    o
+   888 888P 888                     myne-protocol-v0.1
+   888  Y8P  888                    encrypted markdown notes
+   888   "   888                    no email at signup
+   888       888                    your account is a number
+                                    you keep, not an email we keep
+
+   Hi. If you're reading this, you're our kind of person.
+   Specs, threat model, and source go public when Phase 1 ships.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    {robots && <meta name="robots" content={robots} />}
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Myne ledger"
+      href="/ledger/rss.xml"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta
+      name="twitter:card"
+      content={ogImage ? "summary_large_image" : "summary"}
+    />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style is:global>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: #0a0a0a;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      ::selection {
+        background: #e6e6e4;
+        color: #0a0a0a;
+      }
+      .mono {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-feature-settings: "zero" 1, "ss02" 1, "calt" 1;
+      }
+      .up {
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .tick {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        color: #54544f;
+        font-size: 11px;
+        line-height: 8px;
+        font-family: "JetBrains Mono", monospace;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

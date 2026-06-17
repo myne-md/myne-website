@@ -54,12 +54,14 @@ const categoryLabel = getCategoryLabel(category) ?? category;
   <TocRail slot="rightRail" headings={headings} variant="desktop" />
 
   <header class="ug-article-header">
-    <a class="ug-article-back" href="/user-guide/">
-      <span class="arrow" aria-hidden="true">←</span>
-      Back to user guide
-    </a>
+    <div class="mono up ug-breadcrumb">
+      <a href={`/user-guide/${category}/`} class="ug-breadcrumb__cat">{categoryLabel}</a>
+      <span class="ug-breadcrumb__sep" aria-hidden="true">/</span>
+      <span class="ug-breadcrumb__current">{title}</span>
+    </div>
     <h1 class="ug-h1">{title}</h1>
-    <p class="ug-article-updated">Updated {updatedLabel}</p>
+    <p class="ug-article-updated mono">Updated {updatedLabel}</p>
+    {summary && <p class="ug-article-summary">{summary}</p>}
   </header>
 
   <TocRail headings={headings} variant="mobile" />

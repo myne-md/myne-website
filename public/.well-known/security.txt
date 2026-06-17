@@ -1,0 +1,9 @@
+# Myne security contact — RFC 9116.
+# Acknowledgment-only: we credit researchers; there is no monetary bounty yet.
+
+Contact: https://github.com/myne-md/myne/security/advisories/new
+Contact: mailto:security@myne.md
+Policy: https://myne.md/security/
+Preferred-Languages: en
+Canonical: https://myne.md/.well-known/security.txt
+Expires: 2027-06-17T00:00:00.000Z

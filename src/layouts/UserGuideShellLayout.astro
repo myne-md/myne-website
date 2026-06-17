@@ -1,7 +1,9 @@
 ---
-import BaseLayout from "./BaseLayout.astro";
+import LandingLayout from "./LandingLayout.astro";
+import GlassNav from "../components/GlassNav.astro";
 import SidebarMobileToggle from "../components/userguide/SidebarMobileToggle.astro";
 import { getCategoryLabel, getManifest } from "../lib/userGuide";
+import "../styles/tokens.css";
 import "../styles/userguide.css";
 
 interface Props {
@@ -15,7 +17,7 @@ interface Props {
   /** Article display title — used by the mobile breadcrumb. */
   currentArticleTitle?: string;
   /** Render the L sidebar + mobile toggle + R rail slot. Default true.
-   *  Set false on the index page (per Penpot brief: index has no sidebar). */
+   *  Set false on the index page (index has no sidebar). */
   showSidebar?: boolean;
 }
 
@@ -35,82 +37,118 @@ const breadcrumbCategory = currentCategory
   : undefined;
 ---
 
-<BaseLayout
+<LandingLayout
   title={title}
   description={description}
   canonical={canonical}
   robots="noindex,nofollow"
-  showFooter={false}
 >
-  {showSidebar && (
-    <SidebarMobileToggle
-      categoryLabel={breadcrumbCategory}
-      articleLabel={currentArticleTitle}
-    />
-  )}
-  <div class:list={["ug-shell", { "ug-shell--no-sidebar": !showSidebar }]}>
+  <div class="ug-root">
+    <!-- TOP BAR — shared with the landing so both navbars stay identical -->
+    <GlassNav active="guide" />
+
     {showSidebar && (
-      <>
-        <div
-          class="ug-sidebar-backdrop"
-          data-userguide-backdrop
-          aria-hidden="true"
-        ></div>
-        <aside id="ug-sidebar" class="ug-sidebar" aria-label="User guide sections">
-          <p class="ug-eyebrow">Contents</p>
-          <nav class="ug-sidebar__nav">
-            {manifest.map((cat) => {
-              const isActiveCategory = cat.slug === currentCategory;
-              return (
-                <div class="ug-sidebar__category">
-                  <a
-                    href={`/user-guide/${cat.slug}/`}
-                    class:list={["ug-sidebar__cat-link", { active: isActiveCategory }]}
-                  >
-                    {cat.label}
-                  </a>
-                  {cat.articles.length > 0 && (
-                    <ul class="ug-sidebar__articles">
-                      {cat.articles.map((slug) => {
-                        const isActive =
-                          isActiveCategory && slug === currentSlug;
-                        return (
-                          <li>
-                            <a
-                              href={`/user-guide/${cat.slug}/${slug}/`}
-                              class:list={["ug-sidebar__article", { active: isActive }]}
-                              aria-current={isActive ? "page" : undefined}
-                            >
-                              {slug.replace(/-/g, " ")}
-                            </a>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
-                </div>
-              );
-            })}
-          </nav>
-        </aside>
-      </>
+      <SidebarMobileToggle
+        categoryLabel={breadcrumbCategory}
+        articleLabel={currentArticleTitle}
+      />
     )}
-    <div class="ug-shell-main">
-      <slot />
+
+    <div id="top" class="ug-page">
+      <div
+        class:list={["ug-shell", { "ug-shell--no-sidebar": !showSidebar }]}
+      >
+        {showSidebar && (
+          <>
+            <div
+              class="ug-sidebar-backdrop"
+              data-userguide-backdrop
+              aria-hidden="true"
+            ></div>
+            <aside
+              id="ug-sidebar"
+              class="ug-sidebar"
+              aria-label="User guide sections"
+            >
+              <div class="ug-search">
+                <span class="mono ug-search__slash">/</span>
+                <input
+                  type="search"
+                  class="mono ug-search__input"
+                  placeholder="Search"
+                  aria-label="Filter sections"
+                  data-ug-search
+                />
+              </div>
+              <nav class="ug-sidebar__nav" data-ug-nav>
+                {manifest.map((cat) => {
+                  const isActiveCategory = cat.slug === currentCategory;
+                  return (
+                    <div class="ug-sidebar__category" data-ug-group>
+                      <a
+                        href={`/user-guide/${cat.slug}/`}
+                        class:list={[
+                          "mono",
+                          "up",
+                          "ug-sidebar__cat-link",
+                          { active: isActiveCategory },
+                        ]}
+                      >
+                        {cat.label}
+                      </a>
+                      {cat.articles.length > 0 && (
+                        <ul class="ug-sidebar__articles">
+                          {cat.articles.map((slug) => {
+                            const isActive =
+                              isActiveCategory && slug === currentSlug;
+                            return (
+                              <li>
+                                <a
+                                  href={`/user-guide/${cat.slug}/${slug}/`}
+                                  class:list={[
+                                    "ug-sidebar__article",
+                                    { active: isActive },
+                                  ]}
+                                  aria-current={isActive ? "page" : undefined}
+                                  data-ug-link
+                                  data-ug-text={`${cat.label} ${slug.replace(/-/g, " ")}`}
+                                >
+                                  {slug.replace(/-/g, " ")}
+                                </a>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </div>
+                  );
+                })}
+              </nav>
+            </aside>
+          </>
+        )}
+        <div class="ug-shell-main">
+          <slot />
+        </div>
+        {showSidebar && Astro.slots.has("rightRail") && (
+          <aside class="ug-rightrail" aria-label="On this page">
+            <slot name="rightRail" />
+          </aside>
+        )}
+      </div>
     </div>
-    {showSidebar && Astro.slots.has("rightRail") && (
-      <aside class="ug-rightrail" aria-label="On this page">
-        <slot name="rightRail" />
-      </aside>
-    )}
+
+    <footer class="ug-footer">
+      <div class="mono up ug-footer__inner">
+        <span>© 2026 Myne · AGPL-3.0 · CC0 docs</span><span>v0.1 · pre-alpha</span>
+      </div>
+    </footer>
   </div>
 
   {showSidebar && (
     <script is:inline>
       // Persist sidebar scrollTop across full-page reloads (Astro static-site
-      // navs tear down the DOM). sessionStorage = current tab only; cleared
-      // when the tab closes. Inline script runs synchronously during parse,
-      // before first paint, so the restore happens flash-free.
+      // navs tear down the DOM). sessionStorage = current tab only.
       (function () {
         var KEY = "myne-website-userguide-sidebar-scroll";
         var sidebar = document.getElementById("ug-sidebar");
@@ -140,7 +178,32 @@ const breadcrumbCategory = currentCategory
           },
           { passive: true },
         );
+
+        // Live-filter the sidebar list (matches the v13 design search).
+        var search = document.querySelector("[data-ug-search]");
+        if (search) {
+          var links = Array.prototype.slice.call(
+            document.querySelectorAll("[data-ug-link]"),
+          );
+          var groups = Array.prototype.slice.call(
+            document.querySelectorAll("[data-ug-group]"),
+          );
+          search.addEventListener("input", function () {
+            var q = search.value.trim().toLowerCase();
+            groups.forEach(function (g) {
+              var any = false;
+              var groupLinks = g.querySelectorAll("[data-ug-link]");
+              for (var i = 0; i < groupLinks.length; i++) {
+                var t = (groupLinks[i].getAttribute("data-ug-text") || "").toLowerCase();
+                var match = !q || t.indexOf(q) !== -1;
+                groupLinks[i].parentElement.style.display = match ? "" : "none";
+                if (match) any = true;
+              }
+              g.style.display = !q || any ? "" : "none";
+            });
+          });
+        }
       })();
     </script>
   )}
-</BaseLayout>
+</LandingLayout>

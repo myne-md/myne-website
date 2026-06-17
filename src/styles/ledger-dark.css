@@ -1,0 +1,95 @@
+/* =========================================================================
+   Dark v13 theme for the ledger. Loaded only on /ledger routes.
+
+   `:root:root` (specificity 0,2,0) beats tokens.css's `:root` (0,1,0), so the
+   whole page flips dark regardless of import order — global.css's body +
+   utilities, ledger.css, and the scoped component styles are all token-driven,
+   so overriding the color tokens here is enough to recolor everything.
+   ========================================================================= */
+:root:root {
+  --paper: #0a0a0a;
+  --paper-2: #101010;
+  --paper-3: #1a1a1a;
+  --line-1: rgba(255, 255, 255, 0.1);
+  --line-2: rgba(255, 255, 255, 0.18);
+  --line-3: rgba(255, 255, 255, 0.3);
+  --ink-0: #f2f2ef;
+  --ink-1: #e6e6e4;
+  --ink-2: #c4c4c0;
+  --ink-3: #8a8a86;
+  --bg-1: #0a0a0a;
+  --bg-2: #101010;
+  --bg-3: #1a1a1a;
+  --fg-1: #c4c4c0;
+  --fg-2: #c4c4c0;
+  --fg-3: #8a8a86;
+  --fg-display: #e6e6e4;
+  --accent: #8aa4d0;
+  --accent-hover: #a6bce0;
+  --accent-press: #c0d2ee;
+  --accent-soft: rgba(138, 164, 208, 0.12);
+  --accent-on: #0a0a0a;
+  --info: #8aa4d0;
+  --info-soft: rgba(138, 164, 208, 0.12);
+}
+
+.ledger-root {
+  min-height: 100vh;
+}
+
+/* The bare <section> hairline + big block padding from global.css don't suit
+   the v13 page: clear the fixed header and drop the divider. */
+.ledger-root section {
+  border-bottom: 0;
+  padding: 116px 0 64px;
+}
+
+/* v13 eyebrow — mono, dimmer, to match the other pages. */
+.ledger-root .section-eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: #8aa4d0;
+  letter-spacing: 0.1em;
+}
+
+/* v13 prose polish (the rest of .ledger-prose already darkens via tokens). */
+.ledger-prose h2,
+.ledger-prose h3 {
+  color: #e6e6e4;
+}
+.ledger-prose strong {
+  color: #e6e6e4;
+}
+.ledger-prose blockquote {
+  border-left: 2px solid var(--accent);
+  background: rgba(138, 164, 208, 0.07);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  color: #c4c4c0;
+}
+.ledger-prose code {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #cfd6e6;
+}
+.ledger-prose pre {
+  background: #0c0c0c;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* v13 footer — matches the roadmap / guide footers. */
+.ledger-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 36px 0;
+}
+.ledger-footer__inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 10px;
+  color: #54544f;
+}

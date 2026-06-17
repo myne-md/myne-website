@@ -1,0 +1,278 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import GlassNav from "../components/GlassNav.astro";
+
+const title = "Roadmap — Myne";
+const description =
+  "Where Myne is going — an order, not a schedule. Foundation, desktop, zero-knowledge sync, and mobile, shipped one phase at a time, inside the public threat model.";
+const canonical = new URL("/roadmap/", Astro.site!).toString();
+
+const STATUS: Record<string, { c: string; label: string }> = {
+  shipped: { c: "#7fb89a", label: "Shipped" },
+  "in-progress": { c: "#c2a35e", label: "In progress" },
+  planned: { c: "#8aa4d0", label: "Planned" },
+};
+
+const filters = [
+  { key: "all", label: "All" },
+  { key: "shipped", label: "Shipped" },
+  { key: "in-progress", label: "In progress" },
+  { key: "planned", label: "Planned" },
+];
+
+// Real data, drawn from docs/vision.md (phased plan) and docs/spec. No
+// invented dates or prices — the spec sets no public price, so the hosted
+// tier is described as paid, not $X/mo.
+const phases = [
+  {
+    n: "01",
+    label: "Foundation",
+    tag: "v0.1 · public spec",
+    blurb: "The cryptographic core and the documents that govern it.",
+    items: [
+      { t: "Public threat model & protocol spec", s: "shipped" },
+      {
+        t: "Local encryption — Argon2id, XChaCha20-Poly1305, key commitment",
+        s: "shipped",
+      },
+      { t: "No-email identity & 24-word recovery phrase", s: "shipped" },
+      { t: "Plain-markdown vault, encrypted on disk", s: "shipped" },
+      { t: "Encrypted backup & restore", s: "shipped" },
+      { t: "Cross-implementation test vectors", s: "shipped" },
+    ],
+  },
+  {
+    n: "02",
+    label: "Desktop",
+    tag: "phase 1 · pre-alpha",
+    blurb: "The single-user app you write in, running entirely on your device.",
+    items: [
+      { t: "Tauri desktop client — editor, autosave, encrypted vault", s: "in-progress" },
+      { t: "CodeMirror editor with live markdown & [[wikilinks]]", s: "in-progress" },
+      { t: "Full-text search across decrypted notes", s: "in-progress" },
+      { t: "Backlinks pane & minimal graph view", s: "in-progress" },
+      { t: "Import from Obsidian", s: "in-progress" },
+      { t: "Signed, reproducible desktop builds", s: "in-progress" },
+    ],
+  },
+  {
+    n: "03",
+    label: "Sync",
+    tag: "phase 2 · planned",
+    blurb: "Zero-knowledge sync — the server only ever holds ciphertext.",
+    items: [
+      { t: "Zero-knowledge sync server", s: "planned" },
+      { t: "Self-hostable, identical open-source server", s: "planned" },
+      { t: "Hosted sync — optional paid tier, ciphertext only", s: "planned" },
+    ],
+  },
+  {
+    n: "04",
+    label: "Mobile & web",
+    tag: "phase 3 · planned",
+    blurb: "The same vault, the same encryption, in your pocket and your browser.",
+    items: [
+      { t: "iOS client", s: "planned" },
+      { t: "Android client", s: "planned" },
+      { t: "Web client", s: "planned" },
+    ],
+  },
+  {
+    n: "05",
+    label: "Collaboration",
+    tag: "phase 4 · planned",
+    blurb: "Shared, real-time editing — once the rest of the product is solid.",
+    items: [
+      { t: "Real-time collaborative editing (CRDT)", s: "planned" },
+      { t: "Note sharing", s: "planned" },
+    ],
+  },
+];
+
+const cardStyle =
+  "display:flex;align-items:center;gap:14px;padding:15px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;background:#0c0c0c;margin-bottom:8px;";
+---
+
+<LandingLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+>
+  <div
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+  >
+    <GlassNav active="roadmap" />
+
+    <section id="top" style="padding:128px 28px 90px;">
+      <div style="max-width:880px;margin:0 auto;">
+        <div class="mono up" style="font-size:11px;color:#8aa4d0;margin-bottom:18px;">
+          Roadmap
+        </div>
+        <h1
+          style="font-size:clamp(34px,5vw,60px);line-height:1.0;font-weight:700;letter-spacing:-0.035em;"
+        >
+          Where Myne is going.
+        </h1>
+        <p
+          style="margin-top:22px;max-width:64ch;font-size:16px;line-height:1.65;color:#8a8a86;"
+        >
+          An order, not a schedule. Bootstrapped and slow, shipped one phase at
+          a time. No dates and no cadence promise — and every line here stays
+          inside the public threat model.
+        </p>
+
+        <!-- FILTER ROW -->
+        <div
+          style="margin-top:42px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;"
+        >
+          <div
+            style="display:inline-flex;gap:3px;padding:3px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;"
+          >
+            {
+              filters.map((f) => (
+                <button
+                  type="button"
+                  class="mono"
+                  data-filter={f.key}
+                  style="border:0;cursor:pointer;border-radius:999px;padding:7px 15px;font-size:11px;letter-spacing:0.04em;background:transparent;color:#8a8a86;transition:background .15s ease,color .15s ease;"
+                >
+                  {f.label}
+                </button>
+              ))
+            }
+          </div>
+          <div style="flex:1;"></div>
+          <a
+            href="/ledger/"
+            class="mono"
+            style="display:inline-flex;align-items:baseline;gap:7px;font-size:11px;color:#8aa4d0;text-decoration:none;"
+            >Ledger<span style="color:#54544f;">/ledger</span></a
+          >
+        </div>
+
+        <!-- PHASES -->
+        <div data-phases style="margin-top:48px;">
+          {
+            phases.map((p, pi) => (
+              <div
+                data-phase
+                style="display:grid;grid-template-columns:210px 1fr;gap:44px;align-items:start;"
+              >
+                <div style="display:flex;gap:16px;">
+                  <div style="display:flex;flex-direction:column;align-items:center;flex:0 0 auto;">
+                    <div
+                      class="mono"
+                      style="width:34px;height:34px;border:1px solid rgba(255,255,255,0.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#e6e6e4;"
+                    >
+                      {p.n}
+                    </div>
+                    <div style="flex:1;width:1px;background:rgba(255,255,255,0.12);margin:8px 0;min-height:30px;" />
+                  </div>
+                  <div style="padding-top:3px;">
+                    <div style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#e6e6e4;">
+                      {p.label}
+                    </div>
+                    <div class="mono up" style="font-size:9px;color:#8aa4d0;margin-top:7px;">
+                      {p.tag}
+                    </div>
+                    <p
+                      class="mono"
+                      style="font-size:11.5px;line-height:1.6;color:#6a6a66;margin-top:12px;max-width:24ch;"
+                    >
+                      {p.blurb}
+                    </p>
+                  </div>
+                </div>
+                <div
+                  style={`padding-bottom:${pi === phases.length - 1 ? "0" : "40"}px;display:flex;flex-direction:column;gap:1px;`}
+                >
+                  {p.items.map((it) => {
+                    const m = STATUS[it.s];
+                    return (
+                      <div data-roadmap-item data-status={it.s} style={cardStyle}>
+                        <span
+                          style={`display:inline-block;width:8px;height:8px;border-radius:50%;background:${m.c};flex:0 0 auto;`}
+                        />
+                        <span
+                          style={`flex:1;font-size:14.5px;line-height:1.45;color:${it.s === "shipped" ? "#e6e6e4" : "#cfcfca"};`}
+                        >
+                          {it.t}
+                        </span>
+                        <span
+                          class="mono up"
+                          style={`flex:0 0 auto;font-size:9px;color:${m.c};`}
+                        >
+                          {m.label}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- CLOSING NOTE -->
+        <div
+          class="mono"
+          style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.1);padding:34px 0 0;font-size:12.5px;line-height:1.8;color:#6a6a66;max-width:62ch;"
+        >
+          This page is append-only in spirit: items move from planned to
+          shipped, they do not gain deadlines. No venture timeline, no hype
+          cycle. When a protocol or spec change lands, the reasoning goes in the
+          <a href="/ledger/" style="color:#8aa4d0;text-decoration:none;">ledger</a>.
+        </div>
+      </div>
+    </section>
+
+    <footer style="border-top:1px solid rgba(255,255,255,0.1);padding:36px 28px;">
+      <div
+        class="mono up"
+        style="max-width:880px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;color:#54544f;"
+      >
+        <span>© 2026 Myne · AGPL-3.0 · CC0 docs</span><span>v0.1 · pre-alpha</span>
+      </div>
+    </footer>
+  </div>
+</LandingLayout>
+
+<script>
+  // Filter the (server-rendered) roadmap items by status; hide empty phases.
+  const pills = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-filter]"),
+  );
+  const items = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-roadmap-item]"),
+  );
+  const phaseRows = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-phase]"),
+  );
+
+  const apply = (key: string) => {
+    items.forEach((it) => {
+      const show = key === "all" || it.dataset.status === key;
+      // Restore the original display (flex) when showing — setting "" would
+      // wipe the inline display and collapse the card's flex row.
+      it.style.display = show ? "flex" : "none";
+    });
+    phaseRows.forEach((ph) => {
+      const anyVisible = Array.from(
+        ph.querySelectorAll<HTMLElement>("[data-roadmap-item]"),
+      ).some((it) => it.style.display !== "none");
+      // Same here: restore the grid, don't blank it (that would stack the
+      // rail + cards into one column).
+      ph.style.display = anyVisible ? "grid" : "none";
+    });
+    pills.forEach((p) => {
+      const on = p.dataset.filter === key;
+      p.style.background = on ? "#e6e6e4" : "transparent";
+      p.style.color = on ? "#0a0a0a" : "#8a8a86";
+    });
+  };
+
+  pills.forEach((p) =>
+    p.addEventListener("click", () => apply(p.dataset.filter || "all")),
+  );
+  apply("all");
+</script>

@@ -48,7 +48,7 @@ const description =
             before it leaves your device, asks for no email, and stores only
             ciphertext at rest — quietly, by default.
           </p>
-          <div style="display:flex;gap:10px;margin-top:30px;">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;">
             <a
               href="/spec/"
               class="up"
@@ -93,6 +93,7 @@ const description =
           Sealed by math. Portable by design.
         </h2>
         <div
+          class="work-grid"
           style="display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:50px;align-items:center;"
         >
           <div
@@ -188,8 +189,9 @@ const description =
             The stack you're duct-taping, in one app.
           </h2>
         </div>
+        <div data-reveal class="cmp-scroll">
         <div
-          data-reveal
+          class="cmp-card"
           style="border:1px solid rgba(255,255,255,0.12);border-radius:12px;overflow:hidden;background:#0c0c0c;"
         >
           <div
@@ -227,6 +229,7 @@ const description =
           </div>
           <div data-cmp-rows></div>
         </div>
+        </div>
         <p class="mono" style="margin-top:14px;font-size:11.5px;line-height:1.7;color:#54544f;max-width:90ch;">
           Comparison reflects each tool's default configuration. Myne is
           pre-alpha — cells marked <span style="color:#c2a35e;">partial</span> on
@@ -242,6 +245,7 @@ const description =
     <!-- ===================== FAQ ===================== -->
     <section id="commit" style="padding:96px 28px;">
       <div
+        class="faq-grid"
         style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:50px;align-items:start;"
       >
         <div data-reveal>
@@ -267,6 +271,7 @@ const description =
     <section id="contact" style="padding:90px 28px 60px;">
       <div
         data-reveal
+        class="cta-grid"
         style="max-width:1280px;margin:0 auto;border:1px dashed rgba(255,255,255,0.2);padding:56px 48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;"
       >
         <div>
@@ -282,7 +287,7 @@ const description =
             Your notes deserve more than a privacy policy. Step into a tool where
             encryption is effortless, invisible, and always on.
           </p>
-          <div style="display:flex;gap:10px;margin-top:28px;">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;">
             <a
               href="/spec/"
               class="up"
@@ -325,7 +330,7 @@ const description =
     <footer style="padding:60px 28px 30px;">
       <div style="max-width:1280px;margin:0 auto;">
         <div
-          class="mono up"
+          class="mono up foot-nav"
           style="display:grid;grid-template-columns:repeat(6,1fr);gap:20px;font-size:11px;color:#8a8a86;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);padding:22px 0;"
         >
           <a href="#work" style="color:inherit;text-decoration:none;"
@@ -363,13 +368,61 @@ const description =
         </div>
         <div
           class="mono up"
-          style="display:flex;justify-content:space-between;margin-top:26px;font-size:10px;color:#54544f;"
+          style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:26px;font-size:10px;color:#54544f;"
         >
           <span>© 2026 · AGPL-3.0 · CC0 docs</span><span>v0.1 · pre-alpha</span>
         </div>
       </div>
     </footer>
   </div>
+
+  <!-- Mobile layout overrides. Inline styles win over classes, so the grid
+       collapses use !important — scoped to ≤760px, desktop is untouched. -->
+  <style is:global>
+    @media (max-width: 760px) {
+      /* Globe + process steps stack into one column. */
+      .work-grid {
+        grid-template-columns: 1fr !important;
+        gap: 36px !important;
+      }
+      .work-grid [data-globe] {
+        height: 300px !important;
+      }
+
+      /* Wide comparison table scrolls horizontally instead of crushing
+         its six columns. */
+      .cmp-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .cmp-scroll .cmp-card {
+        min-width: 640px;
+      }
+
+      /* FAQ + CTA two-column splits stack. */
+      .faq-grid {
+        grid-template-columns: 1fr !important;
+        gap: 28px !important;
+      }
+      .cta-grid {
+        grid-template-columns: 1fr !important;
+        gap: 28px !important;
+        padding: 32px 22px !important;
+      }
+
+      /* Footer link grid: six across is too tight on a phone. */
+      .foot-nav {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 14px 16px !important;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .foot-nav {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+  </style>
 </LandingLayout>
 
 <script>

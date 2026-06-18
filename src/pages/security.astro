@@ -55,7 +55,7 @@ const outScope = [
         </p>
 
         <!-- HOW TO REPORT -->
-        <div style="margin-top:42px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="sec-cols" style="margin-top:42px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
           <a
             href="https://github.com/myne-md/myne/security/advisories/new"
             rel="noopener"
@@ -89,7 +89,7 @@ const outScope = [
         </div>
 
         <!-- SCOPE -->
-        <div style="margin-top:48px;display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+        <div class="sec-cols" style="margin-top:48px;display:grid;grid-template-columns:1fr 1fr;gap:40px;">
           <div>
             <div class="mono up" style={eyebrow}>In scope</div>
             <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;">
@@ -150,4 +150,15 @@ const outScope = [
       </div>
     </footer>
   </div>
+
+  <!-- Mobile: the two-up report cards + in/out-of-scope columns stack so they
+       stop getting crushed on phones. Inline grids win, hence !important. -->
+  <style is:global>
+    @media (max-width: 640px) {
+      .sec-cols {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+      }
+    }
+  </style>
 </LandingLayout>

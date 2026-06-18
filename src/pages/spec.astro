@@ -138,6 +138,7 @@ const leadStyle =
     <!-- BODY -->
     <div style="max-width:1180px;margin:0 auto;padding:56px 28px 100px;">
       <div
+        class="spec-body"
         style="display:grid;grid-template-columns:188px minmax(0,1fr);gap:56px;align-items:start;"
       >
         <!-- SECTION NAV -->
@@ -172,6 +173,7 @@ const leadStyle =
               byte-compatibility is pinned by a public test-vector repo.
             </p>
             <div
+              class="spec-prim"
               style="margin-top:28px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;"
             >
               <div style={cardStyle}>
@@ -241,7 +243,7 @@ const leadStyle =
             <div
               style="margin-top:30px;border:1px solid rgba(255,255,255,0.1);border-radius:14px;background:#0c0c0c;padding:30px;"
             >
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div class="spec-cred" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
                 <div
                   style="border:1px solid rgba(138,164,208,0.3);border-radius:10px;padding:16px 18px;background:rgba(138,164,208,0.06);"
                 >
@@ -374,7 +376,7 @@ const leadStyle =
               style="margin-top:26px;border:1px solid rgba(255,255,255,0.1);border-radius:12px;background:#0c0c0c;padding:28px;"
             >
               <div
-                class="mono"
+                class="mono spec-acctnum"
                 style="font-size:clamp(16px,2.6vw,26px);letter-spacing:0.12em;color:#e6e6e4;text-align:center;"
               >
                 MY-<span style="color:#8aa4d0;">XXXX-XXXX-XXXX-XXXX-XXX</span><span
@@ -464,6 +466,7 @@ const leadStyle =
               {
                 threats.map(([id, name, status, desc], i) => (
                   <div
+                    class="spec-threat-row"
                     style={`display:grid;grid-template-columns:54px 1fr 116px;gap:14px;align-items:start;padding:15px 18px;${i < threats.length - 1 ? "border-bottom:1px solid rgba(255,255,255,0.07);" : ""}`}
                   >
                     <span class="mono" style="font-size:12px;color:#54544f;padding-top:1px;">
@@ -491,7 +494,7 @@ const leadStyle =
             <h3 style="margin-top:36px;font-size:16px;font-weight:600;color:#e6e6e4;">
               Not protected against
             </h3>
-            <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="spec-notprot" style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
               {
                 notProtected.map(([t, p]) => (
                   <div style="border:1px solid rgba(154,138,138,0.22);border-radius:10px;padding:15px 17px;">
@@ -544,6 +547,36 @@ const leadStyle =
     [data-secnav] a.on {
       color: #e6e6e4 !important;
       border-left-color: #8aa4d0 !important;
+    }
+
+    /* Mobile: drop the sticky TOC and let the article run full-width; collapse
+       the multi-column card grids; restack the threat rows so the status badge
+       stops crushing the description. Inline grids win, hence !important. */
+    @media (max-width: 760px) {
+      .spec-body {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+      }
+      [data-secnav] {
+        display: none !important;
+      }
+    }
+    @media (max-width: 640px) {
+      .spec-prim,
+      .spec-cred,
+      .spec-notprot {
+        grid-template-columns: 1fr !important;
+      }
+      .spec-threat-row {
+        display: flex !important;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 7px;
+      }
+      .spec-acctnum {
+        font-size: 14px !important;
+        letter-spacing: 0.03em !important;
+      }
     }
   </style>
 </LandingLayout>

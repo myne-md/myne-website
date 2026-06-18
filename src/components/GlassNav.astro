@@ -4,6 +4,10 @@
  * navbar. Anchors are absolute (/#…) so the section links also work from the
  * user-guide routes (they navigate to the landing and scroll). Relies on the
  * .up / .mono helper classes provided by LandingLayout, which wraps both.
+ *
+ * Responsive: on narrow viewports the centre links collapse behind a hamburger
+ * that toggles a drop-down panel. The toggle is a pure-CSS checkbox hack — no
+ * island, no JS runtime (CLAUDE.md: keep the bundle small).
  */
 interface Props {
   /** Highlighted nav entry. */
@@ -33,13 +37,8 @@ const links = [
 ] as const;
 ---
 
-<header
-  style="position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:rgba(10,10,10,0.18);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);"
->
-  <a
-    href="/#top"
-    style="display:flex;align-items:center;gap:9px;text-decoration:none;color:#e6e6e4;"
-  >
+<header class="gnav">
+  <a href="/#top" class="gnav-brand">
     <svg width="18" height="18" viewBox="0 0 32 32" fill="none"
       ><path
         d="M8 22 V10 L16 18 L24 10 V22"
@@ -48,29 +47,199 @@ const links = [
         stroke-linecap="round"
         stroke-linejoin="round"></path></svg
     >
-    <span style="font-size:15px;font-weight:600;letter-spacing:-0.01em;">Myne</span>
+    <span class="gnav-word">Myne</span>
   </a>
-  <nav class="up" style="display:flex;gap:22px;font-size:10.5px;color:#8a8a86;">
+
+  {/* CSS-only toggle: the checkbox state drives the mobile panel. */}
+  <input type="checkbox" id="gnav-toggle" class="gnav-toggle" aria-hidden="true" />
+
+  <nav class="gnav-links up">
     {
       links.map((l) => (
         <a
           href={l.href}
-          style={`color:${active === l.key ? "#e6e6e4" : "inherit"};text-decoration:none;`}
+          class:list={["gnav-link", { "is-active": active === l.key }]}
         >
           {l.label}
         </a>
       ))
     }
+    {/* Mobile-only CTA — the bar chip is hidden on narrow viewports, so the
+       panel carries Download instead. */}
+    <a href="/download/" class="gnav-download gnav-download--panel up mono">
+      Download
+    </a>
   </nav>
-  <div
-    class="mono"
-    style="display:flex;align-items:center;gap:18px;font-size:10.5px;color:#8a8a86;"
-  >
-    <a
-      href="/download/"
-      class="up"
-      style="color:#e6e6e4;text-decoration:none;border:1px solid rgba(255,255,255,0.2);border-radius:5px;padding:7px 13px;font-size:10px;"
-      >Download</a
-    >
+
+  <div class="gnav-actions mono">
+    <a href="/download/" class="gnav-download up">Download</a>
   </div>
+
+  <label for="gnav-toggle" class="gnav-burger" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+  </label>
 </header>
+
+<style>
+  .gnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 28px;
+    background: rgba(10, 10, 10, 0.18);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  .gnav-brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    text-decoration: none;
+    color: #e6e6e4;
+    flex-shrink: 0;
+  }
+  .gnav-word {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .gnav-links {
+    display: flex;
+    gap: 22px;
+    font-size: 10.5px;
+    color: #8a8a86;
+  }
+  .gnav-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .gnav-link.is-active {
+    color: #e6e6e4;
+  }
+
+  .gnav-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 10.5px;
+    color: #8a8a86;
+    flex-shrink: 0;
+  }
+  .gnav-download {
+    color: #e6e6e4;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    padding: 7px 13px;
+    font-size: 10px;
+  }
+  /* Lives inside the drop-down panel; only surfaces on mobile. */
+  .gnav-download--panel {
+    display: none;
+  }
+
+  /* The checkbox + hamburger are desktop-hidden; the panel lives inside .gnav-links. */
+  .gnav-toggle {
+    display: none;
+  }
+  .gnav-burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 30px;
+    height: 30px;
+    padding: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .gnav-burger span {
+    display: block;
+    height: 1.6px;
+    width: 100%;
+    background: #e6e6e4;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  @media (max-width: 760px) {
+    .gnav {
+      padding: 16px 18px;
+    }
+
+    /* Centre links become a drop-down panel anchored under the bar. */
+    .gnav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      padding: 0 18px;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease;
+    }
+    .gnav-link {
+      padding: 13px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .gnav-link:first-child {
+      border-top: none;
+    }
+
+    /* Download moves out of the bar and into the panel as a real CTA. */
+    .gnav-actions {
+      display: none;
+    }
+    .gnav-download--panel {
+      display: block;
+      margin: 14px 0 18px;
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 11px;
+      border-color: rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* Open state — checkbox is a previous sibling of the panel. */
+    .gnav-toggle:checked ~ .gnav-links {
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .gnav-burger {
+      display: flex;
+    }
+    /* Animate the hamburger into an X when open. */
+    .gnav-toggle:checked ~ .gnav-burger span:nth-child(1) {
+      transform: translateY(5.6px) rotate(45deg);
+    }
+    .gnav-toggle:checked ~ .gnav-burger span:nth-child(2) {
+      opacity: 0;
+    }
+    .gnav-toggle:checked ~ .gnav-burger span:nth-child(3) {
+      transform: translateY(-5.6px) rotate(-45deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gnav-links,
+    .gnav-burger span {
+      transition: none;
+    }
+  }
+</style>

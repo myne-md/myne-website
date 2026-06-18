@@ -4,27 +4,27 @@
 import Icon from "../Icon.astro";
 
 interface Props {
-  /** Breadcrumb context labels — e.g. "Recovery" + "Lost your password". */
+  /** Breadcrumb context labels — kept for API compatibility; the article
+   *  header already renders the breadcrumb, so the bar shows a clear
+   *  "Guide menu" control instead of duplicating it. */
   categoryLabel?: string;
   articleLabel?: string;
 }
-const { categoryLabel, articleLabel } = Astro.props;
-const breadcrumb = [categoryLabel, articleLabel].filter(Boolean).join(" · ");
 ---
 
 <div class="ug-mobile-toggle" data-userguide-toggle>
   <button
     type="button"
     class="ug-mobile-toggle__btn"
-    aria-label="Toggle navigation"
+    aria-label="Toggle guide navigation"
     aria-controls="ug-sidebar"
     aria-expanded="false"
     data-userguide-toggle-btn
   >
-    <Icon name="menu" size={18} class="ug-mobile-toggle__icon ug-mobile-toggle__icon--menu" />
-    <Icon name="x" size={18} class="ug-mobile-toggle__icon ug-mobile-toggle__icon--close" />
+    <Icon name="menu" size={16} class="ug-mobile-toggle__icon ug-mobile-toggle__icon--menu" />
+    <Icon name="x" size={16} class="ug-mobile-toggle__icon ug-mobile-toggle__icon--close" />
+    <span class="ug-mobile-toggle__label">Guide menu</span>
   </button>
-  {breadcrumb && <span class="ug-mobile-toggle__breadcrumb">{breadcrumb}</span>}
 </div>
 
 <script>

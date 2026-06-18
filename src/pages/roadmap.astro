@@ -134,7 +134,7 @@ const cardStyle =
                   type="button"
                   class="mono"
                   data-filter={f.key}
-                  style="border:0;cursor:pointer;border-radius:999px;padding:7px 15px;font-size:11px;letter-spacing:0.04em;background:transparent;color:#8a8a86;transition:background .15s ease,color .15s ease;"
+                  style="border:0;cursor:pointer;border-radius:999px;padding:7px 15px;font-size:11px;letter-spacing:0.04em;white-space:nowrap;background:transparent;color:#8a8a86;transition:background .15s ease,color .15s ease;"
                 >
                   {f.label}
                 </button>
@@ -156,6 +156,7 @@ const cardStyle =
             phases.map((p, pi) => (
               <div
                 data-phase
+                class="phase-row"
                 style="display:grid;grid-template-columns:210px 1fr;gap:44px;align-items:start;"
               >
                 <div style="display:flex;gap:16px;">
@@ -235,6 +236,18 @@ const cardStyle =
       </div>
     </footer>
   </div>
+
+  <!-- Mobile: the 210px phase rail can't share a row with the cards on a
+       phone, so each phase stacks (label block over its item list). The JS
+       filter only toggles `display`, so this !important override is safe. -->
+  <style is:global>
+    @media (max-width: 760px) {
+      .phase-row {
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+      }
+    }
+  </style>
 </LandingLayout>
 
 <script>

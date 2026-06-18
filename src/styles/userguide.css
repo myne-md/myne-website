@@ -918,6 +918,24 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
   font-size: 15px;
   line-height: 1.78;
 }
+/* LandingLayout ships a global `* { margin:0; padding:0 }` reset, and the
+   ledger.css prose rules that normally restore block rhythm + list indentation
+   aren't loaded on user-guide pages. Without padding the outside-positioned
+   bullets/numbers hang off the page's left edge, and adjacent blocks collide.
+   Re-establish both here. */
+.ug-root .ledger-prose > * + * {
+  margin-top: 18px;
+}
+.ug-root .ledger-prose ul,
+.ug-root .ledger-prose ol {
+  padding-left: 24px;
+}
+.ug-root .ledger-prose li {
+  margin: 6px 0;
+}
+.ug-root .ledger-prose li::marker {
+  color: #54544f;
+}
 .ug-root .ledger-prose h2 {
   color: #e6e6e4;
   font-size: 21px;

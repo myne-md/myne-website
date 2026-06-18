@@ -1,7 +1,7 @@
 ---
 title: "Trash"
 category: "notes-and-organization"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "How deleted notes move to Trash, how to restore a note from Trash, and what happens when you permanently delete a note from the vault."
 tags: ["notes", "recovery"]
 ---
@@ -17,6 +17,15 @@ Notes in the Trash and notes marked as templates are hidden from the sidebar and
 ## Getting a note back
 
 Open the Trash to see what's in it; each note is listed with how long ago it was trashed. **Restore** returns a note to the folder it came from, exactly where it was. Nothing in the Trash expires on its own: notes stay there until you remove them yourself. That is deliberate: the Trash is a safety net you control, not a timer.
+
+## Trash versus Archive
+
+The Trash is no longer the only way to set a note aside. [Archiving](/user-guide/notes-and-organization/archive/) is the other: it hides a note from the sidebar without putting it on the path to deletion. The two differ in what they do to a note:
+
+- **Trash** hides the note from the sidebar *and* from search, and a trashed note does not resolve as a wikilink target. Trash is the route to permanent deletion: a single note removed from the Trash, or **Empty trash**, erases it for good.
+- **Archive** hides the note from the sidebar but keeps it in search results and resolvable as a wikilink target. Archive has no automatic purge and no equivalent of **Empty trash** — nothing in the Archive is ever on a path to deletion.
+
+A note holds at most one of these markers at a time: archiving a note clears its trashed marker, and trashing an archived note clears its archived marker. So a note is either live, archived, or in the Trash — never two at once.
 
 ## Permanent deletion
 

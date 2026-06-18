@@ -17,17 +17,43 @@
   {
     "slug": "notes-and-organization",
     "label": "Notes & organization",
-    "description": "Organize your vault with folders, favorites, trash, tabs and split view, templates, and daily notes.",
+    "description": "Organize your vault with folders and folder notes, favorites, trash and archive, multi-select actions, tabs, split view and named workspaces, templates, and daily notes.",
     "intro": "overview",
     "articles": [
       "overview",
       "notes-and-folders",
+      "folder-notes",
       "favorites",
       "trash",
+      "archive",
+      "bulk-note-actions",
       "tabs-and-split-view",
+      "pinned-and-stacked-tabs",
+      "named-workspaces",
       "templates",
       "daily-notes",
       "sidebar-customization"
+    ]
+  },
+  {
+    "slug": "editor-and-writing",
+    "label": "Editor & writing",
+    "description": "Write in the editor with view modes, focus mode, folding, multiple cursors, find and replace, slash commands, comments, spell check, display settings, saved views, and note export.",
+    "intro": "overview",
+    "articles": [
+      "overview",
+      "view-modes",
+      "focus-mode",
+      "folding",
+      "multiple-cursors",
+      "find-and-replace",
+      "slash-commands",
+      "comments",
+      "document-statistics",
+      "editor-display",
+      "spell-check",
+      "saved-views",
+      "export-notes"
     ]
   },
   {
@@ -66,11 +92,12 @@
   {
     "slug": "attachments-and-import",
     "label": "Attachments & import",
-    "description": "Attach files to your notes, manage them in the attachments library, and import an existing Obsidian vault.",
+    "description": "Attach files and record voice notes, manage them in the attachments library, and import an existing Obsidian vault.",
     "intro": "overview",
     "articles": [
       "overview",
       "attachments",
+      "voice-notes",
       "attachments-library",
       "import-from-obsidian"
     ]
@@ -93,7 +120,7 @@
   {
     "slug": "settings-and-privacy",
     "label": "Settings & privacy",
-    "description": "Adjust appearance, auto-lock, and screen-capture protection, change your password, and understand the privacy model.",
+    "description": "Adjust appearance and keyboard shortcuts, set up quick unlock and auto-lock, protect against screen capture, change your password, and understand the privacy model.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -101,7 +128,9 @@
       "appearance",
       "custom-theme-reference",
       "auto-lock-and-screen-capture",
+      "quick-unlock",
       "change-your-password",
+      "custom-hotkeys",
       "delete-a-vault",
       "what-myne-doesnt-do"
     ]

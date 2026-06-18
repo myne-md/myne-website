@@ -1,12 +1,14 @@
 ---
 title: "Back up your vault"
 category: "safety-and-recovery"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "How to export an encrypted backup of your vault, what the backup file contains, and how to build a backup habit that protects your notes."
 tags: ["backup", "vault"]
 ---
 
 A backup is your protection against losing the vault files themselves: a disk dying, a laptop lost, a folder deleted by accident. Myne exports your vault as a single encrypted `.myne-backup` file that you keep somewhere safe. This article covers making one, what it contains, and the limits of what it protects.
+
+![The Storage settings panel showing the back-up controls for the vault.](./back-up-your-vault.png)
 
 ## Making a backup
 
@@ -36,11 +38,23 @@ And the file itself is a new copy of your encrypted data living wherever you put
 
 ## A backup habit
 
-The export is the only nudge to back up. There is no reminder banner and no "last backed up" date in the app, so the habit is yours to keep:
+You can let Myne keep the habit for you. **Settings → Storage** has an **Automatic backups** block: turn it on, pick a **frequency** (Every unlock, Daily, or Weekly), choose a **backup folder**, and set **Keep last** to how many backups to retain (7 by default). A **Last backup** line shows when the most recent automatic backup ran, or that none has yet. The manual **Back up vault…** control still works exactly as before, alongside the schedule.
 
-- Back up **after a meaningful writing session**, and **before you change your password**.
+How the schedule works, stated plainly:
+
+- It runs **only while the app is open and the vault is unlocked**. There is no operating-system-level scheduling and no backup while the app is closed or the vault is locked. The check is an opportunistic elapsed-time one — Myne looks at whether enough time has passed when you unlock and roughly every five minutes while you keep working, so a missed window catches up on your next unlock rather than firing on a fixed clock.
+- If the target folder is missing or can't be written, the **Last backup** line shows the failure plainly — it is never silent — and the schedule **stays on** so it retries on the next cycle. Myne does not quietly turn the schedule off.
+- **Nothing is sent off your device.** There is no email and no cloud delivery; the schedule only writes a backup file to the folder you chose. If you want a copy offsite, point the folder at one your own file-sync handles, or copy the file yourself.
+
+A few habits still worth keeping, scheduled or not:
+
+- Back up **before you change your password**, on top of whatever the schedule does.
 - **Occasionally test a restore**: bring a backup back with "Keep both" (see [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/)) and confirm it opens, so you find a problem before you need the backup for real.
-- **Store the file on a different disk** than the vault, so one failure doesn't take both.
+- **Store at least one copy on a different disk** than the vault, so one failure doesn't take both.
+
+### How the schedule is stored
+
+The schedule settings live in a small **plaintext file on this device** that records the target folder's path and a list of the backups Myne itself has written. That file is plaintext because it only holds a folder location and filenames — the backups it points at are the same encrypted bytes as your vault, so a known location reveals nothing about your notes. Because the settings are tied to a device-specific folder, they do not travel between devices: you set the schedule up once per device. The **Keep last** count prunes only the backup files Myne wrote on this schedule — a file you put in that folder yourself is never touched.
 
 ## Limits
 

@@ -8,6 +8,8 @@ tags: ["markdown"]
 
 Myne renders Mermaid diagrams (flowcharts, sequence diagrams, and the rest of Mermaid's set) from a fenced code block, drawing them as images right in the note.
 
+![A note showing a rendered flowchart diagram.](./diagrams.png)
+
 ## Writing a diagram
 
 Use a fenced code block with `mermaid` as the language:

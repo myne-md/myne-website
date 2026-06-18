@@ -8,6 +8,8 @@ tags: ["search"]
 
 Search lives in the command palette. Press `⌘K` (or its alias `⌘P`) to open it: it shows commands first, and as you type it searches the full text of every note in your vault.
 
+![The command palette open with a search term entered and matching note results listed.](./search.png)
+
 ## What it searches and how it ranks
 
 Search covers each note's title and body, and ranks results by relevance (using BM25). A few specifics worth knowing:

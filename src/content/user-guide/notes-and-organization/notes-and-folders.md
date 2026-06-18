@@ -1,7 +1,7 @@
 ---
 title: "Notes and folders"
 category: "notes-and-organization"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "How to create, rename, move, and delete notes and folders in Myne, how the folder tree maps to your vault on disk, and how nesting works."
 tags: ["notes", "folders"]
 ---
@@ -14,9 +14,13 @@ Every plain "new note" action (the sidebar control, `⌘N`, the new-note-in-pane
 
 The first line of the note becomes its title. Renaming a note updates wherever its title comes from: the heading in the note, or the `title` in its frontmatter if it has one.
 
+To copy a note as a starting point, **Duplicate** makes a clone with a fresh title. When you want to act on several notes at once, you can select multiple notes and move, archive, or delete them together, or drag a selection into a folder; an **Open random note** action in the command palette pulls up a live note at random for serendipitous review. These are covered in [Bulk note actions](/user-guide/notes-and-organization/bulk-note-actions/).
+
 ## Folders
 
 Folders group your notes in the sidebar. You can nest them, drag notes between them, and create as many as you like. Deleting a folder that still contains notes moves the whole subtree to the Trash rather than destroying it, so nothing is lost to a misclick (see [Trash](/user-guide/notes-and-organization/trash/)).
+
+A folder can have an **index note** — an ordinary note marked as that folder's landing page, pinned and badged at the top of the folder. A wikilink that ends in a slash, like `[[Projects/]]`, opens the folder's index note. See [Folder notes](/user-guide/notes-and-organization/folder-notes/).
 
 ### Private by design
 
@@ -31,6 +35,10 @@ Myne autosaves; there is no save button. Concretely:
 - It also flushes immediately when you switch away from the window, lock the vault, or close the app.
 
 So in a normal session nothing is ever unsaved for long. In the worst case, a hard crash or power loss mid-edit, you could lose **at most about the last ten seconds** of typing. If a save ever fails, Myne shows the error and a **Retry** so you know, rather than failing silently. Each note also records its own "last edited" time inside the encrypted note.
+
+## Setting notes aside
+
+The Archive is a separate place to set notes aside without deleting them: an archived note leaves the active sidebar but is not headed for deletion the way a trashed note is, and you can bring it back to its folder unchanged at any time. Archiving and Trash are distinct — a note is one or the other, never both. See [Archive](/user-guide/notes-and-organization/archive/).
 
 ## Limits
 

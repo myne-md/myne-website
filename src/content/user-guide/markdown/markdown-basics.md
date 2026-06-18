@@ -1,7 +1,7 @@
 ---
 title: "Markdown basics"
 category: "markdown"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "The core markdown syntax Myne renders: headings, emphasis, lists, links, blockquotes, and horizontal rules, with examples of how each one looks in the editor."
 tags: ["markdown", "editor"]
 ---
@@ -18,7 +18,7 @@ You can cycle a line through heading levels with a shortcut (see Shortcuts below
 
 - `*italic*` for *italic*, `**bold**` for **bold**.
 - `` `code` `` for inline `code`.
-- `==highlight==` for a highlighted span, `~sub~` and `^sup^` for subscript and superscript.
+- `==highlight==` for a highlighted span (the default yellow); a 5-color palette adds green, blue, pink, and purple, which are stored as `<mark class="hl-*">` — see [HTML and inline extras](/user-guide/markdown/html-and-inline-extras/). `~sub~` and `^sup^` for subscript and superscript.
 
 Bold, italic, and inline code have toolbar buttons and keyboard shortcuts.
 
@@ -53,7 +53,7 @@ An image is `![alt text](path)`. Myne **never fetches a remote image**: an image
 
 ## Find in note
 
-To find text inside the note you are reading, open the find bar (see Shortcuts). It does a literal, in-note search with a case-sensitivity toggle, with no regular expressions and no replace. The search runs in memory only; it is not written to disk.
+To find text inside the note you are reading, open the find bar (see Shortcuts). It does a literal, in-note search with a case-sensitivity toggle and no regular expressions. A replace row lets you replace the current match or rewrite every occurrence in one undoable step — see [Find and replace in a note](/user-guide/editor-and-writing/find-and-replace/). The search runs in memory only; it is not written to disk.
 
 Find looks inside the note you're reading; to search across every note in your vault, use [Search](/user-guide/find-and-connect/search/).
 

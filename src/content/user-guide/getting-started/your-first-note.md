@@ -1,16 +1,20 @@
 ---
 title: "Your first note"
 category: "getting-started"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "Create your first note and learn how Myne autosaves as you type, how each note is encrypted, and what the 'Local-only' indicator in the bottom bar means."
 tags: ["notes", "editor", "basics"]
 ---
 
-With your vault open, you are in the editor. Creating a note is the next step, and it is the point where Myne's autosave and per-note encryption start doing their work quietly in the background. This article walks through writing your first note and explains what is happening underneath it.
+When you create a vault, Myne opens it straight into the editor with a "Welcome to Myne" note already there and waiting. You start inside a note, not in front of an empty editor, and that is the point where Myne's autosave and per-note encryption start doing their work quietly in the background. This article walks through writing your first note and explains what is happening underneath it.
+
+## The welcome note
+
+The "Welcome to Myne" note is an ordinary note, with no special handling: you can edit it, rename it, or delete it like any other. Nothing about it is locked or protected. Type over it to make it your own, or set it aside and start fresh.
 
 ## Create a note
 
-Make a new note from the sidebar's new-note control or the command palette, then start typing. The first line becomes the note's title. That is the whole ceremony; there is nothing else to set up.
+When you want a new note of your own, make one from the sidebar's new-note control or the command palette, then start typing. The first line becomes the note's title. That is the whole ceremony; there is nothing else to set up.
 
 ## There is no save button
 

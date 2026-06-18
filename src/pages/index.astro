@@ -485,23 +485,28 @@ const description =
       const s = document.createElement("span");
       s.textContent = w + " ";
       s.style.opacity = "0.16";
-      s.style.transition = "opacity .3s ease";
+      // The highlight is scroll-driven (user-controlled), not an autonomous
+      // animation, so it stays under reduce-motion — but drop the easing so
+      // opacity snaps instead of animating.
+      s.style.transition = reduce ? "none" : "opacity .3s ease";
       wordsEl.appendChild(s);
       return s;
     });
-    if (reduce) spans.forEach((s) => (s.style.opacity = "1"));
-    else
-      manCheck = () => {
-        const total = man.offsetHeight - window.innerHeight;
-        const r = man.getBoundingClientRect();
-        const p = total > 0 ? mclamp(-r.top / total, 0, 1) : 0;
-        const lit = mclamp((p - 0.06) / 0.82, 0, 1) * spans.length;
-        spans.forEach((s, i) => {
-          s.style.opacity =
-            i < lit ? "1" : i < lit + 1.6 ? "0.5" : "0.16";
-        });
-      };
-    if (manCheck) manCheck();
+    manCheck = () => {
+      const total = man.offsetHeight - window.innerHeight;
+      const r = man.getBoundingClientRect();
+      const p = total > 0 ? mclamp(-r.top / total, 0, 1) : 0;
+      const lit = mclamp((p - 0.06) / 0.82, 0, 1) * spans.length;
+      spans.forEach((s, i) => {
+        s.style.opacity = i < lit ? "1" : i < lit + 1.6 ? "0.5" : "0.16";
+      });
+    };
+    // revealCheck is a no-op under reduce-motion, so drive manCheck from its
+    // own listeners too — otherwise the highlight never updates on the many
+    // phones that ship with Reduce Motion enabled.
+    window.addEventListener("scroll", manCheck, { passive: true });
+    window.addEventListener("resize", manCheck, { passive: true });
+    manCheck();
   }
 
   // ---------- wireframe globe ----------
@@ -831,6 +836,12 @@ const description =
   if (noise) {
     const ctx = noise.getContext("2d")!;
     const dpr = Math.min(2, window.devicePixelRatio || 1);
+    // Touch devices never get the cursor glow that reveals the field on
+    // desktop, so the faint base alpha reads as blank on a phone. Lift the
+    // base contrast on no-hover (coarse-pointer) devices so the 01s show.
+    const noHover =
+      !!window.matchMedia && window.matchMedia("(hover: none)").matches;
+    const fieldBoost = noHover ? 2.1 : 1;
     const GL = "01";
     let W = 0,
       H = 0,
@@ -899,7 +910,8 @@ const description =
               py = y * CELL;
             // Cover the whole hero and fade the field downward.
             const dens = clamp((1 - y / rows) * 0.8 + 0.2, 0, 1);
-            const a = cell.on ? 0.04 + dens * 0.18 : 0.02 + dens * 0.05;
+            const a =
+              (cell.on ? 0.04 + dens * 0.18 : 0.02 + dens * 0.05) * fieldBoost;
             const d = Math.hypot(px - mouse.x, py - mouse.y);
             if (d < R) {
               const a2 = clamp(a + (1 - d / R) * 0.62, 0, 0.82);
@@ -914,6 +926,9 @@ const description =
       nRaf = requestAnimationFrame(draw);
     };
     if (reduce) {
+      // Force one full paint: draw() only renders on a flicker tick, and
+      // t=0 with flickerLast=0 would skip it, leaving the field blank.
+      flickerLast = -1000;
       draw(0);
       cancelAnimationFrame(nRaf);
     } else nRaf = requestAnimationFrame(draw);

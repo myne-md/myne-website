@@ -1,7 +1,7 @@
 ---
 title: "Import from Obsidian"
 category: "attachments-and-import"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "How to import an existing Obsidian vault into Myne, how notes, links, and attachments are mapped, and the edge cases to check in the import summary."
 tags: ["import", "attachments"]
 ---
@@ -51,7 +51,7 @@ The summary reports each outcome:
 | A referenced file Myne can't take | left as a searchable placeholder (see Limits) |
 | A remote image URL | left as-is and **never fetched** |
 
-Your wikilinks are preserved byte-for-byte. Myne has a separate command to rewrite imported title-links into its own path form, but that command is currently disabled. For now, imported links stay as you wrote them and resolve by title.
+Your wikilinks are preserved byte-for-byte; imported links stay as you wrote them and resolve by title. When you want to rewrite the title-links in a note into Myne's own path form, run **Convert imported wikilinks in this note…** from the command palette while that note is open. It acts on the note in front of you and shows a diff preview before changing anything; if nothing resolves, it tells you so and leaves the note untouched.
 
 ## Limits & edge cases
 
@@ -66,6 +66,7 @@ A few things to check after a large import:
 ## What doesn't come across
 
 - **Obsidian Canvas (`.canvas`) files are not imported.** A whiteboard is a deliberate non-feature in Myne, so canvases are reported and left behind rather than converted.
+- **Obsidian Bases (`.base`) views** come in through a separate importer, not the vault import above. Run **Import .base view…** from the command palette to bring a Bases view in as a Myne saved view; like the vault import it is one-time and one-way. See [Saved views](/user-guide/editor-and-writing/saved-views/) for what a Bases view maps to and what does not carry over.
 - **Plugins and themes** are out of scope: the importer brings content, not Obsidian's configuration.
 
 ## Limits

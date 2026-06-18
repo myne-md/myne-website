@@ -1,12 +1,12 @@
 ---
 title: "Attachments"
 category: "attachments-and-import"
-updated: 2026-06-11
-summary: "How to attach images and documents to your notes, which file types Myne accepts, the size limits, and how attachments are stored inside the encrypted vault."
+updated: 2026-06-18
+summary: "How to attach files to your notes, how renderable and generic files differ, the size limits, and how attachments are stored inside the encrypted vault."
 tags: ["attachments", "notes"]
 ---
 
-An attachment is an image or document you keep inside your vault and embed in a note. Like everything else in Myne, attachments are encrypted on disk. This article covers adding them, the accepted types, and how they behave.
+An attachment is a file you keep inside your vault and embed in a note. Like everything else in Myne, attachments are encrypted on disk. This article covers adding them, the size limits, and how they behave.
 
 ## Adding an attachment
 
@@ -19,17 +19,29 @@ You add attachments from the editor, in any of these ways:
 
 Insertion always happens in the editor. That is where an attachment becomes part of a note.
 
-## Accepted types and sizes
+## File types and sizes
 
-Myne accepts exactly six formats: **PNG, JPEG, GIF, WebP, SVG, and PDF**. It checks the file's actual contents, not its extension: renaming a `.zip` to `.png` won't get it in. An attachment can be up to **64 MiB** (note text itself is capped at 16 MiB). A file of the wrong type or over the limit is rejected with a message saying why; nothing is added.
+Any file type may be attached. An attachment can be up to **64 MiB** (note text itself is capped at 16 MiB); a file over the limit is rejected with a message saying why, and nothing is added.
+
+What differs is how a file appears in the note, which depends on whether Myne can render it. To decide that, Myne checks the file's actual contents, not its extension: renaming a `.zip` to `.png` won't make it render as an image.
 
 ## How attachments render
 
-In a note, an embedded image shows inline. A PDF shows a first-page preview where it can, and an icon otherwise. Identical files are stored once: if you add the same image twice, Myne keeps a single copy and both embeds point at it.
+In a note, an embedded image shows inline. A PDF shows a first-page preview where it can, and an icon otherwise.
 
-## Renaming and deleting
+A file Myne cannot render — a `.docx`, a `.zip`, anything that isn't an image or PDF — surfaces as a **file-card**: a file-type icon, the filename, a `type · size` line, and a `⋯` menu with **Export**, **Rename**, **Remove**, and **Reveal in library**. A file-card's contents are never previewed inline; "using" a generic file means exporting it to disk through the native Save dialog.
 
-Renaming an attachment changes its **display name in the library only**; it never rewrites the embeds in your notes, so links don't break. Attachments are removed only when you delete them explicitly; there is no automatic cleanup. If you delete an attachment that a note still embeds, that embed becomes a "deleted attachment" marker (a tombstone) rather than a broken image, so you can see what used to be there.
+A recorded voice note or an attached audio file shows as an inline player with a play control and a time readout. See [Voice notes](/user-guide/attachments-and-import/voice-notes/) for recording one with the `/record` command.
+
+Identical files are stored once: if you add the same file twice, Myne keeps a single copy and both embeds point at it.
+
+## Renaming, exporting, and deleting
+
+Renaming an attachment changes its **display name in the library only**; it never rewrites the embeds in your notes, so links don't break.
+
+**Export** writes one attachment back to a file you choose through the native Save dialog — the same Save-As action that backs a file-card's `⋯` menu. The export is decrypted to the path you pick; the copy on disk is no longer protected by your vault.
+
+Attachments are not removed automatically. When you remove a note, the files it embedded stay in the library as **unused attachments** (zero references) rather than disappearing. The only way to erase them is the explicit **Clean unused attachments** sweep in the attachments library, which reviews and then permanently deletes the files you confirm; Myne also reconciles **stray attachment files** when you unlock. If you delete an attachment that a note still embeds, that embed becomes a "deleted attachment" marker (a tombstone) rather than a broken image, so you can see what used to be there.
 
 ## How they're stored
 

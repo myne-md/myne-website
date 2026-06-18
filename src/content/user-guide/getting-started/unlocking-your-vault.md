@@ -1,7 +1,7 @@
 ---
 title: "Unlocking your vault"
 category: "getting-started"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "How to unlock an existing vault with your master password each time you open Myne, what the unlock screen shows, and what it means for a vault to be locked."
 tags: ["vault", "security"]
 ---
@@ -22,6 +22,10 @@ If you keep more than one vault, [Multiple vaults](/user-guide/safety-and-recove
 
 Type your master password and confirm. Myne derives your keys from the password and decrypts the vault; this takes about a second, which is deliberate: the key derivation is intentionally slow to make password guessing expensive. When it succeeds, you land in the editor.
 
+### Quick unlock after auto-lock
+
+If you turn on quick unlock, the Unlock screen shows a faster re-entry option above the password form after the vault auto-locks: a PIN, or Touch ID on macOS. The master-password form is always there below it, so you can still type your password instead. Quick unlock is off until you enable it from Settings → Privacy, and the master password is always required again after you restart the app. Touch ID is macOS-only and the app marks it experimental. See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/) for how to set it up and what it does and does not protect.
+
 ### When the password doesn't work
 
 If unlocking fails, you see one message:
@@ -40,4 +44,4 @@ The bottom bar has a **Lock vault** control. Selecting it locks the vault immedi
 
 ## Limits
 
-The Unlock screen protects your vault against someone who has your computer but not your password; its strength is your password's strength and the deliberately slow key derivation behind it. It does not protect a vault that is already unlocked and open on screen; lock it when you step away.
+The Unlock screen protects your vault against someone who has your computer but not your password; its strength is your password's strength and the deliberately slow key derivation behind it. It does not protect a vault that is already unlocked and open on screen; lock it when you step away. Quick unlock is a convenience layer over that same encrypted vault, not a stronger gate — [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/) covers its trade-offs.

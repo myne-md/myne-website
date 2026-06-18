@@ -8,6 +8,8 @@ tags: ["links"]
 
 Backlinks answer the question "what links here?". While you read a note, the backlinks pane in the right sidebar lists every other note that links to it. It is the reverse of the wikilinks you write.
 
+![A note's backlinks panel listing the other notes that link to it.](./backlinks.png)
+
 ## The backlinks pane
 
 The pane is headed **Linked from N**, where N is the number of notes that link to the one you're reading. Each row is a linking note, with a count of how many times it links here. Click a row to jump to that note. When nothing links to the current note, the pane reads **No backlinks yet.**

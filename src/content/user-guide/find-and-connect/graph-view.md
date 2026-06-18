@@ -1,16 +1,20 @@
 ---
 title: "Graph view"
 category: "find-and-connect"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "How the graph view shows your notes and the links between them, the filters that focus the view, and how to use it to move around your vault."
 tags: ["links", "search"]
 ---
 
 The graph view draws your vault as a map: each note is a dot, and each link between notes is a line. It is a way to see structure: clusters, hubs, and the notes nothing points to.
 
+![The graph view showing the vault's notes as connected nodes.](./graph-view.png)
+
+The graph opens as its own workspace tab, a peer alongside your note tabs and [saved-view](/user-guide/editor-and-writing/saved-views/) tabs. There is exactly one graph tab — opening the graph again reveals the existing one rather than stacking up duplicates. It stays open as a tab while you navigate elsewhere, and is part of your saved workspace, so it comes back when you reopen the vault or switch [named workspaces](/user-guide/notes-and-organization/named-workspaces/).
+
 ## Opening the graph
 
-Open it from the **Graph** button in the bottom bar, from the command palette (**Show graph view**), or with `⌘⇧G`.
+Open it from the **Graph** button in the bottom bar, from the command palette (**Show graph view**), or with `⌘⇧G`. Any of these opens or reveals the single graph tab.
 
 ## What's on it
 
@@ -30,7 +34,7 @@ In a very large vault, the graph keeps itself legible by showing guidance around
 
 ## Moving around
 
-How a click behaves depends on the mode. In "Around this note", clicking a node re-centers the view on it; double-clicking a node opens that note. You can drag nodes to tidy the layout; the layout then settles and stays put, and does not re-jumble on its own. When you've changed your vault and want the graph to catch up, use **Refresh** to rebuild it.
+How a click behaves depends on the mode. In most modes, clicking a node opens that note in a new tab, so the graph tab stays put and you can keep coming back to it. In "Around this note", clicking a node instead re-centers the view on it; double-clicking a node opens that note in a new tab. You can drag nodes to tidy the layout; the layout then settles and stays put, and does not re-jumble on its own. When you've changed your vault and want the graph to catch up, use **Refresh** to rebuild it.
 
 ## Private by design
 

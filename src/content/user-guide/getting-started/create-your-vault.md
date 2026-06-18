@@ -1,12 +1,22 @@
 ---
 title: "Create your vault"
 category: "getting-started"
-updated: 2026-06-11
-summary: "The four-step vault-creation wizard (set a master password, save your recovery phrase, confirm a few words, and note your account number) and the one consequence to understand before you start."
+updated: 2026-06-18
+summary: "The vault-creation wizard — a short safety briefing, then set a master password, save your recovery phrase, confirm a few words, and note your account number — and the one consequence to understand before you start."
 tags: ["vault", "basics"]
 ---
 
-Creating a vault is a four-step wizard: set a master password, save your recovery phrase, confirm a few of its words, and note your account number. At the end Myne opens the vault straight into the editor. The whole thing takes a couple of minutes, but one decision in it is permanent, so read the password step before you rush through it.
+Creating your first vault opens with a short safety briefing, then runs a four-step wizard: set a master password, save your recovery phrase, confirm a few of its words, and note your account number. At the end Myne opens the vault straight into a seeded welcome note. The whole thing takes a couple of minutes, but one decision in it is permanent, so read the briefing and the password step before you rush through them.
+
+## Before you begin: the safety briefing
+
+The first time you create a vault, Myne opens with a short briefing — three plain facts about how your vault is protected, so nothing about the recovery model surprises you later:
+
+- **Your password unlocks your vault, and Myne does not store it.** There is no copy on any server to reset it from.
+- **Your recovery phrase is your only backup.** It is the one way back in if you forget the password. If you lose both your password and recovery phrase, your notes are unrecoverable. We cannot help.
+- **There is no email recovery, and there never will be.** Myne never asks for your email, so there is no reset link.
+
+Each fact has a **Why?** you can expand for the reasoning, and its own acknowledgement checkbox. **Continue to vault creation** stays disabled until all three are ticked; **Back** returns to the Welcome screen without creating anything. The briefing is shown only the first time, on this create flow — when you later create an additional vault from the picker, Myne goes straight to the password step.
 
 ## Step 1: Set a master password
 
@@ -30,7 +40,7 @@ Last, Myne shows your **account number**. It is an identifier, **not a key**: kn
 
 ## Your vault is ready
 
-When the wizard finishes you see **Your vault is ready.** and a **Done** button that takes you straight into the editor, with no second password prompt; the Unlock screen first appears the next time you launch Myne. Two more things on that screen:
+When the wizard finishes you see **Your vault is ready.** and a **Done** button that takes you straight into the [editor](/user-guide/editor-and-writing/overview/), with no second password prompt; the Unlock screen first appears the next time you launch Myne. Rather than an empty editor, your new vault opens on a seeded **Welcome to Myne** note — an ordinary note you can edit, rename, or delete like any other. Two more things on that screen:
 
 - **Show vault folder** opens the directory on disk where Myne keeps this vault's encrypted files.
 - **Back up this vault now** writes an encrypted backup you can keep elsewhere. It is worth taking. How backups work and the habit worth building are in [Back up your vault](/user-guide/safety-and-recovery/back-up-your-vault/).

@@ -1,7 +1,7 @@
 ---
 title: "Change your password"
 category: "settings-and-privacy"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "How to change your master password, what the change does and does not re-encrypt, and how it affects backups you made with the old password."
 tags: ["security", "settings"]
 ---
@@ -19,6 +19,8 @@ If the current password you entered is wrong, you get a single message that does
 ## What changes, and what doesn't
 
 Changing your password rotates **only the password's wrap** of the vault key. It does **not** re-encrypt your notes, change the vault's internal key, alter your recovery phrase, or change your account number; all of those keep working exactly as before. The change is fast because that is all it touches.
+
+One thing it does clear: if you had set up [quick unlock](/user-guide/settings-and-privacy/quick-unlock/) on this device, the password change wipes that stored credential. Quick unlock stores a separate device-local credential unlocked by your PIN or Touch ID; changing your master password deliberately wipes it, so you re-enroll your PIN or Touch ID from Settings → Privacy afterward.
 
 ## The caveat about old backups
 

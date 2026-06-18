@@ -1,12 +1,14 @@
 ---
 title: "How Myne protects your notes"
 category: "settings-and-privacy"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "The privacy model in plain language: what is encrypted on disk, how your password and recovery phrase protect it, what stays on your device, and what Myne cannot protect you from."
 tags: ["privacy", "security"]
 ---
 
 This is the article the rest of the guide points to when it says "private by design". It explains, plainly and then precisely, what Myne protects, how, and what it cannot protect you from.
+
+![The Account settings panel showing the Argon2id key-derivation parameters.](./privacy-model.png)
 
 ## What is encrypted
 
@@ -14,12 +16,13 @@ Everything in your vault that holds meaning is encrypted on disk: your notes and
 
 ## How the encryption works
 
-Your vault is protected by a single random key, generated when the vault is created and never sent anywhere. You never handle that key directly. Instead, two credentials each unlock it:
+Your vault is protected by a single random key, generated when the vault is created and never sent anywhere. You never handle that key directly. Instead, separate credentials each unlock it:
 
 - **Your master password**, run through a deliberately slow key-derivation function (Argon2id, tuned to use 256 MiB of memory, three passes, two lanes) so that guessing passwords is expensive.
 - **Your 24-word recovery phrase**, an independent second key to the same vault.
+- **Quick unlock (optional)**, a PIN or macOS Touch ID that stores a third encrypted copy of the vault's key in a device-local file. It is opt-in, never leaves the device, and is never part of a backup. The master password stays the primary credential — quick unlock only lets you re-enter after auto-lock, and the full password is still required after the app restarts. See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/).
 
-Either one decrypts the vault's key, and with the key Myne decrypts your notes. Because the password and phrase are independent wraps of the same key, changing your password re-wraps only that one copy: your notes are never re-encrypted and your phrase keeps working. The encryption itself uses a modern authenticated cipher, so a tampered file is detected rather than silently accepted.
+Any one of these decrypts the vault's key, and with the key Myne decrypts your notes. Because each is an independent wrap of the same key, changing your password re-wraps only that one copy: your notes are never re-encrypted and your phrase keeps working. The encryption itself uses a modern authenticated cipher, so a tampered file is detected rather than silently accepted.
 
 ## Where your notes live
 
@@ -35,7 +38,9 @@ Encryption protects your notes at rest. It does not make the following go away, 
 - **Software running on your device can read an open vault.** While a vault is unlocked, its contents are decrypted in memory. Malware or another program with access to your running session can read what you can read; Myne's encryption guards the disk, not a compromised machine.
 - **An unlocked vault on a grabbed device is open.** Auto-lock narrows the window in which an unattended, unlocked vault sits exposed, but if someone takes your device while you are using it, the vault is already open. Lock it yourself when you step away.
 
-There is also coarse information a copy of your vault folder reveals even though the contents stay sealed: that the vault exists, how many vaults you have and when each was last opened, the sizes of the encrypted items, how often snapshots are taken, and the key-derivation settings. Your titles, text, tags, folders, and the times you wrote are never among it. In particular: an attachment's name, contents, and type are encrypted; what a copy of the vault folder can still reveal is how many attachments there are and how big each one is.
+There is also coarse information a copy of your vault folder reveals even though the contents stay sealed: that the vault exists, how many vaults you have and when each was last opened, the sizes of the encrypted items, how often snapshots are taken, the key-derivation settings, and whether quick unlock is set up on this device (its small device-local file is present). Your titles, text, tags, folders, and the times you wrote are never among it. In particular: an attachment's name, contents, and type are encrypted; what a copy of the vault folder can still reveal is how many attachments there are and how big each one is.
+
+If you use the PIN form of quick unlock, that device-local file is a third encrypted copy of the vault's key, and someone who copies it can try to guess the PIN offline. The only thing standing in the way is the PIN's length and the same deliberately slow key-derivation step — so the PIN path is weaker than the Touch ID path, which binds its copy to this device's hardware. See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/).
 
 The full, precise catalogue of what Myne defends against and what it doesn't is in Myne's public threat model, and this article is the plain-language projection of it.
 

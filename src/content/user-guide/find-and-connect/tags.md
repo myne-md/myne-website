@@ -1,12 +1,14 @@
 ---
 title: "Tags"
 category: "find-and-connect"
-updated: 2026-06-11
+updated: 2026-06-18
 summary: "How tags group related notes, how Myne indexes them including nesting and case folding, and where tagged notes surface across the app."
 tags: ["tags", "search"]
 ---
 
 Tags are a lightweight way to group related notes (`#project`, `#reading/2026`), written inline in your text. This article is about what tags *do*; the exact syntax for writing one is in [HTML and inline extras](/user-guide/markdown/html-and-inline-extras/#tags).
+
+![The tag browser open, listing the tags used across the vault.](./tags.png)
 
 ## How Myne indexes tags
 
@@ -19,8 +21,26 @@ Both the inline `#tags` you write in the body and a frontmatter `tags:` list fee
 
 ## Where tags surface
 
-Today, tags have one interactive surface: the **graph view** has a tag filter that narrows the graph to notes carrying a tag (and its nested children). See [Graph view](/user-guide/find-and-connect/graph-view/).
+Tags are interactive in a few places:
+
+- **In a note, a `#tag` renders as a chip.** When the cursor is elsewhere, each inline tag shows as a chip; clicking it opens the tag browser filtered to that one tag. To edit a tag, move the cursor into it (the chip turns back into plain text) or delete and retype it.
+- **The tag browser** lets you browse and filter by tag across the whole vault (below).
+- **The graph view** has a tag filter that narrows the graph to notes carrying a tag (and its nested children). See [Graph view](/user-guide/find-and-connect/graph-view/).
+
+## The tag browser
+
+Open the tag browser from the command palette ("Browse tags…") or the **tags button** in the bottom bar. It lists every tag in the vault and lets you build a filter:
+
+- **Select one or more tags** by clicking their chips. A search box narrows the chip list as you type; matching folds case and accents the same way the index does.
+- **Combine with All or Any.** With **All**, a note must carry every selected tag (AND); with **Any**, carrying any one of them is enough (OR). Selecting `#area` includes notes tagged with its nested children, matching the index.
+- The matching notes appear in a list below; clicking one opens it.
+
+When you type `#` in the editor, Myne also suggests existing tags that match what you've typed so far. The suggestions are tags that already exist — picking one inserts it. Typing a tag that doesn't exist yet stays plain text and gets indexed on save like any other inline tag.
+
+### Save a tag filter as a view
+
+With one or more tags selected, **Save as view** turns the current selection (and its All/Any setting) into a saved view, so you can return to the same filtered set later. See [Saved views](/user-guide/editor-and-writing/saved-views/).
 
 ## Limits
 
-Tags in the editor are plain text: there is no click surface on a `#tag` in a note that opens a list of everything sharing it. The graph's tag filter is the way to browse by tag. Tags are not folders; a note keeps its place in the tree regardless of how it's tagged.
+The tag browser and the editor `#tag` chips browse by tag, but tags are not folders: a note keeps its place in the tree regardless of how it's tagged. The browser reads the tag index that Myne holds in memory while the vault is unlocked; it is not a separate stored list. Selecting tags in the browser filters notes, but does not change them — the only way to add or remove a tag is to edit the note's text.

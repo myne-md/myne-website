@@ -8,6 +8,8 @@ tags: ["markdown"]
 
 Myne renders mathematical notation with KaTeX. You write LaTeX between dollar-sign delimiters, and Myne typesets it, either inline within a sentence or as a centered block.
 
+![A note showing a rendered block equation set with KaTeX.](./math.png)
+
 ## Inline and block math
 
 - **Inline**: wrap an expression in single dollar signs. `$E = mc^2$` renders within the line.

@@ -8,6 +8,8 @@ tags: ["markdown"]
 
 A callout is a highlighted block: a colored, titled box for a note, a warning, a tip. Myne builds callouts on top of block quotes, so they stay plain markdown.
 
+![A note showing rendered callouts: note, tip, warning, and danger.](./callouts.png)
+
 ## Writing a callout
 
 Start a block quote whose first line is `[!type]`:

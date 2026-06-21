@@ -23,4 +23,18 @@ const { text } = Astro.props;
   }
   .pinned .section-eyebrow { margin: 0; flex-shrink: 0; }
   .body { font-size: 14px; color: var(--fg-2); line-height: 1.5; }
+
+  /* On narrow screens stack the label above the text instead of squeezing
+     them side by side, and drop the middle dot. */
+  @media (max-width: 600px) {
+    .pinned {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 16px 18px;
+    }
+    .pinned .dot {
+      display: none;
+    }
+  }
 </style>

@@ -2,11 +2,13 @@
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
 import { PLATFORM_ICON } from "../data/platformIcons";
+import { absoluteOg } from "../lib/og";
 
 const title = "Download — Myne";
 const description =
   "Run Myne on your own machine — one desktop app, installed once, running entirely on your device. Code-signed and reproducible so you can verify the binary matches the public source. Pre-alpha.";
 const canonical = new URL("/download/", Astro.site!).toString();
+const ogImage = absoluteOg("download", Astro.site!);
 
 const platforms = [
   {
@@ -26,6 +28,27 @@ const platforms = [
     sub: "AppImage · .deb",
     note: "No screen-capture exclusion on Linux v0.1",
     d: PLATFORM_ICON.linux,
+  },
+];
+
+const extensions = [
+  {
+    os: "Firefox",
+    sub: "MV3 · Add-ons",
+    note: "One cross-browser codebase, reconciled to the Firefox event-page model.",
+    d: PLATFORM_ICON.firefox,
+  },
+  {
+    os: "Chrome",
+    sub: "MV3 · Web Store",
+    note: "Also covers Helium, Brave, Arc and other Chromium browsers from the same build.",
+    d: PLATFORM_ICON.chrome,
+  },
+  {
+    os: "Edge",
+    sub: "MV3 · Edge Add-ons",
+    note: "The identical extension, listed on the Microsoft Edge Add-ons store.",
+    d: PLATFORM_ICON.edge,
   },
 ];
 
@@ -68,7 +91,7 @@ const reqs = [
 ];
 ---
 
-<LandingLayout title={title} description={description} canonical={canonical}>
+<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
   <div
     style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
   >
@@ -146,6 +169,59 @@ const reqs = [
             ))
           }
         </div>
+      </div>
+    </section>
+
+    <!-- BROWSER EXTENSION -->
+    <section style="padding:14px 28px 18px;">
+      <div style="max-width:980px;margin:0 auto;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <span class="mono up" style="font-size:10px;color:#54544f;">Browser extension</span>
+          <span
+            class="mono up"
+            style="font-size:9px;color:#c2a35e;border:1px solid rgba(194,163,94,0.4);border-radius:999px;padding:3px 9px;"
+            >available at release</span
+          >
+        </div>
+        <p style="margin:0 0 16px;max-width:64ch;font-size:12.5px;line-height:1.6;color:#8a8a86;">
+          <strong style="color:#c4c4c0;font-weight:600;">Myne Clipper</strong> saves
+          the page you're reading straight into your vault. Keyless by design — the
+          extension hands the clip to your unlocked desktop app, which does all the
+          encryption. It never receives your keys.
+        </p>
+        <div class="dl-cols-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+          {
+            extensions.map((it) => (
+              <div
+                style="display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px 22px;background:#0c0c0c;"
+              >
+                <svg width="27" height="27" viewBox="0 0 24 24" fill="#e6e6e4">
+                  <path d={it.d} />
+                </svg>
+                <div style="margin-top:18px;font-size:18px;font-weight:600;color:#e6e6e4;">
+                  {it.os}
+                </div>
+                <div class="mono up" style="margin-top:6px;font-size:9px;color:#8aa4d0;">
+                  {it.sub}
+                </div>
+                <p style="margin-top:14px;flex:1;font-size:11.5px;line-height:1.6;color:#8a8a86;">
+                  {it.note}
+                </p>
+                <div
+                  class="mono up"
+                  style="margin-top:18px;display:flex;align-items:center;justify-content:space-between;font-size:9px;color:#54544f;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;"
+                >
+                  <span>When released</span>
+                  <span style="color:#8aa4d0;font-size:13px;">↓</span>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <p class="mono" style="margin-top:12px;font-size:10px;line-height:1.6;color:#54544f;">
+          Safari isn't supported in v1 — its extensions can't use the native
+          clip channel the desktop app relies on.
+        </p>
       </div>
     </section>
 

@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://myne.md/sitemap-index.xml

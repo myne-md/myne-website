@@ -10,6 +10,7 @@ import {
   getSortedLedgerEntries,
   type FilterKey,
 } from "../lib/ledger";
+import { absoluteOg } from "../lib/og";
 import "../styles/tokens.css";
 import "../styles/global.css";
 import "../styles/ledger.css";
@@ -36,6 +37,7 @@ const showSparseQuiet =
   title={title ?? filter.pageTitle}
   description={description ?? filter.description}
   canonical="https://myne.md/ledger/"
+  ogImage={absoluteOg("ledger", Astro.site!)}
 >
   <div class="ledger-root">
     <GlassNav active="ledger" />

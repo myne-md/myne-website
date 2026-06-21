@@ -1,13 +1,15 @@
 ---
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
+import { absoluteOg } from "../lib/og";
 
 const title = "Myne — Your notes. Sealed.";
 const description =
   "Myne is a privacy-first markdown notes app that encrypts every byte before it leaves your device, asks for no email, and stores only ciphertext at rest — quietly, by default.";
+const ogImage = absoluteOg("home", Astro.site!);
 ---
 
-<LandingLayout title={title} description={description}>
+<LandingLayout title={title} description={description} ogImage={ogImage}>
   <div
     data-root
     style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;overflow-x:clip;"
@@ -16,10 +18,10 @@ const description =
          the hero, whose own 01 field already carries the glow. -->
     <div
       data-cursorglow
-      style="position:fixed;top:0;left:0;width:560px;height:560px;border-radius:50%;pointer-events:none;z-index:70;opacity:0;transform:translate3d(-9999px,-9999px,0) translate(-50%,-50%);background:radial-gradient(circle closest-side, rgba(236,235,231,0.13), rgba(236,235,231,0.05) 45%, transparent 72%);mix-blend-mode:screen;transition:opacity .35s ease;"
+      style="position:fixed;top:0;left:0;width:460px;height:460px;border-radius:50%;pointer-events:none;z-index:70;opacity:0;transform:translate3d(-9999px,-9999px,0) translate(-50%,-50%);background:radial-gradient(circle closest-side, rgba(236,235,231,0.06), rgba(236,235,231,0.022) 45%, transparent 70%);mix-blend-mode:screen;transition:opacity .35s ease;"
     ></div>
     <!-- TOP BAR -->
-    <GlassNav active="home" />
+    <GlassNav active="home" spy />
 
     <!-- ===================== HERO ===================== -->
     <section
@@ -33,12 +35,12 @@ const description =
       <div
         style="position:relative;z-index:2;max-width:1280px;margin:0 auto;height:100vh;min-height:680px;display:flex;flex-direction:column;justify-content:center;"
       >
-        <div style="max-width:620px;">
+        <div class="hero-copy" style="max-width:620px;position:relative;">
           <h1
             class="up"
             style="font-size:clamp(40px,5.6vw,82px);line-height:0.96;font-weight:800;letter-spacing:-0.01em;"
           >
-            Your notes.<br />Sealed.
+            Your notes.<br /><span class="mono" data-sealed>Sealed</span>.
           </h1>
           <p
             class="mono"
@@ -102,7 +104,7 @@ const description =
           >
             <canvas
               data-globecv
-              style="width:100%;height:100%;display:block;cursor:grab;"
+              style="width:100%;height:100%;display:block;cursor:grab;touch-action:none;"
             ></canvas>
           </div>
           <div data-process>
@@ -178,8 +180,8 @@ const description =
 
     <!-- ===================== COMPARISON ===================== -->
     <section id="capab" style="padding:100px 28px;">
-      <div style="max-width:1200px;margin:0 auto;">
-        <div data-reveal style="max-width:36ch;margin-bottom:40px;">
+      <div style="max-width:1280px;margin:0 auto;">
+        <div data-reveal style="max-width:620px;margin-bottom:40px;">
           <span class="mono up" style="font-size:11px;color:#8a8a86;"
             >Why not the workarounds</span
           >
@@ -195,7 +197,7 @@ const description =
           style="border:1px solid rgba(255,255,255,0.12);border-radius:12px;overflow:hidden;background:#0c0c0c;"
         >
           <div
-            style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;"
+            style="display:grid;grid-template-columns:minmax(0,2fr) repeat(5,minmax(0,1fr));"
           >
             <div
               style="padding:16px 18px;border-bottom:1px solid rgba(255,255,255,0.1);"
@@ -262,6 +264,17 @@ const description =
             No vault is worth much if you can't understand it. Straight answers,
             including the uncomfortable ones.
           </p>
+          <p
+            class="mono"
+            style="margin-top:18px;font-size:12px;line-height:1.6;color:#54544f;"
+          >
+            Still have a question?<br />
+            <a
+              href="mailto:info@myne.md"
+              style="color:#8aa4d0;text-decoration:none;"
+              >info@myne.md</a
+            >
+          </p>
         </div>
         <div data-faq></div>
       </div>
@@ -304,7 +317,7 @@ const description =
         </div>
         <div
           data-encpanel
-          style="display:flex;flex-direction:column;justify-content:center;height:230px;width:100%;max-width:380px;"
+          style="display:flex;flex-direction:column;justify-content:center;height:230px;width:100%;max-width:380px;margin:0 auto;"
         >
           <div
             class="mono"
@@ -367,7 +380,21 @@ const description =
               rel="me"
               style="color:inherit;text-decoration:none;">Mastodon</a
             >
-            <span>X</span>
+            <a
+              href="https://x.com/myne_md"
+              rel="me noopener"
+              style="color:inherit;text-decoration:none;">X</a
+            >
+            <a
+              href="https://bsky.app/profile/myne.md"
+              rel="me noopener"
+              style="color:inherit;text-decoration:none;">Bluesky</a
+            >
+            <a
+              href="https://www.reddit.com/r/myne_md/"
+              rel="me noopener"
+              style="color:inherit;text-decoration:none;">Reddit</a
+            >
           </div>
         </div>
         <div
@@ -383,6 +410,46 @@ const description =
   <!-- Mobile layout overrides. Inline styles win over classes, so the grid
        collapses use !important — scoped to ≤760px, desktop is untouched. -->
   <style is:global>
+    /* The "Sealed" wordmark renders in the mono face: its fixed-width glyphs
+       keep the encrypt/decrypt scramble from reflowing the line. */
+    [data-sealed] {
+      letter-spacing: 0.01em;
+    }
+
+    /* A diffuse dark cloud behind the hero copy: it locally suppresses the 01
+       field so the text stays legible, then dissolves smoothly back into the
+       binary on every side — soft radial falloff, no box edge. Same colour as
+       the page (#0a0a0a), so it never reads as a visible blob, only as the
+       binary fading out behind the words. */
+    .hero-copy::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+      inset: -48% -58% -46% -42%;
+      /* Fully opaque core so the cursor-driven 01 glow can't light up behind
+         the text; then a soft falloff that dissolves into the binary. */
+      background: radial-gradient(
+        62% 58% at 34% 50%,
+        rgba(10, 10, 10, 1) 0%,
+        rgba(10, 10, 10, 1) 28%,
+        rgba(10, 10, 10, 0.55) 52%,
+        rgba(10, 10, 10, 0) 74%
+      );
+    }
+    @media (max-width: 760px) {
+      .hero-copy::before {
+        inset: -32% -30% -34% -26%;
+        background: radial-gradient(
+          78% 60% at 42% 46%,
+          rgba(10, 10, 10, 1) 0%,
+          rgba(10, 10, 10, 1) 34%,
+          rgba(10, 10, 10, 0.5) 60%,
+          rgba(10, 10, 10, 0) 82%
+        );
+      }
+    }
+
     @media (max-width: 760px) {
       /* Globe + process steps stack into one column. */
       .work-grid {
@@ -534,12 +601,44 @@ const description =
     };
     resize();
     window.addEventListener("resize", resize);
-    const mouse = { ry: 0.5, rx: 0.35, tx: 0.5 };
-    gcv.addEventListener("mousemove", (e) => {
-      const b = gcv.getBoundingClientRect();
-      mouse.tx = ((e.clientX - b.left) / b.width) * 2 - 1;
-      mouse.rx = -(((e.clientY - b.top) / b.height) * 2 - 1) * 0.5;
+    // Drag-to-rotate. The globe holds still until grabbed, then turns in the
+    // direction of the drag; a flick leaves a little inertia that eases out.
+    // No hover rotation, no idle auto-spin.
+    const view = { ry: 0.5, rx: 0.35 };
+    let vRy = 0,
+      vRx = 0; // angular velocity (rad/frame) for post-release inertia
+    let dragging = false;
+    let last = { x: 0, y: 0 };
+    const SENS = 0.006;
+    const AUTO = 0.0018; // slow idle yaw; suspended while dragging
+    const clampRx = (v: number) => Math.max(-1.3, Math.min(1.3, v));
+    gcv.addEventListener("pointerdown", (e: PointerEvent) => {
+      dragging = true;
+      vRy = vRx = 0;
+      last = { x: e.clientX, y: e.clientY };
+      gcv.setPointerCapture(e.pointerId);
+      gcv.style.cursor = "grabbing";
     });
+    gcv.addEventListener("pointermove", (e: PointerEvent) => {
+      if (!dragging) return;
+      // Negated so the grabbed surface follows the cursor (drag right turns the
+      // globe right) instead of moving against it.
+      vRy = -(e.clientX - last.x) * SENS;
+      vRx = -(e.clientY - last.y) * SENS;
+      last = { x: e.clientX, y: e.clientY };
+      view.ry += vRy;
+      view.rx = clampRx(view.rx + vRx);
+    });
+    const endDrag = (e: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      try {
+        gcv.releasePointerCapture(e.pointerId);
+      } catch {}
+      gcv.style.cursor = "grab";
+    };
+    gcv.addEventListener("pointerup", endDrag);
+    gcv.addEventListener("pointercancel", endDrag);
     const project = (lat: number, lon: number, ry: number, rx: number) => {
       const x = Math.cos(lat) * Math.cos(lon),
         y = Math.sin(lat),
@@ -550,16 +649,23 @@ const description =
         z2 = y * Math.sin(rx) + z1 * Math.cos(rx);
       return { x: x1, y: y2, z: z2 };
     };
-    let auto = 0;
     let time = 0;
-    const nodes = [
-      [0.7, -1.9],
-      [0.4, 0.3],
-      [-0.3, 1.6],
-      [0.9, 2.6],
-      [-0.6, -0.7],
-      [0.1, -2.8],
-    ];
+    // Nodes sit on wireframe intersections so they ride the grid instead of
+    // floating in the gaps: latitude ∈ {0, ±30, ±60} (the drawn parallels) and
+    // longitude on a 30° meridian. Authored in degrees, converted to radians.
+    const D2R = Math.PI / 180;
+    // Kept off antipodal pairs on connected edges — a node exactly opposite a
+    // neighbour makes the great-circle slerp divide by zero (lines to infinity).
+    const nodes = (
+      [
+        [30, -120],
+        [0, 30], // hub (node 1)
+        [-30, 90],
+        [60, 150],
+        [-30, -30],
+        [-30, -90],
+      ] as [number, number][]
+    ).map(([la, lo]) => [la * D2R, lo * D2R] as [number, number]);
     // Unit-sphere vector for each node (pre-rotation) — needed for the
     // great-circle arcs and the pulses that ride them.
     const nodeVec = nodes.map(([la, lo]) => ({
@@ -604,21 +710,25 @@ const description =
       };
     };
     const draw = () => {
-      auto += 0.003;
       time += 1;
-      mouse.ry += (auto + mouse.tx * 1.2 - mouse.ry) * 0.06;
-      const ry = mouse.ry,
-        rx = mouse.rx;
+      // Integrate inertia + a slow idle auto-spin only when not actively
+      // dragging — while dragging, the view is updated straight from pointer
+      // deltas. After release the flick decays and the auto-spin resumes.
+      if (!dragging) {
+        view.ry += vRy + AUTO;
+        view.rx = clampRx(view.rx + vRx);
+      }
+      vRy *= 0.95;
+      vRx *= 0.95;
+      if (Math.abs(vRy) < 1e-4) vRy = 0;
+      if (Math.abs(vRx) < 1e-4) vRx = 0;
+      const ry = view.ry,
+        rx = view.rx;
       ctx.clearRect(0, 0, W, H);
       const cx = W / 2,
         cy = H / 2;
-      // Sealed-orb body fill + outer atmosphere halo — gives the wireframe
-      // depth and a faint glow without adding visual clutter.
-      const halo = ctx.createRadialGradient(cx, cy, R * 0.86, cx, cy, R * 1.32);
-      halo.addColorStop(0, "rgba(" + ACCENT + ",0.07)");
-      halo.addColorStop(1, "rgba(" + ACCENT + ",0)");
-      ctx.fillStyle = halo;
-      ctx.fillRect(0, 0, W, H);
+      // Sealed-orb body fill only — a faint inner shade that gives the
+      // wireframe depth. The outer atmosphere halo was removed per design.
       const body = ctx.createRadialGradient(
         cx - R * 0.32,
         cy - R * 0.32,
@@ -804,7 +914,7 @@ const description =
     rows.forEach((r, ri) => {
       const row = document.createElement("div");
       row.style.cssText =
-        "display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;" +
+        "display:grid;grid-template-columns:minmax(0,2fr) repeat(5,minmax(0,1fr));" +
         (ri < rows.length - 1
           ? "border-bottom:1px solid rgba(255,255,255,0.1);"
           : "");
@@ -1013,6 +1123,9 @@ const description =
         "Not yet. It’s pre-alpha: the v0.1 spec and threat model are public (still in draft); the desktop client is in progress.",
       ],
     ];
+    // Accordion: only one panel stays open at a time. Each entry registers a
+    // close() that the others call when one is expanded.
+    const panels: { open: boolean; expand: (v: boolean) => void }[] = [];
     items.forEach(([q, a], i) => {
       const row = document.createElement("div");
       row.style.cssText =
@@ -1034,16 +1147,68 @@ const description =
         '<p style="padding:0 16px 18px;max-width:60ch;font-size:13.5px;line-height:1.65;color:#8a8a86;">' +
         a +
         "</p>";
+      const plus = head.querySelector("[data-plus]") as HTMLElement;
+      const panel = {
+        open: false,
+        expand(v: boolean) {
+          this.open = v;
+          body.style.maxHeight = v ? body.scrollHeight + 30 + "px" : "0px";
+          plus.style.transform = v ? "rotate(45deg)" : "rotate(0deg)";
+        },
+      };
+      panels.push(panel);
       head.addEventListener("click", () => {
-        const open = body.style.maxHeight && body.style.maxHeight !== "0px";
-        body.style.maxHeight = open ? "0px" : body.scrollHeight + 30 + "px";
-        (head.querySelector("[data-plus]") as HTMLElement).style.transform =
-          open ? "rotate(0deg)" : "rotate(45deg)";
+        const next = !panel.open;
+        panels.forEach((p) => p !== panel && p.open && p.expand(false));
+        panel.expand(next);
       });
       row.appendChild(head);
       row.appendChild(body);
       faq.appendChild(row);
     });
+  }
+
+  // ---------- hero "Sealed" wordmark: decrypt reveal ----------
+  // Plays once on load (scrambled -> resolved, left to right) and replays on
+  // hover. Deliberately one-shot — no idle loop — so it never nags the reader.
+  // Mono glyphs (set in CSS) keep the line from reflowing as chars churn.
+  const sealed = $("[data-sealed]") as HTMLElement | null;
+  if (sealed && !reduce) {
+    const target = (sealed.textContent || "Sealed").trim();
+    const cs = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%@&$/?";
+    let running = false;
+    const play = () => {
+      if (running) return;
+      running = true;
+      const L = target.length;
+      const per = 78; // ms before each successive char locks in
+      const lead = 200; // initial all-scrambled beat
+      let start = -1;
+      const tick = (now: number) => {
+        if (start < 0) start = now;
+        const t = now - start;
+        let out = "";
+        let done = true;
+        for (let i = 0; i < L; i++) {
+          if (t >= lead + i * per) {
+            out += target[i];
+          } else {
+            done = false;
+            out += cs[(Math.random() * cs.length) | 0];
+          }
+        }
+        sealed.textContent = out;
+        if (done) {
+          sealed.textContent = target;
+          running = false;
+          return;
+        }
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    play();
+    sealed.addEventListener("mouseenter", play);
   }
 
   // ---------- encryption morph (CTA): plaintext note -> ciphertext ----------

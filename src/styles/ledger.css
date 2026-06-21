@@ -5,7 +5,15 @@
 .ledger-h1 { font-size: 36px; }
 .ledger-lede { max-width: 720px; font-size: 16px; }
 
-.ledger-pinned { margin: 0 0 var(--space-6); max-width: 1056px; }
+.ledger-pinned { margin: 0 0 var(--space-6); max-width: none; }
+
+/* Ledger feed content column matches the navbar/footer: a 1280px column plus
+   the 28px gutter each side, so its edges line up with the nav brand. The
+   permalink reader keeps its own narrow .ledger-reader column for prose. */
+.ledger-root .container {
+  max-width: calc(1280px + 56px);
+  padding: 0 28px;
+}
 
 .ledger-filter-row {
   display: flex;

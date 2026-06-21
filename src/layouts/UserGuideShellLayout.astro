@@ -1,8 +1,9 @@
 ---
 import LandingLayout from "./LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
-import SidebarMobileToggle from "../components/userguide/SidebarMobileToggle.astro";
-import { getCategoryLabel, getManifest } from "../lib/userGuide";
+import GuideNavList from "../components/userguide/GuideNavList.astro";
+import { getManifest } from "../lib/userGuide";
+import { absoluteOg } from "../lib/og";
 import "../styles/tokens.css";
 import "../styles/userguide.css";
 
@@ -27,14 +28,10 @@ const {
   canonical,
   currentCategory,
   currentSlug,
-  currentArticleTitle,
   showSidebar = true,
 } = Astro.props;
 
 const manifest = getManifest();
-const breadcrumbCategory = currentCategory
-  ? (getCategoryLabel(currentCategory) ?? currentCategory)
-  : undefined;
 ---
 
 <LandingLayout
@@ -42,29 +39,25 @@ const breadcrumbCategory = currentCategory
   description={description}
   canonical={canonical}
   robots="noindex,nofollow"
+  ogImage={absoluteOg("guide", Astro.site!)}
 >
   <div class="ug-root">
-    <!-- TOP BAR — shared with the landing so both navbars stay identical -->
-    <GlassNav active="guide" />
-
-    {showSidebar && (
-      <SidebarMobileToggle
-        categoryLabel={breadcrumbCategory}
-        articleLabel={currentArticleTitle}
+    <!-- TOP BAR — shared with the landing. On mobile its drop-down carries the
+         guide nav (full-screen, with a back button to the site nav); there is
+         no separate guide sidebar drawer. -->
+    <GlassNav active="guide" guide>
+      <GuideNavList
+        slot="guide"
+        currentCategory={currentCategory}
+        currentSlug={currentSlug}
       />
-    )}
+    </GlassNav>
 
     <div id="top" class="ug-page">
       <div
         class:list={["ug-shell", { "ug-shell--no-sidebar": !showSidebar }]}
       >
         {showSidebar && (
-          <>
-            <div
-              class="ug-sidebar-backdrop"
-              data-userguide-backdrop
-              aria-hidden="true"
-            ></div>
             <aside
               id="ug-sidebar"
               class="ug-sidebar"
@@ -125,7 +118,6 @@ const breadcrumbCategory = currentCategory
                 })}
               </nav>
             </aside>
-          </>
         )}
         <div class="ug-shell-main">
           <slot />
@@ -143,7 +135,177 @@ const breadcrumbCategory = currentCategory
         <span>© 2026 Myne · AGPL-3.0 · CC0 docs</span><span>v0.1 · pre-alpha</span>
       </div>
     </footer>
+
+    <!-- Image lightbox: prose images open here for zoom + pan inspection.
+         Dismiss via Esc, backdrop, or the × button. -->
+    <div class="ug-lightbox" data-ug-lightbox aria-hidden="true">
+      <img class="ug-lightbox__img" data-ug-lightbox-img alt="" />
+      <button
+        type="button"
+        class="ug-lightbox__close"
+        data-ug-lightbox-close
+        aria-label="Close image"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M6 6 L18 18 M18 6 L6 18" />
+        </svg>
+      </button>
+      <span class="mono up ug-lightbox__hint">
+        Scroll or pinch to zoom · drag to pan · Esc to close
+      </span>
+    </div>
   </div>
+
+  <script>
+    // User-guide image lightbox — click a prose image to inspect it full-screen
+    // with wheel/pinch zoom, drag-to-pan, and click-to-toggle zoom. Closes on
+    // Esc, backdrop click, or the × button.
+    const ugRoot = document.querySelector(".ug-root");
+    const lbox = document.querySelector<HTMLElement>("[data-ug-lightbox]");
+    const limg = lbox?.querySelector<HTMLImageElement>("[data-ug-lightbox-img]");
+    if (ugRoot && lbox && limg) {
+      let scale = 1;
+      let tx = 0;
+      let ty = 0;
+      let moved = false;
+      let panLast: { x: number; y: number } | null = null;
+      let pinchDist = 0;
+      let pinchScale = 1;
+      const pointers = new Map<number, { x: number; y: number }>();
+      const clamp = (v: number, a: number, b: number) =>
+        Math.max(a, Math.min(b, v));
+
+      const apply = () => {
+        limg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+        limg.classList.toggle("is-zoomed", scale > 1.01);
+      };
+      const reset = () => {
+        scale = 1;
+        tx = 0;
+        ty = 0;
+        apply();
+      };
+      const zoomAt = (cx: number, cy: number, next: number) => {
+        next = clamp(next, 1, 6);
+        const rect = limg.getBoundingClientRect();
+        tx += (cx - rect.left) * (1 - next / scale);
+        ty += (cy - rect.top) * (1 - next / scale);
+        scale = next;
+        if (scale <= 1.001) {
+          scale = 1;
+          tx = 0;
+          ty = 0;
+        }
+        apply();
+      };
+
+      const open = (src: string, alt: string) => {
+        limg.src = src;
+        limg.alt = alt;
+        reset();
+        lbox.setAttribute("data-open", "");
+        document.documentElement.style.overflow = "hidden";
+      };
+      const close = () => {
+        lbox.removeAttribute("data-open");
+        document.documentElement.style.overflow = "";
+        limg.removeAttribute("src");
+        pointers.clear();
+        panLast = null;
+      };
+
+      ugRoot
+        .querySelectorAll<HTMLImageElement>(".ledger-prose img")
+        .forEach((im) => {
+          im.addEventListener("click", () =>
+            open(im.currentSrc || im.src, im.alt || ""),
+          );
+        });
+
+      lbox.addEventListener("click", (e) => {
+        if (e.target === lbox) close(); // backdrop only
+      });
+      lbox
+        .querySelector("[data-ug-lightbox-close]")
+        ?.addEventListener("click", close);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lbox.hasAttribute("data-open")) close();
+      });
+
+      lbox.addEventListener(
+        "wheel",
+        (e) => {
+          if (!lbox.hasAttribute("data-open")) return;
+          e.preventDefault();
+          zoomAt(e.clientX, e.clientY, scale * (e.deltaY < 0 ? 1.18 : 1 / 1.18));
+        },
+        { passive: false },
+      );
+
+      limg.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (moved) {
+          moved = false;
+          return;
+        }
+        if (scale > 1.01) reset();
+        else zoomAt(e.clientX, e.clientY, 2.5);
+      });
+
+      limg.addEventListener("pointerdown", (e) => {
+        limg.setPointerCapture(e.pointerId);
+        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (pointers.size === 2) {
+          const [a, b] = [...pointers.values()];
+          pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
+          pinchScale = scale;
+        } else if (scale > 1.01) {
+          panLast = { x: e.clientX, y: e.clientY };
+          limg.classList.add("is-panning");
+        }
+      });
+      limg.addEventListener("pointermove", (e) => {
+        if (!pointers.has(e.pointerId)) return;
+        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (pointers.size === 2) {
+          const [a, b] = [...pointers.values()];
+          const dist = Math.hypot(a.x - b.x, a.y - b.y);
+          if (pinchDist > 0)
+            zoomAt(
+              (a.x + b.x) / 2,
+              (a.y + b.y) / 2,
+              pinchScale * (dist / pinchDist),
+            );
+          moved = true;
+        } else if (panLast) {
+          tx += e.clientX - panLast.x;
+          ty += e.clientY - panLast.y;
+          panLast = { x: e.clientX, y: e.clientY };
+          moved = true;
+          apply();
+        }
+      });
+      const endPointer = (e: PointerEvent) => {
+        pointers.delete(e.pointerId);
+        if (pointers.size < 2) pinchDist = 0;
+        if (pointers.size === 0) {
+          panLast = null;
+          limg.classList.remove("is-panning");
+        }
+      };
+      limg.addEventListener("pointerup", endPointer);
+      limg.addEventListener("pointercancel", endPointer);
+    }
+  </script>
 
   {showSidebar && (
     <script is:inline>

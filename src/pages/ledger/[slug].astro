@@ -39,6 +39,7 @@ const ogImage = absoluteLedgerOg(entry, Astro.site!);
   <ArticleSchema entry={entry} url={canonical} ogImage={ogImage} />
 
   <div class="ledger-root">
+    <div class="ledger-progress" data-ledger-progress aria-hidden="true"></div>
     <GlassNav active="ledger" />
     <section>
       <div class="ledger-reader">
@@ -72,4 +73,49 @@ const ogImage = absoluteLedgerOg(entry, Astro.site!);
       </div>
     </footer>
   </div>
+
+  <style>
+    /* Reading-progress bar — a thin accent line pinned to the very top edge,
+       above the fixed nav, that fills as the reader moves through the post. */
+    .ledger-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      z-index: 90;
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      background: linear-gradient(90deg, rgba(138, 164, 208, 0.55), #8aa4d0);
+      pointer-events: none;
+      will-change: transform;
+    }
+  </style>
+
+  <script is:inline>
+    (function () {
+      var bar = document.querySelector("[data-ledger-progress]");
+      var article = document.querySelector(".ledger-prose");
+      if (!bar || !article) return;
+      var raf = 0;
+      function update() {
+        raf = 0;
+        var rect = article.getBoundingClientRect();
+        var total = rect.height - window.innerHeight;
+        var p =
+          total > 0
+            ? Math.max(0, Math.min(1, -rect.top / total))
+            : rect.top <= 0
+              ? 1
+              : 0;
+        bar.style.transform = "scaleX(" + p + ")";
+      }
+      function onScroll() {
+        if (!raf) raf = requestAnimationFrame(update);
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      update();
+    })();
+  </script>
 </LandingLayout>

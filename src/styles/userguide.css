@@ -400,10 +400,13 @@
   font-weight: 600;
   line-height: 1.3;
   color: var(--fg-display);
+  /* Reserve the underline up front (transparent) and keep the box sized to the
+     text, so revealing it on hover never reflows the summary/tags below. */
+  align-self: flex-start;
+  border-bottom: 1px solid transparent;
 }
 .ug-cat-articles__link:hover .ug-cat-articles__title {
-  border-bottom: 1px solid var(--accent);
-  align-self: flex-start;
+  border-bottom-color: var(--accent);
 }
 .ug-cat-articles__summary {
   font-size: 14px;
@@ -511,9 +514,8 @@
   gap: 8px;
   height: 48px;
   padding: 0 16px;
-  background: rgba(10, 10, 10, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* Flat, fully opaque — no see-through over the article beneath. */
+  background: #0a0a0a;
   border-bottom: 1px solid var(--line-1);
 }
 .ug-mobile-toggle__btn {
@@ -700,14 +702,16 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
 }
 
 .ug-root :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 3px;
+  outline: 1px solid rgba(138, 164, 208, 0.5);
+  outline-offset: 1px;
 }
 
 /* ---- page container + footer ----------------------------------------- */
+/* Width mirrors the navbar/footer: a 1280px content column plus the 28px
+   gutter on each side (so max-width = 1280 + 2*28). This lands the guide
+   content edges on the same line as the nav brand and the footer. */
 .ug-page {
-  max-width: 1280px;
+  max-width: calc(1280px + 56px);
   margin: 0 auto;
   padding: 96px 28px 90px;
 }
@@ -972,6 +976,105 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
 }
 .ug-root .ledger-prose img {
   border-color: rgba(255, 255, 255, 0.1);
+  cursor: zoom-in;
+}
+
+/* ---- Image lightbox (zoom + pan inspection) -------------------------- */
+.ug-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 6, 6, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: zoom-out;
+  touch-action: none;
+  overscroll-behavior: contain;
+  /* Fade in/out instead of snapping; visibility is delayed on close so the
+     fade can finish before the overlay is pulled from the hit-test layer. */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.24s ease,
+    visibility 0s linear 0.24s;
+}
+.ug-lightbox[data-open] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.24s ease;
+}
+/* The image eases up on open. `scale` (the standalone property) is used so it
+   composes with the translate/scale `transform` the zoom-pan script sets. */
+.ug-lightbox[data-open] .ug-lightbox__img {
+  animation: ug-lightbox-in 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes ug-lightbox-in {
+  from {
+    opacity: 0;
+    scale: 0.94;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+.ug-lightbox__img {
+  max-width: 92vw;
+  max-height: 86vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  transform-origin: 0 0;
+  cursor: zoom-in;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+}
+.ug-lightbox__img.is-zoomed {
+  cursor: grab;
+}
+.ug-lightbox__img.is-panning {
+  cursor: grabbing;
+}
+.ug-lightbox__close {
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  color: #e6e6e4;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.ug-lightbox__close:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.ug-lightbox__hint {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: #8a8a86;
+  pointer-events: none;
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .ug-lightbox__hint {
+    font-size: 9px;
+  }
 }
 .ug-root .ledger-prose table {
   width: 100%;
@@ -1004,33 +1107,35 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
 /* ---- mobile: clear the fixed header ---------------------------------- */
 @media (max-width: 920px) {
   .ug-page {
-    padding: 70px 16px 64px;
+    /* More top room so the "Back to user guide" / breadcrumb clears the fixed
+       navbar comfortably. */
+    padding: 92px 16px 64px;
+  }
+  /* Guide pages keep a 16px content gutter on mobile (more room for docs), so
+     pull the shared navbar in to the same edge — guide-only, scoped to
+     .ug-root, leaving every other page at the standard 28px. */
+  .ug-root .gnav {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .ug-root .gnav-inner {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
   .ug-root .ug-shell {
     display: block;
   }
-  /* Mobile drawer: solid panel that slides in below the nav + the "Guide
-     menu" bar (top 110), so the toggle pill stays visible/tappable above it
-     (z 110) and doubles as the close affordance. Backdrop (z 90) dims the
-     article; the pill rides over it. */
-  .ug-root .ug-sidebar {
-    position: fixed;
-    top: 110px;
-    left: 0;
-    height: calc(100vh - 110px);
-    max-height: none;
-    width: 286px;
-    background: var(--paper);
-    border-right: 1px solid var(--line-2);
-    padding: 20px 20px 28px;
-    overflow-y: auto;
-    z-index: 100;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-  }
+  /* The guide nav now lives in the navbar drop-down on mobile, so the left
+     sidebar (and its old drawer + backdrop) is hidden entirely here. */
+  .ug-root .ug-sidebar,
+  .ug-sidebar-backdrop,
   .ug-mobile-toggle {
-    position: sticky;
-    top: 62px;
-    z-index: 110;
+    display: none !important;
+  }
+  /* The collapsed nav drop-down panel follows the guide's 16px gutter too. */
+  .ug-root .gnav-links {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
 }
 

@@ -1,11 +1,13 @@
 ---
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
+import { absoluteOg } from "../lib/og";
 
 const title = "Roadmap — Myne";
 const description =
   "Where Myne is going — an order, not a schedule. Foundation, desktop, zero-knowledge sync, and mobile, shipped one phase at a time, inside the public threat model.";
 const canonical = new URL("/roadmap/", Astro.site!).toString();
+const ogImage = absoluteOg("roadmap", Astro.site!);
 
 const STATUS: Record<string, { c: string; label: string }> = {
   shipped: { c: "#7fb89a", label: "Shipped" },
@@ -89,22 +91,28 @@ const phases = [
   },
 ];
 
-const cardStyle =
-  "display:flex;align-items:center;gap:14px;padding:15px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;background:#0c0c0c;margin-bottom:8px;";
+// Per-phase dominant status, which drives the node marker.
+const phaseView = phases.map((p) => {
+  const shipped = p.items.filter((i) => i.s === "shipped").length;
+  const prog = p.items.filter((i) => i.s === "in-progress").length;
+  const status =
+    shipped === p.items.length
+      ? "shipped"
+      : prog > 0 || shipped > 0
+        ? "in-progress"
+        : "planned";
+  return { ...p, status };
+});
 ---
 
-<LandingLayout
-  title={title}
-  description={description}
-  canonical={canonical}
->
+<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
   <div
     style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
   >
     <GlassNav active="roadmap" />
 
     <section id="top" style="padding:128px 28px 90px;">
-      <div style="max-width:880px;margin:0 auto;">
+      <div style="max-width:1280px;margin:0 auto;">
         <div class="mono up" style="font-size:11px;color:#8aa4d0;margin-bottom:18px;">
           Roadmap
         </div>
@@ -150,58 +158,41 @@ const cardStyle =
           >
         </div>
 
-        <!-- PHASES -->
-        <div data-phases style="margin-top:48px;">
+        <!-- TIMELINE -->
+        <div class="rm-timeline" data-timeline>
+          <div class="rm-spine" aria-hidden="true"></div>
+          <div class="rm-spine-fill" data-fill aria-hidden="true"></div>
+
           {
-            phases.map((p, pi) => (
-              <div
-                data-phase
-                class="phase-row"
-                style="display:grid;grid-template-columns:210px 1fr;gap:44px;align-items:start;"
-              >
-                <div style="display:flex;gap:16px;">
-                  <div style="display:flex;flex-direction:column;align-items:center;flex:0 0 auto;">
-                    <div
-                      class="mono"
-                      style="width:34px;height:34px;border:1px solid rgba(255,255,255,0.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#e6e6e4;"
-                    >
-                      {p.n}
-                    </div>
-                    <div style="flex:1;width:1px;background:rgba(255,255,255,0.12);margin:8px 0;min-height:30px;" />
+            phaseView.map((p) => (
+              <div class="rm-phase" data-phase>
+                <span class="rm-node" data-node data-status={p.status} aria-hidden="true" />
+                <div class="rm-head">
+                  <div class="rm-head-top">
+                    <span class="rm-num mono">{p.n}</span>
+                    <h2 class="rm-label">{p.label}</h2>
                   </div>
-                  <div style="padding-top:3px;">
-                    <div style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#e6e6e4;">
-                      {p.label}
-                    </div>
-                    <div class="mono up" style="font-size:9px;color:#8aa4d0;margin-top:7px;">
-                      {p.tag}
-                    </div>
-                    <p
-                      class="mono"
-                      style="font-size:11.5px;line-height:1.6;color:#6a6a66;margin-top:12px;max-width:24ch;"
-                    >
-                      {p.blurb}
-                    </p>
-                  </div>
+                  <span class="rm-tag mono up" data-status={p.status}>
+                    {p.tag}
+                  </span>
+                  <p class="rm-blurb mono">{p.blurb}</p>
                 </div>
-                <div
-                  style={`padding-bottom:${pi === phases.length - 1 ? "0" : "40"}px;display:flex;flex-direction:column;gap:1px;`}
-                >
-                  {p.items.map((it) => {
+                <div class="rm-items">
+                  {p.items.map((it, ii) => {
                     const m = STATUS[it.s];
                     return (
-                      <div data-roadmap-item data-status={it.s} style={cardStyle}>
+                      <div
+                        class="rm-item"
+                        data-roadmap-item
+                        data-status={it.s}
+                        style={`--i:${ii};`}
+                      >
+                        <span class="rm-dot" style={`background:${m.c};`} />
+                        <span class="rm-item-text">{it.t}</span>
                         <span
-                          style={`display:inline-block;width:8px;height:8px;border-radius:50%;background:${m.c};flex:0 0 auto;`}
-                        />
-                        <span
-                          style={`flex:1;font-size:14.5px;line-height:1.45;color:${it.s === "shipped" ? "#e6e6e4" : "#cfcfca"};`}
-                        >
-                          {it.t}
-                        </span>
-                        <span
-                          class="mono up"
-                          style={`flex:0 0 auto;font-size:9px;color:${m.c};`}
+                          class="rm-item-status mono up"
+                          data-label={m.label}
+                          style={`color:${m.c};`}
                         >
                           {m.label}
                         </span>
@@ -212,6 +203,7 @@ const cardStyle =
               </div>
             ))
           }
+          <span class="rm-end" aria-hidden="true"></span>
         </div>
 
         <!-- CLOSING NOTE -->
@@ -230,28 +222,270 @@ const cardStyle =
     <footer style="border-top:1px solid rgba(255,255,255,0.1);padding:36px 28px;">
       <div
         class="mono up"
-        style="max-width:880px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;color:#54544f;"
+        style="max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;color:#54544f;"
       >
         <span>© 2026 Myne · AGPL-3.0 · CC0 docs</span><span>v0.1 · pre-alpha</span>
       </div>
     </footer>
   </div>
 
-  <!-- Mobile: the 210px phase rail can't share a row with the cards on a
-       phone, so each phase stacks (label block over its item list). The JS
-       filter only toggles `display`, so this !important override is safe. -->
+  <style>
+    /* The timeline column. A single spine runs its full height; phases hang off
+       it as nodes, with their items listed to the right of the spine. */
+    .rm-timeline {
+      position: relative;
+      margin-top: 52px;
+    }
+
+    /* Spine: dim base line + a scroll-driven accent fill (green→gold→blue,
+       echoing the journey from shipped to planned). It starts at the first
+       node's centre so no line pokes above the top node. */
+    .rm-spine,
+    .rm-spine-fill {
+      position: absolute;
+      left: 304px; /* in the gap between the sticky panel (280) and items */
+      top: 16px;
+      width: 1.5px;
+      transform: translateX(-50%);
+    }
+    .rm-spine {
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 0;
+    }
+    .rm-spine-fill {
+      height: 0;
+      background-image: linear-gradient(to bottom, #7fb89a, #c2a35e, #8aa4d0);
+      z-index: 1;
+    }
+
+    /* Two columns: a sticky phase panel on the left, the items on the right,
+       with the spine running the gap between them. The panel pins while its
+       items scroll, then the next phase takes over. */
+    .rm-phase {
+      position: relative;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .rm-head {
+      position: sticky;
+      top: 96px;
+      align-self: start;
+    }
+
+    /* Node marker, sitting on the spine. The opaque core masks the line behind
+       it; status drives the inner mark; it lights up when the fill reaches it. */
+    .rm-node {
+      position: absolute;
+      left: 304px;
+      top: 1px;
+      width: 30px;
+      height: 30px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: #0a0a0a;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: grid;
+      place-items: center;
+      z-index: 2;
+      transition:
+        box-shadow 0.45s ease,
+        border-color 0.45s ease,
+        transform 0.45s ease;
+    }
+    .rm-node::after {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      transition: all 0.45s ease;
+    }
+    .rm-node[data-status="shipped"]::after {
+      background: #7fb89a;
+    }
+    .rm-node[data-status="in-progress"]::after {
+      background: #c2a35e;
+    }
+    .rm-node[data-status="planned"]::after {
+      background: transparent;
+      box-shadow: inset 0 0 0 1.5px #8aa4d0;
+    }
+    .rm-node.is-active {
+      transform: translateX(-50%) scale(1.08);
+    }
+    .rm-node.is-active[data-status="shipped"] {
+      border-color: #7fb89a;
+    }
+    .rm-node.is-active[data-status="in-progress"] {
+      border-color: #c2a35e;
+    }
+    .rm-node.is-active[data-status="planned"] {
+      border-color: #8aa4d0;
+    }
+
+    .rm-head-top {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+    .rm-num {
+      font-size: 13px;
+      color: #54544f;
+    }
+    .rm-label {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #e6e6e4;
+    }
+    .rm-tag {
+      display: inline-block;
+      margin-top: 9px;
+      font-size: 9px;
+    }
+    .rm-tag[data-status="shipped"] {
+      color: #7fb89a;
+    }
+    .rm-tag[data-status="in-progress"] {
+      color: #c2a35e;
+    }
+    .rm-tag[data-status="planned"] {
+      color: #8aa4d0;
+    }
+    .rm-blurb {
+      margin-top: 11px;
+      max-width: 34ch;
+      font-size: 11.5px;
+      line-height: 1.6;
+      color: #6a6a66;
+    }
+
+    .rm-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+    }
+    /* The gap between phases lives BETWEEN the rows (outside the grid cells),
+       not inside the item column. That way, as one sticky panel scrolls out
+       there is a clear empty band before the next one pins — the two panels
+       never crowd each other at the handoff. The band must be at least a panel
+       tall for the outgoing head to fully clear. */
+    .rm-phase + .rm-phase {
+      margin-top: 150px;
+    }
+    .rm-phase:last-of-type {
+      padding-bottom: 64px;
+    }
+    .rm-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      background: #0c0c0c;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition:
+        opacity 0.5s ease calc(var(--i, 0) * 55ms),
+        transform 0.5s ease calc(var(--i, 0) * 55ms);
+    }
+    .rm-item.is-revealed {
+      opacity: 1;
+      transform: none;
+    }
+    .rm-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+    .rm-item-text {
+      flex: 1;
+      font-size: 14.5px;
+      line-height: 1.45;
+      color: #cfcfca;
+    }
+    .rm-item[data-status="shipped"] .rm-item-text {
+      color: #e6e6e4;
+    }
+    .rm-item-status {
+      flex: 0 0 auto;
+      font-size: 9px;
+    }
+
+    /* End cap that terminates the spine — a solid (non-transparent) dot. */
+    .rm-end {
+      position: absolute;
+      left: 304px;
+      bottom: 0;
+      width: 9px;
+      height: 9px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: #6a6a66;
+      z-index: 2;
+    }
+  </style>
+
+  <!-- Below the 2-col breakpoint the sticky panel unpins and the layout
+       collapses to the single-column spine-on-the-left timeline. -->
   <style is:global>
-    @media (max-width: 760px) {
-      .phase-row {
+    @media (max-width: 860px) {
+      .rm-phase {
         grid-template-columns: 1fr !important;
-        gap: 18px !important;
+        gap: 0 !important;
+      }
+      .rm-phase + .rm-phase {
+        margin-top: 56px !important;
+      }
+      .rm-head {
+        position: static !important;
+        padding-left: 56px;
+      }
+      .rm-items {
+        padding-left: 56px;
+        margin-top: 18px !important;
+      }
+      .rm-spine,
+      .rm-spine-fill,
+      .rm-node,
+      .rm-end {
+        left: 22px !important;
+      }
+    }
+    @media (max-width: 600px) {
+      .rm-head,
+      .rm-items {
+        padding-left: 48px;
+      }
+      .rm-spine,
+      .rm-spine-fill,
+      .rm-node,
+      .rm-end {
+        left: 18px !important;
+      }
+      .rm-item {
+        padding: 13px 14px;
+        gap: 11px;
+      }
+      .rm-item-text {
+        font-size: 13.5px;
       }
     }
   </style>
 </LandingLayout>
 
 <script>
-  // Filter the (server-rendered) roadmap items by status; hide empty phases.
+  const reduce =
+    !!window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   const pills = Array.from(
     document.querySelectorAll<HTMLButtonElement>("[data-filter]"),
   );
@@ -261,27 +495,117 @@ const cardStyle =
   const phaseRows = Array.from(
     document.querySelectorAll<HTMLElement>("[data-phase]"),
   );
+  const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-node]"));
+  const timeline = document.querySelector<HTMLElement>("[data-timeline]");
+  const fill = document.querySelector<HTMLElement>("[data-fill]");
 
+  // ---- status-badge decrypt scramble (once per item, on reveal) ----
+  const CS = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789";
+  const scramble = (el: HTMLElement) => {
+    const target = el.dataset.label || el.textContent || "";
+    const per = 36;
+    let start = -1;
+    const tick = (now: number) => {
+      if (start < 0) start = now;
+      const t = now - start;
+      let out = "";
+      let done = true;
+      for (let i = 0; i < target.length; i++) {
+        const ch = target[i];
+        if (ch === " ") {
+          out += " ";
+          continue;
+        }
+        if (t >= i * per + 90) out += ch;
+        else {
+          done = false;
+          out += CS[(Math.random() * CS.length) | 0];
+        }
+      }
+      el.textContent = out;
+      if (done) el.textContent = target;
+      else requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  // ---- reveal items on scroll ----
+  if (reduce) {
+    items.forEach((it) => it.classList.add("is-revealed"));
+  } else if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const it = e.target as HTMLElement;
+          it.classList.add("is-revealed");
+          const badge = it.querySelector<HTMLElement>("[data-label]");
+          if (badge && !badge.dataset.done) {
+            badge.dataset.done = "1";
+            scramble(badge);
+          }
+          io.unobserve(it);
+        });
+      },
+      { threshold: 0.25, rootMargin: "0px 0px -8% 0px" },
+    );
+    items.forEach((it) => io.observe(it));
+  } else {
+    items.forEach((it) => it.classList.add("is-revealed"));
+  }
+
+  // ---- scroll-driven spine fill + node activation ----
+  let raf = 0;
+  const updateSpine = () => {
+    raf = 0;
+    if (!timeline || !fill) return;
+    const rect = timeline.getBoundingClientRect();
+    const total = rect.height;
+    const vh = window.innerHeight;
+    // Progress 0→1 as the timeline scrolls through the viewport: 0 when its top
+    // reaches the viewport top, 1 when its bottom reaches the viewport bottom.
+    // This completes before max-scroll even though a footer sits below it, so
+    // the fill actually reaches the end.
+    const prog = Math.max(0, Math.min(1, -rect.top / Math.max(1, total - vh)));
+    // The spine starts 16px down (first node centre), so the fill spans the
+    // remaining length.
+    const len = Math.max(1, total - 16);
+    fill.style.height = prog * len + "px";
+    fill.style.backgroundSize = "100% " + len + "px";
+    // Activation line sits low enough that even the last node (which can't reach
+    // mid-screen because of the footer below) lights up.
+    const line = vh * 0.82;
+    nodes.forEach((n) => {
+      if (n.offsetParent === null) return; // hidden by filter
+      n.classList.toggle("is-active", n.getBoundingClientRect().top < line);
+    });
+  };
+  const onScroll = () => {
+    if (!raf) raf = requestAnimationFrame(updateSpine);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  updateSpine();
+
+  // ---- filter ----
   const apply = (key: string) => {
     items.forEach((it) => {
       const show = key === "all" || it.dataset.status === key;
-      // Restore the original display (flex) when showing — setting "" would
-      // wipe the inline display and collapse the card's flex row.
-      it.style.display = show ? "flex" : "none";
+      it.style.display = show ? "" : "none";
+      if (show) it.classList.add("is-revealed"); // never leave a shown item hidden
     });
     phaseRows.forEach((ph) => {
       const anyVisible = Array.from(
         ph.querySelectorAll<HTMLElement>("[data-roadmap-item]"),
       ).some((it) => it.style.display !== "none");
-      // Same here: restore the grid, don't blank it (that would stack the
-      // rail + cards into one column).
-      ph.style.display = anyVisible ? "grid" : "none";
+      ph.style.display = anyVisible ? "" : "none";
     });
     pills.forEach((p) => {
       const on = p.dataset.filter === key;
       p.style.background = on ? "#e6e6e4" : "transparent";
       p.style.color = on ? "#0a0a0a" : "#8a8a86";
     });
+    requestAnimationFrame(updateSpine);
   };
 
   pills.forEach((p) =>

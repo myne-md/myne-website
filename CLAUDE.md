@@ -56,6 +56,6 @@ pnpm preview        # serve dist/ locally
 ## Gotchas
 
 - **`.well-known/security.txt` MUST be served from `/`, not `/some-path/.well-known/`.** RFC 9116 is strict. Test with `curl https://myne.md/.well-known/security.txt` after deploy.
-- **Don't link to internal-only docs** (anything in main repo `agent-tooling/`) — those are private. Stick to public main-repo `docs/` content (CC0).
+- **Don't link to internal-only docs** (anything in main repo `agent-tooling/`) — those are private. Stick to public main-repo `docs/` content (CC-BY-4.0).
 - **Astro islands are JS-on-demand** — but each island still ships a small runtime. For pure-static pages don't add islands.
 - **Update `Expires:` field in `security.txt` annually** or it becomes invalid per RFC 9116. Calendar reminder.

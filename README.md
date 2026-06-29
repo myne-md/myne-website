@@ -78,4 +78,4 @@ Marketing copy may **not** exceed the guarantees in the main repo's [`docs/threa
 
 ## License
 
-Code in this repo is MIT — see [`LICENSE`](./LICENSE); marketing content does not need copyleft. This mirrors the project's split: the main repo's `docs/` specs stay permissive (CC0) so independent implementations can reuse them, while the Myne application code is AGPL-3.0.
+Code in this repo is MIT — see [`LICENSE`](./LICENSE); marketing content does not need copyleft. This mirrors the project's split: the main repo's `docs/` specs stay permissive (CC-BY-4.0) so independent implementations can reuse them, while the Myne application code is AGPL-3.0.

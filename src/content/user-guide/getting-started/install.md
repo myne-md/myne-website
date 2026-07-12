@@ -1,16 +1,22 @@
 ---
 title: "Install Myne"
 category: "getting-started"
-updated: 2026-06-11
-summary: "How the Myne desktop app is distributed: signed installers from the releases page, with reproducible builds you can verify against the public source, and why that matters."
+updated: 2026-07-11
+summary: "How the Myne desktop app is distributed: code-signed installers from the releases page, in the native format for each platform, with reproducible builds you can verify against the public source, and why that matters."
 tags: ["basics"]
 ---
 
-Myne is a desktop application. You install it once, and it runs entirely on your computer. There is no browser version, because the vault lives on your device, not on a server. This article covers how to get the app and how its distribution lets you check that what you install is what we published.
+Myne is a desktop application. You install it once, and it runs on your computer as a native app. There is no browser version; your vault lives on your device as encrypted files. This article covers how to get the app and how its distribution lets you check that what you install is what we published.
 
 ## Download and install
 
-Download Myne from the [releases page](/releases/) and run the installer for your platform (macOS, Windows, or Linux). The installers are **code-signed**, so your operating system can confirm the file came from us and was not altered on its way to you.
+Download Myne from the [releases page](/releases/) and run the installer for your platform. Each build ships in the native format for its operating system:
+
+- **macOS** — a `.dmg` disk image; open it and drag Myne to your Applications folder.
+- **Windows** — an installer built with NSIS; run it and follow the prompts.
+- **Linux** — a `.deb`, `.rpm`, or AppImage, each carrying AppStream metadata so your software centre lists Myne with its name and description.
+
+The installers are **code-signed**, so your operating system can confirm the file came from us and was not altered on its way to you.
 
 ## Why signed and reproducible builds matter
 

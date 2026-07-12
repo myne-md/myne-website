@@ -84,6 +84,7 @@
       "wikilinks",
       "backlinks",
       "unlinked-mentions",
+      "outline",
       "tags",
       "search",
       "graph-view"
@@ -99,7 +100,38 @@
       "attachments",
       "voice-notes",
       "attachments-library",
-      "import-from-obsidian"
+      "import-from-obsidian",
+      "browser-clipper"
+    ]
+  },
+  {
+    "slug": "ai",
+    "label": "AI (Beta)",
+    "description": "Turn on Myne's experimental on-device AI, bring your own model, ask questions across your notes with citations, summarize notes, suggest tags, get inline writing help, and understand the honest privacy boundary.",
+    "intro": "overview",
+    "articles": [
+      "overview",
+      "turning-on-ai",
+      "ask-your-notes",
+      "summarize-a-note",
+      "suggest-tags",
+      "writing-assistant",
+      "ai-privacy-and-limits"
+    ]
+  },
+  {
+    "slug": "sync-and-devices",
+    "label": "Sync & devices",
+    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server, add and approve devices with your account number, read sync status, and resolve conflicts — all zero-knowledge, with no email.",
+    "intro": "overview",
+    "articles": [
+      "overview",
+      "how-sync-works",
+      "turn-on-sync",
+      "add-a-device",
+      "sync-status",
+      "resolving-conflicts",
+      "managing-devices"
     ]
   },
   {
@@ -125,8 +157,11 @@
     "articles": [
       "overview",
       "privacy-model",
+      "account",
       "appearance",
+      "language",
       "custom-theme-reference",
+      "files",
       "auto-lock-and-screen-capture",
       "quick-unlock",
       "change-your-password",

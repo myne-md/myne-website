@@ -1,8 +1,8 @@
 ---
 title: "Unlinked mentions"
 category: "find-and-connect"
-updated: 2026-06-11
-summary: "How Myne surfaces other notes that mention the current note's title without linking to it, and how to turn an unlinked mention into a wikilink."
+updated: 2026-07-11
+summary: "How Myne surfaces other notes that mention the current note's title without linking to it, where the unlinked-mentions tab lives in the editor's right panel, and how to turn an unlinked mention into a wikilink."
 tags: ["links", "search"]
 ---
 
@@ -10,9 +10,14 @@ An unlinked mention is a note that writes the current note's title in its prose 
 
 ## Finding mentions
 
-Below the backlinks pane is an **Unlinked mentions** section, collapsed by default. It stays collapsed, and does no scanning, until you expand it, so it never slows down reading a note. Expand it (or refresh it) and Myne looks for other notes that mention this note's title.
+Unlinked mentions is one tab in the editor's multi-tab right panel, alongside [Backlinks](/user-guide/find-and-connect/backlinks/) and [Outline](/user-guide/find-and-connect/outline/).
 
-Matching is by whole words and is not case-sensitive, so "Project Apollo" mentioned mid-sentence is found, but a title buried inside a longer word is not. Very common or very short titles are held back from the list, so the section stays useful rather than flooding with noise.
+1. If the right panel is hidden, show it with the sidebar toggle in the title bar, or run **Toggle backlinks sidebar** from the command palette.
+2. In the tab strip along the top of the panel, click the Unlinked mentions tab. Each tab is an icon; hover to read its label.
+
+Switching to the tab is what starts the scan, so reading a note never does this work in the background. When it is the active tab, Myne looks for other notes that mention this note's title. If new matches may have appeared since, a **refresh** action lets you re-run the scan.
+
+Matching is by whole words and is not case-sensitive, so "Project Apollo" mentioned mid-sentence is found, but a title buried inside a longer word is not. Very common or very short titles are held back from the list, so the tab stays useful rather than flooding with noise.
 
 ## Linking a mention
 
@@ -22,4 +27,4 @@ Once a mention is linked, it becomes a [backlink](/user-guide/find-and-connect/b
 
 ## Limits
 
-Unlinked mentions are a suggestion surface, not an index: they are scanned on demand when you expand the section, not maintained continuously. They match on title text within the current vault.
+Unlinked mentions are a suggestion surface, not an index: they are scanned on demand when the tab is active, not maintained continuously. They match on title text within the current vault.

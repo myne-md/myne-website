@@ -33,53 +33,59 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
 )}
 
 <script>
-  // Scroll-tracker: highlight the TOC link whose heading is closest to the
-  // top of the viewport. Observes both desktop + mobile variants together.
-  const headings = Array.from(
-    document.querySelectorAll<HTMLElement>(
-      ".ledger-prose h2[id], .ledger-prose h3[id]",
-    ),
-  );
-  const links = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"),
-  );
+  // Scroll-tracker: highlight the TOC link whose heading is closest to the top
+  // of the viewport. Observes both desktop + mobile variants together. The
+  // right rail is swapped in by the client router on each navigation, so the
+  // window listeners bind once (module scope) while the heading/link sets are
+  // refreshed per navigation via `astro:page-load`.
+  const TRIGGER_OFFSET = 0.15; // trigger line, 15% down the viewport
+  let headings: HTMLElement[] = [];
+  let links: HTMLAnchorElement[] = [];
+  let activeId: string | null = null;
 
-  if (headings.length > 0 && links.length > 0) {
-    const setActive = (id: string | null) => {
-      for (const link of links) {
-        const isActive = id !== null && link.getAttribute("href") === `#${id}`;
-        link.classList.toggle("active", isActive);
-      }
-    };
+  const setActive = (id: string | null) => {
+    for (const link of links) {
+      const isActive = id !== null && link.getAttribute("href") === `#${id}`;
+      link.classList.toggle("active", isActive);
+    }
+  };
 
-    // Track which headings are "above the fold trigger line" (15% down).
-    // The first one above the line, scanning bottom-up, is the active one.
-    const TRIGGER_OFFSET = 0.15;
-    let activeId: string | null = null;
+  const recompute = () => {
+    if (headings.length === 0 || links.length === 0) return;
+    const triggerY = window.innerHeight * TRIGGER_OFFSET;
+    // The last heading above the trigger line (scanning top-down) is active.
+    let candidate: string | null = null;
+    for (const h of headings) {
+      const rect = h.getBoundingClientRect();
+      if (rect.top - triggerY <= 0) {
+        candidate = h.id;
+      } else {
+        break;
+      }
+    }
+    // Default to the first heading when the reader is above all of them.
+    if (candidate === null) candidate = headings[0]!.id;
+    if (candidate !== activeId) {
+      activeId = candidate;
+      setActive(activeId);
+    }
+  };
 
-    const recompute = () => {
-      const triggerY = window.innerHeight * TRIGGER_OFFSET;
-      let candidate: string | null = null;
-      for (const h of headings) {
-        const rect = h.getBoundingClientRect();
-        if (rect.top - triggerY <= 0) {
-          candidate = h.id;
-        } else {
-          break;
-        }
-      }
-      // Default to first heading if user is above all of them.
-      if (candidate === null && headings.length > 0) {
-        candidate = headings[0]!.id;
-      }
-      if (candidate !== activeId) {
-        activeId = candidate;
-        setActive(activeId);
-      }
-    };
-
+  const refresh = () => {
+    headings = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        ".ledger-prose h2[id], .ledger-prose h3[id]",
+      ),
+    );
+    links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"),
+    );
+    activeId = null;
     recompute();
-    window.addEventListener("scroll", recompute, { passive: true });
-    window.addEventListener("resize", recompute, { passive: true });
-  }
+  };
+
+  window.addEventListener("scroll", recompute, { passive: true });
+  window.addEventListener("resize", recompute, { passive: true });
+  document.addEventListener("astro:page-load", refresh);
+  refresh();
 </script>

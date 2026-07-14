@@ -40,18 +40,25 @@ const manifest = getManifest();
   canonical={canonical}
   robots="noindex,nofollow"
   ogImage={absoluteOg("guide", Astro.site!)}
+  clientRouter
 >
   <div class="ug-root">
     <!-- TOP BAR — shared with the landing. On mobile its drop-down carries the
          guide nav (full-screen, with a back button to the site nav); there is
          no separate guide sidebar drawer. -->
-    <GlassNav active="guide" guide>
-      <GuideNavList
-        slot="guide"
-        currentCategory={currentCategory}
-        currentSlug={currentSlug}
-      />
-    </GlassNav>
+    {/* Wrapped in a persisted element (Astro won't forward a transition
+        directive onto a component whose template isn't a single root node).
+        The bar is position:fixed, so this zero-height wrapper adds no layout;
+        persisting it keeps the bar and its bound listeners across swaps. */}
+    <div transition:persist="gnav">
+      <GlassNav active="guide" guide>
+        <GuideNavList
+          slot="guide"
+          currentCategory={currentCategory}
+          currentSlug={currentSlug}
+        />
+      </GlassNav>
+    </div>
 
     <div id="top" class="ug-page">
       <div
@@ -62,6 +69,7 @@ const manifest = getManifest();
               id="ug-sidebar"
               class="ug-sidebar"
               aria-label="User guide sections"
+              transition:persist="ug-sidebar"
             >
               <div class="ug-search">
                 <span class="mono ug-search__slash">/</span>
@@ -130,15 +138,21 @@ const manifest = getManifest();
       </div>
     </div>
 
-    <footer class="ug-footer">
+    <footer class="ug-footer" transition:persist="ug-footer">
       <div class="mono up ug-footer__inner">
         <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><span>v0.1 · pre-alpha</span>
       </div>
     </footer>
 
     <!-- Image lightbox: prose images open here for zoom + pan inspection.
-         Dismiss via Esc, backdrop, or the × button. -->
-    <div class="ug-lightbox" data-ug-lightbox aria-hidden="true">
+         Dismiss via Esc, backdrop, or the × button. Persisted so its listeners
+         and zoom/pan state survive client-router navigations. -->
+    <div
+      class="ug-lightbox"
+      data-ug-lightbox
+      aria-hidden="true"
+      transition:persist="ug-lightbox"
+    >
       <img class="ug-lightbox__img" data-ug-lightbox-img alt="" />
       <button
         type="button"
@@ -169,10 +183,9 @@ const manifest = getManifest();
     // User-guide image lightbox — click a prose image to inspect it full-screen
     // with wheel/pinch zoom, drag-to-pan, and click-to-toggle zoom. Closes on
     // Esc, backdrop click, or the × button.
-    const ugRoot = document.querySelector(".ug-root");
     const lbox = document.querySelector<HTMLElement>("[data-ug-lightbox]");
     const limg = lbox?.querySelector<HTMLImageElement>("[data-ug-lightbox-img]");
-    if (ugRoot && lbox && limg) {
+    if (lbox && limg) {
       let scale = 1;
       let tx = 0;
       let ty = 0;
@@ -223,13 +236,15 @@ const manifest = getManifest();
         panLast = null;
       };
 
-      ugRoot
-        .querySelectorAll<HTMLImageElement>(".ledger-prose img")
-        .forEach((im) => {
-          im.addEventListener("click", () =>
-            open(im.currentSrc || im.src, im.alt || ""),
-          );
-        });
+      // Delegated so it also covers the article images swapped in by the
+      // client router on each navigation — the lightbox node is persisted and
+      // this listener is bound once to `document`, which is never torn down.
+      document.addEventListener("click", (e) => {
+        const im = (e.target as Element | null)?.closest?.(
+          ".ledger-prose img",
+        ) as HTMLImageElement | null;
+        if (im) open(im.currentSrc || im.src, im.alt || "");
+      });
 
       lbox.addEventListener("click", (e) => {
         if (e.target === lbox) close(); // backdrop only
@@ -307,65 +322,121 @@ const manifest = getManifest();
     }
   </script>
 
-  {showSidebar && (
-    <script is:inline>
-      // Persist sidebar scrollTop across full-page reloads (Astro static-site
-      // navs tear down the DOM). sessionStorage = current tab only.
-      (function () {
-        var KEY = "myne-website-userguide-sidebar-scroll";
-        var sidebar = document.getElementById("ug-sidebar");
-        if (!sidebar) return;
-        var lastWritten = null;
-        try {
-          var saved = sessionStorage.getItem(KEY);
-          if (saved) {
-            sidebar.scrollTop = parseInt(saved, 10);
-            lastWritten = sidebar.scrollTop;
-          }
-        } catch (e) {}
-        var pending = false;
-        sidebar.addEventListener(
-          "scroll",
-          function () {
-            if (pending) return;
-            pending = true;
-            requestAnimationFrame(function () {
-              var top = sidebar.scrollTop;
-              if (top !== lastWritten) {
-                try { sessionStorage.setItem(KEY, String(top)); } catch (e) {}
-                lastWritten = top;
-              }
-              pending = false;
-            });
-          },
-          { passive: true },
-        );
+  <script>
+    // Sidebar behaviour under the client router. The left sidebar and the
+    // mobile guide nav (inside the top bar) are persisted across navigations,
+    // so their listeners bind once here (this module runs a single time) and
+    // their active state is re-synced from the URL on every navigation rather
+    // than re-rendered. sessionStorage restores scroll across full reloads.
+    const SCROLL_KEY = "myne-website-userguide-sidebar-scroll";
 
-        // Live-filter the sidebar list (matches the v13 design search).
-        var search = document.querySelector("[data-ug-search]");
-        if (search) {
-          var links = Array.prototype.slice.call(
-            document.querySelectorAll("[data-ug-link]"),
-          );
-          var groups = Array.prototype.slice.call(
-            document.querySelectorAll("[data-ug-group]"),
-          );
-          search.addEventListener("input", function () {
-            var q = search.value.trim().toLowerCase();
-            groups.forEach(function (g) {
-              var any = false;
-              var groupLinks = g.querySelectorAll("[data-ug-link]");
-              for (var i = 0; i < groupLinks.length; i++) {
-                var t = (groupLinks[i].getAttribute("data-ug-text") || "").toLowerCase();
-                var match = !q || t.indexOf(q) !== -1;
-                groupLinks[i].parentElement.style.display = match ? "" : "none";
-                if (match) any = true;
-              }
-              g.style.display = !q || any ? "" : "none";
-            });
-          });
+    const syncActive = () => {
+      const path = location.pathname;
+      const mark = (el: Element, on: boolean) => {
+        el.classList.toggle("active", on);
+        if (on) el.setAttribute("aria-current", "page");
+        else el.removeAttribute("aria-current");
+      };
+      // Exact-match article links (desktop sidebar + mobile guide nav).
+      document
+        .querySelectorAll<HTMLAnchorElement>(
+          ".ug-sidebar__article, .gnl-article",
+        )
+        .forEach((a) => mark(a, a.getAttribute("href") === path));
+      // Category links light up when the path sits under them.
+      document
+        .querySelectorAll<HTMLAnchorElement>(
+          ".ug-sidebar__cat-link, .gnl-catlink",
+        )
+        .forEach((a) => {
+          const href = a.getAttribute("href") || "";
+          a.classList.toggle("active", href !== "" && path.startsWith(href));
+        });
+    };
+
+    // The scrollable element in the live (.ug-root) layout is the inner nav
+    // list, not the sticky aside (which is overflow:visible, scrollTop 0).
+    const getScroller = (): HTMLElement | null => {
+      const sidebar = document.getElementById("ug-sidebar");
+      if (!sidebar) return null;
+      return sidebar.querySelector<HTMLElement>("[data-ug-nav]") || sidebar;
+    };
+
+    const initScroll = () => {
+      const scroller = getScroller();
+      if (!scroller) return;
+      let lastWritten: number | null = null;
+      try {
+        const saved = sessionStorage.getItem(SCROLL_KEY);
+        if (saved) {
+          scroller.scrollTop = parseInt(saved, 10);
+          lastWritten = scroller.scrollTop;
         }
-      })();
-    </script>
-  )}
+      } catch {}
+      let pending = false;
+      scroller.addEventListener(
+        "scroll",
+        () => {
+          if (pending) return;
+          pending = true;
+          requestAnimationFrame(() => {
+            const top = scroller.scrollTop;
+            if (top !== lastWritten) {
+              try {
+                sessionStorage.setItem(SCROLL_KEY, String(top));
+              } catch {}
+              lastWritten = top;
+            }
+            pending = false;
+          });
+        },
+        { passive: true },
+      );
+    };
+
+    // Live-filter the sidebar list (matches the v13 design search).
+    const initSearch = () => {
+      const search =
+        document.querySelector<HTMLInputElement>("[data-ug-search]");
+      if (!search) return;
+      const groups = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-ug-group]"),
+      );
+      search.addEventListener("input", () => {
+        const q = search.value.trim().toLowerCase();
+        groups.forEach((g) => {
+          let any = false;
+          g.querySelectorAll<HTMLElement>("[data-ug-link]").forEach((l) => {
+            const t = (l.getAttribute("data-ug-text") || "").toLowerCase();
+            const match = !q || t.indexOf(q) !== -1;
+            (l.parentElement as HTMLElement).style.display = match
+              ? ""
+              : "none";
+            if (match) any = true;
+          });
+          g.style.display = !q || any ? "" : "none";
+        });
+      });
+    };
+
+    // `transition:persist` moves the sidebar node on each navigation, and a
+    // scroll container that is detached and re-attached loses its scrollTop —
+    // so persist alone snaps the list back to the top. Capture the offset just
+    // before the swap and reapply it right after (before paint) so the sidebar
+    // holds its place from one section to the next.
+    let carriedScroll = 0;
+    document.addEventListener("astro:before-swap", () => {
+      const s = getScroller();
+      if (s) carriedScroll = s.scrollTop;
+    });
+    document.addEventListener("astro:after-swap", () => {
+      const s = getScroller();
+      if (s) s.scrollTop = carriedScroll;
+    });
+
+    initScroll();
+    initSearch();
+    syncActive();
+    document.addEventListener("astro:page-load", syncActive);
+  </script>
 </LandingLayout>

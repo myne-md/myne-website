@@ -6,6 +6,8 @@
  * fixed header, footer and fully inline-styled sections, so the rest of the
  * site (/ledger, /user-guide) keeps its own theme untouched.
  */
+import { ClientRouter } from "astro:transitions";
+
 interface Props {
   title: string;
   description: string;
@@ -17,6 +19,12 @@ interface Props {
   robots?: string;
   /** og:type — defaults to website; permalink pages pass "article". */
   ogType?: "website" | "article";
+  /** Opt in to Astro's client-side router (View Transitions). Only the
+   *  user-guide passes this, so guide→guide navigation swaps just the article
+   *  content while the persisted chrome (nav, sidebar, footer) stays mounted.
+   *  View Transitions engage only between two pages that BOTH ship the router,
+   *  so every other route keeps its plain full-load navigation untouched. */
+  clientRouter?: boolean;
 }
 
 const {
@@ -26,6 +34,7 @@ const {
   ogImage,
   robots,
   ogType = "website",
+  clientRouter = false,
 } = Astro.props;
 
 const canonicalUrl =
@@ -50,6 +59,7 @@ const canonicalUrl =
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {clientRouter && <ClientRouter />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalUrl} />
     {robots && <meta name="robots" content={robots} />}
@@ -183,7 +193,16 @@ const canonicalUrl =
     </style>
   </head>
   <body>
-    <div class="page-curtain" aria-hidden="true"></div>
+    {/* Persist the intro curtain across client-router navigations so it does
+        not re-mount and re-run its dark fade-in on every in-guide page swap.
+        The directive is applied ONLY when the router is enabled — adding a
+        transition directive anywhere on a page pulls in the transitions
+        runtime, so the plain variant keeps non-guide routes untouched. */}
+    {clientRouter ? (
+      <div class="page-curtain" aria-hidden="true" transition:persist></div>
+    ) : (
+      <div class="page-curtain" aria-hidden="true"></div>
+    )}
     <slot />
   </body>
 </html>

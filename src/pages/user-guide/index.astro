@@ -1,37 +1,7 @@
 ---
-import UserGuideShellLayout from "../../layouts/UserGuideShellLayout.astro";
-import CategoryCard from "../../components/userguide/CategoryCard.astro";
-import { getManifest } from "../../lib/userGuide";
-
-const manifest = getManifest();
-const canonical = new URL("/user-guide/", Astro.site!).toString();
+// The user-guide landing page has been removed — the guide opens directly on
+// the "Welcome to Myne" article. Nav links point straight at the article; this
+// redirect only catches anything still hitting the bare /user-guide/ URL (old
+// bookmarks, external links) so it lands on Welcome rather than 404ing.
+return Astro.redirect("/user-guide/getting-started/welcome/");
 ---
-
-<UserGuideShellLayout
-  title="User guide — Myne"
-  description="How to use Myne — creating a vault, organizing and linking notes, markdown, attachments, backups and recovery, and privacy settings."
-  canonical={canonical}
-  showSidebar={false}
->
-  <p class="ug-eyebrow">User guide</p>
-  <h1 class="ug-h1">User guide</h1>
-  <p class="ug-index__lede">
-    How to use Myne — step-by-step. Creating a vault, organizing and linking
-    notes, markdown, attachments, backups and recovery, and privacy settings.
-  </p>
-
-  <a class="ug-starthere" href="/user-guide/getting-started/create-your-vault/">
-    <span class="ug-starthere__eyebrow">Start here</span>
-    <span class="ug-starthere__title">New to Myne?</span>
-    <p class="ug-starthere__body">
-      Create your first vault, save your recovery phrase, and write your first
-      encrypted note. Five minutes.
-    </p>
-    <span class="ug-starthere__cta">Start with creating your vault →</span>
-  </a>
-
-  <p class="ug-eyebrow">Browse by topic</p>
-  <div class="ug-index__grid">
-    {manifest.map((cat) => <CategoryCard category={cat} />)}
-  </div>
-</UserGuideShellLayout>

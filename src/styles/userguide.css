@@ -529,41 +529,6 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
   gap: 8px;
 }
 
-/* Banner — C14 */
-.ug-banner {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  background: var(--accent-soft);
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-2);
-  padding: 12px 16px;
-}
-.ug-banner__icon {
-  color: var(--accent);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.ug-banner__text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-}
-.ug-banner__eyebrow {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-}
-.ug-banner__body {
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--ink-1);
-  margin: 0;
-}
-
 /* =========================================================================
    Myne v13 dark theme for the user guide.
    Dark color tokens are scoped to .ug-root; descendants inherit them, so the

@@ -14,17 +14,14 @@ export default defineConfig({
   // default service + add `sharp` if we ever need responsive `srcset`s.
   image: { service: passthroughImageService() },
   integrations: [
-    // (1) Filter views (/ledger/shipped, /ledger/thinking, /ledger/milestones)
-    //     canonicalize to /ledger/ — exclude them so the sitemap lists the
-    //     canonical feed only.
-    // (2) Exclude the placeholder-first /user-guide/ subtree from the sitemap
-    //     while it is unlinked from nav and noindex per page. When real content
-    //     lands the atomic go-live PR drops this line + per-page noindex meta
-    //     + the TodoBanner in one move (per PRD US20 + design-notes.md).
+    // Filter views (/ledger/shipped, /ledger/thinking, /ledger/milestones)
+    // canonicalize to /ledger/ — exclude them so the sitemap lists the
+    // canonical feed only. (The /user-guide/ subtree went live with real
+    // content — its per-page noindex, the TodoBanner, and its sitemap
+    // exclusion were dropped together at go-live, per design-notes.md.)
     sitemap({
       filter: (page) =>
-        !/\/ledger\/(shipped|thinking|milestones)\/?$/.test(page) &&
-        !/\/user-guide(\/|$)/.test(page),
+        !/\/ledger\/(shipped|thinking|milestones)\/?$/.test(page),
     }),
   ],
 });

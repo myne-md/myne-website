@@ -29,6 +29,7 @@ Myne is a desktop notes app built on a Rust crypto core (Argon2id key derivation
 - [How it works](${origin}/#work): Key derivation, local encryption, and ciphertext at rest.
 - [Compare](${origin}/#capab): How Myne lines up against Obsidian, Standard Notes, Joplin, and Notesnook.
 - [Download](${origin}/download/): Desktop builds for macOS, Windows, and Linux — code-signed and reproducible. Pre-alpha.
+- [User guide](${origin}/user-guide/): The manual for the encrypted desktop app — getting started, the editor, organizing notes, markdown, attachments, search, settings, and recovery.
 
 ## Project
 - [Specification](${origin}/spec/): The v0.1 cryptographic protocol.

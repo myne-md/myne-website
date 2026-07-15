@@ -8,6 +8,8 @@ tags: ["security", "settings"]
 
 You can change your master password from **Settings → Account**. This article covers how to do it, what it actually changes, and the one honest caveat about your old backups.
 
+![The Change password form in Account settings, with fields for the current password, the new password, and confirmation.](./change-your-password.png)
+
 ## Changing it
 
 Open Settings → Account and choose Change password. Enter your current password, then a new one. The new password must meet the same floor as at creation (at least 12 characters and a strength the meter accepts). Confirm, and Myne re-wraps your vault under the new password.

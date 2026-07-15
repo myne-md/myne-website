@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, passthroughImageService } from 'astro/config';
+import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
@@ -8,11 +8,14 @@ export default defineConfig({
   // Docker build sets SITE per environment (release → https://myne.md,
   // preview → https://preview.example.com); falls back to the prod apex locally.
   site: process.env.SITE ?? 'https://myne.md',
-  // Passthrough image service skips raster transforms (no `sharp` dep).
-  // SVGs and pre-sized PNGs ship as-is; markdown still gets the asset
-  // pipeline (hashed URLs, lazy-loading, width/height). Switch to the
-  // default service + add `sharp` if we ever need responsive `srcset`s.
-  image: { service: passthroughImageService() },
+  // Default (sharp) image service: markdown images — the user-guide
+  // screenshots especially — get responsive `srcset` widths, intrinsic
+  // width/height, and lazy-loading generated at build time. `sharp` is
+  // already resolved as astro's optional dependency (`pnpm-lock.yaml`), so
+  // enabling the default service adds no new download. SVGs still ship
+  // untransformed (sharp leaves vector sources as-is). The macOS window
+  // chrome on guide screenshots is baked into the PNG upstream by
+  // `scripts/frame-screenshots.mjs`, not drawn by the image pipeline here.
   integrations: [
     // Filter views (/ledger/shipped, /ledger/thinking, /ledger/milestones)
     // canonicalize to /ledger/ — exclude them so the sitemap lists the

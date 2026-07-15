@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-label="How conflicts resolve: the same note edited offline on two devices diverges into a conflict; Myne keeps both copies rather than auto-merging, and you choose to keep them separate, discard one, or use one version — the other copy goes to Trash and is recoverable.">
+  <style>
+    .bg{fill:#f4f4f2}
+    .card{fill:#fbfbfa;stroke:#e3e2dd;stroke-width:1}
+    .lbl{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a17;font-weight:600}
+    .sub{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#6b6a64}
+    .eye{font-family:'JetBrains Mono',ui-monospace,monospace;fill:#6b6a64;letter-spacing:.09em}
+    .mono{font-family:'JetBrains Mono',ui-monospace,monospace;fill:#6b6a64}
+    .warnchip{fill:#f5efde;stroke:#e6d9b4;stroke-width:1}
+    .warntx{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#8a6a1f;font-weight:600}
+    .neutral{fill:#ecebe7;stroke:#e3e2dd;stroke-width:1}
+    .accent{fill:#2c4a7a;stroke:#243d66;stroke-width:1}
+    .accenttx{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#ffffff;font-weight:600}
+    .neutx{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#3a3934;font-weight:600}
+    .arrow{stroke:#a3a29c;stroke-width:1.5;fill:none}
+  </style>
+  <rect class="bg" width="720" height="360"/>
+  <defs>
+    <marker id="ah2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a3a29c"/>
+    </marker>
+  </defs>
+
+  <text class="eye" x="28" y="28" font-size="11">SAME NOTE, EDITED IN TWO PLACES</text>
+
+  <!-- origin -->
+  <rect class="card" x="300" y="44" width="120" height="46" rx="8"/>
+  <text class="lbl" x="360" y="66" font-size="13" text-anchor="middle">Meeting notes</text>
+  <text class="mono" x="360" y="82" font-size="10.5" text-anchor="middle">version 3</text>
+
+  <!-- diverge -->
+  <path class="arrow" d="M304 78 C220 96 150 108 118 132" marker-end="url(#ah2)"/>
+  <path class="arrow" d="M416 78 C500 96 570 108 602 132" marker-end="url(#ah2)"/>
+
+  <!-- device A -->
+  <rect class="card" x="40" y="136" width="180" height="82" rx="8"/>
+  <rect class="warnchip" x="54" y="150" width="66" height="22" rx="11"/>
+  <text class="warntx" x="87" y="165" font-size="11" text-anchor="middle">offline</text>
+  <text class="lbl" x="54" y="194" font-size="12.5">Edited on laptop</text>
+  <text class="sub" x="54" y="210" font-size="10.5">…changed the agenda</text>
+
+  <!-- device B -->
+  <rect class="card" x="500" y="136" width="180" height="82" rx="8"/>
+  <rect class="warnchip" x="514" y="150" width="66" height="22" rx="11"/>
+  <text class="warntx" x="547" y="165" font-size="11" text-anchor="middle">offline</text>
+  <text class="lbl" x="514" y="194" font-size="12.5">Edited on phone</text>
+  <text class="sub" x="514" y="210" font-size="10.5">…added a decision</text>
+
+  <!-- conflict marker (branches do NOT rejoin) -->
+  <path class="arrow" d="M150 218 C230 244 300 250 340 258"/>
+  <path class="arrow" d="M570 218 C490 244 420 250 380 258"/>
+  <text class="mono" x="360" y="242" font-size="10.5" text-anchor="middle" fill="#8a6a1f">no auto-merge — conflict</text>
+
+  <!-- resolution card -->
+  <rect class="card" x="150" y="262" width="420" height="84" rx="9"/>
+  <text class="lbl" x="170" y="286" font-size="13">Both copies kept — you choose</text>
+  <rect class="neutral" x="170" y="300" width="118" height="30" rx="6"/>
+  <text class="neutx" x="229" y="319" font-size="11.5" text-anchor="middle">Keep separate</text>
+  <rect class="neutral" x="298" y="300" width="86" height="30" rx="6"/>
+  <text class="neutx" x="341" y="319" font-size="11.5" text-anchor="middle">Discard</text>
+  <rect class="accent" x="394" y="300" width="120" height="30" rx="6"/>
+  <text class="accenttx" x="454" y="319" font-size="11.5" text-anchor="middle">Use this version</text>
+  <text class="sub" x="528" y="320" font-size="10.5">other copy →</text>
+  <text class="sub" x="528" y="333" font-size="10.5">Trash (recoverable)</text>
+</svg>

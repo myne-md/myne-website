@@ -8,6 +8,8 @@ tags: ["privacy", "security"]
 
 This is the article the rest of the guide points to when it says "private by design". It explains, plainly and then precisely, what Myne protects, how, and what it cannot protect you from.
 
+![One random vault key encrypts your files; any of three credentials — your master password via Argon2id, your recovery phrase, or an optional device PIN — unwraps that same key, which never leaves your device.](./privacy-model.svg)
+
 ![The Account settings panel showing the Argon2id key-derivation parameters.](./privacy-model.png)
 
 ## What is encrypted

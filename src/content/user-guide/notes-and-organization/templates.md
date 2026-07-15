@@ -8,6 +8,8 @@ tags: ["templates", "notes"]
 
 A template is a note you reuse as a starting point: a meeting structure, a daily layout, a checklist. Myne keeps templates simple and local: a template is just a note you have marked, and a small, fixed set of placeholders fill in things like today's date. This article covers making templates, managing them, and the placeholders.
 
+![The Manage templates modal, where note templates are created, renamed, and removed.](./templates.png)
+
 ## What a template is
 
 A template is **an ordinary note** with a `template: true` marker in its frontmatter. There is nothing special about its storage; it is encrypted like any other note. Myne ships **no built-in templates**; you start with none and make the ones you want.

@@ -8,6 +8,8 @@ tags: ["markdown", "links"]
 
 This article covers three ways of referring to things: footnotes, reference-style links, and wikilinks (the `[[Note]]` syntax Myne uses to connect notes inside a vault).
 
+![A note showing a footnote reference with its rendered Footnotes list, plus a reference-style link.](./footnotes-and-reference-links.png)
+
 ## Footnotes
 
 A footnote has two parts: a marker in your text and a definition elsewhere in the note.

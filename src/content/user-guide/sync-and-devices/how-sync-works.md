@@ -8,6 +8,8 @@ tags: ["sync", "privacy", "security"]
 
 Sync is built so the server can store and relay your notes without ever being able to read them. Every note is encrypted on your device before it is uploaded, using keys derived from your password (or recovery phrase). The server never holds those keys, so to it your notes are opaque blobs. This page explains that model in plain terms and, just as importantly, where it stops.
 
+![Zero-knowledge sync: your device encrypts a note before it leaves, the sync server stores only ciphertext it has no keys to read, and your other device decrypts it. The server sits outside the trust boundary.](./how-sync-works.svg)
+
 ## Your keys never leave your device
 
 When you unlock your vault, your password (or recovery phrase) derives the keys that encrypt and decrypt your notes. Those keys stay on your device. What travels to the server is ciphertext plus a small amount of routing metadata. Because the server never has the keys, it cannot decrypt a note, a title, a folder name, or a tag — all of that lives inside the encrypted blob.

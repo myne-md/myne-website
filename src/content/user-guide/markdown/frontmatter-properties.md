@@ -8,6 +8,8 @@ tags: ["markdown", "notes"]
 
 Frontmatter is an optional block of properties at the very top of a note, written in YAML. Myne uses a few fields of its own and leaves everything else to you. This article covers the rules and the fields Myne manages.
 
+![The Properties panel at the top of a note, showing its title and frontmatter fields.](./frontmatter-properties.png)
+
 ## The frontmatter block
 
 If a note has frontmatter, it must be the very first thing in the file: a line of exactly `---`, then valid YAML, then a closing line of exactly `---`.

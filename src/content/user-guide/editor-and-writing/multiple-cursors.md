@@ -8,6 +8,8 @@ tags: ["editor"]
 
 Sometimes the same edit belongs in several places at once. Myne lets you stack cursors on the lines above and below where you are, Alt-click to drop a cursor anywhere you point, or grow a selection to the next occurrence of a word so you can change every match together. When you are done, Escape collapses everything back to a single cursor. All of it lives in the editor body, on the keyboard and the mouse.
 
+![A note with the same word selected in three places at once for simultaneous editing.](./multiple-cursors.png)
+
 ## Adding cursors
 
 To stack cursors vertically, hold the add-cursor chord and press the down or up arrow: each press drops another cursor on the next line in that direction (see Shortcuts below). Once you have more than one cursor, typing lands the same edit at every cursor in lockstep, so the keystrokes you make go into each place at the same time.

@@ -8,6 +8,8 @@ tags: ["sync", "notes", "devices"]
 
 When the same note is edited on two devices before they have synced with each other, there is no single correct merge, so Myne keeps **both** copies rather than overwriting one. Nothing is silently lost. The extra copies are held out of your main note list and gathered in one place for you to reconcile.
 
+![The same note edited offline on two devices diverges into a conflict; Myne keeps both copies and lets you keep them separate, discard one, or use one version, with the other copy moved to Trash.](./resolving-conflicts.svg)
+
 ## Finding conflicts
 
 When conflicts exist, the [sync status](/user-guide/sync-and-devices/sync-status/) indicator reads **N conflicts to review**. Open **Settings → Sync → Conflicts** to see them. Conflicting copies are grouped under the note they diverged from, so you can tell which original each copy belongs to. Each copy shows three actions.

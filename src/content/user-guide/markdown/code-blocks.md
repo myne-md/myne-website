@@ -8,6 +8,8 @@ tags: ["markdown", "editor"]
 
 For anything longer than a word of code, use a fenced code block. Myne renders it as a card with syntax highlighting and a copy button.
 
+![A note showing a fenced code block with syntax highlighting.](./code-blocks.png)
+
 ## Writing a code block
 
 Open and close the block with three backticks, and put the language after the opening fence:

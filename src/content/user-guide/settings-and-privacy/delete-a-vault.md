@@ -8,6 +8,8 @@ tags: ["vault", "security"]
 
 Deleting a vault removes it from your device for good. This is irreversible, so Myne makes you confirm deliberately. This article covers how it works and what "for good" really means.
 
+![The delete-vault confirmation form in Account settings, which requires typing a confirmation phrase before the vault is erased.](./delete-a-vault.png)
+
 ## Deleting
 
 From **Settings → Account**, choose Delete vault. To confirm, you type **DELETE**; there is no single-click delete, on purpose. When you confirm, Myne **wipes the vault's keys from memory first**, then removes its files. Wiping the keys before unlinking is what makes the deletion final: even the encrypted bytes left for an instant are unrecoverable without the keys, which are already gone. Deletion also clears any [quick-unlock](/user-guide/settings-and-privacy/quick-unlock/) you set up on this device — both the device-local quick-unlock file and the PIN wrap or macOS Keychain item the OS held for it. Deleting a vault is one of the things that invalidates its quick-unlock.

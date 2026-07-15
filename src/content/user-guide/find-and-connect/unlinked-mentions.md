@@ -8,6 +8,8 @@ tags: ["links", "search"]
 
 An unlinked mention is a note that writes the current note's title in its prose but never links to it. Myne can surface these so you can turn a passing mention into a real connection.
 
+![The Unlinked mentions tab listing other notes that name this note without linking it.](./unlinked-mentions.png)
+
 ## Finding mentions
 
 Unlinked mentions is one tab in the editor's multi-tab right panel, alongside [Backlinks](/user-guide/find-and-connect/backlinks/) and [Outline](/user-guide/find-and-connect/outline/).

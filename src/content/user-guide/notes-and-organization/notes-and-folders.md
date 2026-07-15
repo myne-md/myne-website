@@ -8,6 +8,8 @@ tags: ["notes", "folders"]
 
 Notes and folders are the backbone of a vault. This article covers creating and naming notes, how folders work, how autosave keeps your edits, and what happens when you delete something.
 
+![The sidebar with notes organized into folders alongside loose top-level notes.](./notes-and-folders.png)
+
 ## Creating a note
 
 Every plain "new note" action (the sidebar control, `⌘N`, the new-note-in-pane shortcut) makes an **instant blank note** and drops you into it, ready to type. There is no dialog and no template to pick. If you want a note built from a template, that is a separate, deliberate path; see [Templates](/user-guide/notes-and-organization/templates/).

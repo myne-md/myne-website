@@ -8,6 +8,8 @@ tags: ["devices", "sync", "security"]
 
 The **Devices** section of **Settings → Sync** lists the devices connected to your account and lets you approve pending ones or remove ones you no longer want syncing. Before removing a device, it is worth being precise about what removal does and does not do — the honest answer is narrower than "kick it off," and this page states it plainly.
 
+![The Devices section of Sync settings, which lists the devices on your account.](./managing-devices.png)
+
 ## The device list
 
 Under **Settings → Sync → Devices**, you see:

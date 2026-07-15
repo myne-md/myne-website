@@ -8,6 +8,8 @@ tags: ["notes", "sidebar"]
 
 Favorites give you quick access to the notes you open most, without disturbing how they are filed. This article covers what favoriting does and what it doesn't.
 
+![A note starred into the Favorites section pinned at the top of the sidebar.](./favorites.png)
+
 ## A shortcut, not a move
 
 Marking a note as a favorite adds it to a **Favorites** section at the top of the sidebar. It does **not** move the note: the original stays exactly where it lives in your folder tree. A favorite is a shortcut to the note, so you can reach it from the top of the sidebar and still find it in its folder.

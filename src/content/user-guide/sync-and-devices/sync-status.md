@@ -8,6 +8,8 @@ tags: ["sync", "security"]
 
 Sync surfaces its state in one place and a few banners. The status indicator in **Settings → Sync** tells you whether the device is synced, working, or needs attention; a small set of banners appear when something worth explaining happens. This page covers how to read each.
 
+![The Sync status row in Sync settings, showing this device is local-only with sync turned off.](./sync-status.png)
+
 ## The status indicator
 
 Under **Settings → Sync → Sync status**, a coloured dot and a short label show the current state:

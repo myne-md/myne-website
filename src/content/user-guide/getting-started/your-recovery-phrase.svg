@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-label="Your recovery phrase: your master password and your 24-word recovery phrase are two independent ways to open the same vault. The phrase is the offline backup — it is never uploaded, and anyone who has it can open the vault, so Myne cannot reset or recover it for you.">
+  <style>
+    .bg{fill:#f4f4f2}
+    .card{fill:#fbfbfa;stroke:#e3e2dd;stroke-width:1}
+    .slot{fill:#f4f4f2;stroke:#e3e2dd;stroke-width:1}
+    .lbl{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a17;font-weight:600}
+    .sub{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#6b6a64}
+    .eye{font-family:'JetBrains Mono',ui-monospace,monospace;fill:#6b6a64;letter-spacing:.09em}
+    .mono{font-family:'JetBrains Mono',ui-monospace,monospace;fill:#8d8c85}
+    .chip{fill:#e8edf5;stroke:#d3ddf0;stroke-width:1}
+    .chipx{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#2c4a7a;font-weight:600}
+    .accent{fill:#2c4a7a}
+    .arrow{stroke:#a3a29c;stroke-width:1.6;fill:none}
+    .strike{stroke:#8a6a1f;stroke-width:1.5}
+  </style>
+  <rect class="bg" width="720" height="360"/>
+  <defs>
+    <marker id="ah3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a3a29c"/>
+    </marker>
+  </defs>
+
+  <text class="eye" x="28" y="30" font-size="11">TWO WAYS TO OPEN ONE VAULT</text>
+
+  <!-- password -->
+  <rect class="card" x="28" y="52" width="220" height="70" rx="9"/>
+  <text class="lbl" x="46" y="82" font-size="14">Master password</text>
+  <text class="sub" x="46" y="103" font-size="11.5">You set this. You can change it.</text>
+
+  <!-- recovery phrase -->
+  <rect class="card" x="28" y="150" width="220" height="150" rx="9"/>
+  <text class="lbl" x="46" y="178" font-size="14">24-word recovery phrase</text>
+  <g>
+    <rect class="slot" x="46" y="190" width="46" height="18" rx="3"/>
+    <rect class="slot" x="98" y="190" width="46" height="18" rx="3"/>
+    <rect class="slot" x="150" y="190" width="46" height="18" rx="3"/>
+    <rect class="slot" x="202" y="190" width="26" height="18" rx="3"/>
+    <rect class="slot" x="46" y="212" width="46" height="18" rx="3"/>
+    <rect class="slot" x="98" y="212" width="46" height="18" rx="3"/>
+    <rect class="slot" x="150" y="212" width="46" height="18" rx="3"/>
+    <rect class="slot" x="202" y="212" width="26" height="18" rx="3"/>
+  </g>
+  <text class="mono" x="52" y="203" font-size="10">river</text>
+  <text class="mono" x="104" y="203" font-size="10">amber</text>
+  <text class="mono" x="156" y="203" font-size="10">token</text>
+  <text class="mono" x="207" y="203" font-size="10">…</text>
+  <rect class="chip" x="46" y="242" width="182" height="26" rx="13"/>
+  <text class="chipx" x="60" y="259" font-size="11">Survives password changes</text>
+  <text class="sub" x="46" y="288" font-size="11">Shown once, at creation.</text>
+
+  <!-- arrows to vault -->
+  <path class="arrow" d="M248 87 C320 100 350 150 396 172" marker-end="url(#ah3)"/>
+  <path class="arrow" d="M248 225 C320 212 350 200 396 186" marker-end="url(#ah3)"/>
+  <text class="mono" x="322" y="150" font-size="10" fill="#6b6a64" text-anchor="middle">either one</text>
+
+  <!-- vault -->
+  <rect class="card" x="400" y="126" width="150" height="112" rx="11"/>
+  <rect class="accent" x="462" y="160" width="26" height="22" rx="3"/>
+  <path d="M467 160 v-8 a8 8 0 0 1 16 0 v8" fill="none" stroke="#2c4a7a" stroke-width="2.4"/>
+  <circle cx="475" cy="171" r="2.6" fill="#fbfbfa"/>
+  <text class="lbl" x="475" y="205" font-size="14" text-anchor="middle">Your vault</text>
+  <text class="sub" x="475" y="224" font-size="11" text-anchor="middle">opens with either</text>
+
+  <!-- never uploaded (struck cloud) -->
+  <g transform="translate(596,150)">
+    <path d="M14 34 a15 15 0 0 1 3 -29 a20 20 0 0 1 37 6 a13 13 0 0 1 -4 25 z" fill="#ecebe7" stroke="#c8c7c1" stroke-width="1.25"/>
+    <line class="strike" x1="8" y1="42" x2="60" y2="-2"/>
+  </g>
+  <text class="sub" x="626" y="212" font-size="11" text-anchor="middle">Never uploaded —</text>
+  <text class="sub" x="626" y="226" font-size="11" text-anchor="middle">no server copy</text>
+
+  <!-- honest limit footer -->
+  <line x1="28" y1="316" x2="692" y2="316" stroke="#e3e2dd" stroke-width="1"/>
+  <text class="sub" x="28" y="338" font-size="11.5">Anyone who has the phrase can open this vault. Myne cannot reset, rotate, or recover it for you.</text>
+</svg>

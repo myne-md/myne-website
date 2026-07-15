@@ -8,6 +8,8 @@ tags: ["links", "notes"]
 
 A wikilink connects one note to another inside your vault. You write it in double brackets, and Myne turns the connection into something you can use in three places. This article is about what wikilinks *do*; the exact syntax (aliases, headings, paths, embeds) is in [Footnotes and reference links](/user-guide/markdown/footnotes-and-reference-links/#wikilinks).
 
+![A note with rendered wikilink pills that link to other notes in the vault.](./wikilinks.png)
+
 ## What a link does
 
 Write `[[Another note]]` and Myne renders it as a chip you can read past, and the link starts working:

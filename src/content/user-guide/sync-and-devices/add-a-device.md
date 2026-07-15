@@ -8,6 +8,8 @@ tags: ["devices", "sync", "recovery"]
 
 Adding a device connects it to your account so it syncs the same notes. A device you add with your password waits until a device that already has access approves it, and both devices then compare a short verification code to confirm they are on the same account. This page covers both ends of that flow.
 
+![The Add a device form in Sync settings, where you sign a new device in to your account.](./add-a-device.png)
+
 ## Prerequisites
 
 - Sync already turned on for the account (see [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/)).

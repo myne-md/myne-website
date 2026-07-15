@@ -8,6 +8,8 @@ tags: ["backup", "recovery"]
 
 Restoring brings a vault back from a `.myne-backup` file, onto a new computer, or after the live vault is damaged. This article covers the flow, what happens if a matching vault already exists, and how a damaged backup is handled.
 
+![The Restore from backup screen, where a Myne backup file is chosen to rebuild a vault.](./restore-from-a-backup.png)
+
 ## Starting a restore
 
 You can start a restore from four places: the **Restore from backup** door on the Welcome screen, **Settings → Storage**, the command palette, and the corrupted-vault screen. They all lead to the same flow: pick the `.myne-backup` file, and Myne rebuilds the vault from it.

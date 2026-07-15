@@ -8,6 +8,8 @@ tags: ["editor"]
 
 Folding lets you collapse a heading's whole section or a list item's nested children so a long note stays readable. You fold one region at a time from the arrow in the editor's left gutter, or collapse and expand everything at once with Fold all and Unfold all. Folds are ephemeral: they live only while the note is open and clear the moment you switch notes, lock, or quit.
 
+![A note with a heading section folded, showing the collapsed placeholder where the hidden lines were.](./folding.png)
+
 ## Folding a section or list
 
 Hover the editor and a small fold arrow appears in the left gutter, next to any line that can be folded. Two kinds of line are foldable:

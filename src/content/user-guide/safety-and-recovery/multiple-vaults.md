@@ -8,6 +8,8 @@ tags: ["vault", "privacy"]
 
 You can keep more than one vault, say one for work and one for personal notes. They are fully separate, and Myne keeps only one open at a time. This article covers switching, what's visible before you unlock, and how vaults stay independent.
 
+![The vault switcher menu open from the sidebar, listing your vaults with an option to create or switch to another.](./multiple-vaults.png)
+
 ## One vault open at a time
 
 Myne unlocks one vault at a time. Switching to another means locking the current one and unlocking the next with its own password. There is no way to hop between vaults without unlocking, because each vault's key is only in memory while it is open.

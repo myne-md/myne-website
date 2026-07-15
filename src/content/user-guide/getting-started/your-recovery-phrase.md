@@ -8,6 +8,8 @@ tags: ["recovery", "vault", "security"]
 
 Your recovery phrase is 24 standard English words that act as a second, independent way to unlock your vault. You see it once, during vault creation. This article explains what it is, the confirmation step that follows it, how the phrase screen protects the words while they are on display, and where to keep them.
 
+![Your master password and your 24-word recovery phrase are two independent ways to open the same vault; the phrase is the offline backup and is never uploaded.](./your-recovery-phrase.svg)
+
 ## What the phrase is
 
 - **24 words from a standard list.** They are ordinary recovery words (the BIP-39 wordlist), chosen so they are easy to copy by hand and check for typos.

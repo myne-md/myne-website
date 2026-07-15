@@ -8,6 +8,8 @@ tags: ["markdown", "editor"]
 
 This article covers the everyday markdown you will use most. Myne renders it live: as your cursor leaves a line, the markers fade and the formatting shows; move the cursor back onto the line and the raw markdown returns so you can edit it. Nothing is rewritten, and what you see is a view of the bytes you typed.
 
+![A note showing rendered Markdown basics: a heading, bold and italic text, and a bulleted list.](./markdown-basics.png)
+
 ## Headings
 
 Write headings with `#` markers, from `# Heading 1` through `###### Heading 6`. New headings always use this `#` form. (If you import notes that underline a heading with `===` or `---`, Myne reads and renders them, but it never converts your file to that form.)

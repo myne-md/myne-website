@@ -28,6 +28,12 @@ const { active, pinned, title, description } = Astro.props;
 const filter = FILTERS.find((f) => f.key === active)!;
 const filtered = applyFilter(await getSortedLedgerEntries(), active);
 
+// Every filter view (/ledger, /ledger/shipped, …) canonicalizes to the feed
+// root so the duplicate slices collapse to one indexable URL. Derive it from
+// `Astro.site` rather than hardcoding the prod host, so the preview deploy
+// emits a preview-host canonical instead of pointing at prod.
+const ledgerCanonical = new URL("/ledger/", Astro.site!).toString();
+
 const SPARSE_THRESHOLD = 4;
 const showSparseQuiet =
   active === "all" && filtered.length > 0 && filtered.length < SPARSE_THRESHOLD;
@@ -36,7 +42,7 @@ const showSparseQuiet =
 <LandingLayout
   title={title ?? filter.pageTitle}
   description={description ?? filter.description}
-  canonical="https://myne.md/ledger/"
+  canonical={ledgerCanonical}
   ogImage={absoluteOg("ledger", Astro.site!)}
 >
   <div class="ledger-root">

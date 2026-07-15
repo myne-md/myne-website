@@ -1,17 +1,13 @@
 /* =========================================================================
    Myne — Color + Type Tokens (light only).
    Ported from the design system at colors_and_type.css.
-
-   Caveat: font binaries (InterVariable.woff2, JetBrainsMono.woff2) are not
-   bundled. Until they land in /public/fonts/, the @font-face rules resolve
-   to 404 and the browser silently falls back to the system stack — close
-   enough on macOS / Windows / Linux but not pixel-perfect.
    ========================================================================= */
 
-/* @font-face rules deliberately omitted: font binaries are not yet bundled.
-   Adding them now would 404 on every first paint. The system stack named in
-   --font-sans / --font-mono substitutes acceptably until WOFF2s land in
-   /public/fonts/InterVariable.woff2 and /public/fonts/JetBrainsMono.woff2. */
+/* @font-face rules live in ../styles/fonts.css — self-hosted Inter +
+   JetBrains Mono (latin subset) bundled from @fontsource, no Google Fonts CDN.
+   That file is imported by LandingLayout, which every live page renders
+   through, so the families named below always resolve to the bundled webfonts
+   (with the system stack as fallback). */
 
 :root {
   /* -- Type families --------------------------------------------------- */

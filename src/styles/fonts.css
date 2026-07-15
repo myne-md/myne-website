@@ -1,0 +1,13 @@
+/* Self-hosted webfonts — bundled from @fontsource (latin subset), NOT the
+   Google Fonts CDN. A privacy-first site must not leak every visitor's IP to
+   fonts.gstatic.com on first paint; self-hosting also drops the render-blocking
+   cross-origin round-trip. @fontsource ships `font-display: swap`, matching the
+   old `&display=swap`. Weights mirror what the landing actually uses:
+   Inter 400/500/600/700, JetBrains Mono 400/500/700. */
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-500.css";
+@import "@fontsource/inter/latin-600.css";
+@import "@fontsource/inter/latin-700.css";
+@import "@fontsource/jetbrains-mono/latin-400.css";
+@import "@fontsource/jetbrains-mono/latin-500.css";
+@import "@fontsource/jetbrains-mono/latin-700.css";

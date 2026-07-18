@@ -10,4 +10,4 @@ its own copies because it bundles them at build time, but the **canonical source
 `myne-branding`** — when the brand changes there, refresh the copies here to match.
 
 Brand marks are trademarks; their use is governed by the `myne-branding` repo's
-[`TRADEMARK.md`](https://github.com/myne-md/myne-branding/blob/main/TRADEMARK.md).
+[`TRADEMARK.md`](https://github.com/myne-md/myne-branding/blob/develop/TRADEMARK.md).

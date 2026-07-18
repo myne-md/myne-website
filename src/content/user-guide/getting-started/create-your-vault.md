@@ -8,7 +8,7 @@ tags: ["vault", "basics"]
 
 Creating your first vault opens with a short safety briefing, then runs a four-step wizard: set a master password, save your recovery phrase, confirm a few of its words, and note your account number. At the end Myne opens the vault straight into a seeded welcome note. The whole thing takes a couple of minutes, but one decision in it is permanent, so read the briefing and the password step before you rush through them.
 
-![A vault is a folder of encrypted files on your device: each note is its own encrypted file, and nothing leaves your device.](./create-your-vault.svg)
+![A vault is a folder of encrypted files on your device: each note is its own encrypted file, and until you turn on sync, nothing leaves your device.](./create-your-vault.svg)
 
 ## Before you begin: the safety briefing
 

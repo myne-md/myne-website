@@ -30,7 +30,7 @@ It helps to know what that new-password step does and doesn't do. Your vault is 
 
 ## On a new computer
 
-The recovery phrase unlocks a vault, but it does not conjure one out of nothing. On a fresh machine with no vault yet, the phrase alone restores nothing: there is no server to pull your notes from. You first need the vault's files on that machine, which you get by restoring a backup (see [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/)); then the phrase, or your password, unlocks them.
+The recovery phrase unlocks a vault, but it does not conjure one out of nothing. On a fresh machine with no vault yet, the phrase alone restores nothing: it unlocks a vault, it does not fetch one. You first need the vault's files on that machine — by restoring a backup (see [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/)), or, if you have turned on sync, by adding the machine as a device so it pulls your encrypted notes down (see [Add a device](/user-guide/sync-and-devices/add-a-device/)); then the phrase, or your password, unlocks them.
 
 ## Starting over
 

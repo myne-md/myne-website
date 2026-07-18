@@ -12,7 +12,7 @@ Some of what defines Myne is what it refuses to do. These are not features that 
 
 - **No plaintext mode, and no way to turn encryption off.** Encryption is the only mode. There is no "skip encryption for speed" switch, because a switch like that gets left off.
 - **No email at sign-up, and no email recovery, ever.** Adding an email reset would mean someone other than you could trigger access to your vault. You hold the only keys; that is the whole point.
-- **No telemetry and no analytics.** Myne sends no usage data. Myne today runs entirely on your device; nothing leaves it.
+- **No telemetry and no analytics.** Myne sends no usage data — no counters, no crash pings, nothing about how you use the app. This holds whether or not you turn on sync: sync moves your *encrypted* notes between your devices, never usage data, and the server can never read them.
 - **No way to disable auto-lock.** You can make the timer longer, but auto-lock is always on. See [Auto-lock and screen-capture protection](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/). You can opt in to [quick unlock](/user-guide/settings-and-privacy/quick-unlock/), which lets a fast credential (a PIN or Touch ID) reverse an auto-lock instead of retyping the master password — but that is a convenience layer over the always-on lock, not a way to switch it off. The PIN path is honestly bounded: someone who copies the vault can try to guess the PIN offline, slowed only by the PIN's length and the same memory-hard key derivation Myne uses elsewhere, so a short PIN buys less protection than the master password does.
 - **No claim to protect a compromised machine.** Myne encrypts your notes on disk. It does not claim to defend against malware running on your computer or someone using it while a vault is open, and it won't pretend to.
 - **No hidden or deniable vaults.** Myne doesn't offer a secret second vault behind a decoy password; it doesn't claim a property it can't actually provide.
@@ -23,7 +23,7 @@ The walk-away promise (that your notes are plain markdown once decrypted) is abo
 
 ## On sync
 
-Myne today runs entirely on your device; nothing leaves it. That is the complete answer for this version: there is no sync, and the app makes no promise about when there might be.
+Sync is **off by default**. Until you turn it on, Myne runs entirely on your device; nothing leaves it. When you do turn it on, sync is zero-knowledge: only encrypted blobs move between your devices, and the server — whether Myne's hosted one or [a server you run yourself](/user-guide/sync-and-devices/) — never holds a key and can never read your notes. The hosted service is currently a free, invite-only beta; self-hosting is available now. See [Sync and devices](/user-guide/sync-and-devices/).
 
 ## Limits
 

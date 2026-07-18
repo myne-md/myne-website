@@ -57,6 +57,7 @@ enforce it, so it is a g2-review item.
 |---|---|---|
 | `.myne-backup` export/restore | **backup**, **restore** (restore = from a backup, only) | "archive", "snapshot" for a backup; "restore" for the phrase flow |
 | Per-note version history | **snapshot** | "backup", "version backup" |
+| Note set-aside state (Archive feature) | **archive** (the set-aside state — leaves the sidebar, stays searchable) | "backup"/"snapshot" synonym; conflating with Trash or permanent delete |
 | Recovery-phrase unlock flow | **unlock with recovery phrase** | "restore from phrase", "restore your vault with the phrase" |
 | Leftover-file cleanup flow | **clean up leftover files** | "repair", "vault repair" (user-facing) |
 | Bringing external content in | **import** (Obsidian vault, attachment files) | "import" for backups/restores |
@@ -192,13 +193,19 @@ limitation:
 Copy these verbatim — do not paraphrase. Each has a single canonical home; other
 articles reuse the exact wording.
 
-### Local-only (SYNC-8)
+### Local-only (SYNC-8, reconsidered 2026-07-18)
 
-> Myne today runs entirely on your device; nothing leaves it.
+> Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
 
-Reuse wherever sync-adjacency comes up. Never add roadmap dates, never write
-"when you sync". The bottom bar's literal "Local-only · not synced" is the honest
-anchor.
+Sync is **off by default** and opt-in (self-host is Phase 1; the managed hosted
+service is an invite beta — `decisions.md` 2026-07-18). The old unconditional
+"nothing leaves it" is retired — **never claim "there is no sync"**. Reuse the
+conditional wherever a **local default** is being described; the bottom bar's
+literal "Local-only · not synced" is the honest anchor for that default state, and
+the sync privacy model itself belongs in / links to the sync-and-devices chapter.
+A statement about a *specific* local feature ("the checker is fully local",
+"counts are computed on your device") stays unconditional — it is true with sync
+on too, so leave those as they are.
 
 ### Attachment portability (SYNC-10, attachments-import grill)
 

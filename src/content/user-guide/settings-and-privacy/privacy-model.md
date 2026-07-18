@@ -28,7 +28,7 @@ Any one of these decrypts the vault's key, and with the key Myne decrypts your n
 
 ## Where your notes live
 
-Myne today runs entirely on your device; nothing leaves it. There is no account on a server, no sync, no analytics, and no background connection. In this first version, Myne-the-company sees nothing: there is no server for your vault to talk to, and the app sends no telemetry.
+Until you turn on sync, Myne runs entirely on your device; nothing leaves it — no background connection, no analytics, no telemetry. Sync is **off by default** and opt-in. When you do turn it on, Myne stays zero-knowledge: only encrypted blobs leave your device, the server can never read your notes, and you can point Myne at [a server you host yourself](/user-guide/sync-and-devices/) instead of the hosted one. Either way Myne-the-company never sees your notes — the only thing sync changes is that ciphertext is stored and relayed between your devices, never decrypted off them. The app still sends no telemetry, synced or not.
 
 There is also **no email at sign-up and no email recovery**. This is deliberate, not a missing feature. An email reset would mean someone other than you could trigger access to your vault, which is exactly the power Myne refuses to hold. The flip side is that *you* hold the only keys; the operational walkthrough for a forgotten password is [If you forget your password](/user-guide/safety-and-recovery/if-you-forget-your-password/).
 
@@ -48,4 +48,4 @@ The full, precise catalogue of what Myne defends against and what it doesn't is 
 
 ## Limits
 
-This page describes the protection Myne provides today, in its first, fully-local version. Where a sibling article needs the technical detail (backups, the recovery flow, auto-lock) it links back here so the model is described in one place.
+This page describes the protection Myne provides today. Where a sibling article needs the technical detail (backups, the recovery flow, auto-lock) it links back here so the model is described in one place.

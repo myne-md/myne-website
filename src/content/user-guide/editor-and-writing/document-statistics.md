@@ -40,4 +40,4 @@ There is no reading-time estimate. The readout reports four things and only thos
 
 ## Limits
 
-The counts are computed inside the editor over content that is already decrypted and on screen. Nothing about the figures is persisted to your vault or transmitted anywhere — they are recalculated each time, on your device, from the note you have open. Myne today runs entirely on your device; nothing leaves it.
+The counts are computed inside the editor over content that is already decrypted and on screen. Nothing about the figures is persisted to your vault or transmitted anywhere — they are recalculated each time, on your device, from the note you have open. Until you turn on sync, Myne runs entirely on your device; nothing leaves it.

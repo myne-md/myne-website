@@ -6,7 +6,7 @@ summary: "An overview of Myne's multi-device sync: it keeps your encrypted notes
 tags: ["sync", "devices", "privacy"]
 ---
 
-Sync keeps your notes in step across the devices you own. Each device encrypts its notes before anything leaves it, so the server only ever holds ciphertext it cannot read. There is no email and no separate login: you connect a device with your account number and either your password or your recovery phrase. Sync stays off until you set a server and add a second device, and you can run it on Myne's hosted server or one you host yourself.
+Sync keeps your notes in step across the devices you own. Each device encrypts its notes before anything leaves it, so the server only ever holds ciphertext it cannot read. There is no email and no separate login: you connect a device with your account number and either your password or your recovery phrase. Sync stays off until you set a server and add a second device, and you can run it on Myne's hosted server or one you host yourself. Self-hosting is available now; Myne's hosted server is currently a free, invite-only beta.
 
 ## What sync is
 

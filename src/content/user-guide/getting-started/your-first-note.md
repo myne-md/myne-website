@@ -33,7 +33,7 @@ Each note is encrypted with its own key, which is stored wrapped by your vault's
 
 The bottom bar reads **Local-only · not synced**. That is the literal, honest state of your notes:
 
-Myne today runs entirely on your device; nothing leaves it.
+Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
 
 ## Coming from Obsidian?
 

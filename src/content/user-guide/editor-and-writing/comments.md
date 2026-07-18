@@ -26,7 +26,7 @@ The comment is removed from every rendered or lossy output:
 - the **HTML** export,
 - the **PDF** export,
 - the **plain-text** export, and
-- the **document statistics** (word, character, sentence, and reading-time counts).
+- the **document statistics** (word, character, space, and paragraph counts).
 
 The one place the comment survives in full is the byte-verbatim **Markdown** export. That export copies your note's exact bytes, and the `%%` source you typed is never rewritten, so the comment text comes through unchanged.
 

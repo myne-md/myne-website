@@ -16,7 +16,7 @@ Myne is a local-first, encrypted markdown notebook. You write in plain markdown,
 - **No account, no email.** You don't sign up. A vault is created locally, protected by a password only you know.
 - **A vault is a folder of encrypted files on your device.** It is not a single file and not a cloud account, but a directory Myne creates and manages on your disk, where each note is its own encrypted file.
 
-Myne today runs entirely on your device; nothing leaves it.
+Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
 
 ## What this section covers
 

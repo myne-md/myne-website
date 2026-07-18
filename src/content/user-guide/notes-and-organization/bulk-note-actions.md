@@ -26,7 +26,7 @@ The selection collapses back to a single note the moment you do anything that is
 Once two or more notes are selected, right-click any row that is part of the selection to open a menu that acts on the whole set rather than the single row under the cursor:
 
 - **Move N notes to…** opens a submenu listing **Vault root** plus every folder, indented by depth. Choosing a destination moves every selected note there.
-- **Arşivle N not** archives the whole set. Archived notes leave the sidebar and are recoverable from the Archive panel; see [Archive](/user-guide/notes-and-organization/archive/).
+- **Archive N notes** archives the whole set. Archived notes leave the sidebar and are recoverable from the Archive panel; see [Archive](/user-guide/notes-and-organization/archive/).
 - **Delete N notes** moves the whole set to the Trash. This is reversible: an undo toast appears right after, and **Undo** restores every note you just trashed. See [Trash](/user-guide/notes-and-organization/trash/).
 
 You can also press Delete or Backspace with a multi-selection active to send the whole set to the Trash, the same as the menu's Delete action.
@@ -42,7 +42,7 @@ A multi-selection can be dragged the same way a single note can. Pick up any sel
 To copy a single note, right-click its row and choose **Duplicate**. The copy:
 
 - Gets a new note identity of its own, separate from the original.
-- Takes the source title with **(kopya)** appended, or just **(kopya)** when the source has no title.
+- Takes the source title with **(copy)** appended, or just **(copy)** when the source has no title.
 - Lands in the same folder as the original and opens in the focused pane.
 - Stays a template if the note you duplicated was a template.
 
@@ -60,7 +60,7 @@ A selection is ephemeral interface state, not anything stored: closing the app o
 
 Bulk move, archive, and trash each rewrite a note's frontmatter inside the encryption envelope that note already has; the operation changes where a note lives or whether it is hidden, not how it is encrypted. A bulk trash is reversible through the undo toast, and a bulk archive is recoverable from the Archive panel, so neither is a destructive step on its own. Emptying the Trash afterwards is the irreversible step, covered in [Trash](/user-guide/notes-and-organization/trash/).
 
-Myne today runs entirely on your device; nothing leaves it.
+Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
 
 ## Shortcuts
 

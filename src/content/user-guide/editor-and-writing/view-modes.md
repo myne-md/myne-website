@@ -44,7 +44,7 @@ The preview is a linked mirror of the same buffer, not a second editable copy �
 
 View modes are a presentation choice. Switching a tab between Live preview, Reading, and Source — and the side-by-side preview — never mutate the note's stored bytes.
 
-Your **Default view mode** preference lives inside the vault's encrypted preferences, and each tab's own mode rides inside the encrypted workspace state that Myne restores when you unlock. Neither is written in plaintext, and neither leaves your device. Myne today runs entirely on your device; nothing leaves it.
+Your **Default view mode** preference lives inside the vault's encrypted preferences, and each tab's own mode rides inside the encrypted workspace state that Myne restores when you unlock. Neither is written in plaintext, and neither leaves your device. Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
 
 ## Shortcuts
 

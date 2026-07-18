@@ -14,8 +14,9 @@ when:
   # `push` covers the normal flow (GitHub → Forgejo mirror sync → build).
   # `manual` lets an admin trigger a deploy from the Woodpecker UI — useful
   # because a Forgejo *pull mirror* sync does not always fire the push webhook.
-  - event: [push, manual]
+  - event: [push]
     branch: [release, develop]
+  - event: manual
 
 variables:
   docker_image: &docker_image docker:28-cli
@@ -52,6 +53,9 @@ steps:
       - docker compose up -d
       - docker image prune -f
     depends_on: [build]
+    when:
+      - event: [push, manual]
+        branch: [release, develop]
 
   # Failure notification via Pushover. The token + group come ONLY from CI
   # secrets, never committed (public repo). A missing secret makes the step skip

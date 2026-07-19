@@ -1,0 +1,1350 @@
+---
+/*
+ * Theme Builder — the no-code custom-theme authoring tool (MYND-346).
+ *
+ * Slice 1 (builder-shell-entry): the page frame only — dark LandingLayout+GlassNav
+ * chrome, a builder toolbar with the Export affordance, and a full-page no-scroll
+ * two-pane layout with empty named slots the sibling slices fill:
+ *   - #tb-config-slot  ← builder-controls (left)
+ *   - #tb-preview-slot ← builder-preview (right)
+ *   - #tb-export-btn   ← builder-export (opens the submit modal; no-op for now)
+ *
+ * No new nav entry — reached only from the /themes gallery "Build your own" CTA.
+ * The page-scoped overflow lock keeps other dark pages (min-height:100vh) intact.
+ */
+import LandingLayout from "../../layouts/LandingLayout.astro";
+import GlassNav from "../../components/GlassNav.astro";
+import TokenControl from "../../components/themeBuilder/TokenControl.astro";
+import { GROUPS } from "../../lib/themeBuilder/manifest.mjs";
+import { LIGHT_DEFAULTS } from "../../lib/themeBuilder/tokens.mjs";
+import themesIndex from "../../data/themes-index.json";
+import themesFull from "../../data/themes-full.json";
+
+const val = (token: string): string => LIGHT_DEFAULTS[token] ?? "#000000";
+
+// Initial CSS-var block for the preview wrapper (light base) so it renders
+// correct before the client apply-engine takes over. Values are canonical hex.
+const initialVars = Object.entries(LIGHT_DEFAULTS)
+  .map(([k, v]) => `${k}:${v}`)
+  .join(";");
+
+// Gallery themes that have a full vendored palette → "start from" presets.
+const galleryThemes = (themesIndex.themes ?? [])
+  .filter((t) => t.slug in themesFull)
+  .map((t) => ({ slug: t.slug, name: t.name, dark: t.appearance === "dark" }));
+---
+
+<LandingLayout
+  title="Theme Builder — Myne"
+  description="Build your own Myne theme with live preview — pick colors, see them applied, download or share."
+>
+  <div class="tb-page">
+    <GlassNav />
+
+    <main class="tb">
+      <div class="tb-inner">
+    {/* Builder toolbar — sits under GlassNav (which we keep verbatim). Holds the
+        tool title and the Export affordance. Task 5 adds the mobile Edit/Preview
+        toggle into the .tb-bar-mid slot. */}
+    <div class="tb-bar">
+      <div class="tb-bar-title mono up">Theme Builder</div>
+      <div class="tb-bar-mid">
+        {/* Mobile-only Edit/Preview toggle (task 5). Hidden on desktop. */}
+        <div class="tb-seg" role="tablist" aria-label="Edit or preview">
+          <button
+            type="button"
+            class="tb-seg-btn is-active"
+            data-tb-pane="config"
+            role="tab"
+            aria-selected="true">Edit</button
+          >
+          <button
+            type="button"
+            class="tb-seg-btn"
+            data-tb-pane="preview"
+            role="tab"
+            aria-selected="false">Preview</button
+          >
+        </div>
+      </div>
+      <div class="tb-bar-actions">
+        <button type="button" id="tb-export-btn" class="tb-export mono up">Export</button>
+      </div>
+    </div>
+
+    <div class="tb-panes" data-mobile-pane="config">
+      <section class="tb-pane tb-pane--config" aria-label="Theme controls">
+        <div id="tb-config-slot" class="tb-slot tb-controls">
+          <div class="tb-preset">
+            <label class="tb-preset-label mono up" for="tb-preset-select">Start from</label>
+            <div class="tb-preset-row">
+              <select id="tb-preset-select" class="tb-preset-select">
+                <option value="light">Blank — light</option>
+                <option value="dark">Blank — dark</option>
+                {galleryThemes.length > 0 && (
+                  <optgroup label="Gallery themes">
+                    {galleryThemes.map((t) => (
+                      <option value={`theme:${t.slug}`} data-dark={t.dark ? "true" : "false"}>
+                        {t.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
+              </select>
+              <button type="button" id="tb-reset" class="tb-reset mono up">Reset</button>
+            </div>
+            <p id="tb-dark-note" class="tb-dark-note" hidden>
+              Dark theme — the optional colors are pre-filled from Myne's dark palette. Adjust them
+              under Code highlighting, Color labels and Text highlights.
+            </p>
+          </div>
+          {
+            GROUPS.map((g) =>
+              g.disclosure ? (
+                <details class="tb-group tb-group--collapsible">
+                  <summary class="tb-group-head mono up">{g.label}</summary>
+                  <div class="tb-group-body">
+                    {g.tokens.map((t) => (
+                      <TokenControl token={t.token} label={t.label} value={val(t.token)} />
+                    ))}
+                  </div>
+                </details>
+              ) : (
+                <section class="tb-group">
+                  <div class="tb-group-head mono up">{g.label}</div>
+                  {g.hint && <p class="tb-group-hint">{g.hint}</p>}
+                  <div class="tb-group-body">
+                    {g.tokens
+                      .filter((t) => !t.helper)
+                      .map((t) => (
+                        <TokenControl token={t.token} label={t.label} value={val(t.token)} />
+                      ))}
+                    {g.tokens.some((t) => t.helper) && (
+                      <details class="tb-finetune">
+                        <summary class="tb-finetune-head mono up">Fine-tune</summary>
+                        {g.tokens
+                          .filter((t) => t.helper)
+                          .map((t) => (
+                            <TokenControl token={t.token} label={t.label} value={val(t.token)} />
+                          ))}
+                      </details>
+                    )}
+                  </div>
+                </section>
+              ),
+            )
+          }
+        </div>
+      </section>
+      <section class="tb-pane tb-pane--preview" aria-label="Live preview">
+        <div id="tb-preview-slot" class="tb-slot tb-preview-slot">
+          {/* Readability hints — populated from the 5 shared CONTRAST_RULES. */}
+          <div id="tb-readability" class="tb-readability" hidden></div>
+          {/* The preview wrapper carries the authored theme's tokens (set live via
+              CSSOM by the apply engine). All descendants read raw `var(--token)`,
+              which resolve against this wrapper — a scoped, injection-safe apply. */}
+          <div class="tb-pv" id="tb-pv-root" style={initialVars}>
+            <div class="tb-pv-win">
+              <aside class="tb-pv-side">
+                <div class="tb-pv-side-title">Notes</div>
+                <div class="tb-pv-row is-active">Welcome</div>
+                <div class="tb-pv-row">Ideas</div>
+                <div class="tb-pv-row">Reading list</div>
+                <div class="tb-pv-row">Journal</div>
+              </aside>
+              <section class="tb-pv-main">
+                <div class="tb-pv-h1">A theme, previewed</div>
+                <div class="tb-pv-meta">Edited just now · 2 min read</div>
+                <p class="tb-pv-p">
+                  Every color you pick shows up here instantly, in the
+                  <span class="tb-pv-acc">theme's own tokens</span> —
+                  <span class="tb-pv-dim">so what you see is what your notes will look like.</span>
+                </p>
+                <p class="tb-pv-p tb-pv-marks">
+                  Highlight <mark class="tb-pv-hl">passages</mark>,
+                  <mark class="tb-pv-hl tb-pv-hl--green">tasks</mark>,
+                  <mark class="tb-pv-hl tb-pv-hl--blue">links</mark>,
+                  <mark class="tb-pv-hl tb-pv-hl--pink">ideas</mark>, and
+                  <mark class="tb-pv-hl tb-pv-hl--purple">questions</mark>.
+                </p>
+                <pre class="tb-pv-code"><span class="tb-tok tb-tok--comment">// syntax preview</span>
+<span class="tb-tok tb-tok--meta">@component</span>
+<span class="tb-tok tb-tok--keyword">export function</span> <span class="tb-tok tb-tok--function">Note</span>(<span class="tb-tok tb-tok--variable">props</span>: <span class="tb-tok tb-tok--type">Props</span>) {"{"}
+  <span class="tb-tok tb-tok--keyword">const</span> <span class="tb-tok tb-tok--variable">count</span> <span class="tb-tok tb-tok--operator">=</span> <span class="tb-tok tb-tok--number">42</span>;
+  <span class="tb-tok tb-tok--variable">props</span>.<span class="tb-tok tb-tok--property">title</span> <span class="tb-tok tb-tok--operator">=</span> <span class="tb-tok tb-tok--string">"Ideas"</span>;
+  <span class="tb-tok tb-tok--keyword">return</span> <span class="tb-tok tb-tok--tag">&lt;div&gt;</span><span class="tb-tok tb-tok--invalid">???</span><span class="tb-tok tb-tok--tag">&lt;/div&gt;</span>;
+{"}"}</pre>
+                <div class="tb-pv-line"></div>
+                <div class="tb-pv-controls">
+                  <div class="tb-pv-actions">
+                    <button type="button" class="tb-pv-btn" tabindex="-1">New note</button>
+                    <button type="button" class="tb-pv-btn is-ghost" tabindex="-1">Import</button>
+                  </div>
+                  <div class="tb-pv-swatches">
+                    <div class="tb-pv-labels" aria-hidden="true">
+                      <span class="tb-pv-dot" style="background:var(--label-clay)"></span>
+                      <span class="tb-pv-dot" style="background:var(--label-ochre)"></span>
+                      <span class="tb-pv-dot" style="background:var(--label-moss)"></span>
+                      <span class="tb-pv-dot" style="background:var(--label-slate)"></span>
+                      <span class="tb-pv-dot" style="background:var(--label-plum)"></span>
+                      <span class="tb-pv-dot" style="background:var(--label-stone)"></span>
+                    </div>
+                    <div class="tb-pv-chips" aria-hidden="true">
+                      <span class="tb-pv-chip" style="background:var(--danger)"></span>
+                      <span class="tb-pv-chip" style="background:var(--warning)"></span>
+                      <span class="tb-pv-chip" style="background:var(--success)"></span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+      </div>
+    </main>
+
+    {/* Export modal — single primary action (Download) + one supporting affordance
+        (Share), per the myne-website modal carve-out (decisions.md 2026-05-03).
+        Sits OUTSIDE .tb so its top-layer centering isn't affected by the fixed pane. */}
+    <dialog id="tb-export-modal" class="tb-modal" aria-labelledby="tb-modal-title">
+      <div class="tb-modal-card">
+        <div class="tb-modal-head">
+          <h2 id="tb-modal-title" class="tb-modal-title">Export your theme</h2>
+          <button type="button" class="tb-modal-x" data-tb-close aria-label="Close">×</button>
+        </div>
+        <div class="tb-modal-body">
+          <label class="tb-field">
+            <span class="tb-field-label">Theme name</span>
+            <input type="text" id="tb-meta-name" class="tb-field-input" maxlength="60" placeholder="e.g. Nord Dusk" />
+          </label>
+          <label class="tb-field">
+            <span class="tb-field-label">Your name</span>
+            <input type="text" id="tb-meta-author" class="tb-field-input" maxlength="80" placeholder="e.g. Ada Lovelace" />
+          </label>
+          <label class="tb-field">
+            <span class="tb-field-label">Description</span>
+            <textarea id="tb-meta-desc" class="tb-field-input tb-field-area" maxlength="280" rows="2" placeholder="A short line about the vibe."></textarea>
+          </label>
+          <div id="tb-export-status" class="tb-export-status" hidden></div>
+        </div>
+        <div class="tb-modal-foot">
+          <button type="button" id="tb-download" class="tb-modal-primary mono up">Download theme</button>
+          <a id="tb-share" class="tb-modal-secondary" href="#" target="_blank" rel="noopener">Share to the gallery →</a>
+        </div>
+      </div>
+    </dialog>
+  </div>
+</LandingLayout>
+
+{/* Page-scoped no-scroll lock. `is:global` on THIS page only — it ships in the
+    builder route's bundle, so other LandingLayout pages (which scroll via
+    min-height:100vh) never see it. */}
+<style is:global>
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* Custom color picker — appended to <body>, so styled globally (scoped styles
+     wouldn't reach a JS-created element). Dark, on-register, Inter. */
+  .tb-cp {
+    position: fixed;
+    z-index: 200;
+    width: 224px;
+    padding: 10px;
+    background: #0c0c0c;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    user-select: none;
+    touch-action: none;
+  }
+  .tb-cp[hidden] {
+    display: none;
+  }
+  .tb-cp-sv {
+    position: relative;
+    width: 204px;
+    height: 132px;
+    border-radius: 7px;
+    cursor: crosshair;
+  }
+  .tb-cp-sv-thumb,
+  .tb-cp-hue-thumb {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .tb-cp-hue {
+    position: relative;
+    width: 204px;
+    height: 12px;
+    margin-top: 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    background: linear-gradient(
+      to right,
+      #f00 0%,
+      #ff0 17%,
+      #0f0 33%,
+      #0ff 50%,
+      #00f 67%,
+      #f0f 83%,
+      #f00 100%
+    );
+  }
+  .tb-cp-hue-thumb {
+    top: 50%;
+  }
+  .tb-cp-foot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .tb-cp-swatch {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .tb-cp-hex {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: #e6e6e4;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 6px;
+    padding: 7px 9px;
+    text-transform: lowercase;
+  }
+  .tb-cp-hex:focus-visible {
+    outline: 2px solid #8aa4d0;
+    outline-offset: 1px;
+  }
+</style>
+
+<style>
+  /* Pane region fixed below the ~56px GlassNav → the no-scroll math needs no
+     margin bookkeeping and the panes always fill exactly the space beneath the
+     bar. */
+  /* Inter font context for the whole page (incl. GlassNav) — matches the gallery.
+     Without this the un-wrapped nav falls back to the serif default. */
+  .tb-page {
+    --tb-nav-h: 56px; /* GlassNav height — single source for the pane's top offset */
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    color: #e6e6e4;
+  }
+  .tb {
+    position: fixed;
+    inset: var(--tb-nav-h) 0 0 0;
+    padding: 0 28px; /* match the GlassNav gutter */
+    display: flex;
+    justify-content: center; /* centre the content column */
+  }
+  /* The content column — same max-width + centring as the navbar's inner box. */
+  .tb-inner {
+    width: 100%;
+    max-width: 1280px;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tb-bar {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 52px;
+    padding: 0; /* flush to the column edge → aligns with the navbar brand/CTA */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: #0a0a0a;
+  }
+  .tb-bar-title {
+    font-size: 11px;
+    color: #8a8a86;
+  }
+  .tb-bar-mid {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+  }
+  .tb-bar-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .tb-export {
+    font-size: 10.5px;
+    color: #0a0a0a;
+    background: #e6e6e4;
+    border: 0;
+    border-radius: 7px;
+    padding: 9px 16px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .tb-export:hover {
+    background: #ffffff;
+  }
+  .tb-export:focus-visible {
+    outline: 2px solid #8aa4d0;
+    outline-offset: 2px;
+  }
+
+  /* Two panes fill the remaining height; each scrolls INTERNALLY so the page
+     frame itself never scrolls. */
+  .tb-panes {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(320px, 400px) 1fr;
+  }
+  .tb-pane {
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #0a0a0a; /* same as the page bg — no contrast step (user) */
+  }
+  .tb-pane--config {
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .tb-slot {
+    min-height: 100%;
+    padding: 20px;
+  }
+
+  /* ── Controls (builder-controls) ──────────────────────────────────────── */
+  .tb-controls {
+    padding: 6px 0 48px;
+  }
+  .tb-preset {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .tb-preset-label {
+    display: block;
+    font-size: 10px;
+    color: #6a6a66;
+    margin-bottom: 8px;
+  }
+  .tb-preset-row {
+    display: flex;
+    gap: 8px;
+  }
+  .tb-preset-select {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-family: inherit;
+    font-size: 13px;
+    color: #e6e6e4;
+    background: #0c0c0c;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 7px;
+    padding: 8px 10px;
+    cursor: pointer;
+  }
+  .tb-preset-select:focus-visible {
+    outline: 2px solid #8aa4d0;
+    outline-offset: 1px;
+  }
+  .tb-reset {
+    flex: 0 0 auto;
+    font-size: 10px;
+    color: #8a8a86;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 7px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  .tb-reset:hover {
+    color: #e6e6e4;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  .tb-dark-note {
+    margin: 10px 0 0;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #6a6a66;
+  }
+  .tb-dark-note[hidden] {
+    display: none;
+  }
+
+  /* ── Live preview (builder-preview) — descendants read raw var(--token), set
+     on .tb-pv via CSSOM by the apply engine. ─────────────────────────────── */
+  .tb-preview-slot {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .tb-readability {
+    flex: 0 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px 0;
+  }
+  .tb-readability[hidden] {
+    display: none;
+  }
+  .tb-readability-label {
+    font-size: 11px;
+    color: #d8b76a;
+  }
+  .tb-readability-chip {
+    font-size: 11px;
+    color: #d8b76a;
+    border: 1px solid rgba(216, 183, 106, 0.4);
+    border-radius: 999px;
+    padding: 3px 10px;
+  }
+  .tb-pv {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 24px;
+    display: flex;
+  }
+  .tb-pv-win {
+    flex: 1;
+    display: flex;
+    min-height: 440px;
+    background: var(--paper);
+    border: 1px solid var(--line-1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .tb-pv-side {
+    flex: 0 0 auto;
+    width: 180px;
+    background: var(--paper-2);
+    border-right: 1px solid var(--line-1);
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .tb-pv-side-title {
+    color: var(--ink-3);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tb-pv-row {
+    padding: 7px 10px;
+    border-radius: 7px;
+    color: var(--ink-2);
+    font-size: 13px;
+  }
+  .tb-pv-row.is-active {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .tb-pv-main {
+    flex: 1;
+    min-width: 0;
+    padding: 28px 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  .tb-pv-h1 {
+    color: var(--ink-0);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .tb-pv-meta {
+    color: var(--ink-3);
+    font-size: 12px;
+    margin-top: 6px;
+  }
+  .tb-pv-p {
+    color: var(--ink-1);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 16px;
+    max-width: 52ch;
+  }
+  .tb-pv-dim {
+    color: var(--ink-2);
+  }
+  .tb-pv-acc {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .tb-pv-marks {
+    margin-top: 10px;
+  }
+  .tb-pv-hl {
+    background: var(--highlight);
+    color: inherit;
+    padding: 0 3px;
+    border-radius: 3px;
+  }
+  .tb-pv-hl--green {
+    background: var(--highlight-green);
+  }
+  .tb-pv-hl--blue {
+    background: var(--highlight-blue);
+  }
+  .tb-pv-hl--pink {
+    background: var(--highlight-pink);
+  }
+  .tb-pv-hl--purple {
+    background: var(--highlight-purple);
+  }
+  .tb-pv-code {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: var(--paper-2);
+    border: 1px solid var(--line-1);
+    border-radius: 8px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink-1);
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .tb-tok--keyword {
+    color: var(--syntax-keyword);
+  }
+  .tb-tok--string {
+    color: var(--syntax-string);
+  }
+  .tb-tok--comment {
+    color: var(--syntax-comment);
+  }
+  .tb-tok--number {
+    color: var(--syntax-number);
+  }
+  .tb-tok--variable {
+    color: var(--syntax-variable);
+  }
+  .tb-tok--function {
+    color: var(--syntax-function);
+  }
+  .tb-tok--type {
+    color: var(--syntax-type);
+  }
+  .tb-tok--operator {
+    color: var(--syntax-operator);
+  }
+  .tb-tok--property {
+    color: var(--syntax-property);
+  }
+  .tb-tok--tag {
+    color: var(--syntax-tag);
+  }
+  .tb-tok--meta {
+    color: var(--syntax-meta);
+  }
+  .tb-tok--invalid {
+    color: var(--syntax-invalid);
+  }
+  .tb-pv-line {
+    height: 1px;
+    background: var(--line-1);
+    margin-top: 22px;
+  }
+  .tb-pv-controls {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .tb-pv-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .tb-pv-swatches {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: auto;
+  }
+  .tb-pv-btn {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 16px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--accent-on);
+  }
+  .tb-pv-btn.is-ghost {
+    background: transparent;
+    color: var(--ink-2);
+    border: 1px solid var(--line-2);
+  }
+  .tb-pv-labels {
+    display: flex;
+    gap: 5px;
+  }
+  .tb-pv-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+  .tb-pv-chips {
+    display: flex;
+    gap: 7px;
+  }
+  .tb-pv-chip {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  /* ── Export modal (builder-export) ────────────────────────────────────── */
+  .tb-modal {
+    /* Explicit viewport centring (the fixed pane was throwing off the UA default). */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    width: calc(100% - 40px);
+    max-width: 440px;
+    max-height: calc(100vh - 40px);
+    overflow: auto;
+    border: none;
+    padding: 0;
+    background: transparent;
+    color: #e6e6e4;
+  }
+  .tb-modal::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+  }
+  /* Open animation — card lifts + fades, backdrop fades. Global reduced-motion
+     rule in LandingLayout disables it. */
+  .tb-modal[open] .tb-modal-card {
+    animation: tb-modal-in 200ms cubic-bezier(0.2, 0, 0, 1) both;
+  }
+  .tb-modal[open]::backdrop {
+    animation: tb-backdrop-in 200ms ease both;
+  }
+  @keyframes tb-modal-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes tb-backdrop-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .tb-modal-card {
+    background: #0c0c0c;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    padding: 22px;
+    font-family:
+      "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .tb-modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .tb-modal-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .tb-modal-x {
+    background: transparent;
+    border: 0;
+    color: #8a8a86;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+  }
+  .tb-modal-x:hover {
+    color: #e6e6e4;
+  }
+  .tb-field {
+    display: block;
+    margin-bottom: 12px;
+  }
+  .tb-field-label {
+    display: block;
+    font-size: 11px;
+    color: #8a8a86;
+    margin-bottom: 5px;
+  }
+  .tb-field-input {
+    width: 100%;
+    font-family: inherit;
+    font-size: 13px;
+    color: #e6e6e4;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 7px;
+    padding: 9px 11px;
+  }
+  .tb-field-input:focus-visible {
+    outline: 2px solid #8aa4d0;
+    outline-offset: 1px;
+  }
+  .tb-field-area {
+    resize: vertical;
+    min-height: 44px;
+  }
+  .tb-export-status {
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 10px 12px;
+    border-radius: 7px;
+  }
+  .tb-export-status[hidden] {
+    display: none;
+  }
+  .tb-export-status.is-error {
+    color: #d99086;
+    background: rgba(217, 144, 134, 0.1);
+    border: 1px solid rgba(217, 144, 134, 0.3);
+  }
+  .tb-export-status.is-warn {
+    color: #d8b76a;
+    background: rgba(216, 183, 106, 0.08);
+    border: 1px solid rgba(216, 183, 106, 0.3);
+  }
+  .tb-modal-foot {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .tb-modal-primary {
+    font-size: 11px;
+    color: #0a0a0a;
+    background: #e6e6e4;
+    border: 0;
+    border-radius: 7px;
+    padding: 11px 18px;
+    cursor: pointer;
+  }
+  .tb-modal-primary:hover {
+    background: #ffffff;
+  }
+  .tb-modal-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .tb-modal-secondary {
+    margin-left: auto;
+    font-size: 12px;
+    color: #8aa4d0;
+    text-decoration: none;
+  }
+  .tb-modal-secondary:hover {
+    text-decoration: underline;
+  }
+  .tb-modal-secondary[aria-disabled="true"] {
+    color: #54544f;
+    pointer-events: none;
+  }
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .tb-group {
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .tb-group--collapsible {
+    padding: 0;
+  }
+  .tb-group--collapsible > .tb-group-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    margin: 0;
+    cursor: pointer;
+  }
+  .tb-group--collapsible > .tb-group-head::after {
+    content: "+";
+    color: #6a6a66;
+    font-size: 13px;
+  }
+  .tb-group--collapsible[open] > .tb-group-head::after {
+    content: "–";
+  }
+  .tb-group--collapsible > .tb-group-body {
+    padding: 0 20px 16px;
+  }
+  .tb-group-head {
+    font-size: 10.5px;
+    color: #8a8a86;
+    margin: 0 0 6px;
+  }
+  .tb-group-hint {
+    font-size: 11px;
+    color: #6a6a66;
+    line-height: 1.5;
+    margin: 0 0 10px;
+  }
+  .tb-group-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  /* .tb-ctl / .tb-ctl-swatch / .tb-ctl-label live in TokenControl.astro. */
+  .tb-finetune {
+    margin: 8px 0 2px;
+  }
+  .tb-finetune-head {
+    font-size: 9.5px;
+    color: #6a6a66;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+  .tb-finetune-head::before {
+    content: "⋯ ";
+  }
+
+  /* Custom scrollbars matched to the dark register (mirrors LandingLayout). */
+  .tb-pane::-webkit-scrollbar {
+    width: 10px;
+  }
+  .tb-pane::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 8px;
+  }
+  .tb-pane::-webkit-scrollbar-thumb:hover {
+    background: #383838;
+    background-clip: padding-box;
+  }
+
+  /* Segmented Edit/Preview toggle — desktop-hidden, shown on mobile. */
+  .tb-seg {
+    display: none;
+    align-items: center;
+    gap: 2px;
+    padding: 2px;
+    background: #0c0c0c;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+  }
+  .tb-seg-btn {
+    font-family: inherit;
+    font-size: 11px;
+    color: #8a8a86;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    padding: 6px 16px;
+    cursor: pointer;
+  }
+  .tb-seg-btn.is-active {
+    color: #e6e6e4;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .tb-seg-btn:focus-visible {
+    outline: 2px solid #8aa4d0;
+    outline-offset: 1px;
+  }
+
+  /* Mobile: height-locked single pane switched by the toggle — the page never
+     scrolls; the visible pane scrolls internally. */
+  @media (max-width: 920px) {
+    .tb {
+      --tb-nav-h: 71px; /* taller mobile nav (63px) + an 8px breathing gap */
+      padding: 0; /* full-bleed on phones — no wasted column gutter */
+    }
+    .tb-bar-title {
+      display: none;
+    }
+    /* Explicit toggle-left / Export-right so neither is clipped on a phone. */
+    .tb-bar {
+      padding: 0 20px;
+      justify-content: space-between;
+    }
+    .tb-bar-mid {
+      flex: 0 1 auto;
+      justify-content: flex-start;
+    }
+    .tb-seg {
+      display: inline-flex;
+    }
+    .tb-panes {
+      grid-template-columns: 1fr;
+      overflow: hidden;
+    }
+    .tb-pane--config {
+      border-right: 0;
+    }
+    .tb-panes[data-mobile-pane="config"] .tb-pane--preview {
+      display: none;
+    }
+    .tb-panes[data-mobile-pane="preview"] .tb-pane--config {
+      display: none;
+    }
+  }
+
+  /* Narrow phones: tighten the toolbar so the toggle + Export both fit. */
+  @media (max-width: 460px) {
+    .tb-bar {
+      padding: 0 14px;
+      gap: 8px;
+    }
+    .tb-seg-btn {
+      padding: 6px 12px;
+    }
+    .tb-export {
+      padding: 8px 13px;
+    }
+  }
+
+  /* Preview responsiveness on phones: drop the sidebar (Myne shows the note
+     full-width on mobile) and ease the type so the note reads instead of cramping. */
+  @media (max-width: 640px) {
+    .tb-pv {
+      padding: 14px;
+    }
+    .tb-pv-win {
+      min-height: 0;
+    }
+    .tb-pv-side {
+      display: none;
+    }
+    .tb-pv-main {
+      padding: 22px 20px;
+    }
+    .tb-pv-h1 {
+      font-size: 21px;
+    }
+    .tb-pv-p {
+      font-size: 13.5px;
+    }
+    .tb-pv-code {
+      font-size: 11.5px;
+    }
+    /* Phone: all the colors on ONE row on top, the buttons on the row below. */
+    .tb-pv-controls {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .tb-pv-swatches {
+      order: -1;
+      margin-left: 0;
+    }
+  }
+</style>
+
+<script>
+  // Mobile Edit/Preview toggle (builder-shell-entry task 5). Height-locked: it
+  // swaps which pane is visible; the page never scrolls. On desktop the .tb-seg
+  // control is display:none, so this listener simply never fires above 920px.
+  const seg = document.querySelector(".tb-seg");
+  const panes = document.querySelector(".tb-panes");
+  if (seg && panes) {
+    seg.addEventListener("click", (e) => {
+      const target = e.target;
+      const btn = target instanceof Element ? target.closest("[data-tb-pane]") : null;
+      const pane = btn?.getAttribute("data-tb-pane");
+      if (!pane) return;
+      panes.setAttribute("data-mobile-pane", pane);
+      seg.querySelectorAll("[data-tb-pane]").forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle("is-active", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+      });
+    });
+  }
+</script>
+
+<script>
+  // Controls (builder-controls): wire native color pickers ↔ the shared singleton
+  // state, and the "Start from" preset picker + reset. Every edit and preset load
+  // flows through appState so preview (slice 3) and export (slice 4) see it live.
+  import { appState } from "../../scripts/themeBuilderApp";
+  import { LIGHT_DEFAULTS, DARK_DEFAULTS } from "../../lib/themeBuilder/tokens.mjs";
+  import { helpersForBase } from "../../lib/themeBuilder/derive.mjs";
+  import { createColorPicker } from "../../lib/themeBuilder/colorPicker.mjs";
+  import themesFull from "../../data/themes-full.json";
+
+  const palettes = themesFull as Record<string, Record<string, string>>;
+  const swatches = Array.from(document.querySelectorAll<HTMLButtonElement>(".tb-ctl"));
+  const darkNote = document.getElementById("tb-dark-note");
+
+  // Editing a base color also auto-fills its helper shades (overridable — a manual
+  // fine-tune edit sticks until the base changes again).
+  function applyColor(token: string, hex: string): void {
+    const helpers = helpersForBase(token, hex, appState.isDark());
+    if (Object.keys(helpers).length) appState.patch({ [token]: hex, ...helpers });
+    else appState.set(token, hex);
+  }
+
+  // Custom on-register color picker (replaces the native OS dialog). Clicking a
+  // swatch opens it anchored to that swatch; every drag/type flows into state live.
+  let activeToken: string | null = null;
+  const picker = createColorPicker({
+    onChange: (hex) => {
+      if (activeToken) applyColor(activeToken, hex);
+    },
+  });
+  for (const sw of swatches) {
+    sw.addEventListener("click", () => {
+      const token = sw.dataset.token;
+      if (!token) return;
+      activeToken = token;
+      picker.open(sw, appState.get(token) ?? "#000000");
+    });
+  }
+
+  // state → swatch backgrounds (preset loads, live edits) + dark-note visibility.
+  // Cache each swatch dot once so repaints don't re-query the DOM per change.
+  const swatchDots = swatches.map((sw) => ({
+    token: sw.dataset.token,
+    dot: sw.querySelector<HTMLElement>(".tb-ctl-swatch"),
+  }));
+  function paintSwatches(palette: Record<string, string>): void {
+    for (const { token, dot } of swatchDots) {
+      if (token && dot && palette[token]) dot.style.background = palette[token];
+    }
+  }
+  appState.subscribe((snap) => {
+    paintSwatches(snap.palette);
+    if (darkNote) darkNote.hidden = !snap.isDark;
+  });
+  paintSwatches(appState.getPalette());
+
+  // presets
+  const select = document.getElementById("tb-preset-select") as HTMLSelectElement | null;
+  const resetBtn = document.getElementById("tb-reset");
+
+  const isDarkFor = (value: string): boolean =>
+    value === "dark" ||
+    (select?.selectedOptions[0]?.dataset.dark === "true");
+
+  function loadPreset(value: string): void {
+    picker.close();
+    const dark = isDarkFor(value);
+    if (value === "light") appState.replace({ ...LIGHT_DEFAULTS }, false);
+    else if (value === "dark") appState.replace({ ...DARK_DEFAULTS }, true);
+    else if (value.startsWith("theme:")) {
+      const palette = palettes[value.slice("theme:".length)];
+      if (palette) {
+        // Merge over the appearance-correct base (LIGHT/DARK_DEFAULTS each carry all
+        // 44 tokens) so every token — including optionals — is set; a dark theme's
+        // optionals come from the dark canon, never a LIGHT fallback (SYNC-6).
+        const base = dark ? DARK_DEFAULTS : LIGHT_DEFAULTS;
+        appState.replace({ ...base, ...palette }, dark);
+      }
+    }
+  }
+
+  select?.addEventListener("change", () => loadPreset(select.value));
+  resetBtn?.addEventListener("click", () => loadPreset(select?.value ?? "light"));
+</script>
+
+<script>
+  // Live preview (builder-preview): apply the shared palette to the scoped
+  // preview wrapper via gated CSSOM setProperty (SYNC-4 — the ONLY browser
+  // injection gate; the site has no CSP). Never string-concat into a <style>.
+  import { appState } from "../../scripts/themeBuilderApp";
+  import { applyTheme } from "../../lib/themeBuilder/applyPreview.mjs";
+  import { contrastReport } from "../../lib/themeBuilder/validator.mjs";
+  import { isDarkBackground } from "../../lib/themeBuilder/syntaxTheme.mjs";
+
+  const pvRoot = document.getElementById("tb-pv-root");
+  const readability = document.getElementById("tb-readability");
+
+  // Plain-word names for the 5 canonical CONTRAST_RULES pairs.
+  const REGION_NAMES: Record<string, string> = {
+    "--ink-0|--paper": "Headings",
+    "--ink-1|--paper": "Body text",
+    "--ink-1|--paper-2": "Text on panels",
+    "--ink-2|--paper": "Secondary text",
+    "--accent|--paper": "Accent",
+  };
+
+  function updateReadability(palette: Record<string, string>): void {
+    if (!readability) return;
+    const report = contrastReport(palette);
+    readability.replaceChildren();
+    if (report.failures.length === 0) {
+      readability.hidden = true;
+      return;
+    }
+    readability.hidden = false;
+    const label = document.createElement("span");
+    label.className = "tb-readability-label";
+    label.textContent = "Low contrast:";
+    readability.append(label);
+    for (const f of report.failures) {
+      const chip = document.createElement("span");
+      chip.className = "tb-readability-chip";
+      chip.textContent = REGION_NAMES[`${f.fg}|${f.bg}`] ?? f.label;
+      readability.append(chip);
+    }
+  }
+
+  if (pvRoot) {
+    const apply = (snap: { palette: Record<string, string> }) => {
+      applyTheme(pvRoot.style, snap.palette);
+      updateReadability(snap.palette);
+      // Expose the preview's effective appearance (SYNC-8 — export reads it).
+      pvRoot.dataset.appearance = isDarkBackground(snap.palette["--paper"]) ? "dark" : "light";
+    };
+    apply(appState.snapshot());
+    appState.subscribe(apply);
+  }
+</script>
+
+<script>
+  // Export (builder-export): the submit modal. Single primary action (Download) +
+  // one supporting affordance (Share) — fits the 2026-05-03 website modal carve-out.
+  import { appState } from "../../scripts/themeBuilderApp";
+  import { canExport, buildThemeJson, buildMetaJson } from "../../lib/themeBuilder/serialize.mjs";
+  import { contrastReport } from "../../lib/themeBuilder/validator.mjs";
+  import { downloadFile } from "../../lib/themeBuilder/download.mjs";
+  import { slugify, slugCollides, isShareableSlug } from "../../lib/themeBuilder/slug.mjs";
+  import { buildShareUrl } from "../../lib/themeBuilder/shareUrl.mjs";
+  import themesIndex from "../../data/themes-index.json";
+
+  const existingSlugs = (themesIndex.themes ?? []).map((t) => t.slug);
+
+  const modal = document.getElementById("tb-export-modal") as HTMLDialogElement | null;
+  const openBtn = document.getElementById("tb-export-btn");
+  const downloadBtn = document.getElementById("tb-download") as HTMLButtonElement | null;
+  const shareLink = document.getElementById("tb-share");
+  const statusEl = document.getElementById("tb-export-status");
+  const nameInput = document.getElementById("tb-meta-name") as HTMLInputElement | null;
+  const authorInput = document.getElementById("tb-meta-author") as HTMLInputElement | null;
+  const descInput = document.getElementById("tb-meta-desc") as HTMLTextAreaElement | null;
+  const pvRoot = document.getElementById("tb-pv-root");
+
+  const readMeta = () => ({
+    name: nameInput?.value ?? "",
+    author: authorInput?.value ?? "",
+    description: descInput?.value ?? "",
+  });
+  const currentAppearance = (): "light" | "dark" =>
+    pvRoot?.dataset.appearance === "dark" ? "dark" : "light";
+
+  function refreshExportState(): boolean {
+    const palette = appState.getPalette();
+    const meta = readMeta();
+    const gate = canExport(palette);
+    const named = meta.name.trim() !== "";
+    const slug = slugify(meta.name);
+    const contrast = contrastReport(palette);
+    const ready = gate.ok && named;
+    // Sharing needs an ascii slug; a non-Latin/emoji name folds to "" (which would
+    // yield a `themes//` folder and slip past the collision guard). Download is not
+    // gated on the slug — theme.json is palette-only and its filename is fixed.
+    const shareReady = ready && isShareableSlug(slug);
+
+    if (statusEl) {
+      if (!gate.ok) {
+        statusEl.hidden = false;
+        statusEl.className = "tb-export-status is-error";
+        statusEl.textContent = `Set every color first — ${gate.missing.length} still unset.`;
+      } else if (!named) {
+        statusEl.hidden = false;
+        statusEl.className = "tb-export-status is-warn";
+        statusEl.textContent = "Give your theme a name to download or share it.";
+      } else if (!isShareableSlug(slug)) {
+        statusEl.hidden = false;
+        statusEl.className = "tb-export-status is-warn";
+        statusEl.textContent = "Add Latin letters or numbers to the name to share to the gallery — you can still download.";
+      } else if (slugCollides(slug, existingSlugs)) {
+        statusEl.hidden = false;
+        statusEl.className = "tb-export-status is-warn";
+        statusEl.textContent = "A gallery theme with this name already exists — rename it before sharing.";
+      } else if (!contrast.ok) {
+        statusEl.hidden = false;
+        statusEl.className = "tb-export-status is-warn";
+        statusEl.textContent = `Heads up: ${contrast.failures.length} low-contrast pair(s). You can still export.`;
+      } else {
+        statusEl.hidden = true;
+      }
+    }
+
+    if (downloadBtn) downloadBtn.disabled = !ready;
+    if (shareLink) {
+      shareLink.setAttribute("aria-disabled", shareReady ? "false" : "true");
+      if (shareReady) {
+        const appearance = currentAppearance();
+        (shareLink as HTMLAnchorElement).href = buildShareUrl({
+          slug,
+          name: meta.name.trim(),
+          author: meta.author.trim(),
+          description: meta.description.trim(),
+          appearance,
+          themeJson: JSON.stringify(buildThemeJson(palette), null, 2),
+          metaJson: JSON.stringify(buildMetaJson(meta, appearance), null, 2),
+        });
+      } else {
+        (shareLink as HTMLAnchorElement).href = "#";
+      }
+    }
+    return ready;
+  }
+
+  openBtn?.addEventListener("click", () => {
+    refreshExportState();
+    modal?.showModal();
+  });
+
+  // dismiss — × button, backdrop click (Esc is native to <dialog>).
+  modal?.querySelector("[data-tb-close]")?.addEventListener("click", () => modal.close());
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) modal.close();
+  });
+
+  // Re-gate as the user types the metadata. No palette subscription: the color
+  // controls sit behind the modal's backdrop while it's open, so the palette
+  // can't change here — the open-click + these input handlers cover every case.
+  for (const el of [nameInput, authorInput, descInput]) {
+    el?.addEventListener("input", refreshExportState);
+  }
+
+  // Download: two import-ready files (theme.json + meta.json), no zip.
+  downloadBtn?.addEventListener("click", () => {
+    if (!refreshExportState()) return;
+    const palette = appState.getPalette();
+    const appearance = currentAppearance();
+    downloadFile("theme.json", JSON.stringify(buildThemeJson(palette), null, 2));
+    downloadFile("meta.json", JSON.stringify(buildMetaJson(readMeta(), appearance), null, 2));
+  });
+</script>

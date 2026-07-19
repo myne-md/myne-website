@@ -54,6 +54,12 @@ const REPO = "https://github.com/myne-md/myne-themes";
           import it. We don't sandbox themes and we don't call this "safe"; the app
           never phones this page, and there are no trackers or download counters here.
         </p>
+        <a
+          href="/themes/builder"
+          class="tbuild-cta"
+          style="display:inline-flex;align-items:center;gap:8px;margin-top:30px;background:#e6e6e4;color:#0a0a0a;text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;transition:background 0.15s ease;"
+          >Build your own →</a
+        >
       </div>
     </section>
 
@@ -136,6 +142,9 @@ const REPO = "https://github.com/myne-md/myne-themes";
   </div>
 
   <style>
+    .tbuild-cta:hover {
+      background: #ffffff;
+    }
     .tgrid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));

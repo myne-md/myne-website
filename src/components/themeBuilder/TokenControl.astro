@@ -1,0 +1,53 @@
+---
+/*
+ * One Theme Builder control row: a plain-word label + a swatch button that opens
+ * the custom color picker. Rendered for every token (base + fine-tune helpers);
+ * the builder page's `<script>` wires clicks by the `.tb-ctl` / `.tb-ctl-swatch`
+ * classes. `value` seeds the swatch for the pre-hydration render; the script
+ * repaints it from live state on load.
+ */
+interface Props {
+  token: string;
+  label: string;
+  value: string;
+}
+const { token, label, value } = Astro.props;
+---
+
+<button type="button" class="tb-ctl" data-token={token} aria-label={label}>
+  <span class="tb-ctl-swatch" style={`background:${value}`}></span>
+  <span class="tb-ctl-label">{label}</span>
+</button>
+
+<style>
+  .tb-ctl {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 5px 0;
+    background: none;
+    border: 0;
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+  }
+  .tb-ctl:focus-visible {
+    outline: 2px solid #8aa4d0;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  .tb-ctl-swatch {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  }
+  .tb-ctl-label {
+    font-size: 13px;
+    color: #cfcfca;
+  }
+</style>

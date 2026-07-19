@@ -19,10 +19,12 @@ import {
 } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { collectFullPalettes } from "./lib-theme-palettes.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SITE = join(HERE, "..");
 const OUT_DATA = join(SITE, "src", "data", "themes-index.json");
+const OUT_FULL = join(SITE, "src", "data", "themes-full.json");
 const OUT_PREVIEWS = join(SITE, "public", "themes", "previews");
 
 const src = process.env.THEMES_DIR || join(SITE, "..", "myne-themes");
@@ -31,6 +33,11 @@ const indexPath = join(src, "index.json");
 mkdirSync(dirname(OUT_DATA), { recursive: true });
 mkdirSync(OUT_PREVIEWS, { recursive: true });
 
+// Full palettes for the Theme Builder "start from a gallery theme" preset —
+// vendored client-side, independent of the generated index (SYNC-5).
+const fullPalettes = collectFullPalettes(src);
+writeFileSync(OUT_FULL, JSON.stringify(fullPalettes, null, 2) + "\n");
+
 if (!existsSync(indexPath)) {
   console.warn(
     `[sync-themes] no index.json at ${indexPath} — writing an empty gallery.\n` +
@@ -38,6 +45,9 @@ if (!existsSync(indexPath)) {
       `for d in themes/*/; do node tools/render-preview.mjs "$d" "previews/$(basename $d).png"; done)`,
   );
   writeFileSync(OUT_DATA, JSON.stringify({ themes: [] }, null, 2) + "\n");
+  console.log(
+    `[sync-themes] wrote ${OUT_FULL} (${Object.keys(fullPalettes).length} full palettes).`,
+  );
   process.exit(0);
 }
 
@@ -61,4 +71,7 @@ writeFileSync(OUT_DATA, JSON.stringify(index, null, 2) + "\n");
 const copied = readdirSync(OUT_PREVIEWS).filter((f) => f.endsWith(".png")).length;
 console.log(
   `[sync-themes] wrote ${OUT_DATA} (${index.themes.length} themes), ${copied} previews → public/themes/previews/`,
+);
+console.log(
+  `[sync-themes] wrote ${OUT_FULL} (${Object.keys(fullPalettes).length} full palettes → builder presets).`,
 );

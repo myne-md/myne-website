@@ -1,7 +1,7 @@
 ---
 title: "AI privacy and limits"
 category: "ai"
-updated: 2026-07-11
+updated: 2026-07-19
 summary: "The honest boundary of Myne's on-device AI: local inference with no network egress, a model runtime that runs in-process and is not sandboxed from your notes, the encrypted rebuildable embedding index at rest, where models come from, and what AI does not do."
 tags: ["ai", "privacy", "security"]
 ---
@@ -20,6 +20,8 @@ Two consequences follow, and Myne states both rather than hiding them:
 
 - A model file you download is untrusted input. Myne does not vouch for it. A malicious or buggy model, or a flaw in the inference code, could read memory that includes decrypted note content and keys. This is why AI is off by default, lives behind a Labs/Beta surface, and asks you to bring your own model deliberately.
 - Because it runs in-process, the correct claim today is "runs locally, sends nothing" — not "sandboxed from your keys". A future version plans to move inference into a separate, network-denied process that never receives your keys; until that ships, Myne does not claim that isolation, and neither does this guide.
+
+Transcribing a voice note works the same way: the recording is decrypted in memory and handed to the same in-process model, so the audio joins your decrypted notes inside the same trust boundary. As everywhere in Myne's AI, nothing leaves the device — there is no cloud transcription service — but the runtime is not sandboxed from your keys.
 
 As with the rest of Myne, none of this protects against malware already running on your device. Such software can read app memory whether or not AI is on; enabling AI does not create that exposure, but it does add a model runtime inside the same trust boundary.
 
@@ -45,7 +47,7 @@ Myne never downloads a model, because downloading would mean a network request. 
 - It does not learn from, train on, or upload your notes.
 - It does not read notes in [excluded folders](/user-guide/ai/turning-on-ai/#excluding-folders), at index time or query time.
 - It does not change a note without an explicit action from you (inserting a summary, accepting a completion, running a command, clicking a tag).
-- It does not guarantee correct answers. The models are small; outputs can be wrong, which is why chat answers cite the notes they used so you can verify.
+- It does not guarantee correct answers or accurate transcripts. The models are small; outputs can be wrong, which is why chat answers cite the notes they used so you can verify, and why a voice-note transcript is a best-effort reading you can check against the original recording.
 
 ## Limits
 

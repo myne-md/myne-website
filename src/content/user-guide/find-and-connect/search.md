@@ -1,7 +1,7 @@
 ---
 title: "Search"
 category: "find-and-connect"
-updated: 2026-07-11
+updated: 2026-07-19
 summary: "How to search across every note in your vault from the command palette, what the results show, how attachment text is folded into search where available, and how search stays private to your device."
 tags: ["search", "attachments"]
 ---
@@ -26,7 +26,7 @@ Results update live as your notes change, because the index keeps up with your e
 
 Where Myne can read text out of a file you have attached, that text is folded into the owning note's searchable content. A note can then turn up in search on words that appear inside its attachment, not only its own prose, and it surfaces the same way a body match does.
 
-Text extraction happens entirely on your device — no file is ever sent anywhere to be read. It covers the text layer of PDFs, Word `.docx` files, and plain-text files such as `.txt`, `.md`, and `.csv`. Scanned PDFs and images have no text layer, so nothing is extracted from them; there is no image text recognition yet. The extracted text is stored encrypted at rest, under the same protection as the rest of your vault, and is removed when you permanently delete the attachment.
+Text extraction happens entirely on your device — no file is ever sent anywhere to be read. It covers the text layer of PDFs, Word `.docx` files, and plain-text files such as `.txt`, `.md`, and `.csv`. Scanned PDFs and images have no text layer, so nothing is extracted from them; there is no image text recognition yet. Audio has no text layer either, but if you turn on [on-device AI](/user-guide/ai/overview/) you can transcribe a voice note on demand, and that transcript is folded into search the same way — see [Voice notes](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note). The extracted text is stored encrypted at rest, under the same protection as the rest of your vault, and is removed when you permanently delete the attachment.
 
 ## What a result shows, and what it doesn't
 

@@ -1,8 +1,8 @@
 ---
 title: "Voice notes"
 category: "attachments-and-import"
-updated: 2026-06-18
-summary: "Record a voice note inline from the editor with the /record command. The clip saves as an encrypted audio attachment with an inline player. Recording runs locally and stops on lock or auto-lock."
+updated: 2026-07-19
+summary: "Record a voice note inline from the editor with the /record command. The clip saves as an encrypted audio attachment with an inline player. Recording runs locally and stops on lock or auto-lock. With on-device AI enabled, a voice note can be transcribed on demand to make it searchable."
 tags: ["attachments", "editor", "notes"]
 ---
 
@@ -34,4 +34,10 @@ Recording requires an unlocked vault and only runs in the main window. It is abo
 
 What Myne does not protect against is forensic capture of device memory. The in-memory recording buffer and the decrypted audio that playback hands to the editor are plaintext in RAM, and anything that can read your machine's memory, swap, or hibernation image while the vault is unlocked is outside what Myne defends against — the same inherited limitation that applies to your decrypted notes.
 
-Voice notes are attachments, so the attachment limits apply: see [Attachments](/user-guide/attachments-and-import/attachments/) for how they are stored, and [The attachments library](/user-guide/attachments-and-import/attachments-library/) for managing them. Attachment contents are not searched, so a voice note's audio is not part of [Search](/user-guide/find-and-connect/search/).
+Voice notes are attachments, so the attachment limits apply: see [Attachments](/user-guide/attachments-and-import/attachments/) for how they are stored, and [The attachments library](/user-guide/attachments-and-import/attachments-library/) for managing them.
+
+## Transcribing a voice note
+
+A voice note's audio is not searchable on its own. If you turn on [on-device AI](/user-guide/ai/overview/), you can transcribe a voice note — an explicit action you run per clip, either from the note or from the attachments library — and Myne writes out the text of what was said. Once a note has a transcript, that text is folded into [Search](/user-guide/find-and-connect/search/), so the note turns up on words spoken in the recording; you can also insert the transcript into the note body as ordinary, editable markdown.
+
+Transcription runs entirely on your device through the same on-device model as the rest of Myne's AI — no audio is ever sent anywhere, and there is no cloud transcription service. It is off unless you have enabled AI. The model is small and fallible, so a transcript is a best-effort machine reading of the audio, not a verbatim record; the original recording always stays attached so you can listen back and correct it. See [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/) for the full boundary of what on-device AI does and does not protect.

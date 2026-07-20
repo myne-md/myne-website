@@ -1,12 +1,12 @@
 ---
 title: "On-device AI (Beta)"
 category: "ai"
-updated: 2026-07-11
+updated: 2026-07-19
 summary: "An overview of Myne's experimental on-device AI: what it is, the runtime beta opt-in that keeps it off until you turn it on, the honest privacy posture (local, no network, in-process not sandboxed), and a map of the rest of this section."
 tags: ["ai", "privacy"]
 ---
 
-Myne includes an experimental set of AI features that run on your own device: asking questions across your notes, summarizing a note, suggesting tags, and inline writing help. They are off until you turn them on, and they are labelled Beta because they are new and the models are small. This page explains what the feature is and points you at the rest of the section.
+Myne includes an experimental set of AI features that run on your own device: asking questions across your notes, summarizing a note, suggesting tags, transcribing a voice note (speech-to-text), and inline writing help. They are off until you turn them on, and they are labelled Beta because they are new and the models are small. This page explains what the feature is and points you at the rest of the section.
 
 ## What on-device AI means here
 
@@ -32,6 +32,7 @@ That second point is the boundary of the guarantee. It is covered plainly in [AI
 - **[Summarize a note](/user-guide/ai/summarize-a-note/)** covers summarizing the current note or a selection.
 - **[Suggest tags](/user-guide/ai/suggest-tags/)** covers AI tag suggestions.
 - **[Writing assistant](/user-guide/ai/writing-assistant/)** covers inline completions and the AI slash commands.
+- **[Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note)** covers turning a recorded or imported audio clip into searchable, insertable text on your device.
 - **[AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/)** is the honesty deep-dive: on-device, no egress, in-process not sandboxed, the encrypted embedding index, and what AI does not do.
 
 ## Limits

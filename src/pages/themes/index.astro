@@ -102,6 +102,13 @@ const cards = themes.map((t) => ({
               </a>
             </p>
           ) : (
+            <>
+            <p class="tgrid-hint">
+              <strong>Open in Myne</strong> hands the theme to the desktop app, which
+              shows you what it is and asks before applying it — nothing lands in your
+              Downloads folder. No Myne yet? <a href="/download">Get the app</a>, or use
+              <strong> Download .json</strong> and import it from Settings → Appearance.
+            </p>
             <div class="tgrid">
               {cards.map((t) => (
                 <article class="tcard">
@@ -149,19 +156,11 @@ const cards = themes.map((t) => ({
                         GitHub
                       </a>
                     </div>
-                    {
-                      t.installUrl && (
-                        <p class="tcard-hint">
-                          Opens in the desktop app, which asks before applying it.
-                          No Myne yet? <a href="/download">Get the app</a> — or use
-                          Download .json and import it in Settings → Appearance.
-                        </p>
-                      )
-                    }
                   </div>
                 </article>
               ))}
             </div>
+            </>
           )
         }
 
@@ -289,17 +288,26 @@ const cards = themes.map((t) => ({
        reliably report whether a `myne://` link resolved, so the fallback is a
        PERMANENTLY VISIBLE second path rather than a timeout guess or UA
        sniffing — the user is told what each button does and picks. */
-    .tcard-hint {
-      margin: 12px 0 0;
-      font-size: 12px;
-      line-height: 1.6;
-      color: #6a6a66;
+    /* One explainer above the grid, not one per card: the per-card affordance
+       is the Download .json button itself, and repeating the prose would put N
+       identical sentences in the screen-reader flow and N duplicate "Get the
+       app" links in the tab order. */
+    .tgrid-hint {
+      margin: 0 0 26px;
+      max-width: 78ch;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #8a8a86;
     }
-    .tcard-hint a {
+    .tgrid-hint strong {
+      color: #cfcfca;
+      font-weight: 600;
+    }
+    .tgrid-hint a {
       color: #8aa4d0;
       text-decoration: none;
     }
-    .tcard-hint a:hover {
+    .tgrid-hint a:hover {
       text-decoration: underline;
     }
     .tbtn {

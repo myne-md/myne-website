@@ -11,19 +11,24 @@
 
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import {
   MAX_NAME_LEN,
-  MAX_URL_LEN,
+  MAX_INSTALL_URL_LEN,
   THEME_LINK_VERSION,
   base64UrlEncode,
   buildThemeInstallUrl,
 } from "./themeInstallLink.mjs";
 
-const PALETTE = {
-  "--paper": "#faf6ee",
-  "--ink-1": "#2b2720",
-  "--accent": "#b3603c",
-};
+/** A complete palette — the gate below requires all 21 required-core tokens. */
+const PALETTE = Object.fromEntries(
+  [
+    "--paper", "--paper-2", "--paper-3", "--ink-0", "--ink-1", "--ink-2", "--ink-3",
+    "--line-1", "--line-2", "--line-3", "--accent", "--accent-hover", "--accent-press",
+    "--accent-soft", "--accent-on", "--danger", "--danger-soft", "--warning",
+    "--warning-soft", "--success", "--success-soft",
+  ].map((t) => [t, "#faf6ee"]),
+);
 
 /** Decode a link the way the desktop parser does. */
 function decodeLink(url) {
@@ -68,20 +73,41 @@ describe("buildThemeInstallUrl", () => {
     assert.equal(bare.searchParams.get("src"), null);
   });
 
-  it("emits MINIFIED json — the bytes the host validator will see", () => {
-    const { json } = decodeLink(buildThemeInstallUrl({ name: "T", palette: PALETTE }));
+  it("emits MINIFIED, key-sorted json — the bytes the host validator will see", () => {
+    const { json, palette } = decodeLink(buildThemeInstallUrl({ name: "T", palette: PALETTE }));
     assert.ok(!json.includes("\n"), "payload must not carry pretty-print newlines");
-    assert.equal(json, JSON.stringify(PALETTE));
+    assert.ok(!json.includes(": "), "payload must not carry pretty-print spacing");
+    // Key order is normalized (see the determinism test below), so compare the
+    // decoded content, and the exact bytes against the same normalization.
+    assert.deepEqual(palette, PALETTE);
+    const sorted = Object.fromEntries(Object.entries(PALETTE).sort(([a], [b]) => (a < b ? -1 : 1)));
+    assert.equal(json, JSON.stringify(sorted));
   });
 
-  it("drops non-token keys and non-string values rather than shipping them", () => {
+  it("ships only canonical tokens — stray keys and non-canonical names are dropped", () => {
+    // Real gallery themes carry keys the app does not read (nocturne ships
+    // `--label-red`, which is not one of the app's `--label-clay`/… tokens).
+    // Those are inert, so they must not spend URL budget.
     const { palette } = decodeLink(
       buildThemeInstallUrl({
         name: "T",
-        palette: { ...PALETTE, name: "not a token", "--bad": 42 },
+        palette: { ...PALETTE, name: "not a token", "--label-red": "#ff0000", "--bad": 42 },
       }),
     );
     assert.deepEqual(palette, PALETTE);
+  });
+
+  it("emits a key-sorted payload, so the link is deterministic", () => {
+    const shuffled = Object.fromEntries(Object.entries(PALETTE).reverse());
+    assert.equal(
+      buildThemeInstallUrl({ name: "T", palette: shuffled }),
+      buildThemeInstallUrl({ name: "T", palette: PALETTE }),
+    );
+  });
+
+  it("returns null for an incomplete palette instead of a link the app rejects", () => {
+    const { "--accent": _dropped, ...missingRequired } = PALETTE;
+    assert.equal(buildThemeInstallUrl({ name: "T", palette: missingRequired }), null);
   });
 
   it("caps the name at the app's display ceiling", () => {
@@ -99,6 +125,19 @@ describe("buildThemeInstallUrl", () => {
     assert.equal(buildThemeInstallUrl({ name: "T", palette: { name: "x" } }), null);
   });
 
+  it("keeps every real gallery theme installable (the data this ships against)", () => {
+    // Guards the gate against being stricter than the themes actually shipped:
+    // a tightening that silently delisted the gallery would otherwise pass.
+    const full = JSON.parse(
+      readFileSync(new URL("../data/themes-full.json", import.meta.url), "utf8"),
+    );
+    for (const [slug, palette] of Object.entries(full)) {
+      const url = buildThemeInstallUrl({ name: slug, palette });
+      assert.ok(url !== null, `${slug} lost its install link`);
+      assert.ok(url.length < MAX_INSTALL_URL_LEN, `${slug} link too long: ${url.length}`);
+    }
+  });
+
   it("returns null instead of emitting a link the OS would truncate", () => {
     const huge = {};
     for (let i = 0; i < 400; i += 1) huge[`--token-${i}`] = "#123456";
@@ -106,15 +145,11 @@ describe("buildThemeInstallUrl", () => {
     assert.equal(url, null, "over-budget links fall back to the plain download");
   });
 
-  it("keeps a realistic 26-token gallery theme comfortably inside the budget", () => {
-    // Catppuccin Mocha's real shape: 21 required-core tokens + 5 syntax roles.
-    const real = {};
+  it("leaves budget headroom on a full 26-token theme", () => {
+    const real = { ...PALETTE };
     for (const key of [
-      "--paper", "--paper-2", "--paper-3", "--ink-0", "--ink-1", "--ink-2", "--ink-3",
-      "--line-1", "--line-2", "--line-3", "--accent", "--accent-hover", "--accent-press",
-      "--accent-soft", "--accent-on", "--danger", "--danger-soft", "--warning",
-      "--warning-soft", "--success", "--success-soft", "--syntax-keyword",
-      "--syntax-string", "--syntax-comment", "--syntax-number", "--syntax-function",
+      "--syntax-keyword", "--syntax-string", "--syntax-comment",
+      "--syntax-number", "--syntax-function",
     ]) {
       real[key] = "#1e1e2e";
     }
@@ -126,8 +161,8 @@ describe("buildThemeInstallUrl", () => {
     });
     assert.ok(url !== null);
     assert.ok(
-      url.length < MAX_URL_LEN * 0.75,
-      `a real theme should leave headroom; got ${url.length} of ${MAX_URL_LEN}`,
+      url.length < MAX_INSTALL_URL_LEN * 0.75,
+      `a real theme should leave headroom; got ${url.length} of ${MAX_INSTALL_URL_LEN}`,
     );
   });
 });

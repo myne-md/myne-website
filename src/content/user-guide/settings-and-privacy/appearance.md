@@ -27,6 +27,18 @@ A **Custom theme** lets you use your own color palette instead of the built-in L
 
 A custom theme replaces the Light / Dark / System choice while it is active, and it is checked on your device before use (nothing is uploaded). For the full file format — every color key and which value formats are allowed — see the [Custom theme reference](/user-guide/settings-and-privacy/custom-theme-reference/).
 
+### Installing a theme from the Themes page
+
+You don't have to download and import by hand. On the [Themes page](/themes/), **Open in Myne** hands the theme straight to the app: Myne opens (or comes to the front if it's already running) and shows you the theme's name, who it says made it, where it came from, and a preview of its colors. Nothing is added until you choose **Apply theme** — **Cancel** leaves your themes exactly as they were.
+
+A few things worth knowing:
+
+- The theme travels **inside the link**. The app never fetches anything from the web, so the page you clicked learns nothing about you, and there is no download counter.
+- If your vault is locked, Myne holds the request and asks you once you've unlocked. Close the app without unlocking and the request is simply forgotten.
+- If you already have a theme with the same name, Myne asks whether to replace it or keep both.
+- The theme is checked by the same validator as a hand-imported file. A damaged or malformed link is refused with a visible message, and nothing is written.
+- **Download .json** is always available too, for when you'd rather keep the file or import it yourself.
+
 ## What moved out of Appearance
 
 Appearance now holds purely-visual controls. Note-authoring settings that used to live here have moved to the new **Editor** panel:

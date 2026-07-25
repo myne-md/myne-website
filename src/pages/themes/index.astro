@@ -103,12 +103,15 @@ const cards = themes.map((t) => ({
             </p>
           ) : (
             <>
-            <p class="tgrid-hint">
-              <strong>Open in Myne</strong> hands the theme to the desktop app, which
-              shows you what it is and asks before applying it — nothing lands in your
-              Downloads folder. No Myne yet? <a href="/download">Get the app</a>, or use
-              <strong> Download .json</strong> and import it from Settings → Appearance.
-            </p>
+            {cards.some((c) => c.installUrl) && (
+              <p class="tgrid-hint">
+                <strong>Open in Myne</strong> hands the theme to the desktop app, which
+                shows you what it is and asks before applying it — nothing lands in your
+                Downloads folder. No Myne yet? <a href="/download">Get the app</a>, or use
+                <strong>Download .json</strong> and import it from Settings → Appearance.
+                On a phone, use the download — the hand-off is desktop-only.
+              </p>
+            )}
             <div class="tgrid">
               {cards.map((t) => (
                 <article class="tcard">
@@ -140,7 +143,11 @@ const cards = themes.map((t) => ({
                     <div class="tcard-actions mono up">
                       {
                         t.installUrl && (
-                          <a class="tbtn tbtn-primary tbtn-open" href={t.installUrl}>
+                          <a
+                            class="tbtn tbtn-primary tbtn-open"
+                            href={t.installUrl}
+                            aria-label={`Open ${t.name} in Myne`}
+                          >
                             Open in Myne
                           </a>
                         )
@@ -149,10 +156,17 @@ const cards = themes.map((t) => ({
                         class:list={["tbtn", t.installUrl ? "tbtn-ghost tbtn-file" : "tbtn-primary"]}
                         href={t.download}
                         download={`${t.slug}.json`}
+                        aria-label={`Download ${t.name} as JSON`}
                       >
                         Download .json
                       </a>
-                      <a class="tbtn tbtn-ghost" href={t.github} target="_blank" rel="noopener">
+                      <a
+                        class="tbtn tbtn-ghost"
+                        href={t.github}
+                        target="_blank"
+                        rel="noopener"
+                        aria-label={`${t.name} on GitHub`}
+                      >
                         GitHub
                       </a>
                     </div>
@@ -337,22 +351,28 @@ const cards = themes.map((t) => ({
         grid-template-columns: 1fr;
       }
     }
-    /* Mobile degrade (MYND-568): there is no desktop Myne to hand off to on a
-       phone, so a `myne://` tap would do nothing. On coarse-pointer devices the
-       file download becomes the visual primary and the hand-off steps back.
-       Both links stay present and functional either way — a touchscreen laptop
-       being classed as "coarse" costs only button prominence, never a path. A
-       media feature, deliberately not UA sniffing. */
+    /* Mobile degrade (MYND-568): "Open in Myne" is a DESKTOP hand-off. On a
+       phone the tap either does nothing or — since the mobile client registers
+       the same `myne://` scheme for its widgets — launches the mobile app,
+       which ignores the `theme` action. Either way the file download is the
+       useful path there, so on coarse-pointer devices the two swap visual
+       weight.
+
+       Weight only, deliberately NOT `order`: reordering with flex `order` would
+       leave the third button (GitHub, unstyled by this block) at the default
+       `order: 0` and hoist it to the front, and would desync visual order from
+       DOM/tab order (WCAG 2.4.3 Focus Order, 1.3.2 Meaningful Sequence). Both
+       links stay present and functional either way — a touchscreen laptop
+       classed as "coarse" loses only button prominence, never a path. A media
+       feature, not UA sniffing. */
     @media (pointer: coarse) {
       .tcard-actions .tbtn-open {
-        order: 2;
         background: transparent;
         color: #cfcfca;
         font-weight: 400;
         border-color: rgba(255, 255, 255, 0.2);
       }
       .tcard-actions .tbtn-file {
-        order: 1;
         background: #e6e6e4;
         color: #0a0a0a;
         font-weight: 600;

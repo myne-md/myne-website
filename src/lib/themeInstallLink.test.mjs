@@ -13,6 +13,8 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
+  MAX_AUTHOR_LEN,
+  MAX_SOURCE_LEN,
   MAX_NAME_LEN,
   MAX_INSTALL_URL_LEN,
   THEME_LINK_VERSION,
@@ -110,6 +112,41 @@ describe("buildThemeInstallUrl", () => {
     assert.equal(buildThemeInstallUrl({ name: "T", palette: missingRequired }), null);
   });
 
+  it("mirrors the app's sanitise-THEN-slice on the name", () => {
+    // Order matters: slicing first would let stripped characters eat the budget.
+    const u = new URL(
+      buildThemeInstallUrl({ name: "  Warm\u202e  Paper  ", palette: PALETTE }),
+    );
+    assert.equal(u.searchParams.get("name"), "Warm Paper");
+  });
+
+  it("returns null for a name the app would reject, so the caller falls back", () => {
+    // The app answers a nameless link with an error dialog; a working download
+    // is the better outcome, so the link is simply not emitted.
+    for (const name of ["", "   ", "\u0000\u202e\u2066"]) {
+      assert.equal(buildThemeInstallUrl({ name, palette: PALETTE }), null);
+    }
+  });
+
+  it("caps author and drops a src the app would refuse", () => {
+    const u = new URL(
+      buildThemeInstallUrl({
+        name: "T",
+        palette: PALETTE,
+        author: "A".repeat(300),
+        source: "javascript:alert(1)",
+      }),
+    );
+    assert.equal(u.searchParams.get("author").length, MAX_AUTHOR_LEN);
+    assert.equal(u.searchParams.get("src"), null, "non-web src must not be emitted");
+
+    const long = "https://example.com/" + "p".repeat(400);
+    const capped = new URL(
+      buildThemeInstallUrl({ name: "T", palette: PALETTE, source: long }),
+    );
+    assert.equal(capped.searchParams.get("src").length, MAX_SOURCE_LEN);
+  });
+
   it("caps the name at the app's display ceiling", () => {
     const u = new URL(
       buildThemeInstallUrl({ name: "A".repeat(200), palette: PALETTE }),
@@ -123,6 +160,27 @@ describe("buildThemeInstallUrl", () => {
     assert.equal(buildThemeInstallUrl({ name: "T", palette: {} }), null);
     // Only non-token keys → nothing installable.
     assert.equal(buildThemeInstallUrl({ name: "T", palette: { name: "x" } }), null);
+  });
+
+  it("drops only keys the app does not read (the lossy-projection guard)", () => {
+    // The payload keeps just the 44 canonical tokens. That is safe only while
+    // every key it drops is one the app ignores — pin it against real data so a
+    // future token family added app-side without updating tokens.mjs shows up.
+    const full = JSON.parse(
+      readFileSync(new URL("../data/themes-full.json", import.meta.url), "utf8"),
+    );
+    const dropped = new Set();
+    for (const [, palette] of Object.entries(full)) {
+      const kept = new Set(Object.keys(decodeLink(
+        buildThemeInstallUrl({ name: "T", palette }),
+      ).palette));
+      for (const k of Object.keys(palette)) if (!kept.has(k)) dropped.add(k);
+    }
+    assert.deepEqual(
+      [...dropped].sort(),
+      ["--label-blue", "--label-green", "--label-orange", "--label-red"],
+      "the dropped set changed — confirm the app still ignores every key here",
+    );
   });
 
   it("keeps every real gallery theme installable (the data this ships against)", () => {

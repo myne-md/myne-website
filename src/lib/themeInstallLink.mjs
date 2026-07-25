@@ -22,6 +22,18 @@
  * the card falls back to the plain `.json` download rather than emitting a link
  * the OS would truncate into something that fails confusingly.
  *
+ * ## The payload is a LOSSY projection of the shipped theme
+ *
+ * `buildThemeJson` keeps only the 44 canonical tokens in `themeBuilder/tokens.mjs`.
+ * Shipped themes may carry extra keys the app does not read (nocturne has
+ * `--label-red`, which is not one of the app's `--label-clay`/… tokens), and
+ * those are dropped rather than spending URL budget. That is safe only while
+ * `tokens.mjs` is a superset of what the app actually consumes — if the app
+ * gains a token family and that list is not updated in lockstep, deep-link
+ * installs would silently ship a degraded palette while the `.json` download
+ * ships the full one. The test suite pins the projection against the real
+ * `themes-full.json` so the divergence is at least visible.
+ *
  * ## Keep in lockstep with the app
  *
  * The desktop parser is `src/lib/themeDeepLink.ts` in the `myne` repo. It pins
@@ -47,8 +59,37 @@ export const THEME_LINK_VERSION = "1";
  */
 export const MAX_INSTALL_URL_LEN = 2000;
 
-/** App-side display cap; mirrored so the emitted name is never silently cut. */
+/** App-side display caps, mirrored so a link never carries more than the app
+ *  will keep. The app slices too, so exceeding these is not fatal — but a link
+ *  that already fits is one the user sees in full. */
 export const MAX_NAME_LEN = 64;
+export const MAX_AUTHOR_LEN = 96;
+export const MAX_SOURCE_LEN = 256;
+
+/**
+ * Mirror of the app's display sanitisation: strip C0/C1 controls and the bidi
+ * overrides (a name carrying those could render as something other than what
+ * gets stored), collapse whitespace, trim, then cap by CODE POINT.
+ *
+ * Sanitise-THEN-slice, in that order, exactly as the app does — slicing first
+ * would let stripped characters eat into the budget. Returns `null` when
+ * nothing printable survives, which is the app's `"invalid-name"` rejection:
+ * catching it here means the user gets the promised `.json` fallback instead of
+ * an error dialog.
+ *
+ * @param {unknown} raw @param {number} maxLen @returns {string | null}
+ */
+export function sanitizeDisplay(raw, maxLen) {
+  if (raw === null || raw === undefined) return null;
+  const stripped = String(raw).replace(
+    /[\u0000-\u001f\u007f-\u009f\u200e\u200f\u202a-\u202e\u2066-\u2069]/g,
+    "",
+  );
+  const collapsed = stripped.replace(/\s+/g, " ").trim();
+  if (collapsed === "") return null;
+  const points = Array.from(collapsed);
+  return points.length <= maxLen ? collapsed : points.slice(0, maxLen).join("");
+}
 
 /**
  * base64url-encode UTF-8 text, unpadded — the encoding the app's decoder
@@ -94,13 +135,20 @@ export function buildThemeInstallUrl({ name, palette, author, source }) {
   // out of the URL budget, and makes the emitted link deterministic.
   const json = JSON.stringify(buildThemeJson(palette));
 
+  // A name the app would reject is a link we must not emit — the caller's
+  // fallback is a working download, an error dialog is not.
+  const safeName = sanitizeDisplay(name, MAX_NAME_LEN);
+  if (safeName === null) return null;
+
   const params = new URLSearchParams();
   params.set("v", THEME_LINK_VERSION);
-  params.set("name", String(name).slice(0, MAX_NAME_LEN));
-  if (author) params.set("author", String(author));
+  params.set("name", safeName);
+  const safeAuthor = sanitizeDisplay(author, MAX_AUTHOR_LEN);
+  if (safeAuthor !== null) params.set("author", safeAuthor);
   // Provenance the dialog displays. The app never follows it — and drops it
-  // entirely unless it is http(s) — so only ever pass a real web URL.
-  if (source) params.set("src", String(source));
+  // entirely unless it is http(s) — so emit only what will actually survive.
+  const safeSource = sanitizeDisplay(source, MAX_SOURCE_LEN);
+  if (safeSource !== null && /^https?:\/\//i.test(safeSource)) params.set("src", safeSource);
   params.set("payload", base64UrlEncode(json));
 
   const url = `myne://theme/install?${params.toString()}`;

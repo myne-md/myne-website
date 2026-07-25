@@ -52,6 +52,12 @@ pre-push:
   parallel: false
   commands:
 
+    # The theme-install link builder encodes a CROSS-REPO wire contract with the
+    # desktop app (MYND-568): a silent change here ships broken `myne://` links.
+    # Nothing ran these before, so the guard was a manual ritual.
+    test:
+      run: pnpm test
+
     build:
       run: pnpm build
 

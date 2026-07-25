@@ -1,8 +1,8 @@
 ---
 title: "Appearance"
 category: "settings-and-privacy"
-updated: 2026-06-18
-summary: "How to switch between light, dark, and system themes, where the setting is stored, and how the app's appearance behaves while the vault is locked."
+updated: 2026-07-25
+summary: "How to switch between light, dark, and system themes, how to install a theme from the Themes page, where the setting is stored, and how the app's appearance behaves while the vault is locked."
 tags: ["settings"]
 ---
 
@@ -33,11 +33,12 @@ You don't have to download and import by hand. On the [Themes page](/themes/), *
 
 A few things worth knowing:
 
-- The theme travels **inside the link**. The app never fetches anything from the web, so the page you clicked learns nothing about you, and there is no download counter.
+- The theme travels **inside the link**. Myne doesn't fetch the theme from anywhere — the colors are in the link itself — so the Themes page never learns which theme you picked, and there is no download counter.
+- **Download .json** goes to GitHub, where the theme files live. That's an ordinary download from a third party, so unlike the link hand-off it isn't private to you.
 - If your vault is locked, Myne holds the request and asks you once you've unlocked. Close the app without unlocking and the request is simply forgotten.
 - If you already have a theme with the same name, Myne asks whether to replace it or keep both.
 - The theme is checked by the same validator as a hand-imported file. A damaged or malformed link is refused with a visible message, and nothing is written.
-- **Download .json** is always available too, for when you'd rather keep the file or import it yourself.
+- **Open in Myne** is a desktop hand-off. On a phone or tablet, use **Download .json** and import the file.
 
 ## What moved out of Appearance
 

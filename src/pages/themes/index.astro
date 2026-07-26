@@ -2,10 +2,12 @@
 import LandingLayout from "../../layouts/LandingLayout.astro";
 import GlassNav from "../../components/GlassNav.astro";
 import themesData from "../../data/themes-index.json";
+import themePalettes from "../../data/themes-full.json";
+import { buildThemeInstallUrl } from "../../lib/themeInstallLink.mjs";
 
 const title = "Themes — Myne";
 const description =
-  "Community themes for Myne. Browse, download, and import a custom look for your notes — validated on your device, never sandboxed.";
+  "Community themes for Myne. Browse and open one straight in the app — validated on your device, never sandboxed.";
 const canonical = new URL("/themes/", Astro.site!).toString();
 
 const themes = (themesData.themes ?? []) as Array<{
@@ -28,6 +30,29 @@ const themes = (themesData.themes ?? []) as Array<{
 }>;
 
 const REPO = "https://github.com/myne-md/myne-themes";
+
+// MYND-568: the one-click hand-off. Each card's primary action is a
+// `myne://theme/install` link carrying the whole palette, so clicking it opens
+// the theme IN Myne (with a confirm dialog) instead of dropping a JSON file the
+// user then has to find and import by hand.
+//
+// The palette rides inside the URL because the app has no network egress path
+// and so cannot fetch a `src` — see `src/lib/themeInstallLink.mjs`. Built once
+// here at BUILD time: no runtime fetch, no client JS, no tracker.
+//
+// `installUrl` is null when a theme has no palette in `themes-full.json` or
+// would exceed the URL budget. That is a graceful degrade, not an error — the
+// card then shows the plain `.json` download as the only path.
+const palettes = themePalettes as Record<string, Record<string, string>>;
+const cards = themes.map((t) => ({
+  ...t,
+  installUrl: buildThemeInstallUrl({
+    name: t.name,
+    palette: palettes[t.slug],
+    author: t.author,
+    source: t.github,
+  }),
+}));
 ---
 
 <LandingLayout title={title} description={description} canonical={canonical}>
@@ -47,12 +72,15 @@ const REPO = "https://github.com/myne-md/myne-themes";
           Make it yours.
         </h1>
         <p style="margin-top:22px;max-width:64ch;font-size:16px;line-height:1.65;color:#8a8a86;">
-          Community themes for Myne. Download one, then import it in
-          <span style="color:#cfcfca;">Settings → Appearance → Import</span>.
-          A theme is a small, validated palette — not code — so Myne
-          <span style="color:#cfcfca;">validates it on your device</span> when you
-          import it. We don't sandbox themes and we don't call this "safe"; the app
-          never phones this page, and there are no trackers or download counters here.
+          Community themes for Myne. Pick one and it
+          <span style="color:#cfcfca;">opens in the app</span>, which shows you what
+          it is and asks before applying it — or download the
+          <span style="color:#cfcfca;">.json</span> and import it yourself from
+          Settings → Appearance. A theme is a small, validated palette — not code —
+          and Myne <span style="color:#cfcfca;">validates it on your device</span>.
+          We don't sandbox themes and we don't call this "safe"; the theme travels
+          inside the link, so the app never phones this page, and there are no
+          trackers or download counters here.
         </p>
         <a
           href="/themes/builder"
@@ -74,8 +102,18 @@ const REPO = "https://github.com/myne-md/myne-themes";
               </a>
             </p>
           ) : (
+            <>
+            {cards.some((c) => c.installUrl) && (
+              <p class="tgrid-hint">
+                <strong>Open in Myne</strong> hands the theme to the desktop app, which
+                shows you what it is and asks before applying it — nothing lands in your
+                Downloads folder. No Myne yet? <a href="/download">Get the app</a>, or use
+                <strong>Download .json</strong> and import it from Settings → Appearance.
+                On a phone, use the download — the hand-off is desktop-only.
+              </p>
+            )}
             <div class="tgrid">
-              {themes.map((t) => (
+              {cards.map((t) => (
                 <article class="tcard">
                   <div class="tcard-preview" style={`background:${t.swatches.background};`}>
                     {t.preview ? (
@@ -103,10 +141,32 @@ const REPO = "https://github.com/myne-md/myne-themes";
                       ))}
                     </div>
                     <div class="tcard-actions mono up">
-                      <a class="tbtn tbtn-primary" href={t.download} download={`${t.slug}.json`}>
-                        Download
+                      {
+                        t.installUrl && (
+                          <a
+                            class="tbtn tbtn-primary tbtn-open"
+                            href={t.installUrl}
+                            aria-label={`Open ${t.name} in Myne`}
+                          >
+                            Open in Myne
+                          </a>
+                        )
+                      }
+                      <a
+                        class:list={["tbtn", t.installUrl ? "tbtn-ghost tbtn-file" : "tbtn-primary"]}
+                        href={t.download}
+                        download={`${t.slug}.json`}
+                        aria-label={`Download ${t.name} as JSON`}
+                      >
+                        Download .json
                       </a>
-                      <a class="tbtn tbtn-ghost" href={t.github} target="_blank" rel="noopener">
+                      <a
+                        class="tbtn tbtn-ghost"
+                        href={t.github}
+                        target="_blank"
+                        rel="noopener"
+                        aria-label={`${t.name} on GitHub`}
+                      >
                         GitHub
                       </a>
                     </div>
@@ -114,6 +174,7 @@ const REPO = "https://github.com/myne-md/myne-themes";
                 </article>
               ))}
             </div>
+            </>
           )
         }
 
@@ -233,8 +294,35 @@ const REPO = "https://github.com/myne-md/myne-themes";
     }
     .tcard-actions {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: 20px;
+    }
+    /* MYND-568: the two-path explainer under the actions. A browser cannot
+       reliably report whether a `myne://` link resolved, so the fallback is a
+       PERMANENTLY VISIBLE second path rather than a timeout guess or UA
+       sniffing — the user is told what each button does and picks. */
+    /* One explainer above the grid, not one per card: the per-card affordance
+       is the Download .json button itself, and repeating the prose would put N
+       identical sentences in the screen-reader flow and N duplicate "Get the
+       app" links in the tab order. */
+    .tgrid-hint {
+      margin: 0 0 26px;
+      max-width: 78ch;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #8a8a86;
+    }
+    .tgrid-hint strong {
+      color: #cfcfca;
+      font-weight: 600;
+    }
+    .tgrid-hint a {
+      color: #8aa4d0;
+      text-decoration: none;
+    }
+    .tgrid-hint a:hover {
+      text-decoration: underline;
     }
     .tbtn {
       font-size: 10px;
@@ -261,6 +349,34 @@ const REPO = "https://github.com/myne-md/myne-themes";
     @media (max-width: 600px) {
       .tgrid {
         grid-template-columns: 1fr;
+      }
+    }
+    /* Mobile degrade (MYND-568): "Open in Myne" is a DESKTOP hand-off. On a
+       phone the tap either does nothing or — since the mobile client registers
+       the same `myne://` scheme for its widgets — launches the mobile app,
+       which ignores the `theme` action. Either way the file download is the
+       useful path there, so on coarse-pointer devices the two swap visual
+       weight.
+
+       Weight only, deliberately NOT `order`: reordering with flex `order` would
+       leave the third button (GitHub, unstyled by this block) at the default
+       `order: 0` and hoist it to the front, and would desync visual order from
+       DOM/tab order (WCAG 2.4.3 Focus Order, 1.3.2 Meaningful Sequence). Both
+       links stay present and functional either way — a touchscreen laptop
+       classed as "coarse" loses only button prominence, never a path. A media
+       feature, not UA sniffing. */
+    @media (pointer: coarse) {
+      .tcard-actions .tbtn-open {
+        background: transparent;
+        color: #cfcfca;
+        font-weight: 400;
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .tcard-actions .tbtn-file {
+        background: #e6e6e4;
+        color: #0a0a0a;
+        font-weight: 600;
+        border-color: transparent;
       }
     }
   </style>

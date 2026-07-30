@@ -1,6 +1,7 @@
 ---
 import LandingLayout from "../../layouts/LandingLayout.astro";
 import GlassNav from "../../components/GlassNav.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
 import themesData from "../../data/themes-index.json";
 import themePalettes from "../../data/themes-full.json";
 import { buildThemeInstallUrl } from "../../lib/themeInstallLink.mjs";
@@ -197,7 +198,7 @@ const cards = themes.map((t) => ({
         class="mono up"
         style="max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;color:#54544f;"
       >
-        <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><span>v0.1 · pre-alpha</span>
+        <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><StatusBadge /><span>v0.1 · pre-alpha</span>
       </div>
     </footer>
   </div>

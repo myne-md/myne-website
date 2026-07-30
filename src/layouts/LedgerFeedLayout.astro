@@ -1,6 +1,7 @@
 ---
 import LandingLayout from "./LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
+import StatusBadge from "../components/StatusBadge.astro";
 import SegmentedFilter from "../components/ledger/SegmentedFilter.astro";
 import EntryCard from "../components/ledger/EntryCard.astro";
 import PinnedBanner from "../components/ledger/PinnedBanner.astro";
@@ -95,7 +96,7 @@ const showSparseQuiet =
     </section>
     <footer class="ledger-footer">
       <div class="mono up ledger-footer__inner">
-        <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><span>v0.1 · pre-alpha</span>
+        <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><StatusBadge /><span>v0.1 · pre-alpha</span>
       </div>
     </footer>
   </div>

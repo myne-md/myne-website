@@ -638,35 +638,6 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
   flex-direction: column;
   overflow: visible;
 }
-.ug-search {
-  position: relative;
-  margin-bottom: 20px;
-  flex: 0 0 auto;
-}
-.ug-search__slash {
-  position: absolute;
-  left: 13px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 13px;
-  color: #54544f;
-}
-.ug-search__input {
-  width: 100%;
-  background: #0c0c0c;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 8px;
-  padding: 10px 12px 10px 28px;
-  color: #e6e6e4;
-  font-size: 12.5px;
-  outline: none;
-}
-.ug-search__input:focus {
-  border-color: rgba(138, 164, 208, 0.5);
-}
-.ug-search__input::placeholder {
-  color: #54544f;
-}
 .ug-root .ug-sidebar__nav {
   overflow-y: auto;
   min-height: 0;

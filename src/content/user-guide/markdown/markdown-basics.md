@@ -1,7 +1,7 @@
 ---
 title: "Markdown basics"
 category: "markdown"
-updated: 2026-06-18
+updated: 2026-07-31
 summary: "The core markdown syntax Myne renders: headings, emphasis, lists, links, blockquotes, and horizontal rules, with examples of how each one looks in the editor."
 tags: ["markdown", "editor"]
 ---
@@ -20,7 +20,7 @@ You can cycle a line through heading levels with a shortcut (see Shortcuts below
 
 - `*italic*` for *italic*, `**bold**` for **bold**.
 - `` `code` `` for inline `code`.
-- `==highlight==` for a highlighted span (the default yellow); a 5-color palette adds green, blue, pink, and purple, which are stored as `<mark class="hl-*">` — see [HTML and inline extras](/user-guide/markdown/html-and-inline-extras/). `~sub~` and `^sup^` for subscript and superscript.
+- `==highlight==` for a highlighted span (the default yellow); the highlight palette has thirteen colors in all, stored as `<mark class="hl-*">` — see [HTML and inline extras](/user-guide/markdown/html-and-inline-extras/) for the full list. `~sub~` and `^sup^` for subscript and superscript.
 
 Bold, italic, and inline code have toolbar buttons and keyboard shortcuts.
 

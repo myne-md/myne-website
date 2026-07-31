@@ -1,7 +1,7 @@
 ---
 title: "Unlocking your vault"
 category: "getting-started"
-updated: 2026-06-18
+updated: 2026-07-31
 summary: "How to unlock an existing vault with your master password each time you open Myne, what the unlock screen shows, and what it means for a vault to be locked."
 tags: ["vault", "security"]
 ---
@@ -24,7 +24,7 @@ Type your master password and confirm. Myne derives your keys from the password 
 
 ### Quick unlock after auto-lock
 
-If you turn on quick unlock, the Unlock screen shows a faster re-entry option above the password form after the vault auto-locks: a PIN, or Touch ID on macOS. The master-password form is always there below it, so you can still type your password instead. Quick unlock is off until you enable it from Settings → Privacy, and the master password is always required again after you restart the app. Touch ID is macOS-only and the app marks it experimental. See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/) for how to set it up and what it does and does not protect.
+If you turn on quick unlock, the Unlock screen leads with a faster re-entry option after the vault auto-locks: a PIN, or Touch ID on macOS. It shows one credential at a time — a **Use password instead** link switches to the master-password form, and a matching link switches back, so you can still type your password instead. Quick unlock is off until you enable it from Settings → Privacy. With a PIN, the master password is required again after you restart the app; a configured Touch ID credential can be used on a cold start, because macOS's own biometric prompt guards it. Touch ID is macOS-only and the app marks it experimental. See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/) for how to set it up and what it does and does not protect.
 
 ### When the password doesn't work
 

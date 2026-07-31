@@ -1,7 +1,7 @@
 ---
 title: "If you forget your password"
 category: "safety-and-recovery"
-updated: 2026-06-18
+updated: 2026-07-31
 summary: "What you can and cannot do if you forget your master password, how the 24-word recovery phrase lets you set a new one, and what happens if both are lost."
 tags: ["recovery", "security"]
 ---
@@ -22,7 +22,7 @@ On the Unlock screen, below the password box, is a link: **Forgot your password?
 
 That's it. You're back in, with a new password and the same recovery phrase as before.
 
-If you have turned it on, the Unlock screen also offers a faster way back after the vault auto-locks: a short PIN, or macOS Touch ID, instead of the full password. It is opt-in from Settings → Privacy and does not replace the password — your master password is still required after the app restarts. See [Quick unlock with a PIN or Touch ID](/user-guide/settings-and-privacy/quick-unlock/) for what it does and does not cover. Quick unlock is a convenience, not a recovery path: if you have forgotten the password, use the recovery phrase as above.
+If you have turned it on, the Unlock screen also offers a faster way back after the vault auto-locks: a short PIN, or macOS Touch ID, instead of the full password. It is opt-in from Settings → Privacy and does not replace the password — with a PIN, your master password is still required after the app restarts (a configured Touch ID credential can be used on a cold start). See [Quick unlock with a PIN or Touch ID](/user-guide/settings-and-privacy/quick-unlock/) for what it does and does not cover. Quick unlock is a convenience, not a recovery path: if you have forgotten the password, use the recovery phrase as above.
 
 ## What actually happens to your keys
 

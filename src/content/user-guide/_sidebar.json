@@ -7,6 +7,7 @@
     "articles": [
       "welcome",
       "install",
+      "myne-in-your-browser",
       "create-your-vault",
       "your-recovery-phrase",
       "unlocking-your-vault",
@@ -32,7 +33,9 @@
       "named-workspaces",
       "templates",
       "daily-notes",
-      "sidebar-customization"
+      "tasks",
+      "sidebar-customization",
+      "note-colors-and-icons"
     ]
   },
   {
@@ -51,6 +54,7 @@
       "comments",
       "document-statistics",
       "editor-display",
+      "vim-mode",
       "spell-check",
       "saved-views",
       "export-notes"
@@ -130,6 +134,7 @@
       "turn-on-sync",
       "add-a-device",
       "sync-status",
+      "storage-and-limits",
       "resolving-conflicts",
       "managing-devices"
     ]

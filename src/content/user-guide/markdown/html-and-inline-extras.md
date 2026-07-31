@@ -1,7 +1,7 @@
 ---
 title: "HTML and inline extras"
 category: "markdown"
-updated: 2026-06-18
+updated: 2026-07-31
 summary: "The inline extras Myne supports beyond standard markdown (selected inline HTML, highlights, tags, and inline comments) and how each one renders."
 tags: ["markdown", "tags"]
 ---
@@ -13,9 +13,9 @@ Beyond the core syntax, Myne adds a few inline extras: highlights, subscript and
 - `==highlight==` renders as a highlighted span in the default yellow.
 - `~text~` renders as subscript, `^text^` as superscript (single run, no spaces, as in `H~2~O`, `x^2^`).
 
-Highlights come in five colors. The default yellow is what `==highlight==` produces. For the other four — green, blue, pink, and purple — write a `<mark>` with one of the highlight classes: `<mark class="hl-green">…</mark>`, and likewise `hl-blue`, `hl-pink`, `hl-purple` (the default yellow is `hl-yellow`). The toolbar's highlight control applies the same thing: a plain click gives the default yellow, byte-identical to `==…==`, and the caret opens the five-color row.
+Highlights come in thirteen colors. The default yellow is what `==highlight==` produces. For the other twelve — green, blue, pink, purple, orange, red, teal, cyan, lime, brown, grey, and indigo — write a `<mark>` with one of the highlight classes: `<mark class="hl-green">…</mark>`, and likewise `hl-blue`, `hl-pink`, `hl-purple`, `hl-orange`, `hl-red`, `hl-teal`, `hl-cyan`, `hl-lime`, `hl-brown`, `hl-grey`, and `hl-indigo` (the default yellow is `hl-yellow`). The toolbar's highlight control applies the same thing: a plain click gives the default yellow, byte-identical to `==…==`, and the caret opens the thirteen-color row.
 
-The highlight classes are a closed set: `hl-yellow`, `hl-green`, `hl-blue`, `hl-pink`, `hl-purple`. A `class` survives only when it is exactly one of these tokens on a `<mark>`. Any other class — a different name, more than one token, or `class` on another tag — is stripped from the rendered output. Stripping a class never changes the bytes saved in your note; only what is drawn changes.
+The highlight classes are a closed set: `hl-yellow`, `hl-green`, `hl-blue`, `hl-pink`, `hl-purple`, `hl-orange`, `hl-red`, `hl-teal`, `hl-cyan`, `hl-lime`, `hl-brown`, `hl-grey`, `hl-indigo`. A `class` survives only when it is exactly one of these tokens on a `<mark>`. Any other class — a different name, more than one token, or `class` on another tag — is stripped from the rendered output. Stripping a class never changes the bytes saved in your note; only what is drawn changes.
 
 ## Emoji
 

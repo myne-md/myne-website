@@ -1,12 +1,12 @@
 ---
 title: "Install Myne"
 category: "getting-started"
-updated: 2026-07-11
+updated: 2026-07-31
 summary: "How the Myne desktop app is distributed: code-signed installers from the releases page, in the native format for each platform, with reproducible builds you can verify against the public source, and why that matters."
 tags: ["basics"]
 ---
 
-Myne is a desktop application. You install it once, and it runs on your computer as a native app. There is no browser version; your vault lives on your device as encrypted files. This article covers how to get the app and how its distribution lets you check that what you install is what we published.
+Myne is a desktop application. You install it once, and it runs on your computer as a native app. Your vault lives on your device as encrypted files. This desktop app is the primary way to run Myne, but there is also a browser client at `app.example.com` that runs the same application under a different trust boundary; see [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/). This article covers how to get the app and how its distribution lets you check that what you install is what we published.
 
 ## Download and install
 

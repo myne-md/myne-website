@@ -1,12 +1,12 @@
 ---
 title: "Import from Obsidian"
 category: "attachments-and-import"
-updated: 2026-06-18
-summary: "How to import an existing Obsidian vault into Myne, how notes, links, and attachments are mapped, and the edge cases to check in the import summary."
+updated: 2026-07-31
+summary: "How to import an existing Obsidian vault into Myne — and, through the same flow, from Notion, Evernote, HTML, and CSV. How notes, links, and attachments map, and the edge cases to check in the import summary and report."
 tags: ["import", "attachments"]
 ---
 
-If you are coming from Obsidian, Myne can import an existing vault (your notes, your folder structure, your links, and your attachments) in one pass. The import is a one-time, one-way copy: Myne reads your Obsidian vault and builds a Myne vault from it. It is **not** sync; nothing connects the two afterward, and nothing leaves this device.
+If you are coming from Obsidian, Myne can import an existing vault (your notes, your folder structure, your links, and your attachments) in one pass. Obsidian is one of five sources the same importer reads — Notion, Evernote, HTML, and CSV are the others — so this article walks the Obsidian path in full and covers the other four under "Other sources", below. The import is a one-time, one-way copy: Myne reads your Obsidian vault and builds a Myne vault from it. It is **not** sync; nothing connects the two afterward, and nothing leaves this device.
 
 ## Before you start
 
@@ -16,7 +16,7 @@ If you are coming from Obsidian, Myne can import an existing vault (your notes, 
 
 ## Starting an import
 
-Myne offers the importer the first time you unlock a fresh vault. You can also start it any time from the command palette with **Import Obsidian vault…**. The flow has three phases: set up, run, and review.
+Myne offers the importer the first time you unlock a fresh vault. You can also start it any time from the command palette with **Import notes…**, or from Settings → Storage → Import. The importer opens on a source picker; after you choose Obsidian, the flow has three phases: set up, run, and review.
 
 ### 1. Set up
 
@@ -69,6 +69,20 @@ A few things to check after a large import:
 - **Obsidian Bases (`.base`) views** come in through a separate importer, not the vault import above. Run **Import .base view…** from the command palette to bring a Bases view in as a Myne saved view; like the vault import it is one-time and one-way. See [Saved views](/user-guide/editor-and-writing/saved-views/) for what a Bases view maps to and what does not carry over.
 - **Plugins and themes** are out of scope: the importer brings content, not Obsidian's configuration.
 
+## Other sources
+
+Obsidian is one of five sources the same importer reads. When the flow opens, you land on a card grid asking "Where are your notes coming from?" — one card per source. Each card names a format, not a Myne feature:
+
+- **Obsidian** — a vault folder of Markdown notes (the walkthrough above).
+- **Notion** — an unzipped export folder. Unzip the export yourself first: Myne reads the folder, not the `.zip`.
+- **Evernote** — a single `.enex` export file.
+- **HTML** — a folder of saved web pages.
+- **CSV** — one spreadsheet file, which becomes a single note holding the table (one note, not one note per row — Myne is not a database).
+
+Whichever you pick, the setup step shows that source's own **keeps / leaves behind** disclosure before the import starts, so you see the fidelity bar for that format up front. For HTML, for example, it keeps headings, lists, tables, links, code and emphasis, and leaves behind styling, scripts and embeds — remote images stay as links and are never downloaded.
+
+Every source funnels through the same ingest path, so the outcomes above hold for all five: nothing is overwritten, re-running is safe, and your original files are never changed. Where a note imports but loses a construct the format has and Myne does not — a Notion toggle, an HTML callout — the importer collects those into an **import report**: an ordinary note it writes at the end, when there is anything to report, titled `Import report — <source> <time>`, linking each affected note next to what was dropped. It is a plain note you can read, act on, and delete.
+
 ## Limits
 
-The importer is a point-in-time copy, not a live link: changes you make in Obsidian afterward do not flow into Myne, and Myne changes do not flow back. To bring later changes over, run the import again.
+The importer is a point-in-time copy, not a live link — for every source, not only Obsidian. Changes you make in the original app afterward do not flow into Myne, and Myne changes do not flow back. To bring later changes over, run the import again.

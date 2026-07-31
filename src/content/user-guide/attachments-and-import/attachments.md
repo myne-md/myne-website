@@ -1,7 +1,7 @@
 ---
 title: "Attachments"
 category: "attachments-and-import"
-updated: 2026-06-18
+updated: 2026-07-31
 summary: "How to attach files to your notes, how renderable and generic files differ, the size limits, and how attachments are stored inside the encrypted vault."
 tags: ["attachments", "notes"]
 ---
@@ -24,6 +24,19 @@ Insertion always happens in the editor. That is where an attachment becomes part
 Any file type may be attached. An attachment can be up to **64 MiB** (note text itself is capped at 16 MiB); a file over the limit is rejected with a message saying why, and nothing is added.
 
 What differs is how a file appears in the note, which depends on whether Myne can render it. To decide that, Myne checks the file's actual contents, not its extension: renaming a `.zip` to `.png` won't make it render as an image.
+
+## Image compression on import
+
+When you add an image — by pasting or dropping it — Myne downscales and re-encodes it on the way in, so a vault full of screenshots doesn't grow without bound on disk, in backups, or over sync. This happens before the file is stored, and **the original bytes are not kept**: the re-encoded copy is what lives in your vault, with no way to recover the file exactly as it came in. If you need an image kept byte-for-byte, turn the setting below off before you add it.
+
+A few rules keep the transform from costing you anything unexpected:
+
+- Myne stores whichever of the original and the re-encoded copy is **smaller**, so an import is never made larger.
+- **SVG and animated images are never re-encoded** — doing so would discard something Myne cannot rebuild, such as vector geometry or animation.
+- If an image cannot be decoded or re-encoded, the original is stored unchanged and the import still succeeds; compression is best-effort and never turns a working import into a failed one.
+- Only images you add from now on are affected. Attachments already in the vault are left exactly as they are.
+
+The control is **Compress images on import** in Settings → Files. It is a single vault-wide switch, **on by default**. When compression actually changes an image, a one-time notice after the import reports the size before and after; an import that changed nothing — a file that was already small, a duplicate you already had, or the switch turned off — shows no notice.
 
 ## How attachments render
 
@@ -51,4 +64,4 @@ Attachments live as encrypted files inside the vault; today they're accessible o
 
 ## Limits
 
-Native operating-system drag-and-drop from a file manager is deliberately off; use one of the editor methods above. The exact `![[att:…]]` embed syntax is in [Footnotes and reference links](/user-guide/markdown/footnotes-and-reference-links/#wikilinks). Attachment **contents are not searched**: [Search](/user-guide/find-and-connect/search/) covers note text, not what's inside a PDF or image.
+Dragging files in from your file manager works: drop an image or any other file onto the editor or the attachments library to attach it, and drop markdown or text files (`.md`, `.markdown`, `.mdown`, `.txt`) onto a folder in the sidebar to import each one as a note. A non-markdown file dropped onto a folder is skipped, and a folder drop is not the full importer — to migrate a whole vault at once, use [Import from Obsidian](/user-guide/attachments-and-import/import-from-obsidian/). The exact `![[att:…]]` embed syntax is in [Footnotes and reference links](/user-guide/markdown/footnotes-and-reference-links/#wikilinks). Attachment **text is searchable** where Myne can read it — the text layer of PDFs and Word documents, plain-text files, and, through on-device text recognition, images and scanned PDFs — so a note can turn up in [Search](/user-guide/find-and-connect/search/#attachment-text) on words that appear inside its attachments, not only its own prose; the extraction runs on your device and nothing is uploaded.

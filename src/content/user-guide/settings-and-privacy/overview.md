@@ -1,7 +1,7 @@
 ---
 title: "Settings & privacy"
 category: "settings-and-privacy"
-updated: 2026-07-11
+updated: 2026-07-31
 summary: "An overview of Myne's settings panels and the privacy model behind them: account, privacy controls, sync, editor and files behaviour, appearance and language, hotkeys, storage, the on-device AI beta, and what Myne deliberately does not do."
 tags: ["settings", "privacy"]
 ---
@@ -13,7 +13,7 @@ Settings is where you adjust how Myne works, and this section also explains the 
 With a vault open, open Settings from the gear in the bottom bar or with `⌘,`. It opens over the editor. The left rail lists its panels, in order:
 
 - **Account** holds the Argon2id key-derivation readout, your vault's label and icon, connected browser extensions, the Change password action, and, under Danger zone, Delete vault. See [Account](/user-guide/settings-and-privacy/account/).
-- **Privacy** holds screen-capture protection, auto-lock, quick unlock, and the sync privacy toggles (real-time sync and continue where you left off). See [Auto-lock and screen-capture protection](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/) and [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/).
+- **Privacy** holds screen-capture protection, auto-lock, quick unlock, and the continue where you left off sync toggle. See [Auto-lock and screen-capture protection](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/) and [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/).
 - **Sync** connects a sync server, adds and manages the devices on your account, and resolves sync conflicts. See the [Sync and devices](/user-guide/sync-and-devices/overview/) section.
 - **Editor** holds note-authoring behaviour: the default [view mode](/user-guide/editor-and-writing/view-modes/) a note opens in, typography presets (text size, line spacing, content width, font family), the [line-number gutter](/user-guide/editor-and-writing/editor-display/) toggle, the [focus-mode](/user-guide/editor-and-writing/focus-mode/) behaviours (typewriter scroll and dimming inactive lines), [spell check](/user-guide/editor-and-writing/spell-check/) with its language picker, and [daily-notes](/user-guide/notes-and-organization/daily-notes/) configuration (folder, date format, template).
 - **Files** sets which file opens when the app starts and where new notes are created. See [Files](/user-guide/settings-and-privacy/files/).

@@ -1,7 +1,7 @@
 ---
 title: "Managing devices"
 category: "sync-and-devices"
-updated: 2026-07-11
+updated: 2026-07-31
 summary: "View the devices on your account and remove one. Covers what the device list shows, the honest meaning of removing a device (it revokes sync access but is not a remote wipe), recovering a device that was removed elsewhere, and resetting sync locally without touching your notes."
 tags: ["devices", "sync", "security"]
 ---
@@ -14,7 +14,7 @@ The **Devices** section of **Settings → Sync** lists the devices connected to 
 
 Under **Settings → Sync → Devices**, you see:
 
-- **Your devices** — the approved devices on the account. The one you are using is marked **This device**. Until you can rename devices, each shows a short default name derived from its identifier.
+- **Your devices** — the approved devices on the account. The one you are using is marked **This device**. Each shows an editable friendly name, which you change with the **Rename** action on its row; a device you have not named yet defaults to a short name derived from its identifier.
 - **Awaiting approval** — devices that have connected with a password and are waiting for an existing device to approve them. Approving one starts the verification-code compare described in [Add a device](/user-guide/sync-and-devices/add-a-device/).
 
 ## Removing a device

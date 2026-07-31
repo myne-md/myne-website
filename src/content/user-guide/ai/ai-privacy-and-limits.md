@@ -1,7 +1,7 @@
 ---
 title: "AI privacy and limits"
 category: "ai"
-updated: 2026-07-19
+updated: 2026-07-31
 summary: "The honest boundary of Myne's on-device AI: local inference with no network egress, a model runtime that runs in-process and is not sandboxed from your notes, the encrypted rebuildable embedding index at rest, where models come from, and what AI does not do."
 tags: ["ai", "privacy", "security"]
 ---
@@ -18,7 +18,7 @@ This is the part that bounds the guarantee. In this version the model runs insid
 
 Two consequences follow, and Myne states both rather than hiding them:
 
-- A model file you download is untrusted input. Myne does not vouch for it. A malicious or buggy model, or a flaw in the inference code, could read memory that includes decrypted note content and keys. This is why AI is off by default, lives behind a Labs/Beta surface, and asks you to bring your own model deliberately.
+- A model file you download is untrusted input. Myne does not vouch for it. A malicious or buggy model, or a flaw in the inference code, could read memory that includes decrypted note content and keys. This is why AI is off by default, sits behind Developer mode and a Beta surface, and asks you to bring your own model deliberately.
 - Because it runs in-process, the correct claim today is "runs locally, sends nothing" — not "sandboxed from your keys". A future version plans to move inference into a separate, network-denied process that never receives your keys; until that ships, Myne does not claim that isolation, and neither does this guide.
 
 Transcribing a voice note works the same way: the recording is decrypted in memory and handed to the same in-process model, so the audio joins your decrypted notes inside the same trust boundary. As everywhere in Myne's AI, nothing leaves the device — there is no cloud transcription service — but the runtime is not sandboxed from your keys.

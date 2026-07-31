@@ -1,7 +1,7 @@
 ---
 title: "Welcome to Myne"
 category: "getting-started"
-updated: 2026-06-18
+updated: 2026-07-31
 summary: "An orientation to Myne, the local-first encrypted markdown notebook, and a map of the Getting started section: installing the app, creating a vault, saving your recovery phrase, and finding your way around the editor."
 tags: ["basics", "vault"]
 ---
@@ -21,11 +21,12 @@ Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
 ## What this section covers
 
 1. [Install Myne](/user-guide/getting-started/install/): how the app is distributed and verified.
-2. [Create your vault](/user-guide/getting-started/create-your-vault/): the four-step setup wizard, opened by a short safety briefing you acknowledge before setting a password.
-3. [Your recovery phrase](/user-guide/getting-started/your-recovery-phrase/): the 24-word backstop that can unlock your vault.
-4. [Unlocking your vault](/user-guide/getting-started/unlocking-your-vault/): what you see each time you open Myne.
-5. [Your first note](/user-guide/getting-started/your-first-note/): the **Welcome to Myne** note that greets you, plus writing, autosave, and where notes live.
-6. [A tour of the interface](/user-guide/getting-started/interface-tour/): every region of the window, named.
+2. [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/): running Myne in a desktop browser at app.example.com, and the trust boundary that differs from the desktop app.
+3. [Create your vault](/user-guide/getting-started/create-your-vault/): the four-step setup wizard, opened by a short safety briefing you acknowledge before setting a password.
+4. [Your recovery phrase](/user-guide/getting-started/your-recovery-phrase/): the 24-word backstop that can unlock your vault.
+5. [Unlocking your vault](/user-guide/getting-started/unlocking-your-vault/): what you see each time you open Myne.
+6. [Your first note](/user-guide/getting-started/your-first-note/): the **Welcome to Myne** note that greets you, plus writing, autosave, and where notes live.
+7. [A tour of the interface](/user-guide/getting-started/interface-tour/): every region of the window, named.
 
 ## Already have a vault to restore?
 

@@ -1,12 +1,12 @@
 ---
 title: "Quick unlock with a PIN or Touch ID"
 category: "settings-and-privacy"
-updated: 2026-06-18
-summary: "Opt in to re-entering a vault after auto-lock with a short PIN, or macOS Touch ID, instead of the full master password. It is device-local, off by default, and the master password is always still required after a restart."
+updated: 2026-07-31
+summary: "Opt in to re-entering a vault after auto-lock with a short PIN, or macOS Touch ID, instead of the full master password. It is device-local, off by default; a PIN still needs the master password after a restart, while a configured Touch ID credential can be used on a cold start."
 tags: ["security", "privacy", "settings"]
 ---
 
-Quick unlock lets you re-enter a vault after it auto-locks with a short PIN, or with macOS Touch ID, instead of retyping the full master password. It is a convenience layered over the already-encrypted vault: it is device-local, off by default, and your master password is always still required after the app restarts. This article covers turning it on, using it, what wipes it, and where its limits are.
+Quick unlock lets you re-enter a vault after it auto-locks with a short PIN, or with macOS Touch ID, instead of retyping the full master password. It is a convenience layered over the already-encrypted vault: it is device-local, off by default, and with a PIN your master password is still required after the app restarts. A configured Touch ID credential is the one exception — guarded by macOS's own biometric prompt, it can be redeemed on a cold start. This article covers turning it on, using it, what wipes it, and where its limits are.
 
 ![The Quick unlock section of the Privacy settings, where a device PIN can be set up.](./quick-unlock.png)
 
@@ -14,7 +14,7 @@ Quick unlock lets you re-enter a vault after it auto-locks with a short PIN, or 
 
 Quick unlock is opt-in and off by default. You set it up per device, while the vault is unlocked, from **Settings → Privacy → Quick unlock**, the control below **Screen-capture protection** and **Auto-lock**.
 
-The helper text under the toggle states the trade plainly: "Re-enter after auto-lock with a PIN or Touch ID instead of the full master password. A convenience over the encrypted vault — the master password stays required after restart."
+The helper text under the toggle states the trade plainly: "Re-enter after auto-lock with a PIN or Touch ID instead of the full master password. A convenience over the encrypted vault — the master password stays required after restart." That line describes the PIN, which is the path the panel stands behind today; a configured Touch ID credential is redeemed through macOS's own biometric prompt and can be used on a cold start (see the limits below).
 
 Switch it on and a PIN field appears, with two buttons:
 
@@ -29,13 +29,13 @@ Each device opts in separately. The credential never syncs, and the Touch ID var
 
 ## Re-entering after auto-lock
 
-When [auto-lock](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/) closes a vault during a running session and quick unlock is configured, the Unlock screen shows the quick-unlock affordance **above** the master-password form: a PIN field with **Unlock with PIN**, or an **Unlock with Touch ID** button.
+When [auto-lock](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/) closes a vault during a running session and quick unlock is redeemable, the Unlock screen leads with the quick-unlock affordance — a PIN field with **Unlock with PIN**, or an **Unlock with Touch ID** button — and shows one credential at a time rather than stacking both.
 
-The master-password form is always present below it, under the line "or use your password below". Quick unlock never replaces the password path — it sits in front of it, and you can always ignore it and type your password.
+Quick unlock never replaces the password path. A **Use password instead** link switches to the master-password form, and an **Unlock with PIN instead** link switches back, so neither side is a dead end and you can always type your password.
 
 If a PIN is wrong, the screen tells you how many tries remain — "Incorrect. <N> attempt(s) left." — counting down toward the cap described next.
 
-On a fresh app start, the quick-unlock affordance hides itself until one full master-password unlock has happened in this session. So after you launch the app cold, you simply use the password form; quick unlock becomes available only once the vault has been opened with the master password at least once that session.
+On a fresh app start, a configured **PIN** hides itself until one full master-password unlock has happened in this session. So after you launch the app cold, you use the password form, and the PIN becomes available only once the vault has been opened with the master password at least once that session. A configured **Touch ID** credential is not gated this way: because macOS's own biometric prompt already guards it, it can be used on a cold start.
 
 ## What invalidates quick unlock
 

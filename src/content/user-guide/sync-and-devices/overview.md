@@ -1,7 +1,7 @@
 ---
 title: "Sync & devices"
 category: "sync-and-devices"
-updated: 2026-07-11
+updated: 2026-07-31
 summary: "An overview of Myne's multi-device sync: it keeps your encrypted notes in step across devices through a server it cannot read, uses no email, and connects a new device with your account number rather than a login. This page is the map for the section."
 tags: ["sync", "devices", "privacy"]
 ---
@@ -27,6 +27,7 @@ Sync keeps your notes in step across the devices you own. Each device encrypts i
 - **[Turn on sync](/user-guide/sync-and-devices/turn-on-sync/)** covers choosing a server and the first device.
 - **[Add a device](/user-guide/sync-and-devices/add-a-device/)** covers the pairing and approval flow.
 - **[Reading sync status](/user-guide/sync-and-devices/sync-status/)** covers the status indicator and the banners.
+- **[Storage and account limits](/user-guide/sync-and-devices/storage-and-limits/)** covers the usage meters and the over-limit, oversize, and frozen refusal states.
 - **[Resolving conflicts](/user-guide/sync-and-devices/resolving-conflicts/)** covers keep-both and choosing a version.
 - **[Managing devices](/user-guide/sync-and-devices/managing-devices/)** covers viewing and removing devices.
 

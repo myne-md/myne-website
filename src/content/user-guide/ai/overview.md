@@ -1,7 +1,7 @@
 ---
 title: "On-device AI (Beta)"
 category: "ai"
-updated: 2026-07-19
+updated: 2026-07-31
 summary: "An overview of Myne's experimental on-device AI: what it is, the runtime beta opt-in that keeps it off until you turn it on, the honest privacy posture (local, no network, in-process not sandboxed), and a map of the rest of this section."
 tags: ["ai", "privacy"]
 ---
@@ -14,7 +14,7 @@ The AI features run a model that lives on your computer. You supply the model fi
 
 ## The beta opt-in
 
-AI ships in the standard build but stays off until you enable it. The switch lives in Settings, under a **Labs** section, on the **AI (Beta)** panel. Nothing about AI runs, indexes, or reads your notes until you turn on **Enable local AI** and choose a model file. See [Turning on AI](/user-guide/ai/turning-on-ai/) for the walkthrough.
+AI ships in the standard build but stays off until you enable it. The **AI (Beta)** panel sits in a **Developer** group in Settings, and that group appears only once you turn on **Developer mode** in the **About** panel — so you enable Developer mode first, then open the panel. Nothing about AI runs, indexes, or reads your notes until you turn on **Enable local AI** and choose a model file. See [Turning on AI](/user-guide/ai/turning-on-ai/) for the walkthrough.
 
 ## The honest privacy posture
 

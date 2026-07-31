@@ -1,7 +1,7 @@
 ---
 title: "How Myne protects your notes"
 category: "settings-and-privacy"
-updated: 2026-06-18
+updated: 2026-07-31
 summary: "The privacy model in plain language: what is encrypted on disk, how your password and recovery phrase protect it, what stays on your device, and what Myne cannot protect you from."
 tags: ["privacy", "security"]
 ---
@@ -22,7 +22,7 @@ Your vault is protected by a single random key, generated when the vault is crea
 
 - **Your master password**, run through a deliberately slow key-derivation function (Argon2id, tuned to use 256 MiB of memory, three passes, two lanes) so that guessing passwords is expensive.
 - **Your 24-word recovery phrase**, an independent second key to the same vault.
-- **Quick unlock (optional)**, a PIN or macOS Touch ID that stores a third encrypted copy of the vault's key in a device-local file. It is opt-in, never leaves the device, and is never part of a backup. The master password stays the primary credential — quick unlock only lets you re-enter after auto-lock, and the full password is still required after the app restarts. See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/).
+- **Quick unlock (optional)**, a PIN or macOS Touch ID that stores a third encrypted copy of the vault's key in a device-local file. It is opt-in, never leaves the device, and is never part of a backup. The master password stays the primary credential — quick unlock only lets you re-enter after auto-lock, and with a PIN the full password is still required after the app restarts (a configured Touch ID credential, guarded by the operating system's biometric prompt, can be used on a cold start). See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/).
 
 Any one of these decrypts the vault's key, and with the key Myne decrypts your notes. Because each is an independent wrap of the same key, changing your password re-wraps only that one copy: your notes are never re-encrypted and your phrase keeps working. The encryption itself uses a modern authenticated cipher, so a tampered file is detected rather than silently accepted.
 

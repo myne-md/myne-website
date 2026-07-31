@@ -1,7 +1,7 @@
 ---
 title: "Markdown"
 category: "markdown"
-updated: 2026-06-18
+updated: 2026-07-31
 summary: "An overview of the markdown Myne supports (basics, tables, code blocks, footnotes and reference links, math, diagrams, callouts, inline extras, comments, and frontmatter) and where each is documented."
 tags: ["markdown", "editor"]
 ---
@@ -21,7 +21,7 @@ Rendering never changes your file bytes. Myne shows headings as headings, callou
 - **[Math](/user-guide/markdown/math/)**: inline and block LaTeX via KaTeX.
 - **[Diagrams](/user-guide/markdown/diagrams/)**: Mermaid diagrams rendered to images.
 - **[Callouts](/user-guide/markdown/callouts/)**: highlighted admonition blocks.
-- **[HTML and inline extras](/user-guide/markdown/html-and-inline-extras/)**: a small set of inline HTML tags, the five-color highlight palette, sub/superscript, emoji, and tags.
+- **[HTML and inline extras](/user-guide/markdown/html-and-inline-extras/)**: a small set of inline HTML tags, the thirteen-color highlight palette, sub/superscript, emoji, and tags.
 - **[Comments](/user-guide/editor-and-writing/comments/)**: notes-to-self written `%%text%%`, dimmed in the editor and dropped from HTML, PDF, plain-text export, and document statistics. They stay verbatim in the Markdown export, since that is your file byte-for-byte.
 - **[Frontmatter and properties](/user-guide/markdown/frontmatter-properties/)**: the YAML block at the top of a note.
 

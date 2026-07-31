@@ -1,7 +1,7 @@
 ---
 title: "Auto-lock and screen-capture protection"
 category: "settings-and-privacy"
-updated: 2026-06-18
+updated: 2026-07-31
 summary: "How auto-lock closes your vault after a period of inactivity, the durations you can choose, and how screen-capture protection limits other apps from recording the Myne window."
 tags: ["security", "privacy", "settings"]
 ---
@@ -20,9 +20,9 @@ What auto-lock does is **narrow the window** in which an unattended, unlocked va
 
 ### Getting back in after a re-lock
 
-When auto-lock fires it returns you to the Unlock screen, where your master password always reopens the vault. If you have set up [quick unlock](/user-guide/settings-and-privacy/quick-unlock/), a PIN field or a Touch ID button appears above the password form so you can reverse the re-lock with a fast credential instead of retyping the full password. Quick unlock layers on top of the auto-lock-on-idle envelope; it does not change when the timer fires, only how quickly you get back in.
+When auto-lock fires it returns you to the Unlock screen, where your master password always reopens the vault. If you have set up [quick unlock](/user-guide/settings-and-privacy/quick-unlock/), a PIN field or a Touch ID button leads the screen, with the master-password form one **Use password instead** link away, so you can reverse the re-lock with a fast credential instead of retyping the full password. Quick unlock layers on top of the auto-lock-on-idle envelope; it does not change when the timer fires, only how quickly you get back in.
 
-Two ceilings apply. Quick unlock allows **five consecutive failed attempts**; on the fifth, the stored credential is wiped and the vault falls back to the master password. And quick unlock is unavailable on a **cold start** — after you quit and reopen Myne, the first unlock of the session always takes the full master password, after which the PIN or Touch ID option returns. The full details, including how the credential is stored, live in the [quick unlock](/user-guide/settings-and-privacy/quick-unlock/) article.
+Two ceilings apply. Quick unlock allows **five consecutive failed attempts**; on the fifth, the stored credential is wiped and the vault falls back to the master password. And a configured **PIN** is unavailable on a **cold start** — after you quit and reopen Myne, the first unlock of the session always takes the full master password, after which the PIN option returns. A configured **Touch ID** credential is the exception: because macOS's own biometric prompt already guards it, it stays available on a cold start. The full details, including how the credential is stored, live in the [quick unlock](/user-guide/settings-and-privacy/quick-unlock/) article.
 
 ## Screen-capture protection
 

@@ -1,7 +1,7 @@
 ---
 title: "Turning on AI"
 category: "ai"
-updated: 2026-07-11
+updated: 2026-07-31
 summary: "Enable the AI beta opt-in in Settings, bring your own model files and point Myne at them, understand what 'ready' means and why a model is needed, and exclude folders you never want AI to read or index."
 tags: ["ai", "settings"]
 ---
@@ -18,8 +18,9 @@ AI is off until you turn it on and give Myne a model to run. This page walks thr
 ## Enabling local AI
 
 1. Open Settings from the gear in the bottom bar or with `⌘,`.
-2. In the panel rail, go to the **Labs** section and open **AI (Beta)**.
-3. Turn on **Enable local AI**. The helper text states plainly that it runs a model you provide, entirely on your device, and is experimental and off by default.
+2. Open the **About** panel and turn on **Developer mode**. The AI features live in a **Developer** group that stays hidden until you do this.
+3. In the panel rail, open **AI (Beta)** under the **Developer** group that now appears.
+4. Turn on **Enable local AI**. The helper text states plainly that it runs a model you provide, entirely on your device, and is experimental and off by default.
 
 Below the toggle, a headline states the posture Myne commits to: the model runs entirely on your device and Myne never sends your notes to any server. The **How does this work?** disclosure expands the honest detail, including the part Myne does not protect against. That copy is worth reading once; it is the same boundary described in [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/).
 

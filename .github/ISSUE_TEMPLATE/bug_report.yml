@@ -1,0 +1,62 @@
+name: Bug report
+description: Something on myne.md is broken — layout, a broken link, an OG image, the ledger/RSS, or the user guide.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For anything touching the security headers, CSP, or `/.well-known/security.txt` behaviour of the served origin, email **security@myne.md** instead of filing here — see [SECURITY.md](https://github.com/myne-md/myne/blob/main/SECURITY.md).
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Page URL
+      placeholder: "e.g. https://myne.md/user-guide/getting-started"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to see?
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Which environment?
+      options:
+        - Production (myne.md)
+        - Preview (preview.example.com)
+        - Local dev
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser + version
+      placeholder: "e.g. Firefox 128, Chrome 127, Safari 18"
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device type
+      options:
+        - Desktop
+        - Mobile
+        - Tablet
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this isn't a duplicate.
+          required: true

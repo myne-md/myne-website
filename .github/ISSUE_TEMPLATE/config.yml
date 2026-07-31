@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability (private)
+    url: https://github.com/myne-md/myne/blob/main/SECURITY.md
+    about: Do NOT open a public issue for cryptography, key handling, recovery, sync, or bundle-integrity problems. Email security@myne.md — coordinated disclosure per SECURITY.md.
+  - name: Protocol, threat model and specs
+    url: https://github.com/myne-md/myne/tree/main/docs
+    about: The v0.1 protocol, threat model, and account-number spec are the source of truth across every client. Read before filing a crypto or on-disk-format issue.
+  - name: Questions and general discussion
+    url: https://github.com/myne-md/myne/discussions
+    about: Not sure it's a bug? Ask here instead of opening an issue.

@@ -1,0 +1,34 @@
+name: Content correction
+description: Copy on the site is wrong, out of date, or overstates a guarantee.
+title: "[Content]: "
+labels: [documentation]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Marketing copy and the user guide must stay **within** the threat model's guarantees ([`docs/threat-model.md`](https://github.com/myne-md/myne/blob/main/docs/threat-model.md)) — the site may never claim more than the protocol delivers. Flagging copy that overstates a security claim is especially welcome.
+  - type: input
+    id: url
+    attributes:
+      label: Page URL
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What does it say now?
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: What should it say, and why?
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this isn't a duplicate.
+          required: true

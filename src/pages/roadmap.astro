@@ -6,7 +6,7 @@ import { absoluteOg } from "../lib/og";
 
 const title = "Roadmap — Myne";
 const description =
-  "Where Myne is going — an order, not a schedule. Foundation, desktop, zero-knowledge sync, and mobile, shipped one phase at a time, inside the public threat model.";
+  "Where Myne is going — an order, not a schedule. Foundation, desktop, zero-knowledge sync, mobile, and web, shipped one phase at a time, inside the public threat model.";
 const canonical = new URL("/roadmap/", Astro.site!).toString();
 const ogImage = absoluteOg("roadmap", Astro.site!);
 
@@ -52,32 +52,37 @@ const phases = [
     items: [
       { t: "Tauri desktop client — editor, autosave, encrypted vault", s: "in-progress" },
       { t: "CodeMirror editor with live markdown & [[wikilinks]]", s: "in-progress" },
-      { t: "Full-text search across decrypted notes", s: "in-progress" },
-      { t: "Backlinks pane & minimal graph view", s: "in-progress" },
+      { t: "Full-text search with field & boolean operators", s: "in-progress" },
+      { t: "Backlinks pane & whole-vault graph view", s: "in-progress" },
+      { t: "Attachments — encrypted files & images in your vault", s: "in-progress" },
+      { t: "Custom themes — encrypted, synced palettes", s: "in-progress" },
+      { t: "On-device AI — local semantic search & auto-tag, off by default and never cloud", s: "in-progress" },
+      { t: "Voice transcription — on device, nothing uploaded", s: "in-progress" },
       { t: "Import from Obsidian", s: "in-progress" },
+      { t: "Terminal client (myne CLI)", s: "in-progress" },
       { t: "Signed, reproducible desktop builds", s: "in-progress" },
     ],
   },
   {
     n: "03",
     label: "Sync",
-    tag: "phase 2 · planned",
+    tag: "phase 1 · in progress",
     blurb: "Zero-knowledge sync — the server only ever holds ciphertext.",
     items: [
-      { t: "Zero-knowledge sync server", s: "planned" },
-      { t: "Self-hostable, identical open-source server", s: "planned" },
+      { t: "Zero-knowledge sync server", s: "in-progress" },
+      { t: "Self-hostable, identical open-source server", s: "in-progress" },
       { t: "Hosted sync — optional paid tier, ciphertext only", s: "planned" },
     ],
   },
   {
     n: "04",
     label: "Mobile & web",
-    tag: "phase 3 · planned",
+    tag: "phase 3 · in progress",
     blurb: "The same vault, the same encryption, in your pocket and your browser.",
     items: [
-      { t: "iOS client", s: "planned" },
-      { t: "Android client", s: "planned" },
-      { t: "Web client", s: "planned" },
+      { t: "iOS client", s: "in-progress" },
+      { t: "Android client", s: "in-progress" },
+      { t: "Web client — app.example.com", s: "in-progress" },
     ],
   },
   {

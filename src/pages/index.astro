@@ -170,8 +170,9 @@ const ogImage = absoluteOg("home", Astro.site!);
               <p
                 style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:#8a8a86;"
               >
-                The same zero-knowledge server will run hosted by us or on your
-                own box, storing and routing ciphertext and never holding a key.
+                The same zero-knowledge server — self-hostable, or hosted by us —
+                stores and routes ciphertext, never holding a key. (Sync is in
+                pre-alpha hardening.)
               </p>
             </div>
           </div>
@@ -235,12 +236,13 @@ const ogImage = absoluteOg("home", Astro.site!);
         </div>
         <p class="mono" style="margin-top:14px;font-size:11.5px;line-height:1.7;color:#54544f;max-width:90ch;">
           Comparison reflects each tool's default configuration. Myne is
-          pre-alpha — cells marked <span style="color:#c2a35e;">partial</span> on
-          the Myne column (zero-knowledge sync, self-hostable sync, open-source
-          full stack, signed reproducible builds) are committed in the public
-          spec but land in Phase 2 / v1.0, not yet shipped. Obsidian's own at-rest
-          encryption and self-hosted sync need add-ons (e.g. Cryptomator,
-          Syncthing) it doesn't ship.
+          pre-alpha, with no published signed release yet — cells marked
+          <span style="color:#c2a35e;">partial</span> on the Myne column
+          (zero-knowledge sync, self-hostable sync) are implemented in code and
+          ship in v1.0 (Phase 1); signed reproducible builds are a committed v1.0
+          deliverable, not yet produced. Only the managed hosted-sync tier is
+          Phase 2. Obsidian's own at-rest encryption and self-hosted sync need
+          add-ons (e.g. Cryptomator, Syncthing) it doesn't ship.
         </p>
       </div>
     </section>
@@ -908,7 +910,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       ["User-held recovery, no reset", Y, P, P, P, P],
       ["Zero-knowledge sync", P, P, Y, N, Y],
       ["Self-hostable sync", P, N, Y, Y, P],
-      ["Open-source full stack", P, N, Y, Y, Y],
+      ["Open-source full stack", Y, N, Y, Y, Y],
       ["One integrated app", Y, Y, Y, Y, Y],
       ["No plaintext mode to misconfigure", Y, N, Y, N, Y],
       ["Reproducible, signed builds", P, N, N, P, P],

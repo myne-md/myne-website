@@ -39,13 +39,14 @@ const threats: [string, string, string, string][] = [
   ["A3", "Passive network attacker", "strong", "TLS in transit plus client-side E2EE before transit — encrypted bytes between encrypted bytes."],
   ["A5", "Lost / stolen device (locked)", "strong", "Root key derived via Argon2id from a password the device never stores."],
   ["A11", "Insider threat (the Myne team)", "strong", "The team gets no more access than any external attacker. Keys never leave the client."],
-  ["A4", "Active network attacker (MitM)", "mitigated", "Strict TLS + certificate pinning. A MitM still cannot decrypt notes."],
+  ["A4", "Active network attacker (MitM)", "mitigated", "Strict TLS; self-host trust is trust-on-first-use (a QR device-join, not a fingerprint eye-compare). A MitM still cannot decrypt notes — the payload is end-to-end encrypted before transit."],
   ["A6", "Lost / stolen device (unlocked)", "mitigated", "Auto-lock on idle zeroizes keys and tears down the open note — narrows the window, not closes it."],
   ["A9", "Compromised build / distribution", "mitigated", "Reproducible builds, code-signed releases, verified auto-update."],
   ["A7", "Malware on your device", "best-effort", "Active malware defeats any user-mode encryption. Screen-capture exclusion is defense-in-depth."],
   ["A8", "Compromised dependency / supply chain", "best-effort", "Hash-pinned lockfiles, a minimal dependency tree, and update reviews. A malicious transitive dependency can't be fully defended."],
   ["A10", "State-level actor", "best-effort", "Boring vetted primitives, public spec. No claim against zero-days or hardware implants."],
   ["A13", "Traffic analysis", "best-effort", "Sync timing and blob sizes are visible. Padding and cover traffic deferred beyond v1."],
+  ["A15", "Malicious served web bundle", "best-effort", "The web client is re-sent unsigned on every page load, so an operator could target you with a modified bundle; per-release published hashes catch substitution only after the fact. For the strongest guarantees, use the desktop or mobile app, or self-host."],
   ["A12", 'Coerced user ("rubber-hose")', "out-of-scope", "No plausibly-deniable encryption in v1. If compelled to enter your password, the data is exposed."],
 ];
 
@@ -171,9 +172,12 @@ const leadStyle =
             <h2 style={h2Style}>Boring, well-vetted, no custom crypto.</h2>
             <p style={leadStyle}>
               Every primitive is a published RFC implemented by an audited
-              library — RustCrypto on desktop, libsodium-equivalent elsewhere. No
-              client ships a hand-rolled primitive; cross-implementation
-              byte-compatibility is pinned by a public test-vector repo.
+              library — the same RustCrypto protocol crate across Myne's own
+              clients: native on desktop, via the shared Rust core on mobile, and
+              compiled to WebAssembly in the web client. No client ships a
+              hand-rolled primitive; independent implementations may use
+              libsodium or WebCrypto instead and still get byte-identical
+              results, pinned by a public test-vector repo.
             </p>
             <div
               class="spec-prim"

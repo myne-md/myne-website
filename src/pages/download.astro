@@ -26,8 +26,8 @@ const platforms = [
   },
   {
     os: "Linux",
-    sub: "AppImage · .deb",
-    note: "No screen-capture exclusion on Linux v0.1",
+    sub: "AppImage · .deb · .rpm",
+    note: "Arch PKGBUILD available too · no screen-capture exclusion on Linux v0.1",
     d: PLATFORM_ICON.linux,
   },
 ];
@@ -56,12 +56,12 @@ const extensions = [
 const mobile = [
   {
     os: "iOS",
-    note: "The same vault and the same encryption, in your pocket. Native libsodium bindings.",
+    note: "The same vault and the same encryption, in your pocket. Reuses the exact Rust core and protocol crate the desktop app runs.",
     d: PLATFORM_ICON.apple,
   },
   {
     os: "Android",
-    note: "Argon2id parameters tuned per-device so unlock stays affordable on lower-end phones.",
+    note: "The same 256 MiB Argon2id unlock as desktop — the KDF is never weakened to fit a device.",
     d: PLATFORM_ICON.android,
   },
 ];
@@ -87,7 +87,7 @@ const verify = [
 const reqs = [
   ["Disk", "Vault lives in your app-data directory; size scales with your notes."],
   ["Memory", "Argon2id unlock uses 256 MiB transiently — ~1 s on a 2024 laptop."],
-  ["Network", "None required. v0.1 runs entirely offline — local-only, not synced."],
+  ["Network", "None required. Myne runs fully offline and local-first; optional zero-knowledge sync (self-hostable, open source) is there when you want more than one device."],
   ["Account", "No email, no sign-up. A vault is created locally with a password you choose."],
 ];
 ---
@@ -173,6 +173,43 @@ const reqs = [
       </div>
     </section>
 
+    <!-- WEB -->
+    <section style="padding:14px 28px 18px;">
+      <div style="max-width:980px;margin:0 auto;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <span class="mono up" style="font-size:10px;color:#54544f;">Web (browser)</span>
+          <span
+            class="mono up"
+            style="font-size:9px;color:#c2a35e;border:1px solid rgba(194,163,94,0.4);border-radius:999px;padding:3px 9px;"
+            >pre-alpha</span
+          >
+        </div>
+        <div
+          style="border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px 22px;background:#0c0c0c;"
+        >
+          <div style="font-size:18px;font-weight:600;color:#e6e6e4;">
+            Open it in a browser — no download
+          </div>
+          <p style="margin-top:12px;font-size:12.5px;line-height:1.65;color:#8a8a86;max-width:66ch;">
+            <a href="https://app.example.com" style="color:#8aa4d0;text-decoration:none;font-weight:600;"
+              >app.example.com</a
+            > is a desktop-browser window onto a vault you've already synced. It runs the same
+            protocol crate compiled to WebAssembly, so the browser never gets your keys. It needs
+            an already-synced vault: the browser can't create an account, enter a recovery phrase,
+            run quick-unlock, or import and export backups, and phones and tablets aren't supported
+            yet. A served bundle is a weaker delivery channel than a signed app — for the strongest
+            guarantees, use the desktop app or self-host.
+          </p>
+          <a
+            href="https://app.example.com"
+            class="mono up"
+            style="margin-top:18px;display:inline-flex;align-items:center;gap:8px;font-size:10px;color:#8aa4d0;text-decoration:none;"
+            >Open the app →</a
+          >
+        </div>
+      </div>
+    </section>
+
     <!-- BROWSER EXTENSION -->
     <section style="padding:14px 28px 18px;">
       <div style="max-width:980px;margin:0 auto;">
@@ -234,7 +271,7 @@ const reqs = [
           <span
             class="mono up"
             style="font-size:9px;color:#8aa4d0;border:1px solid rgba(138,164,208,0.4);border-radius:999px;padding:3px 9px;"
-            >Phase 3 · planned</span
+            >Phase 3 · in development</span
           >
         </div>
         <div class="dl-cols-2" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;">
@@ -377,12 +414,12 @@ const reqs = [
               <div style="display:flex;gap:10px;align-items:baseline;">
                 <span style="color:#c2a35e;flex:0 0 auto;">~</span>
                 <span style="font-size:13px;line-height:1.5;color:#c4c4c0;"
-                  >Desktop client — editor, vault, autosave</span
+                  >Desktop client — editor, vault, search, backlinks, graph, attachments, optional sync (pre-alpha, no published binary yet)</span
                 >
               </div>
             </div>
             <a
-              href="https://github.com/myne-md"
+              href="https://github.com/myne-md/myne/releases"
               class="mono up"
               style="margin-top:22px;display:flex;align-items:center;justify-content:center;gap:8px;background:#e6e6e4;color:#0a0a0a;text-decoration:none;border-radius:8px;padding:12px;font-size:10px;font-weight:700;"
               >Watch releases on GitHub</a

@@ -239,3 +239,27 @@ pinned facts the paragraph must carry, in plain language:
 
 Present backups strictly within these bounds: no "tamper-proof", no "safe
 forever", no leak-free claims (threat-model §7; `decisions.md` 2026-06-10).
+
+## 11. Terminal cast embeds (command-line)
+
+Terminal-session demos use a self-hosted asciicast player, not a screenshot. Embed
+one with a raw block-level `<div>` in the article body (the first block-level HTML
+the guide uses — the site passes raw HTML in `.md` through untouched):
+
+```html
+<div class="ug-cast" data-cast="/casts/<name>.cast" data-title="myne …" aria-label="Terminal session: <literal description>"></div>
+```
+
+- The `.cast` files live in `public/casts/` and are **generated**, not hand-written:
+  `casts.sessions.mjs` holds the declarative sessions (each step's `output` is the
+  **real bytes** the `myne` binary prints), and `node scripts/generate-casts.mjs`
+  emits byte-deterministic asciicast v2 with synthesized typing timing. Re-run it
+  and commit when CLI output changes; `--check` verifies the committed files are fresh.
+- `data-cast` is an absolute `/casts/…` path (public/ assets pass through untouched;
+  a relative path would be sent to the image pipeline and 404). `aria-label` is
+  required and follows the voice rules (literal description), like screenshot alt text.
+- **Never put a real note id (UUID), account number, or vault path in a session** —
+  the generator's secret scan refuses to emit one, and demo ids are short
+  placeholders (`note-…`). The player renders the full transcript statically and only
+  animates on an explicit Replay (no autoplay, no loop), degrading to the plain text
+  under `prefers-reduced-motion`.

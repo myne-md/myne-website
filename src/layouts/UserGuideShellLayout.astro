@@ -311,6 +311,18 @@ const manifest = getManifest();
   </script>
 
   <script>
+    // CLI terminal-cast player — upgrade every `[data-cast]` placeholder an
+    // article embeds into a self-hosted asciicast player (../scripts/castPlayer).
+    // Bundled once here like the lightbox above; re-scan on each client-router
+    // navigation (idempotent — already-mounted hosts are skipped) and pause any
+    // playing cast before the page swaps so nothing animates after you leave.
+    import { mountCastPlayers, pauseCastPlayers } from "../scripts/castPlayer";
+    mountCastPlayers();
+    document.addEventListener("astro:page-load", () => mountCastPlayers());
+    document.addEventListener("astro:before-swap", pauseCastPlayers);
+  </script>
+
+  <script>
     // Sidebar behaviour under the client router. The left sidebar and the
     // mobile guide nav (inside the top bar) are persisted across navigations,
     // so their listeners bind once here (this module runs a single time) and

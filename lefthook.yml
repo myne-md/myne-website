@@ -7,7 +7,13 @@ pre-commit:
   commands:
 
     whitespace:
-      run: git diff --cached --check
+      # Excludes the vendored theme-preview snapshot: it is copied verbatim from
+      # the main repo by `pnpm sync-preview` (which is how the builder and the
+      # gallery render the REAL interface), and the main repo's own capture
+      # carries a space after `{` on nine `@keyframes` lines plus the captured
+      # DOM's text-node indentation. Reformatting a synced artefact would be a
+      # diff the next sync silently reverts.
+      run: git diff --cached --check -- ':(exclude)src/data/preview/preview.html' ':(exclude)src/data/preview/preview.css'
 
     astro-check:
       glob: "*.{astro,ts,tsx}"

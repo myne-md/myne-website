@@ -1,6 +1,24 @@
 {
   "themes": [
     {
+      "slug": "arcade-crt",
+      "name": "Arcade CRT",
+      "author": "Myne",
+      "description": "A cabinet monitor at midnight: scanlines across the page, neon magenta on deep violet, and hard-edged panels with printed shadows.",
+      "license": "CC-BY-4.0",
+      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/arcade-crt",
+      "download": "https://raw.githubusercontent.com/myne-md/myne-themes/main/themes/arcade-crt/theme.json",
+      "preview": "/themes/previews/arcade-crt.png",
+      "swatches": {
+        "background": "#14121f",
+        "surface": "#1c1930",
+        "foreground": "#e2daf8",
+        "accent": "#ff5cae",
+        "line": "#2d2745"
+      },
+      "appearance": "dark"
+    },
+    {
       "slug": "catppuccin-mocha",
       "name": "Catppuccin Mocha",
       "author": "Catppuccin",
@@ -35,6 +53,24 @@
         "line": "#44475a"
       },
       "appearance": "dark"
+    },
+    {
+      "slug": "field-notes",
+      "name": "Field Notes",
+      "author": "Myne",
+      "description": "A warm field-notebook page: ruled paper under the text, dog-eared cards for callouts and code, and a terracotta accent.",
+      "license": "CC-BY-4.0",
+      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/field-notes",
+      "download": "https://raw.githubusercontent.com/myne-md/myne-themes/main/themes/field-notes/theme.json",
+      "preview": "/themes/previews/field-notes.png",
+      "swatches": {
+        "background": "#f5f1e6",
+        "surface": "#ece6d6",
+        "foreground": "#241f18",
+        "accent": "#7a4a1f",
+        "line": "#ddd4bf"
+      },
+      "appearance": "light"
     },
     {
       "slug": "gruvbox-dark",

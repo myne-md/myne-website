@@ -79,6 +79,33 @@ export function isAllowedValue(value) {
  * is absent OR blank counts as missing — the builder must not export a blank.
  * @param {Palette} palette @returns {string[]} the missing required tokens (in canonical order)
  */
+/**
+ * Faithful port of Rust `theme_validator::schema::is_allowed_key`.
+ *
+ * `--` followed by 1..=64 ASCII alphanumerics, `_` or `-`. Note that `_` IS
+ * admissible — which is why the reserved `--_` namespace needs its own check
+ * (see {@link isReservedKey}) rather than falling out of the grammar.
+ * @param {string} key
+ */
+export function isAllowedKey(key) {
+  if (typeof key !== "string" || !key.startsWith("--")) return false;
+  const rest = key.slice(2);
+  return rest.length >= 1 && rest.length <= 64 && /^[A-Za-z0-9_-]+$/.test(rest);
+}
+
+/**
+ * The ornament layer's private namespace, which a theme may never write.
+ *
+ * `--_o-ceiling` is the bound the tint wash is clamped by, so a palette that
+ * could set it could raise its own ceiling. Mirrors the refusal
+ * `validate_theme_for_import` performs at the import boundary and the filter
+ * every client performs on read.
+ * @param {string} key
+ */
+export function isReservedKey(key) {
+  return typeof key === "string" && key.startsWith("--_");
+}
+
 export function missingRequired(palette) {
   return REQUIRED_TOKENS.filter((t) => {
     const v = palette?.[t];

@@ -1,0 +1,68 @@
+---
+/*
+ * One measure control: a plain-word label, a slider, and the value it currently
+ * resolves to (myne#394).
+ *
+ * The slider is rendered WITHOUT bounds here and gets them on hydration, because
+ * the bound is `0.5×–2×` of the token's built-in default and the only honest
+ * source for that default is the token sheet the preview just loaded — the real
+ * `tokens.css`, captured with the snapshot. Hardcoding a table in this repo
+ * would drift from the app's the first time a default changed, and nothing would
+ * say so (`src/lib/themeBuilder/measure.mjs` explains the band).
+ *
+ * A control whose band cannot be established is REMOVED on hydration rather than
+ * left inert: a slider that cannot move is a promise the app will not keep.
+ */
+interface Props {
+  token: string;
+  label: string;
+  unit: string;
+  step: number;
+}
+const { token, label, unit, step } = Astro.props;
+---
+
+<label class="tb-mc" data-measure-token={token} data-unit={unit} hidden>
+  <span class="tb-mc-head">
+    <span class="tb-mc-label">{label}</span>
+    <output class="tb-mc-value mono"></output>
+  </span>
+  <input type="range" class="tb-mc-range" step={step} />
+</label>
+
+<style>
+  /* Hidden until hydration establishes a band — see the component comment. */
+  .tb-mc[hidden] {
+    display: none;
+  }
+  .tb-mc {
+    display: block;
+    padding: 6px 0;
+  }
+  .tb-mc-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .tb-mc-label {
+    font-size: 13px;
+    color: #cfcfca;
+  }
+  .tb-mc-value {
+    font-size: 11px;
+    color: #8f8f88;
+    font-variant-numeric: tabular-nums;
+  }
+  .tb-mc-range {
+    width: 100%;
+    margin: 4px 0 0;
+    accent-color: #8aa4d0;
+    cursor: pointer;
+  }
+  .tb-mc-range:focus-visible {
+    outline: 2px solid #8aa4d0;
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+</style>

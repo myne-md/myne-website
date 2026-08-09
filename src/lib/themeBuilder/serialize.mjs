@@ -11,10 +11,34 @@
  * @typedef {import("./tokens.mjs").Palette} Palette
  */
 import { ALL_TOKENS } from "./tokens.mjs";
+import { allOrnamentTokens, TINT_TOKENS } from "./ornament.mjs";
+import { allMeasureTokens } from "./measure.mjs";
 import { missingRequired } from "./validator.mjs";
 
 // Canonical tokens, key-sorted once — a deterministic, diff-friendly theme.json.
-const SORTED_TOKENS = [...ALL_TOKENS].sort();
+// Ornament, tint and measure tokens (myne#394) join the same set: all three are
+// optional, so a theme that sets none of them is byte-identical to one authored
+// before the vocabulary existed, and the app ignores any it does not recognize.
+const SORTED_TOKENS = [
+  ...ALL_TOKENS,
+  ...allOrnamentTokens(),
+  ...TINT_TOKENS,
+  ...allMeasureTokens(),
+].sort();
+
+/**
+ * The primitives whose slots the host element writes, and which therefore
+ * INHERIT into nested roles. Mirrors the `INHERITS` set in the main repo's
+ * `scripts/check-ornament-vocabulary.mjs`, which requires `ornaments.css` to
+ * carry a per-role `="none"` reset rule for exactly these two.
+ */
+const INHERITING_ORNAMENTS = new Set(["frame", "shadow"]);
+
+/** `--box-frame` → `frame`; a non-ornament token → `""`. */
+function ornamentPrimitiveOf(token) {
+  const m = /^--(?:surface|box|chrome)-([a-z]+)$/.exec(token);
+  return m ? m[1] : "";
+}
 
 /**
  * The import-ready `theme.json`: the palette restricted to canonical tokens,
@@ -26,7 +50,22 @@ export function buildThemeJson(palette) {
   const out = {};
   for (const token of SORTED_TOKENS) {
     const v = palette?.[token];
-    if (typeof v === "string" && v.trim() !== "") out[token] = v;
+    if (typeof v !== "string" || v.trim() === "") continue;
+    // `none` / `plain` mean "draw nothing", which is also what an ABSENT key
+    // means — so writing them would only make the file longer and noisier.
+    //
+    // **Except for the two primitives that INHERIT**, where the two are not the
+    // same thing at all. `frame` and `shadow` write their slots on the host
+    // element and custom properties inherit, so a box nested inside a framed
+    // surface wears that frame until an explicit `--box-frame: none` resets it.
+    // That escape hatch is the whole reason `ornaments.css` carries per-role
+    // `="none"` rules — and dropping the key here deleted it on the way out, so
+    // a theme author could select "no frame on rows inside panels", see it work
+    // in the preview, and ship a file that could not express it.
+    if ((v === "none" || v === "plain") && !INHERITING_ORNAMENTS.has(ornamentPrimitiveOf(token))) {
+      continue;
+    }
+    out[token] = v;
   }
   return out;
 }

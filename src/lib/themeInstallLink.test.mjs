@@ -12,6 +12,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { UNMOVABLE } from "./themeBuilder/measure.mjs";
 import {
   MAX_AUTHOR_LEN,
   MAX_SOURCE_LEN,
@@ -169,17 +170,54 @@ describe("buildThemeInstallUrl", () => {
     const full = JSON.parse(
       readFileSync(new URL("../data/themes-full.json", import.meta.url), "utf8"),
     );
+    // Per-theme, not per-gallery: `.some()` excused a dropped key if ANY theme
+    // set it to `none`, so the excuse widened every time a theme was added.
+    const noopIn = (palette, k) => palette[k] === "none" || palette[k] === "plain";
     const dropped = new Set();
     for (const [, palette] of Object.entries(full)) {
       const kept = new Set(Object.keys(decodeLink(
         buildThemeInstallUrl({ name: "T", palette }),
       ).palette));
-      for (const k of Object.keys(palette)) if (!kept.has(k)) dropped.add(k);
+      for (const k of Object.keys(palette)) {
+        if (kept.has(k)) continue;
+        // Judge the excuse against THIS theme's own value.
+        if (noopIn(palette, k)) continue;
+        dropped.add(k);
+      }
     }
+    // Two reasons a key may legitimately be dropped, and the test states both
+    // rather than pinning a list — a list turns every new ornament key into a
+    // failure that says nothing about whether the projection is still lossless.
+    //
+    //   1. the app does not read it (`--label-*`), or
+    //   2. its value is `none` / `plain`, which means "draw nothing" — exactly
+    //      what an ABSENT key already means, so carrying it would only spend URL
+    //      budget. (Field Notes ships four of these.)
+    //   3. it is a measure token whose built-in default is `0`, so the app's
+    //      0.5x-2x clamp folds any value straight back to the default. The app
+    //      reads it and it changes nothing — Field Notes ships
+    //      `--tracking-normal: 0.01em` and it has never had an effect.
+    const unread = (k) => k.startsWith("--label-");
+    const unmovable = (k) => UNMOVABLE.includes(k);
+    const unexplained = [...dropped].filter((k) => !unread(k) && !unmovable(k)).sort();
     assert.deepEqual(
-      [...dropped].sort(),
-      ["--label-blue", "--label-green", "--label-orange", "--label-red"],
-      "the dropped set changed — confirm the app still ignores every key here",
+      unexplained,
+      [],
+      "a key was dropped that the app DOES read and that is not a no-op — the projection is lossy",
+    );
+    // And the ornament keys that carry a real selection must survive, or the
+    // hand-off installs a theme stripped of everything but its colours.
+    // Built here rather than found in the gallery: `if (found)` meant the
+    // assertion silently stopped running the day no shipped theme happened to
+    // set this key.
+    const anyTheme = Object.values(full)[0];
+    const ornamented = { ...anyTheme, "--box-frame": "thick" };
+    const keptOrnament = new Set(
+      Object.keys(decodeLink(buildThemeInstallUrl({ name: "T", palette: ornamented })).palette),
+    );
+    assert.ok(
+      keptOrnament.has("--box-frame"),
+      "a real ornament selection must survive the hand-off",
     );
   });
 

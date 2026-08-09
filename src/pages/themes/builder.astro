@@ -15,18 +15,21 @@
 import LandingLayout from "../../layouts/LandingLayout.astro";
 import GlassNav from "../../components/GlassNav.astro";
 import TokenControl from "../../components/themeBuilder/TokenControl.astro";
+import MeasureControl from "../../components/themeBuilder/MeasureControl.astro";
 import { GROUPS } from "../../lib/themeBuilder/manifest.mjs";
+import {
+  PRESETS,
+  ROLES,
+  TINT_CEILING,
+  ornamentToken,
+  primitivesForRole,
+} from "../../lib/themeBuilder/ornament.mjs";
+import { MEASURE_GROUPS } from "../../lib/themeBuilder/measure.mjs";
 import { LIGHT_DEFAULTS } from "../../lib/themeBuilder/tokens.mjs";
 import themesIndex from "../../data/themes-index.json";
 import themesFull from "../../data/themes-full.json";
 
 const val = (token: string): string => LIGHT_DEFAULTS[token] ?? "#000000";
-
-// Initial CSS-var block for the preview wrapper (light base) so it renders
-// correct before the client apply-engine takes over. Values are canonical hex.
-const initialVars = Object.entries(LIGHT_DEFAULTS)
-  .map(([k, v]) => `${k}:${v}`)
-  .join(";");
 
 // Gallery themes that have a full vendored palette → "start from" presets.
 const galleryThemes = (themesIndex.themes ?? [])
@@ -134,70 +137,148 @@ const galleryThemes = (themesIndex.themes ?? [])
               ),
             )
           }
+
+          {/* Ornament (myne#394). Chosen per ROLE rather than per element, which
+              is what keeps a complete theme ~30 settings instead of several
+              hundred. Every control is optional: a colour-only theme is still a
+              complete theme, and the presets below only fill these same selects. */}
+          <details class="tb-group tb-group--collapsible" id="tb-ornament">
+            <summary class="tb-group-head mono up">Ornament</summary>
+            <div class="tb-group-body">
+              <p class="tb-group-hint">
+                Decoration Myne draws for you — pick the parts, not a finished look. Ornament never
+                moves anything, and anything drawn behind text is capped so the words stay readable.
+              </p>
+
+              <div class="tb-presets" role="group" aria-label="Ornament starting points">
+                {PRESETS.map((preset) => (
+                  <button
+                    type="button"
+                    class="tb-preset"
+                    data-preset={preset.id}
+                    data-preset-role={preset.role}
+                    data-preset-set={JSON.stringify(preset.set)}
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+
+              {ROLES.map((role) => (
+                <section class="tb-orn-role">
+                  <div class="tb-orn-role-head mono up">{role.label}</div>
+                  <p class="tb-group-hint">{role.hint}</p>
+                  {primitivesForRole(role.id).map((primitive) => (
+                    <label class="tb-orn-ctl">
+                      <span class="tb-orn-label">
+                        {primitive.label}
+                        <span class="tb-orn-hint">{primitive.hint}</span>
+                      </span>
+                      <select
+                        class="tb-orn-select"
+                        data-ornament-token={ornamentToken(role.id, primitive.id)}
+                        data-ornament-role={role.id}
+                        data-ornament-primitive={primitive.id}
+                      >
+                        {primitive.values.map((v) => (
+                          <option value={v.value}>{v.label}</option>
+                        ))}
+                      </select>
+                    </label>
+                  ))}
+                </section>
+              ))}
+
+              {/* The tint wash: one colour and one strength for the whole
+                  interface, not per role — that is what the ornament layer
+                  composes, and offering it per role would store keys nothing
+                  ever draws. The strength stops at the app's own ceiling; a
+                  slider that ran past it would show the user a wash the app
+                  clamps back down. */}
+              <section class="tb-orn-role">
+                <div class="tb-orn-role-head mono up">Tint wash</div>
+                <p class="tb-group-hint">
+                  A colour laid over everything. Capped so it can never bury the text.
+                </p>
+                <button type="button" class="tb-ctl" data-token="--tint" aria-label="Tint colour">
+                  <span class="tb-ctl-swatch" style="background:transparent;border:1px solid #3a3a36"
+                  ></span>
+                  <span class="tb-ctl-label">Tint colour</span>
+                </button>
+                <label class="tb-mc" data-tint-strength>
+                  <span class="tb-mc-head">
+                    <span class="tb-mc-label">Strength</span>
+                    <output class="tb-mc-value mono"></output>
+                  </span>
+                  <input
+                    type="range"
+                    class="tb-mc-range"
+                    min="0"
+                    max={TINT_CEILING}
+                    step="0.01"
+                    value="0"
+                  />
+                </label>
+              </section>
+            </div>
+          </details>
+
+          {/* Measure tokens (myne#394). Density, corners, type scale, weight and
+              letter spacing — every one bounded to 0.5×–2× of its built-in
+              default, which is the same envelope the app clamps to. The bounds
+              are established on hydration from the preview's own token sheet,
+              never from a table in this repo. */}
+          <details class="tb-group tb-group--collapsible" id="tb-measure">
+            <summary class="tb-group-head mono up">Shape &amp; size</summary>
+            <div class="tb-group-body">
+              <p class="tb-group-hint">
+                How dense, how round and how large the interface is. Each control moves within half
+                to double Myne's own value — enough to reshape it, not enough to make it unusable.
+              </p>
+              {MEASURE_GROUPS.map((g) => (
+                <section class="tb-orn-role">
+                  <div class="tb-orn-role-head mono up">{g.label}</div>
+                  <p class="tb-group-hint">{g.hint}</p>
+                  {g.tokens.map((t) => (
+                    <MeasureControl token={t.token} label={t.label} unit={g.unit} step={g.step} />
+                  ))}
+                </section>
+              ))}
+            </div>
+          </details>
         </div>
       </section>
       <section class="tb-pane tb-pane--preview" aria-label="Live preview">
         <div id="tb-preview-slot" class="tb-slot tb-preview-slot">
           {/* Readability hints — populated from the 5 shared CONTRAST_RULES. */}
           <div id="tb-readability" class="tb-readability" hidden></div>
-          {/* The preview wrapper carries the authored theme's tokens (set live via
-              CSSOM by the apply engine). All descendants read raw `var(--token)`,
-              which resolve against this wrapper — a scoped, injection-safe apply. */}
-          <div class="tb-pv" id="tb-pv-root" style={initialVars}>
-            <div class="tb-pv-win">
-              <aside class="tb-pv-side">
-                <div class="tb-pv-side-title">Notes</div>
-                <div class="tb-pv-row is-active">Welcome</div>
-                <div class="tb-pv-row">Ideas</div>
-                <div class="tb-pv-row">Reading list</div>
-                <div class="tb-pv-row">Journal</div>
-              </aside>
-              <section class="tb-pv-main">
-                <div class="tb-pv-h1">A theme, previewed</div>
-                <div class="tb-pv-meta">Edited just now · 2 min read</div>
-                <p class="tb-pv-p">
-                  Every color you pick shows up here instantly, in the
-                  <span class="tb-pv-acc">theme's own tokens</span> —
-                  <span class="tb-pv-dim">so what you see is what your notes will look like.</span>
-                </p>
-                <p class="tb-pv-p tb-pv-marks">
-                  Highlight <mark class="tb-pv-hl">passages</mark>,
-                  <mark class="tb-pv-hl tb-pv-hl--green">tasks</mark>,
-                  <mark class="tb-pv-hl tb-pv-hl--blue">links</mark>,
-                  <mark class="tb-pv-hl tb-pv-hl--pink">ideas</mark>, and
-                  <mark class="tb-pv-hl tb-pv-hl--purple">questions</mark>.
-                </p>
-                <pre class="tb-pv-code"><span class="tb-tok tb-tok--comment">// syntax preview</span>
-<span class="tb-tok tb-tok--meta">@component</span>
-<span class="tb-tok tb-tok--keyword">export function</span> <span class="tb-tok tb-tok--function">Note</span>(<span class="tb-tok tb-tok--variable">props</span>: <span class="tb-tok tb-tok--type">Props</span>) {"{"}
-  <span class="tb-tok tb-tok--keyword">const</span> <span class="tb-tok tb-tok--variable">count</span> <span class="tb-tok tb-tok--operator">=</span> <span class="tb-tok tb-tok--number">42</span>;
-  <span class="tb-tok tb-tok--variable">props</span>.<span class="tb-tok tb-tok--property">title</span> <span class="tb-tok tb-tok--operator">=</span> <span class="tb-tok tb-tok--string">"Ideas"</span>;
-  <span class="tb-tok tb-tok--keyword">return</span> <span class="tb-tok tb-tok--tag">&lt;div&gt;</span><span class="tb-tok tb-tok--invalid">???</span><span class="tb-tok tb-tok--tag">&lt;/div&gt;</span>;
-{"}"}</pre>
-                <div class="tb-pv-line"></div>
-                <div class="tb-pv-controls">
-                  <div class="tb-pv-actions">
-                    <button type="button" class="tb-pv-btn" tabindex="-1">New note</button>
-                    <button type="button" class="tb-pv-btn is-ghost" tabindex="-1">Import</button>
-                  </div>
-                  <div class="tb-pv-swatches">
-                    <div class="tb-pv-labels" aria-hidden="true">
-                      <span class="tb-pv-dot" style="background:var(--label-clay)"></span>
-                      <span class="tb-pv-dot" style="background:var(--label-ochre)"></span>
-                      <span class="tb-pv-dot" style="background:var(--label-moss)"></span>
-                      <span class="tb-pv-dot" style="background:var(--label-slate)"></span>
-                      <span class="tb-pv-dot" style="background:var(--label-plum)"></span>
-                      <span class="tb-pv-dot" style="background:var(--label-stone)"></span>
-                    </div>
-                    <div class="tb-pv-chips" aria-hidden="true">
-                      <span class="tb-pv-chip" style="background:var(--danger)"></span>
-                      <span class="tb-pv-chip" style="background:var(--warning)"></span>
-                      <span class="tb-pv-chip" style="background:var(--success)"></span>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </div>
+          {/* The REAL Myne interface (myne#394): the editor's own DOM and its own
+              stylesheet, captured from the running desktop app and served by
+              `preview-frame.html.ts`. It is an iframe rather than inlined markup
+              because its CSS is written against `:root` / `:root[data-o-*]`
+              selectors and therefore has to BE a document root — and because
+              this page's own stylesheet must not leak into it, which is the
+              drift the snapshot exists to end. Same-origin, so the apply engine
+              below reaches `contentDocument` and drives the palette through
+              per-property `setProperty`, exactly as the app drives `:root`. */}
+          {/* The stage clips and scales; the frame keeps the capture's own
+              1280×800 geometry. Letting the iframe take the pane's width would
+              REFLOW the app into a narrow layout — previewing a responsive
+              screen the theme author is not dressing. */}
+          {/* No `allow-scripts` on the frame below: the captured document
+              carries no script of its own (the capture strips them), and the
+              builder reaches in from the parent rather than posting messages.
+              The comment sits ABOVE the tag rather than between its attributes
+              — Astro parses an attribute list as markup, not as JSX, so a
+              `{/* … */}` in that position is a syntax error. */}
+          <div id="tb-pv-stage" class="tb-pv-stage">
+            <iframe
+              id="tb-pv-frame"
+              class="tb-pv-frame"
+              src="/themes/preview-frame.html"
+              title="Live preview of the Myne interface with your theme applied"
+              loading="eager"
+              sandbox="allow-same-origin"></iframe>
           </div>
         </div>
       </section>
@@ -515,205 +596,31 @@ const galleryThemes = (themesIndex.themes ?? [])
     border-radius: 999px;
     padding: 3px 10px;
   }
-  .tb-pv {
+  /* The captured-interface frame. It owns its own document, so nothing here
+     styles its CONTENTS — this is the window, not the room. The ~200 lines of
+     `.tb-pv-*` rules that used to live here styled a hand-written imitation of
+     Myne; the imitation and its stylesheet went together (myne#394). */
+  .tb-pv-stage {
     flex: 1 1 auto;
     min-height: 0;
-    padding: 24px;
-    display: flex;
-  }
-  .tb-pv-win {
-    flex: 1;
-    display: flex;
-    min-height: 440px;
-    background: var(--paper);
-    border: 1px solid var(--line-1);
-    border-radius: 12px;
     overflow: hidden;
+    border-radius: 10px;
+    /* Sized by the script from the measured pane width — the frame is scaled,
+       so the stage has to be the scaled height or it leaves a gap below. */
   }
-  .tb-pv-side {
-    flex: 0 0 auto;
-    width: 180px;
-    background: var(--paper-2);
-    border-right: 1px solid var(--line-1);
-    padding: 18px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-  .tb-pv-side-title {
-    color: var(--ink-3);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .tb-pv-row {
-    padding: 7px 10px;
-    border-radius: 7px;
-    color: var(--ink-2);
-    font-size: 13px;
-  }
-  .tb-pv-row.is-active {
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: 600;
-  }
-  .tb-pv-main {
-    flex: 1;
-    min-width: 0;
-    padding: 28px 30px;
-    display: flex;
-    flex-direction: column;
-  }
-  .tb-pv-h1 {
-    color: var(--ink-0);
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-  }
-  .tb-pv-meta {
-    color: var(--ink-3);
-    font-size: 12px;
-    margin-top: 6px;
-  }
-  .tb-pv-p {
-    color: var(--ink-1);
-    font-size: 14px;
-    line-height: 1.6;
-    margin-top: 16px;
-    max-width: 52ch;
-  }
-  .tb-pv-dim {
-    color: var(--ink-2);
-  }
-  .tb-pv-acc {
-    color: var(--accent);
-    font-weight: 600;
-  }
-  .tb-pv-marks {
-    margin-top: 10px;
-  }
-  .tb-pv-hl {
-    background: var(--highlight);
-    color: inherit;
-    padding: 0 3px;
-    border-radius: 3px;
-  }
-  .tb-pv-hl--green {
-    background: var(--highlight-green);
-  }
-  .tb-pv-hl--blue {
-    background: var(--highlight-blue);
-  }
-  .tb-pv-hl--pink {
-    background: var(--highlight-pink);
-  }
-  .tb-pv-hl--purple {
-    background: var(--highlight-purple);
-  }
-  .tb-pv-code {
-    margin-top: 16px;
-    padding: 14px 16px;
-    background: var(--paper-2);
-    border: 1px solid var(--line-1);
-    border-radius: 8px;
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 12.5px;
-    line-height: 1.6;
-    color: var(--ink-1);
-    overflow-x: auto;
-    white-space: pre;
-  }
-  .tb-tok--keyword {
-    color: var(--syntax-keyword);
-  }
-  .tb-tok--string {
-    color: var(--syntax-string);
-  }
-  .tb-tok--comment {
-    color: var(--syntax-comment);
-  }
-  .tb-tok--number {
-    color: var(--syntax-number);
-  }
-  .tb-tok--variable {
-    color: var(--syntax-variable);
-  }
-  .tb-tok--function {
-    color: var(--syntax-function);
-  }
-  .tb-tok--type {
-    color: var(--syntax-type);
-  }
-  .tb-tok--operator {
-    color: var(--syntax-operator);
-  }
-  .tb-tok--property {
-    color: var(--syntax-property);
-  }
-  .tb-tok--tag {
-    color: var(--syntax-tag);
-  }
-  .tb-tok--meta {
-    color: var(--syntax-meta);
-  }
-  .tb-tok--invalid {
-    color: var(--syntax-invalid);
-  }
-  .tb-pv-line {
-    height: 1px;
-    background: var(--line-1);
-    margin-top: 22px;
-  }
-  .tb-pv-controls {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .tb-pv-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .tb-pv-swatches {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-left: auto;
-  }
-  .tb-pv-btn {
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 9px 16px;
+  .tb-pv-frame {
+    /* The capture's own geometry, held fixed. The scale that fits it into the
+       pane is a transform, applied by the script, so the app inside never
+       reflows — a theme author is dressing the desktop window, and a preview
+       that silently switched to the phone layout would be showing them a screen
+       they are not authoring. */
+    width: 1280px;
+    height: 800px;
     border: 0;
-    border-radius: 8px;
-    background: var(--accent);
-    color: var(--accent-on);
+    background: #fbfbfa;
+    display: block;
+    transform-origin: top left;
   }
-  .tb-pv-btn.is-ghost {
-    background: transparent;
-    color: var(--ink-2);
-    border: 1px solid var(--line-2);
-  }
-  .tb-pv-labels {
-    display: flex;
-    gap: 5px;
-  }
-  .tb-pv-dot {
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-  }
-  .tb-pv-chips {
-    display: flex;
-    gap: 7px;
-  }
-  .tb-pv-chip {
-    width: 12px;
-    height: 12px;
     border-radius: 50%;
   }
 
@@ -927,6 +834,64 @@ const galleryThemes = (themesIndex.themes ?? [])
   .tb-finetune {
     margin: 8px 0 2px;
   }
+  /* ── Ornament controls (myne#394) ─────────────────────────────────── */
+  .tb-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 0 16px;
+  }
+  .tb-preset {
+    font: inherit;
+    font-size: 12px;
+    padding: 4px 10px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    background: var(--paper-2);
+    color: var(--fg-1);
+    cursor: pointer;
+  }
+  .tb-preset:hover {
+    background: var(--paper-3);
+  }
+  .tb-orn-role {
+    margin-top: 18px;
+  }
+  .tb-orn-role-head {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--fg-3);
+    margin-bottom: 2px;
+  }
+  .tb-orn-ctl {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0;
+  }
+  .tb-orn-label {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    color: var(--fg-1);
+  }
+  .tb-orn-hint {
+    font-size: 11px;
+    color: var(--fg-3);
+    max-width: 34ch;
+  }
+  .tb-orn-select {
+    font: inherit;
+    font-size: 12px;
+    padding: 3px 6px;
+    border: 1px solid var(--line-2);
+    border-radius: 4px;
+    background: var(--paper);
+    color: var(--fg-1);
+    flex-shrink: 0;
+  }
+
   .tb-finetune-head {
     font-size: 9.5px;
     color: #6a6a66;
@@ -1032,39 +997,6 @@ const galleryThemes = (themesIndex.themes ?? [])
     }
   }
 
-  /* Preview responsiveness on phones: drop the sidebar (Myne shows the note
-     full-width on mobile) and ease the type so the note reads instead of cramping. */
-  @media (max-width: 640px) {
-    .tb-pv {
-      padding: 14px;
-    }
-    .tb-pv-win {
-      min-height: 0;
-    }
-    .tb-pv-side {
-      display: none;
-    }
-    .tb-pv-main {
-      padding: 22px 20px;
-    }
-    .tb-pv-h1 {
-      font-size: 21px;
-    }
-    .tb-pv-p {
-      font-size: 13.5px;
-    }
-    .tb-pv-code {
-      font-size: 11.5px;
-    }
-    /* Phone: all the colors on ONE row on top, the buttons on the row below. */
-    .tb-pv-controls {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-    }
-    .tb-pv-swatches {
-      order: -1;
-      margin-left: 0;
     }
   }
 </style>
@@ -1177,15 +1109,105 @@ const galleryThemes = (themesIndex.themes ?? [])
 </script>
 
 <script>
-  // Live preview (builder-preview): apply the shared palette to the scoped
-  // preview wrapper via gated CSSOM setProperty (SYNC-4 — the ONLY browser
+  // Ornament controls (myne#394). Each select writes its `--<role>-<primitive>`
+  // straight into the shared state, so preview and export both see it live —
+  // the same path the colour swatches use.
+  //
+  // The preview applies ornament by REFLECTING each selection onto the preview
+  // wrapper as `data-o-<role>-<primitive>`, exactly as the app reflects it onto
+  // `:root`. CSS cannot branch on a custom property's value, so this attribute
+  // bridge is what makes the rules selectable — and mirroring it here is what
+  // makes "what you see is what installs" true rather than approximately true.
+  import { appState } from "../../scripts/themeBuilderApp";
+
+  const ornSelects = Array.from(
+    document.querySelectorAll<HTMLSelectElement>(".tb-orn-select"),
+  );
+
+  // Selecting an ornament is a state write, and nothing more: the preview's own
+  // subscriber reflects the whole palette onto the frame whenever state changes.
+  // The reflect used to happen HERE, per control, which is how the `data-o-on`
+  // flag — the attribute every ornament rule is scoped under — ended up written
+  // by nobody, and how a tint-only theme had no way to turn the layer on at all.
+  for (const select of ornSelects) {
+    const token = select.dataset.ornamentToken;
+    if (!token) continue;
+    // Hydrate from whatever the state already holds (a loaded starting theme).
+    const current = appState.get(token);
+    if (typeof current === "string" && current !== "") select.value = current;
+    select.addEventListener("change", () => {
+      appState.set(token, select.value);
+    });
+  }
+
+  // Tint strength. Its ceiling is the app's own (`--_o-ceiling`), declared once
+  // in `ornament.mjs` and rendered as the slider's `max`, so the control cannot
+  // promise a wash the app would clamp back down.
+  //
+  // **Zero is WRITTEN, and the previous version's reasoning for clearing it was
+  // false.** "An absent key and a zero key mean the same thing" is exactly what
+  // the stylesheet does not do: it composes
+  // `min(var(--tint-strength, 0.08), var(--_o-ceiling))`, so an absent key means
+  // **8%**, not off. Combined with `serialize.mjs` dropping empty values, a user
+  // who set a tint colour and slid the strength to a control labelled "off"
+  // shipped an 8% wash — in the preview and in the app — with no affordance
+  // anywhere to turn it off.
+  const tintStrength = document.querySelector<HTMLInputElement>("[data-tint-strength] input");
+  const tintOut = document.querySelector<HTMLOutputElement>("[data-tint-strength] output");
+  if (tintStrength && tintOut) {
+    const paint = () => {
+      const v = Number(tintStrength.value);
+      tintOut.textContent = v === 0 ? "off" : v.toFixed(2);
+      appState.set("--tint-strength", v === 0 ? "0" : String(v));
+    };
+    const current = appState.get("--tint-strength");
+    if (typeof current === "string" && current !== "") tintStrength.value = current;
+    paint();
+    tintStrength.addEventListener("input", paint);
+  }
+
+  // Presets fill the selects above and nothing else — they expand to ordinary
+  // settings, so no preset name is ever stored in the theme (decisions.md
+  // 2026-08-06). Anything the preset does not mention is reset to its no-op, so
+  // clicking two presets in a row does not leave the first one's leftovers.
+  for (const button of Array.from(document.querySelectorAll<HTMLButtonElement>(".tb-preset"))) {
+    button.addEventListener("click", () => {
+      const role = button.dataset.presetRole;
+      const set = JSON.parse(button.dataset.presetSet ?? "{}") as Record<string, string>;
+      if (!role) return;
+      for (const select of ornSelects) {
+        if (select.dataset.ornamentRole !== role) continue;
+        const primitive = select.dataset.ornamentPrimitive ?? "";
+        const token = select.dataset.ornamentToken ?? "";
+        const value = set[primitive] ?? select.options[0]?.value ?? "none";
+        select.value = value;
+        appState.set(token, value);
+      }
+    });
+  }
+</script>
+
+<script>
+  // Live preview (builder-preview): apply the shared palette to the CAPTURED
+  // interface — the real app's DOM and stylesheet, in a same-origin iframe
+  // (myne#394) — via gated CSSOM setProperty (SYNC-4 — the ONLY browser
   // injection gate; the site has no CSP). Never string-concat into a <style>.
+  //
+  // Applying to the frame's `documentElement` rather than to a wrapper div is
+  // what makes the snapshot's own rules resolve: they are written against
+  // `:root` and `:root[data-o-*]`, because they came from an app that applies
+  // themes to the document root. Same target, same precedence, same result.
   import { appState } from "../../scripts/themeBuilderApp";
   import { applyTheme } from "../../lib/themeBuilder/applyPreview.mjs";
   import { contrastReport } from "../../lib/themeBuilder/validator.mjs";
   import { isDarkBackground } from "../../lib/themeBuilder/syntaxTheme.mjs";
+  import {
+    drawableOrnaments,
+    reflectOrnament,
+    withPreviewRoot,
+  } from "../../lib/themeBuilder/previewFrame.mjs";
+  import { bandFor } from "../../lib/themeBuilder/measure.mjs";
 
-  const pvRoot = document.getElementById("tb-pv-root");
   const readability = document.getElementById("tb-readability");
 
   // Plain-word names for the 5 canonical CONTRAST_RULES pairs.
@@ -1218,16 +1240,94 @@ const galleryThemes = (themesIndex.themes ?? [])
     }
   }
 
-  if (pvRoot) {
+  // Fit the captured 1280×800 window into whatever width the pane has, by
+  // scaling rather than reflowing. `ResizeObserver` rather than a `resize`
+  // listener because the pane also changes width when the mobile Edit/Preview
+  // toggle switches panes, which fires no window resize at all.
+  const stage = document.getElementById("tb-pv-stage");
+  const frame = document.getElementById("tb-pv-frame");
+  const CAPTURE_W = 1280;
+  const CAPTURE_H = 800;
+  if (stage && frame) {
+    const fit = () => {
+      const width = stage.clientWidth;
+      if (width <= 0) return;
+      // Never scale UP: past 1:1 the preview is showing a magnified screenshot
+      // and every hairline in the theme reads a pixel thicker than it ships.
+      const scale = Math.min(width / CAPTURE_W, 1);
+      frame.style.transform = `scale(${scale})`;
+      stage.style.height = `${Math.round(CAPTURE_H * scale)}px`;
+    };
+    fit();
+    new ResizeObserver(fit).observe(stage);
+  }
+
+  withPreviewRoot((pvRoot: HTMLElement) => {
+    // What the loaded stylesheet can actually draw, read off its own rules. A
+    // selection absent from this set is never written, so the preview cannot
+    // hold an attribute nothing matches — the shape that made every ornament
+    // control here a no-op before the snapshot arrived.
+    const drawable = drawableOrnaments(pvRoot);
+
+    // ── Measure controls ─────────────────────────────────────────────────────
+    // Bands come from the preview's OWN token sheet — the real `tokens.css`,
+    // captured with the snapshot — read here, before any palette is applied, so
+    // what is measured is the built-in default rather than a previous theme's.
+    // A token whose band cannot be established (a zero default, an unreadable
+    // value) has its control REMOVED: `--space-0` and `--tracking-normal` both
+    // default to 0, and half-to-double of zero is zero, so a slider for them
+    // could only ever lie. (Field Notes ships `--tracking-normal: 0.01em` today
+    // and it has never had any effect.)
+    const measured = getComputedStyle(pvRoot);
+    for (const ctl of Array.from(document.querySelectorAll<HTMLElement>("[data-measure-token]"))) {
+      const token = ctl.dataset.measureToken ?? "";
+      const range = ctl.querySelector<HTMLInputElement>("input");
+      const out = ctl.querySelector<HTMLOutputElement>("output");
+      const band = bandFor(measured.getPropertyValue(token));
+      if (!band || !range || !out) {
+        ctl.remove();
+        continue;
+      }
+      range.min = String(band.min);
+      range.max = String(band.max);
+      range.value = String(band.base);
+      ctl.hidden = false;
+
+      const paint = () => {
+        const n = Number(range.value);
+        out.textContent = `${n}${band.unit}`;
+        // At the default, write nothing: an absent key and a key holding the
+        // built-in value mean the same thing to the app, and only one of them
+        // puts a line in every exported theme.
+        appState.set(token, n === band.base ? "" : `${n}${band.unit}`);
+      };
+      const current = appState.get(token);
+      if (typeof current === "string" && current !== "") {
+        const parsed = Number.parseFloat(current);
+        if (Number.isFinite(parsed)) range.value = String(parsed);
+      }
+      paint();
+      range.addEventListener("input", paint);
+    }
+
     const apply = (snap: { palette: Record<string, string> }) => {
+      // A custom palette replaces the built-in wholesale, exactly as the app
+      // does — otherwise the captured `data-theme` keeps supplying values the
+      // theme meant to override.
+      pvRoot.removeAttribute("data-theme");
       applyTheme(pvRoot.style, snap.palette);
+      reflectOrnament(pvRoot, snap.palette, drawable);
       updateReadability(snap.palette);
       // Expose the preview's effective appearance (SYNC-8 — export reads it).
-      pvRoot.dataset.appearance = isDarkBackground(snap.palette["--paper"]) ? "dark" : "light";
+      // On the builder page's own element, not the frame's: the export block
+      // reads it from this document.
+      document.body.dataset.previewAppearance = isDarkBackground(snap.palette["--paper"])
+        ? "dark"
+        : "light";
     };
     apply(appState.snapshot());
     appState.subscribe(apply);
-  }
+  });
 </script>
 
 <script>
@@ -1251,15 +1351,18 @@ const galleryThemes = (themesIndex.themes ?? [])
   const nameInput = document.getElementById("tb-meta-name") as HTMLInputElement | null;
   const authorInput = document.getElementById("tb-meta-author") as HTMLInputElement | null;
   const descInput = document.getElementById("tb-meta-desc") as HTMLTextAreaElement | null;
-  const pvRoot = document.getElementById("tb-pv-root");
 
   const readMeta = () => ({
     name: nameInput?.value ?? "",
     author: authorInput?.value ?? "",
     description: descInput?.value ?? "",
   });
+  // The preview block publishes the effective appearance here (SYNC-8). It used
+  // to hang off the preview wrapper, which now lives inside the frame's own
+  // document — reachable, but a cross-document read for a value this page can
+  // simply be told.
   const currentAppearance = (): "light" | "dark" =>
-    pvRoot?.dataset.appearance === "dark" ? "dark" : "light";
+    document.body.dataset.previewAppearance === "dark" ? "dark" : "light";
 
   function refreshExportState(): boolean {
     const palette = appState.getPalette();

@@ -2,7 +2,7 @@
 title: "On-device AI (Beta)"
 category: "ai"
 updated: 2026-07-31
-summary: "An overview of Myne's experimental on-device AI: what it is, the runtime beta opt-in that keeps it off until you turn it on, the honest privacy posture (local, no network, in-process not sandboxed), and a map of the rest of this section."
+summary: "An overview of Myne's experimental AI: what it is, the runtime beta opt-in that keeps it off until you turn it on, the honest privacy posture (nothing is sent until you name a provider; the built-in model is in-process and not sandboxed), and a map of the rest of this section."
 tags: ["ai", "privacy"]
 ---
 
@@ -33,8 +33,8 @@ That second point is the boundary of the guarantee. It is covered plainly in [AI
 - **[Suggest tags](/user-guide/ai/suggest-tags/)** covers AI tag suggestions.
 - **[Writing assistant](/user-guide/ai/writing-assistant/)** covers inline completions and the AI slash commands.
 - **[Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note)** covers turning a recorded or imported audio clip into searchable, insertable text on your device.
-- **[AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/)** is the honesty deep-dive: on-device, no egress, in-process not sandboxed, the encrypted embedding index, and what AI does not do.
+- **[AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/)** is the honesty deep-dive: what is sent and to whom, the built-in model being in-process and not sandboxed, the encrypted embedding index, and what AI does not do.
 
 ## Limits
 
-On-device AI does not add a network feature to Myne, and it does not change where your notes are stored or how they are encrypted. It does add a model runtime that runs in the same process as your decrypted notes and is not isolated from them; a malicious or buggy model file is a local supply-chain risk you accept by choosing one. Like the rest of Myne, none of this protects against malware already running on your device, which can read app memory regardless. The full mapping is in [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/).
+Myne's AI does not change where your notes are stored or how they are encrypted, and nothing is sent anywhere until you name a provider yourself — the default is none. It does add a model runtime that runs in the same process as your decrypted notes and is not isolated from them; a malicious or buggy model file is a local supply-chain risk you accept by choosing one. Like the rest of Myne, none of this protects against malware already running on your device, which can read app memory regardless. The full mapping is in [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/).

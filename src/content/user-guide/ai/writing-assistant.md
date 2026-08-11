@@ -37,7 +37,7 @@ To rewrite text you have already written, select it and run **Rewrite selection*
 
 ## Limits
 
-Writing help runs on your device: the surrounding text sent as context and the generated text never leave your machine, because Myne has no network path for AI. Output comes from a small local model and can be wrong, bland, or off-key — read it before you keep it. Nothing is written to a note without an explicit action (accepting a ghost, running a command). A note in an excluded folder gets no writing help at all. The model runs in-process and is not isolated from your decrypted notes; see [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/) for the full boundary.
+Where writing help runs depends on what you have named. With no provider set up it runs on your device and the surrounding text never leaves your machine. If you have named a remote provider, writing help is one of the surfaces that can use it — the context it sends goes there, after the consent step that says so. Output comes from a small local model and can be wrong, bland, or off-key — read it before you keep it. Nothing is written to a note without an explicit action (accepting a ghost, running a command). A note in an excluded folder gets no writing help at all. The model runs in-process and is not isolated from your decrypted notes; see [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/) for the full boundary.
 
 ## Shortcuts
 

@@ -19,9 +19,9 @@ This is the part that bounds the guarantee. In this version the model runs insid
 Two consequences follow, and Myne states both rather than hiding them:
 
 - A model file you download is untrusted input. Myne does not vouch for it. A malicious or buggy model, or a flaw in the inference code, could read memory that includes decrypted note content and keys. This is why AI is off by default, sits behind Developer mode and a Beta surface, and asks you to bring your own model deliberately.
-- Because it runs in-process, the correct claim today is "runs locally, sends nothing" — not "sandboxed from your keys". A future version plans to move inference into a separate, network-denied process that never receives your keys; until that ships, Myne does not claim that isolation, and neither does this guide.
+- Because it runs in-process, the correct claim for the built-in model today is "runs locally, sends nothing" — not "sandboxed from your keys". That claim is about the built-in model, not about the feature as a whole: naming a remote provider is what changes where your text goes, and it is covered below. A future version plans to move inference into a separate, network-denied process that never receives your keys; until that ships, Myne does not claim that isolation, and neither does this guide.
 
-Transcribing a voice note works the same way: the recording is decrypted in memory and handed to the same in-process model, so the audio joins your decrypted notes inside the same trust boundary. As everywhere in Myne's AI, nothing leaves the device — there is no cloud transcription service — but the runtime is not sandboxed from your keys.
+Transcribing a voice note works the same way: the recording is decrypted in memory and handed to the same in-process model, so the audio joins your decrypted notes inside the same trust boundary. Voice-to-text is on-device unconditionally: there is no cloud transcription service, and no remote provider you name takes audio. What the runtime is *not* is sandboxed from your keys.
 
 As with the rest of Myne, none of this protects against malware already running on your device. Such software can read app memory whether or not AI is on; enabling AI does not create that exposure, but it does add a model runtime inside the same trust boundary.
 

@@ -25,7 +25,24 @@ variables:
     - /opt/myne-website:/opt/myne-website
 
 steps:
+  # ─── Unit tests — the gate the deploy never had ───────────────
+  # This repo has 17 spec files / 116 tests (`node --test`), and until now the
+  # pipeline went straight from `build` to `deploy`: the word "test" did not
+  # appear in this file at all. The site was published without its own tests
+  # ever running anywhere but a developer's machine.
+  #
+  # `build` depends on this, so a red test stops the deploy rather than being
+  # noticed afterwards. Node 22 matches the Dockerfile's builder stage, so the
+  # tests run on the runtime the site is actually built with.
+  test:
+    image: node:22-slim
+    commands:
+      - npm install -g pnpm@10
+      - pnpm install --frozen-lockfile
+      - pnpm test
+
   build:
+    depends_on: [test]
     image: *docker_image
     volumes: *shared_volumes
     commands:

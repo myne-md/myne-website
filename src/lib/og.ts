@@ -208,7 +208,9 @@ export type OgKey =
   | "security"
   | "releases"
   | "ledger"
-  | "guide";
+  | "guide"
+  | "privacy"
+  | "datenschutz";
 
 interface PageOg {
   kicker: string;
@@ -259,6 +261,26 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
       "Acknowledgment-only disclosure: we credit researchers, no monetary bounty yet. Report privately via GitHub security advisories or security@myne.md.",
     note: "coordinated disclosure",
     path: "security",
+  },
+  // The two legal cards are one document in two languages, so they say the
+  // same thing twice rather than splitting the message. The number in the
+  // description is the point of the page: most policies omit the backup
+  // window, which is what makes "deleted immediately" untrue elsewhere.
+  privacy: {
+    kicker: "Privacy",
+    title: "We hold no key.",
+    description:
+      "No email at signup, no IP logs, no analytics, no third-party requests — and a per-feature table of every network call the app makes. Deleted accounts leave the last backup within 14 days.",
+    note: "what we have, in full",
+    path: "privacy",
+  },
+  datenschutz: {
+    kicker: "Datenschutz",
+    title: "Wir haben keinen Schlüssel.",
+    description:
+      "Keine E-Mail bei der Anmeldung, keine IP-Protokolle, keine Analyse, keine Drittanbieter — und eine Tabelle jeder einzelnen Netzverbindung. Gelöschte Konten verschwinden binnen 14 Tagen aus der letzten Sicherung.",
+    note: "vollständig benannt",
+    path: "datenschutz",
   },
   releases: {
     kicker: "Releases",

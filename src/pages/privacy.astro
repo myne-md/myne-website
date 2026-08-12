@@ -1,0 +1,415 @@
+---
+// Privacy policy — example-org/operations#7.
+//
+// Two rules govern every sentence on this page, and they pull in opposite
+// directions on purpose:
+//
+//   1. It may not exceed `docs/threat-model.md` or `server-protocol.md` §1.3.
+//      "We know nothing about you" is NOT writable here: the device registry,
+//      the quota counters and the SCRAM verifier genuinely exist and are named
+//      below. A policy that overclaims is worse than one that admits a counter.
+//   2. It may not claim less than the Art. 30 record (`operations/legal/vvt.md`),
+//      which is the internal inventory this page is derived from. If the two
+//      disagree, one of them is wrong and it is a bug in both.
+//
+// The German version is `datenschutz.astro` and is the same document, not a
+// summary of it. Change one, change the other in the same commit.
+import LandingLayout from "../layouts/LandingLayout.astro";
+import GlassNav from "../components/GlassNav.astro";
+import { absoluteOg } from "../lib/og";
+
+const title = "Privacy Policy — Myne";
+const description =
+  "What Myne stores, what it cannot store, and when the app talks to the network. No email at signup, no IP logs, no analytics — and a per-feature table of every network call the app makes.";
+const canonical = new URL("/privacy/", Astro.site!).toString();
+const ogImage = absoluteOg("privacy", Astro.site!);
+
+const effective = "12 August 2026";
+
+const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const h2 =
+  "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
+const h3 =
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+const body =
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+const cardStyle =
+  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+const tableWrap = "margin-top:22px;overflow-x:auto;";
+const table =
+  "width:100%;border-collapse:collapse;font-size:14px;line-height:1.6;min-width:640px;";
+const th =
+  "text-align:left;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.14);color:#e6e6e4;font-weight:650;white-space:nowrap;";
+const td =
+  "padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);color:#8a8a86;vertical-align:top;";
+const tdEm = td + "color:#e6e6e4;white-space:nowrap;";
+
+// Every row below is a statement about code, not about intent. The inventory
+// was read out of the tree on 2026-08-12: the CSP `connect-src` in
+// `src-tauri/tauri.conf.json` and `web/csp.ts`, the egress call-site ratchet in
+// `src-tauri/scripts/ai-no-network-check.sh` (check 4), and the socket ratchet
+// in `core/src/plugins/sync/no_bypass.rs`. Adding a row is a code change.
+const network = [
+  {
+    feature: "Sync",
+    goes: "Yes",
+    where: "The sync server you configured — sync.myne.md, or your own",
+    when: "While sync is switched on. This is the only feature that sends your notes anywhere, and they leave encrypted.",
+  },
+  {
+    feature: "Spell check",
+    goes: "No",
+    where: "—",
+    when: "Dictionaries ship with the app; your personal word list lives inside the encrypted vault.",
+  },
+  {
+    feature: "On-device AI",
+    goes: "No",
+    where: "—",
+    when: "The models ship inside the app and run on your machine.",
+  },
+  {
+    feature: "AI via a local runtime",
+    goes: "Loopback only",
+    where: "127.0.0.1 on your own machine",
+    when: "Only if you configure one. The address cannot be anything but loopback — the code rejects any other host rather than trusting what it resolves to.",
+  },
+  {
+    feature: "AI via a remote provider",
+    goes: "Yes — note text leaves your device",
+    where: "The provider you named",
+    when: "Only when five separate conditions are all true: you named a provider, you consented to that specific provider, you supplied its key, AI is enabled, and developer mode is on. Every one of them is off by default, and with none named the code path is unreachable rather than merely disabled.",
+  },
+  {
+    feature: "Web clipper",
+    goes: "No",
+    where: "—",
+    when: "The browser extension talks to the app over a local channel on your own machine.",
+  },
+  {
+    feature: "Tor routing",
+    goes: "Routes sync through Tor",
+    where: "The Tor network, then your sync server",
+    when: "Only if you switch it on.",
+  },
+  {
+    feature: "Update check",
+    goes: "None",
+    where: "—",
+    when: "There is no auto-updater. The app never phones home to ask whether it is current.",
+  },
+  {
+    feature: "Analytics, telemetry, crash reports",
+    goes: "None",
+    where: "—",
+    when: "Never. None of it is in the build.",
+  },
+  {
+    feature: "Fonts, CDNs, third-party assets",
+    goes: "None",
+    where: "—",
+    when: "Every asset is inside the app. The web app's content-security policy names exactly one external origin — your sync server — and the build is checked for third-party origins before it ships.",
+  },
+];
+
+const stored = [
+  [
+    "account_number_hash",
+    "A 16-byte hash of your account number. The only account identifier the server has.",
+  ],
+  [
+    "SCRAM verifier",
+    "What the server checks your login against. It is not your password and cannot be turned back into it.",
+  ],
+  [
+    "Encrypted blobs",
+    "Your notes and attachments as ciphertext. We hold no key that opens them.",
+  ],
+  [
+    "Version counter",
+    "A number per blob, used to detect conflicting edits. It says that something changed, never when and never what.",
+  ],
+  ["Head pointer", "One pointer per vault to the latest state you pushed."],
+  [
+    "Device registry",
+    "One record per device you enrolled, with a device id you generated. Needed because revoking a device requires knowing it exists — this is the one place your device count is unavoidably visible to the server.",
+  ],
+  [
+    "Counters",
+    "Total bytes stored and number of devices, for the quota and the rate limit.",
+  ],
+];
+
+const notStored = [
+  "Email address, name, postal address, phone number",
+  "Payment details — the beta is free and takes none",
+  "IP addresses in any persisted form, connection logs, access times",
+  "Readable content, note titles, folder names, tags",
+  "Timestamps that mean anything to you — those live inside the ciphertext",
+  "Cookies, analytics identifiers, advertising identifiers, fingerprints",
+];
+---
+
+<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
+  <div
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+  >
+    <GlassNav active="legal" />
+
+    <section id="top" style="padding:128px 28px 70px;">
+      <div style="max-width:820px;margin:0 auto;">
+        <div class="mono up" style={eyebrow}>Legal</div>
+        <h1
+          style="font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-0.03em;line-height:1.05;"
+        >
+          Privacy Policy
+        </h1>
+        <p style={body}>
+          Effective {effective}. It covers myne.md, app.example.com, sync.myne.md and the desktop and
+          mobile apps.
+        </p>
+
+        <!-- ── The summary. Cryptee's shape: the plain reading first, the -->
+        <!-- legal text after. Someone who reads only this box should come -->
+        <!-- away with an accurate picture, not a flattering one.          -->
+        <div style={cardStyle}>
+          <div class="mono up" style={eyebrow}>The short version</div>
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+            Your notes are encrypted on your device before they go anywhere, and we hold no key that
+            opens them. Signing up takes no email address — your account is a 20-character number
+            you keep. We do not log IP addresses, set no cookies, run no analytics, and load nothing
+            from anyone else's server.
+          </p>
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+            What we do have is short and worth naming rather than glossing: a hash that identifies
+            your account, a login verifier, your encrypted blobs, a record of which devices you
+            enrolled, and two counters for storage and rate limits. That is the whole list, and it
+            is below in full.
+          </p>
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+            The flip side of holding no key: if you lose your password <em>and</em> your recovery phrase,
+            nobody — including us — can get your notes back.
+          </p>
+        </div>
+
+        <!-- ── The network table. Issue #7 called this the most convincing -->
+        <!-- section, and it is, but only because it is derived from the    -->
+        <!-- code rather than from the marketing copy.                      -->
+        <h2 style={h2}>When the app talks to the network</h2>
+        <p style={body}>
+          Most privacy policies describe what a company promises. This table describes what the
+          program does, feature by feature. It is derived from the code — the content-security
+          policy that bounds the app, and two ratchets in the build that fail if a new outbound call
+          appears without being recorded first.
+        </p>
+
+        <div style={tableWrap}>
+          <table style={table}>
+            <thead>
+              <tr>
+                <th style={th}>Feature</th>
+                <th style={th}>Leaves your device?</th>
+                <th style={th}>Where to</th>
+                <th style={th}>When</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                network.map((r) => (
+                  <tr>
+                    <td style={tdEm}>{r.feature}</td>
+                    <td style={tdEm}>{r.goes}</td>
+                    <td style={td}>{r.where}</td>
+                    <td style={td}>{r.when}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <p style={body}>
+          Two rows deserve emphasis rather than a footnote. <strong style="color:#e6e6e4;"
+            >Sync</strong
+          > sends your notes, encrypted, to the server you chose — that is the feature. <strong
+            style="color:#e6e6e4;">AI via a remote provider</strong
+          > sends note text <em>in the clear</em> to a company that is not us, because that is what asking
+          a remote model to read your note means. It is off, it takes five deliberate steps to turn on,
+          and once on, that provider's privacy policy governs what they do with what you send. We do
+          not proxy it and we never see it.
+        </p>
+
+        <!-- ── What the server holds. §1.3 of server-protocol.md is the -->
+        <!-- ceiling; this list may not be shorter than it.              -->
+        <h2 style={h2}>What the sync server stores</h2>
+        <p style={body}>
+          The server is a blind blob store: it accepts, keeps and hands back ciphertext, and performs
+          only structural operations on it — advancing a pointer, incrementing a counter, counting
+          bytes. It never decrypts, merges or interprets anything, because it holds nothing that
+          could.
+        </p>
+
+        <div style={tableWrap}>
+          <table style={table}>
+            <thead>
+              <tr>
+                <th style={th}>What</th>
+                <th style={th}>Why it exists</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                stored.map(([what, why]) => (
+                  <tr>
+                    <td style={tdEm}>{what}</td>
+                    <td style={td}>{why}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <h2 style={h2}>What we never have</h2>
+        <p style={body}>
+          This list is as load-bearing as the one above it, because it sets the limit of what any
+          request to us can produce — yours, or a court's.
+        </p>
+        <ul style={body + "padding-left:20px;"}>
+          {notStored.map((x) => <li style="margin-top:8px;">{x}</li>)}
+        </ul>
+        <p style={body}>
+          Some of these are architectural rather than promised. Sign-up asks for no email because
+          there is no field for one. Rate limiting counts per account rather than per address
+          because the server never keeps an address to count. Your timestamps are inside the
+          encrypted blob, so no operator — us, or anyone self-hosting — can read when you wrote
+          something.
+        </p>
+
+        <h2 style={h2}>How long we keep it, and how you delete it</h2>
+        <p style={body}>
+          Everything listed under "what the sync server stores" is kept until you delete your
+          account, and no longer. Deleting removes the vault, the attachments, the device registry,
+          the login verifier and the counters.
+        </p>
+        <p style={body}>
+          You delete it yourself, from inside the app. That is deliberate: because we hold no email
+          address, an emailed deletion request is one we could not verify — anyone who learned your
+          account number could otherwise have your vault destroyed. Inside the app you are already
+          authenticated, so the question does not arise.
+        </p>
+
+        <h3 style={h3}>Backups</h3>
+        <p style={body}>
+          Encrypted backups run on a <strong style="color:#e6e6e4;">14-day rotation</strong>. A
+          deleted account therefore disappears from the live service immediately and from the last
+          backup set <strong style="color:#e6e6e4;">within 14 days</strong>. We are stating the
+          number because most services do not: "deleted immediately" is rarely true of anyone who
+          keeps backups, and a policy that omits the backup window is describing a system that does
+          not exist.
+        </p>
+        <p style={body}>
+          Backups hold the same ciphertext the server holds. They are as unreadable to us as the
+          originals.
+        </p>
+
+        <h2 style={h2}>The web app, and what it stores in your browser</h2>
+        <p style={body}>
+          The web app at app.example.com keeps your encrypted vault in your browser's own storage
+          (OPFS), so it can work without re-downloading everything and so your notes survive a
+          reload. This is storage on your device, not on ours, and it holds the same ciphertext.
+        </p>
+        <p style={body}>
+          Under § 25 TDDDG this needs no consent banner: it is strictly necessary for the service
+          you explicitly requested — a notes app that cannot store your notes is not the service. We
+          describe it here rather than asking you to click a box, because the box would be
+          theatre. We set no cookies at all, and we store nothing for any purpose other than running
+          the app you opened.
+        </p>
+
+        <h2 style={h2}>Donations</h2>
+        <p style={body}>
+          If you donate, it goes through Open Collective and their fiscal host. Payment details
+          reach them, never us; we see the amount and whatever name the donor chooses to show. Your
+          Myne account and a donation are not linked, and cannot be — there is nothing on the
+          account to link to.
+        </p>
+
+        <h2 style={h2}>Your rights</h2>
+        <p style={body}>
+          Under the GDPR you have the right to access, rectify, erase, restrict and port your data,
+          and to object to processing. Two of these work differently here, and the reason is the
+          same in both cases:
+        </p>
+        <p style={body}>
+          <strong style="color:#e6e6e4;">Access and portability.</strong> Your notes are already in your
+          hands — that is what the app is. What we hold beyond them is the short list above, and we cannot
+          decrypt any of it. An export lives in the app, and it produces more than we could.
+        </p>
+        <p style={body}>
+          <strong style="color:#e6e6e4;">Erasure.</strong> Deletion is in the app, for the verification
+          reason described above. Write to us if that path fails you and we will work it out.
+        </p>
+        <p style={body}>
+          You may also complain to a supervisory authority. Ours is
+          <span style="color:#e6e6e4;"
+            >Die Landesbeauftragte für den Datenschutz und für das Recht auf Akteneinsicht
+            Brandenburg</span
+          >, Stahnsdorfer Damm 77, 14532 Kleinmachnow.
+        </p>
+
+        <h2 style={h2}>Who is responsible</h2>
+        <div style={cardStyle}>
+          <p style="margin:0;font-size:15px;line-height:1.7;color:#8a8a86;">
+            Ömer Duran<br />
+            Potsdam, Germany<br />
+            <a href="mailto:privacy@myne.md" style="color:#8aa4d0;">privacy@myne.md</a>
+          </p>
+          <p style="margin:14px 0 0;font-size:14px;line-height:1.65;color:#6f6f6c;">
+            The full postal address is published in the Impressum when the public beta opens; until
+            then it is available on request at the address above. There is no data protection
+            officer: the thresholds of § 38 BDSG are not met — there are no employees.
+          </p>
+        </div>
+
+        <h3 style={h3}>Processors</h3>
+        <p style={body}>
+          <strong style="color:#e6e6e4;">Hetzner Online GmbH</strong>, Industriestr. 25, 91710
+          Gunzenhausen, runs the machines. myne.md, app.example.com and sync.myne.md all live in
+          Hetzner's Falkenstein data centre in Germany, under an Art. 28 processing agreement. There
+          is no other processor: no CDN, no analytics vendor, no crash reporting service, no email
+          delivery service, no payment processor.
+        </p>
+        <p style={body}>
+          Nothing is transferred outside the EU. All processing happens in Germany, and access to
+          the production system is held by one person.
+        </p>
+
+        <h2 style={h2}>Abuse reports and legal requests</h2>
+        <p style={body}>
+          Reports go to <a href="mailto:abuse@myne.md" style="color:#8aa4d0;">abuse@myne.md</a>. We
+          cannot read what people store, so we cannot screen it, and we do not pretend otherwise —
+          what we can do on a valid report is act on the account.
+        </p>
+        <p style={body}>
+          Requests from authorities are answered against the list above and no further: we can only
+          hand over what we have, and what we have is a hash, a verifier, some counters and
+          ciphertext we cannot open. There is no key in our possession, no German law obliges a
+          provider to break its own encryption, and encrypted data is handed over encrypted.
+        </p>
+
+        <h2 style={h2}>Changes</h2>
+        <p style={body}>
+          If this policy changes in a way that affects you, the apps show you the new version rather
+          than quietly swapping the page. Each version carries its effective date, and the previous
+          text stays available in the site's history — this page is in a public repository, so every
+          edit to it is a public commit.
+        </p>
+
+        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
+          Deutsche Fassung: <a href="/datenschutz/" style="color:#8aa4d0;">Datenschutzerklärung</a>.
+        </p>
+      </div>
+    </section>
+  </div>
+</LandingLayout>

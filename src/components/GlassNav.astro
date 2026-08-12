@@ -24,7 +24,10 @@ interface Props {
     | "download"
     | "spec"
     | "security"
-    | "releases";
+    | "releases"
+    /** Legal pages live in the footer, not the nav — they pass this so no
+     *  unrelated nav entry lights up (the default `"home"` would). */
+    | "legal";
   /** Enable scroll-spy: the landing page passes this so the in-page section
    *  links light up as their section scrolls into view. Other pages leave it
    *  off so the server-set `active` stays put. */

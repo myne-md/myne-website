@@ -406,7 +406,17 @@ const ogImage = absoluteOg("home", Astro.site!);
           class="mono up"
           style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:26px;font-size:10px;color:#54544f;"
         >
-          <span>© 2026 · AGPL-3.0 · CC-BY-4.0 docs</span><StatusBadge /><span>v0.1 · pre-alpha</span>
+          <!-- The legal row starts here with one entry. operations#15 adds the
+               rest — terms, Impressum, the law-enforcement and notice pages —
+               and at that point this belongs in its own footer column rather
+               than appended to the copyright line. -->
+          <span
+            >© 2026 · AGPL-3.0 · CC-BY-4.0 docs · <a
+              href="/privacy/"
+              style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
+              >Privacy</a
+            ></span
+          ><StatusBadge /><span>v0.1 · pre-alpha</span>
         </div>
       </div>
     </footer>

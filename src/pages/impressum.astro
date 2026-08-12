@@ -1,0 +1,140 @@
+---
+// Impressum — example-org/operations#9. § 5 DDG (which replaced § 5 TMG in 2024).
+//
+// GERMAN ONLY, and deliberately so. The Impressum is a German statutory
+// instrument; publishing an English "version" of it would raise the question
+// of which one is binding, and the answer would have to be "the German one"
+// anyway. A short English note at the foot points international readers at
+// what this page is, without pretending to be a second Impressum.
+//
+// ── NOT LINKED FROM THE FOOTER YET, ON PURPOSE ──────────────────────────────
+//
+// The address is still missing (a ladungsfähige Anschrift service, deferred
+// to public launch). An Impressum without a summonable address is worse than
+// no Impressum: an incomplete one is the classic Abmahnung target in Germany,
+// and it is worse precisely because it looks compliant. So the page exists,
+// is written, and is reachable by URL — but nothing advertises it until the
+// address is real. Adding the footer link is part of closing #9, not of
+// writing this file.
+//
+// Why an Impressum is required at all, for a free non-commercial beta: the
+// statutory test is "geschäftsmäßig" — regular and planned provision, not
+// profit. A continuously running sync service meets it. The law also covers
+// services "normally provided for remuneration", and note sync is a paid
+// category elsewhere (Obsidian Sync, Notesnook, Joplin Cloud). See #9.
+import LandingLayout from "../layouts/LandingLayout.astro";
+import GlassNav from "../components/GlassNav.astro";
+import { absoluteOg } from "../lib/og";
+
+const title = "Impressum — Myne";
+const description =
+  "Anbieterkennzeichnung nach § 5 DDG für myne.md, app.example.com und sync.myne.md.";
+const canonical = new URL("/impressum/", Astro.site!).toString();
+const ogImage = absoluteOg("impressum", Astro.site!);
+
+const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const h2 =
+  "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
+const body =
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+const cardStyle =
+  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+// The placeholder is styled to read as a gap rather than as content, so it
+// cannot be mistaken for an address at a glance.
+const pending =
+  "display:inline-block;padding:2px 8px;border:1px dashed rgba(255,255,255,0.28);border-radius:5px;color:#6f6f6c;font-size:13px;";
+---
+
+<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
+  <div
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+  >
+    <GlassNav active="legal" />
+
+    <section id="top" style="padding:128px 28px 70px;">
+      <div style="max-width:820px;margin:0 auto;">
+        <div class="mono up" style={eyebrow}>Rechtliches</div>
+        <h1
+          style="font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-0.03em;line-height:1.05;"
+        >
+          Impressum
+        </h1>
+        <p style={body}>
+          Anbieterkennzeichnung nach § 5 DDG für myne.md, app.example.com und sync.myne.md sowie die
+          Desktop- und Mobil-Anwendungen.
+        </p>
+
+        <h2 style={h2}>Diensteanbieter</h2>
+        <div style={cardStyle}>
+          <p style="margin:0;font-size:15px;line-height:1.9;color:#e6e6e4;">
+            Ömer Duran
+          </p>
+          <p style="margin:10px 0 0;font-size:15px;line-height:1.9;color:#8a8a86;">
+            <span style={pending}>Anschrift folgt zum öffentlichen Start</span>
+          </p>
+          <p style="margin:14px 0 0;font-size:15px;line-height:1.9;color:#8a8a86;">
+            Deutschland
+          </p>
+        </div>
+
+        <h2 style={h2}>Kontakt</h2>
+        <div style={cardStyle}>
+          <p style="margin:0;font-size:15px;line-height:1.9;color:#8a8a86;">
+            E-Mail: <a href="mailto:hello@myne.md" style="color:#8aa4d0;">hello@myne.md</a><br />
+            Datenschutz: <a href="mailto:privacy@myne.md" style="color:#8aa4d0;">privacy@myne.md</a
+            ><br />
+            Meldungen rechtswidriger Inhalte:
+            <a href="mailto:abuse@myne.md" style="color:#8aa4d0;">abuse@myne.md</a><br />
+            Behörden: <a href="mailto:legal@myne.md" style="color:#8aa4d0;">legal@myne.md</a>
+          </p>
+        </div>
+        <p style={body}>
+          Eine Telefonnummer wird nicht vorgehalten; die Erreichbarkeit ist über die genannten
+          E-Mail-Adressen sichergestellt, die von einem Menschen gelesen werden.
+        </p>
+
+        <h2 style={h2}>Verantwortlich für redaktionelle Inhalte</h2>
+        <p style={body}>
+          Verantwortlich im Sinne des § 18 Abs. 2 MStV für die redaktionellen Inhalte dieser Website
+          — insbesondere die Beiträge im
+          <a href="/ledger/" style="color:#8aa4d0;">Ledger</a> — ist Ömer Duran, Anschrift wie oben.
+        </p>
+
+        <h2 style={h2}>Umsatzsteuer</h2>
+        <p style={body}>
+          Eine Umsatzsteuer-Identifikationsnummer besteht nicht. Der Dienst wird unentgeltlich und
+          nicht gewerblich angeboten; es werden keine Zahlungen entgegengenommen.
+        </p>
+
+        <h2 style={h2}>Kontaktstellen nach dem Gesetz über digitale Dienste</h2>
+        <p style={body}>
+          Die Kontaktstellen nach Art. 11 und Art. 12 DSA sowie das Melde- und Abhilfeverfahren nach
+          Art. 16 DSA sind auf der Seite
+          <a href="/meldung/" style="color:#8aa4d0;">Rechtswidrige Inhalte melden</a> beschrieben. Die
+          Verständigung ist auf Deutsch und Englisch möglich.
+        </p>
+
+        <h2 style={h2}>Verbraucherstreitbeilegung</h2>
+        <p style={body}>
+          Wir sind weder bereit noch verpflichtet, an Streitbeilegungsverfahren vor einer
+          Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).
+        </p>
+
+        <h2 style={h2}>Aufsichtsbehörde für den Datenschutz</h2>
+        <p style={body}>
+          Die Landesbeauftragte für den Datenschutz und für das Recht auf Akteneinsicht Brandenburg,
+          Stahnsdorfer Damm 77, 14532 Kleinmachnow. Was verarbeitet wird, steht in der
+          <a href="/datenschutz/" style="color:#8aa4d0;">Datenschutzerklärung</a>.
+        </p>
+
+        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
+          This page is the provider identification required of German service providers by § 5 DDG.
+          It is published in German because that is the language the obligation is written in, and
+          the German text is the binding one. What we do with data is in the
+          <a href="/privacy/" style="color:#8aa4d0;">Privacy Policy</a>; the terms of the free beta
+          are in the <a href="/terms/" style="color:#8aa4d0;">Beta Terms</a>.
+        </p>
+      </div>
+    </section>
+  </div>
+</LandingLayout>

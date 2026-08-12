@@ -216,7 +216,8 @@ export type OgKey =
   | "notice"
   | "meldung"
   | "terms"
-  | "nutzungsbedingungen";
+  | "nutzungsbedingungen"
+  | "impressum";
 
 interface PageOg {
   kicker: string;
@@ -344,6 +345,16 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
       "Kostenlos, ohne Gewährleistung, 250 MB auf Anfrage erhöht. Ihr Konto läuft nach dem Ende der Beta weiter, ein kostenpflichtiges Angebot wäre optional, und eine Einstellung hat 90 Tage Vorlauf mit durchgehendem Export.",
     note: "kostenlos · ohne Gewähr · 90 Tage",
     path: "nutzungsbedingungen",
+  },
+  // German-only page, so a German-only card. It exists for completeness; the
+  // Impressum is not a page anyone shares.
+  impressum: {
+    kicker: "Impressum",
+    title: "Anbieterkennzeichnung.",
+    description:
+      "Angaben nach § 5 DDG für myne.md, app.example.com und sync.myne.md. Kein Unternehmen, keine Umsatzsteuer-Identifikationsnummer, keine Zahlungen.",
+    note: "§ 5 DDG",
+    path: "impressum",
   },
   releases: {
     kicker: "Releases",

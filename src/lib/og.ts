@@ -214,7 +214,9 @@ export type OgKey =
   | "law-enforcement"
   | "behoerdenanfragen"
   | "notice"
-  | "meldung";
+  | "meldung"
+  | "terms"
+  | "nutzungsbedingungen";
 
 interface PageOg {
   kicker: string;
@@ -323,6 +325,25 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
       "Melde- und Abhilfeverfahren nach Art. 16 DSA. Wir können nicht lesen, was Menschen speichern, und daher nicht prüfen — eine begründete Meldung ist der einzige Weg zu uns. Nichts hier wird geteilt oder veröffentlicht.",
     note: "abuse@myne.md",
     path: "meldung",
+  },
+  // The terms card leads with the end-of-beta guarantee rather than the
+  // disclaimers, because that is the clause a reader has been burned by
+  // before and the one most terms do not make.
+  terms: {
+    kicker: "Beta terms",
+    title: "The beta ending is not an expiry date.",
+    description:
+      "Free, no warranty, 250 MB raised on request. Your account keeps working when the beta ends, a paid tier would be optional, and a shutdown carries 90 days' notice with export working throughout.",
+    note: "free · no warranty · 90 days",
+    path: "terms",
+  },
+  nutzungsbedingungen: {
+    kicker: "Nutzungsbedingungen",
+    title: "Das Ende der Beta ist kein Ablaufdatum.",
+    description:
+      "Kostenlos, ohne Gewährleistung, 250 MB auf Anfrage erhöht. Ihr Konto läuft nach dem Ende der Beta weiter, ein kostenpflichtiges Angebot wäre optional, und eine Einstellung hat 90 Tage Vorlauf mit durchgehendem Export.",
+    note: "kostenlos · ohne Gewähr · 90 Tage",
+    path: "nutzungsbedingungen",
   },
   releases: {
     kicker: "Releases",

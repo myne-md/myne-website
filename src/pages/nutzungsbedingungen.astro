@@ -1,0 +1,264 @@
+---
+// Nutzungsbedingungen der Beta — example-org/operations#8. German version of
+// `terms.astro`, same document. Change one, change the other.
+//
+// The liability section is the one place where the German text is the
+// authoritative reading rather than a rendering of the English: it uses the
+// statutory categories (Vorsatz, grobe Fahrlässigkeit, Kardinalpflichten,
+// § 521 BGB for the gratuitous-service limitation) that a German court would
+// actually apply.
+import LandingLayout from "../layouts/LandingLayout.astro";
+import GlassNav from "../components/GlassNav.astro";
+import { absoluteOg } from "../lib/og";
+
+const title = "Nutzungsbedingungen der Beta — Myne";
+const description =
+  "Bedingungen für die kostenlose Myne-Beta: keine Zahlung, keine Gewährleistung, 250 MB Kontingent auf Anfrage erhöht — und die zwei Klauseln, auf die es ankommt: endgültiger Datenverlust und was nach dem Ende der Beta geschieht.";
+const canonical = new URL("/nutzungsbedingungen/", Astro.site!).toString();
+const ogImage = absoluteOg("nutzungsbedingungen", Astro.site!);
+
+const effective = "12. August 2026";
+
+const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const h2 =
+  "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
+const h3 =
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+const body =
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+const cardStyle =
+  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+const warnCard =
+  "border:1px solid rgba(255,255,255,0.16);border-radius:12px;padding:22px;background:#111;margin-top:22px;";
+
+const forbidden = [
+  "Speichern oder Verbreiten von Material, das an Ihrem Aufenthaltsort oder nach deutschem Recht rechtswidrig ist",
+  "Angriffe auf den Dienst — Überlastungsversuche, Zugriffsversuche auf fremde Konten, Umgehen von Kontingent und Ratenbegrenzung",
+  "Automatisiertes massenhaftes Anlegen von Konten",
+  "Weiterverkauf des gehosteten Dienstes als eigener Dienst",
+];
+---
+
+<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
+  <div
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+  >
+    <GlassNav active="legal" />
+
+    <section id="top" style="padding:128px 28px 70px;">
+      <div style="max-width:820px;margin:0 auto;">
+        <div class="mono up" style={eyebrow}>Rechtliches</div>
+        <h1
+          style="font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-0.03em;line-height:1.05;"
+        >
+          Nutzungsbedingungen der Beta
+        </h1>
+        <p style={body}>
+          Gültig ab {effective}. Diese Bedingungen gelten für die kostenlose Myne-Beta — den
+          gehosteten Synchronisationsdienst unter sync.myne.md, die Web-App unter app.example.com sowie
+          die Desktop- und Mobil-Anwendungen, die sie nutzen.
+        </p>
+
+        <div style={cardStyle}>
+          <div class="mono up" style={eyebrow}>Kurzfassung</div>
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+            Die Beta ist kostenlos und nimmt keine Zahlungen entgegen. Es gibt keine Gewährleistung
+            und keine Verfügbarkeitszusage — so junge Software geht kaputt. Verlieren Sie Ihr
+            Passwort und Ihre Wiederherstellungsphrase, sind Ihre Notizen endgültig verloren, und
+            niemand kann sie zurückholen. Endet die Beta, läuft Ihr Konto weiter; ein etwaiges
+            kostenpflichtiges Angebot wäre eine Wahl und keine Bedingung. Und sollte der Dienst
+            eingestellt werden, erhalten Sie 90 Tage Vorlauf, in denen der Export durchgehend
+            funktioniert.
+          </p>
+        </div>
+
+        <h2 style={h2}>Worum es sich handelt</h2>
+        <p style={body}>
+          Um einen kostenlosen, nicht gewerblichen Test von Software, die sich noch in der
+          Entwicklung befindet. Es wird keine Zahlung erhoben, es besteht kein Abonnement, und
+          nichts an diesem Dienst wird Ihnen verkauft. Das ist keine befristete Aktion, sondern die
+          Grundlage, auf der der Dienst derzeit angeboten wird — und vieles vom Folgenden beruht
+          darauf.
+        </p>
+        <p style={body}>
+          Die Nutzung setzt ein Mindestalter von 16 Jahren voraus. Das ist das Alter, ab dem eine
+          Einwilligung in die Datenverarbeitung nach deutschem Recht wirksam ist.
+        </p>
+
+        <h2 style={h2}>Ihr Konto</h2>
+        <p style={body}>
+          Ein Konto ist eine 20-stellige Nummer, die auf Ihrem Gerät erzeugt wird. Wir verlangen
+          keine E-Mail-Adresse, keinen Namen und keine Zahlungsdaten — was zugleich bedeutet, dass
+          wir Sie bei Zugangsverlust nicht identifizieren und nicht überprüfen können, ob eine
+          Person, die uns schreibt, Sie sind.
+        </p>
+        <p style={body}>
+          Für die Aufbewahrung Ihres Passworts und Ihrer Wiederherstellungsphrase sind Sie selbst
+          verantwortlich. Sie sind das Einzige, was Ihre Notizen öffnet.
+        </p>
+
+        <div style={warnCard}>
+          <div class="mono up" style={eyebrow}>Endgültiger Datenverlust</div>
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#e6e6e4;">
+            <strong
+              >Verlieren Sie Ihr Passwort und Ihre Wiederherstellungsphrase, lassen sich Ihre
+              Notizen nicht wiederherstellen. Weder von Ihnen noch von uns.</strong
+            >
+          </p>
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+            Das ist keine Beschränkung des Supports, die sich mit hinreichendem Nachdruck umgehen
+            ließe. Ihre Schlüssel werden auf Ihrem Gerät aus Geheimnissen abgeleitet, die uns nie
+            erreichen; bei uns liegt Chiffrat, zu dem wir keinen Schlüssel haben. Es gibt keinen
+            Zurücksetzen-Link, keine Sicherheitsfrage und keinen administrativen Notzugang — denn
+            einen zu bauen hieße, einen Schlüssel zu besitzen, und einen Schlüssel zu besitzen
+            hieße, Ihre Notizen lesen zu können und dazu verpflichtet werden zu können.
+          </p>
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+            Schreiben Sie Ihre Wiederherstellungsphrase auf und bewahren Sie sie sicher auf. Sie ist
+            der gesamte Notfallplan.
+          </p>
+        </div>
+
+        <h2 style={h2}>Keine Gewährleistung, keine Verfügbarkeitszusage</h2>
+        <p style={body}>
+          Der Dienst wird wie besehen bereitgestellt, ohne Gewährleistung jeder Art. Es gibt keine
+          Verfügbarkeitszusage, keine Supportzusage und keine Garantie, dass eine bestimmte Funktion
+          weiterhin so arbeitet wie heute. Durch einen Fehler verursachter Datenverlust ist möglich;
+          führen Sie eigene Sicherungen. Die App kann alles exportieren, was Sie haben, und dies
+          gelegentlich zu tun, ist während einer Beta eine vernünftige Gewohnheit.
+        </p>
+
+        <h2 style={h2}>Kontingent und Grenzen</h2>
+        <p style={body}>
+          Jedes Konto erhält 250 MB verschlüsselten Speicherplatz. Auf Anfrage erhöhen wir ihn
+          kostenlos — schreiben Sie an
+          <a href="mailto:hello@myne.md" style="color:#8aa4d0;">hello@myne.md</a>. Die Zahl der
+          Konten, die der Dienst annimmt, ist nicht begrenzt.
+        </p>
+        <p style={body}>
+          Ratenbegrenzungen gelten je Konto und dienen der Verfügbarkeit. Sie sind kein
+          Abrechnungsinstrument, und es gibt nichts, womit man sich an ihnen vorbeikaufen könnte.
+        </p>
+
+        <h2 style={h2}>Was nicht zulässig ist</h2>
+        <ul style={body + "padding-left:20px;"}>
+          {forbidden.map((x) => <li style="margin-top:8px;">{x}</li>)}
+        </ul>
+
+        <h3 style={h3}>Wie Moderation hier tatsächlich funktioniert</h3>
+        <p style={body}>
+          <strong style="color:#e6e6e4;"
+            >Wir können Ihre Inhalte nicht sehen und filtern sie deshalb nicht vorab — und wir
+            könnten es auch nicht, wenn wir es wollten.</strong
+          > Es findet kein Scannen statt, keine automatisierte Prüfung und keine proaktive Erkennung
+          von irgendetwas, weil alles hier Gespeicherte mit Schlüsseln verschlüsselt ist, die wir nicht
+          besitzen.
+        </p>
+        <p style={body}>
+          Erreicht uns eine begründete Meldung, können wir auf Kontoebene handeln: das Konto sperren
+          oder löschen. Wir können nicht eine einzelne Notiz entfernen und die übrigen belassen,
+          weil wir sie nicht voneinander unterscheiden können. Das Meldeverfahren steht auf der
+          Seite <a href="/meldung/" style="color:#8aa4d0;">Rechtswidrige Inhalte melden</a>.
+        </p>
+        <p style={body}>
+          Wir können ein Konto sperren oder löschen, das für etwas aus der vorstehenden Liste
+          genutzt wird oder wenn eine rechtliche Verpflichtung dies verlangt. Eine Sperre verhindert
+          das Schreiben und lässt das Lesen unberührt — ein gesperrtes Konto kann also weiterhin
+          exportiert werden.
+        </p>
+
+        <h2 style={h2}>Wenn die Beta endet</h2>
+        <p style={body}>
+          <strong style="color:#e6e6e4;">Ihr Konto läuft weiter.</strong> Das Ende der Beta ist kein
+          Ablaufdatum: Konten und ihre Daten bestehen unverändert fort. Sollte später ein kostenpflichtiges
+          Angebot entstehen, ist es eine Option, die Sie annehmen oder ausschlagen können — keine Schranke,
+          die sich vor bereits vorhandenen Daten schließt.
+        </p>
+        <p style={body}>
+          Wir halten das ausdrücklich fest, weil Menschen das Gegenteil erlebt haben. Als 2024 ein
+          bekannter verschlüsselter Dienst eingestellt wurde, stellten seine Nutzerinnen und Nutzer
+          fest, dass ihnen die Bedingungen überhaupt nichts zugesagt hatten.
+        </p>
+
+        <h2 style={h2}>Wenn der Dienst eingestellt wird</h2>
+        <p style={body}>
+          Sollten wir den gehosteten Dienst je einstellen, erhalten Sie
+          <strong style="color:#e6e6e4;">mindestens 90 Tage Vorlauf</strong>. Während dieser Zeit
+          bleibt der Dienst erreichbar und der Export funktioniert durchgehend, sodass Sie Ihre
+          Notizen mitnehmen können.
+        </p>
+        <p style={body}>
+          Auch danach sitzen Sie nicht fest: Der Server ist
+          <a href="https://github.com/myne-md" rel="noopener" style="color:#8aa4d0;">quelloffen</a>
+          unter der AGPL, und der Client kann auf jeden von Ihnen betriebenen Server zeigen. Eine
+          Einstellung auf unserer Seite beendet unser Hosting, nicht Ihre Möglichkeit, Myne zu
+          nutzen.
+        </p>
+
+        <h2 style={h2}>Spenden</h2>
+        <p style={body}>
+          Spenden sind willkommen und erkaufen nichts. Spendende erhalten kein Abzeichen, keinen
+          Vorabzugang, keinen bevorzugten Support, keinen zusätzlichen Speicherplatz und keinen
+          Einfluss darauf, was gebaut wird. Der Dienst ist für alle identisch, ob gespendet wurde
+          oder nicht.
+        </p>
+        <p style={body}>
+          Das ist Absicht und es ist die Grenze, die eine Spende eine Spende bleiben lässt. In dem
+          Augenblick, in dem ein Beitrag eine Gegenleistung erkaufte, wäre er keine Zuwendung mehr,
+          sondern ein Kauf — mit allem, was daraus folgt.
+        </p>
+
+        <h2 style={h2}>Haftung</h2>
+        <p style={body}>
+          Wir haften für Vorsatz und grobe Fahrlässigkeit sowie für die Verletzung von Leben, Körper
+          und Gesundheit nach den gesetzlichen Vorschriften. Für einfache Fahrlässigkeit haften wir
+          nur bei Verletzung einer Pflicht, deren Erfüllung die ordnungsgemäße Durchführung dieses
+          Vertrags überhaupt erst ermöglicht und auf deren Einhaltung Sie regelmäßig vertrauen
+          dürfen (Kardinalpflicht), und der Höhe nach begrenzt auf den bei Vertragsschluss
+          typischerweise vorhersehbaren Schaden.
+        </p>
+        <p style={body}>
+          Da der Dienst unentgeltlich bereitgestellt wird, gilt darüber hinaus die gesetzliche
+          Haftungsmilderung für unentgeltliche Leistungen (§ 521 BGB entsprechend): Die Haftung ist
+          auf Vorsatz und grobe Fahrlässigkeit beschränkt. Nichts in diesen Bedingungen soll über
+          das hinausgehen, was das Gesetz vorsieht.
+        </p>
+        <p style={body}>
+          Die zwingende gesetzliche Haftung, einschließlich der Haftung nach dem
+          Produkthaftungsgesetz, bleibt unberührt.
+        </p>
+
+        <h2 style={h2}>Beendigung</h2>
+        <p style={body}>
+          Sie können Ihr Konto jederzeit aus der App heraus löschen. Dabei werden Vault, Anhänge,
+          Geräteregister und Anmelde-Verifier entfernt; die Sicherungen folgen binnen 14 Tagen. Es
+          gibt nichts zu kündigen und nichts zu bezahlen.
+        </p>
+
+        <h2 style={h2}>Änderungen dieser Bedingungen</h2>
+        <p style={body}>
+          Ändern sich diese Bedingungen in einer Weise, die Sie betrifft, zeigen die Anwendungen
+          Ihnen die neue Fassung, statt die Seite still auszutauschen. Jede Fassung trägt ihr
+          Gültigkeitsdatum, und der vorherige Text bleibt in der öffentlichen Versionsgeschichte der
+          Website.
+        </p>
+
+        <h2 style={h2}>Anwendbares Recht</h2>
+        <p style={body}>
+          Es gilt deutsches Recht unter Ausschluss seiner Kollisionsnormen. Sind Sie
+          Verbraucherin oder Verbraucher, bleibt Ihnen der Schutz zwingender Vorschriften des Rechts
+          Ihres gewöhnlichen Aufenthaltsorts erhalten.
+        </p>
+        <p style={body}>
+          Fragen: <a href="mailto:hello@myne.md" style="color:#8aa4d0;">hello@myne.md</a>. Wie wir
+          mit Daten umgehen, steht in der
+          <a href="/datenschutz/" style="color:#8aa4d0;">Datenschutzerklärung</a>.
+        </p>
+
+        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
+          English version: <a href="/terms/" style="color:#8aa4d0;">Beta Terms</a>.
+        </p>
+      </div>
+    </section>
+  </div>
+</LandingLayout>

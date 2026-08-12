@@ -1,0 +1,227 @@
+---
+// Behördenanfragen — example-org/operations#11. German version of
+// `law-enforcement.astro`, and the same document: same inventory, same legal
+// reasoning, same admissions. Change one, change the other in the same commit.
+//
+// This is the version most likely to be read by the actual reader — a German
+// authority applying German law — so its terms are the statutory ones
+// (Bestandsdaten, Zugangsdaten) rather than translations of translations.
+import LandingLayout from "../layouts/LandingLayout.astro";
+import GlassNav from "../components/GlassNav.astro";
+import { absoluteOg } from "../lib/og";
+
+const title = "Behördenanfragen — Myne";
+const description =
+  "Was Myne auf eine behördliche Anfrage hin herausgeben kann und was nicht: ein Konto-Hash, ein Anmelde-Verifier, Zähler und Chiffrat, zu dem wir keinen Schlüssel haben. Keine E-Mail, kein Name, keine IP-Adresse, keine lesbaren Inhalte.";
+const canonical = new URL("/behoerdenanfragen/", Astro.site!).toString();
+const ogImage = absoluteOg("behoerdenanfragen", Astro.site!);
+
+const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const h2 =
+  "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
+const h3 =
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+const body =
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+const cardStyle =
+  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+const tableWrap = "margin-top:22px;overflow-x:auto;";
+const table =
+  "width:100%;border-collapse:collapse;font-size:14px;line-height:1.6;min-width:560px;";
+const th =
+  "text-align:left;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.14);color:#e6e6e4;font-weight:650;white-space:nowrap;";
+const td =
+  "padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);color:#8a8a86;vertical-align:top;";
+const tdEm = td + "color:#e6e6e4;white-space:nowrap;";
+
+const have = [
+  ["account_number_hash", "Ein 16-Byte-Hash. Nicht die Kontonummer selbst."],
+  [
+    "SCRAM-Verifier",
+    "Wogegen eine Anmeldung geprüft wird. Kein Passwort und nicht in eines zurückrechenbar.",
+  ],
+  [
+    "Verschlüsselte Blobs",
+    "Notizen und Anhänge als Chiffrat. Wir besitzen keinen Schlüssel. Eine Herausgabe ist nur in dieser Form möglich.",
+  ],
+  [
+    "Geräteregister",
+    "Ein Eintrag je angemeldetem Gerät: eine clientseitig erzeugte Gerätekennung sowie Anmelde- und Aktivitätszustand. Keine Gerätenamen, keine Hardware-Kennungen, keine Adressen.",
+  ],
+  ["Zähler", "Gespeicherte Bytes, Anzahl der Geräte."],
+  [
+    "Kontorichtlinie",
+    "Ein Sperrkennzeichen sowie kontenbezogene Grenzen für Speicherplatz oder Gerätezahl. Serverseitiger Klartext.",
+  ],
+];
+
+const haveNot = [
+  "E-Mail-Adresse — bei der Anmeldung wird keine erhoben, es gibt kein Feld dafür",
+  "Name, Anschrift, Telefonnummer",
+  "Zahlungsdaten — der Dienst erhebt keine",
+  "IP-Adressen — werden auf keiner Ebene dauerhaft protokolliert",
+  "Verbindungsprotokolle, Zugriffszeitpunkte, Sitzungsverläufe",
+  "Lesbare Inhalte — Notiztext, Titel, Ordnernamen, Schlagwörter",
+  "Zeitangaben mit Aussagekraft — sie existieren nur innerhalb des Chiffrats",
+];
+---
+
+<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
+  <div
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+  >
+    <GlassNav active="legal" />
+
+    <section id="top" style="padding:128px 28px 70px;">
+      <div style="max-width:820px;margin:0 auto;">
+        <div class="mono up" style={eyebrow}>Rechtliches</div>
+        <h1
+          style="font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-0.03em;line-height:1.05;"
+        >
+          Behördenanfragen
+        </h1>
+        <p style={body}>
+          Diese Seite richtet sich an Behörden und deren Bevollmächtigte. Sie legt dar, was bei uns
+          vorhanden ist, was nicht, und was eine Anfrage folglich erbringen kann — damit eine
+          Anfrage an dem ausgerichtet werden kann, was existiert, statt an dem, was man bei einem
+          Notizdienst üblicherweise vermutet.
+        </p>
+
+        <div style={cardStyle}>
+          <div class="mono up" style={eyebrow}>Kontakt</div>
+          <p style="margin:0;font-size:15px;line-height:1.7;color:#8a8a86;">
+            <a href="mailto:legal@myne.md" style="color:#8aa4d0;">legal@myne.md</a> — auf Deutsch oder
+            Englisch. Anfragen werden elektronisch entgegengenommen; eine postalische Übersendung ist
+            nicht erforderlich. Bitte nennen Sie die Rechtsgrundlage, auf die Sie sich stützen, sowie
+            das Ihnen vorliegende Kontokennzeichen.
+          </p>
+        </div>
+
+        <h2 style={h2}>Was herausgegeben werden kann</h2>
+        <p style={body}>
+          Myne ist Ende-zu-Ende-verschlüsselt: Inhalte werden auf dem Gerät der Nutzerin oder des
+          Nutzers mit Schlüsseln verschlüsselt, die aus einem Passwort abgeleitet werden, das allein
+          dort vorliegt; diese Schlüssel erreichen den Server nie. Auf unserer Seite verbleibt
+          Folgendes — vollständig:
+        </p>
+
+        <div style={tableWrap}>
+          <table style={table}>
+            <thead>
+              <tr>
+                <th style={th}>Was</th>
+                <th style={th}>Worum es sich handelt</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                have.map(([what, desc]) => (
+                  <tr>
+                    <td style={tdEm}>{what}</td>
+                    <td style={td}>{desc}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <h2 style={h2}>Was nicht existiert</h2>
+        <p style={body}>
+          Das Folgende wird nicht zurückgehalten — es ist nicht vorhanden. Kein Verfahren, keine
+          gerichtliche Anordnung und keine technische Maßnahme auf unserer Seite kann es
+          hervorbringen, weil es gar nicht erst entsteht:
+        </p>
+        <ul style={body + "padding-left:20px;"}>
+          {haveNot.map((x) => <li style="margin-top:8px;">{x}</li>)}
+        </ul>
+        <p style={body}>
+          Mehreres davon folgt aus der Bauweise und nicht aus einer Richtlinie; es lässt sich durch
+          eine Meinungsänderung unsererseits nicht umkehren. Die Registrierung erhebt keine
+          E-Mail-Adresse, weil der Ablauf keinen solchen Schritt kennt. Die Ratenbegrenzung arbeitet
+          mit kontenbezogenen Zählern, weil der Server die Adresse, von der eine Anfrage kam, nicht
+          aufbewahrt. Die Zeitangaben der Nutzerin oder des Nutzers liegen im verschlüsselten Blob —
+          kein Betreiber kann lesen, wann etwas geschrieben wurde.
+        </p>
+
+        <h2 style={h2}>Rechtsgrundlagen und ihre Reichweite</h2>
+
+        <h3 style={h3}>§ 22 TDDDG — Bestandsdaten</h3>
+        <p style={body}>
+          Ein Auskunftsverlangen nach § 22 TDDDG ist schriftlich oder elektronisch zu stellen. In
+          einem strafrechtlichen Ermittlungsverfahren sind hinreichende tatsächliche Anhaltspunkte
+          erforderlich; eine gerichtliche Anordnung ist für diese Vorschrift keine Voraussetzung.
+          Soweit die verlangten Daten vorhanden sind, werden sie unverzüglich und vollständig
+          übermittelt.
+        </p>
+        <p style={body}>
+          <strong style="color:#e6e6e4;">§ 22 begründet keine Erhebungspflicht.</strong> Die Vorschrift
+          regelt die Auskunft über Bestandsdaten, die ein Anbieter vorhält. Sie verpflichtet nicht dazu,
+          Daten künftig zu erheben, die nicht erhoben werden, und sie kann Daten nicht erreichen, die
+          nie entstanden sind. Praktisch bedeutet das: Ein Verlangen nach § 22 gegen ein Myne-Konto erbringt
+          den Konto-Hash, das Geräteregister, die Zähler und die Richtlinienkennzeichen — und nichts, was
+          einer Identität ähnelte, weil keine hinterlegt ist.
+        </p>
+
+        <h3 style={h3}>§ 23 TDDDG — Passwörter und Zugangsdaten</h3>
+        <p style={body}>
+          § 23 erfasst Zugangsdaten, und dies nur für die in § 100b StPO katalogisierten besonders
+          schweren Straftaten sowie auf gerichtliche Anordnung. Zweierlei begrenzt hier, was die
+          Vorschrift erbringen kann. Erstens liegt uns kein Passwort vor: Gespeichert ist ein
+          SCRAM-Verifier, der eine Anmeldung authentifiziert und sich nicht in das Geheimnis
+          zurückrechnen lässt, das ihn erfüllt. Zweitens lässt die Vorschrift die Verschlüsselung
+          ausdrücklich unberührt — <em>eine Verschlüsselung der Daten bleibt unberührt</em>. Eine
+          Anordnung nach § 23 wird dadurch nicht zu einer Anordnung zur Entschlüsselung.
+        </p>
+
+        <h3 style={h3}>Entschlüsselung</h3>
+        <p style={body}>
+          Eine Rechtsgrundlage, die einen Anbieter verpflichtete, die Verschlüsselung des eigenen
+          Dienstes zu brechen, besteht im deutschen Recht nicht — und hier erledigt sich die Frage
+          bereits vor der rechtlichen Prüfung: Die Schlüssel werden auf dem Gerät aus einem
+          Geheimnis abgeleitet, über das allein die Nutzerin oder der Nutzer verfügt, und keine
+          Kopie erreicht uns. Wir können die Daten weder auf Ersuchen noch auf Anordnung noch aus
+          eigenem Entschluss entschlüsseln.
+        </p>
+        <p style={body}>
+          Verschlüsselte Daten werden daher in verschlüsselter Form herausgegeben. Verlangt eine
+          Anordnung die Herausgabe, so können wir das Chiffrat genau so übergeben, wie es auf dem
+          Datenträger liegt.
+        </p>
+
+        <h2 style={h2}>Bearbeitung einer Anfrage</h2>
+        <p style={body}>
+          Jede Anfrage wird anhand der einschlägigen Vorschrift geprüft und in deren Rahmen
+          beantwortet. Soweit vorhandene Daten verlangt werden, werden sie herausgegeben. Soweit
+          nicht vorhandene Daten verlangt werden, teilen wir dies klar mit und begründen es — diese
+          Seite ist die ausführliche Fassung jener Antwort.
+        </p>
+        <p style={body}>
+          Wir benachrichtigen betroffene Nutzerinnen und Nutzer, soweit uns dies gestattet ist und
+          soweit ein Weg besteht, sie zu erreichen. Beide Bedingungen sind hier bedeutsam: Ohne
+          hinterlegte E-Mail-Adresse besteht häufig überhaupt kein Weg — eine Folge davon, nichts zu
+          erheben, und keine Entscheidung zu schweigen.
+        </p>
+        <p style={body}>
+          Eilanfragen bei Gefahr für Leib oder Leben werden vorrangig bearbeitet. Schreiben Sie an
+          die oben genannte Adresse und weisen Sie im Betreff darauf hin.
+        </p>
+
+        <h2 style={h2}>Selbst betriebene Installationen</h2>
+        <p style={body}>
+          Myne lässt sich selbst betreiben, und die Serversoftware ist quelloffen. Liegt ein Konto
+          auf dem Server einer anderen Person, sind wir nicht der Anbieter und halten überhaupt
+          nichts vor — weder das Chiffrat noch den Konto-Hash noch die Tatsache, dass das Konto
+          existiert. Anfragen zu solchen Konten sind an die Betreiberin oder den Betreiber jener
+          Installation zu richten.
+        </p>
+
+        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
+          English version: <a href="/law-enforcement/" style="color:#8aa4d0;">Law Enforcement
+            Requests</a
+          >. Siehe auch die <a href="/datenschutz/" style="color:#8aa4d0;">Datenschutzerklärung</a>.
+        </p>
+      </div>
+    </section>
+  </div>
+</LandingLayout>

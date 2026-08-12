@@ -1,0 +1,220 @@
+---
+// Law-enforcement and official data requests — example-org/operations#11.
+//
+// The page exists to answer most requests before they are sent. Its spine is
+// the "what we never have" list from the privacy policy, which is in turn the
+// Art. 30 record (`operations/legal/vvt.md` §5) — the same inventory, stated to
+// a different reader. If those three ever disagree, this page is the one most
+// likely to be read under time pressure by someone with a legal instrument,
+// so it is the one that must not drift.
+//
+// It states law, and therefore it states law carefully: what a provision
+// obliges, and what it does not. Overstating our obligations would invite
+// requests we cannot answer; understating them would be worse.
+//
+// German version: `behoerdenanfragen.astro`. Same document.
+import LandingLayout from "../layouts/LandingLayout.astro";
+import GlassNav from "../components/GlassNav.astro";
+import { absoluteOg } from "../lib/og";
+
+const title = "Law Enforcement Requests — Myne";
+const description =
+  "What Myne can and cannot produce in response to an official request: an account hash, a login verifier, counters and ciphertext we hold no key to. No email, no name, no IP address, no readable content.";
+const canonical = new URL("/law-enforcement/", Astro.site!).toString();
+const ogImage = absoluteOg("law-enforcement", Astro.site!);
+
+const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const h2 =
+  "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
+const h3 =
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+const body =
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+const cardStyle =
+  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+const tableWrap = "margin-top:22px;overflow-x:auto;";
+const table =
+  "width:100%;border-collapse:collapse;font-size:14px;line-height:1.6;min-width:560px;";
+const th =
+  "text-align:left;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.14);color:#e6e6e4;font-weight:650;white-space:nowrap;";
+const td =
+  "padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);color:#8a8a86;vertical-align:top;";
+const tdEm = td + "color:#e6e6e4;white-space:nowrap;";
+
+const have = [
+  ["account_number_hash", "A 16-byte hash. Not the account number itself."],
+  [
+    "SCRAM verifier",
+    "What a login is checked against. Not a password, and not reversible into one.",
+  ],
+  [
+    "Encrypted blobs",
+    "Notes and attachments as ciphertext. We hold no key. Producible only in that form.",
+  ],
+  [
+    "Device registry",
+    "One record per enrolled device: a client-generated device id and enrolment/activity state. No device names, no hardware identifiers, no addresses.",
+  ],
+  ["Counters", "Total bytes stored, number of devices."],
+  [
+    "Account policy",
+    "A freeze flag and any per-account storage or device limit. Server-side plain text.",
+  ],
+];
+
+const haveNot = [
+  "Email address — none is collected at signup, and there is no field for one",
+  "Name, postal address, telephone number",
+  "Payment details — the service takes none",
+  "IP addresses — not logged, in any persisted form, at any layer",
+  "Connection logs, access times, session history",
+  "Readable content — note text, titles, folder names, tags",
+  "Timestamps that mean anything — they exist only inside the ciphertext",
+];
+---
+
+<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
+  <div
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+  >
+    <GlassNav active="legal" />
+
+    <section id="top" style="padding:128px 28px 70px;">
+      <div style="max-width:820px;margin:0 auto;">
+        <div class="mono up" style={eyebrow}>Legal</div>
+        <h1
+          style="font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-0.03em;line-height:1.05;"
+        >
+          Law Enforcement Requests
+        </h1>
+        <p style={body}>
+          This page is for authorities and their counsel. It sets out what we hold, what we do not,
+          and what a request can therefore produce — so that a request can be framed against what
+          exists rather than against what a notes service is usually assumed to have.
+        </p>
+
+        <div style={cardStyle}>
+          <div class="mono up" style={eyebrow}>Where to write</div>
+          <p style="margin:0;font-size:15px;line-height:1.7;color:#8a8a86;">
+            <a href="mailto:legal@myne.md" style="color:#8aa4d0;">legal@myne.md</a> — in German or English.
+            Requests are accepted electronically; there is no requirement to post paper. Please include
+            the legal basis you are relying on and the account identifier you have.
+          </p>
+        </div>
+
+        <h2 style={h2}>What we can produce</h2>
+        <p style={body}>
+          Myne is end-to-end encrypted: content is encrypted on the user's device with keys derived
+          from a password the user holds, and those keys never reach the server. What remains on our
+          side is the following, in full:
+        </p>
+
+        <div style={tableWrap}>
+          <table style={table}>
+            <thead>
+              <tr>
+                <th style={th}>What</th>
+                <th style={th}>What it is</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                have.map(([what, desc]) => (
+                  <tr>
+                    <td style={tdEm}>{what}</td>
+                    <td style={td}>{desc}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <h2 style={h2}>What does not exist</h2>
+        <p style={body}>
+          These are not withheld — they are absent. No process, court order or technical measure on
+          our side can produce them, because nothing generates them in the first place:
+        </p>
+        <ul style={body + "padding-left:20px;"}>
+          {haveNot.map((x) => <li style="margin-top:8px;">{x}</li>)}
+        </ul>
+        <p style={body}>
+          Several of these are consequences of the architecture rather than of policy, and cannot be
+          reversed by a change of mind on our part. Registration collects no email because the flow
+          has no such step. Rate limiting operates on per-account counters because the server does
+          not retain the address a request arrived from. A user's own timestamps sit inside the
+          encrypted blob, so no operator can read when anything was written.
+        </p>
+
+        <h2 style={h2}>Legal basis, and what each one reaches</h2>
+
+        <h3 style={h3}>§ 22 TDDDG — subscriber data</h3>
+        <p style={body}>
+          A request under § 22 TDDDG must be made in writing or electronically. In a criminal
+          investigation it requires sufficient factual grounds; a court order is not a precondition
+          of this provision. Where the requested data exists, it is transmitted without undue delay
+          and in full.
+        </p>
+        <p style={body}>
+          <strong style="color:#e6e6e4;">§ 22 does not create a duty to collect.</strong> It governs
+          disclosure of subscriber data a provider holds. It does not require a provider to begin holding
+          data it does not hold, and it cannot reach data that was never generated. In practice this means
+          a § 22 request against a Myne account produces the account hash, the device registry, the counters
+          and the policy flags — and nothing resembling an identity, because none is on file.
+        </p>
+
+        <h3 style={h3}>§ 23 TDDDG — passwords and access credentials</h3>
+        <p style={body}>
+          § 23 reaches access credentials, and only for the serious offences catalogued in § 100b
+          StPO, on a court order. Two things bound what it can produce here. First, we hold no
+          password: what is stored is a SCRAM verifier, which authenticates a login and cannot be
+          turned back into the credential that satisfies it. Second, the provision itself leaves
+          encryption untouched — <em>eine Verschlüsselung der Daten bleibt unberührt</em>. An order
+          under § 23 does not become an order to decrypt.
+        </p>
+
+        <h3 style={h3}>Decryption</h3>
+        <p style={body}>
+          There is no basis in German law that obliges a provider to break the encryption of its own
+          service, and in this case the question is moot before it is legal: the keys are derived on
+          the user's device from a secret the user holds, and no copy reaches us. We cannot decrypt
+          the data on request, on order, or of our own volition.
+        </p>
+        <p style={body}>
+          Encrypted data is therefore produced in encrypted form. If an order requires production,
+          what we can hand over is the ciphertext exactly as it sits on disk.
+        </p>
+
+        <h2 style={h2}>How we handle a request</h2>
+        <p style={body}>
+          Each request is reviewed against the applicable provision and answered on its terms. Where
+          a request seeks data that exists, it is produced. Where it seeks data that does not exist,
+          we say so plainly and explain why — this page is the long form of that answer.
+        </p>
+        <p style={body}>
+          We notify the affected user where we are permitted to do so and where a channel exists to
+          reach them. Both conditions matter here: with no email address on file, there is often no
+          channel at all, which is a consequence of collecting nothing rather than a decision to
+          stay silent.
+        </p>
+        <p style={body}>
+          Emergency requests involving a risk to life or physical safety are handled with priority.
+          Write to the address above and say so in the subject line.
+        </p>
+
+        <h2 style={h2}>Self-hosted deployments</h2>
+        <p style={body}>
+          Myne can be self-hosted, and the server software is open source. Where an account lives on
+          someone else's server, we are not the provider and hold nothing at all — not the ciphertext,
+          not the account hash, not the fact that the account exists. Requests about such accounts
+          have to reach the operator of that deployment.
+        </p>
+
+        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
+          Deutsche Fassung: <a href="/behoerdenanfragen/" style="color:#8aa4d0;">Behördenanfragen</a
+          >. See also the <a href="/privacy/" style="color:#8aa4d0;">Privacy Policy</a>.
+        </p>
+      </div>
+    </section>
+  </div>
+</LandingLayout>

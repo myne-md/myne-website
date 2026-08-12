@@ -210,7 +210,9 @@ export type OgKey =
   | "ledger"
   | "guide"
   | "privacy"
-  | "datenschutz";
+  | "datenschutz"
+  | "law-enforcement"
+  | "behoerdenanfragen";
 
 interface PageOg {
   kicker: string;
@@ -281,6 +283,25 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
       "Keine E-Mail bei der Anmeldung, keine IP-Protokolle, keine Analyse, keine Drittanbieter — und eine Tabelle jeder einzelnen Netzverbindung. Gelöschte Konten verschwinden binnen 14 Tagen aus der letzten Sicherung.",
     note: "vollständig benannt",
     path: "datenschutz",
+  },
+  // The law-enforcement card leads with the absence, because that is the
+  // finding a requesting authority most needs before drafting: the data is
+  // not withheld, it does not exist.
+  "law-enforcement": {
+    kicker: "Law enforcement",
+    title: "We cannot decrypt it.",
+    description:
+      "What an official request can produce: an account hash, a login verifier, counters and ciphertext. No email, no name, no IP address, no readable content — not withheld, absent.",
+    note: "§ 22 · § 23 TDDDG",
+    path: "law-enforcement",
+  },
+  behoerdenanfragen: {
+    kicker: "Behördenanfragen",
+    title: "Wir können nicht entschlüsseln.",
+    description:
+      "Was eine behördliche Anfrage erbringen kann: ein Konto-Hash, ein Anmelde-Verifier, Zähler und Chiffrat. Keine E-Mail, kein Name, keine IP-Adresse, keine lesbaren Inhalte — nicht zurückgehalten, sondern nicht vorhanden.",
+    note: "§ 22 · § 23 TDDDG",
+    path: "behoerdenanfragen",
   },
   releases: {
     kicker: "Releases",

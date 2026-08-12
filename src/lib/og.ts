@@ -212,7 +212,9 @@ export type OgKey =
   | "privacy"
   | "datenschutz"
   | "law-enforcement"
-  | "behoerdenanfragen";
+  | "behoerdenanfragen"
+  | "notice"
+  | "meldung";
 
 interface PageOg {
   kicker: string;
@@ -302,6 +304,25 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
       "Was eine behördliche Anfrage erbringen kann: ein Konto-Hash, ein Anmelde-Verifier, Zähler und Chiffrat. Keine E-Mail, kein Name, keine IP-Adresse, keine lesbaren Inhalte — nicht zurückgehalten, sondern nicht vorhanden.",
     note: "§ 22 · § 23 TDDDG",
     path: "behoerdenanfragen",
+  },
+  // The notice card leads with the limitation rather than the mechanism,
+  // because a reporter who expects us to look at the content needs to know
+  // first that we cannot.
+  notice: {
+    kicker: "Report content",
+    title: "We cannot see it. Tell us.",
+    description:
+      "Notice and action under Art. 16 DSA. We cannot read what people store, so we cannot screen it — a substantiated notice is the only way anything reaches us. Nothing here is shared or published.",
+    note: "abuse@myne.md",
+    path: "notice",
+  },
+  meldung: {
+    kicker: "Inhalte melden",
+    title: "Wir sehen es nicht. Sagen Sie es uns.",
+    description:
+      "Melde- und Abhilfeverfahren nach Art. 16 DSA. Wir können nicht lesen, was Menschen speichern, und daher nicht prüfen — eine begründete Meldung ist der einzige Weg zu uns. Nichts hier wird geteilt oder veröffentlicht.",
+    note: "abuse@myne.md",
+    path: "meldung",
   },
   releases: {
     kicker: "Releases",

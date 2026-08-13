@@ -1,7 +1,7 @@
 ---
 title: "HTML and inline extras"
 category: "markdown"
-updated: 2026-07-31
+updated: 2026-08-13
 summary: "The inline extras Myne supports beyond standard markdown (selected inline HTML, highlights, tags, and inline comments) and how each one renders."
 tags: ["markdown", "tags"]
 ---
@@ -13,9 +13,11 @@ Beyond the core syntax, Myne adds a few inline extras: highlights, subscript and
 - `==highlight==` renders as a highlighted span in the default yellow.
 - `~text~` renders as subscript, `^text^` as superscript (single run, no spaces, as in `H~2~O`, `x^2^`).
 
-Highlights come in thirteen colors. The default yellow is what `==highlight==` produces. For the other twelve — green, blue, pink, purple, orange, red, teal, cyan, lime, brown, grey, and indigo — write a `<mark>` with one of the highlight classes: `<mark class="hl-green">…</mark>`, and likewise `hl-blue`, `hl-pink`, `hl-purple`, `hl-orange`, `hl-red`, `hl-teal`, `hl-cyan`, `hl-lime`, `hl-brown`, `hl-grey`, and `hl-indigo` (the default yellow is `hl-yellow`). The toolbar's highlight control applies the same thing: a plain click gives the default yellow, byte-identical to `==…==`, and the caret opens the thirteen-color row.
+Highlights come in thirteen colors. The default yellow is what `==highlight==` produces. For the other twelve — green, blue, pink, purple, orange, red, teal, cyan, lime, brown, grey, and indigo — write a `<mark>` with one of the highlight classes: `<mark class="hl-green">…</mark>`, and likewise `hl-blue`, `hl-pink`, `hl-purple`, `hl-orange`, `hl-red`, `hl-teal`, `hl-cyan`, `hl-lime`, `hl-brown`, `hl-grey`, and `hl-indigo` (the default yellow is `hl-yellow`). The toolbar's highlight control does the same thing: a plain click gives the default yellow, byte-identical to `==…==`, and the caret opens the thirteen-color row. With the cursor already inside a highlight the control shows that highlight's colour, and the row recolours it, swaps it to or from yellow, or removes it with **Remove highlight**.
 
 The highlight classes are a closed set: `hl-yellow`, `hl-green`, `hl-blue`, `hl-pink`, `hl-purple`, `hl-orange`, `hl-red`, `hl-teal`, `hl-cyan`, `hl-lime`, `hl-brown`, `hl-grey`, `hl-indigo`. A `class` survives only when it is exactly one of these tokens on a `<mark>`. Any other class — a different name, more than one token, or `class` on another tag — is stripped from the rendered output. Stripping a class never changes the bytes saved in your note; only what is drawn changes.
+
+Putting the cursor in a colored highlight shows it as `==text==`, the same as a yellow one, rather than as the `<mark>` tag. That is only what is drawn — your file still holds the `<mark class="hl-…">` you wrote.
 
 ## Emoji
 
@@ -42,7 +44,9 @@ A tag you write in the body renders as a `#tag` chip you can click: clicking the
 
 ## Inline comments
 
-Wrap text in `%%…%%` to mark it as a comment: `%%note to self%%`. A comment is part of your note's text — it stays in the saved file — but it is omitted from the rendered output and from projections like the document word count. An unterminated `%%` is not a comment, so it is left as ordinary text. Comments are covered in full in [Comments](/user-guide/editor-and-writing/comments/).
+Wrap text in `%%…%%` to mark it as a comment: `%%note to self%%`. A comment is part of your note's text — it stays in the saved file — but it is omitted from the rendered output and from projections like the document word count.
+
+A comment can also span lines: a line that starts with `%%` opens one, and it runs until the next `%%`, which may sit on a line of its own. Termination is required in both forms — a `%%` with no closer is not a comment, so it is left as ordinary text and nothing is hidden by accident. Comments are covered in full in [Comments](/user-guide/editor-and-writing/comments/).
 
 ## Limits
 

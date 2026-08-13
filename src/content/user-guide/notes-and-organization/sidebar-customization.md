@@ -1,20 +1,22 @@
 ---
 title: "Customizing the sidebar"
 category: "notes-and-organization"
-updated: 2026-07-11
-summary: "How to customize the sidebar and the bottom bar: sort order, which sections are visible, reordering the bottom-bar items, and how to adjust the layout to match the way you navigate your vault."
+updated: 2026-08-13
+summary: "How to customize the sidebar and the bottom bar: reordering and re-nesting notes and folders by drag or from the folder menu, which sections are visible, reordering the bottom-bar items, and how to adjust the layout to match the way you navigate your vault."
 tags: ["sidebar", "workspace"]
 ---
 
-The sidebar is yours to arrange. You can set the order of notes and folders by hand, keep empty folders as structure, and collapse what you are not using. The bottom bar can be rearranged too. This article covers what you can change and the one current boundary.
+The sidebar is yours to arrange. You can set the order of notes and folders by hand, move a folder inside another one, keep empty folders as structure, and collapse what you are not using. The bottom bar can be rearranged too. This article covers what you can change and what Myne refuses.
 
 ![The note sidebar showing folders, loose notes, and the Trash footer.](./sidebar-customization.png)
 
 ## Reordering by hand
 
-Drag notes and folders to set their order in the sidebar. The order you set is saved with your vault, so the tree stays the way you arranged it. You can also drag a note **into** a folder to file it there.
+Drag notes and folders to set their order in the sidebar. The order you set is saved with your vault, so the tree stays the way you arranged it. You can also drag a note **into** a folder to file it there. Each folder keeps its own order: with sync on, rearranging one folder on one device and a different folder on another leaves both arrangements intact — the two do not race each other.
 
-One boundary: reordering keeps a folder **within its current parent**. You can sort folders among their siblings, but dragging does not re-nest a folder underneath a different folder. Notes can move between folders, and folders keep their place in the hierarchy.
+Folders re-nest as well as reorder, using the same three drop zones a note drag has. Drop a folder on the top or bottom edge of another row to place it among that row's siblings, or on the middle of a folder row to move it inside that folder. As a pointer-free alternative, right-click the folder and choose **Move folder to…**, which uses the same picker and the same guards.
+
+Myne refuses three moves and says why rather than doing nothing: a folder into itself or into one of its own subfolders, a move into a folder that already holds a folder of that name, and a move that would make the path too long. Moving a folder re-files every note under it and rewrites any `[[Old/]]` links that pointed at it, so a folder note stays reachable.
 
 ## Selecting several at once
 
@@ -34,9 +36,11 @@ Collapse a folder to tuck its contents away while you work elsewhere; expand it 
 
 ## Views and the footer
 
-Between the notes tree and the bottom of the sidebar sits the **Views** section, where your saved views live; open one to see its filtered set in a tab. See [Saved views](/user-guide/editor-and-writing/saved-views/).
+Below the notes tree, the sidebar ends in a stack of compact entries: **Views**, **Attachments**, and a shared line holding **Trash** and **Archive**, split by a vertical hairline. Trash and Archive each show a count when they hold anything.
 
-At the very bottom, the sidebar footer holds **Trash** and, alongside it, **Archive**. Archive is for notes you want out of the tree but not deleted; open the panel to see what is archived and restore a note from it. See [Archiving notes](/user-guide/notes-and-organization/archive/).
+**Views** opens a searchable, scrollable panel to the right of the sidebar listing your saved views, with the one currently open marked by a checkmark. Opening a view puts its filtered set in a tab. See [Saved views](/user-guide/editor-and-writing/saved-views/). The Views entry is off for a new vault — turn it on under **Settings → Editor → Views**. A vault that already has saved views keeps the entry without your changing the setting.
+
+**Archive** is for notes you want out of the tree but not deleted; open the panel to see what is archived and restore a note from it. See [Archiving notes](/user-guide/notes-and-organization/archive/).
 
 ## The bottom bar
 

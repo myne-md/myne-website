@@ -1,8 +1,8 @@
 ---
 title: "Footnotes and reference links"
 category: "markdown"
-updated: 2026-06-11
-summary: "How to use footnotes and reference-style links in your notes, how wikilink-style references appear, and how each renders in the reading view."
+updated: 2026-08-13
+summary: "How to use footnotes and reference-style links in your notes, how wikilink-style references appear, how the picker writes one for you, and how each renders in the reading view."
 tags: ["markdown", "links"]
 ---
 
@@ -45,17 +45,30 @@ Wikilinks are Myne's syntax for linking one note to another inside the same vaul
 | `[[Note Title#Heading]]` | a heading in that note (the chip shows "Note › Heading") |
 | `[[Note Title^block-id]]` | a specific block (the chip shows the note; the block id is kept in the text) |
 | `[[folder/path.md\|Display]]` | a note by its vault-relative path (Myne's own preferred form) |
-| `![[Note Title]]` | an embed, shown as an "Embed: Note Title" chip |
-| `![[att:<id>\|name]]` | an embedded attachment (see [Attachments](/user-guide/attachments-and-import/attachments/) for what these do) |
+| `[[Projects/]]` | the folder note of the folder "Projects" — the trailing slash is what makes it a folder link; see [Folder notes](/user-guide/notes-and-organization/folder-notes/) |
+| `![[Note Title]]` | an embed — an "Embed: Note Title" chip, unless the target is a drawing note, which is drawn inline; see [Embeds](/user-guide/markdown/embeds/) |
+| `![[att:<id>\|name]]` | an embedded attachment, rendered according to what the file is; see [Embeds](/user-guide/markdown/embeds/) |
+
+A heading anchor matches the heading's plain text: formatting markers and any inline HTML around it are ignored, so `[[Notes#Desktop]]` finds a heading written `## **Desktop**` or `## <mark class="hl-green">Desktop</mark>`. Case does not have to match. If two headings share the same text, the link goes to the first one.
 
 A chip is **atomic**: it behaves as one unit, so backspacing next to it removes the whole `[[…]]`, and selecting it selects the entire link. A wikilink never spans more than one line, and a `[[Note]]` written inside a code block stays as code, not a link.
 
 ### How a wikilink resolves
 
-A title-only link like `[[Wednesday]]` resolves to the note titled "Wednesday" in the current vault; a path link resolves to that vault-relative path. Embeds are shown as a labeled chip: Myne does **not** pull the other note's content inline (there is no transclusion).
+A title-only link like `[[Wednesday]]` resolves to the note titled "Wednesday" in the current vault; a path link resolves to that vault-relative path. An embed of an ordinary note is a labeled chip: Myne does **not** pull that note's text inline, and there is no transclusion. One target is drawn instead of labelled — an embed of a drawing note shows the drawing itself, and clicking it edits the drawing in place, where it sits in the note. The `![[…]]` text in your file is unchanged either way; [Embeds](/user-guide/markdown/embeds/) covers each target kind.
 
-Today you type wikilinks by hand; the editor renders them as chips, and they power backlinks and the graph. What those connections surface is covered in [Find & connect](/user-guide/find-and-connect/).
+### Writing one
+
+You can type a wikilink by hand, but you do not have to. Typing `[[` opens a picker that searches your notes and inserts the link for you; the same picker opens from the slash menu's **Wiki link** entry and with the shortcut below. What you type after `[[` chooses what it lists: plain text lists notes, `#` lists the headings in the note you are in, `##` lists headings anywhere in the vault, and `^^` lists block ids carried in from an imported vault. Hovering a finished link chip tells you where it resolves, or that it matches nothing. What these connections surface is covered in [Find & connect](/user-guide/find-and-connect/).
 
 ## Limits
 
 All of these are render-only: Myne shows footnotes, reference links, and wikilinks as formatted text, but what is saved is exactly the markdown you typed. Wikilinks resolve only within the current vault; there are no cross-vault links.
+
+## Shortcuts
+
+| Action | macOS | Windows / Linux |
+|---|---|---|
+| Insert wikilink | ⌘⇧L | Ctrl Shift L |
+
+This is the default. You can change it under **Settings → Hotkeys**, which also lists every shortcut in the app.

@@ -1,7 +1,7 @@
 ---
 title: "Find and replace in a note"
 category: "editor-and-writing"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "Open the in-note find bar with ⌘F to search the current note, step through matches, toggle case sensitivity, and reveal a replace row for replace-one or one-undo replace-all."
 tags: ["editor", "search"]
 ---
@@ -14,7 +14,7 @@ The in-note find bar searches the note you are reading. Press `⌘F` (or `Ctrl F
 
 Press `⌘F` (or `Ctrl F`) while a note is open. A bar docks at the top of the editor pane with a **Find in note** input, and the cursor lands in it ready to type. The search is literal: it matches the exact substring you type, with no regular expressions, and it covers only the one open note. As you type, every match in the note is highlighted and a live `k/N` count appears, where `k` is the match you are on and `N` is the total. If nothing matches, the bar reads **No matches**.
 
-Press `⌘F` again while the bar is open and it refocuses the input and selects its contents, rather than closing. Press Esc to close the bar. There is no command-palette entry for find and no other shortcut that opens it.
+Press `⌘F` again while the bar is open and it refocuses the input and selects its contents, rather than closing. Press Esc to close the bar. The command palette can open it too — **Find in note** and **Find and replace in note** both live in the palette's **Editor** category. `⌘F` is the default chord and can be changed in [Customizing keyboard shortcuts](/user-guide/settings-and-privacy/custom-hotkeys/), where the command is listed under **General** as **Find in note**.
 
 ## Stepping through matches
 
@@ -41,7 +41,7 @@ This bar is for locating and editing an exact string inside the note in front of
 
 The find query and the cached positions of its matches live only in your device's memory while you work; they are never written to disk, saved to your preferences, or sent across the app's internal boundary. They are released when the vault locks and the editor reloads. Like the open note itself, this is best-effort in-memory handling rather than a stronger guarantee: it is no more exposed than the decrypted note you are already reading. How that fits the wider model is covered in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/).
 
-A match inside a note's [properties](/user-guide/markdown/frontmatter-properties/) is counted in the `k/N` total but is not highlighted on screen. Properties render as their own widget rather than as raw text, so there is nothing in the note body to paint the match on; the count still tells you the value is there.
+A match inside a note's [properties](/user-guide/markdown/frontmatter-properties/) is counted in the `k/N` total but is not highlighted, and stepping onto it does not move the cursor there. Properties render as their own block rather than as raw text, and the cursor is kept out of that block, so there is nothing in the note body to paint the match on and nowhere for the cursor to land — it comes to rest on the first line of the note body instead. The count still tells you the value is there; edit it in the Properties block itself.
 
 ## Shortcuts
 
@@ -53,3 +53,5 @@ A match inside a note's [properties](/user-guide/markdown/frontmatter-properties
 | Replace current match and advance | Enter (in **Replace with**) | Enter (in **Replace with**) |
 | Undo a bulk replace all | ⌘Z | Ctrl Z |
 | Close the find bar | Esc | Esc |
+
+`⌘F` and `⌘Z` are defaults you can change in **Settings → Hotkeys** (listed as **Find in note** and **Undo**). The Enter, Shift+Enter, and Esc keys belong to the find bar itself and are not listed there, so they cannot be rebound.

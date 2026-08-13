@@ -1,7 +1,7 @@
 ---
 title: "Slash commands"
 category: "editor-and-writing"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "Type / in the editor to open a menu of inserts and actions, including date and time inserts, tables, callouts, voice notes, and file attachments. Date and time inserts are frozen plain text, not live tokens."
 tags: ["editor", "markdown"]
 ---
@@ -42,8 +42,11 @@ The menu also runs inserts and actions documented in their own articles:
 - `/wiki` opens the [wiki-link](/user-guide/find-and-connect/wikilinks/) picker to link to another note.
 - `/attach` (**Attach file**) opens the file picker to bring in an [attachment](/user-guide/attachments-and-import/attachments/).
 - `/record` (**Voice note**) arms the microphone to record a [voice note](/user-guide/attachments-and-import/voice-notes/) inline.
+- `/drawing` (**Drawing**) creates a [drawing](/user-guide/notes-and-organization/drawings/) beside this note and embeds it inline, where it opens into a canvas you can edit in place.
+- `/due`, `/remind`, `/repeat`, and `/priority` add a field to the task on the current line — each opens the same picker the task chip opens, and a line that is not yet a task is turned into one first.
+- `/tasks` (**Task list**) opens the task-query builder, which composes the query block for you rather than leaving you an empty fence to fill in.
 
-The same menu also carries the everyday formatting inserts — headings, quotes, dividers, links, bullet, numbered, and to-do lists — so you can apply them by name instead of typing the Markdown by hand.
+The same menu also carries the everyday formatting inserts — the six heading levels, quotes, dividers, links, bullet, numbered, and to-do lists — so you can apply them by name instead of typing the Markdown by hand. Two more commands, **Continue writing (AI)** and **Suggest title (AI)**, appear only once you have turned AI on; see [AI](/user-guide/ai/overview/).
 
 ## Limits
 

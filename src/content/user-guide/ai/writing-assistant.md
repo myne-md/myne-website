@@ -1,16 +1,16 @@
 ---
 title: "Writing assistant"
 category: "ai"
-updated: 2026-07-11
-summary: "Inline writing help from the on-device model: a dimmed ghost-text completion you accept with Tab, plus slash commands to continue writing or suggest a title, and a palette command to rewrite a selection. Every insertion is plain Markdown you trigger."
+updated: 2026-08-13
+summary: "Inline writing help while you type: a dimmed ghost-text completion you accept with Tab, plus slash commands to continue writing or suggest a title, and a palette command to rewrite a selection. Every insertion is plain Markdown you trigger."
 tags: ["ai", "editor"]
 ---
 
-With AI on, Myne offers inline writing help from the on-device text model while you type: a suggested continuation shown next to your cursor, and commands to continue, retitle, or rewrite. Nothing is written into the note until you accept it, and everything it inserts is ordinary Markdown.
+With AI on, Myne offers inline writing help while you type: a suggested continuation shown next to your cursor, and commands to continue, retitle, or rewrite. Nothing is written into the note until you accept it, and everything it inserts is ordinary Markdown.
 
 ## Prerequisites
 
-- AI enabled with a text model selected — see [Turning on AI](/user-guide/ai/turning-on-ai/).
+- AI enabled, with a text model selected or a provider named — see [Turning on AI](/user-guide/ai/turning-on-ai/).
 - A note open in the editor (the writing surface is inert in reading view and in [excluded folders](/user-guide/ai/turning-on-ai/#excluding-folders)).
 
 ## Ghost-text completions
@@ -37,7 +37,7 @@ To rewrite text you have already written, select it and run **Rewrite selection*
 
 ## Limits
 
-Where writing help runs depends on what you have named. With no provider set up it runs on your device and the surrounding text never leaves your machine. If you have named a remote provider, writing help is one of the surfaces that can use it — the context it sends goes there, after the consent step that says so. Output comes from a small local model and can be wrong, bland, or off-key — read it before you keep it. Nothing is written to a note without an explicit action (accepting a ghost, running a command). A note in an excluded folder gets no writing help at all. The model runs in-process and is not isolated from your decrypted notes; see [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/) for the full boundary.
+The two halves of writing help are treated differently, and the difference is enforced in the code rather than configured. Ghost-text completions appear because you typed, not because you asked, so they never reach a remote provider — they run on your device or not at all. The commands you run deliberately — Continue writing, Suggest title, Rewrite selection — are asked-for work, so with a remote provider named the surrounding text they send goes there, after the consent step that says so ([Where your AI runs](/user-guide/ai/where-your-ai-runs/)). Output can be wrong, bland, or off-key — read it before you keep it. Nothing is written to a note without an explicit action (accepting a ghost, running a command). A note in an excluded folder gets no writing help at all. The model Myne runs itself runs in-process and is not isolated from your decrypted notes; see [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/) for the full boundary.
 
 ## Shortcuts
 

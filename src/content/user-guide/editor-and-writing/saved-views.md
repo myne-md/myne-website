@@ -1,22 +1,26 @@
 ---
 title: "Saved views"
 category: "editor-and-writing"
-updated: 2026-06-18
-summary: "Save a filtered, projected view of your notes in the Views sidebar section: build a condition filter, render matching notes as a card gallery, set a cover image, and import Obsidian Bases views. Views are read-only projections, not a database."
+updated: 2026-08-13
+summary: "Views are off by default; turn them on in Settings → Editor, then save a filtered, projected slice of your notes behind the sidebar's Views entry: build a condition filter, render matching notes as a card gallery, set a cover image, and import Obsidian Bases views. A view is a read-only projection, not a database."
 tags: ["notes", "search", "folders"]
 ---
 
-A saved view is a filtered, projected slice of your notes that you can return to from the left sidebar. You build it from condition filters — tag, folder, or free-text search — and Myne renders the matching notes as a calm card gallery, with optional cover images and a few display choices. You can also import view definitions from an Obsidian Bases `.base` file. A view is a read-only projection over your notes, not a database: it never changes a note, and there is no formula language behind it.
+A saved view is a filtered, projected slice of your notes that you can return to from the left sidebar. The feature is off by default and you turn it on in Settings. You build a view from condition filters — tag, folder, or free-text search — and Myne renders the matching notes as a calm card gallery, with optional cover images and a few display choices. You can also import view definitions from an Obsidian Bases `.base` file. A view is a read-only projection over your notes, not a database: it never changes a note, and there is no formula language behind it.
 
 ![The saved-view builder, where conditions filter and group which notes a view shows.](./saved-views.png)
 
-## The Views sidebar section
+## Turning views on
 
-The left sidebar carries a collapsible **Views** section that sits between the Notes tree and the Attachments and Trash footer. It lists every saved view in display order. Clicking a view row opens that view as a workspace tab.
+Views are off by default. Open **Settings → Editor** and turn on **Views** — the helper line reads "Show the Views entry in the sidebar for saving filtered note lists. Off by default; on if you already have views." If your vault already has saved views, the entry shows without you turning anything on. The setting is stored on this device only, so each device decides for itself.
 
-The section header has a chevron to collapse or expand the list and a **+** button (**New view**) to create a new one. When you have no views yet, the section reads **No views yet. Save the current note list as a view.**
+## The Views entry and its flyout
 
-Right-clicking a view row opens a menu:
+With views on, the left sidebar carries a compact **Views** row, a peer of the Attachments, Trash, and Archive entries at the foot of the sidebar. Two controls appear on the row when you hover it: a **+** button (**New view**) and a caret.
+
+Click the row or the caret and a flyout opens to the right, listing every saved view in display order. It has a search box (**Search views…**) so a long list stays reachable; when nothing matches, it reads **No views match your search.** The view you currently have open carries a checkmark. Clicking a view row opens that view as a workspace tab. When you have no views yet, the list reads **No views yet. Save the current note list as a view.**
+
+Right-clicking a view row in the flyout opens a menu:
 
 - **Edit filter…** — reopen the filter builder for this view.
 - **View settings…** — the cards display settings. This item appears for cards views only.
@@ -24,7 +28,7 @@ Right-clicking a view row opens a menu:
 - **Move up** / **Move down** — reorder the view within the list.
 - **Delete view** — remove the view definition.
 
-You can also reach the Views section from the **Views** button in the bottom bar, or with the **Browse views…** action in the command palette. Both expand the sidebar, scroll the section into view, and briefly highlight it so the click always lands somewhere visible.
+You can also reach the views from the **Views** button in the bottom bar, or with the **Browse views…** action in the command palette. Both expand the sidebar, scroll the row into view, open the flyout, and briefly highlight the row so the click always lands somewhere visible.
 
 ## Building a view's filter
 
@@ -76,9 +80,11 @@ You can also turn a tag selection into a view without the builder. In the Tag br
 
 A saved view is a read-only projection. It never mutates a note and never writes to disk beyond its own definition. That definition lives inside the vault's encrypted preferences; a view's name and its filter are treated as sensitive, so Myne never logs the name or the query itself — only operation counts.
 
+Whether the sidebar shows the **Views** entry at all is a separate, device-local display setting stored outside the vault. It holds no view content — only a yes or no — which is why it does not travel to your other devices.
+
 The query layer is a closed allow-list — tag, folder, search, and typed-property comparison, joined with and / or / not. There is no evaluatable expression, no arithmetic, and no code evaluation: Myne is not a database and has no formula language. This is why an unsupported `.base` clause is dropped rather than approximated, and why there is no modified-time query source.
 
-When the vault is locked, a view has nothing to read, so it resolves to an empty result and its count shows 0 — never an error. How that fits the wider model is covered in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/). Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
+When the vault is locked, a view has nothing to read, so it resolves to an empty result and its count shows 0 — never an error. How that fits the wider model is covered in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/). Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
 ## Shortcuts
 

@@ -1,7 +1,7 @@
 ---
 title: "Spell check"
 category: "editor-and-writing"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "Misspelled words are underlined as you type by a fully offline checker that never sends your notes anywhere. Right-click a word for suggestions, add words to a personal dictionary, and choose from 23 bundled languages."
 tags: ["editor", "settings", "privacy"]
 ---
@@ -38,7 +38,7 @@ Dictionaries are loaded only when a language is active, and they are bundled wit
 
 ## Limits
 
-The checker is fully local. There is no network call, and the operating system's own speller and any cloud speller are never used — the decrypted text of your note stays inside the Rust core, which is the same posture as full-text search. Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
+The checker is fully local. There is no network call, and the operating system's own speller and any cloud speller are never used — the decrypted text of your note stays inside the Rust core, which is the same posture as full-text search. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
 Words you add to your personal dictionary and words you ignore for the whole vault are stored encrypted at rest, inside the vault, and are held in memory only while the vault is unlocked; they are cleared from memory when you lock. A word you ignore for the session only is kept in memory and is never written to disk. Because dictionaries ship inside the app and are never fetched at runtime, the language you write in is not revealed by a download. None of this is a security feature of the note itself — it is about keeping the speller from leaking your text. How the note is protected is covered in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/).
 

@@ -1,7 +1,7 @@
 ---
 title: "Multiple cursors"
 category: "editor-and-writing"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "Edit several places at once: stack cursors above and below, Alt-click to add a cursor anywhere, and grow a selection to the next occurrence of a word, then collapse back with Escape."
 tags: ["editor"]
 ---
@@ -33,3 +33,5 @@ Press Escape to collapse every cursor back to a single one. Myne shows no on-scr
 | Add cursor at click | Alt+Click | Alt+Click |
 | Select next occurrence | ⌘D | Ctrl D |
 | Collapse to a single cursor | Esc | Esc |
+
+**Select next occurrence** is listed in the Hotkeys catalog under **Editor formatting** and can be changed there — see [Customizing keyboard shortcuts](/user-guide/settings-and-privacy/custom-hotkeys/). The add-cursor chords come from the editor's built-in keymap and are not listed, so they cannot be rebound.

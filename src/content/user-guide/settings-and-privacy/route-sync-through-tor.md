@@ -1,0 +1,62 @@
+---
+title: "Route sync through Tor"
+category: "settings-and-privacy"
+updated: 2026-08-13
+summary: "Send Myne's sync traffic through Tor so the sync server sees a Tor exit rather than your own address. It is off by default and lives behind Developer mode, and while Tor is connecting or unavailable sync pauses rather than falling back to a direct connection."
+tags: ["sync", "privacy", "security", "settings"]
+---
+
+Myne can send its sync traffic through Tor. The sync server then sees a Tor exit rather than your own address, and your network and your internet provider see you connecting to Tor rather than to a particular sync server. It is off by default, it is a desktop setting behind [Developer mode](/user-guide/settings-and-privacy/developer-mode/), and it changes where your connection comes from — not what the server can see about your syncing.
+
+## Prerequisites
+
+- A vault open, and [sync set up](/user-guide/sync-and-devices/turn-on-sync/). Routing applies to sync traffic, so there is nothing to route until sync is configured.
+- [Developer mode](/user-guide/settings-and-privacy/developer-mode/) on, in Settings → About. The Network panel is hidden until it is.
+- The desktop app. Myne in a browser cannot do this; there, the answer is to run the whole browser through Tor Browser.
+
+## Before you turn it on
+
+Read this first, because it is the behaviour most likely to look like a bug. While Tor is connecting, and whenever the Tor client is unavailable, **sync pauses**. Myne does not quietly fall back to a direct connection — refusing to connect at all is the point of the setting. So the first sync after you turn it on is not instant, and a Tor client that fails to start leaves your notes unsynced until you either fix it or turn the setting off.
+
+## Turning it on
+
+1. Open Settings from the gear in the bottom bar or with `⌘,`.
+2. Choose **Network** in the left rail, under the **Developer** section.
+3. Switch on **Route sync through Tor**. Myne starts a Tor client it ships with; the first connection usually takes a few seconds.
+
+## Reading the status row
+
+The switch records what you asked for. The **Right now** row below it reports what is actually happening, which is a different question — a Tor client that failed to start leaves the setting on and the tunnel down. Five states:
+
+- **Sync goes straight to the sync server** — the setting is off. This is the shipped default and a legitimate choice, not a fault.
+- **Connecting to Tor — sync is paused** — the client is starting. Nothing is being sent directly in the meantime.
+- **Sync is going through Tor** — the one state in which your sync traffic is actually routed.
+- **Tor is unavailable — sync is paused** — the client could not start or has stopped. Nothing is being sent directly. Turn the setting off and on again to try starting it, or turn it off to sync without Tor.
+- **Sync isn't using Tor — this address points at this device** — the sync server address you configured names this computer, so there is no circuit to route through. Sync is not paused. If that address forwards on to a server somewhere else, Myne cannot see that and cannot route it.
+
+## Turning it off
+
+Switch **Route sync through Tor** off. New connections go straight to the sync server again, and sync resumes.
+
+## What this doesn't hide
+
+The panel keeps this list behind a **What this doesn't hide** disclosure, and it is worth reading before you rely on the setting:
+
+- The last relay in a Tor circuit — the exit node — sees which sync server you connect to. It cannot read what you sync; that stays encrypted end to end.
+- The sync server still sees when you sync, how many blobs you push and how large they are, and how many devices you have. Tor does not change that.
+- If you pay for hosted sync, the payment and your account can still be linked to you. Tor changes where the connection comes from, not the billing trail.
+- Only Myne's own sync traffic goes through Tor. Nothing else on this device does.
+
+## Limits
+
+This reduces what the sync server and your network provider learn about **where you are connecting from**. It does not make you anonymous to Myne, and it does not change what the server can see about your syncing — that list is above, and it is unchanged by this setting.
+
+Your network and your internet provider can still see that this device is connecting to Tor. Hiding the fact that you use Tor at all is a different problem and this setting does not solve it.
+
+The Tor client ships inside Myne, but Myne does not operate it, and the relay network is run by volunteers nobody here controls. That is why the setting sits behind [Developer mode](/user-guide/settings-and-privacy/developer-mode/) rather than in the ordinary Privacy panel: it is a door you open deliberately, onto something Myne cannot vouch for on your behalf.
+
+## Shortcuts
+
+| Action | macOS | Windows / Linux |
+|---|---|---|
+| Open settings | ⌘, | Ctrl , |

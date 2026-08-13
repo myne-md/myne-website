@@ -1,7 +1,7 @@
 ---
 title: "Unlocking your vault"
 category: "getting-started"
-updated: 2026-07-31
+updated: 2026-08-13
 summary: "How to unlock an existing vault with your master password each time you open Myne, what the unlock screen shows, and what it means for a vault to be locked."
 tags: ["vault", "security"]
 ---
@@ -12,7 +12,7 @@ Once a vault exists, Myne keeps it locked until you enter your master password. 
 
 Myne checks your device on launch and opens the right screen for what it finds:
 
-- **No vault yet** → the Welcome screen, where you create a vault or restore one.
+- **No vault yet** → the Welcome screen, with three doors: create a vault, restore one from a backup, or add this device to an account you already sync.
 - **One vault** → the Unlock screen for that vault.
 - **Two or more vaults** → the vault picker, where you choose which one to open.
 
@@ -26,6 +26,10 @@ Type your master password and confirm. Myne derives your keys from the password 
 
 If you turn on quick unlock, the Unlock screen leads with a faster re-entry option after the vault auto-locks: a PIN, or Touch ID on macOS. It shows one credential at a time — a **Use password instead** link switches to the master-password form, and a matching link switches back, so you can still type your password instead. Quick unlock is off until you enable it from Settings → Privacy. With a PIN, the master password is required again after you restart the app; a configured Touch ID credential can be used on a cold start, because macOS's own biometric prompt guards it. Touch ID is macOS-only and the app marks it experimental. See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/) for how to set it up and what it does and does not protect.
 
+### The links under the password field
+
+Two links sit under the password field. **Forgot your password? Unlock with recovery phrase** starts the recovery flow. **Lost both password and recovery phrase? Delete vault and start over** is the only remaining option when both are gone — and it is irreversible: deleting the vault destroys its notes, and nothing brings them back except a backup you took earlier. If you keep more than one vault, a **Choose a different vault** link takes you back to the picker.
+
 ### When the password doesn't work
 
 If unlocking fails, you see one message:
@@ -34,9 +38,11 @@ If unlocking fails, you see one message:
 
 The message is intentionally ambiguous, and the ambiguity is a privacy property, not a missing feature. Myne genuinely cannot tell you which of the two it is: distinguishing "wrong password" from "damaged file" would mean checking your data against something it could only know by holding a copy of what it is protecting. It refuses to know that. So it reports the honest, combined outcome. Check your password first; if you are sure it is right, the vault file may be damaged, and [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/) is the way back.
 
-## Restoring instead of unlocking
+## Restoring or joining instead of unlocking
 
 The Welcome screen also carries a **Restore from backup** door. If you are setting up on a new machine, or your vault file is damaged, you restore from a `.myne-backup` file rather than unlocking an existing vault. The how and the caveats live in [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/).
+
+The third door, **Add this device to an account**, is for a vault that already exists on another device and syncs. You give the sync server, your account number and your master password — no recovery phrase — and this device waits until a device already signed in approves it; the vault then arrives over sync rather than from a file. Before a device syncs for the first time, Myne shows you the beta terms and waits for you to accept them. [Add a device](/user-guide/sync-and-devices/add-a-device/) covers that flow. The same door is reachable later from the vault picker and the vault switcher.
 
 ## Locking the vault
 

@@ -1,8 +1,8 @@
 ---
 title: "Trash"
 category: "notes-and-organization"
-updated: 2026-06-18
-summary: "How deleted notes move to Trash, how to restore a note from Trash, and what happens when you permanently delete a note from the vault."
+updated: 2026-08-13
+summary: "How deleted notes move to Trash, how the undo toast and the Trash panel each get a note back, and what happens when you permanently delete a note from the vault."
 tags: ["notes", "recovery"]
 ---
 
@@ -10,7 +10,11 @@ Deleting a note in Myne is a two-stage process: first it goes to the Trash, wher
 
 ## Deleting a note
 
-When you delete a note, it moves to the **Trash** and disappears from the sidebar. An **undo** appears immediately so you can put it straight back if you didn't mean it. Deleting a folder that still contains notes asks you to confirm first, then moves the whole subtree to the Trash together.
+When you delete a note, it moves to the **Trash** and disappears from the sidebar. An **undo** toast appears immediately so you can put it straight back if you didn't mean it. The toast clears itself after a few seconds — it pauses while your pointer is over it, and it has a dismiss × — and once it is gone the note is still in the Trash, so **Restore** there does the same job.
+
+If the note is open, its tabs close in every pane. Restoring it is an explicit step; it does not reopen on its own.
+
+Deleting a folder that still contains notes asks you to confirm first, then moves the whole subtree to the Trash together.
 
 Notes in the Trash and notes marked as templates are hidden from the sidebar and never appear in search results.
 

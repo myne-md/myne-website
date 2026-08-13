@@ -1,7 +1,7 @@
 ---
 title: "Files"
 category: "settings-and-privacy"
-updated: 2026-07-31
+updated: 2026-08-13
 summary: "The Files panel sets which file opens when Myne starts, where new notes are placed, whether imported images are compressed, and whether text is read out of image and scanned-PDF attachments for search. Choosing a startup file other than the last-opened one never overwrites your saved workspace layout, so switching back restores your panes."
 tags: ["settings", "notes", "folders", "attachments"]
 ---
@@ -16,7 +16,7 @@ The Files panel holds four file-oriented preferences: which file opens when the 
 
 ## Opening the Files panel
 
-Open Settings from the gear in the bottom bar or with `⌘,`, then choose **Files** in the left rail. It sits after **Editor** and before **Hotkeys**.
+Open Settings from the gear in the bottom bar or with `⌘,`, then choose **Files** in the left rail. It sits after **Editor** and before **Transcription**.
 
 ## Default file to open
 

@@ -1,8 +1,8 @@
 ---
 title: "Templates"
 category: "notes-and-organization"
-updated: 2026-06-11
-summary: "How to create reusable note templates, insert them into new notes, and use them to standardize the structure of notes you write often."
+updated: 2026-08-13
+summary: "How to create reusable note templates, turn a note you already wrote into one, insert them into new notes, and use them to standardize the structure of notes you write often."
 tags: ["templates", "notes"]
 ---
 
@@ -20,7 +20,7 @@ Notes in the Trash and notes marked as templates are hidden from the sidebar and
 
 Making a note from a template is a deliberate, two-step path (distinct from the plain "new note", which is always an instant blank):
 
-1. Choose **New note from template** and pick the template you want.
+1. Choose **New note from template…** and pick the template you want, or **Blank note** to skip the template. If you have no templates yet, the same surface offers **Create a template**; **Manage templates** opens the manager from here too.
 2. Give the new note a name. Myne copies the template's body into a fresh note, fills in any placeholders, and opens it.
 
 You manage templates from the **Manage templates** surface, which has four actions:
@@ -31,6 +31,12 @@ You manage templates from the **Manage templates** surface, which has four actio
 - **Delete**: send the template to the Trash like any note (recoverable from there).
 
 "Remove from templates" and "Delete" are deliberately different: one demotes, the other deletes.
+
+## Turning a note into a template
+
+You do not have to start a template from scratch. Open the note, open the editor's **Note actions** menu, and choose **Turn into template**. The note becomes a template in place. Read the consequence before you do it: a template leaves the sidebar and stops appearing in search results, so the note will look as though it has gone. An undo toast appears right after, so you can put it back if that was not what you wanted.
+
+The same menu shows **Convert to note** on a template, which demotes it again. Nothing about the note's content, title, or folder changes either way.
 
 ## Placeholders
 

@@ -1,7 +1,7 @@
 ---
 title: "Multiple vaults"
 category: "safety-and-recovery"
-updated: 2026-07-11
+updated: 2026-08-13
 summary: "How to keep more than one vault, how to switch between them, how to give each a name and icon, what you can see before a vault is unlocked, and how vaults stay independent of one another."
 tags: ["vault", "privacy"]
 ---
@@ -34,7 +34,7 @@ Each vault is its own world: its own notes, folders, settings, recovery phrase, 
 
 ## Managing the list
 
-From the picker you can create a new vault or open an existing one. Removing a vault from the list means **deleting** it: there is no "remove from the list but keep the files" option, and Myne doesn't pretend there is. Deleting a vault is permanent (see what that entails in [Delete a vault](/user-guide/settings-and-privacy/delete-a-vault/)).
+From the picker you can open an existing vault, **create another vault**, **restore from backup**, or **add this device to an account** you already sync (see [Add a device](/user-guide/sync-and-devices/add-a-device/)). The vault switcher in the sidebar carries the create and add-a-device entries too, so you can reach them without locking up first. Removing a vault from the list means **deleting** it: there is no "remove from the list but keep the files" option, and Myne doesn't pretend there is. Deleting a vault is permanent (see what that entails in [Delete a vault](/user-guide/settings-and-privacy/delete-a-vault/)).
 
 ## Limits
 

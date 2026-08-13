@@ -1,7 +1,7 @@
 ---
 title: "Change your password"
 category: "settings-and-privacy"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "How to change your master password, what the change does and does not re-encrypt, and how it affects backups you made with the old password."
 tags: ["security", "settings"]
 ---
@@ -31,3 +31,5 @@ Changing your password does **not** lock anyone out of backups you already made.
 ## Limits
 
 A password change protects your *live* vault going forward; it cannot reach back into copies you have already exported. Pair a password change with a new backup, and retire the old ones if the reason for the change was a possible compromise.
+
+There is one more copy it does not reach. If you have upgraded your vault to the new format and not finished the upgrade yet, Myne is still keeping the old vault on this device, and that copy opens with your old password and your recovery phrase. The app says so at the time: "The old copy is still on this device until you finish up — until then, changing your password won't lock it away." Finish the upgrade in Settings → Sync before you rely on a password change.

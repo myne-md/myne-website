@@ -1,12 +1,12 @@
 ---
 title: "Welcome to Myne"
 category: "getting-started"
-updated: 2026-07-31
+updated: 2026-08-13
 summary: "An orientation to Myne, the local-first encrypted markdown notebook, and a map of the Getting started section: installing the app, creating a vault, saving your recovery phrase, and finding your way around the editor."
 tags: ["basics", "vault"]
 ---
 
-Myne is a local-first, encrypted markdown notebook. You write in plain markdown, and Myne encrypts every note on disk, so the files on your computer stay unreadable without your password. There is no account email, no sign-up form, and no server that can read what you write. This section gets you from a fresh install to your first note in about five minutes. You don't start from a blank page either: when setup finishes, Myne opens a short **Welcome to Myne** note for you to read, edit, or replace.
+Myne is a local-first, encrypted markdown notebook. You write in plain markdown, and Myne encrypts every note on disk, so the files on your computer stay unreadable without your password. There is no account email, no sign-up form, and no Myne server that can read what you write. This section gets you from a fresh install to your first note in about five minutes. You don't start from a blank page either: when setup finishes, Myne seeds a small example vault — five ordinary notes in one **Getting started** folder — and opens the first of them, **Start here**.
 
 ![A vault open in Myne: a sidebar with note titles on the left, an editor on the right showing a markdown note in progress.](./welcome-vault.svg)
 
@@ -16,7 +16,9 @@ Myne is a local-first, encrypted markdown notebook. You write in plain markdown,
 - **No account, no email.** You don't sign up. A vault is created locally, protected by a password only you know.
 - **A vault is a folder of encrypted files on your device.** It is not a single file and not a cloud account, but a directory Myne creates and manages on your disk, where each note is its own encrypted file.
 
-Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
+Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
+
+AI is the one other door out, and it is off until you turn it on. Myne never sends your notes anywhere you have not named, and never downloads a model — but if the provider you name runs somewhere other than this computer, what you send it leaves this device. [Turning on AI](/user-guide/ai/turning-on-ai/) covers what each option means.
 
 ## What this section covers
 
@@ -25,9 +27,18 @@ Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
 3. [Create your vault](/user-guide/getting-started/create-your-vault/): the four-step setup wizard, opened by a short safety briefing you acknowledge before setting a password.
 4. [Your recovery phrase](/user-guide/getting-started/your-recovery-phrase/): the 24-word backstop that can unlock your vault.
 5. [Unlocking your vault](/user-guide/getting-started/unlocking-your-vault/): what you see each time you open Myne.
-6. [Your first note](/user-guide/getting-started/your-first-note/): the **Welcome to Myne** note that greets you, plus writing, autosave, and where notes live.
+6. [Your first note](/user-guide/getting-started/your-first-note/): the example notes Myne seeds for you, plus writing, autosave, and where notes live.
 7. [A tour of the interface](/user-guide/getting-started/interface-tour/): every region of the window, named.
 
-## Already have a vault to restore?
+## Already have a vault somewhere else?
 
-If you are not starting fresh, and instead have a `.myne-backup` file from another machine that you want back, you don't need this chapter. The Welcome screen has a **Restore from backup** door; follow [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/) instead, then come back here once your vault is open.
+If you are not starting fresh, two of the Welcome screen's three doors are for you instead of this chapter.
+
+- **Restore from backup** takes a `.myne-backup` file from another machine and rebuilds the vault from it; follow [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/).
+- **Add this device to an account** is for a vault that already exists on another device and syncs. The vault arrives over sync rather than from a file, and a device already signed in has to approve this one; follow [Add a device](/user-guide/sync-and-devices/add-a-device/).
+
+Either way, come back here once your vault is open.
+
+## Limits
+
+Encryption protects the files at rest on your disk. It does not protect a vault that is unlocked and open on your screen, and it cannot help if your password and recovery phrase are both lost — there is no reset, because a reset would mean someone else held a key to your notes. Anything you deliberately take out of Myne — an exported note, a PDF, a recovery phrase saved to a file — is an ordinary unencrypted file from the moment it is written. [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/) sets out where the guarantees start and stop.

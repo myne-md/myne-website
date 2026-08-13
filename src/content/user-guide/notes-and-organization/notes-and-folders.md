@@ -1,8 +1,8 @@
 ---
 title: "Notes and folders"
 category: "notes-and-organization"
-updated: 2026-06-18
-summary: "How to create, rename, move, and delete notes and folders in Myne, how the folder tree maps to your vault on disk, and how nesting works."
+updated: 2026-08-13
+summary: "How to create, rename, move, and delete notes and folders in Myne — the sidebar's + menu, the editor's Note actions menu, how the folder tree maps to your vault on disk, and how nesting works."
 tags: ["notes", "folders"]
 ---
 
@@ -12,11 +12,17 @@ Notes and folders are the backbone of a vault. This article covers creating and 
 
 ## Creating a note
 
-Every plain "new note" action (the sidebar control, `⌘N`, the new-note-in-pane shortcut) makes an **instant blank note** and drops you into it, ready to type. There is no dialog and no template to pick. If you want a note built from a template, that is a separate, deliberate path; see [Templates](/user-guide/notes-and-organization/templates/).
+New items come from the **+** button at the top of the sidebar. Its menu has four rows — **New note**, **New note from template…**, **New drawing**, and **New folder** — and the same actions are on the right-click menu of a folder row and of empty sidebar space.
+
+**New note**, `⌘N` / `Ctrl N`, and the new-note-in-pane shortcut all make an **instant blank note** and drop you into it, ready to type. There is no dialog and no template to pick. A note built from a template is the separate, deliberate path; see [Templates](/user-guide/notes-and-organization/templates/). **New drawing** makes a note you draw in instead of type in; see [Drawings](/user-guide/notes-and-organization/drawings/).
 
 The first line of the note becomes its title. Renaming a note updates wherever its title comes from: the heading in the note, or the `title` in its frontmatter if it has one.
 
 To copy a note as a starting point, **Duplicate** makes a clone with a fresh title. When you want to act on several notes at once, you can select multiple notes and move, archive, or delete them together, or drag a selection into a folder; an **Open random note** action in the command palette pulls up a live note at random for serendipitous review. These are covered in [Bulk note actions](/user-guide/notes-and-organization/bulk-note-actions/).
+
+## Acting on the note you have open
+
+The sidebar's right-click menu is not the only way in. While a note is open, a **Note actions** menu sits at the top right of the editor with the actions that apply to that one note: **Rename**, **Move to folder…**, **Duplicate**, **Version history**, **Turn into template** (or **Convert to note** on a template), the four **Export as…** formats, and **Move to trash**. They do exactly what their sidebar equivalents do — the menu is there so you do not have to find the note's row first. It is absent on a new, empty tab, where there is no note for it to act on.
 
 ## Folders
 

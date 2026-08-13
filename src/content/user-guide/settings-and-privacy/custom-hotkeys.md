@@ -1,18 +1,16 @@
 ---
 title: "Customizing keyboard shortcuts"
 category: "settings-and-privacy"
-updated: 2026-06-18
-summary: "View, search, and rebind keyboard shortcuts in the Hotkeys settings panel. Add or remove shortcuts per command, restore defaults, and resolve conflicts, which are warning-only and never blocking."
+updated: 2026-08-13
+summary: "View, search, and rebind keyboard shortcuts in the Hotkeys settings panel. Add or remove shortcuts per command, restore defaults, and resolve conflicts, which are warning-only and never blocking. Every shortcut is rebindable except the tab-cycle chord."
 tags: ["settings", "editor"]
 ---
 
 The Hotkeys panel lists every keyboard shortcut in Myne and lets you search them by name. You can add or remove a shortcut for most commands, restore a command's default, or reset every custom shortcut at once. If a key combination is already used by another command, Myne warns you and names that command, but it never blocks you — the new shortcut is assigned anyway.
 
-![The Hotkeys settings panel listing commands and their keyboard shortcuts.](./custom-hotkeys.png)
-
 ## The Hotkeys panel
 
-Open **Settings → Hotkeys** (the rail runs Account → Privacy → Editor → Hotkeys → Appearance → Storage → About). The panel opens with a short reminder at the top: "View and change keyboard shortcuts. Editor formatting and the tab-cycle shortcut are fixed."
+Open **Settings → Hotkeys** (the rail runs Account → Privacy → Sync → Editor → Files → Transcription → Hotkeys → Appearance → Storage → About, with a Developer section below it when [Developer mode](/user-guide/settings-and-privacy/developer-mode/) is on). The panel opens with a short reminder at the top: "View and change keyboard shortcuts. Only the tab-cycle shortcut (Ctrl+Tab) is fixed."
 
 Shortcuts are listed in groups: **General**, **Notes**, **Panes & Tabs**, **Navigation**, **View**, and **Editor formatting**. Each row names a command and shows its current shortcut as a small key chip. A command can have no shortcut, one, or several.
 
@@ -36,9 +34,11 @@ If you assign a combination that another command already uses, Myne shows a warn
 
 Once two commands share a combination, both rows keep a small **⚠ conflict** marker so you can find and resolve them later if you want to. You resolve a conflict the same way you made it: remove the shared shortcut from one of the commands, or rebind one of them to something else.
 
-## Fixed shortcuts
+## The one fixed shortcut
 
-A few rows are shown for reference but cannot be changed; they are tagged **fixed**. These are the editor-formatting shortcuts (such as bold, italic, and the list toggles) and the tab-cycle shortcut, **Ctrl+Tab**, which cycles through open tabs. They appear in the panel so you can see what they do, but the **+**, **×**, and **↺** controls are not offered on those rows.
+One row is shown for reference and cannot be changed: the tab-cycle shortcut, **Ctrl+Tab**, which cycles through open tabs. It is tagged **fixed**, and the **+**, **×**, and **↺** controls are not offered on that row — it is a literal-Ctrl combination Myne's shortcut layer cannot tell apart from its neighbours on Windows and Linux.
+
+Everything else in the panel can be rebound, including the editor-formatting shortcuts such as bold, italic and the list toggles. A rebind takes effect in the open editor immediately, without losing your cursor or your undo history.
 
 ## Limits
 
@@ -54,14 +54,19 @@ These are the default shortcuts for the rebindable commands, plus the one fixed 
 
 | Action | macOS | Windows / Linux |
 |---|---|---|
+| Open command palette | ⌘K (alias ⌘P) | Ctrl K (alias Ctrl P) |
 | Open settings | ⌘, | Ctrl , |
-| New note | ⌘T | Ctrl T |
+| Find in note | ⌘F | Ctrl F |
+| New note | ⌘T, ⌘N | Ctrl T, Ctrl N |
 | Close tab | ⌘W | Ctrl W |
 | Split pane (right) | ⌘\ | Ctrl \ |
-| Split pane (down) | ⌘⇧\ | Ctrl Shift \ |
+| Split pane (down) | ⌘⇧\| | Ctrl Shift \| |
+| Focus next pane | ⌘⌥→ / ⌘⌥↓ | Ctrl Alt → / Ctrl Alt ↓ |
+| Focus previous pane | ⌘⌥← / ⌘⌥↑ | Ctrl Alt ← / Ctrl Alt ↑ |
 | Navigate back | ⌘[ | Ctrl [ |
 | Navigate forward | ⌘] | Ctrl ] |
 | Show graph view | ⌘⇧G | Ctrl Shift G |
+| Show tasks | ⌘⇧T | Ctrl Shift T |
 | Toggle reading view | ⌘⇧E | Ctrl Shift E |
 | Toggle focus mode | ⌘⇧F | Ctrl Shift F |
 | Cycle tabs (fixed) | ⌃⇥ | Ctrl Tab |

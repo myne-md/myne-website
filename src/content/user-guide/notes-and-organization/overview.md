@@ -1,8 +1,8 @@
 ---
 title: "Notes & organization"
 category: "notes-and-organization"
-updated: 2026-07-31
-summary: "An overview of how Myne organizes notes (folders and folder notes, favorites, trash, the archive, tabs and split view, named workspaces, templates, daily notes, bulk selection, and sidebar customization) and where to find each feature."
+updated: 2026-08-13
+summary: "An overview of how Myne organizes notes (folders and folder notes, favorites, trash, the archive, tabs and split view, named workspaces, templates, daily notes, drawings, tasks, bulk selection, and sidebar customization) and where to find each feature."
 tags: ["notes", "folders"]
 ---
 
@@ -21,6 +21,7 @@ Once you have more than a handful of notes, organization starts to matter. Myne 
 - **[Named workspaces](/user-guide/notes-and-organization/named-workspaces/)**: saving the current editor layout under a name and switching between layouts.
 - **[Templates](/user-guide/notes-and-organization/templates/)**: reusable note structures, with a small set of placeholders.
 - **[Daily notes](/user-guide/notes-and-organization/daily-notes/)**: one note per day, on demand.
+- **[Drawings](/user-guide/notes-and-organization/drawings/)**: a note you draw in rather than type in, on its own or embedded inside a note you are writing.
 - **[Tasks](/user-guide/notes-and-organization/tasks/)**: checkbox line-tasks with due, priority, and repeat chips, whole-note tasks, a Tasks panel, and an embedded task-list block.
 - **[Saved views](/user-guide/editor-and-writing/saved-views/)**: filtered, projected card galleries of your notes in the Views sidebar section.
 - **[Customizing the sidebar](/user-guide/notes-and-organization/sidebar-customization/)**: arranging the tree to match how you work.

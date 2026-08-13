@@ -1,8 +1,8 @@
 ---
 title: "Selecting and acting on multiple notes"
 category: "notes-and-organization"
-updated: 2026-06-18
-summary: "Select several notes in the sidebar with Cmd/Ctrl-click or Shift-click, then move, archive, or delete the whole set, or drag the selection onto a folder. You can also duplicate a single note and open a random one."
+updated: 2026-08-13
+summary: "Select several notes in the sidebar with Cmd/Ctrl-click or Shift-click, then move, archive, or delete the whole set, or drag the selection onto a folder. The keyboard delete asks you to confirm first. You can also duplicate a single note and open a random one."
 tags: ["notes", "sidebar"]
 ---
 
@@ -27,9 +27,9 @@ Once two or more notes are selected, right-click any row that is part of the sel
 
 - **Move N notes to…** opens a submenu listing **Vault root** plus every folder, indented by depth. Choosing a destination moves every selected note there.
 - **Archive N notes** archives the whole set. Archived notes leave the sidebar and are recoverable from the Archive panel; see [Archive](/user-guide/notes-and-organization/archive/).
-- **Delete N notes** moves the whole set to the Trash. This is reversible: an undo toast appears right after, and **Undo** restores every note you just trashed. See [Trash](/user-guide/notes-and-organization/trash/).
+- **Delete N notes** moves the whole set to the Trash. This is reversible: an undo toast appears right after, and **Undo** restores every note you just trashed. The toast clears itself after a few seconds; after that, restore them from the Trash panel. See [Trash](/user-guide/notes-and-organization/trash/).
 
-You can also press Delete or Backspace with a multi-selection active to send the whole set to the Trash, the same as the menu's Delete action.
+You can also press Delete or Backspace with a multi-selection active. The keyboard route asks you to confirm first, in a dialog that says how many notes are about to move to the Trash; the menu's **Delete** acts straight away and gives you the undo toast instead. Either way the notes go to the Trash and can be restored from there.
 
 Bulk operations are best-effort: each note in the set is acted on independently. If one note in a large selection fails to move, archive, or trash, the others that succeeded stay done; successes are never rolled back just to make the whole set fail together.
 
@@ -60,11 +60,11 @@ A selection is ephemeral interface state, not anything stored: closing the app o
 
 Bulk move, archive, and trash each rewrite a note's frontmatter inside the encryption envelope that note already has; the operation changes where a note lives or whether it is hidden, not how it is encrypted. A bulk trash is reversible through the undo toast, and a bulk archive is recoverable from the Archive panel, so neither is a destructive step on its own. Emptying the Trash afterwards is the irreversible step, covered in [Trash](/user-guide/notes-and-organization/trash/).
 
-Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
+Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
 ## Shortcuts
 
 | Action | macOS | Windows / Linux |
 |---|---|---|
 | Bulk-move the multi-selection to a folder, by dragging | drag selection onto folder | drag selection onto folder |
-| Send the multi-selection to Trash | Delete or Backspace | Delete or Backspace |
+| Send the multi-selection to Trash (asks to confirm) | Delete or Backspace | Delete or Backspace |

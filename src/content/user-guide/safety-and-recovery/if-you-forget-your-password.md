@@ -1,7 +1,7 @@
 ---
 title: "If you forget your password"
 category: "safety-and-recovery"
-updated: 2026-07-31
+updated: 2026-08-13
 summary: "What you can and cannot do if you forget your master password, how the 24-word recovery phrase lets you set a new one, and what happens if both are lost."
 tags: ["recovery", "security"]
 ---
@@ -24,9 +24,13 @@ That's it. You're back in, with a new password and the same recovery phrase as b
 
 If you have turned it on, the Unlock screen also offers a faster way back after the vault auto-locks: a short PIN, or macOS Touch ID, instead of the full password. It is opt-in from Settings → Privacy and does not replace the password — with a PIN, your master password is still required after the app restarts (a configured Touch ID credential can be used on a cold start). See [Quick unlock with a PIN or Touch ID](/user-guide/settings-and-privacy/quick-unlock/) for what it does and does not cover. Quick unlock is a convenience, not a recovery path: if you have forgotten the password, use the recovery phrase as above.
 
+Setting a new password through recovery also turns quick unlock off on this device. The PIN or Touch ID credential you had is deleted as part of the reset, without a prompt, so that anyone who knew the old PIN loses access along with the old password. Set it up again from **Settings → Privacy** when you want it back.
+
 ## What actually happens to your keys
 
 It helps to know what that new-password step does and doesn't do. Your vault is protected by a single random key that lives inside it. Two independent wraps of that key exist: one locked by your password, one locked by your recovery phrase. Unlocking with the phrase opens the phrase's wrap; setting a new password **rewrites only the password's wrap**. The vault's internal key never changes, your notes are not re-encrypted, and your recovery phrase keeps working unchanged. The phrase is not your password and does not derive it. It's a second, independent key to the same vault.
+
+Two things fall outside that account, and both belong to the vault format upgrade. [Upgrading the vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/) does replace the vault's internal key and re-encrypt every note — that is the one operation that changes it. And while an upgrade is still unfinished, the pre-upgrade copy staged on this device stays readable with the old password, so changing your password does not lock that copy away until you finish the upgrade.
 
 ## On a new computer
 

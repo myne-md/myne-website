@@ -1,7 +1,7 @@
 ---
 title: "Quick unlock with a PIN or Touch ID"
 category: "settings-and-privacy"
-updated: 2026-07-31
+updated: 2026-08-13
 summary: "Opt in to re-entering a vault after auto-lock with a short PIN, or macOS Touch ID, instead of the full master password. It is device-local, off by default; a PIN still needs the master password after a restart, while a configured Touch ID credential can be used on a cold start."
 tags: ["security", "privacy", "settings"]
 ---
@@ -14,7 +14,7 @@ Quick unlock lets you re-enter a vault after it auto-locks with a short PIN, or 
 
 Quick unlock is opt-in and off by default. You set it up per device, while the vault is unlocked, from **Settings → Privacy → Quick unlock**, the control below **Screen-capture protection** and **Auto-lock**.
 
-The helper text under the toggle states the trade plainly: "Re-enter after auto-lock with a PIN or Touch ID instead of the full master password. A convenience over the encrypted vault — the master password stays required after restart." That line describes the PIN, which is the path the panel stands behind today; a configured Touch ID credential is redeemed through macOS's own biometric prompt and can be used on a cold start (see the limits below).
+The helper text under the toggle states the trade plainly, and it distinguishes the two paths: "Re-enter after auto-lock with a PIN or Touch ID instead of the full master password. A convenience over the encrypted vault — with a PIN the master password is required again after a restart; Touch ID covers a restart too, until the fingerprints enrolled on this device change."
 
 Switch it on and a PIN field appears, with two buttons:
 
@@ -23,9 +23,11 @@ Switch it on and a PIN field appears, with two buttons:
 
 A note next to those buttons is honest about which path is which: "Touch ID is macOS-only and currently experimental (pending hardware verification). PIN works everywhere." Treat the PIN as the path Myne stands behind today; see the limits below for what "experimental" means here.
 
+Touch ID is offered only where it can actually work. On Windows and Linux the button is not shown at all. On a Mac, if enrolling fails Myne says why — "Touch ID isn't available in this build. It needs a signed macOS build with Touch ID enrolled." — and then hides the button for the rest of the session, because trying again cannot succeed until the build is signed. If you see that message, use a PIN.
+
 Once configured, the panel shows a **Turn off** button. Turning it off wipes the quick-unlock credential from this device; you then unlock with your master password as before.
 
-Each device opts in separately. The credential never syncs, and the Touch ID variant is bound to that one machine's hardware — it does not travel to another computer even if you later sync your vault.
+Each device opts in separately, and so does each vault — setting up quick unlock for one vault leaves your other vaults on the same computer untouched. The credential never syncs, and the Touch ID variant is bound to that one machine's hardware; it does not travel to another computer even if you later sync your vault.
 
 ## Re-entering after auto-lock
 
@@ -42,6 +44,7 @@ On a fresh app start, a configured **PIN** hides itself until one full master-pa
 Quick unlock is wiped, and you fall back to the master password, when any of these happen:
 
 - You [change your master password](/user-guide/settings-and-privacy/change-your-password/).
+- You [unlock with your recovery phrase and set a new password](/user-guide/safety-and-recovery/if-you-forget-your-password/). Recovering is a password reset, so it clears the quick-unlock credential for the same reason a password change does.
 - You [delete the vault](/user-guide/settings-and-privacy/delete-a-vault/).
 - A PIN is entered wrong **5 times in a row**. After the fifth consecutive wrong attempt the credential is wiped — a successful unlock resets the count before then.
 - For Touch ID, the enrolled set of fingerprints changes at the operating-system level.
@@ -57,6 +60,8 @@ It does not defend against software already running on your device. Like the res
 The PIN path has a specific, honest bound. The 5-attempt cap only limits an attacker typing at your keyboard. It does not limit an attacker who copies the PIN credential's file off your device: that copy can be guessed offline as fast as their hardware allows, bounded only by Argon2id's cost and the entropy of your PIN. A 6-digit PIN is short; choose a longer one if this matters to you, and do not treat the PIN as equivalent in strength to your master password.
 
 The Touch ID path is experimental and hardware-unverified — its own setup note calls it "experimental (pending hardware verification)". It is offered so you can try it, not as a verified security boundary; until that verification lands, rely on the PIN as the path Myne stands behind, and on your master password as the credential that always works.
+
+It also needs a signed macOS build. Myne's own installers are not code-signed today, so on a build you fetched from the releases page, enrolling Touch ID fails with the message above and the button disappears for the session. That is the app telling you the truth rather than a fault you can retry your way out of.
 
 ## Shortcuts
 

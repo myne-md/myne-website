@@ -1,8 +1,8 @@
 ---
 title: "Find & connect"
 category: "find-and-connect"
-updated: 2026-07-11
-summary: "An overview of how Myne helps you locate and relate notes (wikilinks, backlinks, unlinked mentions, the outline, tags, full-text search, and the graph view), where the multi-tab right panel lives, and which tool fits which task."
+updated: 2026-08-13
+summary: "An overview of how Myne helps you locate and relate notes (wikilinks, backlinks, unlinked mentions, the outline, tags, full-text search, and the graph view), where the multi-tab right panel lives and when its toggle appears, and which tool fits which task."
 tags: ["search", "links"]
 ---
 
@@ -12,12 +12,12 @@ Find looks inside the note you're reading; to search across every note in your v
 
 ## The right panel
 
-Several of these tools share the editor's right panel, a multi-tab surface with one tab shown at a time: Backlinks, Unlinked mentions, and Outline, plus the AI chat tab. Show or hide the whole panel with the sidebar toggle in the title bar (or the **Toggle backlinks sidebar** command); switch between tabs by clicking the icons in the strip along the top, and reorder or hide tabs by dragging and right-clicking the strip.
+Several of these tools share the editor's right panel, a multi-tab surface with one tab shown at a time: Links (what links here, and what this note links out to), Unlinked mentions, Outline and Tasks, plus the AI chat tab. The panel is about the note you have open, so its toggle appears in the title bar only while a note is open — not on the new-tab chooser. Show or hide the panel with that toggle, or with the **Toggle backlinks sidebar** command; switch between tabs by clicking the icons in the strip along the top, and reorder or hide tabs by dragging and right-clicking the strip.
 
 ## What's in this section
 
 - **[Wikilinks](/user-guide/find-and-connect/wikilinks/)**: linking notes together, and the three places those links surface.
-- **[Backlinks](/user-guide/find-and-connect/backlinks/)**: seeing which notes link to the one you're reading.
+- **[Backlinks](/user-guide/find-and-connect/backlinks/)**: the **Links** tab — which notes link to the one you're reading, and which notes it links out to.
 - **[Unlinked mentions](/user-guide/find-and-connect/unlinked-mentions/)**: notes that name this one without linking it.
 - **[Outline](/user-guide/find-and-connect/outline/)**: the current note's heading structure, with click-to-jump.
 - **[Tags](/user-guide/find-and-connect/tags/)**: grouping notes by `#tag`, and where a tag selection turns into a [saved view](/user-guide/editor-and-writing/saved-views/).

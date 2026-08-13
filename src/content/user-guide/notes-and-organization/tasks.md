@@ -1,24 +1,29 @@
 ---
 title: "Tasks"
 category: "notes-and-organization"
-updated: 2026-07-31
-summary: "How tasks work in Myne: checkbox lines that carry due, priority, and repeat chips you set from controls, whole-note tasks, a Tasks panel and an embedded task-list block, and local reminders — all kept as plain markdown inside your notes."
+updated: 2026-08-13
+summary: "How tasks work in Myne: checkbox lines that carry due, reminder, priority, and repeat chips you set from controls rather than typing, whole-note tasks, a Tasks panel and an embedded task-list block, and local reminders — all kept as plain markdown inside your notes."
 tags: ["notes", "editor", "markdown", "import"]
 ---
 
-A task in Myne is a line, or a whole note, that you have marked as a unit of work — there is no separate task database. A checkbox line is a task; a note can be declared one; and the metadata that says when a task is due, whether it repeats, and how urgent it is lives in the line itself, as plain markdown. Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
+A task in Myne is a line, or a whole note, that you have marked as a unit of work — there is no separate task database. A checkbox line is a task; a note can be declared one; and the metadata that says when a task is due, whether it repeats, and how urgent it is lives in the line itself, as plain markdown. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
 ## Line-tasks and their fields
 
 A **line-task** is a checkbox list item: `- [ ]` for an open item and `- [x]` for a done one. The checkbox is clickable, and toggling it marks the task done in place. Markdown checkboxes are also covered in [Markdown basics](/user-guide/markdown/markdown-basics/).
 
-A line-task can carry inline fields — a due date, a priority, and a repeat rule — which render as small chips at the end of the line while you write. Click a chip to open its editor:
+A line-task can carry four inline fields — a due date, a reminder, a priority, and a repeat rule — which render as small chips at the end of the line while you write. Click a chip to open its editor:
 
-- **Due date** opens your system's native date control.
+- **Due date** opens a native date control, with an optional time beside it. Leave the time empty for a date-only task; fill it in for a task due at a particular hour.
+- **Reminder** opens the same date-and-time control. This is the field the reminder scheduler reads.
 - **Priority** opens a menu of five levels: highest, high, medium, low, lowest.
 - **Repeat** opens the recurrence control described below.
 
 Editing any one field rewrites every field on that line into Myne's own form, in a single step you can undo as one action. A value Myne cannot read — an impossible date like `2026-02-31`, for example — is left exactly as you wrote it and shown as raw text with a quiet hint, rather than being corrected.
+
+### Adding a field
+
+You never have to type the field syntax by hand. Put the caret on a task line and a **+** appears at the end of it; click it for a menu of the four fields. The `/due`, `/remind`, `/repeat`, and `/priority` slash commands open the same editors directly. If the caret is on an ordinary line rather than a task, Myne turns it into `- [ ] ` first, because asking for a due date implies a task. Choosing a field the line already carries opens it for editing rather than adding a second one.
 
 ### The repeat control
 
@@ -33,6 +38,8 @@ A separate **when done** option anchors the next occurrence to the day you compl
 
 The vocabulary is closed on purpose: these families are the whole set, and there is no free-text rule box. The rule is stored in canonical English inside your note and displayed in your app language, so a note stays readable on a device set to another language. A rule advances only when you complete the task; a missed occurrence stays overdue and visible until you act on it. Completing a recurring task generates its next occurrence, and undoing that completion in the same step removes it again.
 
+To move a recurring task on without marking it done, open the line's **+** menu and choose **Skip this occurrence**. The rule advances to its next date and the task stays open. That row is offered only when the line's rule can actually advance, so an action that would silently do nothing is never on the menu.
+
 ## Note-tasks
 
 A whole note can be a task, not just a line inside one. A note-task is an ordinary note whose frontmatter carries `kind: task`; when you complete it, Myne records the completion time in a managed `done:` field. Its body is plain markdown like any other note.
@@ -43,7 +50,7 @@ Notes you have declared as tasks can show a small **task marker** in the sidebar
 
 The **Tasks** panel gathers your tasks into one list, so you do not have to open each note to see them. Open it with **Show tasks** from the command palette (or ⌘⇧T / Ctrl Shift T); it opens as a pane you can place beside a note.
 
-- **Filters.** All, Overdue, Today, Upcoming.
+- **Filters.** **Overdue** is anything dated before today, **Today** is today only, **Upcoming** is the next seven days starting tomorrow, and **All** is everything, including tasks with no date. Overdue tasks are not folded into Today, so a daily list stays a daily list; the Overdue count is where the backlog stays visible. A task is filed under its due date, or under its reminder when it has no due date. Which day counts as today follows your **Time zone** setting under **Settings → Editor** when you set one, and this device otherwise.
 - **Scope.** Narrow the list to a folder or a tag with the **Narrow by** control, or leave it at **All folders** for the whole vault.
 
 The right panel also has a **Tasks in this note** tab, scoped to the note you are reading.
@@ -58,7 +65,9 @@ The builder writes the query for you from a set of choices — completion state,
 
 ## Reminders
 
-A task line can carry a reminder time. Myne's reminders are **local**: while the app is open and your vault unlocked, a due reminder appears as a toast in the app. There is no server that pushes reminders to your devices, and a reminder does not fire while Myne is closed.
+A task line can carry a reminder. Set one from the **Reminder** chip, from the task line's **+** menu, or with the `/remind` slash command; it takes a date and an optional time, the same way the due date does.
+
+Myne's reminders are **local**: while the app is open and your vault unlocked, a due reminder appears as a toast in the app. There is no server that pushes reminders to your devices, and a reminder does not fire while Myne is closed.
 
 ## Importing tasks
 
@@ -73,6 +82,8 @@ Because a task is just note content, everything in [Search](/user-guide/find-and
 Reminders are device-local and are not synced or pushed. They are delivered in the app while it is open and your vault is unlocked; nothing about a reminder is handed to an operating system or a server, and none fire while Myne is closed. When you turn on sync, a task's due date, priority, repeat rule, and completion travel with the note as ordinary content — but reminder delivery stays local to each device regardless.
 
 The recurrence vocabulary is closed. If a repeat rule already in a note (from an import, or hand-written) is not one Myne recognizes, it is preserved exactly as written and shown as unrecognized — it is not offered as a control and the task will not repeat. Myne never guesses a rule it cannot read, precisely so a task cannot silently stop repeating without showing it.
+
+A repeat rule also needs something to repeat from. A rule on a line that carries neither a due date nor a reminder parses fine and still cannot advance, so it is shown as unread too, with a hint that says to add a date rather than to fix the rule. Myne does not invent an anchor, because a rule counted from a moving "today" would reappear every day without ever advancing.
 
 Task lists and query blocks are read-only projections over your notes. The only change any of them can make is ticking or unticking a checkbox; they cannot edit text, add or remove a field, or move a note.
 

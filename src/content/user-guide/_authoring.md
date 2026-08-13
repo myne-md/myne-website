@@ -5,10 +5,13 @@
 > `userGuide` content collection (same exclusion mechanism as `_sidebar.json`);
 > it never renders as a page.
 >
-> Source of truth for these rules: the `user-guide-content` epic sync ledger
-> (MYND-243) and the per-slice grill sessions. Each block below cites its
-> ratified ledger entry. When the app and this doc disagree, the shipped app
-> wins and this doc is corrected in the same PR.
+> These rules were ratified in the `user-guide-content` epic and its per-slice
+> grill sessions. The ledger ids each block cites (SYNC-2, SYNC-5, …) and any
+> `MYND-…` reference are **historical anchors, not something to look up** — the
+> Plane instance that held them was removed on 2026-08-12 (`decisions.md`
+> 2026-08-12, "The design canon moves into the repository, and Penpot and Plane
+> leave the agent system entirely"). When the app and this doc disagree, the
+> shipped app wins and this doc is corrected in the same PR.
 
 ---
 
@@ -56,7 +59,15 @@ enforce it, so it is a g2-review item.
 | Concept | Use | Never |
 |---|---|---|
 | `.myne-backup` export/restore | **backup**, **restore** (restore = from a backup, only) | "archive", "snapshot" for a backup; "restore" for the phrase flow |
-| Per-note version history | **snapshot** | "backup", "version backup" |
+| Per-note version history | **snapshot** — and wherever an upgraded vault is in scope, say it is the *older* format's version history | "backup", "version backup" |
+| Remote AI service the user names | **provider** (UI label: **Remote provider**) | "cloud AI", "the AI backend", "the API" |
+| Model runtime on the same machine | **local model runtime** (UI label: **Local model runtime**) | "local server", bare "local provider", "localhost AI" |
+| Advanced-settings reveal | **Developer mode** (UI: Settings → About → Developer mode) | "advanced mode"; and never describe it as a security boundary — it hides settings, it does not disable anything |
+| Terminal client access toggle | **Terminal access** (the shipped label; the client itself stays the **`myne` CLI**) | "CLI access" as a UI label — the setting is not called that |
+| Vim keybindings toggle | **Vim keyboard mode** (the shipped label) | "Vim mode" as a *quoted UI label*; the concept may still be called Vim mode in prose |
+| v0.1→v0.2 vault format change | **upgrade your vault format** in prose; the button is labelled **Migrate** | "convert", "reformat", "update"; never "migration" as a user-facing noun |
+| The pre-upgrade vault kept on disk until settled | **the old copy** | "the backup", "the archive", "legacy" (that is the directory name, not user copy) |
+| A note you draw in | **drawing** (UI: **New drawing**) | "sketch", "canvas note", "whiteboard"; and never call it an attachment — it is an ordinary note |
 | Note set-aside state (Archive feature) | **archive** (the set-aside state — leaves the sidebar, stays searchable) | "backup"/"snapshot" synonym; conflating with Trash or permanent delete |
 | Recovery-phrase unlock flow | **unlock with recovery phrase** | "restore from phrase", "restore your vault with the phrase" |
 | Leftover-file cleanup flow | **clean up leftover files** | "repair", "vault repair" (user-facing) |
@@ -193,28 +204,55 @@ limitation:
 Copy these verbatim — do not paraphrase. Each has a single canonical home; other
 articles reuse the exact wording.
 
-### Local-only (SYNC-8, reconsidered 2026-07-18)
+### Local-only (SYNC-8, reconsidered 2026-07-18, amended 2026-08-13)
 
-> Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
+> Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
-Sync is **off by default** and opt-in (self-host is Phase 1; the managed hosted
-service is an invite beta — `decisions.md` 2026-07-18). The old unconditional
-"nothing leaves it" is retired — **never claim "there is no sync"**. Reuse the
-conditional wherever a **local default** is being described; the bottom bar's
-literal "Local-only · not synced" is the honest anchor for that default state, and
-the sync privacy model itself belongs in / links to the sync-and-devices chapter.
+**Two** opt-ins move data off the device, and both are off until the user turns
+them on. Sync is **off by default** and opt-in (self-host is Phase 1; the managed
+hosted service is an invite beta — `decisions.md` 2026-07-18). Naming a **remote**
+AI provider is the second, added by `decisions.md` 2026-08-09 "User-named AI
+providers, local and remote", which superseded the fully-local AI condition; the
+invariant is now *no byte leaves the device unless the user has named a provider*.
+The single-condition form of this sentence is retired — it read as a guarantee
+the AI chapter can no longer make.
+
+**"Remote" is load-bearing, not filler.** `threat-model.md` TB13 (a remote
+provider) is the boundary plaintext *leaves the device* across; TB12 (a local
+model runtime on the same machine) is not — plaintext crosses to another process
+but stays on the device. Naming a local runtime therefore does **not** falsify
+this sentence, and writing "name an AI provider" without the qualifier
+over-states the limitation. Getting a limitation wrong is still getting it wrong.
+
+Reuse the conditional wherever a **local default** is being described; the bottom
+bar's literal "Local-only · not synced" is the honest anchor for that default
+state, the sync privacy model belongs in / links to the sync-and-devices chapter,
+and the provider model belongs in / links to `ai/where-your-ai-runs`. Never claim
+"there is no sync".
+
 A statement about a *specific* local feature ("the checker is fully local",
-"counts are computed on your device") stays unconditional — it is true with sync
-on too, so leave those as they are.
+"counts are computed on your device", "validation runs entirely on your device")
+stays unconditional — it is true with sync on and with a provider named, so leave
+those as they are.
 
 ### Attachment portability (SYNC-10, attachments-import grill)
 
-> Attachments live as encrypted files inside the vault; today they're accessible only through the app. There is no bulk attachment-export tool.
+> Attachments live as encrypted files inside the vault; the app is the only thing that reads them there. There is no attachments-only export, but the whole-vault Markdown export writes every attachment the exported notes embed into an `attachments/` folder beside them, decrypted. An attachment no note embeds is not carried out that way — export those one at a time from the library.
 
 Canonical home: the `attachments` article (`attachments-and-import`).
-`what-myne-doesnt-do` (`settings-and-privacy`) may reuse it verbatim. Keeps the
-"plain markdown after decryption" walk-away claim scoped to **notes**, never
+`what-myne-doesnt-do` (`settings-and-privacy`) may reuse it. Keeps the "plain
+markdown after decryption" walk-away claim scoped to **notes**, never
 attachments.
+
+**Amended 2026-08-13.** The old pin ended "today they're accessible only through
+the app. There is no bulk attachment-export tool." — both halves became false
+when the whole-vault Markdown export shipped: `src/notes/vaultExport.ts` decrypts
+"the unlocked vault's live notes (and their referenced attachments)" into an
+Obsidian-shape tree, which *is* a bulk attachment export for everything a note
+embeds. Telling a reader they are locked in when they are not is a lock-in claim
+in the wrong direction, and `vision.md`'s no-lock-in commitment makes it the
+worse of the two errors. The residual worth keeping is the narrow one now pinned:
+an **unreferenced** attachment rides in neither export.
 
 ### Attachment size/count visibility caveat (SYNC-10, attachments-import grill)
 

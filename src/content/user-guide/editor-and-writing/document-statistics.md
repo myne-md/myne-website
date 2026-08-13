@@ -1,7 +1,7 @@
 ---
 title: "Document statistics"
 category: "editor-and-writing"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "A live word and character readout in the bottom bar, with a hover tooltip for characters, words, spaces, and paragraphs. It counts the prose body only, switching to your selection when you select text."
 tags: ["editor"]
 ---
@@ -40,4 +40,4 @@ There is no reading-time estimate. The readout reports four things and only thos
 
 ## Limits
 
-The counts are computed inside the editor over content that is already decrypted and on screen. Nothing about the figures is persisted to your vault or transmitted anywhere — they are recalculated each time, on your device, from the note you have open. Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
+The counts are computed inside the editor over content that is already decrypted and on screen. Nothing about the figures is persisted to your vault or transmitted anywhere — they are recalculated each time, on your device, from the note you have open. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.

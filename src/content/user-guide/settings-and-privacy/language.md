@@ -1,12 +1,12 @@
 ---
 title: "Language"
 category: "settings-and-privacy"
-updated: 2026-08-03
+updated: 2026-08-13
 summary: "Myne's interface is available in 32 bundled languages. The language selector lives in the Appearance panel, changes the app's own labels and menus, and does not translate the text inside your notes."
 tags: ["settings"]
 ---
 
-Myne's interface is available in 32 languages, all fully translated. The language selector lets you pick which one the app displays. It changes the app's own chrome — labels, menus, and dialogs — and leaves the contents of your notes exactly as you wrote them.
+Myne's interface is available in 32 languages. The language selector lets you pick which one the app displays. It changes the app's own chrome — labels, menus, and dialogs — and leaves the contents of your notes exactly as you wrote them.
 
 ![The interface-language selector at the top of the Appearance settings panel.](./language.png)
 
@@ -17,6 +17,8 @@ Myne's interface is available in 32 languages, all fully translated. The languag
 3. Pick a language. The interface relabels immediately.
 
 The translation catalogs are bundled inside the app, so switching languages needs no download and no translation service ever sees your text. The choice is stored on this device and applies before you unlock a vault, so the Welcome and unlock screens are localized too.
+
+Because the catalogs ship with the app rather than arriving afterwards, a string added to the interface recently can still appear in English in a language whose translation has not landed yet. It is a small number of strings at any time, and the rest of that language is unaffected.
 
 ## What it changes, and what it doesn't
 

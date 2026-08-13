@@ -1,8 +1,8 @@
 ---
 title: "Back up your vault"
 category: "safety-and-recovery"
-updated: 2026-06-18
-summary: "How to export an encrypted backup of your vault, what the backup file contains, and how to build a backup habit that protects your notes."
+updated: 2026-08-13
+summary: "How to export an encrypted backup of your vault, what the backup file contains, what it deliberately leaves out, and how to build a backup habit that protects your notes."
 tags: ["backup", "vault"]
 ---
 
@@ -22,7 +22,9 @@ Choose where to save the file. When the export finishes and Myne has checked it,
 
 ## What's in the file
 
-The backup is a **byte-for-byte copy** of your vault's encrypted files (your notes, attachments, and the vault's keys-as-stored) bundled into one file. (The search index isn't included; Myne rebuilds it on first unlock.) Because it is the same encrypted bytes, it opens **with your password or your recovery phrase**, exactly like unlocking the vault: not with the phrase only, and not with anything Myne keeps.
+The backup is a **byte-for-byte copy** of your vault's encrypted files (your notes, snapshots, attachments, and the vault's keys-as-stored) bundled into one file. Your settings, custom themes, personal dictionary and attachment catalog travel with it. What stays out is what Myne can rebuild, or what belongs to this device alone: the search index, the AI index, the layout caches and your quick-unlock PIN or Touch ID credential. The search index is rebuilt on first unlock, and quick unlock is set up again per device. Because the backup is the same encrypted bytes, it opens **with your password or your recovery phrase**, exactly like unlocking the vault: not with the phrase only, and not with anything Myne keeps.
+
+One thing changes once you [upgrade the vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/): each note then carries its own edit history inside its encrypted file, so a backup of an upgraded vault contains every past revision of every note, including drafts you rewrote. Nothing in the file is readable without your password or recovery phrase, but read the three points below with that in mind — a backup is a longer memory of your writing than it used to be.
 
 The backup carries checksums, but they exist to **detect accidental corruption** (a truncated download, a bad sector) at export and restore time. They are not a tamper seal: they prove nothing about who made the file, and a backup is no safer "forever" than the place you keep it. What an onlooker can tell from the file is the same as from your vault folder, how many items it holds and their sizes, never your titles, content, or when you wrote them.
 
@@ -34,6 +36,8 @@ A backup is a copy frozen at the moment you made it, and that has three conseque
 - The **recovery phrase opens every backup of the vault, forever**. The phrase never changes, so it unlocks any backup you have ever made.
 - **Restoring resurrects permanently-deleted notes**. A backup made before you deleted a note still contains it, so restoring that backup brings the note back.
 
+After the format upgrade there is a fourth thing to weigh: a backup then carries each note's past revisions, not only the note as it stood when you made the backup. The recovery phrase opens that history in any backup of the vault, for as long as the backup exists.
+
 And the file itself is a new copy of your encrypted data living wherever you put it (a USB stick, a synced folder) outside Myne's sight. Treat a backup like a spare key to the vault, because that is what it is.
 
 ## A backup habit
@@ -42,8 +46,8 @@ You can let Myne keep the habit for you. **Settings → Storage** has an **Autom
 
 How the schedule works, stated plainly:
 
-- It runs **only while the app is open and the vault is unlocked**. There is no operating-system-level scheduling and no backup while the app is closed or the vault is locked. The check is an opportunistic elapsed-time one — Myne looks at whether enough time has passed when you unlock and roughly every five minutes while you keep working, so a missed window catches up on your next unlock rather than firing on a fixed clock.
-- If the target folder is missing or can't be written, the **Last backup** line shows the failure plainly — it is never silent — and the schedule **stays on** so it retries on the next cycle. Myne does not quietly turn the schedule off.
+- It runs **only while the app is open and the vault is unlocked**. There is no operating-system-level scheduling and no backup while the app is closed or the vault is locked. The check is an opportunistic elapsed-time one — Myne looks at whether enough time has passed when you unlock and roughly every five minutes while you keep working, so a missed window catches up on your next unlock rather than firing on a fixed clock. **Every unlock** means once per unlocked session: one backup per unlock, not one every few minutes.
+- If the target folder is missing or can't be written, the **Last backup** line shows the failure plainly — it is never silent — and the schedule **stays on**. Myne does not quietly turn the schedule off, and it does not keep hammering a failing target either: after a failure it waits at least an hour, or a full cadence if your cadence is longer, before trying again. Fix the folder and the next attempt lands on that schedule.
 - **Nothing is sent off your device.** There is no email and no cloud delivery; the schedule only writes a backup file to the folder you chose. If you want a copy offsite, point the folder at one your own file-sync handles, or copy the file yourself.
 
 A few habits still worth keeping, scheduled or not:

@@ -1,7 +1,7 @@
 ---
 title: "Code blocks"
 category: "markdown"
-updated: 2026-06-11
+updated: 2026-08-13
 summary: "How to write inline code and fenced code blocks with language hints, and how Myne applies syntax highlighting to the code you write."
 tags: ["markdown", "editor"]
 ---
@@ -43,6 +43,8 @@ Syntax highlighting is available for these languages. The name is case-insensiti
 | Diff | `diff` | `patch` |
 
 A block with no language, or one Myne doesn't recognize, renders as a plain monospace card with no coloring; Myne does not guess. The language set is curated by the maintainers; you can't add more yourself.
+
+Two fence languages are not code at all. A ` ```mermaid ` block is drawn as a diagram — see [Diagrams](/user-guide/markdown/diagrams/) — and a ` ```tasks ` block is a live task list built from a query, described in [Tasks](/user-guide/notes-and-organization/tasks/). Everything else with an unrecognized language stays a plain monospace card.
 
 ## The copy button
 

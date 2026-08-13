@@ -1,8 +1,8 @@
 ---
 title: "Safety & recovery"
 category: "safety-and-recovery"
-updated: 2026-06-18
-summary: "An overview of the features that keep your notes safe: recovering a forgotten password, backing up and restoring your vault, note snapshots, cleaning up leftover files, and multiple vaults."
+updated: 2026-08-13
+summary: "An overview of the features that keep your notes safe: recovering a forgotten password, backing up and restoring your vault, upgrading the vault format, note snapshots, cleaning up leftover files, and multiple vaults."
 tags: ["backup", "recovery"]
 ---
 
@@ -13,12 +13,14 @@ Three words in this section mean specific things, and Myne keeps them apart:
 - You **restore** from a backup. That word is reserved for backups.
 - You **unlock with your recovery phrase** when you've forgotten your password, never "restore" for that.
 - You **clean up leftover files** when a deletion didn't finish, never "repair".
+- You **upgrade** a vault to the new format. That is a re-encryption of the whole vault, never a "restore" and never a "migration" of content in from elsewhere — bringing outside notes in is [import](/user-guide/attachments-and-import/import-from-obsidian/).
 
 ## What's in this section
 
 - **[If you forget your password](/user-guide/safety-and-recovery/if-you-forget-your-password/)**: using the recovery phrase, what happens if both are lost, and why quick unlock with a PIN or Touch ID is a convenience rather than a recovery path.
 - **[Back up your vault](/user-guide/safety-and-recovery/back-up-your-vault/)**: exporting an encrypted backup, scheduling automatic backups, and the habit worth building.
 - **[Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/)**: bringing a vault back from a backup file.
-- **[Note snapshots](/user-guide/safety-and-recovery/note-snapshots/)**: a short version history for each note.
+- **[Upgrade your vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/)**: moving a vault to the new note format, why it asks for your recovery phrase, and how to finish it or put the old vault back.
+- **[Note snapshots](/user-guide/safety-and-recovery/note-snapshots/)**: a short version history for each note, and what replaces it after the format upgrade.
 - **[Clean up leftover files](/user-guide/safety-and-recovery/leftover-files/)**: clearing junk left by an interrupted deletion.
 - **[Multiple vaults](/user-guide/safety-and-recovery/multiple-vaults/)**: keeping and switching between more than one vault.

@@ -1,7 +1,7 @@
 ---
 title: "Auto-lock and screen-capture protection"
 category: "settings-and-privacy"
-updated: 2026-07-31
+updated: 2026-08-13
 summary: "How auto-lock closes your vault after a period of inactivity, the durations you can choose, and how screen-capture protection limits other apps from recording the Myne window."
 tags: ["security", "privacy", "settings"]
 ---
@@ -26,7 +26,9 @@ Two ceilings apply. Quick unlock allows **five consecutive failed attempts**; on
 
 ## Screen-capture protection
 
-Screen-capture protection asks your operating system to keep the Myne window out of screenshots and screen recordings. It is **on by default** and applies from the moment the window appears; you can toggle it in the Privacy panel.
+Screen-capture protection asks your operating system to keep the Myne window out of screenshots and screen recordings. It is applied before the window is first painted, and it is **on by default**.
+
+You can toggle it in the Privacy panel, and the toggle governs what happens **after** you unlock: the Welcome and Unlock screens are always protected, whatever the setting says. The panel says so when the toggle is off — "Protection always applies before unlock. After unlock, follows this preference." Turning it off is what you do to take a screenshot of your own notes.
 
 Be clear about its reach:
 

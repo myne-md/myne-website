@@ -1,7 +1,7 @@
 ---
 title: "View modes"
 category: "editor-and-writing"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "Switch a note tab between Live preview, Reading, and Source over the same bytes, set the default new-tab mode, and open a side-by-side read-only preview beside Source."
 tags: ["editor", "workspace"]
 ---
@@ -14,7 +14,7 @@ Every note tab can render in one of three view modes — Live preview, Reading, 
 
 A note tab is always in one of three modes:
 
-- **Live preview** is the default. It is the cursor-aware editor you write in: markdown renders as you go, and the raw syntax lifts back into view only on the line your cursor is on, so you edit the markup in place.
+- **Live preview** is the default. It is the cursor-aware editor you write in: markdown renders as you go, and the raw syntax lifts back into view where your cursor is, so you edit the markup in place. How much lifts depends on the mark. A bullet's disc and a heading's `#` come back only when the cursor is on the marker itself, so editing the text of a list item leaves the disc alone; a numbered list's `1.` and most inline marks come back for the whole line your cursor is on. A colored highlight always lifts as `==text==`, never as the underlying HTML it is stored as.
 - **Reading** is the fully rendered, read-only view. Markdown never lifts — everything stays rendered — and keystrokes are no-ops, so it is a clean way to read a note without touching it.
 - **Source** shows the raw markdown verbatim, with the live-preview rendering decorations turned off. It is still fully editable, and syntax colouring stays on, so you are editing coloured plain markdown.
 
@@ -44,7 +44,7 @@ The preview is a linked mirror of the same buffer, not a second editable copy �
 
 View modes are a presentation choice. Switching a tab between Live preview, Reading, and Source — and the side-by-side preview — never mutate the note's stored bytes.
 
-Your **Default view mode** preference lives inside the vault's encrypted preferences, and each tab's own mode rides inside the encrypted workspace state that Myne restores when you unlock. Neither is written in plaintext, and neither leaves your device. Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
+Your **Default view mode** preference lives inside the vault's encrypted preferences, and each tab's own mode rides inside the encrypted workspace state that Myne restores when you unlock. Neither is written in plaintext, and neither leaves your device. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
 ## Shortcuts
 

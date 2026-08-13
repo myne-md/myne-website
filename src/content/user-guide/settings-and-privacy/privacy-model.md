@@ -1,16 +1,14 @@
 ---
 title: "How Myne protects your notes"
 category: "settings-and-privacy"
-updated: 2026-07-31
-summary: "The privacy model in plain language: what is encrypted on disk, how your password and recovery phrase protect it, what stays on your device, and what Myne cannot protect you from."
+updated: 2026-08-13
+summary: "The privacy model in plain language: what is encrypted on disk, how your password and recovery phrase protect it, the two opt-ins that can move data off your device, and what Myne cannot protect you from."
 tags: ["privacy", "security"]
 ---
 
 This is the article the rest of the guide points to when it says "private by design". It explains, plainly and then precisely, what Myne protects, how, and what it cannot protect you from.
 
 ![One random vault key encrypts your files; any of three credentials — your master password via Argon2id, your recovery phrase, or an optional device PIN — unwraps that same key, which never leaves your device.](./privacy-model.svg)
-
-![The Account settings panel showing the Argon2id key-derivation parameters.](./privacy-model.png)
 
 ## What is encrypted
 
@@ -28,7 +26,13 @@ Any one of these decrypts the vault's key, and with the key Myne decrypts your n
 
 ## Where your notes live
 
-Until you turn on sync, Myne runs entirely on your device; nothing leaves it — no background connection, no analytics, no telemetry. Sync is **off by default** and opt-in. When you do turn it on, Myne stays zero-knowledge: only encrypted blobs leave your device, the server can never read your notes, and you can point Myne at [a server you host yourself](/user-guide/sync-and-devices/) instead of the hosted one. Either way Myne-the-company never sees your notes — the only thing sync changes is that ciphertext is stored and relayed between your devices, never decrypted off them. The app still sends no telemetry, synced or not.
+Myne makes no network connection you did not ask for: no background connection, no analytics, no telemetry. Two settings, both off until you turn them on, can move data off this device, and nothing else does.
+
+**Sync** is one. When you turn it on, Myne stays zero-knowledge: only encrypted blobs leave your device, the server can never read your notes, and you can point Myne at [a server you host yourself](/user-guide/sync-and-devices/) instead of the hosted one. Either way Myne-the-company never sees your notes — the only thing sync changes is that ciphertext is stored and relayed between your devices, never decrypted off them. The app still sends no telemetry, synced or not.
+
+**A remote AI provider** is the other. Myne's AI features are off until you opt in, and even then nothing is sent anywhere until you name a provider. Naming a model that runs on this computer keeps your notes here. Naming a remote service does not: the text of whatever you ask it about leaves this device readable, to a company Myne does not run. Myne asks first, on a screen that states what is sent and to whom, and it can tell you that much — it cannot tell you what the provider keeps, for how long, or whether it passes the request on. See [Where your AI runs](/user-guide/ai/where-your-ai-runs/) and [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/).
+
+Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
 There is also **no email at sign-up and no email recovery**. This is deliberate, not a missing feature. An email reset would mean someone other than you could trigger access to your vault, which is exactly the power Myne refuses to hold. The flip side is that *you* hold the only keys; the operational walkthrough for a forgotten password is [If you forget your password](/user-guide/safety-and-recovery/if-you-forget-your-password/).
 
@@ -39,6 +43,8 @@ Encryption protects your notes at rest. It does not make the following go away, 
 - **Backups outlive deletions and password changes.** An old password opens old backups. The recovery phrase opens every backup of the vault, forever. Restoring resurrects permanently-deleted notes. A backup is a copy frozen in time, with all that implies. See [Back up your vault](/user-guide/safety-and-recovery/back-up-your-vault/).
 - **Software running on your device can read an open vault.** While a vault is unlocked, its contents are decrypted in memory. Malware or another program with access to your running session can read what you can read; Myne's encryption guards the disk, not a compromised machine.
 - **An unlocked vault on a grabbed device is open.** Auto-lock narrows the window in which an unattended, unlocked vault sits exposed, but if someone takes your device while you are using it, the vault is already open. Lock it yourself when you step away.
+- **Sync still shows the server that you are there.** The server sees when you sync, how many encrypted blobs you push and how large they are, and how many devices you have. Myne can route that traffic through Tor, which changes where the connection appears to come from — it does not change what the connection reveals. See [Routing sync through Tor](/user-guide/settings-and-privacy/route-sync-through-tor/).
+- **A provider you name receives what you send it.** If you name a remote AI provider, the text you ask it about is in that company's hands. No encryption Myne applies reaches across that line, because the request has to arrive readable to be answered.
 
 There is also coarse information a copy of your vault folder reveals even though the contents stay sealed: that the vault exists, how many vaults you have and when each was last opened, the sizes of the encrypted items, how often snapshots are taken, the key-derivation settings, and whether quick unlock is set up on this device (its small device-local file is present). Your titles, text, tags, folders, and the times you wrote are never among it. In particular: an attachment's name, contents, and type are encrypted; what a copy of the vault folder can still reveal is how many attachments there are and how big each one is.
 

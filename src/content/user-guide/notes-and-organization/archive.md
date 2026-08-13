@@ -1,7 +1,7 @@
 ---
 title: "Archive"
 category: "notes-and-organization"
-updated: 2026-07-11
+updated: 2026-08-13
 summary: "Set a note or a whole folder aside without deleting it. Archived items leave the sidebar but stay searchable and linkable, are kept indefinitely with no auto-purge, and are separate from Trash. Archiving can be turned off entirely in settings."
 tags: ["notes", "folders", "sidebar"]
 ---
@@ -10,7 +10,7 @@ Archiving sets a note aside without deleting it. The note leaves the sidebar, th
 
 ## Archiving a note
 
-To archive a single note, right-click its row in the sidebar and choose **Archive**. The note leaves the working set straight away: it disappears from the sidebar tree, from the folder tree, and from the Favorites display. It does not go to the Trash, and nothing about its content changes. To archive several notes at once, build a selection set first and use the bulk **Archive** action — see [Acting on several notes at once](/user-guide/notes-and-organization/bulk-note-actions/).
+To archive a single note, right-click its row in the sidebar and choose **Archive**. The note leaves the working set straight away: it disappears from the sidebar tree, from the folder tree, and from the Favorites display. It does not go to the Trash, and nothing about its content changes. If the note is open, its tabs close in every pane — an archived note is not something you keep editing, and leaving the tab open would let the next autosave write the note back out of the Archive. To archive several notes at once, build a selection set first and use the bulk **Archive** action — see [Acting on several notes at once](/user-guide/notes-and-organization/bulk-note-actions/).
 
 Archiving and trashing are two positions on one axis, so a note can only be in one of them. Archiving a note that was in the Trash clears its trashed marker; trashing a note that was archived clears its archived marker. You never have to manage that yourself — the app keeps the states exclusive.
 
@@ -36,7 +36,7 @@ The panel lists two kinds of rows:
 Each row offers two actions:
 
 - **Restore** returns the note or folder to where it was, live again.
-- **Delete** moves it to the Trash. For a folder, this moves the folder's notes to Trash behind an inline confirmation. From the Trash, permanent deletion is a separate, deliberate step — see [Trash](/user-guide/notes-and-organization/trash/).
+- **Delete** moves it to the Trash. For a folder, Myne asks you to confirm in a dialog that names the folder and counts its notes; the notes move to Trash and can be restored from there. From the Trash, permanent deletion is a separate, deliberate step — see [Trash](/user-guide/notes-and-organization/trash/).
 
 There is no "empty archive" action. The Archive is meant to be kept, not cleared on a timer.
 

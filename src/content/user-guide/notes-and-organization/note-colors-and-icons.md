@@ -1,7 +1,7 @@
 ---
 title: "Note colors and folder icons"
 category: "notes-and-organization"
-updated: 2026-07-31
+updated: 2026-08-13
 summary: "Give a note or folder a color, and a folder a custom icon from a curated glyph set. The color paints a folder's own icon, washes a note's sidebar row, and tints its open tab — all stored as encrypted vault content, not a device-local setting."
 tags: ["notes", "folders", "sidebar", "workspace"]
 ---
@@ -42,6 +42,6 @@ A folder's color and icon are independent: clearing one leaves the other in plac
 
 Colors and icons are cosmetic. A note keeps its color by its own identity, so renaming or moving the note keeps it; a folder's color and icon are tied to the folder, so they follow it when you rename or move it and are removed when you delete it.
 
-These decorations are stored as encrypted content inside your vault, alongside the rest of your organization such as the sidebar order — not as a separate device-local setting. So they travel with the vault: they are included in a [vault backup](/user-guide/safety-and-recovery/back-up-your-vault/) and, with [sync](/user-guide/sync-and-devices/) on, carried to your other devices. Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
+These decorations are stored as encrypted content inside your vault, alongside the rest of your organization such as the sidebar order — not as a separate device-local setting. So they travel with the vault: they are included in a [vault backup](/user-guide/safety-and-recovery/back-up-your-vault/) and, with [sync](/user-guide/sync-and-devices/) on, carried to your other devices. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
 Because these are decoration and nothing depends on them, a tampered or out-of-date copy of the vault can at most surface the wrong color or icon — it cannot reveal or change a note's contents.

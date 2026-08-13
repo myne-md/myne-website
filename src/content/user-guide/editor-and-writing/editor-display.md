@@ -1,12 +1,12 @@
 ---
 title: "Editor display and typography"
 category: "editor-and-writing"
-updated: 2026-06-18
-summary: "Tune the editor's reading surface: text size, line spacing, content width, font, and an optional line-number gutter. All controls live in Settings, apply live, and store in your encrypted vault prefs."
+updated: 2026-08-13
+summary: "Tune the editor's reading surface: text size, line spacing, content width, font, and an optional line-number gutter, plus how dates and times are printed. All controls live in Settings, apply live, and store in your encrypted vault prefs. Mixed-direction text needs no setting at all."
 tags: ["editor", "settings"]
 ---
 
-The editor's reading surface is yours to tune. You can set the text size, the line spacing, the width of the editing column, and the font, and you can turn on a line-number gutter. Every control lives in Settings, applies to the open editor right away, and is saved in your vault's encrypted preferences.
+The editor's reading surface is yours to tune. You can set the text size, the line spacing, the width of the editing column, and the font, you can turn on a line-number gutter, and you can choose how dates and times are printed. Every control lives in Settings, applies to the open editor right away, and is saved in your vault's encrypted preferences. Right-to-left and mixed-direction text is the one thing here with nothing to configure — the editor works it out per line.
 
 ![The Editor settings panel with the text-size and display options.](./editor-display.png)
 
@@ -27,17 +27,33 @@ To show line numbers down the left side of the editor, open **Settings → Edito
 
 The gutter numbers one logical line per row. When a long line soft-wraps onto more than one row, the continuation rows stay blank — only the start of each logical line gets a number. Like the typography controls, the toggle applies to the open editor live, with no reload; your cursor, scroll position, and undo history are preserved.
 
+## Date and time formatting
+
+Further down the **Editor** panel, under **Editing**, three controls decide how Myne prints dates and times.
+
+- **Date format** — helper text: "How dates are shown across tasks, saved views and attachments." The options are **Match language**, which follows the interface language you chose, plus one option per layout, each labelled with the same worked example date so you can see what you are picking.
+- **Time format** — **Match language**, **24-hour**, or **12-hour**. Helper text: "Whether times are shown on a 24-hour or 12-hour clock."
+- **Time zone** — helper text: "Which zone decides what counts as today. Leave empty to follow this device. Times you write in a note are never changed — 09:00 stays 09:00 everywhere."
+
+The first two change what you see across tasks, saved views, and attachments; they never change a note. **Time zone** decides only what Myne counts as today, so a task due today stays due today when you travel. Type a zone name like `Europe/Berlin`; a name Myne cannot use is refused rather than stored, with "Myne doesn't know that time zone. Use a name like Europe/Berlin."
+
+A time you type into a note is never rewritten by any of this. Myne stores note times as plain wall-clock text, so `09:00` stays `09:00` everywhere, and no zone name is written into a note.
+
+## Right-to-left and mixed-direction text
+
+There is nothing to configure here. The editor works out each line's direction from the line's own text, so a note that mixes Arabic or Hebrew paragraphs with Latin ones lays each one out correctly — the right-to-left lines run right to left and the English lines run left to right, in the same note. A blank line follows the direction of the interface. This applies in Live preview, Reading, and Source alike, and it changes only how the text is drawn: the bytes stored in the note are untouched.
+
 ## Where these settings live
 
-All five preferences — text size, line spacing, content width, font, and the line-number toggle — are stored per vault in your encrypted vault prefs. They stay on your device and are never sent anywhere. Because Myne only writes a value when it differs from the default, a vault you have left untouched stays identical on disk to one where you explicitly chose every default.
+The display preferences — text size, line spacing, content width, font, the line-number toggle, and the date, time, and zone choices — are stored per vault in your encrypted vault prefs. They stay on your device and are never sent anywhere. Because Myne only writes a value when it differs from the default, a vault you have left untouched stays identical on disk to one where you explicitly chose every default.
 
 To reach Settings, click the gear in the bottom bar or press ⌘, (Ctrl , on Windows and Linux).
 
 ## Limits
 
-These are cosmetic display preferences. They change how your notes are drawn on screen — text size, spacing, column width, font, and whether the gutter shows — and nothing else. They never change the content of a note, what is encrypted, or where it is stored.
+These are cosmetic display preferences. They change how your notes are drawn on screen — text size, spacing, column width, font, whether the gutter shows, and how a date or a time is printed — and nothing else. They never change the content of a note, what is encrypted, or where it is stored. Per-line text direction is not even a preference: it is read from the text as it is drawn.
 
-The five values are stored in the encrypted vault prefs, but they are not load-bearing: a tampered or replayed value can at worst change how text renders or show or hide the line-number gutter. There is no security claim attached to them. How your notes themselves are protected is covered in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/).
+The values are stored in the encrypted vault prefs, but they are not load-bearing: a tampered or replayed value can at worst change how text renders, show or hide the line-number gutter, or print a date in a different layout. There is no security claim attached to them. How your notes themselves are protected is covered in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/).
 
 ## Shortcuts
 

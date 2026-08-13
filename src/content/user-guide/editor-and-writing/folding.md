@@ -1,7 +1,7 @@
 ---
 title: "Folding sections and lists"
 category: "editor-and-writing"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "Collapse and expand headings and nested lists from the editor gutter or with Fold all / Unfold all. Folds are ephemeral and clear when you switch notes, lock, or quit."
 tags: ["editor"]
 ---
@@ -44,4 +44,4 @@ Fold state is intentionally never persisted. Myne keeps no field for it in your 
 | Fold all | ⌘⌥[ | Ctrl Alt [ |
 | Unfold all | ⌘⌥] | Ctrl Alt ] |
 
-Both shortcuts are fixed and cannot be rebound. They are listed in the Hotkeys catalog under **Editor formatting**. Folding a single region has no keyboard shortcut — use the gutter arrow for that.
+Both shortcuts can be changed. They are listed in the Hotkeys catalog under **Editor formatting**, and a new chord applies to the open editor straight away — your cursor, scroll position, and undo history stay put. See [Customizing keyboard shortcuts](/user-guide/settings-and-privacy/custom-hotkeys/). Folding a single region has no keyboard shortcut — use the gutter arrow for that.

@@ -1,7 +1,7 @@
 ---
 title: "Tags"
 category: "find-and-connect"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "How tags group related notes, how Myne indexes them including nesting and case folding, and where tagged notes surface across the app."
 tags: ["tags", "search"]
 ---
@@ -14,7 +14,7 @@ Tags are a lightweight way to group related notes (`#project`, `#reading/2026`),
 
 Myne reads the tags across your notes and treats them as structured metadata:
 
-- **Tags fold for matching.** `#Project` and `#project` are the same tag; accent and case differences are folded together.
+- **Tags fold for matching.** `#Project` and `#project` are the same tag: matching folds case, and treats the different ways of encoding an accented character as one. It does not remove accents — `#café` and `#cafe` stay two tags.
 - **Tags nest with slashes.** `#area/topic` is a tag in its own right, and it also counts under its parent `#area`, so grouping by `#area` includes everything beneath it.
 
 Both the inline `#tags` you write in the body and a frontmatter `tags:` list feed this same index.
@@ -31,7 +31,7 @@ Tags are interactive in a few places:
 
 Open the tag browser from the command palette ("Browse tags…") or the **tags button** in the bottom bar. It lists every tag in the vault and lets you build a filter:
 
-- **Select one or more tags** by clicking their chips. A search box narrows the chip list as you type; matching folds case and accents the same way the index does.
+- **Select one or more tags** by clicking their chips. A search box narrows the chip list as you type, folding case the same way the index does.
 - **Combine with All or Any.** With **All**, a note must carry every selected tag (AND); with **Any**, carrying any one of them is enough (OR). Selecting `#area` includes notes tagged with its nested children, matching the index.
 - The matching notes appear in a list below; clicking one opens it.
 
@@ -43,4 +43,4 @@ With one or more tags selected, **Save as view** turns the current selection (an
 
 ## Limits
 
-The tag browser and the editor `#tag` chips browse by tag, but tags are not folders: a note keeps its place in the tree regardless of how it's tagged. The browser reads the tag index that Myne holds in memory while the vault is unlocked; it is not a separate stored list. Selecting tags in the browser filters notes, but does not change them — the only way to add or remove a tag is to edit the note's text.
+The tag browser and the editor `#tag` chips browse by tag, but tags are not folders: a note keeps its place in the tree regardless of how it's tagged. The browser reads Myne's tag index. That index is held in memory while the vault is unlocked and written into an encrypted index file in your vault when you lock or quit, so it is a stored cache — encrypted like your notes, and rebuilt from them if it is ever missing or behind. Selecting tags in the browser filters notes, but does not change them — the only way to add or remove a tag is to edit the note's text.

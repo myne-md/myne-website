@@ -1,8 +1,8 @@
 ---
 title: "Tabs and split view"
 category: "notes-and-organization"
-updated: 2026-06-18
-summary: "How to open notes in multiple tabs and arrange them side by side with split view, and how Myne remembers your open workspace between sessions."
+updated: 2026-08-13
+summary: "How to open notes in multiple tabs and arrange them side by side with split view, what a new empty tab offers you instead of a blank note, and how Myne remembers your open workspace between sessions."
 tags: ["workspace", "editor"]
 ---
 
@@ -13,6 +13,8 @@ Myne lets you keep several notes open at once, in tabs and in side-by-side panes
 ## Tabs
 
 Selecting a note opens it in the **focused pane's active tab**; it reuses the tab you are in, rather than piling up new ones. When you want to keep the current note open alongside a new one, open the new note in a **new tab** instead. Tabs in a pane can be cycled with the keyboard (see Shortcuts below), and closing a tab leaves the others untouched.
+
+A new, empty tab does not force a blank note on you. It shows a chooser: a search box over your notes, your most recent notes below it, and rows to create a new note or a new drawing instead. Trashed notes and templates are left out, matching what the sidebar shows. Press Esc to go back to the tab you were on, if the pane still has one.
 
 Each tab carries its own **view mode** — Live preview, Reading, or Source — so you can read one tab while editing another, and ⇧⌘E toggles the focused tab between editing and reading. See [View modes](/user-guide/editor-and-writing/view-modes/) for what each mode shows.
 
@@ -40,4 +42,6 @@ The Default workspace's layout is saved when you **close or lock Myne normally**
 | Next / previous tab in the pane | Ctrl Tab / Ctrl Shift Tab | Ctrl Tab / Ctrl Shift Tab |
 | Close the active tab | ⌘W | Ctrl W |
 | Toggle the focused tab between editing and reading | ⇧⌘E | Ctrl Shift E |
-| Split the focused pane right / down | ⌘\ / ⌘⇧\ | Ctrl \ / Ctrl Shift \ |
+| Split the focused pane right / down | ⌘\ / ⌘⇧&#124; | Ctrl \ / Ctrl Shift &#124; |
+
+Split-down is the same physical keys as split-right plus Shift. Myne lists it as `|` because that is the character Shift and `\` produce together, and the Hotkeys panel spells it the same way.

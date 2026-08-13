@@ -1,7 +1,7 @@
 ---
 title: "Your recovery phrase"
 category: "getting-started"
-updated: 2026-06-11
+updated: 2026-08-13
 summary: "What the 24-word recovery phrase is, why Myne shows it once when you create a vault, and how to write it down and store it so you can recover access later."
 tags: ["recovery", "vault", "security"]
 ---
@@ -39,7 +39,7 @@ Store the phrase the way you would store a spare key:
 
 - **On paper, somewhere safe** (a drawer, a safe, a sealed envelope) is the simplest good option.
 - **In a password manager** is fine if you already trust one with your other secrets.
-- **"Save as file"** writes a plaintext `myne-recovery-phrase.txt`. Use it only as a transfer step. A plaintext copy of the phrase left **on the same device it protects** defeats the point: anyone who reaches that device gets both the vault and the key to it. Move the file to separate, safe storage, then delete the local copy.
+- **"Save as file"** writes a plaintext `myne-recovery-phrase.txt`. Where your operating system supports it, Myne writes that file readable only by your own user account, and never touches it again — after that, protecting it is yours. Use it only as a transfer step. A plaintext copy of the phrase left **on the same device it protects** defeats the point: anyone who reaches that device gets both the vault and the key to it. Move the file to separate, safe storage, then delete the local copy.
 
 If you later forget your password, the phrase is how you get back in; see [If you forget your password](/user-guide/safety-and-recovery/if-you-forget-your-password/). The flow is "unlock with recovery phrase".
 

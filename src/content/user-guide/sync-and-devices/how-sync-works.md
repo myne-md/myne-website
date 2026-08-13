@@ -1,7 +1,7 @@
 ---
 title: "How sync works"
 category: "sync-and-devices"
-updated: 2026-07-11
+updated: 2026-08-13
 summary: "The zero-knowledge model behind sync in plain language: your keys come from your password, the server holds only ciphertext, and hosted and self-hosted servers get the exact same access. This page states what the server sees, what it cannot, and where the guarantees stop."
 tags: ["sync", "privacy", "security"]
 ---
@@ -15,6 +15,8 @@ Sync is built so the server can store and relay your notes without ever being ab
 When you unlock your vault, your password (or recovery phrase) derives the keys that encrypt and decrypt your notes. Those keys stay on your device. What travels to the server is ciphertext plus a small amount of routing metadata. Because the server never has the keys, it cannot decrypt a note, a title, a folder name, or a tag — all of that lives inside the encrypted blob.
 
 This is what "zero-knowledge" means here: the server can hold your data and hand it to your other devices, but it cannot read it. It is a property of the math, not a promise about the operator's good behaviour.
+
+A large vault does not travel in one go. Myne sends and fetches in bounded batches and records what has landed before sending the next, so a first sync of thousands of notes progresses over several passes rather than restarting from the beginning each time. Progress is shown as a count of notes, not an estimate — see [Reading sync status](/user-guide/sync-and-devices/sync-status/).
 
 ## Hosted and self-hosted are the same trust model
 

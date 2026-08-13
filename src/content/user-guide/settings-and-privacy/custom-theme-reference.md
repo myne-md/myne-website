@@ -1,8 +1,8 @@
 ---
 title: "Custom theme reference"
 category: "settings-and-privacy"
-updated: 2026-07-18
-summary: "The complete reference for writing a custom theme: the JSON file format, every required color key, which value formats are accepted, what gets rejected and why, and how you import, export, and store them."
+updated: 2026-08-13
+summary: "The complete reference for writing a custom theme: the JSON file format, every required color key, the ornament, tint and measure tokens a theme may also set, which value formats are accepted, what gets rejected and why, and how you import, export, and store them."
 tags: ["settings"]
 ---
 
@@ -12,7 +12,7 @@ A custom theme is validated locally before it is used. Validation is not a sandb
 
 ## The file
 
-A theme is a single `.json` file: a flat object whose keys are CSS color variables and whose values are colors.
+A theme is a single `.json` file: a flat object whose keys are CSS variables and whose values are plain values. Colors are the core of it, and a theme may also set the ornament, tint and measure tokens described below.
 
 ```json
 {
@@ -28,7 +28,7 @@ The file name (without `.json`) is the theme's name in the picker. Names may use
 
 ## Importing and exporting
 
-Themes live inside your vault, not as loose files on disk. In **Settings → Appearance → Custom themes**, use **Import theme** to pick a `.json` file — Myne validates it and, if it is well formed, adds it to the list. To get a copy back out — to share it or edit it in an external editor — use **Export** on a theme and Myne writes it as plain `.json`. That export is your own local action, so the palette leaves the encrypted vault only because you asked; the server never sees it.
+Themes live inside your vault, not as loose files on disk. In **Settings → Appearance → Custom themes**, use **Import theme…** to pick a `.json` file — Myne validates it and, if it is well formed, adds it to the list. To get a copy back out — to share it or edit it in an external editor — use **Export** on a theme and Myne writes it as plain `.json`. That export is your own local action, so the palette leaves the encrypted vault only because you asked; the server never sees it.
 
 The easiest way to start is to export an existing theme, edit the values, and import it back under a new name.
 
@@ -49,6 +49,37 @@ If any required key is missing, the theme is rejected and the picker tells you w
 ## Optional keys
 
 You may also set the editor's syntax-highlighting, color-label, and highlight colors (`--syntax-*`, `--label-*`, `--highlight-*`). These are optional. If you leave them out, they fall back to the built-in **light** values — so if you are making a **dark** theme, set them too, or your code highlighting and labels will look wrong against a dark background.
+
+## Ornaments
+
+Beyond color, a theme can pick how three kinds of surface are decorated. The key is the role followed by the primitive — `--box-frame`, `--surface-texture` — and the value is one bare word.
+
+| Role | What it covers | Primitives it accepts |
+| --- | --- | --- |
+| `surface` | Pages and panels | frame, shadow, texture, ruled, edge, fold, perforation |
+| `box` | Callouts, cards, code blocks, quotes | all of the above, plus ribbon |
+| `chrome` | Tabs, buttons, bars | frame, shadow, texture |
+
+| Primitive | Values |
+| --- | --- |
+| `frame` | none, hairline, thick, double, inset |
+| `shadow` | none, soft, hard, offset |
+| `texture` | none, paper, grain, scanline, grid |
+| `ruled` | none, lines, grid, dotted |
+| `edge` | plain, torn, serrated, cut |
+| `fold` | none, folded, dogear |
+| `ribbon` | none, corner, band, label |
+| `perforation` | none, left, top, both |
+
+A combination outside the first table — `--chrome-fold`, say — is stored and drawn as nothing. A value Myne does not recognise is dropped and the primitive renders plain, so a theme written for a newer version of Myne still loads on an older one instead of failing to import.
+
+## Tint
+
+`--tint` sets a color washed over the interface and `--tint-strength` how strongly, from `0` to `1`. There is one pair for the whole app rather than one per role. Myne caps how strong the wash can get, so text stays readable.
+
+## Measure
+
+A theme may also set the spacing scale (`--space-0` … `--space-9`), corner radii (`--radius-1` … `--radius-3`, `--radius-pill`), the type scale (`--text-xs` … `--text-4xl`), font weights (`--weight-regular` … `--weight-bold`) and letter-spacing (`--tracking-tight` … `--tracking-caps`). Myne clamps each against its own default, so an extreme value cannot leave you with an unusable window.
 
 ## Accepted values
 
@@ -77,3 +108,11 @@ This is an **allowlist**: Myne accepts the known color formats above and refuses
 ## When a theme is rejected
 
 If an import fails the check, Myne rejects it and tells you why — a missing key, an invalid value (and the key it belongs to), a bad name, or a JSON syntax error with its line. The theme is not added; fix the values and import it again. Validation runs entirely on your device.
+
+Two further checks run at import.
+
+**Contrast.** A palette can be perfectly well formed and still unreadable, so Myne measures five pairs and refuses the file if any of them is too close: display text and primary text on the page background, and primary text on a recessed surface, each need at least 4.5:1; secondary text and the accent on the page each need at least 3:1. The message names the pair and the ratio it measured. The tertiary ink (`--ink-3`) is deliberately not checked — it is the hint color and is meant to be quiet. This checks colors, not the finished picture: a texture or ruled ground behind text can still bury it while every pair passes.
+
+**Reserved names.** Keys beginning `--_` belong to Myne's own ornament layer and are refused. Rename the key; nothing you can legitimately set needs that prefix.
+
+Both checks run when you import. A theme that arrives from another device through sync is still listed and can still be deleted, so a palette that fails a floor never leaves you with an empty picker.

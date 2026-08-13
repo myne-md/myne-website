@@ -1,7 +1,7 @@
 ---
 title: "Clean up leftover files"
 category: "safety-and-recovery"
-updated: 2026-06-11
+updated: 2026-08-13
 summary: "What leftover files are, when Myne offers to clean them up, and what the cleanup does and does not touch in your vault."
 tags: ["vault", "security"]
 ---
@@ -18,7 +18,7 @@ The leftover files are unreadable junk. When a vault is deleted, its keys go fir
 
 ## If some can't be removed
 
-If a file can't be cleared, say a permissions problem or a locked file, Myne reports it rather than pretending it's gone. You can try the cleanup again, or remove the named files yourself with your file manager; since they're unreadable, deleting them by hand is safe.
+If some files can't be cleared, Myne says how many rather than pretending they are gone, and names the usual cause: another program — antivirus, file sync, or search indexing — is holding them open. Close that program and run the cleanup again, or remove the vault folder yourself with your file manager. Since the files are unreadable, deleting them by hand is safe.
 
 ## Limits
 

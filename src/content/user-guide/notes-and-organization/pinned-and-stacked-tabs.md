@@ -1,7 +1,7 @@
 ---
 title: "Pinned and stacked tabs"
 category: "notes-and-organization"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "Pin a tab so navigation opens new tabs instead of replacing it, and flip a pane between the normal tab strip and a stacked deck. Both states persist across lock and unlock."
 tags: ["workspace", "editor"]
 ---
@@ -26,7 +26,7 @@ Toggle it from the command palette with **Toggle stacked tabs**, in the View cat
 
 ## Limits
 
-The pinned and stacked flags ride inside the encrypted `vault.workspace` blob along with the rest of your editor layout — they are not written to disk in the clear. The workspace is written only when you close or lock Myne normally, and those writes are coalesced rather than fired on every change. Because of that, the blob's modification time is a coarse signal: someone who can read your vault folder can at most infer that *some* workspace change happened within a roughly five-minute window. They cannot see which tabs are pinned, which panes are stacked, or anything else about the layout. This is the same bounded trade described in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/) and in [Named workspaces](/user-guide/notes-and-organization/named-workspaces/).
+The pinned and stacked flags ride inside the encrypted `vault.workspace` blob along with the rest of your editor layout — they are not written to disk in the clear. Layout changes are saved best-effort: writes are coalesced to at most once every five minutes or so of active use, and again whenever you close or lock Myne normally. Because of that, the blob's modification time is a coarse signal: someone who can read your vault folder can at most infer that *some* workspace change happened within a roughly five-minute window. They cannot see which tabs are pinned, which panes are stacked, or anything else about the layout. This is the same bounded trade described in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/) and in [Named workspaces](/user-guide/notes-and-organization/named-workspaces/).
 
 ## Shortcuts
 

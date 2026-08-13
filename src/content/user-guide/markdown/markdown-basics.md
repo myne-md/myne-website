@@ -1,12 +1,12 @@
 ---
 title: "Markdown basics"
 category: "markdown"
-updated: 2026-07-31
+updated: 2026-08-13
 summary: "The core markdown syntax Myne renders: headings, emphasis, lists, links, blockquotes, and horizontal rules, with examples of how each one looks in the editor."
 tags: ["markdown", "editor"]
 ---
 
-This article covers the everyday markdown you will use most. Myne renders it live: as your cursor leaves a line, the markers fade and the formatting shows; move the cursor back onto the line and the raw markdown returns so you can edit it. Nothing is rewritten, and what you see is a view of the bytes you typed.
+This article covers the everyday markdown you will use most. Myne renders it live: the markers fade and the formatting shows as you write. Put the caret on a marker — a heading's `#`, a quote's `>`, a bullet's `-` — and that marker comes back so you can edit it, while the rest of the line keeps its shape. Nothing is rewritten, and what you see is a view of the bytes you typed.
 
 ![A note showing rendered Markdown basics: a heading, bold and italic text, and a bulleted list.](./markdown-basics.png)
 
@@ -28,7 +28,7 @@ Bold, italic, and inline code have toolbar buttons and keyboard shortcuts.
 
 - **Bullet lists** start a line with `- `.
 - **Numbered lists** start with `1. `.
-- **Task lists** use `- [ ]` for an open item and `- [x]` for a done one; the checkbox is clickable.
+- **Task lists** use `- [ ]` for an open item and `- [x]` for a done one; the checkbox is clickable. A task line can also carry a due date, a priority and a repeat rule, which you set from controls rather than type — see [Tasks](/user-guide/notes-and-organization/tasks/).
 
 Lists nest by indenting.
 
@@ -70,5 +70,8 @@ Find looks inside the note you're reading; to search across every note in your v
 | Toggle bullet list | ⌘⇧8 | Ctrl Shift 8 |
 | Toggle numbered list | ⌘⇧7 | Ctrl Shift 7 |
 | Toggle task list | ⌘⇧M | Ctrl Shift M |
+| Insert wikilink | ⌘⇧L | Ctrl Shift L |
 | Find in note | ⌘F | Ctrl F |
 | Select section | ⌘A | Ctrl A |
+
+These are the defaults. You can change any of them under **Settings → Hotkeys**, which also lists every shortcut in the app.

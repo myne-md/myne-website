@@ -1,7 +1,7 @@
 ---
 title: "Exporting notes and your vault"
 category: "editor-and-writing"
-updated: 2026-06-18
+updated: 2026-08-13
 summary: "Export a single note as Markdown, PDF, HTML, or plain text, or export the whole vault as a Markdown folder tree. Every export is unencrypted plaintext that leaves Myne's protection the moment it is written."
 tags: ["notes", "markdown", "attachments"]
 ---
@@ -10,10 +10,11 @@ Exporting writes your notes out to ordinary files you can open anywhere. A singl
 
 ## Exporting a single note
 
-Single-note export has two surfaces, and they run the exact same flow:
+Single-note export has three surfaces, and they run the exact same flow:
 
 - **Right-click a note** in the sidebar to open its context menu. The export items are there, one per format: **Export as Markdown…**, **Export as PDF…**, **Export as HTML…**, and **Export as Plain Text…**.
 - **Open the command palette** while a note is open. The same export actions live in the **Editor** category, and they only appear when a note is open; in the palette each item reads **Export note as Markdown…**, **Export note as PDF…**, **Export note as HTML…**, and **Export note as Plain Text…** (the palette spells out "note").
+- **The note-actions menu** in the editor's top-right. While a note is open, the **…** button (**Note actions**) opens a menu with the same four export items — **Export as Markdown…**, **Export as PDF…**, **Export as HTML…**, and **Export as Plain Text…** — alongside Rename, Move to folder, Duplicate, Turn into template, Version history, and Move to trash.
 
 Picking any of them opens your operating system's save dialog so you choose where the file goes; if a file with that name is already there, the dialog's own Replace prompt is your consent to overwrite. When the export finishes, a toast reads **Exported to &lt;filename&gt;** with a **Show in folder** action that reveals the file in your file manager. When attachments or images are written out beside the file, the toast names them too — **Exported to &lt;filename&gt; + N attachment(s)** for Markdown, **+ N image(s)** for HTML.
 
@@ -24,6 +25,8 @@ The four formats differ in how faithfully they carry the note. Markdown is a byt
 **Export as Markdown…** writes the note's body to a `.md` file byte-for-byte, exactly as Myne stores it — your [properties](/user-guide/markdown/frontmatter-properties/) and all. This is the only export that is a faithful round-trip of the note's text: what you export is what you wrote.
 
 If the note embeds attachments, a short modal appears first and asks whether to include them. It states plainly: **The exported file is plain Markdown — it is not encrypted.** The **Include N attachments** toggle, with the sub-label "Files are placed in the same folder as the note", controls whether the referenced attachments are written out beside the `.md`. When you include them, each embed is rewritten to the `![[filename]]` wikilink form pointing at the file next to the note; if two attachments would land on the same name, the second gets a deterministic ` (1)` suffix so nothing is overwritten. When a note has no attachments, there is no modal — the same egress sentence rides the save dialog's title instead, so it is said once, at the point you decide.
+
+The modal also carries a **Copy note text to clipboard** button. It copies that note's Markdown and writes no file — the export stops there, and a toast confirms with **Note text copied**. The clipboard holds unencrypted text like any other export, so treat it the same way. The button rides the same modal, so it appears only when the note references attachments. It always targets the note the modal is about, which is not necessarily the note you have open.
 
 ## PDF export
 
@@ -57,4 +60,4 @@ An export is **not a backup and not a snapshot**. A [vault backup](/user-guide/s
 
 Only Markdown export is a faithful, byte-stable copy of the note's text. PDF, HTML, and plain text are lossy projections: they render or strip the note and do not round-trip back in. If you want a file you can re-import later, export Markdown.
 
-There is no plaintext mode. Myne does not watch a folder, mirror your notes to disk, or export anything on save — every plaintext file exists only because you asked for it. The vault stays encrypted until you choose otherwise. For how that fits the wider model, see [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/). Until you turn on sync, Myne runs entirely on your device; nothing leaves it.
+There is no plaintext mode. Myne does not watch a folder, mirror your notes to disk, or export anything on save — every plaintext file exists only because you asked for it. The vault stays encrypted until you choose otherwise. For how that fits the wider model, see [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/). Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.

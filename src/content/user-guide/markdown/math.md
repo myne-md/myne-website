@@ -1,7 +1,7 @@
 ---
 title: "Math"
 category: "markdown"
-updated: 2026-06-11
+updated: 2026-08-13
 summary: "How to write inline and block mathematical expressions in your notes and how Myne renders them."
 tags: ["markdown"]
 ---
@@ -32,6 +32,10 @@ This means a line like `It cost $5, not $10.` renders as plain text, while `$a +
 
 If an expression can't be parsed, Myne shows your **raw LaTeX** with a subtle hint rather than a red error box. Your text is never replaced with an error, so you can see and fix it in place.
 
+## What math cannot do
+
+The commands that would turn an equation into markup are refused: `\href`, `\url` and `\includegraphics` are shown as unsupported source rather than becoming a link or loading an image. Math typesets your notation; it is not a way to put a link or a remote resource in a note.
+
 ## Limits
 
-KaTeX is loaded the first time a note needs it, so the very first math on screen may appear a moment after the rest of the note. Rendering is local; nothing about your equations leaves your device.
+KaTeX is loaded the first time a note needs it, so the very first math on screen may appear a moment after the rest of the note. Typesetting happens on your device: the math renderer and its fonts ship inside Myne, and rendering an equation makes no network request. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.

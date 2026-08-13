@@ -1,8 +1,8 @@
 ---
 title: "Browser clipper"
 category: "attachments-and-import"
-updated: 2026-07-11
-summary: "Save web pages into your vault with the Myne Clipper browser extension. Pair it to your open vault with a numeric challenge, clip a page or selection to the vault root as markdown with its images, and manage or unpair browsers from Connected extensions."
+updated: 2026-08-13
+summary: "Save web pages into your vault with the Myne Clipper browser extension. Turn on the Browser clipper setting, pair the extension to your open vault with a numeric challenge, clip a page or selection to the vault root as markdown with its images, and manage or unpair browsers from Connected extensions."
 tags: ["attachments", "import"]
 ---
 
@@ -14,15 +14,16 @@ The Myne Clipper is a browser extension that saves a web page into your vault as
 
 - A vault, created and unlocked. Pairing and clipping both require the desktop app running with the vault unlocked.
 - One of the supported browsers: Firefox, Chrome, or Edge.
+- The **Browser clipper** setting turned on. It is off until you turn it on, and turning it on is what puts the local bridge in place.
 
-## The browser clipper setting
+## Turn on the browser clipper first
 
-The desktop side registers the native-messaging host — the local bridge the extension uses to reach the app — by default, so the clipper works without extra setup. You can confirm the setting, or turn it off, in Settings.
+The desktop side does not register the native-messaging host — the local bridge the extension uses to reach the app — until you ask it to. The setting ships off, so turn it on before you install or pair the extension; an extension installed while the host is unregistered has nothing to talk to, and pairing will not start.
 
 1. Open Settings from the gear in the bottom bar or with `⌘,`.
-2. In the **Account** panel, find **Browser clipper**. The toggle is on by default. Turning it off removes the native-messaging host; turning it back on registers it again.
+2. In the **Account** panel, find **Browser clipper** and switch it on. Turning it on registers the native-messaging host; turning it off removes it again.
 
-Install the Myne Clipper extension in your browser from its extension listing. The extension and the desktop app find each other through the registered host.
+Then install the Myne Clipper extension in your browser from its extension listing. The extension and the desktop app find each other through the registered host.
 
 ## Pairing the extension to your vault
 

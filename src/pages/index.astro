@@ -402,9 +402,35 @@ const ogImage = absoluteOg("home", Astro.site!);
             >
           </div>
         </div>
+        <!-- The clearance below is NOT decorative spacing — it is the wordmark's
+             descender, and a flat `margin-top:26px` put this row underneath it.
+
+             The "Myne" h2 above is `font-size:clamp(72px,18vw,260px)` with
+             `line-height:0.8`, i.e. a line box deliberately SHORTER than the
+             glyphs. Measured in the browser at 1600px: font-size 260px, box
+             208px, natural line box 299px — so the half-leading is negative and
+             the tail of the "y" paints 45.5px BELOW the h2's border box, while
+             this row started only 26px below it. Net 19.5px of overlap, and the
+             descender landed on top of "Terms".
+
+             It was always this way; the legal links only made it visible,
+             because the copyright text alone did not sit under the "y".
+
+             The fix goes here rather than on the h2 on purpose. Giving the h2
+             padding (or a line-height that contains its own ink) would work,
+             but the flex row is `align-items:flex-end` and the social column
+             is flush with the h2's box bottom — measured difference exactly
+             0px — so growing that box drags the social links down with it and
+             breaks an alignment nobody asked us to change.
+
+             The overhang is 0.175 × font-size (45.5/260, measured), and
+             font-size is itself a clamp, so the clearance has to be one too:
+             0.175 × clamp(72px,18vw,260px) = clamp(12.6px,3.15vw,45.5px), plus
+             the 26px this row was always meant to have. Change one of these two
+             clamps and the other needs recomputing. -->
         <div
           class="mono up"
-          style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:26px;font-size:10px;color:#54544f;"
+          style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:clamp(40px,calc(3.15vw + 26px),72px);font-size:10px;color:#54544f;"
         >
           <!-- The legal row starts here with one entry. operations#15 adds the
                rest — terms, Impressum, the law-enforcement and notice pages —

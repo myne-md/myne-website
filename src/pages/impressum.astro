@@ -7,7 +7,7 @@
 // anyway. A short English note at the foot points international readers at
 // what this page is, without pretending to be a second Impressum.
 //
-// ── NOT LINKED FROM THE FOOTER YET, ON PURPOSE ──────────────────────────────
+// ── NOT LINKED, NOT INDEXED, ON PURPOSE ─────────────────────────────────────
 //
 // The address is still missing (a ladungsfähige Anschrift service, deferred
 // to public launch). An Impressum without a summonable address is worse than
@@ -16,6 +16,14 @@
 // is written, and is reachable by URL — but nothing advertises it until the
 // address is real. Adding the footer link is part of closing #9, not of
 // writing this file.
+//
+// On the prod origin "unlinked" is not enough on its own: myne.md's
+// robots.txt is `Allow: /` and advertises the sitemap, so a page listed
+// there gets crawled whether or not anything links to it. Hence two
+// measures that belong together — `robots="noindex,nofollow"` below, and the
+// `/impressum/` exclusion in astro.config.mjs's sitemap filter. Drop both in
+// the same change as the address (example-org/operations#9); dropping one alone
+// leaves the page half-published.
 //
 // Why an Impressum is required at all, for a free non-commercial beta: the
 // statutory test is "geschäftsmäßig" — regular and planned provision, not
@@ -45,7 +53,13 @@ const pending =
   "display:inline-block;padding:2px 8px;border:1px dashed rgba(255,255,255,0.28);border-radius:5px;color:#6f6f6c;font-size:13px;";
 ---
 
-<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
+<LandingLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+  robots="noindex,nofollow"
+>
   <div
     style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
   >

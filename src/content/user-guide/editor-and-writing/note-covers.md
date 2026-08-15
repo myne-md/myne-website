@@ -32,7 +32,7 @@ Hover the cover itself. Two controls appear on it:
 - **Change cover** opens the picker again.
 - **Remove cover** clears it immediately. The image stays in your vault; only the note stops using it as a cover.
 
-On a touch screen there is no hover, so these controls are always visible. On the mobile app a cover is shown but cannot yet be changed from inside the note.
+On a touch screen there is no hover, so these controls are always visible. On the mobile app the same controls appear as a sheet.
 
 ## Where a cover appears
 

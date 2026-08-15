@@ -1,7 +1,7 @@
 ---
 title: "Multiple vaults"
 category: "safety-and-recovery"
-updated: 2026-08-13
+updated: 2026-08-15
 summary: "How to keep more than one vault, how to switch between them, how to give each a name and icon, what you can see before a vault is unlocked, and how vaults stay independent of one another."
 tags: ["vault", "privacy"]
 ---
@@ -18,7 +18,7 @@ When you have two or more vaults, Myne shows a **picker** at launch, and the vau
 
 ## What's visible before you unlock
 
-Vaults you haven't unlocked are shown neutrally: a locked vault appears as **Vault 1**, **Vault 2**, and so on, not by a name that could reveal what's inside. Be aware of what *is* visible before any vault is unlocked: how many vaults you have, and when each was last opened. Their names, contents, and notes stay sealed until you unlock them.
+On macOS and iOS, a vault this device has unlocked before is listed by its real name, from a sealed copy Myne keeps locally after that first unlock. On Windows, Linux and Android there is no keychain to seal that copy with yet, so every row stays neutral. A vault this device has never unlocked is shown neutrally instead, as **Vault 1**, **Vault 2**, and so on, because its name is still sealed inside it. A Privacy setting keeps names off that screen entirely and destroys the copies already stored here: see [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/). Either way, be aware of what *is* visible before any vault is unlocked: how many vaults you have, and when each was last opened. Their contents and notes stay sealed until you unlock them.
 
 ## Naming a vault and giving it an icon
 
@@ -26,7 +26,7 @@ Each vault can carry its own name and icon, so the switcher tells them apart at 
 
 To set them, open **Settings → Account** while the vault is unlocked. The **Vault label** field names the vault; the **Icon** grid below it picks a glyph, and **Default (wordmark)** clears the icon back to the neutral mark.
 
-Like the vault's contents, its name and icon live inside the vault's encrypted prefs. They only appear once you have unlocked that vault: a vault you have not unlocked this session shows the neutral mark and the neutral **Vault 1** / **Vault 2** placeholder described above. Nothing about the name or icon is visible before you unlock.
+Like the vault's contents, its name and icon live inside the vault's encrypted prefs, so neither is readable until that vault is unlocked. The icon follows that rule strictly: a vault you have not unlocked this session shows the neutral mark. The name is the deliberate exception. After a first unlock on a device, Myne keeps a sealed copy of it there so the locked picker can show it, which also means a rename reaches only the device you rename on: your other devices keep showing the old name until you unlock the vault there. [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/) covers that store, its limits, and the setting that turns it off.
 
 ## Vaults are independent
 

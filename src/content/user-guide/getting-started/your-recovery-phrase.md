@@ -30,7 +30,8 @@ Typing is forgiving about case and surrounding spaces. Myne compares the normali
 While the phrase is on screen, Myne guards it:
 
 - The grid is **blurred until you choose to reveal it**, and it **re-blurs when you switch away** from the window (for example, when you Cmd-Tab to another app), so the words are not left uncovered behind other windows.
-- **Copy** puts the phrase on your clipboard and then **clears it automatically after 30 seconds**, so it does not linger for the next thing you paste.
+- **Copy** puts the phrase on your clipboard and then **clears it automatically after 30 seconds**, so it does not linger for the next thing you paste. Myne also tells you whether the copy actually worked. If your system refuses the clipboard, you see that, instead of a button that looks like it did something. Treat Copy as a way to move the phrase into a password manager, not as somewhere to keep it.
+- **On a phone, Copy is not offered yet.** Use **"Save to file"** there. Offering it on a phone means being able to promise two things the desktop cannot: that the phrase stays on that device rather than travelling to your other devices through the shared clipboard, and that the system removes it on a timer that holds even if you close Myne. Android provides neither, so the button will not appear there at all. iOS does provide both, and the button stays off there until we have confirmed the behaviour on real hardware rather than only in Apple's documentation.
 - If you try to **close the window mid-step**, Myne asks you to confirm, so you cannot lose the phrase by accidentally closing the wizard before you have saved it.
 
 ## Where to keep it

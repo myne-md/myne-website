@@ -1,7 +1,7 @@
 ---
 title: "Import from Obsidian"
 category: "attachments-and-import"
-updated: 2026-08-13
+updated: 2026-08-16
 summary: "How to import an existing Obsidian vault into Myne — and, through the same flow, from Notion, Evernote, HTML, and CSV. How notes, links, and attachments map, and the edge cases to check in the import summary and report."
 tags: ["import", "attachments"]
 ---
@@ -66,9 +66,13 @@ Very long names are shortened in the middle so a row stays readable; the full na
 | A file's name | the note's `title:` (when the note has none of its own) |
 | A `[[wikilink]]` | kept exactly as written |
 | A referenced image/PDF (supported type, within size) | brought in as an attachment and embedded with `![[att:…]]` |
+| An image's size, as in `![[photo.png\|300]]` | kept, so the image stays the width you gave it |
+| An image's alt text, as in `![A sunset](photo.png)` | kept, pipes and all. A `]` is the one character it cannot carry, because that is what ends an embed |
 | A referenced MP4 or WebM video (within size) | brought in as an attachment and embedded as an inline player |
 | A referenced file Myne can't take | left as a searchable placeholder (see Limits) |
 | A remote image URL | left as-is and **never fetched** |
+
+If you sized an image in Obsidian, that size comes across. A size written in a form Myne cannot read is not applied and does not become part of the file name either: the reference is rewritten to point at the imported attachment, and the unreadable size is not carried into it. The whole-vault import summarises by file type rather than by size and alt text, so there is no count to check that against here. The per-note **Import and convert** command, which you run on one note you have already pasted in, does report how many references kept a size or an alt text.
 
 MOV files and anything over the 64 MiB attachment cap are not brought in as playable video — they arrive as an export-only file-card, or leave a placeholder if they could not be imported at all. The exact embed syntax an imported attachment lands as is in [Embeds](/user-guide/markdown/embeds/).
 

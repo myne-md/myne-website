@@ -16,6 +16,7 @@
 // summary of it. Change one, change the other in the same commit.
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Privacy Policy — Myne";
@@ -421,5 +422,7 @@ const notStored = [
         </p>
       </div>
     </section>
+
+    <SiteFooter />
   </div>
 </LandingLayout>

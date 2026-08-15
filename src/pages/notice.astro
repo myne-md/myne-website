@@ -23,6 +23,7 @@
 // German version: `meldung.astro`.
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Report Illegal Content — Myne";
@@ -200,5 +201,7 @@ const noticeParts = [
         </p>
       </div>
     </section>
+
+    <SiteFooter />
   </div>
 </LandingLayout>

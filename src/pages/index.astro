@@ -1,7 +1,7 @@
 ---
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
-import StatusBadge from "../components/StatusBadge.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Myne — Your notes. Sealed.";
@@ -342,122 +342,8 @@ const ogImage = absoluteOg("home", Astro.site!);
       </div>
     </section>
 
-    <!-- ===================== FOOTER WORDMARK ===================== -->
-    <footer style="padding:60px 28px 30px;">
-      <div style="max-width:1280px;margin:0 auto;">
-        <div
-          class="mono up foot-nav"
-          style="display:grid;grid-template-columns:repeat(7,1fr);gap:20px;font-size:11px;color:#8a8a86;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);padding:22px 0;"
-        >
-          <a href="#work" style="color:inherit;text-decoration:none;"
-            >How it works</a
-          >
-          <a href="#capab" style="color:inherit;text-decoration:none;">Compare</a>
-          <a href="#commit" style="color:inherit;text-decoration:none;">FAQ</a>
-          <a href="/ledger/" style="color:inherit;text-decoration:none;">Ledger</a>
-          <a
-            href="/user-guide/getting-started/welcome/"
-            style="color:inherit;text-decoration:none;">Guide</a
-          >
-          <a href="/themes/" style="color:inherit;text-decoration:none;">Themes</a>
-          <a href="/roadmap/" style="color:inherit;text-decoration:none;"
-            >Roadmap</a
-          >
-        </div>
-        <div
-          style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;gap:24px;flex-wrap:wrap;"
-        >
-          <h2
-            style="font-size:clamp(72px,18vw,260px);line-height:0.8;font-weight:800;letter-spacing:-0.03em;"
-          >
-            Myne
-          </h2>
-          <div
-            class="mono up"
-            style="display:flex;flex-direction:column;gap:6px;font-size:11px;color:#54544f;text-align:right;"
-          >
-            <a
-              href="https://github.com/myne-md"
-              style="color:inherit;text-decoration:none;">GitHub</a
-            >
-            <a
-              href="https://social.myne.md/@myne"
-              rel="me"
-              style="color:inherit;text-decoration:none;">Mastodon</a
-            >
-            <a
-              href="https://x.com/myne_md"
-              rel="me noopener"
-              style="color:inherit;text-decoration:none;">X</a
-            >
-            <a
-              href="https://bsky.app/profile/myne.md"
-              rel="me noopener"
-              style="color:inherit;text-decoration:none;">Bluesky</a
-            >
-            <a
-              href="https://www.reddit.com/r/myne_md/"
-              rel="me noopener"
-              style="color:inherit;text-decoration:none;">Reddit</a
-            >
-          </div>
-        </div>
-        <!-- The clearance below is NOT decorative spacing — it is the wordmark's
-             descender, and a flat `margin-top:26px` put this row underneath it.
-
-             The "Myne" h2 above is `font-size:clamp(72px,18vw,260px)` with
-             `line-height:0.8`, i.e. a line box deliberately SHORTER than the
-             glyphs. Measured in the browser at 1600px: font-size 260px, box
-             208px, natural line box 299px — so the half-leading is negative and
-             the tail of the "y" paints 45.5px BELOW the h2's border box, while
-             this row started only 26px below it. Net 19.5px of overlap, and the
-             descender landed on top of "Terms".
-
-             It was always this way; the legal links only made it visible,
-             because the copyright text alone did not sit under the "y".
-
-             The fix goes here rather than on the h2 on purpose. Giving the h2
-             padding (or a line-height that contains its own ink) would work,
-             but the flex row is `align-items:flex-end` and the social column
-             is flush with the h2's box bottom — measured difference exactly
-             0px — so growing that box drags the social links down with it and
-             breaks an alignment nobody asked us to change.
-
-             The overhang is 0.175 × font-size (45.5/260, measured), and
-             font-size is itself a clamp, so the clearance has to be one too:
-             0.175 × clamp(72px,18vw,260px) = clamp(12.6px,3.15vw,45.5px), plus
-             the 26px this row was always meant to have. Change one of these two
-             clamps and the other needs recomputing. -->
-        <div
-          class="mono up"
-          style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:clamp(40px,calc(3.15vw + 26px),72px);font-size:10px;color:#54544f;"
-        >
-          <!-- The legal row starts here with one entry. operations#15 adds the
-               rest — terms, Impressum, the law-enforcement and notice pages —
-               and at that point this belongs in its own footer column rather
-               than appended to the copyright line. -->
-          <span
-            >© 2026 · AGPL-3.0 · CC-BY-4.0 docs · <a
-              href="/terms/"
-              style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
-              >Terms</a
-            > · <a
-              href="/privacy/"
-              style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
-              >Privacy</a
-            > · <a
-              href="/law-enforcement/"
-              style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
-              >Law enforcement</a
-            > · <a
-              href="/notice/"
-              style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
-              >Report content</a
-            ></span
-          ><StatusBadge /><span>v0.1 · pre-alpha</span>
-        </div>
-      </div>
-    </footer>
+    <!-- ===================== FOOTER ===================== -->
+    <SiteFooter />
   </div>
 
   <!-- Mobile layout overrides. Inline styles win over classes, so the grid
@@ -532,18 +418,6 @@ const ogImage = absoluteOg("home", Astro.site!);
         grid-template-columns: 1fr !important;
         gap: 28px !important;
         padding: 32px 22px !important;
-      }
-
-      /* Footer link grid: six across is too tight on a phone. */
-      .foot-nav {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 14px 16px !important;
-      }
-    }
-
-    @media (max-width: 460px) {
-      .foot-nav {
-        grid-template-columns: repeat(2, 1fr) !important;
       }
     }
   </style>

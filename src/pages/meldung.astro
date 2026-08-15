@@ -3,6 +3,7 @@
 // `notice.astro`, same document. Change one, change the other.
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Rechtswidrige Inhalte melden — Myne";
@@ -183,5 +184,7 @@ const noticeParts = [
         </p>
       </div>
     </section>
+
+    <SiteFooter />
   </div>
 </LandingLayout>

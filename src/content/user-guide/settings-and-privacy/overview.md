@@ -1,7 +1,7 @@
 ---
 title: "Settings & privacy"
 category: "settings-and-privacy"
-updated: 2026-08-13
+updated: 2026-08-15
 summary: "An overview of Myne's settings panels and the privacy model behind them: account, privacy controls, sync, editor and files behaviour, transcription, appearance and language, hotkeys, storage, the AI beta and where its work runs, Tor routing, and what Myne deliberately does not do."
 tags: ["settings", "privacy"]
 ---
@@ -13,7 +13,7 @@ Settings is where you adjust how Myne works, and this section also explains the 
 With a vault open, open Settings from the gear in the bottom bar or with `⌘,`. It opens over the editor. The left rail lists its panels, in order:
 
 - **Account** holds your vault's label and icon, connected browser extensions, the Change password action, and, under Danger zone, Delete vault. See [Account](/user-guide/settings-and-privacy/account/).
-- **Privacy** holds screen-capture protection, auto-lock, and quick unlock. With Developer mode on it also holds **Terminal access**, which opens your unlocked vault to the `myne` command on this machine. See [Auto-lock and screen-capture protection](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/) and [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/).
+- **Privacy** holds screen-capture protection, auto-lock, quick unlock, and whether vault names appear on the lock screen. With Developer mode on it also holds **Terminal access**, which opens your unlocked vault to the `myne` command on this machine. See [Auto-lock and screen-capture protection](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/), [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/), and [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/).
 - **Sync** connects a sync server, adds and manages the devices on your account, resolves sync conflicts, and holds the vault-format upgrade. See the [Sync and devices](/user-guide/sync-and-devices/overview/) section.
 - **Editor** holds note-authoring behaviour: the default [view mode](/user-guide/editor-and-writing/view-modes/) a note opens in, typography presets (text size, line spacing, content width, font family), the [line-number gutter](/user-guide/editor-and-writing/editor-display/) toggle, how dates, times and the time zone are printed across the app, the [focus-mode](/user-guide/editor-and-writing/focus-mode/) behaviours (typewriter scroll and dimming inactive lines), the [selection toolbar's](/user-guide/editor-and-writing/selection-toolbar/) buttons and their order, [spell check](/user-guide/editor-and-writing/spell-check/) with its language picker, [daily-notes](/user-guide/notes-and-organization/daily-notes/) configuration (folder, date format, template), task reminders, and the Archive and Views feature toggles. With Developer mode on it also holds **Vim keyboard mode**.
 - **Files** sets which file opens when the app starts, where new notes are created, whether imported images are compressed, and whether text is read out of image and scanned-PDF attachments for search. See [Files](/user-guide/settings-and-privacy/files/).
@@ -53,6 +53,7 @@ Close settings with `Esc`, by clicking outside it, or with its close button. The
 - **[Files](/user-guide/settings-and-privacy/files/)** covers the startup file and default new-note location.
 - **[Auto-lock and screen-capture protection](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/)** covers the two privacy controls.
 - **[Quick unlock](/user-guide/settings-and-privacy/quick-unlock/)** covers re-entering after auto-lock with a PIN or Touch ID.
+- **[Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/)** covers what the vault picker shows before you unlock, and the setting that keeps names off it.
 - **[Change your password](/user-guide/settings-and-privacy/change-your-password/)** covers rotating your master password.
 - **[Customizing keyboard shortcuts](/user-guide/settings-and-privacy/custom-hotkeys/)** covers the Hotkeys panel.
 - **[Developer mode](/user-guide/settings-and-privacy/developer-mode/)** covers the switch that reveals the advanced settings.

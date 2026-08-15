@@ -1,7 +1,7 @@
 ---
 title: "How Myne protects your notes"
 category: "settings-and-privacy"
-updated: 2026-08-13
+updated: 2026-08-15
 summary: "The privacy model in plain language: what is encrypted on disk, how your password and recovery phrase protect it, the two opt-ins that can move data off your device, and what Myne cannot protect you from."
 tags: ["privacy", "security"]
 ---
@@ -47,6 +47,8 @@ Encryption protects your notes at rest. It does not make the following go away, 
 - **A provider you name receives what you send it.** If you name a remote AI provider, the text you ask it about is in that company's hands. No encryption Myne applies reaches across that line, because the request has to arrive readable to be answered.
 
 There is also coarse information a copy of your vault folder reveals even though the contents stay sealed: that the vault exists, how many vaults you have and when each was last opened, the sizes of the encrypted items, how often snapshots are taken, the key-derivation settings, and whether quick unlock is set up on this device (its small device-local file is present). Your titles, text, tags, folders, and the times you wrote are never among it. In particular: an attachment's name, contents, and type are encrypted; what a copy of the vault folder can still reveal is how many attachments there are and how big each one is.
+
+If you keep more than one vault, the picker shown before unlock names each vault this device has unlocked before, from a sealed device-local copy of that name whose key sits in your system keychain. That happens on macOS and iOS; elsewhere there is no keychain to hold the key yet, so no name is stored and every row stays neutral. It never syncs and is never part of a backup, and a Privacy setting destroys the copies stored here and stops new ones being written. See [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/).
 
 If you use the PIN form of quick unlock, that device-local file is a third encrypted copy of the vault's key, and someone who copies it can try to guess the PIN offline. The only thing standing in the way is the PIN's length and the same deliberately slow key-derivation step — so the PIN path is weaker than the Touch ID path, which binds its copy to this device's hardware. See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/).
 

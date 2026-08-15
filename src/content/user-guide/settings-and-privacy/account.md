@@ -1,7 +1,7 @@
 ---
 title: "Account"
 category: "settings-and-privacy"
-updated: 2026-08-13
+updated: 2026-08-15
 summary: "The Account panel lets you rename the vault, manage connected browser extensions, change your master password, and delete the vault. It also explains your account number, the identity you use to add another device."
 tags: ["settings", "devices", "security"]
 ---
@@ -20,6 +20,8 @@ Open Settings from the gear in the bottom bar or with `⌘,`, then choose **Acco
 - **Vault label and icon** — a name and glyph for this vault, shown in the in-app vault switcher. Both are stored encrypted inside the vault. See [Working with multiple vaults](/user-guide/safety-and-recovery/multiple-vaults/).
 - **Connected extensions** — the browser extensions currently paired with this vault, with a per-row Revoke. A revoked extension has to pair again before it can send clips.
 - **Danger zone** — the **Delete vault…** action, covered below.
+
+The vault label is also kept in a sealed device-local copy, so the locked vault picker can show this vault's name after a restart. Renaming updates that copy only on the device you rename from: your other devices keep showing the old name on their lock screens until you unlock the vault there. See [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/).
 
 The panel does not show the key-derivation settings your password runs through. Myne stretches your master password with Argon2id (256 MiB of memory, three passes, two lanes) before it becomes your vault key, and that figure is shown when you create a vault. The model behind it is in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/).
 

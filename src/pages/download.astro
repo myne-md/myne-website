@@ -4,31 +4,59 @@ import GlassNav from "../components/GlassNav.astro";
 import StatusBadge from "../components/StatusBadge.astro";
 import { PLATFORM_ICON } from "../data/platformIcons";
 import { absoluteOg } from "../lib/og";
+import {
+  RELEASE_TAG,
+  RELEASE_CHANNEL,
+  RELEASE_BASE,
+  RELEASE_DATE,
+  MINISIGN_PUBKEY,
+  assetUrl,
+  assetByName,
+  humanSize,
+} from "../data/release";
 
 const title = "Download — Myne";
 const description =
-  "Run Myne on your own machine — one desktop app, installed once, running entirely on your device. Code-signed and reproducible so you can verify the binary matches the public source. Pre-alpha.";
+  "Run Myne on your own machine — one desktop app, installed once, running entirely on your device. Early access: the installers are unsigned, and every release ships a signed checksum list you can verify. Pre-alpha.";
 const canonical = new URL("/download/", Astro.site!).toString();
 const ogImage = absoluteOg("download", Astro.site!);
 
+/**
+ * Every download is a plain link to downloads.myne.md. No OS sniffing, no
+ * runtime fetch — see src/data/release.ts for why the hashes live in this repo
+ * rather than being read off the origin they verify.
+ *
+ * `.msi` and `.rpm` used to be advertised here and neither has ever been
+ * produced: Windows is blocked on myne#178 (the local-IPC layer is coupled to
+ * Unix sockets) and Tauri's rpm bundler hangs, reproduced three times.
+ */
 const platforms = [
   {
     os: "macOS",
     sub: "Universal · .dmg",
     note: "macOS 11 Big Sur or later · Apple Silicon + Intel",
     d: PLATFORM_ICON.apple,
+    downloads: [{ label: "Universal .dmg", name: "Myne_0.5.0_universal.dmg" }],
   },
   {
     os: "Windows",
-    sub: "x64 · .msi",
-    note: "Windows 10 build 19041+ for screen-capture exclusion",
+    sub: "not yet built",
+    note: "No Windows build exists. The local-IPC layer is still coupled to Unix sockets — tracked as myne#178, deferred to v1.",
     d: PLATFORM_ICON.windows,
+    downloads: [],
   },
   {
     os: "Linux",
-    sub: "AppImage · .deb · .rpm",
-    note: "Arch PKGBUILD available too · no screen-capture exclusion on Linux v0.1",
+    sub: "AppImage · .deb · Arch",
+    note: "x86-64 and arm64 for both formats. No screen-capture exclusion on Linux.",
     d: PLATFORM_ICON.linux,
+    downloads: [
+      { label: "AppImage · x86-64", name: "Myne_0.5.0_amd64.AppImage" },
+      { label: "AppImage · arm64", name: "Myne_0.5.0_aarch64.AppImage" },
+      { label: ".deb · x86-64", name: "Myne_0.5.0_amd64.deb" },
+      { label: ".deb · arm64", name: "Myne_0.5.0_arm64.deb" },
+      { label: "Arch · x86-64", name: "myne-bin-0.5.0-1-x86_64.pkg.tar.zst" },
+    ],
   },
 ];
 
@@ -53,34 +81,51 @@ const extensions = [
   },
 ];
 
+/**
+ * Android ships an `.apk` for sideloading; iOS does not, deliberately. An
+ * `.ipa` needs a developer certificate to install, so publishing one hands
+ * almost every reader a file they cannot open.
+ */
 const mobile = [
   {
     os: "iOS",
-    note: "The same vault and the same encryption, in your pocket. Reuses the exact Rust core and protocol crate the desktop app runs.",
+    status: "not yet",
+    note: "The same vault and the same encryption, in your pocket. Reuses the exact Rust core and protocol crate the desktop app runs. No installable build is published — an iOS build needs a developer certificate on your side to sideload, so there is nothing here you could use yet.",
     d: PLATFORM_ICON.apple,
+    download: null,
   },
   {
     os: "Android",
-    note: "The same 256 MiB Argon2id unlock as desktop — the KDF is never weakened to fit a device.",
+    status: "sideload",
+    note: "The same 256 MiB Argon2id unlock as desktop — the KDF is never weakened to fit a device. Not on Play Store: install it yourself, which Android will ask you to allow.",
     d: PLATFORM_ICON.android,
+    download: { label: "Universal .apk", name: "Myne_0.5.0_universal.apk" },
   },
 ];
 
+/**
+ * These three said "Code-signed", "Reproducible" and "Verified updates" for
+ * months, and all three were false: no signing certificate exists, desktop
+ * builds are not reproducible and the source is private, and there is no
+ * updater at all. The user guide had been saying the opposite the whole time.
+ * threat-model.md TB7/A9 were corrected in the same change (decisions 0496).
+ * Copy may not exceed the threat model — do not walk these back.
+ */
 const verify = [
   {
     n: "01",
-    t: "Code-signed",
-    p: "Installers are signed with hardware-backed keys. Your OS confirms the file came from us and was not altered in transit.",
+    t: "Signed checksums",
+    p: "Every release ships a SHA256SUMS file signed with an offline minisign key. The key is on neither of our servers, so whoever holds the download host cannot forge a hash to match a swapped file. The installers themselves are not signed — see below.",
   },
   {
     n: "02",
-    t: "Reproducible",
-    p: "Rebuild the public source and get byte-for-byte the same binary. Expected hashes are published with every release.",
+    t: "Two places, one answer",
+    p: "The same hashes appear on this page and on the download host. Different machine, different repository, different deploy pipeline — so one of them being tampered with shows up as a disagreement rather than as nothing at all.",
   },
   {
     n: "03",
-    t: "Verified updates",
-    p: "Auto-update checks signature and hash before any code runs. A failed check is refused — you are never silently downgraded.",
+    t: "No auto-updater",
+    p: "Myne never checks whether a newer version exists and never downloads one. Updating is you downloading the next release and installing over the old one — which also means there is no update channel for anyone else to hijack.",
   },
 ];
 
@@ -106,7 +151,7 @@ const reqs = [
           <span
             class="mono up"
             style="font-size:9px;color:#c2a35e;border:1px solid rgba(194,163,94,0.4);border-radius:999px;padding:3px 9px;"
-            >v0.1 · pre-alpha</span
+            >{RELEASE_TAG} · {RELEASE_CHANNEL}</span
           >
         </div>
         <h1
@@ -117,19 +162,21 @@ const reqs = [
         <p
           style="margin-top:22px;max-width:62ch;font-size:16px;line-height:1.65;color:#8a8a86;"
         >
-          One desktop app, installed once, running entirely on your device.
-          Code-signed and reproducible — so you can verify the binary you run
-          matches the public source.
+          One desktop app, installed once, running entirely on your device. Every
+          release ships a signed checksum list, so you can check that the file
+          you got is the file we published.
         </p>
 
         <div
           style="margin-top:30px;display:flex;gap:16px;align-items:flex-start;border-left:2px solid #c2a35e;background:rgba(194,163,94,0.07);border-radius:0 10px 10px 0;padding:18px 22px;"
         >
           <p style="font-size:14px;line-height:1.6;color:#e6e6e4;max-width:70ch;">
-            <strong style="font-weight:600;">Pre-alpha.</strong> The v0.1 spec and
-            threat model are public (still in draft); the desktop client is still
-            in progress. Builds are not yet published for general use — join the
-            GitHub releases to be notified when the first installer lands.
+            <strong style="font-weight:600;">Early access, and we mean it.</strong>
+            {RELEASE_TAG} is a pre-alpha build. The desktop installers are not
+            code-signed, so macOS and Windows will warn you. There is no
+            auto-updater, no Windows build, and no iOS build you can install.
+            Expect rough edges, and keep backups of anything you would be upset
+            to lose.
           </p>
         </div>
       </div>
@@ -139,7 +186,7 @@ const reqs = [
     <section style="padding:18px 28px 18px;">
       <div style="max-width:980px;margin:0 auto;">
         <div class="mono up" style="font-size:10px;color:#54544f;margin-bottom:14px;">
-          Desktop · available at release
+          Desktop
         </div>
         <div class="dl-cols-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
           {
@@ -160,16 +207,37 @@ const reqs = [
                   {it.note}
                 </p>
                 <div
-                  class="mono up"
-                  style="margin-top:18px;display:flex;align-items:center;justify-content:space-between;font-size:9px;color:#54544f;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;"
+                  style="margin-top:18px;display:flex;flex-direction:column;gap:7px;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;"
                 >
-                  <span>When released</span>
-                  <span style="color:#8aa4d0;font-size:13px;">↓</span>
+                  {it.downloads.length === 0 && (
+                    <span class="mono up" style="font-size:9px;color:#54544f;">
+                      Not available
+                    </span>
+                  )}
+                  {it.downloads.map((dl) => (
+                    <a
+                      class="mono up"
+                      href={assetUrl(dl.name)}
+                      style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:9px;color:#8aa4d0;text-decoration:none;"
+                    >
+                      <span>{dl.label}</span>
+                      <span style="color:#54544f;">
+                        {humanSize(assetByName(dl.name).bytes)} ↓
+                      </span>
+                    </a>
+                  ))}
                 </div>
               </div>
             ))
           }
         </div>
+        <p class="mono" style="margin-top:14px;font-size:10px;line-height:1.7;color:#54544f;">
+          {RELEASE_TAG} · unsigned · no auto-updater. Your OS will warn on first
+          launch — that is expected, and <a
+            href="#verify"
+            style="color:#8aa4d0;text-decoration:none;">Verify it</a
+          > below covers both the warning and the checksum.
+        </p>
       </div>
     </section>
 
@@ -292,11 +360,23 @@ const reqs = [
                 <div style="min-width:0;">
                   <div style="display:flex;align-items:center;gap:10px;">
                     <span style="font-size:17px;font-weight:600;color:#c4c4c0;">{it.os}</span>
-                    <span class="mono up" style="font-size:9px;color:#54544f;">not yet</span>
+                    <span class="mono up" style="font-size:9px;color:#54544f;">{it.status}</span>
                   </div>
                   <p style="margin-top:8px;font-size:12px;line-height:1.6;color:#8a8a86;">
                     {it.note}
                   </p>
+                  {it.download && (
+                    <a
+                      class="mono up"
+                      href={assetUrl(it.download.name)}
+                      style="margin-top:12px;display:inline-flex;align-items:baseline;gap:8px;font-size:9px;color:#8aa4d0;text-decoration:none;"
+                    >
+                      <span>{it.download.label}</span>
+                      <span style="color:#54544f;">
+                        {humanSize(assetByName(it.download.name).bytes)} ↓
+                      </span>
+                    </a>
+                  )}
                 </div>
               </div>
             ))
@@ -306,7 +386,7 @@ const reqs = [
     </section>
 
     <!-- VERIFY -->
-    <section style="padding:40px 28px;">
+    <section id="verify" style="padding:40px 28px;">
       <div style="max-width:980px;margin:0 auto;">
         <div class="mono up" style="font-size:11px;color:#8aa4d0;margin-bottom:14px;">
           Trust chain
@@ -319,9 +399,10 @@ const reqs = [
         <p
           style="margin-top:16px;max-width:62ch;font-size:15px;line-height:1.65;color:#8a8a86;"
         >
-          Signed and reproducible builds let you check that the app is exactly
-          what we published — one link in the chain, described no more strongly
-          than the threat model allows.
+          Checking a download costs you two commands, and it is the only thing
+          standing between you and a swapped installer. Here is exactly what we
+          give you to check against, and exactly what we do not — described no
+          more strongly than the threat model allows.
         </p>
         <div
           class="dl-cols-3"
@@ -341,16 +422,44 @@ const reqs = [
             ))
           }
         </div>
-        <div
+        <pre
           class="mono"
-          style="margin-top:18px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:#0c0c0c;padding:16px 18px;font-size:12px;color:#8a8a86;display:flex;align-items:center;gap:12px;overflow-x:auto;"
+          style="margin-top:18px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:#0c0c0c;padding:16px 18px;font-size:12px;line-height:1.75;color:#8a8a86;overflow-x:auto;white-space:pre;"
+        >{`# 1. the signature over the hash list — do this FIRST. Checking hashes
+#    against a list you haven't authenticated verifies a file against itself.
+curl -fsSLO ${RELEASE_BASE}/SHA256SUMS
+curl -fsSLO ${RELEASE_BASE}/SHA256SUMS.minisig
+minisign -Vm SHA256SUMS -P ${MINISIGN_PUBKEY}
+
+# 2. then the download itself
+sha256sum -c SHA256SUMS --ignore-missing     # macOS: shasum -a 256 -c`}</pre>
+        <div
+          style="margin-top:18px;border:1px solid rgba(194,163,94,0.35);border-radius:12px;background:rgba(194,163,94,0.05);padding:20px 22px;"
         >
-          <span style="color:#54544f;flex:0 0 auto;">$</span>
-          <span style="white-space:nowrap;"
-            >shasum -a 256 Myne-0.1.0.dmg &nbsp;<span style="color:#54544f;"
-              ># compare against the published SHA-256</span
-            ></span
-          >
+          <div class="mono up" style="font-size:10px;color:#c2a35e;">
+            What we do not give you
+          </div>
+          <p style="margin-top:10px;max-width:66ch;font-size:12.5px;line-height:1.7;color:#8a8a86;">
+            <strong style="color:#c4c4c0;font-weight:600;">The desktop installers are not code-signed.</strong>
+            We hold no Apple Developer ID and no Windows certificate, so macOS
+            will say the app is from an unidentified developer. On macOS:
+            right-click the app in Applications and choose <em>Open</em>, then
+            confirm — that is the supported way past it, and Touch&nbsp;ID for
+            unlock does not work on an unsigned build (myne#214). The Android
+            APK is the exception: Android will not install an unsigned package,
+            so it carries our own release-key signature and the OS checks it at
+            install and on every update. It still warns, because that key is not
+            Google's — that warning is about where the file came from, not about
+            a missing signature.
+          </p>
+          <p style="margin-top:10px;max-width:66ch;font-size:12.5px;line-height:1.7;color:#8a8a86;">
+            <strong style="color:#c4c4c0;font-weight:600;">Desktop builds are not reproducible, and the source is not public yet.</strong>
+            The web client at app.example.com is reproducible and its every released
+            hash goes to an append-only public record; the desktop app is built
+            on one machine and cannot yet be independently rebuilt and compared.
+            Until it can, a signed hash list is what you get, and it proves the
+            file was not swapped — not that it was built from source you can read.
+          </p>
         </div>
       </div>
     </section>
@@ -388,7 +497,9 @@ const reqs = [
             style="border:1px solid rgba(255,255,255,0.1);border-radius:12px;background:#0c0c0c;padding:22px;"
           >
             <div style="display:flex;align-items:center;justify-content:space-between;">
-              <span class="mono" style="font-size:15px;font-weight:600;color:#e6e6e4;">v0.1.0</span>
+              <span class="mono" style="font-size:15px;font-weight:600;color:#e6e6e4;"
+                >{RELEASE_TAG}</span
+              >
               <span
                 class="mono up"
                 style="font-size:9px;color:#c2a35e;border:1px solid rgba(194,163,94,0.4);border-radius:999px;padding:3px 9px;"
@@ -396,33 +507,34 @@ const reqs = [
               >
             </div>
             <div class="mono" style="margin-top:6px;font-size:11px;color:#54544f;">
-              public draft · client in progress
+              released {RELEASE_DATE} · early access
             </div>
             <div style="margin-top:18px;display:flex;flex-direction:column;gap:9px;">
               <div style="display:flex;gap:10px;align-items:baseline;">
                 <span style="color:#7fb89a;flex:0 0 auto;">+</span>
                 <span style="font-size:13px;line-height:1.5;color:#c4c4c0;"
-                  >Public v0.1 protocol spec &amp; threat model</span
+                  >Desktop — editor, vault, search, backlinks, graph, attachments, optional sync</span
                 >
               </div>
               <div style="display:flex;gap:10px;align-items:baseline;">
                 <span style="color:#7fb89a;flex:0 0 auto;">+</span>
                 <span style="font-size:13px;line-height:1.5;color:#c4c4c0;"
-                  >Cross-implementation test vectors</span
+                  >Android, sideloaded · v0.1 protocol spec, threat model &amp; test vectors</span
                 >
               </div>
               <div style="display:flex;gap:10px;align-items:baseline;">
                 <span style="color:#c2a35e;flex:0 0 auto;">~</span>
                 <span style="font-size:13px;line-height:1.5;color:#c4c4c0;"
-                  >Desktop client — editor, vault, search, backlinks, graph, attachments, optional sync (pre-alpha, no published binary yet)</span
+                  >Pre-alpha: unsigned installers, no Windows build, no iOS build you can install,
+                  and no auto-updater. Keep backups.</span
                 >
               </div>
             </div>
             <a
-              href="https://github.com/myne-md/myne/releases"
+              href="/releases/"
               class="mono up"
               style="margin-top:22px;display:flex;align-items:center;justify-content:center;gap:8px;background:#e6e6e4;color:#0a0a0a;text-decoration:none;border-radius:8px;padding:12px;font-size:10px;font-weight:700;"
-              >Watch releases on GitHub</a
+              >Release notes &amp; checksums</a
             >
           </div>
         </div>
@@ -435,7 +547,7 @@ const reqs = [
         style="max-width:980px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;color:#54544f;"
       >
         <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><StatusBadge /><span
-          >signed · reproducible · open</span
+          >checksums signed · open</span
         >
       </div>
     </footer>

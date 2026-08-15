@@ -66,9 +66,13 @@ Very long names are shortened in the middle so a row stays readable; the full na
 | A file's name | the note's `title:` (when the note has none of its own) |
 | A `[[wikilink]]` | kept exactly as written |
 | A referenced image/PDF (supported type, within size) | brought in as an attachment and embedded with `![[att:…]]` |
+| An image's size, as in `![[photo.png\|300]]` | kept, so the image stays the width you gave it |
+| An image's alt text, as in `![A sunset](photo.png)` | kept, punctuation and all |
 | A referenced MP4 or WebM video (within size) | brought in as an attachment and embedded as an inline player |
 | A referenced file Myne can't take | left as a searchable placeholder (see Limits) |
 | A remote image URL | left as-is and **never fetched** |
+
+If you sized an image in Obsidian, that size comes across: the summary counts how many refs kept a size or an alt text, so you can see it happened rather than take it on trust. A size Myne cannot read is left alone rather than thrown away.
 
 MOV files and anything over the 64 MiB attachment cap are not brought in as playable video — they arrive as an export-only file-card, or leave a placeholder if they could not be imported at all. The exact embed syntax an imported attachment lands as is in [Embeds](/user-guide/markdown/embeds/).
 

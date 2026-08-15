@@ -33,6 +33,14 @@ Backspacing at the edge of the embed removes the whole reference in one step and
 - A **plain-text, code, CSV, Word or spreadsheet file** shows a read-only preview of its contents.
 - Anything else shows as a **file card**: the file's icon, name, type and size, with an export action.
 
+Images and PDFs also carry a size, an alignment and an alt text you choose. You set those from the embed's own `⋯` menu, described in [Attachments](/user-guide/attachments-and-import/attachments/). You do not type them. Myne records the choice on the embed:
+
+```
+![[att:<id>|photo.png|w=300|align=center|alt=The harbour at dusk]]
+```
+
+`w` is a width in pixels, or a percentage of the text column. `h` is a height, which the menu sets only together with a width. `align` is `left`, `center` or `right`. `alt` comes last and runs to the end, so it can contain any punctuation except `]]`, which would end the embed. This is here so you know what you are looking at if you ever read your `.md` files outside Myne, not because you need to write it.
+
 Adding files, the size limit, and what happens to an image on the way in are covered in [Attachments](/user-guide/attachments-and-import/attachments/).
 
 ## When an embed cannot resolve

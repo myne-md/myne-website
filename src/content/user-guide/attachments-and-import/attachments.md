@@ -50,6 +50,18 @@ Anything else — an archive, an installer, a font — surfaces as a **file-card
 
 Identical files are stored once: if you add the same file twice, Myne keeps a single copy and both embeds point at it.
 
+## The embed menu
+
+Every embedded image and PDF carries its own `⋯` menu in the top-right corner. It has the same four file actions as a file-card (**Export**, **Rename**, **Remove** and **Reveal in library**), plus the controls for how the embed looks in the note:
+
+- **Size**: Small, Medium, Large or Full width. Picking the size that is already ticked clears it and returns the embed to the default. **Custom size…** takes an exact width in pixels, or a percentage of the text column.
+- **Alignment**: left, centre or right. Picking the one already ticked clears it.
+- **Edit alt text…**: what a screen reader announces, and what [Search](/user-guide/find-and-connect/search/) can match on. Leave it empty to mark an image decorative, so a screen reader skips it instead of reading out a camera filename.
+
+A size is a maximum, not a fixed frame: an image never grows wider than your text column, so changing the column width in **Settings → Appearance** re-flows your notes rather than breaking them. **Full width** is the way to say "fill the page" and keeps meaning that on any screen, where a large pixel number does not.
+
+Your choices are written into the note itself, so they travel with it: they survive sync, and they are still there when you read the file outside Myne. Opening an exported note in **Obsidian** is a partial match rather than a promise: a pixel width comes across, because Obsidian has its own way of writing one, while a percentage width and an alignment do not, so it falls back to its own default for those. Nothing is lost from the file either way. The exact syntax is in [Embeds](/user-guide/markdown/embeds/), though you never need to type it.
+
 ## Renaming, exporting, and deleting
 
 Renaming an attachment changes its **display name in the library only**; it never rewrites the embeds in your notes, so links don't break.

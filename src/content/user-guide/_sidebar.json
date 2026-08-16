@@ -115,7 +115,7 @@
   {
     "slug": "ai",
     "label": "AI (Beta)",
-    "description": "Turn on Myne's experimental AI, choose where it runs \u2014 a model file on your computer, a runtime you already have, or a remote provider you name \u2014 then ask questions across your notes with citations, summarize notes, suggest tags, get inline writing help, and read the honest privacy boundary.",
+    "description": "Turn on Myne's experimental AI, choose where it runs — a model file on your computer, a runtime you already have, or a remote provider you name — then ask questions across your notes with citations, summarize notes, suggest tags, get inline writing help, and read the honest privacy boundary.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -132,7 +132,7 @@
   {
     "slug": "sync-and-devices",
     "label": "Sync & devices",
-    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server, add and approve devices with your account number, read sync status, and resolve conflicts \u2014 all zero-knowledge, with no email.",
+    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server, add and approve devices with your account number, read sync status, and resolve conflicts — all zero-knowledge, with no email.",
     "intro": "overview",
     "articles": [
       "overview",

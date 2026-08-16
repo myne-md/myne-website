@@ -1,7 +1,7 @@
 ---
 title: "AI privacy and limits"
 category: "ai"
-updated: 2026-08-13
+updated: 2026-08-16
 summary: "The honest boundary of Myne's AI: nothing is sent until you name a provider, what leaves your device when you do, a model runtime that runs in-process and is not sandboxed from your notes, the encrypted rebuildable embedding index at rest, where models come from, and what AI does not do."
 tags: ["ai", "privacy", "security"]
 ---

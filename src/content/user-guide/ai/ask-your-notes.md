@@ -1,7 +1,7 @@
 ---
 title: "Ask your notes"
 category: "ai"
-updated: 2026-08-13
+updated: 2026-08-16
 summary: "Use the AI Chat tab to ask questions in plain language across your vault. Myne finds relevant passages on this device, composes an answer, streams it token by token, and shows citations back to the notes it drew from so you can verify."
 tags: ["ai", "search"]
 ---

@@ -4,6 +4,7 @@ import { Resvg } from "@resvg/resvg-js";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { createRequire } from "node:module";
+import { RELEASE_TAG } from "../data/release";
 
 /* =========================================================================
    Unified OG-image system. One dark-brand 1200×630 template renders every
@@ -358,10 +359,19 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
   },
   releases: {
     kicker: "Releases",
-    title: "Pre-alpha, in progress.",
+    // Both fields render INTO the generated PNG (`o.description` and `o.note`
+    // below), so a stale one is not merely unmaintained: it is the half of a
+    // shared link that people actually read. This card said "No installers are
+    // published yet" over a page handing out seven signed installers, with a
+    // note reading v0.1 while /download served v0.5.0. The `<meta
+    // og:description>` was fine the whole time, which is why nobody saw it.
+    //
+    // The note reads from `RELEASE_TAG` for the same reason `VersionBadge` does:
+    // that string was hand-typed in seven files and survived four releases.
+    title: "Every artefact, with its hash.",
     description:
-      "No installers are published yet. The v0.1 spec and threat model are public, in draft; the desktop client is in progress. Watch GitHub releases.",
-    note: "v0.1 · pre-alpha",
+      "Myne releases, with the SHA-256 of every published artefact and the minisign public key that signs the checksum list. Early access, pre-alpha.",
+    note: `${RELEASE_TAG} · pre-alpha`,
     path: "releases",
   },
   ledger: {

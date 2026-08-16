@@ -13,19 +13,32 @@
  * as a same-document fragment navigation and just scrolls. GlassNav's links
  * are absolute for the same reason.
  *
- * The slim one-line footer on /security, /releases, /spec, /roadmap, /themes
- * and /download is deliberately left alone — those pages carry a per-page
- * right-hand tag ("acknowledgment-only · no bounty yet") that this footer has
- * no slot for.
+ * The slim one-line footer on six pages is left alone, for two different
+ * reasons that were originally stated as one. /security, /spec and /download
+ * carry a per-page right-hand tag ("acknowledgment-only · no bounty yet",
+ * "spec status · draft · v0.1", "checksums signed · open") that this footer
+ * has no slot for. /releases, /roadmap and /themes carry StatusBadge +
+ * VersionBadge, byte-identical to the pair below — nothing stops them adopting
+ * this footer, they are simply not migrated yet.
+ *
+ * NO IMPRESSUM LINK HERE, and it is not an oversight. impressum.astro's own
+ * banner ("NOT LINKED, NOT INDEXED, ON PURPOSE") and astro.config.mjs's
+ * sitemap filter both say the address is still a placeholder, and that an
+ * incomplete Impressum is a WORSE position than a missing one because it is
+ * the classic Abmahnung target precisely for looking compliant. The footer
+ * link, the sitemap filter and the page's `robots` prop were designed to drop
+ * together when the ladungsfähige Anschrift lands (example-org/operations#9).
+ * Advertising the page from ten pages while its address is missing does not
+ * satisfy § 5 DDG — reachability is not the element that is missing — it only
+ * enlarges the surface of the gap.
+ *
+ * Coverage, stated honestly because "six pages still lack it" understates it:
+ * 133 of 143 built pages have no legal row at all, including the whole
+ * /user-guide/ subtree and /ledger/. Two shared layouts would cover most of
+ * that in one edit (UserGuideShellLayout, LedgerFeedLayout).
  */
 import StatusBadge from "./StatusBadge.astro";
-
-interface Props {
-  /** Right-hand tag on the legal row. */
-  tag?: string;
-}
-
-const { tag = "v0.1 · pre-alpha" } = Astro.props;
+import VersionBadge from "./VersionBadge.astro";
 ---
 
 <footer style="padding:60px 28px 30px;">
@@ -48,7 +61,13 @@ const { tag = "v0.1 · pre-alpha" } = Astro.props;
     <div
       style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;gap:24px;flex-wrap:wrap;"
     >
+      {/* A logo, not a section. `aria-hidden` keeps it out of the heading
+          outline: on the landing page a decorative final heading was a
+          flourish, but nine legal documents now end with it, and those are
+          exactly the documents people navigate structurally. The visual result
+          is unchanged. */}
       <h2
+        aria-hidden="true"
         style="font-size:clamp(72px,18vw,260px);line-height:0.8;font-weight:800;letter-spacing:-0.03em;"
       >
         Myne
@@ -123,10 +142,6 @@ const { tag = "v0.1 · pre-alpha" } = Astro.props;
           style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
           >Privacy</a
         > · <a
-          href="/impressum/"
-          style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
-          >Impressum</a
-        > · <a
           href="/law-enforcement/"
           style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
           >Law enforcement</a
@@ -135,7 +150,7 @@ const { tag = "v0.1 · pre-alpha" } = Astro.props;
           style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
           >Report content</a
         ></span
-      ><StatusBadge /><span>{tag}</span>
+      ><StatusBadge /><VersionBadge />
     </div>
   </div>
 </footer>

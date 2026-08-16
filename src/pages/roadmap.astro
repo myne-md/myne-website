@@ -2,6 +2,7 @@
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
 import StatusBadge from "../components/StatusBadge.astro";
+import VersionBadge from "../components/VersionBadge.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Roadmap — Myne";
@@ -230,7 +231,7 @@ const phaseView = phases.map((p) => {
         class="mono up"
         style="max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;color:#54544f;"
       >
-        <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><StatusBadge /><span>v0.1 · pre-alpha</span>
+        <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><StatusBadge /><VersionBadge />
       </div>
     </footer>
   </div>

@@ -3,6 +3,7 @@ import LandingLayout from "./LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
 import GuideNavList from "../components/userguide/GuideNavList.astro";
 import StatusBadge from "../components/StatusBadge.astro";
+import VersionBadge from "../components/VersionBadge.astro";
 import { getManifest } from "../lib/userGuide";
 import { absoluteOg } from "../lib/og";
 import "../styles/tokens.css";
@@ -128,7 +129,7 @@ const manifest = getManifest();
 
     <footer class="ug-footer" transition:persist="ug-footer">
       <div class="mono up ug-footer__inner">
-        <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><StatusBadge /><span>v0.1 · pre-alpha</span>
+        <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><StatusBadge /><VersionBadge />
       </div>
     </footer>
 

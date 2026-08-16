@@ -1,7 +1,7 @@
 ---
 title: "Frontmatter and properties"
 category: "markdown"
-updated: 2026-08-13
+updated: 2026-08-16
 summary: "How YAML frontmatter at the top of a note defines properties, which properties Myne recognizes, and how they affect the note."
 tags: ["markdown", "notes"]
 ---
@@ -29,7 +29,7 @@ A value with structure the widget has no control for — nested keys under a key
 
 ## Fields Myne manages
 
-Myne writes twelve fields of its own. You rarely touch them directly; actions in the app keep them current:
+Myne writes thirteen fields of its own. You rarely touch them directly; actions in the app keep them current:
 
 | Field | What it records | Written by |
 |---|---|---|
@@ -42,9 +42,10 @@ Myne writes twelve fields of its own. You rarely touch them directly; actions in
 | `folder_index` | `true` means the note is its folder's folder note | the folder-note actions; see [Folder notes](/user-guide/notes-and-organization/folder-notes/) |
 | `kind` | the note's type — `task` for a note-task, `drawing` for a drawing | the actions that declare a note a task or create a drawing; see [Tasks](/user-guide/notes-and-organization/tasks/) |
 | `done` | present means a note-task is complete; its value records when | ticking a note-task off |
+| `cover` | the note's cover image, as a reference to an attachment in your vault | the cover actions; see [Note covers](/user-guide/editor-and-writing/note-covers/) |
 | `deleted`, `conflict`, `conflict_of` | sync bookkeeping: a note deleted on another device, and the two halves of a conflict copy | the sync engine; see [Sync & devices](/user-guide/sync-and-devices/) |
 
-Several of these are **value-strict**, which protects you from accidents: `trashed`, `archived`, `deleted` and `done` only count when their value is a real timestamp, and `template`, `folder_index` and `conflict` only count when the value is exactly `true`. So your own `template: maybe` or `trashed: someday` won't quietly hide a note. A note is at most one of archived or trashed: archiving a note clears any `trashed`, and trashing an archived note clears its `archived`. Neither archiving nor restoring from the Archive touches `updated`, since moving a note in or out of the Archive is not a content edit. The `folder` value is **virtual**: it is recorded inside the encrypted note, not as a real directory on disk, which is why your folder structure travels with the note even to another editor.
+Several of these are **value-strict**, which protects you from accidents: `trashed`, `archived`, `deleted` and `done` only count when their value is a real timestamp, and `template`, `folder_index` and `conflict` only count when the value is exactly `true`. So your own `template: maybe` or `trashed: someday` won't quietly hide a note. `cover` is value-strict in its own way: it counts only when it holds exactly one attachment reference written by Myne, so a filename or a web address typed there is left alone and shows no cover. A note is at most one of archived or trashed: archiving a note clears any `trashed`, and trashing an archived note clears its `archived`. Neither archiving nor restoring from the Archive touches `updated`, since moving a note in or out of the Archive is not a content edit. The `folder` value is **virtual**: it is recorded inside the encrypted note, not as a real directory on disk, which is why your folder structure travels with the note even to another editor.
 
 ## Your own fields are kept
 

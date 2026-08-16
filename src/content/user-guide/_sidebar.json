@@ -42,7 +42,7 @@
   {
     "slug": "editor-and-writing",
     "label": "Editor & writing",
-    "description": "Write in the editor with view modes, focus mode, folding, multiple cursors, find and replace, slash commands, the selection toolbar, comments, spell check, display settings, saved views, and note export.",
+    "description": "Write in the editor with view modes, focus mode, folding, multiple cursors, find and replace, slash commands, the selection toolbar, comments, spell check, display settings, note covers, saved views, and note export.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -55,6 +55,7 @@
       "comments",
       "document-statistics",
       "editor-display",
+      "note-covers",
       "selection-toolbar",
       "vim-mode",
       "spell-check",

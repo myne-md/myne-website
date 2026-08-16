@@ -1,12 +1,12 @@
 ---
 title: "AI (Beta)"
 category: "ai"
-updated: 2026-08-13
-summary: "An overview of Myne's experimental AI: what it is, the runtime beta opt-in that keeps it off until you turn it on, the honest privacy posture (nothing is sent until you name a provider; the model Myne runs is in-process and not sandboxed), and a map of the rest of this section."
+updated: 2026-08-16
+summary: "An overview of Myne's experimental AI: what it is, the runtime beta opt-in that keeps it off until you turn it on, the honest privacy posture (nothing is sent until you name a provider; the model Myne runs is in-process and not sandboxed), that it can propose changes for you to approve, and a map of the rest of this section."
 tags: ["ai", "privacy"]
 ---
 
-Myne includes an experimental set of AI features: asking questions across your notes, summarizing a note, suggesting tags, transcribing a voice note (speech-to-text), and inline writing help. They are off until you turn them on, and they are labelled experimental because they are new and the models are small. This page explains what the feature is and points you at the rest of the section.
+Myne includes an experimental set of AI features: asking questions across your notes, summarizing a note, suggesting tags, transcribing a voice note (speech-to-text), inline writing help, and proposing changes to your notes for you to review. They are off until you turn them on, and they are labelled experimental because they are new and the models are small. This page explains what the feature is and points you at the rest of the section.
 
 ## What Myne's AI is
 
@@ -36,6 +36,7 @@ That third point is the boundary of the guarantee. It is covered plainly in [AI 
 - **[Summarize a note](/user-guide/ai/summarize-a-note/)** covers summarizing the current note or a selection.
 - **[Suggest tags](/user-guide/ai/suggest-tags/)** covers the tag suggestions that appear at the top of a note as you write.
 - **[Writing assistant](/user-guide/ai/writing-assistant/)** covers inline completions and the AI slash commands.
+- **[Agent runs](/user-guide/ai/agent-runs/)** covers asking the AI to change notes: how you set what it may touch, the review screen where you approve or reject each change, and what the undo does and does not cover.
 - **[Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note)** covers turning a recorded or imported audio clip into searchable, insertable text on your device.
 - **[AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/)** is the honesty deep-dive: what is sent and to whom, the built-in model being in-process and not sandboxed, the encrypted embedding index, and what AI does not do.
 

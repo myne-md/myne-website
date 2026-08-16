@@ -52,9 +52,9 @@ The AI has no delete. When it wants a note gone it proposes moving it to Trash, 
 
 ## Undoing a run
 
-Approving takes a restore point covering every note the run **changed**, so those changes can be undone as one action. If that restore point cannot be taken, Myne refuses to write at all rather than making a change you could not reverse.
+Approving takes a snapshot of every note the run is about to **change**, so those changes can be undone as one action. If Myne cannot take those snapshots, it refuses to write at all rather than making a change you could not reverse.
 
-The Undo button is on the review screen, and it stays available after you close that screen: it moves to the top of the AI panel, so closing the review is not the same as accepting what happened. The offer lasts until you run the agent again or lock your vault, whichever comes first. After that, each note's own history is still there under **Snapshots**, one note at a time.
+The Undo button is on the review screen, and it stays available after you close that screen: it moves to the top of the AI panel, so closing the review is not the same as accepting what happened. The offer lasts until you run the agent again or lock your vault, whichever comes first. After that the same snapshots are still there, in each note's own **Snapshots** history, one note at a time.
 
 Notes the run **created** are not part of that undo, and Myne says so when you use it. A new note has no earlier version to go back to, so removing one means moving it to Trash yourself.
 

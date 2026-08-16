@@ -1,7 +1,7 @@
 ---
 title: "Saved views"
 category: "editor-and-writing"
-updated: 2026-08-13
+updated: 2026-08-16
 summary: "Views are off by default; turn them on in Settings → Editor, then save a filtered, projected slice of your notes behind the sidebar's Views entry: build a condition filter, render matching notes as a card gallery, set a cover image, and import Obsidian Bases views. A view is a read-only projection, not a database."
 tags: ["notes", "search", "folders"]
 ---
@@ -62,11 +62,13 @@ The other view types are not built yet. A view set to a table or list type shows
 
 For a cards view, **View settings…** opens a modal with three controls:
 
-- **Cover image property** — the frontmatter property whose value is an image, shown as each card's cover. Leave it empty for no cover.
+- **Cover image property** — the frontmatter property whose value is an image, shown as each card's cover. Leave it empty for no cover. To show the covers you set on notes themselves, point this at `cover`, which is the property [Note covers](/user-guide/editor-and-writing/note-covers/) writes.
 - **Image aspect ratio** — **Default (16:9)**, **16:9 (wide)**, **3:2**, **4:3**, or **1:1 (square)**.
 - **Card size** — a slider from 120 to 600 pixels (default 220), with a **Reset** button.
 
 You can also set a cover on an individual note from its card. Hover the card and click **Set cover** (or **Change cover** if it already has one) to open the **Choose a cover image** modal. There you pick from a grid of images already in your vault, use **Upload** to add a new one, or drag and drop a file in. **Remove cover** clears the note's cover.
+
+That writes the note's own `cover` property, the same one the note's banner uses, so a cover set from a card also appears above the note when you open it. [Note covers](/user-guide/editor-and-writing/note-covers/) covers it from the note's side.
 
 ## Importing an Obsidian .base view
 

@@ -9,6 +9,7 @@
 // actually apply.
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Nutzungsbedingungen der Beta — Myne";
@@ -260,5 +261,7 @@ const forbidden = [
         </p>
       </div>
     </section>
+
+    <SiteFooter />
   </div>
 </LandingLayout>

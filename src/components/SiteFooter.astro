@@ -1,0 +1,171 @@
+---
+/*
+ * The site footer — wordmark, section links, social column, legal row.
+ *
+ * It lived inline in `index.astro` until the legal pages shipped without any
+ * footer at all: a reader who reached /privacy from a search result had no way
+ * back into the site and no sight of the other legal documents. Extracting it
+ * is what makes "every page ends the same way" true by construction rather
+ * than by nine copies staying in sync.
+ *
+ * The section links are absolute (`/#work`, not `#work`) so they work from a
+ * legal page as well as from the landing page, where the browser treats them
+ * as a same-document fragment navigation and just scrolls. GlassNav's links
+ * are absolute for the same reason.
+ *
+ * The slim one-line footer on six pages is left alone, for two different
+ * reasons that were originally stated as one. /security, /spec and /download
+ * carry a per-page right-hand tag ("acknowledgment-only · no bounty yet",
+ * "spec status · draft · v0.1", "checksums signed · open") that this footer
+ * has no slot for. /releases, /roadmap and /themes carry StatusBadge +
+ * VersionBadge, byte-identical to the pair below — nothing stops them adopting
+ * this footer, they are simply not migrated yet.
+ *
+ * NO IMPRESSUM LINK HERE, and it is not an oversight. impressum.astro's own
+ * banner ("NOT LINKED, NOT INDEXED, ON PURPOSE") and astro.config.mjs's
+ * sitemap filter both say the address is still a placeholder, and that an
+ * incomplete Impressum is a WORSE position than a missing one because it is
+ * the classic Abmahnung target precisely for looking compliant. The footer
+ * link, the sitemap filter and the page's `robots` prop were designed to drop
+ * together when the ladungsfähige Anschrift lands (example-org/operations#9).
+ * Advertising the page from ten pages while its address is missing does not
+ * satisfy § 5 DDG — reachability is not the element that is missing — it only
+ * enlarges the surface of the gap.
+ *
+ * Coverage, stated honestly because "six pages still lack it" understates it:
+ * 133 of 143 built pages have no legal row at all, including the whole
+ * /user-guide/ subtree and /ledger/. Two shared layouts would cover most of
+ * that in one edit (UserGuideShellLayout, LedgerFeedLayout).
+ */
+import StatusBadge from "./StatusBadge.astro";
+import VersionBadge from "./VersionBadge.astro";
+---
+
+<footer style="padding:60px 28px 30px;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div
+      class="mono up foot-nav"
+      style="display:grid;grid-template-columns:repeat(7,1fr);gap:20px;font-size:11px;color:#8a8a86;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);padding:22px 0;"
+    >
+      <a href="/#work" style="color:inherit;text-decoration:none;">How it works</a>
+      <a href="/#capab" style="color:inherit;text-decoration:none;">Compare</a>
+      <a href="/#commit" style="color:inherit;text-decoration:none;">FAQ</a>
+      <a href="/ledger/" style="color:inherit;text-decoration:none;">Ledger</a>
+      <a
+        href="/user-guide/getting-started/welcome/"
+        style="color:inherit;text-decoration:none;">Guide</a
+      >
+      <a href="/themes/" style="color:inherit;text-decoration:none;">Themes</a>
+      <a href="/roadmap/" style="color:inherit;text-decoration:none;">Roadmap</a>
+    </div>
+    <div
+      style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;gap:24px;flex-wrap:wrap;"
+    >
+      {/* A logo, not a section. `aria-hidden` keeps it out of the heading
+          outline: on the landing page a decorative final heading was a
+          flourish, but nine legal documents now end with it, and those are
+          exactly the documents people navigate structurally. The visual result
+          is unchanged. */}
+      <h2
+        aria-hidden="true"
+        style="font-size:clamp(72px,18vw,260px);line-height:0.8;font-weight:800;letter-spacing:-0.03em;"
+      >
+        Myne
+      </h2>
+      <div
+        class="mono up"
+        style="display:flex;flex-direction:column;gap:6px;font-size:11px;color:#54544f;text-align:right;"
+      >
+        <a
+          href="https://github.com/myne-md"
+          style="color:inherit;text-decoration:none;">GitHub</a
+        >
+        <a
+          href="https://social.myne.md/@myne"
+          rel="me"
+          style="color:inherit;text-decoration:none;">Mastodon</a
+        >
+        <a
+          href="https://x.com/myne_md"
+          rel="me noopener"
+          style="color:inherit;text-decoration:none;">X</a
+        >
+        <a
+          href="https://bsky.app/profile/myne.md"
+          rel="me noopener"
+          style="color:inherit;text-decoration:none;">Bluesky</a
+        >
+        <a
+          href="https://www.reddit.com/r/myne_md/"
+          rel="me noopener"
+          style="color:inherit;text-decoration:none;">Reddit</a
+        >
+      </div>
+    </div>
+    <!-- The clearance below is NOT decorative spacing — it is the wordmark's
+         descender, and a flat `margin-top:26px` put this row underneath it.
+
+         The "Myne" h2 above is `font-size:clamp(72px,18vw,260px)` with
+         `line-height:0.8`, i.e. a line box deliberately SHORTER than the
+         glyphs. Measured in the browser at 1600px: font-size 260px, box
+         208px, natural line box 299px — so the half-leading is negative and
+         the tail of the "y" paints 45.5px BELOW the h2's border box, while
+         this row started only 26px below it. Net 19.5px of overlap, and the
+         descender landed on top of "Terms".
+
+         It was always this way; the legal links only made it visible,
+         because the copyright text alone did not sit under the "y".
+
+         The fix goes here rather than on the h2 on purpose. Giving the h2
+         padding (or a line-height that contains its own ink) would work,
+         but the flex row is `align-items:flex-end` and the social column
+         is flush with the h2's box bottom — measured difference exactly
+         0px — so growing that box drags the social links down with it and
+         breaks an alignment nobody asked us to change.
+
+         The overhang is 0.175 × font-size (45.5/260, measured), and
+         font-size is itself a clamp, so the clearance has to be one too:
+         0.175 × clamp(72px,18vw,260px) = clamp(12.6px,3.15vw,45.5px), plus
+         the 26px this row was always meant to have. Change one of these two
+         clamps and the other needs recomputing. -->
+    <div
+      class="mono up"
+      style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:clamp(40px,calc(3.15vw + 26px),72px);font-size:10px;color:#54544f;"
+    >
+      <span
+        >© 2026 · AGPL-3.0 · CC-BY-4.0 docs · <a
+          href="/terms/"
+          style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
+          >Terms</a
+        > · <a
+          href="/privacy/"
+          style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
+          >Privacy</a
+        > · <a
+          href="/law-enforcement/"
+          style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
+          >Law enforcement</a
+        > · <a
+          href="/notice/"
+          style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
+          >Report content</a
+        ></span
+      ><StatusBadge /><VersionBadge />
+    </div>
+  </div>
+</footer>
+
+<style is:global>
+  /* Footer link grid: seven across is too tight on a phone. */
+  @media (max-width: 760px) {
+    .foot-nav {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 14px 16px !important;
+    }
+  }
+  @media (max-width: 460px) {
+    .foot-nav {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+</style>

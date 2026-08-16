@@ -8,6 +8,7 @@
 // (Bestandsdaten, Zugangsdaten) rather than translations of translations.
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Behördenanfragen — Myne";
@@ -223,5 +224,7 @@ const haveNot = [
         </p>
       </div>
     </section>
+
+    <SiteFooter />
   </div>
 </LandingLayout>

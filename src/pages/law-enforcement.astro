@@ -15,6 +15,7 @@
 // German version: `behoerdenanfragen.astro`. Same document.
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Law Enforcement Requests — Myne";
@@ -216,5 +217,7 @@ const haveNot = [
         </p>
       </div>
     </section>
+
+    <SiteFooter />
   </div>
 </LandingLayout>

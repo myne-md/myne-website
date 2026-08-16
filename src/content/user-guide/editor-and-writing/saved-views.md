@@ -54,7 +54,7 @@ Cards are read-only — they only open notes, they never edit them:
 - **⌘-click** or **Ctrl-click**, or a **middle-click**, opens it in a new tab.
 - **Alt-click** opens it to the side.
 
-Right-clicking a card offers exactly four non-destructive actions: **Open**, **Open in new tab**, **Reveal in folder**, and **Copy link**. When no notes match the filter, the gallery reads **No notes match this view**.
+Right-clicking a card offers exactly four non-destructive actions: **Open**, **Open in new tab**, **Reveal in folder**, and **Copy link**. **Copy link** writes a wikilink to the clipboard and reports nothing either way, so check the clipboard rather than the screen. When no notes match the filter, the gallery reads **No notes match this view**.
 
 The other view types are not built yet. A view set to a table or list type shows **This view type arrives in a later update.** in place of its content.
 

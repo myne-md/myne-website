@@ -1,7 +1,7 @@
 ---
 title: "Code blocks"
 category: "markdown"
-updated: 2026-08-13
+updated: 2026-08-16
 summary: "How to write inline code and fenced code blocks with language hints, and how Myne applies syntax highlighting to the code you write."
 tags: ["markdown", "editor"]
 ---
@@ -48,7 +48,7 @@ Two fence languages are not code at all. A ` ```mermaid ` block is drawn as a di
 
 ## The copy button
 
-The card's copy button copies the **code inside the block**: the lines between the fences, without the backticks or the language label, so you can paste it straight into a terminal or editor.
+The card's copy button copies the **code inside the block**: the lines between the fences, without the backticks or the language label, so you can paste it straight into a terminal or editor. The icon changes for a moment when the copy lands. If your system refuses the clipboard, the icon simply does not change, so a refusal looks like nothing happening rather than announcing itself.
 
 ## Limits
 

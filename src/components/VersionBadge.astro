@@ -1,0 +1,17 @@
+---
+/**
+ * Footer version badge.
+ *
+ * The string it renders was hand-typed as `v0.1 · pre-alpha` in seven files and
+ * stayed there through four releases — so by the time /download grew a working
+ * v0.5.0 button, the footer beneath it still said v0.1. One component reading
+ * one constant is the fix; see src/data/release.ts.
+ *
+ * Note this is the APP version, not the protocol version. `spec.astro` says
+ * "spec status · draft · v0.1" and that is correct as written — the v0.1
+ * protocol spec is a different thing that versions on its own schedule.
+ */
+import { RELEASE_TAG } from "../data/release";
+---
+
+<span>{RELEASE_TAG} · pre-alpha</span>

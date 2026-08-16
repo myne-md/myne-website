@@ -2,6 +2,7 @@
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
 import StatusBadge from "../components/StatusBadge.astro";
+import VersionBadge from "../components/VersionBadge.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Myne — Your notes. Sealed.";
@@ -454,7 +455,7 @@ const ogImage = absoluteOg("home", Astro.site!);
               style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
               >Report content</a
             ></span
-          ><StatusBadge /><span>v0.1 · pre-alpha</span>
+          ><StatusBadge /><VersionBadge />
         </div>
       </div>
     </footer>

@@ -1,8 +1,25 @@
 # Myne security contact — RFC 9116.
 # Acknowledgment-only: we credit researchers; there is no monetary bounty yet.
+#
+# Release signing key (minisign). It signs the SHA256SUMS of every release
+# published at https://downloads.myne.md/releases/ — NOT the installers, which
+# are unsigned and will make your OS warn you.
+#
+#   RWSzhweIGbX53vxsmyZ218e3pqUU8/zKiqHMarzXv3Ddx4rcyvDQOT5k
+#
+# The same key is published at https://myne.md/releases/ and in the download
+# origin's own /releases/index.json. Three copies on two different hosts, so
+# that compromising one of them shows up as a disagreement rather than as
+# nothing at all. Carried as a comment rather than an RFC 9116 field on
+# purpose: `Encryption:` is for keys used to encrypt reports TO us, and this
+# is not that.
 
-Contact: https://github.com/myne-md/myne/security/advisories/new
+# Order is preference (RFC 9116 §2.5.3). The mailto is first because it is the
+# only one an outside reporter can actually reach: the GitHub advisory form
+# below is on a PRIVATE repository, so it 404s for anyone who is not an org
+# member. It stays listed for members, not as the primary channel.
 Contact: mailto:security@myne.md
+Contact: https://github.com/myne-md/myne/security/advisories/new
 Policy: https://myne.md/security/
 Preferred-Languages: en
 Canonical: https://myne.md/.well-known/security.txt

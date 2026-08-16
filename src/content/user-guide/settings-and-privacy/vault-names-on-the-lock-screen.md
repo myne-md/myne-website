@@ -2,7 +2,7 @@
 title: "Vault names on the lock screen"
 category: "settings-and-privacy"
 updated: 2026-08-15
-summary: "The vault picker shows a vault's real name once this device has unlocked it at least once, on macOS and iOS, and a neutral placeholder everywhere else. A Privacy setting keeps names off that screen and destroys the copies already stored here, with two bounds worth knowing: it cannot reach a copy of the machine taken earlier, and a rename does not reach your other devices until each unlocks that vault."
+summary: "The vault picker shows a vault's real name once this device has unlocked it at least once, on macOS and iOS, and a neutral placeholder everywhere else. A Privacy setting keeps names off that screen and destroys the copies stored here — but it cannot reach a disk image taken earlier, and a rename reaches another device only when it next unlocks the vault."
 tags: ["vault", "privacy", "settings"]
 ---
 

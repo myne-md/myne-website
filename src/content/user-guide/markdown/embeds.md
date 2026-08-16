@@ -1,7 +1,7 @@
 ---
 title: "Embeds"
 category: "markdown"
-updated: 2026-08-13
+updated: 2026-08-16
 summary: "What an ![[target]] embed does, and why it depends on the target: a note embed is a labelled chip with no transclusion, a drawing is drawn in place and editable, and an attachment becomes an inline image, a PDF reader, or an audio or video player."
 tags: ["markdown", "links", "attachments"]
 ---
@@ -32,6 +32,18 @@ Backspacing at the edge of the embed removes the whole reference in one step and
 - **Video** shows as a player, for MP4 and WebM. A video the system cannot decode falls back to a file card instead.
 - A **plain-text, code, CSV, Word or spreadsheet file** shows a read-only preview of its contents.
 - Anything else shows as a **file card**: the file's icon, name, type and size, with an export action.
+
+Images and PDFs also carry a size, an alignment and an alt text you choose. You set those from the embed's own `⋯` menu, described in [Attachments](/user-guide/attachments-and-import/attachments/). You do not type them. Myne records the choice on the embed:
+
+```
+![[att:<id>|photo.png|w=300|align=center|alt=The harbour at dusk]]
+```
+
+`w` is a width in pixels (1 to 8192), or a percentage of the text column (1% to 100%). `h` is a height in pixels. Myne's own menu never writes an `h`: it appears only on an embed brought in from Obsidian's `300x200` form, and the menu preserves it. `align` is `left`, `center` or `right`. `alt` comes last and runs to the end, so it can contain any punctuation except `]`, which breaks the embed. Myne refuses a `]` in the alt-text box for the same reason, and it matters most here, because a file you hand-edit outside Myne has nothing checking it: an embed carrying a `]` still looks right in the editor while the parts of Myne that track which notes use an attachment stop seeing it, and the attachment then looks unused.
+
+A value Myne cannot read is left in the file and reported rather than silently corrected. A key it recognises with a value it cannot use (`w=9000`, past the ceiling) shows a warning beside the `⋯` and a `Could not read:` line at the bottom of the menu, quoting the text verbatim so you can fix it. A key it does not recognise at all is passed over in silence, on purpose: that is what a newer version of Myne writing something this one has not learned looks like, and warning about it would put a notice on every image somebody styled on a newer build. Neither is ever rewritten or deleted.
+
+This is here so you know what you are looking at if you ever read your `.md` files outside Myne, not because you need to write it.
 
 Adding files, the size limit, and what happens to an image on the way in are covered in [Attachments](/user-guide/attachments-and-import/attachments/).
 

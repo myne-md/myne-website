@@ -1,7 +1,7 @@
 ---
 title: "Attachments"
 category: "attachments-and-import"
-updated: 2026-08-13
+updated: 2026-08-16
 summary: "How to attach files to your notes, which file types render in place and which are kept as an export-only card, the size limits, and how attachments are stored inside the encrypted vault."
 tags: ["attachments", "notes"]
 ---
@@ -49,6 +49,19 @@ A plain-text or source-code file — `.txt`, `.md`, `.csv`, `.json`, `.yaml` and
 Anything else — an archive, an installer, a font — surfaces as a **file-card**: a file-type icon, the filename, a `type · size` line, and a `⋯` menu with **Export**, **Rename**, **Remove**, and **Reveal in library**. "Using" a file-card file means exporting it to disk through the native Save dialog.
 
 Identical files are stored once: if you add the same file twice, Myne keeps a single copy and both embeds point at it.
+
+## The embed menu
+
+Every embedded image and PDF carries its own `⋯` menu in the top-right corner. It has the same four file actions as a file-card (**Export**, **Rename**, **Remove** and **Reveal in library**), plus the controls for how the embed looks in the note:
+
+- **Size**: Small, Medium, Large or Full width. Picking the size that is already ticked clears it and returns the embed to the default. **Custom size…** takes an exact width in pixels, or a percentage of the text column.
+- **Align left**, **Align center**, **Align right**. Picking the one already ticked clears it.
+- **Edit alt text…**: what a screen reader announces, and what [Search](/user-guide/find-and-connect/search/) can match on. To mark an image decorative so a screen reader skips it instead of reading out a camera filename, give it alt text and then clear that back to empty. Submitting an empty box on an embed that never had alt text leaves it as it was, because those are two different requests and only one of them is a decision about the image.
+- If Myne cannot read something in the embed, it says so rather than fixing it quietly: a warning sits beside the `⋯` and a **Could not read:** line at the bottom of the menu quotes the text as written. Your file is not changed.
+
+A size is a maximum, not a fixed frame: an image never grows wider than your text column, so changing the column width in **Settings → Editor** re-flows your notes rather than breaking them. **Full width** is the way to say "fill the page" and keeps meaning that on any screen, where a large pixel number does not.
+
+Your choices are written into the note itself, so they travel with it: they survive sync, and they are still there when you read the file outside Myne. Which surfaces **apply** them is a shorter list than which surfaces keep them. The desktop and browser apps lay the embed out as you set it; the phone app currently shows every embed at its default size and reads the filename rather than your alt text; and an HTML or PDF export uses the filename as the alt and its own layout. The bytes are intact in all four cases, which is why an embed laid out on a computer is still laid out when you open that note there again. Opening an exported note in **Obsidian** is a partial match rather than a promise: a pixel width comes across, because Obsidian has its own way of writing one, while a percentage width and an alignment do not, so it falls back to its own default for those. Nothing is lost from the file either way. The exact syntax is in [Embeds](/user-guide/markdown/embeds/), though you never need to type it.
 
 ## Renaming, exporting, and deleting
 

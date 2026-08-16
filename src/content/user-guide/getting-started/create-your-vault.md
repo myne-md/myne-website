@@ -1,7 +1,7 @@
 ---
 title: "Create your vault"
 category: "getting-started"
-updated: 2026-08-13
+updated: 2026-08-16
 summary: "The vault-creation wizard — a short safety briefing, then set a master password, save your recovery phrase, confirm a few words, and save your account number — and the one consequence to understand before you start."
 tags: ["vault", "basics"]
 ---
@@ -40,9 +40,9 @@ To check that you actually recorded the phrase, Myne asks you to type back four 
 
 Last, Myne shows your **account number**. It displays as `MY-` followed by five groups of four characters (for example, `MY-XXXX-XXXX-XXXX-XXXX-XXXX`), and it is **shown only once**, here at creation — Settings does not display it again. You can copy it or use **Save as file**, and you tick a box confirming you have saved it before the vault is created. You need it to add a second device later.
 
-Both **Copy** and **Save as file** tell you whether they actually worked. That is worth saying because it used to matter most on a phone: the Copy button on iPhone and Android was wired to a clipboard component the mobile app never actually installed, so every tap failed. It said so, which is the only reason this was a dead button rather than a silent lie about a number shown once, but the account number could not be copied at all. That wiring is fixed. It also clears itself from the clipboard shortly afterwards, so a value that identifies your account does not sit there waiting for the next thing you paste.
-
 It is not a password, but it is not nothing either. If you use sync, anyone who has your account number can ask the sync server for your account's encrypted key file, from anywhere, with no device of yours and no login: that is how a new device of *yours* joins, and the server cannot tell the two apart. The file reveals nothing on its own; what it gives someone is the material to start guessing your master password on their own hardware, with nothing slowing them down but the strength of that password. So treat the number like cash rather than like a username — fine to type into your own devices, not something to put in a screenshot or a support thread. A vault you never sync has nothing on a server.
+
+**Copy** tells you whether it worked, so a failed copy does not look like a successful one, and what lands on the clipboard clears itself after 30 seconds. On the desktop that clear runs inside Myne, so quitting within those 30 seconds leaves the number on the clipboard. On Android the clear is not selective: anything you copy inside those 30 seconds is cleared too.
 
 ## Your vault is ready
 

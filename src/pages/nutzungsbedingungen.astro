@@ -129,6 +129,27 @@ const forbidden = [
           gelegentlich zu tun, ist während einer Beta eine vernünftige Gewohnheit.
         </p>
 
+        <h2 style={h2}>Wenn die KI Ihre Notizen ändert</h2>
+        <p style={body}>
+          Die KI in Myne kann Änderungen an Ihren eigenen Notizen vorschlagen und neue Notizen
+          anlegen. Ohne Ihre Zustimmung wird nichts geschrieben: Sie sehen jede Änderung als Diff und
+          geben sie frei, einzeln oder als von Ihnen gewählte Gruppe. Eine Änderung, die eine Notiz aus
+          Ihrer Notizliste nimmt, erfordert stets eine eigene Freigabe und kann niemals in einem
+          &bdquo;Alle freigeben&ldquo; mitlaufen.
+        </p>
+        <p style={body}>
+          Vor dem Anwenden hält ein Agentenlauf für jede Notiz, die er ändern wird, einen
+          Wiederherstellungspunkt fest; lässt sich dieser nicht anlegen, wird gar nichts angewendet. Ein
+          Druck macht den gesamten Lauf rückgängig. Ausgenommen sind Notizen, die der Lauf
+          <em>angelegt</em> hat: zu ihnen gibt es keine frühere Fassung, ihr Entfernen nehmen Sie selbst
+          vor.
+        </p>
+        <p style={body}>
+          Darüber hinaus gilt der Abschnitt zur Gewährleistung oben auch hier, und mit ihm derselbe
+          Rat: führen Sie eigene Exporte. Für das, was ein Modell vorschlägt, können wir nicht
+          einstehen, und eine Änderung freizugeben ist Ihre Entscheidung.
+        </p>
+
         <h2 style={h2}>Kontingent und Grenzen</h2>
         <p style={body}>
           Jedes Konto erhält 250 MB verschlüsselten Speicherplatz. Auf Anfrage erhöhen wir ihn

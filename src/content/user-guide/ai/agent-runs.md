@@ -48,7 +48,11 @@ Read the body rather than skimming the title. A new note is the one thing a run 
 
 ## Deleting a note
 
-The AI has no delete. When it wants a note gone it proposes moving it to Trash, which is reversible, and that change is never included in "approve all": it always needs its own click. That is deliberate: at the diff level moving a note to Trash looks like any other edit, and it should not be possible to approve one without noticing.
+The AI has no delete. When it wants a note gone it proposes taking it out of your note list, and that change is never included in "approve all": it always needs its own click, and the row tells you which kind of removal it is.
+
+That covers five things, not just Trash: moving a note to **Trash**, deleting it **on every device**, moving it to **Archive**, turning it into a **template**, or marking it a **conflict copy**. They are not equally easy to undo, which is why the row names the one it means. A note in Trash or Archive is still somewhere you can find it; a note deleted on every device is not.
+
+The reason all five need their own click is the same: at the diff level, each of them is written the same way an ordinary edit is, so none of them looks different from "fix a typo" until you read what it does. It should not be possible to approve one without noticing.
 
 ## Undoing a run
 

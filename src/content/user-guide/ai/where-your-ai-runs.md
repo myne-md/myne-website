@@ -40,8 +40,8 @@ Under **Remote provider** you can name a service to send requests to instead. Th
 
 Choosing a provider for the first time shows a consent screen before anything is stored or sent. It is headed "Before Myne sends anything to …" and answers six questions in labelled sections:
 
-- **What leaves your device** — "The text of the notes involved in each request leaves your device — the note you are working in, and any note used to answer you."
-- **When it leaves** — "Only when you ask for something: chat, summarize, rewrite, edit selection. Nothing is sent as you type, and nothing is sent in the background."
+- **What leaves your device** — "The text of the notes involved in each request leaves your device — the note you are working in, and any note used to answer you. An agent run also sends the titles and identifiers of every note in the scope you approved, before it has read any of them."
+- **When it leaves** — "Only when you ask for something: chat, summarize, rewrite, edit selection, or an agent run. Nothing is sent as you type, and nothing is sent in the background."
 - **Who receives it** — the provider, named, "which Myne does not run."
 - **What Myne cannot check** — "Myne cannot see or control what … keeps, how long it keeps it, or whether it passes your request to someone else."
 - **How to undo this** — "You can remove the key at any time, which stops Myne sending anything. Revoking the key itself is done at the provider, and it applies to the key rather than to this device."
@@ -63,7 +63,7 @@ Some AI work is refused a remote provider in the code rather than by a setting, 
 - **The semantic index behind [asking your notes](/user-guide/ai/ask-your-notes/).** It runs on your device or not at all, so the passages behind an answer are always found here — even when the answer itself is written elsewhere.
 - **Speech-to-text.** [Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note) uses a model that ships with Myne, and no provider you name takes audio.
 
-If one of those is somehow asked to go to a provider, Myne refuses in the same words: "This kind of request never goes to a provider — it runs on this device or not at all." What a remote provider serves is the work you asked for: chat, summarize, rewrite, edit selection.
+If one of those is somehow asked to go to a provider, Myne refuses in the same words: "This kind of request never goes to a provider — it runs on this device or not at all." What a remote provider serves is the work you asked for: chat, summarize, rewrite, edit selection, or [an agent run](/user-guide/ai/agent-runs/).
 
 ## Turning it off
 

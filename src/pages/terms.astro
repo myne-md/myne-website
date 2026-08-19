@@ -141,6 +141,25 @@ const forbidden = [
           beta.
         </p>
 
+        <h2 style={h2}>When the AI changes your notes</h2>
+        <p style={body}>
+          Myne&rsquo;s AI can propose changes to your own notes, and create new ones. Nothing is written
+          without you approving it: you see each change as a diff and approve it, either on its own or
+          as a batch you chose. A change that would take a note out of your note list always needs its
+          own separate approval and can never ride along inside &ldquo;approve all&rdquo;.
+        </p>
+        <p style={body}>
+          Before applying anything, an agent run records a restore point for every note it is about to
+          change, and if that record cannot be taken the run does not apply at all. One press then
+          reverts the whole run. Notes the run <em>created</em> are the exception: there is no earlier
+          version to return to, so removing one is something you do yourself.
+        </p>
+        <p style={body}>
+          Within that, the no-warranty section above applies here too, and the same advice with it:
+          keep your own exports. What a model proposes is not something we can vouch for, and approving
+          a change is your decision.
+        </p>
+
         <h2 style={h2}>Quota and limits</h2>
         <p style={body}>
           Each account gets 250 MB of encrypted storage. Ask and we will raise it, free — write to

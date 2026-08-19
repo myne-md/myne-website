@@ -68,9 +68,9 @@ const network = [
   },
   {
     feature: "KI über einen entfernten Anbieter",
-    goes: "Ja — Notiztext verlässt Ihr Gerät",
+    goes: "Ja — Notiztext verlässt Ihr Gerät. Ein Agentenlauf sendet zusätzlich die Titel und Kennungen jeder Notiz im von Ihnen freigegebenen Bereich, bevor er auch nur eine davon gelesen hat.",
     where: "Der von Ihnen benannte Anbieter",
-    when: "Nur wenn fünf Bedingungen gleichzeitig erfüllt sind: Sie haben einen Anbieter benannt, diesem konkreten Anbieter zugestimmt, seinen Schlüssel hinterlegt, die KI aktiviert und den Entwicklermodus eingeschaltet. Jede einzelne ist standardmäßig aus; ohne benannten Anbieter ist der Pfad nicht erreichbar, nicht bloß abgeschaltet.",
+    when: "Nur wenn fünf Bedingungen gleichzeitig erfüllt sind: Sie haben einen Anbieter benannt, diesem konkreten Anbieter zugestimmt, seinen Schlüssel hinterlegt, die KI aktiviert und den Entwicklermodus eingeschaltet. Jede einzelne ist standardmäßig aus; ohne benannten Anbieter ist der Pfad nicht erreichbar, nicht bloß abgeschaltet. Eine Anfrage je Aufgabe, die Sie stellen — außer beim Agentenlauf, der eine begrenzte Folge davon auslöst: wie viele, entscheidet das Modell, nicht wir.",
   },
   {
     feature: "Web-Clipper",
@@ -229,6 +229,16 @@ const notStored = [
           Modell um das Lesen einer Notiz zu bitten. Diese Funktion ist aus, ihre Aktivierung erfordert
           fünf bewusste Schritte, und ist sie an, gilt für das Gesendete die Datenschutzerklärung jenes
           Anbieters. Wir vermitteln dabei nichts und sehen nichts davon.
+        </p>
+        <p style={body}>
+          Ein Teil davon sei ausdrücklich genannt, weil er nicht dem entspricht, was man unter
+          &bdquo;Notiztext&ldquo; erwartet. Wenn Sie die KI <strong style="color:#e6e6e4;">Änderungen</strong>
+          an mehreren Notizen vorschlagen lassen, erhält sie zuerst die <em>Liste</em>: Titel und Kennung
+          jeder Notiz im freigegebenen Bereich, gesendet, bevor sie eine einzige davon gelesen hat. Wer
+          also einen Ordner freigibt und den Lauf dann abbricht, hat die Titel dieses Ordners dennoch
+          gesendet. Titel sind oft die aufschlussreichste Zeile einer Notiz. Die Kennungen sind stabil,
+          sodass ein Anbieter, der Anfragen aufbewahrt, erkennen kann, dass zwei davon dieselbe Notiz
+          betreffen.
         </p>
 
         <h2 style={h2}>Was der Sync-Server speichert</h2>

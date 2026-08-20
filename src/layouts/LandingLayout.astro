@@ -7,6 +7,8 @@
  * site (/ledger, /user-guide) keeps its own theme untouched.
  */
 import { ClientRouter } from "astro:transitions";
+import DraftNotice from "../components/DraftNotice.astro";
+import type { NoticeLang, NoticeVariant } from "../data/notice";
 import "../styles/fonts.css";
 
 interface Props {
@@ -26,6 +28,18 @@ interface Props {
    *  View Transitions engage only between two pages that BOTH ship the router,
    *  so every other route keeps its plain full-load navigation untouched. */
   clientRouter?: boolean;
+  /** Which claim the site-wide draft notice makes on this page. Defaults to
+   *  the product-status one; the legal texts pass their own, and /impressum/
+   *  passes "none", which renders no notice at all. The reasoning per variant
+   *  is in DraftNotice.astro; the union is shared from data/notice so this
+   *  file and that one cannot drift apart. A legal page that FORGETS the prop
+   *  silently gets the product-status wording under a document the reader is
+   *  being asked to accept, which every presence check would pass. That is
+   *  what scripts/validate-draft-notice.mjs exists to catch. */
+  notice?: NoticeVariant;
+  /** Language of that notice, matched to the page's prose (the German legal
+   *  pages pass "de"). */
+  noticeLang?: NoticeLang;
 }
 
 const {
@@ -36,6 +50,8 @@ const {
   robots,
   ogType = "website",
   clientRouter = false,
+  notice = "status",
+  noticeLang = "en",
 } = Astro.props;
 
 const canonicalUrl =
@@ -173,6 +189,17 @@ const canonicalUrl =
         text-transform: uppercase;
         letter-spacing: 0.1em;
       }
+      /* The draft notice is sticky at the bottom edge on every route, so a
+         focused control reached by Tab scrolls flush to the bottom of the
+         scrollport, which is under the strip: WCAG 2.2 SC 2.4.11, Focus Not
+         Obscured. The mirror problem at the top edge is already solved per
+         page (spec.astro carries scroll-margin-top for the fixed nav); this
+         is the bottom half, once, for every route. It reserves no layout
+         height, so it does not reintroduce the fixed constant the notice's
+         own comment measured and rejected. */
+      html {
+        scroll-padding-bottom: 7rem;
+      }
       .tick {
         position: absolute;
         width: 8px;
@@ -205,5 +232,6 @@ const canonicalUrl =
       <div class="page-curtain" aria-hidden="true"></div>
     )}
     <slot />
+    {notice !== "none" && <DraftNotice variant={notice} lang={noticeLang} />}
   </body>
 </html>

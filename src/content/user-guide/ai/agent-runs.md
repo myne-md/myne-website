@@ -1,7 +1,7 @@
 ---
 title: "Let the AI change your notes"
 category: "ai"
-updated: 2026-08-16
+updated: 2026-08-20
 summary: "Ask the AI to make changes across a set of notes you choose. It proposes every change as a diff and nothing is written until you approve it, one note at a time or all at once."
 tags: ["ai", "notes"]
 ---
@@ -15,10 +15,13 @@ The AI can do more than answer questions about your notes: it can propose change
 
 ## Starting a run
 
-1. Open the **AI Chat** tab.
-2. Decide what the AI may touch. By default that is the note you have open. If the work spans a folder, choose it from the **Working on** list before you send: you will see how many notes that is.
-3. Type what you want changed and send it.
-4. The AI reads the notes it needs and works. You can stop it at any time.
+1. Open the **AI Chat** tab. It opens in **Ask** mode, where messages go to chat.
+2. Switch the composer to **Edit**. This is the step that decides where your message goes, so a run will not start until you do it.
+3. Decide what the AI may touch. By default that is the note you have open. If the work spans a folder, choose it from the **Working on** list before you send: you will see how many notes that is.
+4. Type what you want changed and send it. Enter sends; Shift+Enter starts a new line.
+5. The AI reads the notes it needs and works. Its progress, the number of notes it can currently change, and a **Stop** button sit just above the composer for as long as it runs.
+
+The run appears in the same conversation as your questions. When it stops, its turn stays there with what it proposed and what the run cost, so you can look back at it after the review screen is closed.
 
 ## Approving changes
 

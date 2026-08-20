@@ -1,7 +1,7 @@
 ---
 title: "Ask your notes"
 category: "ai"
-updated: 2026-08-16
+updated: 2026-08-20
 summary: "Use the AI Chat tab to ask questions in plain language across your vault. Myne finds relevant passages on this device, composes an answer, streams it token by token, and shows citations back to the notes it drew from so you can verify."
 tags: ["ai", "search"]
 ---
@@ -21,11 +21,14 @@ The header shows a status: **No provider**, **Not answering**, **Unavailable**, 
 
 ## Asking a question
 
-1. Type your question into the composer at the bottom of the tab.
-2. Send it. Your turn appears in the transcript, followed by the assistant's answer.
-3. The answer streams in token by token. While it is generating, the send button becomes a **Stop** control you can use to cut a long or off-track answer short; the partial text you stopped at stays in the transcript.
+1. Check that the composer at the bottom of the tab is set to **Ask**. It opens there. The other setting, **Edit**, sends your message to the agent instead: see [Let the AI change your notes](/user-guide/ai/agent-runs/).
+2. Type your question. Enter sends it; Shift+Enter starts a new line.
+3. Your turn appears in the transcript, followed by the assistant's answer.
+4. The answer streams in token by token. While it is generating, the send button becomes a **Stop** control you can use to cut a long or off-track answer short; the partial text you stopped at stays in the transcript.
 
-The chat is conversational: earlier turns are carried as context for follow-up questions, so you can refine ("only from last week's notes", "shorter") without restating everything.
+The chat is conversational: earlier turns are carried as context for follow-up questions, so you can refine ("only from last week's notes", "shorter") without restating everything. Only your questions and their answers are carried this way. If you have also run the agent from this tab, the task you gave it is not replayed as context for a question, because it was scoped to a set of notes the question knows nothing about.
+
+**New chat** in the tab header clears the conversation and starts fresh. It also stops whatever is running: an answer still generating, or an agent run still working. What it does not clear is the offer to undo the last agent run, because that run already changed your notes and starting a new conversation does not change them back.
 
 ## Citations
 

@@ -1,0 +1,340 @@
+---
+/*
+ * The site-wide draft notice (myne-md/myne-website#33).
+ *
+ * Myne is pre-alpha and its legal texts have had no legal review, and until
+ * this component both facts lived only where a reader might never arrive: the
+ * pre-alpha status in a footer badge, an FAQ answer on the landing page and a
+ * block on /download/, the review gap nowhere at all. A reader reaching
+ * /security/ or /spec/ from a search result met confident technical claims
+ * about a system with no third-party audit (docs/threat-model.md section 6
+ * records that absence), and /terms/ read as a published contract for a hosted
+ * beta the public site does not advertise.
+ *
+ * It renders from LandingLayout, which every other layout bottoms out in
+ * (LedgerFeedLayout and UserGuideShellLayout both wrap it, and
+ * UserGuideArticleLayout wraps the shell), so one insertion point covers every
+ * page that goes through a layout rather than a hand-picked subset that
+ * drifts. No count is written here on purpose: the figure moves with every
+ * page added, and `scripts/validate-draft-notice.mjs` is what actually holds
+ * the roster. Routes that emit something other than a page (the OG images,
+ * the feeds, robots.txt, llms.txt, the guide search index, the theme preview
+ * iframe) use no layout and are out by construction, which is correct: a
+ * notice inside the theme-preview iframe would be drawn as part of the theme.
+ *
+ * ── WHY THREE VARIANTS AND NOT ONE SENTENCE ─────────────────────────────────
+ *
+ * The same disclaimer is wrong on different pages, in opposite directions.
+ *
+ * `status` is the default and says the product is pre-alpha and that the
+ * FEATURES described are not commitments. Two things it deliberately does not
+ * say, both of which it said in an earlier draft.
+ *
+ * Not "no public release": /download/ serves v0.5.0 and downloads.myne.md
+ * carries minisign-signed release hashes (the installers themselves are
+ * unsigned), so claiming otherwise would be the same misstatement this notice
+ * exists to avoid, pointing the other way.
+ *
+ * And not "nothing on this site is a binding commitment", which was the
+ * wording until review. It renders on every page, so it landed over the
+ * published SHA-256 list and the minisign key on /releases/ and /download/,
+ * over /security/'s own "the protocol spec and threat model are the contract",
+ * and by its own scope it reached back over /impressum/ and /privacy/, the two
+ * documents this component carves out precisely because their content is not
+ * disclaimable. threat-model.md section 3 makes this site the SECOND WITNESS
+ * for release integrity, a different box and deploy chain "so a compromise of
+ * one cannot make its lie agree with the other", and section 6 line 149 says
+ * in as many words that "Each control is a real engineering commitment, not a
+ * marketing line". A site-wide non-commitment sentence is the negation of the
+ * control the threat model leans on, printed over the hash list it applies to.
+ * The scope was never meant to be the site; it was meant to be the roadmap.
+ *
+ * `draft` goes on terms, nutzungsbedingungen, law-enforcement,
+ * behoerdenanfragen, notice and meldung, and says one thing: the document has
+ * not been through legal review and may change.
+ *
+ * It said more than that until review, and what came off is the point. The
+ * earlier wording added "is not binding. It describes an intention, not an
+ * agreement in force", which presupposes the document is an agreement. These
+ * six are four different kinds of thing and only two of them are.
+ *
+ * notice and meldung are the published Art. 16 DSA notice-and-action
+ * mechanism and the Art. 11 and 12 contact points; a regulatory duty is not
+ * disclaimable, so the sentence bought nothing there and read as the provider
+ * saying it does not regard its own designation as in force, on the page
+ * impressum.astro routes readers to for exactly that procedure.
+ *
+ * law-enforcement and behoerdenanfragen are a factual inventory of what the
+ * server never has (no email, no persisted IP addresses at any layer, no
+ * connection logs, no readable content). That is threat-model A2 restated for
+ * a different reader, rated Strong because "the server cannot disclose what it
+ * does not possess", and it is not the kind of statement an intention-versus-
+ * agreement distinction can describe at all. privacy.astro carries the same
+ * list, so the site was asserting one inventory under two statuses.
+ *
+ * terms and nutzungsbedingungen ARE agreements, and there the withdrawal was
+ * real rather than a category error, which is why it needed a decision rather
+ * than a fix: a contract binds on acceptance, BetaTermsConsent.tsx opens
+ * /terms/ as "the full text" behind the Accept button, and the clauses that
+ * would have gone are the end-of-beta guarantee, the 90-day shutdown notice,
+ * and the contractual basis for freezing an account for misuse, which is the
+ * only remedy /notice/ and /meldung/ offer a substantiated Art. 16 notice.
+ * terms.astro's own header records why that guarantee exists: "Skiff shut down
+ * and its users discovered the terms had promised them nothing."
+ *
+ * `updating` goes on privacy and datenschutz and deliberately does NOT say
+ * "not binding". app.example.com is live and accounts can be created, so GDPR
+ * Art. 13 imposes an information duty that no disclaimer lifts. Announcing
+ * that the privacy notice does not bind would not reduce the obligation, it
+ * would only record that the controller does not stand behind its own notice.
+ * An unreviewed notice is a correctable position; a disowned one is not.
+ *
+ * Three things it therefore will not do, each of which it did in an earlier
+ * draft. It will not claim the storage commitments are "the ones the app is
+ * built to": that reads as conformance to the whole `notStored` list, which
+ * includes "IP addresses in any persisted form, connection logs, access
+ * times", a reverse-proxy property across several origins at a layer no build
+ * of the app can enforce. It will not hedge the notice's ACCURACY ("may not
+ * yet describe every detail accurately"), because Art. 12(1) requires the
+ * information in a precise and transparent form, so a controller publishing
+ * that its mandatory disclosure may be inaccurate is an admission against
+ * interest under Art. 5(1)(a) and 5(2) rather than a disclaimer. And its chip
+ * does not read "Draft" / "Entwurf": that is the strongest signal on the strip
+ * and it sat directly against the document's own "Effective 12 August 2026" /
+ * "Gültig ab 12. August 2026", doing the disowning the sentence was written to
+ * avoid. What is left qualifies the REVIEW STATUS and points at the effective
+ * date, which is the promise the page already makes about its own versions.
+ *
+ * `none` goes on two pages, for two unrelated reasons, and only the first is
+ * about what the notice SAYS.
+ *
+ * /impressum/. An Impressum is a statutory identity declaration under
+ * section 5 DDG: it is complete or it is not, and "draft" is not one of its
+ * states, so a notice qualifying its force would qualify a declaration whose
+ * truth is not disclaimable. It is NOT that a notice would put the missing
+ * address in writing: the page already states that itself, as a placeholder
+ * reading "Anschrift folgt zum öffentlichen Start" (example-org/operations#9). The
+ * page is unlinked, `noindex` and filtered out of the sitemap, which is the
+ * mitigation that fits it.
+ *
+ * /themes/builder/. Purely mechanical, and the reason is written out in
+ * `scripts/validate-draft-notice.mjs`'s EXCLUDED roster: it is the only page
+ * in the site with body{overflow:hidden}, so the document never scrolls and
+ * the strip cannot settle into its own flow height at the end of it. It would
+ * paint over the bottom band of a drag-driven colour editor and swallow
+ * clicks there, permanently.
+ *
+ * The variant is handled at the CALL SITE (LandingLayout renders no component
+ * at all), so nothing here carries a branch for rendering nothing.
+ *
+ * The rule all four variants follow is recorded in the main repository as
+ * design-notes/ops/0517: a notice here may qualify a document's REVIEW
+ * STATUS, never its force and never its accuracy. That entry, not this
+ * comment, is what a later editor rewording the variants has to read first.
+ *
+ * One question it leaves open, deliberately and on the record in
+ * example-org/operations#26: /impressum/ delegates the Art. 11 and 12 DSA contact
+ * points and the Art. 16 notice-and-action mechanism to /meldung/, and the
+ * carve-out does not travel with the delegation, so those designations are
+ * published under a review-status qualifier while the page pointing at them
+ * is not. The four pages keep `draft` until that issue is answered, because
+ * the surviving sentence claims only that the text has not been through legal
+ * review, which is true of all four and is a statement about the text rather
+ * than about the duty.
+ *
+ * `draft` and `updating` share the label ("Draft" / "Entwurf") by intent: what
+ * differs between them is the claim in the sentence, not the chip. The label
+ * is also deliberately independent of `data/release.ts`'s RELEASE_CHANNEL,
+ * which is one string in one language. This one has a German twin, and a
+ * channel that moves to beta does not by itself make an unreviewed document
+ * reviewed.
+ *
+ * German pages pass lang="de". The whole site ships <html lang="en">, so this
+ * is the notice's own language rather than the document's, and matching the
+ * page's prose is what matters: a German legal text under an English
+ * disclaimer invites the argument that the disclaimer was not addressed to
+ * the reader of the text.
+ *
+ * ── WHY STICKY, AT THE BOTTOM ───────────────────────────────────────────────
+ *
+ * Not dismissible, and not at the top. GlassNav is `position: fixed; top: 0`
+ * on every route and the landing hero is `min-height: 100vh`, so a top strip
+ * either overlaps the nav or pushes a full-viewport hero out of frame; a strip
+ * in normal flow at the top disappears under the fixed nav entirely. The
+ * bottom is the one edge no layout here competes for.
+ *
+ * `sticky` rather than `fixed`, and that is the second attempt. Fixed takes
+ * the strip out of flow, so the page has to reserve room for it with a
+ * body padding, and that padding is a constant guessing a height that depends
+ * on how the copy wraps. Measured, no constant worked: at 320px the tallest
+ * (German `updating`) notice is 111px against 104px reserved, and at 760px it
+ * is 72.5px against 48px, so the strip covered the footer at both ends while
+ * over-reserving 53px in between. Sticky keeps the strip in flow, occupying
+ * its own height whatever that turns out to be, and still pins it to the
+ * viewport bottom while the page scrolls. No constant, nothing to keep in
+ * sync, and the print rule below reduces to one property.
+ */
+import type { NoticeLang, NoticeVariant } from "../data/notice";
+
+interface Props {
+  /** Which claim the notice makes. See the block above for why these differ.
+   *  "none" never reaches here: LandingLayout renders nothing for it. */
+  variant: Exclude<NoticeVariant, "none">;
+  /** Language of the notice itself, matched to the page's prose. */
+  lang: NoticeLang;
+}
+
+const { variant, lang } = Astro.props;
+
+const COPY = {
+  status: {
+    en: {
+      label: "Pre-alpha",
+      text: "Myne is pre-alpha software under active development. Features described here are not commitments, and none of its security claims have been independently audited.",
+    },
+    de: {
+      label: "Pre-Alpha",
+      text: "Myne ist Pre-Alpha-Software in aktiver Entwicklung. Hier beschriebene Funktionen sind keine Zusagen, und keine der Sicherheitsaussagen wurde unabhängig geprüft.",
+    },
+  },
+  draft: {
+    en: {
+      label: "Unreviewed",
+      text: "This document has not been through legal review and may change.",
+    },
+    de: {
+      label: "Ungeprüft",
+      text: "Dieses Dokument wurde nicht juristisch geprüft und kann sich ändern.",
+    },
+  },
+  updating: {
+    en: {
+      label: "Under revision",
+      text: "This notice has not been through legal review and is still being revised. Changes are published with a new effective date.",
+    },
+    de: {
+      label: "In Überarbeitung",
+      text: "Dieser Hinweis wurde nicht juristisch geprüft und wird noch überarbeitet. Änderungen werden mit einem neuen Gültigkeitsdatum veröffentlicht.",
+    },
+  },
+} as const;
+
+const copy = COPY[variant][lang];
+---
+
+<aside class="draft-notice mono" role="note" lang={lang}>
+  <span class="draft-notice-label up">{copy.label}</span>
+  <span>{copy.text}</span>
+</aside>
+
+<style is:global>
+  /* Mobile-first: the base block carries the phone values and the one
+     breakpoint below raises them, so 760 is written once instead of as a
+     759/760 pair in two directions that has to stay matched by hand.
+
+     This block sits at template top level and NOT inside a conditional. Astro
+     processes <style> only there; nested in a JSX expression it is emitted as
+     literal text, which shipped a stylesheet whose first characters were the
+     template-literal braces, so the whole sheet failed to parse and the notice
+     rendered invisible while every grep for it passed. */
+  /* What the strip covers, published so the two nested scrollports it
+     overlaps can clear it.
+
+     Conditioned on the strip being IN THE DOCUMENT, not on this block having
+     shipped, and the difference is not theoretical: Astro decides which chunk
+     an is:global block lands in, and today it lands in one that /impressum/
+     and /themes/builder/ also link, so a plain `:root` would have reserved
+     space on the two pages that deliberately render no notice while the
+     comment here said it would not. `:root:has(.draft-notice)` is true
+     exactly when there is a strip to clear, whatever the bundler does with
+     the rule, and every consumer's `var(--draft-notice-reserve, 0px)` then
+     reserves nothing on those two pages without needing a fallback constant
+     of its own.
+
+     A ceiling rather than the height. Every consumer spends it inside a
+     scroll container or on scroll-padding, where over-reserving is invisible
+     and under-reserving hides a control, so the two directions are not
+     symmetric and the number is deliberately generous. The values are the
+     component's own measurements one paragraph down (111px at 320px, 72.5px
+     at 760px) rounded up, and they are in px because the strip's font-size is
+     a fixed 11px: 7rem, the first attempt, scales with the root font size
+     while the thing it reserves for does not, so the two move independently
+     and the reserve can go negative. */
+  :root:has(.draft-notice) {
+    --draft-notice-reserve: 120px;
+  }
+  @media (min-width: 760px) {
+    :root:has(.draft-notice) {
+      --draft-notice-reserve: 80px;
+    }
+  }
+
+  .draft-notice {
+    position: sticky;
+    bottom: 0;
+    /* Above the fixed nav (80) and the ledger/guide chrome (90), and
+       deliberately BELOW the two full-screen overlays that claim 200: the
+       guide lightbox (styles/userguide.css) and the theme builder's colour
+       picker (pages/themes/builder.astro). A notice that covered an open
+       lightbox would be the wrong outcome. */
+    z-index: 100;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 14px;
+    /* Literals, not tokens, and that is the second attempt too. The first
+       version read var(--bg-2), var(--fg-2) and var(--accent) with these
+       values as fallbacks, which is right on every route that never imports
+       tokens.css and wrong on the largest subtree in the site. The user
+       guide's shell imports styles/tokens.css, whose :root ramp is the LIGHT
+       one, and scopes its dark values to `.ug-root` (styles/userguide.css).
+       LandingLayout renders this strip after the slot, so it is a SIBLING of
+       `.ug-root` and the lookup succeeded with the light ramp: --bg-2
+       #f4f4f2 and --accent #2c4a7a, a near-white strip with a navy label at
+       the bottom of every dark guide page. There is no palette to follow
+       here anyway. LandingLayout pins html and body to #0a0a0a on every
+       route, so the strip has exactly one ground to sit on, and the print
+       block below is the one place it changes. */
+    background: #0c0c0c;
+    border-top: 1px solid rgba(194, 163, 94, 0.4);
+    color: #c4c4c0;
+    /* 11px is --text-xs, the smallest step of the canonical scale in both
+       tokens.css and the main repo's docs/design/colors_and_type.css. The
+       first version went to 10px on phones to save a wrapped line, which is
+       the wrong trade for a disclaimer: its only function is to be read, and
+       for the `draft` form conspicuousness is what decides whether a clause
+       withdrawing a document's force does anything at all. */
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 760px) {
+    .draft-notice {
+      gap: 10px;
+      padding: 11px 20px;
+    }
+  }
+
+  .draft-notice-label {
+    flex: none;
+    /* Literal for the reason the block above gives: --accent resolves to the
+       light ramp's iron-blue on guide routes. */
+    color: #c2a35e;
+    font-weight: 700;
+  }
+
+  /* Printing a legal page is exactly when the draft status has to travel with
+     it. Sticky already prints in place at the end of the document; only the
+     dark palette has to go. */
+  @media print {
+    .draft-notice {
+      position: static;
+      background: transparent;
+      border-top-color: #999;
+      color: #000;
+    }
+    .draft-notice-label {
+      color: #000;
+    }
+  }
+</style>

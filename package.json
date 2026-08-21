@@ -11,7 +11,7 @@
     "sync-themes": "node scripts/sync-themes.mjs",
     "sync-preview": "node scripts/sync-preview.mjs",
     "validate-sidebar": "node scripts/validate-sidebar.mjs",
-    "build": "node scripts/validate-sidebar.mjs && node scripts/validate-release.mjs && astro build",
+    "build": "node scripts/validate-sidebar.mjs && node scripts/validate-release.mjs && astro build && node scripts/validate-draft-notice.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

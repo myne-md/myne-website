@@ -27,6 +27,8 @@ A run stops for one of five reasons, and its turn says which: it finished, you s
 
 ## Approving changes
 
+The composer carries a choice for what happens when a run finishes: **Review first**, or **Apply automatically**. Review first is the default and is what the rest of this section describes.
+
 When it finishes, a review screen opens with everything it proposes, grouped by note.
 
 1. Read each diff. Removed text is struck through; added text is highlighted.
@@ -34,6 +36,18 @@ When it finishes, a review screen opens with everything it proposes, grouped by 
 3. **Approve** the rest in one action, or approve a single change on its own.
 
 Nothing reaches your notes before this step. If you close the review without approving, nothing was written.
+
+### Applying automatically
+
+In **Apply automatically** the review screen does not open: what the AI proposed is written when the run ends, and the composer tells you what changed. Three things still hold, and they are what make this a different amount of trust rather than none.
+
+- It can only touch notes **inside the scope you gave the run**. That is unchanged, and a request to reach outside it still asks you.
+- **Deletions still need your own act.** An edit that would trash, delete, archive, turn into a template or mark as conflicted is refused in this mode and reported to you, exactly as it is refused inside a bulk approval. Myne checks this against the note as it would actually be, not against what the AI says it is doing.
+- **The mode lasts for the session.** Locking your vault or switching to another one puts it back to Review first, so a choice you made for one vault never carries into the next.
+
+Every change still takes a snapshot before it is written, and the undo offer sits in the composer after the run, so an automatic change you did not want is one action away from being reverted.
+
+One thing this mode does not do: it does not read your notes any differently, and it does not send more of them anywhere. It changes when a proposal is written, not what the AI is allowed to see.
 
 ## Widening what it can touch
 

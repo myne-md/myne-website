@@ -196,9 +196,25 @@ const canonicalUrl =
          page (spec.astro carries scroll-margin-top for the fixed nav); this
          is the bottom half, once, for every route. It reserves no layout
          height, so it does not reintroduce the fixed constant the notice's
-         own comment measured and rejected. */
+         own comment measured and rejected.
+
+         This covers the ROOT scroller only, which is every route except the
+         two nested scrollports the strip also overlaps: the open mobile nav
+         panel and the guide sidebar. Those are handled where they live
+         (GlassNav.astro raises the bar above the strip while its panel is
+         open; userguide.css reserves inside the sidebar's scroller), because
+         a root-level property does not reach into either one.
+
+         The value comes from the notice rather than from here: --draft-notice-
+         reserve is declared by DraftNotice.astro, so it is 0px on the two
+         pages that render no strip instead of reserving for one that is not
+         there. The first version was 7rem, which is 112px against the
+         component's own measured 111px worst case, in a unit that scales with
+         the root font size while the strip's font-size is a fixed 11px, so a
+         reader with a larger default font moved the reserve and the strip
+         independently. */
       html {
-        scroll-padding-bottom: 7rem;
+        scroll-padding-bottom: var(--draft-notice-reserve, 0px);
       }
       .tick {
         position: absolute;

@@ -105,16 +105,42 @@
  * avoid. What is left qualifies the REVIEW STATUS and points at the effective
  * date, which is the promise the page already makes about its own versions.
  *
- * `none` exists for exactly one page, /impressum/. An Impressum is a
- * statutory identity declaration under section 5 DDG: it is complete or it is
- * not, and "draft" is not one of its states, so a notice qualifying its force
- * would qualify a declaration whose truth is not disclaimable. It is NOT that
- * a notice would put the missing address in writing: the page already states
- * that itself, as a placeholder reading "Anschrift folgt zum öffentlichen
- * Start" (example-org/operations#9). The page is unlinked, `noindex` and filtered
- * out of the sitemap, which is the mitigation that fits it. The variant is handled at
- * the CALL SITE (LandingLayout renders no component at all), so nothing here
- * carries a branch for rendering nothing.
+ * `none` goes on two pages, for two unrelated reasons, and only the first is
+ * about what the notice SAYS.
+ *
+ * /impressum/. An Impressum is a statutory identity declaration under
+ * section 5 DDG: it is complete or it is not, and "draft" is not one of its
+ * states, so a notice qualifying its force would qualify a declaration whose
+ * truth is not disclaimable. It is NOT that a notice would put the missing
+ * address in writing: the page already states that itself, as a placeholder
+ * reading "Anschrift folgt zum öffentlichen Start" (example-org/operations#9). The
+ * page is unlinked, `noindex` and filtered out of the sitemap, which is the
+ * mitigation that fits it.
+ *
+ * /themes/builder/. Purely mechanical, and the reason is written out in
+ * `scripts/validate-draft-notice.mjs`'s EXCLUDED roster: it is the only page
+ * in the site with body{overflow:hidden}, so the document never scrolls and
+ * the strip cannot settle into its own flow height at the end of it. It would
+ * paint over the bottom band of a drag-driven colour editor and swallow
+ * clicks there, permanently.
+ *
+ * The variant is handled at the CALL SITE (LandingLayout renders no component
+ * at all), so nothing here carries a branch for rendering nothing.
+ *
+ * The rule all four variants follow is recorded in the main repository as
+ * design-notes/ops/0517: a notice here may qualify a document's REVIEW
+ * STATUS, never its force and never its accuracy. That entry, not this
+ * comment, is what a later editor rewording the variants has to read first.
+ *
+ * One question it leaves open, deliberately and on the record in
+ * example-org/operations#26: /impressum/ delegates the Art. 11 and 12 DSA contact
+ * points and the Art. 16 notice-and-action mechanism to /meldung/, and the
+ * carve-out does not travel with the delegation, so those designations are
+ * published under a review-status qualifier while the page pointing at them
+ * is not. The four pages keep `draft` until that issue is answered, because
+ * the surviving sentence claims only that the text has not been through legal
+ * review, which is true of all four and is a statement about the text rather
+ * than about the duty.
  *
  * `draft` and `updating` share the label ("Draft" / "Entwurf") by intent: what
  * differs between them is the claim in the sentence, not the chip. The label
@@ -211,6 +237,38 @@ const copy = COPY[variant][lang];
      literal text, which shipped a stylesheet whose first characters were the
      template-literal braces, so the whole sheet failed to parse and the notice
      rendered invisible while every grep for it passed. */
+  /* What the strip covers, published so the two nested scrollports it
+     overlaps can clear it.
+
+     Conditioned on the strip being IN THE DOCUMENT, not on this block having
+     shipped, and the difference is not theoretical: Astro decides which chunk
+     an is:global block lands in, and today it lands in one that /impressum/
+     and /themes/builder/ also link, so a plain `:root` would have reserved
+     space on the two pages that deliberately render no notice while the
+     comment here said it would not. `:root:has(.draft-notice)` is true
+     exactly when there is a strip to clear, whatever the bundler does with
+     the rule, and every consumer's `var(--draft-notice-reserve, 0px)` then
+     reserves nothing on those two pages without needing a fallback constant
+     of its own.
+
+     A ceiling rather than the height. Every consumer spends it inside a
+     scroll container or on scroll-padding, where over-reserving is invisible
+     and under-reserving hides a control, so the two directions are not
+     symmetric and the number is deliberately generous. The values are the
+     component's own measurements one paragraph down (111px at 320px, 72.5px
+     at 760px) rounded up, and they are in px because the strip's font-size is
+     a fixed 11px: 7rem, the first attempt, scales with the root font size
+     while the thing it reserves for does not, so the two move independently
+     and the reserve can go negative. */
+  :root:has(.draft-notice) {
+    --draft-notice-reserve: 120px;
+  }
+  @media (min-width: 760px) {
+    :root:has(.draft-notice) {
+      --draft-notice-reserve: 80px;
+    }
+  }
+
   .draft-notice {
     position: sticky;
     bottom: 0;
@@ -224,9 +282,22 @@ const copy = COPY[variant][lang];
     align-items: baseline;
     gap: 8px;
     padding: 10px 14px;
-    background: var(--bg-2, #0c0c0c);
+    /* Literals, not tokens, and that is the second attempt too. The first
+       version read var(--bg-2), var(--fg-2) and var(--accent) with these
+       values as fallbacks, which is right on every route that never imports
+       tokens.css and wrong on the largest subtree in the site. The user
+       guide's shell imports styles/tokens.css, whose :root ramp is the LIGHT
+       one, and scopes its dark values to `.ug-root` (styles/userguide.css).
+       LandingLayout renders this strip after the slot, so it is a SIBLING of
+       `.ug-root` and the lookup succeeded with the light ramp: --bg-2
+       #f4f4f2 and --accent #2c4a7a, a near-white strip with a navy label at
+       the bottom of every dark guide page. There is no palette to follow
+       here anyway. LandingLayout pins html and body to #0a0a0a on every
+       route, so the strip has exactly one ground to sit on, and the print
+       block below is the one place it changes. */
+    background: #0c0c0c;
     border-top: 1px solid rgba(194, 163, 94, 0.4);
-    color: var(--fg-2, #c4c4c0);
+    color: #c4c4c0;
     /* 11px is --text-xs, the smallest step of the canonical scale in both
        tokens.css and the main repo's docs/design/colors_and_type.css. The
        first version went to 10px on phones to save a wrapped line, which is
@@ -246,7 +317,9 @@ const copy = COPY[variant][lang];
 
   .draft-notice-label {
     flex: none;
-    color: var(--accent, #c2a35e);
+    /* Literal for the reason the block above gives: --accent resolves to the
+       light ramp's iron-blue on guide routes. */
+    color: #c2a35e;
     font-weight: 700;
   }
 

@@ -27,8 +27,18 @@ const notice = (lang = "en") =>
   `<aside class="draft-notice mono" role="note" lang="${lang}"><span>x</span></aside>`;
 const NOTICE = notice();
 
-const GERMAN = ["behoerdenanfragen", "datenschutz", "meldung", "nutzungsbedingungen"];
-const ENGLISH_LEGAL = ["terms", "privacy", "law-enforcement", "notice"];
+// The bilingual pairs, in the direction the guard derives them: an English
+// legal page names its German twin in its last section, which is what lets the
+// German roster be compared against something other than itself.
+const TWINS = {
+  terms: "nutzungsbedingungen",
+  privacy: "datenschutz",
+  "law-enforcement": "behoerdenanfragen",
+  notice: "meldung",
+};
+const GERMAN = Object.values(TWINS).slice().sort();
+const ENGLISH_LEGAL = Object.keys(TWINS);
+const twinLink = (de) => `Deutsche Fassung: <a href="/${de}/" style="color:#8aa4d0;">x</a>.`;
 
 // The excluded roster is read out of the guard rather than copied here. A copy
 // would make "clean fixture passes" fail every time a page is legitimately
@@ -83,10 +93,14 @@ const buildFixture = () => {
   for (const rel of EXCLUDED_PAGES) write(root, join("dist", rel), "<p>excluded</p>");
   write(root, "dist/user-guide/index.html", '<meta http-equiv="refresh" content="2;url=/x/">');
 
-  const legal = (name, props) =>
-    write(root, `src/pages/${name}.astro`, `<LandingLayout ${props}>\n<GlassNav active="legal" />\n</LandingLayout>`);
+  const legal = (name, props, body = "") =>
+    write(
+      root,
+      `src/pages/${name}.astro`,
+      `<LandingLayout ${props}>\n<GlassNav active="legal" />\n${body}\n</LandingLayout>`,
+    );
   for (const n of GERMAN) legal(n, 'notice="draft" noticeLang="de"');
-  for (const n of ENGLISH_LEGAL) legal(n, 'notice="draft"');
+  for (const [en, de] of Object.entries(TWINS)) legal(en, 'notice="draft"', twinLink(de));
   legal("impressum", 'notice="none"');
   // A non-legal page, to prove check 2 filters rather than counting everything.
   write(root, "src/pages/index.astro", "<LandingLayout>\n<GlassNav active=\"home\" />\n</LandingLayout>");
@@ -112,7 +126,7 @@ test("clean fixture passes", () => {
   withFixture((root) => {
     const { code, out } = run(root);
     assert.equal(code, 0, out);
-    assert.match(out, /9 legal pages declare a variant \(4 German\)/);
+    assert.match(out, /9 legal pages declare a variant \(4 German, 4 verified in dist\)/);
   });
 });
 
@@ -285,5 +299,111 @@ test("an exclusion whose reason is a token fails the self-check", () => {
     const r = spawnSync(process.execPath, [local], { cwd: root, encoding: "utf8" });
     assert.equal(r.status, 1);
     assert.match(`${r.stdout}${r.stderr}`, /has no usable reason/);
+  });
+});
+
+test("a stylesheet whose only .draft-notice rule is inside @media print is not styled", () => {
+  withFixture((root) => {
+    // The screen rule is gone; the component's real print block survives. Every
+    // page still links this chunk, so only a print-aware read sees it.
+    write(
+      root,
+      join("dist", STYLED_CSS),
+      "@media print{.draft-notice{position:static;background:transparent}" +
+        ".draft-notice-label{color:#000}}",
+    );
+    const { code, out } = run(root);
+    assert.equal(code, 1, "a selector-only test passes this: the selector is right there");
+    assert.match(out, /no built stylesheet carries a \.draft-notice rule with position:sticky/);
+  });
+});
+
+test("a .draft-notice rule with no load-bearing declaration is not styled", () => {
+  withFixture((root) => {
+    // Not a rename and not a print block: the rule is on screen and has lost
+    // the one property that makes the strip a strip.
+    write(root, join("dist", STYLED_CSS), ".draft-notice{color:#c4c4c0;font-size:11px}");
+    const { code, out } = run(root);
+    assert.equal(code, 1);
+    assert.match(out, /position:sticky/);
+  });
+});
+
+test("a screen rule survives a print block earlier in the sheet", () => {
+  withFixture((root) => {
+    // The stripper has to be brace-balanced and has to resume: a naive scan
+    // that drops everything after the first @media print reports this as
+    // unstyled, which would be a false failure rather than a caught defect.
+    write(
+      root,
+      join("dist", STYLED_CSS),
+      "@media print{.draft-notice{position:static}@media (min-width:1px){.x{color:red}}}" +
+        ".draft-notice{position:sticky;bottom:0}",
+    );
+    const { code, out } = run(root);
+    assert.equal(code, 0, out);
+  });
+});
+
+test("a legal page declaring notice=\"status\" is named", () => {
+  withFixture((root) => {
+    // The presence check is satisfied: the page declares a variant out loud.
+    // It declares the one variant reason 2 says must never appear here.
+    write(
+      root,
+      "src/pages/terms.astro",
+      `<LandingLayout notice="status">\n<GlassNav active="legal" />\n${twinLink("nutzungsbedingungen")}\n</LandingLayout>`,
+    );
+    const { code, out } = run(root);
+    assert.equal(code, 1, "an explicit declaration passed the presence check");
+    assert.match(out, /terms\.astro: legal page declaring notice="status"/);
+  });
+});
+
+test("a German twin nobody listed is named", () => {
+  withFixture((root) => {
+    // A new bilingual pair, added the way every existing one is, with the
+    // German half missing from the roster. Its noticeLang goes unchecked.
+    write(
+      root,
+      "src/pages/widerruf.astro",
+      '<LandingLayout notice="draft" noticeLang="de">\n<GlassNav active="legal" />\n</LandingLayout>',
+    );
+    write(
+      root,
+      "src/pages/withdrawal.astro",
+      `<LandingLayout notice="draft">\n<GlassNav active="legal" />\n${twinLink("widerruf")}\n</LandingLayout>`,
+    );
+    const { code, out } = run(root);
+    assert.equal(code, 1, "the roster was only ever checked for entries it should not have");
+    assert.match(out, /widerruf\.astro is linked as the German version/);
+  });
+});
+
+test("a roster entry whose twin link was dropped is named", () => {
+  withFixture((root) => {
+    // The English page loses its "Deutsche Fassung" link, so the roster becomes
+    // the only witness that meldung.astro is German.
+    write(
+      root,
+      "src/pages/notice.astro",
+      '<LandingLayout notice="draft">\n<GlassNav active="legal" />\n</LandingLayout>',
+    );
+    const { code, out } = run(root);
+    assert.equal(code, 1);
+    assert.match(out, /GERMAN_LEGAL_PAGES names meldung\.astro, but no English legal page/);
+  });
+});
+
+test("check 5 fails vacuously-empty instead of reporting OK", () => {
+  withFixture((root) => {
+    // What a build.format change looks like from here: the sources are
+    // untouched and correct, and every dist/<name>/index.html check 5 reaches
+    // for is somewhere else. Coverage stays above its floor, so only check 5's
+    // own floor can catch it.
+    for (const n of GERMAN) rmSync(join(root, `dist/${n}`), { recursive: true, force: true });
+    const { code, out } = run(root);
+    assert.equal(code, 1, "every other check passes here");
+    assert.match(out, /check 5 inspected only 0 of 4 German built pages/);
   });
 });

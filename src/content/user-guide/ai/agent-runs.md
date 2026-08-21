@@ -23,6 +23,8 @@ The AI can do more than answer questions about your notes: it can propose change
 
 The run appears in the same conversation as your questions. When it stops, its turn stays there with what it proposed and three figures about the run itself: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider. You can look back at all of it after the review screen is closed.
 
+A run stops for one of five reasons, and its turn says which: it finished, you stopped it, it is waiting for you to widen its scope, it made too many steps, or it stopped making progress. That last one means the model stopped producing changes Myne could use — three replies in a row that proposed nothing new. It is a statement about the model rather than about your notes, and the fix is a different model rather than a different request. Anything it had already proposed before that point still goes to the review screen.
+
 ## Approving changes
 
 When it finishes, a review screen opens with everything it proposes, grouped by note.

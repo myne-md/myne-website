@@ -1,7 +1,7 @@
 ---
 title: "Tasks"
 category: "notes-and-organization"
-updated: 2026-08-13
+updated: 2026-08-22
 summary: "How tasks work in Myne: checkbox lines that carry due, reminder, priority, and repeat chips you set from controls rather than typing, whole-note tasks, a Tasks panel and an embedded task-list block, and local reminders — all kept as plain markdown inside your notes."
 tags: ["notes", "editor", "markdown", "import"]
 ---

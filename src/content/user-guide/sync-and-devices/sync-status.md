@@ -1,7 +1,7 @@
 ---
 title: "Reading sync status"
 category: "sync-and-devices"
-updated: 2026-08-13
+updated: 2026-08-22
 summary: "How to read the sync status indicator and the banners: the coloured status dot, the named failure states and what each one means, the manual sync-now action, the first-sync download count, the catching-up notice, the notice after a vault was upgraded elsewhere, and the honest integrity alert when Myne rejects out-of-date or altered data."
 tags: ["sync", "security"]
 ---

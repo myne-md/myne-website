@@ -1,7 +1,7 @@
 ---
 title: "Your recovery phrase"
 category: "getting-started"
-updated: 2026-08-16
+updated: 2026-08-22
 summary: "What the 24-word recovery phrase is, why Myne shows it once when you create a vault, and how to write it down and store it so you can recover access later."
 tags: ["recovery", "vault", "security"]
 ---
@@ -30,7 +30,7 @@ Typing is forgiving about case and surrounding spaces. Myne compares the normali
 While the phrase is on screen, Myne guards it:
 
 - The grid is **blurred until you choose to reveal it**, and it **re-blurs when you switch away** from the window (for example, when you Cmd-Tab to another app), so the words are not left uncovered behind other windows.
-- **Copy** puts the phrase on your clipboard and **clears it automatically after 30 seconds**, so it does not linger for the next thing you paste. That clear runs inside Myne, so quitting the app within those 30 seconds leaves the phrase on the clipboard; clear it yourself if you do. Copy also tells you whether it worked, so a failure does not look like a success. Treat it as a way to move the phrase into a password manager, not as somewhere to keep it.
+- **Copy** puts the phrase on your clipboard and **clears it automatically after 30 seconds**, so it does not linger for the next thing you paste. That clear runs inside Myne, so quitting the app within those 30 seconds leaves the phrase on the clipboard; clear it yourself if you do. Copy also tells you whether it worked, so a failure does not look like a success. So does **Save as file** on the desktop app; in a browser it can only confirm the download was sent. Treat it as a way to move the phrase into a password manager, not as somewhere to keep it.
 - **On a phone, Copy is not offered for the phrase.** Use **"Save to file"** there; the desktop button is labelled **"Save as file"**. A phone would need the system to keep the phrase on that one device and expire it on its own timer. Android does neither. iOS can do both, and Myne does not yet use it.
 - If you try to **close the window mid-step**, Myne asks you to confirm, so you cannot lose the phrase by accidentally closing the wizard before you have saved it.
 
@@ -40,7 +40,7 @@ Store the phrase the way you would store a spare key:
 
 - **On paper, somewhere safe** (a drawer, a safe, a sealed envelope) is the simplest good option.
 - **In a password manager** is fine if you already trust one with your other secrets.
-- **"Save as file"** writes a plaintext `myne-recovery-phrase.txt`. Where your operating system supports it, Myne writes that file readable only by your own user account, and never touches it again — after that, protecting it is yours. Use it only as a transfer step. A plaintext copy of the phrase left **on the same device it protects** defeats the point: anyone who reaches that device gets both the vault and the key to it. Move the file to separate, safe storage, then delete the local copy.
+- **"Save as file"** writes a plaintext `myne-recovery-phrase.txt`. On the desktop app it says whether the write landed, so a save that failed is not left looking like one that worked, on the one screen where the words are shown once and never again. In a browser it can only tell you the file was sent to your downloads: your browser chooses where it goes and Myne never sees whether it arrived, so check. Where your operating system supports it, Myne writes that file readable only by your own user account, and never touches it again. After that, protecting it is yours. Use it only as a transfer step. A plaintext copy of the phrase left **on the same device it protects** defeats the point: anyone who reaches that device gets both the vault and the key to it. Move the file to separate, safe storage, then delete the local copy.
 
 If you later forget your password, the phrase is how you get back in; see [If you forget your password](/user-guide/safety-and-recovery/if-you-forget-your-password/). The flow is "unlock with recovery phrase".
 

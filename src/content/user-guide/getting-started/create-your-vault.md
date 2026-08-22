@@ -1,7 +1,7 @@
 ---
 title: "Create your vault"
 category: "getting-started"
-updated: 2026-08-16
+updated: 2026-08-22
 summary: "The vault-creation wizard — a short safety briefing, then set a master password, save your recovery phrase, confirm a few words, and save your account number — and the one consequence to understand before you start."
 tags: ["vault", "basics"]
 ---
@@ -42,7 +42,7 @@ Last, Myne shows your **account number**. It displays as `MY-` followed by five 
 
 It is not a password, but it is not nothing either. If you use sync, anyone who has your account number can ask the sync server for your account's encrypted key file, from anywhere, with no device of yours and no login: that is how a new device of *yours* joins, and the server cannot tell the two apart. The file reveals nothing on its own; what it gives someone is the material to start guessing your master password on their own hardware, with nothing slowing them down but the strength of that password. So treat the number like cash rather than like a username — fine to type into your own devices, not something to put in a screenshot or a support thread. A vault you never sync has nothing on a server.
 
-**Copy** tells you whether it worked, so a failed copy does not look like a successful one, and what lands on the clipboard clears itself after 30 seconds. On the desktop that clear runs inside Myne, so quitting within those 30 seconds leaves the number on the clipboard. On Android the clear is not selective: anything you copy inside those 30 seconds is cleared too.
+**Copy** tells you whether it worked, so a failure does not look like a success. **Save as file** does too on the desktop app; in a browser it can only confirm the download was sent, because your browser chooses where the file goes and Myne never sees whether it arrived. Copying puts the number on the clipboard and clears it after 30 seconds. On the desktop that clear runs inside Myne, so quitting within those 30 seconds leaves the number on the clipboard. On Android the clear is not selective: anything you copy inside those 30 seconds is cleared too.
 
 ## Your vault is ready
 

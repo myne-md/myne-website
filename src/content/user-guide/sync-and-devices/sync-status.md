@@ -32,6 +32,20 @@ Where Myne can name the reason a sync failed, it does so instead of showing the 
 
 A **Sync now** button triggers an immediate sync. It is hidden when there is nothing to trigger — when sync is off, when the device is not enrolled, or while it is awaiting approval.
 
+## Per-note status, in the sidebar and the bottom bar
+
+The status row above is about the device. It says nothing about any one note, and the two can disagree in exactly the case that matters: a device sitting happily at **Synced** can still be holding a note the server has never seen, because the last cycle failed or the machine was offline when you wrote it.
+
+So each note carries its own small mark, in the sidebar row and again beside the save readout at the bottom of the editor, and both use the same three shapes:
+
+- a **filled dot** means settled. Nothing is owed for that note.
+- an **arc with a gap in it, standing still**, means something is outstanding. The note is not on the server yet, or what you just typed is not written to disk yet. An arc that is not moving is not a problem; it is the ordinary state of a note you are working on, and of every note on a laptop that is offline.
+- the **same arc, turning**, means it is happening right now. A save being written, or a push in flight.
+
+The distinction is deliberate. A mark that spun the whole time a note was unsynced would spin for days on a machine with no connection, and a spinner that never stops stops meaning anything. The arc turns only while Myne is actually doing something.
+
+Hover either mark for the longer sentence.
+
 ## The catching-up notice
 
 If a device has been offline for a while, its next sync may do a fuller reconcile to catch up. During that, a reassuring, dismissable banner appears: it says the device was offline for a while and is catching up, and that your notes are safe. It is informational, does not block the editor, and never implies data loss.

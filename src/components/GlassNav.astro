@@ -459,6 +459,28 @@ const links = [
       overflow-y: auto;
     }
 
+    /* While that sheet is open it reaches the viewport bottom, and the site's
+       draft notice is `position: sticky; bottom: 0; z-index: 100` with an
+       opaque background (components/DraftNotice.astro). The bar is z-index 80
+       and `position: fixed`, so it opens a stacking context its children
+       cannot escape: the strip painted over the panel's last entries, the
+       download and open-app CTAs among them, and being a painted element with
+       default pointer events it took the taps there too.
+
+       Raising the BAR is the fix rather than reserving space inside the
+       panel, because a padded sheet shorter than its max-height shows the
+       reserve as dead space above its own border, and the overlap only exists
+       at all when the sheet is at max-height. An open menu is a transient
+       overlay the reader asked for, which is the same treatment the guide
+       lightbox and the theme builder's colour picker already get at z-index
+       200; the strip stays above everything else and is one tap away again.
+
+       Scoped to the checked state, so the closed bar keeps its 80 and the
+       strip stays above it on every route. */
+    .gnav:has(.gnav-toggle:checked) {
+      z-index: 110;
+    }
+
     /* Search icon joins the bar next to the burger; margin-left:auto groups
        the two on the right, leaving the brand at the left edge. */
     .gnav-search--mobile {

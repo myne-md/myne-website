@@ -1,7 +1,7 @@
 ---
 title: "Let the AI change your notes"
 category: "ai"
-updated: 2026-08-16
+updated: 2026-08-21
 summary: "Ask the AI to make changes across a set of notes you choose. It proposes every change as a diff and nothing is written until you approve it, one note at a time or all at once."
 tags: ["ai", "notes"]
 ---
@@ -15,12 +15,19 @@ The AI can do more than answer questions about your notes: it can propose change
 
 ## Starting a run
 
-1. Open the **AI Chat** tab.
-2. Decide what the AI may touch. By default that is the note you have open. If the work spans a folder, choose it from the **Working on** list before you send: you will see how many notes that is.
-3. Type what you want changed and send it.
-4. The AI reads the notes it needs and works. You can stop it at any time.
+1. Open the **AI Chat** tab. It opens in **Ask** mode, where messages go to chat.
+2. Switch the composer to **Edit**. This is the step that decides where your message goes, so a run will not start until you do it.
+3. Decide what the AI may touch. By default that is the note you have open. If the work spans a folder, choose it from the **Working on** list before you send: you will see how many notes that is.
+4. Type what you want changed and send it. Enter sends; Shift+Enter starts a new line.
+5. The AI reads the notes it needs and works. Its progress, the number of notes it can currently change, and a **Stop** button sit just above the composer for as long as it runs.
+
+The run appears in the same conversation as your questions. When it stops, its turn stays there with what it proposed and three figures about the run itself: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider. You can look back at all of it after the review screen is closed.
+
+A run stops for one of five reasons, and its turn says which: it finished, you stopped it, it is waiting for you to widen its scope, it made too many steps, or it stopped making progress. That last one means the model stopped producing changes Myne could use — three replies in a row that proposed nothing new. It is a statement about the model rather than about your notes, and the fix is a different model rather than a different request. Anything it had already proposed before that point still goes to the review screen.
 
 ## Approving changes
+
+The composer carries a choice for what happens when a run finishes: **Review first**, or **Apply automatically**. Review first is the default and is what the rest of this section describes.
 
 When it finishes, a review screen opens with everything it proposes, grouped by note.
 
@@ -29,6 +36,18 @@ When it finishes, a review screen opens with everything it proposes, grouped by 
 3. **Approve** the rest in one action, or approve a single change on its own.
 
 Nothing reaches your notes before this step. If you close the review without approving, nothing was written.
+
+### Applying automatically
+
+In **Apply automatically** the review screen does not open: what the AI proposed is written when the run ends, and the composer tells you what changed. Three things still hold, and they are what make this a different amount of trust rather than none.
+
+- It can only touch notes **inside the scope you gave the run**. That is unchanged, and a request to reach outside it still asks you.
+- **Deletions still need your own act.** An edit that would trash, delete, archive, turn into a template or mark as conflicted is refused in this mode and reported to you, exactly as it is refused inside a bulk approval. Myne checks this against the note as it would actually be, not against what the AI says it is doing.
+- **The mode lasts for the session.** Locking your vault or switching to another one puts it back to Review first, so a choice you made for one vault never carries into the next.
+
+Every change still takes a snapshot before it is written, and the undo offer sits in the composer after the run, so an automatic change you did not want is one action away from being reverted.
+
+One thing this mode does not do: it does not read your notes any differently, and it does not send more of them anywhere. It changes when a proposal is written, not what the AI is allowed to see.
 
 ## Widening what it can touch
 
@@ -74,6 +93,16 @@ Myne checks this once, when you pick a model, and shows the feature as unavailab
 - **A note's own text can steer it.** The AI reads your notes, and a note that came from somewhere you do not control (synced from another device, or imported) can contain text that reads like an instruction. That is why the scope is yours to set, why widening it needs your approval, and why nothing is written without your say-so. Those approvals are the protection; they only work if you read them.
 - **Approving is the protection, and it is a human one.** Myne does not limit how large a run can get. It shows you the number and asks you each time.
 - **Nothing survives locking your vault.** If the vault locks while a run is working, or while its changes are waiting for you, the run is cancelled and the proposal is gone. Nothing was written. If your auto-lock time is short, Myne warns you before starting a long run.
+- **New chat does the same thing, on purpose.** Starting a new conversation stops a run that is working and discards a proposal that was waiting for you, for the same reason: the proposal belongs to the conversation you are clearing. Nothing was written, and the offer to undo an earlier run that *did* write is kept.
 - **On a remote provider, the notes leave your device.** Every note the run reads is sent to the provider you named. Myne cannot see or control what that provider keeps. There is no limit on how many requests one run makes, so the cost is yours and it is not capped; the run tells you afterwards how much it did.
 - **Your excluded folders stay excluded.** Notes in a folder you have excluded from AI are removed from the scope, and the approval screen tells you how many were removed.
 - This is on the desktop app only for now.
+
+## Shortcuts
+
+| Action | macOS | Windows / Linux |
+|---|---|---|
+| Send the task to the agent (composer in **Edit**) | Enter | Enter |
+| Start a new line instead of sending | Shift+Enter | Shift+Enter |
+
+Both keys belong to the composer itself and are not listed in **Settings → Hotkeys**, so they cannot be rebound. The composer's mode decides where Enter sends: in **Ask** the same key sends a question instead ([Ask your notes](/user-guide/ai/ask-your-notes/)).

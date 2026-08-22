@@ -1,7 +1,7 @@
 ---
 title: "Add a device"
 category: "sync-and-devices"
-updated: 2026-08-13
+updated: 2026-08-20
 summary: "Connect another device to your account and approve it. Covers the beta terms each device accepts before it first syncs, joining from a fresh device or one that already holds the vault, naming the device, pairing by a QR code, comparing a verification code between the two devices, and what Myne says when the server refuses an enrolment."
 tags: ["devices", "sync", "recovery"]
 ---
@@ -32,7 +32,9 @@ There are two starting points, depending on whether the device already has your 
 
 As you type your account number, Myne formats it for you (grouping and the `MY-` prefix), so you can type or paste it in whatever form you have it.
 
-When you submit, the device connects and — for the password path — shows that it is **waiting for approval**. Keep that window open. The first device on an account, and any device added with the recovery phrase, self-approve and skip the wait.
+When you submit, the device connects and, for the password path, shows that it is **waiting for approval**. Keep that window open. The first device on an account, and any device added with the recovery phrase, self-approve and skip the wait.
+
+In a browser, reloading during the wait is safe: the page asks for your master password and then returns you to the same wait. It does not start the enrolment over, and nobody has to approve the browser twice.
 
 ## Pair with a QR code
 

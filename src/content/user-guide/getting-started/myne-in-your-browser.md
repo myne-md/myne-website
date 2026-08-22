@@ -24,9 +24,18 @@ The browser client is a window onto a synced vault, never a standalone one. Beca
 2. Read the beta terms and accept them. Myne shows them before anything else here, because sync is how this client reaches your vault at all. In short: sync is a free beta with no warranty and no uptime promise; if you lose your password and your recovery phrase your notes cannot be recovered; your account keeps working when the beta ends; and Myne cannot read what you store, so it cannot screen it. The acceptance is recorded on this browser only — it is not carried across by sync, so each new device is asked once — and Myne asks again if the terms change.
 3. Enter your account number. The field formats it into its grouped display form as you type, and Myne checks it on your device before sending anything — a mistyped number is caught locally, not by asking the server.
 4. Enter your master password. Myne derives your keys from it in the browser; the raw account number and the password are handled on your device, not sent as-is to the server.
-5. The browser enrolls as a new device and waits. This pending state is the normal outcome, not an error — a new browser cannot sync until another device approves it.
+5. The browser enrolls as a new device and waits. This pending state is the normal outcome, not an error: a new browser cannot sync until another device approves it.
 6. On a device already signed in to the account, approve the new browser. [Add a device](/user-guide/sync-and-devices/add-a-device/) covers the approval, and [Managing devices](/user-guide/sync-and-devices/managing-devices/) covers the device list.
-7. Once approved, the browser pulls the vault and opens the editor. What it downloads is ciphertext, decrypted on your device.
+7. Compare the code both screens show, then confirm on each. This is the check that the two devices are looking at the same vault history.
+8. The browser pulls the vault and opens the editor. What it downloads is ciphertext, decrypted on your device.
+
+## Coming back later
+
+Closing the tab ends the session on purpose. Your encrypted vault stays in the browser's storage, so it is still there next time; what does not stay is anything that could open it. Returning to `app.example.com` therefore asks for your master password again, every time.
+
+That is the whole of it. You are **not** asked to approve the browser a second time, and no other device has to do anything: the browser is already a known device on your account, and the password is what it needs to start using it again.
+
+If you are asked to approve it again, this browser is enrolling from scratch rather than returning. That happens whenever the stored copy is not there to be found: you cleared the site's data, the browser reclaimed the space, or you are in a different browser, a different browser profile, or a private window. Approving it is safe in each of those cases. It enrols as a new device on the account, and **Settings → Sync** lists what is enrolled.
 
 ## What runs in the browser
 

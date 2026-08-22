@@ -23,3 +23,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Session worktrees (agent-tooling/reference/worktrees.md). A worktree here is a
+# working directory, never content: committing one would put a second copy of the
+# site inside the site.
+/.claude/

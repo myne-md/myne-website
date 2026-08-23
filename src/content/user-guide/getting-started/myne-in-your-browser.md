@@ -1,7 +1,7 @@
 ---
 title: "Myne in your browser"
 category: "getting-started"
-updated: 2026-08-22
+updated: 2026-08-23
 summary: "Myne runs in a desktop browser at app.example.com as a second client, with nothing to install. It is the same app compiled for the browser, holding an encrypted copy of a synced vault. You sign in with your account number and approve the browser from a device that is already signed in."
 tags: ["basics", "sync", "devices", "privacy", "security"]
 ---
@@ -14,7 +14,7 @@ The browser client is a window onto a synced vault, never a standalone one. Beca
 
 - **Sync, and a server to reach.** The browser client is a window onto a synced vault, so it needs an account the sync server already knows. Creating a vault, recovering one with your recovery phrase and resetting a forgotten password all work here as of the 2026-08-15 change, and the 24 words are generated, shown and typed in the browser on those paths. That is a real difference from the desktop app in one respect only, and it is the one below: the code doing it arrives from a server on every load. If you would rather the phrase never touch a browser, do those steps on the desktop app; see [Install Myne](/user-guide/getting-started/install/).
 - **Sync set up on the account.** The browser reaches your vault only over a sync server. If you have not connected a server yet, start with [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/).
-- **Another device already signed in.** A browser enrolls as a new device and stays pending until an existing device approves it — the browser cannot approve itself. Keep a desktop, mobile, or already-approved browser handy to confirm the new one.
+- **Another device already signed in, if you are JOINING an account.** A browser that signs in to an account you already have enrolls as a new device and stays pending until an existing device approves it, and it cannot approve itself, so keep a desktop, mobile, or already-approved browser handy to confirm it. Two paths do not need one: a browser that CREATES the account is the first device, and a browser recovering an account with the 24 words is approved on the strength of the phrase itself. That is deliberate rather than an oversight, and it is the reason those words are worth guarding: whoever has them plus your account number is admitted the same way.
 - **A desktop browser.** Phones and tablets are refused before anything loads, because the browser client is the desktop-browser client and the native mobile app is a better fit on a touch device.
 - **Accepting the beta terms.** A device does not sync until the person at that device has accepted them, and this client cannot reach your vault any other way.
 

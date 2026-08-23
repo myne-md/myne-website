@@ -1,7 +1,7 @@
 ---
 title: "Note covers"
 category: "editor-and-writing"
-updated: 2026-08-22
+updated: 2026-08-23
 summary: "How to give a note a cover image, where the cover appears and where it deliberately does not, and what happens to a note when its cover attachment is deleted."
 tags: ["notes", "attachments", "editor"]
 ---
@@ -32,7 +32,7 @@ Hover the cover itself. Two controls appear on it:
 - **Change cover** opens the picker again.
 - **Remove cover** clears it. The image stays in your vault; only the note stops using it as a cover.
 
-Both controls act on the note whose cover you clicked, so in a split you can use them on a pane you have not clicked into first. A pending edit is saved before the cover is written, so you do not have to let your typing settle first.
+Both controls act on the note whose cover you clicked, so in a split you can use them on a pane you have not clicked into first. A pending edit is saved before the cover is written, so you do not have to let your typing settle first. If that save cannot be made, the cover is left alone and Myne says so rather than writing over the note you were typing in; try again once the save lands.
 
 On a touch screen there is no hover, so these controls are always visible. The mobile app has the same two controls; the picker they open is a bottom sheet, without drag and drop.
 

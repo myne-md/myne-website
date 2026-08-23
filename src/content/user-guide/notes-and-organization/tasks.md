@@ -1,7 +1,7 @@
 ---
 title: "Tasks"
 category: "notes-and-organization"
-updated: 2026-08-22
+updated: 2026-08-23
 summary: "How tasks work in Myne: checkbox lines that carry due, reminder, priority, and repeat chips you set from controls rather than typing, whole-note tasks, a Tasks panel and an embedded task-list block, and local reminders — all kept as plain markdown inside your notes."
 tags: ["notes", "editor", "markdown", "import"]
 ---
@@ -10,7 +10,7 @@ A task in Myne is a line, or a whole note, that you have marked as a unit of wor
 
 ## Line-tasks and their fields
 
-A **line-task** is a checkbox list item: `- [ ]` for an open item and `- [x]` for a done one. The checkbox is clickable, and toggling it marks the task done in place. Markdown checkboxes are also covered in [Markdown basics](/user-guide/markdown/markdown-basics/).
+A **line-task** is a checkbox list item: `- [ ]` for an open item and `- [x]` for a done one. The checkbox is clickable in Live preview and in Source, and toggling it marks the task done in place. In **Reading** view, and in the reading pane beside the editor, the checkbox is shown but does nothing: those surfaces never change the note, so the box is drawn dimmed and does not take focus rather than looking live and quietly discarding the tick. Markdown checkboxes are also covered in [Markdown basics](/user-guide/markdown/markdown-basics/).
 
 Move the caret into the checkbox, or select across it, and the checkbox turns back into the `- [ ]` it is written as, the way every other piece of markdown in Myne shows its source when you are inside it. It becomes a checkbox again as soon as you move away. Selecting a whole task row is worth knowing about for the same reason: the row is selected as source, so what you copy is `- [x] the task`, which pastes into any other markdown editor as the task it was.
 

@@ -29,7 +29,7 @@ Myne is a notes app — desktop-first, with a hosted browser client (app.example
 - [How it works](${origin}/#work): Key derivation, local encryption, and ciphertext at rest.
 - [Compare](${origin}/#capab): How Myne lines up against Obsidian, Standard Notes, Joplin, and Notesnook.
 - [Download](${origin}/download/): Desktop builds for macOS and Linux, plus an Android APK for sideloading. Windows is not built yet. The installers are NOT code-signed and desktop builds are not reproducible; what ships is a minisign-signed SHA256SUMS per release. Early access, pre-alpha.
-- [Open the app](https://app.example.com): The hosted desktop-browser client — a window onto an already-synced vault. It requires sync; you cannot create an account or recover a phrase in the browser. Pre-alpha.
+- [Open the app](https://app.example.com): The hosted desktop-browser client — a window onto a synced vault. It requires sync, and a new browser stays pending until an existing device approves it. Creating a vault, recovering one with a recovery phrase and resetting a forgotten password all work here; adding a device with the phrase does not, and never will. Pre-alpha.
 - [User guide](${origin}/user-guide/): The manual for the encrypted desktop app — getting started, the editor, organizing notes, markdown, attachments, search, settings, and recovery.
 
 ## Project

@@ -263,9 +263,11 @@ const reqs = [
               >app.example.com</a
             > is a desktop-browser window onto a vault you've already synced. It runs the same
             protocol crate compiled to WebAssembly, so the browser never gets your keys. It needs
-            an already-synced vault: the browser can't create an account, enter a recovery phrase,
-            run quick-unlock, or import and export backups, and phones and tablets aren't supported
-            yet. A served bundle is a weaker delivery channel than a signed app — for the strongest
+            a vault reachable over sync, and a new browser stays pending until an existing device
+            approves it. Creating a vault, recovering one with a recovery phrase and resetting a
+            forgotten password all work there; adding a device with the phrase does not, and the
+            browser still can't run quick-unlock or import and export backups. Phones and tablets
+            aren't supported yet. A served bundle is a weaker delivery channel than a signed app — for the strongest
             guarantees, use the desktop app or self-host.
           </p>
           <a

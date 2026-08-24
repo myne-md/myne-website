@@ -1,8 +1,8 @@
 ---
 title: "Import from Obsidian"
 category: "attachments-and-import"
-updated: 2026-08-16
-summary: "How to import an existing Obsidian vault into Myne — and, through the same flow, from Notion, Evernote, HTML, and CSV. How notes, links, and attachments map, and the edge cases to check in the import summary and report."
+updated: 2026-08-24
+summary: "How to import an existing Obsidian vault into Myne and, through the same flow, from Notion, Evernote, HTML, and CSV. How notes, links, and attachments map, and the edge cases to check in the import summary and report."
 tags: ["import", "attachments"]
 ---
 
@@ -72,7 +72,7 @@ Very long names are shortened in the middle so a row stays readable; the full na
 | A referenced file Myne can't take | left as a searchable placeholder (see Limits) |
 | A remote image URL | left as-is and **never fetched** |
 
-If you sized an image in Obsidian, that size comes across. A size written in a form Myne cannot read is not applied and does not become part of the file name either: the reference is rewritten to point at the imported attachment, and the unreadable size is not carried into it. The whole-vault import summarises by file type rather than by size and alt text, so there is no count to check that against here. The per-note **Import and convert** command, which you run on one note you have already pasted in, does report how many references kept a size or an alt text.
+If you sized an image in Obsidian, that size comes across. A size written in a form Myne cannot read is not applied and does not become part of the file name either: the reference is rewritten to point at the imported attachment, and the unreadable size is not carried into it. The import summary counts by file type rather than by size and alt text, so nothing on it tells you how many came across; open a few of the imported notes and look at the embeds.
 
 MOV files and anything over the 64 MiB attachment cap are not brought in as playable video — they arrive as an export-only file-card, or leave a placeholder if they could not be imported at all. The exact embed syntax an imported attachment lands as is in [Embeds](/user-guide/markdown/embeds/).
 
@@ -108,7 +108,7 @@ Obsidian is one of five sources the same importer reads. When the flow opens, yo
 
 Whichever you pick, the setup step shows that source's own **keeps / leaves behind** disclosure before the import starts, so you see the fidelity bar for that format up front. For HTML, for example, it keeps headings, lists, tables, links, code and emphasis, and leaves behind styling, scripts and embeds — remote images stay as links and are never downloaded.
 
-Every source funnels through the same ingest path, so the outcomes above hold for all five: nothing is overwritten, re-running is safe, and your original files are never changed. Where a note imports but loses a construct the format has and Myne does not — a Notion toggle, an HTML callout — the importer collects those into an **import report**: an ordinary note it writes at the end, when there is anything to report, titled `Import report — <source> <time>`, linking each affected note next to what was dropped. It is a plain note you can read, act on, and delete.
+Every source funnels through the same ingest path, so the outcomes above hold for all five: nothing is overwritten, re-running is safe, and your original files are never changed. Where a note imports but loses a construct the format has and Myne does not (a Notion toggle, an HTML callout) the importer collects those into an **import report**: an ordinary note it writes at the end, when there is anything to report, titled `Import report (<source>) <time>`, linking each affected note next to what was dropped. It is a plain note you can read, act on, and delete.
 
 ## Limits
 

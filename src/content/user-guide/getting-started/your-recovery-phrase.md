@@ -1,7 +1,7 @@
 ---
 title: "Your recovery phrase"
 category: "getting-started"
-updated: 2026-08-16
+updated: 2026-08-24
 summary: "What the 24-word recovery phrase is, why Myne shows it once when you create a vault, and how to write it down and store it so you can recover access later."
 tags: ["recovery", "vault", "security"]
 ---
@@ -30,8 +30,13 @@ Typing is forgiving about case and surrounding spaces. Myne compares the normali
 While the phrase is on screen, Myne guards it:
 
 - The grid is **blurred until you choose to reveal it**, and it **re-blurs when you switch away** from the window (for example, when you Cmd-Tab to another app), so the words are not left uncovered behind other windows.
-- **Copy** puts the phrase on your clipboard and **clears it automatically after 30 seconds**, so it does not linger for the next thing you paste. That clear runs inside Myne, so quitting the app within those 30 seconds leaves the phrase on the clipboard; clear it yourself if you do. Copy also tells you whether it worked, so a failure does not look like a success. Treat it as a way to move the phrase into a password manager, not as somewhere to keep it.
-- **On a phone, Copy is not offered for the phrase.** Use **"Save to file"** there; the desktop button is labelled **"Save as file"**. A phone would need the system to keep the phrase on that one device and expire it on its own timer. Android does neither. iOS can do both, and Myne does not yet use it.
+- **Copy** puts the phrase on your clipboard and tells you whether it worked, so a failure does not look like a success. Treat it as a way to move the phrase into a password manager, not as somewhere to keep it. What happens to the clipboard afterwards depends on where you are:
+  - **On the desktop**, Myne clears it after 30 seconds, so the phrase does not linger for the next thing you paste. That clear runs inside Myne, so quitting the app within those 30 seconds leaves the phrase on the clipboard; clear it yourself if you do.
+  - **In a browser**, nothing is cleared, and the screen says so rather than leaving you to assume otherwise. A page is not allowed to read the clipboard, and the clear is gated on reading the value back so that it can never destroy something you copied afterwards, so nothing is scheduled at all. The 24 words stay on your clipboard until you copy something else. Paste them into your password manager, then copy anything.
+  - **On a phone**, Copy appears only where the system can hold the phrase to the standard this screen already asks for: confined to that one device, and expired on its own timer. iPhone can do both, so the button is there. Android can do neither, so the button is absent rather than present and weaker, and **Save to file** is what that screen offers instead. The desktop button is labelled **Save as file**.
+- **In a browser, an extension can read this screen.** Myne says so on the phrase step, and there is nothing it can do about it: an extension you have granted access to the site reads the page directly, and no setting changes that. If you are not sure about every extension in that browser profile, create your vault in the desktop app, or use a clean profile for this step.
+- **On a phone, you do not choose where the file goes.** Neither iPhone nor Android gives an app a way to ask, so **Save to file** writes `myne-recovery-phrase.txt` into Myne's own Documents folder and then offers you the system share sheet to send it somewhere. Two things follow from that. Your phone's automatic cloud backup would otherwise copy that folder to iCloud or Google Drive, carrying a saved recovery phrase off your device; Myne now tells both systems to leave that folder out, though the iPhone half of that has not yet been confirmed on a real device. And on a current Android, the system file browsers will not open that folder and the share sheet does nothing there, so the file is written and you cannot reach it. Type the words into a password manager on Android instead.
+- **If you saved a recovery phrase on a phone before this changed**, and that phone's automatic backup was on, a copy of the phrase is inside an existing cloud backup and nothing in the app can reach in and remove it. The phrase cannot be rotated, so treat it as exposed: create a new vault and move your notes into it.
 - If you try to **close the window mid-step**, Myne asks you to confirm, so you cannot lose the phrase by accidentally closing the wizard before you have saved it.
 
 ## Where to keep it

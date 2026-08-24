@@ -1,7 +1,7 @@
 ---
 title: "Unlinked mentions"
 category: "find-and-connect"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "How Myne surfaces other notes that mention the current note's title without linking to it, where the unlinked-mentions tab lives in the editor's right panel, and how to turn an unlinked mention into a wikilink."
 tags: ["links", "search"]
 ---
@@ -14,10 +14,10 @@ An unlinked mention is a note that writes the current note's title in its prose 
 
 Unlinked mentions is one tab in the editor's multi-tab right panel, alongside [Links](/user-guide/find-and-connect/backlinks/), [Outline](/user-guide/find-and-connect/outline/) and Tasks.
 
-1. If the right panel is hidden, show it with the sidebar toggle in the title bar — it appears there while a note is open — or run **Toggle backlinks sidebar** from the command palette.
+1. If the right panel is hidden, show it with the sidebar toggle in the title bar, or run **Toggle backlinks sidebar** from the command palette.
 2. In the tab strip along the top of the panel, click the Unlinked mentions tab. Each tab is an icon; hover to read its label.
 
-Switching to the tab is what starts the scan, so reading a note never does this work in the background. When it is the active tab, Myne looks for other notes that mention this note's title. If new matches may have appeared since, a **refresh** action lets you re-run the scan.
+Switching to the tab is what starts the scan, so reading a note never does this work in the background. When it is the active tab, Myne looks for other notes that mention this note's title. If new matches may have appeared since, a line reading **Mentions may have changed: refresh** appears above the list; click it to re-run the scan.
 
 Matching is by whole words and is not case-sensitive, so "Project Apollo" mentioned mid-sentence is found, but a title buried inside a longer word is not. Very common or very short titles are held back from the list, so the tab stays useful rather than flooding with noise.
 

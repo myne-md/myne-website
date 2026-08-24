@@ -1,7 +1,7 @@
 ---
 title: "Vim mode"
 category: "editor-and-writing"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "Vim mode is an optional modal-editing keymap for the note editor: normal, insert, and visual modes with the usual motions and operators. It is off by default and sits behind Developer mode — turn that on in Settings → About, then turn on Vim keyboard mode in Settings → Editor, after which notes open in Source view."
 tags: ["editor", "settings"]
 ---
@@ -16,6 +16,8 @@ Vim mode sits behind Developer mode, so there are two steps.
 2. Open **Settings → Editor**. Under **Editing**, turn on **Vim keyboard mode**. The helper text reads: "Use vim keys in the editor: normal, insert and visual modes, with the usual motions and operators. Off by default. Notes open in source view while this is on."
 
 The change applies to the note you are editing right away, with no restart. The vim engine loads the first time you switch the toggle on and not before; on the desktop app it ships inside the bundle, so nothing is fetched over the network to enable it.
+
+With Developer mode on, the command palette carries the same switch as **Toggle vim keyboard mode**, under **Editor**. It is hidden while Developer mode is off, exactly like the Settings row, so it is a shortcut past Settings rather than a way around the gate.
 
 Turning Developer mode back off hides the control but does not turn vim mode off — an active keymap keeps interpreting your keystrokes. To stop using vim keys, turn the **Vim keyboard mode** toggle off first, then turn Developer mode off.
 

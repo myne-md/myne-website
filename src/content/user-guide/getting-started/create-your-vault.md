@@ -1,7 +1,7 @@
 ---
 title: "Create your vault"
 category: "getting-started"
-updated: 2026-08-16
+updated: 2026-08-24
 summary: "The vault-creation wizard — a short safety briefing, then set a master password, save your recovery phrase, confirm a few words, and save your account number — and the one consequence to understand before you start."
 tags: ["vault", "basics"]
 ---
@@ -42,14 +42,18 @@ Last, Myne shows your **account number**. It displays as `MY-` followed by five 
 
 It is not a password, but it is not nothing either. If you use sync, anyone who has your account number can ask the sync server for your account's encrypted key file, from anywhere, with no device of yours and no login: that is how a new device of *yours* joins, and the server cannot tell the two apart. The file reveals nothing on its own; what it gives someone is the material to start guessing your master password on their own hardware, with nothing slowing them down but the strength of that password. So treat the number like cash rather than like a username — fine to type into your own devices, not something to put in a screenshot or a support thread. A vault you never sync has nothing on a server.
 
-**Copy** tells you whether it worked, so a failed copy does not look like a successful one, and what lands on the clipboard clears itself after 30 seconds. On the desktop that clear runs inside Myne, so quitting within those 30 seconds leaves the number on the clipboard. On Android the clear is not selective: anything you copy inside those 30 seconds is cleared too.
+**Copy** tells you whether it worked, so a failed copy does not look like a successful one. What happens to the clipboard afterwards depends on where you are. On the desktop, Myne clears it after 30 seconds, and that clear runs inside Myne, so quitting within those 30 seconds leaves the number on the clipboard. On Android the clear is not selective: it cannot read the clipboard to check what is on it, so anything you copy inside those 30 seconds is cleared too. **In a browser nothing is cleared at all.** A page is not allowed to read the clipboard back, so no timer is scheduled, and the account number stays there until you copy something else.
+
+**Save as file** differs in the same way. On the desktop it opens a save dialog and you pick the folder, and where your operating system supports it Myne writes the file readable only by your own user account. In a browser it is an ordinary download, landing wherever your browser puts downloads. Either way the result is a plain text file that anyone who reaches that location can read, so move it somewhere safe and delete the local copy.
 
 ## Your vault is ready
 
-When the wizard finishes you see **Your vault is ready.** and a **Done** button that takes you straight into the [editor](/user-guide/editor-and-writing/overview/), with no second password prompt; the Unlock screen first appears the next time you launch Myne. Rather than an empty editor, your new vault opens on **Start here**, the first of five example notes Myne seeds under a single **Getting started** folder. They are ordinary notes — edit, rename or delete any of them — and right-clicking the folder and choosing **Delete** moves the whole set to Trash together, where you can still restore it. Two more things on that screen:
+When the wizard finishes you see **Your vault is ready.** and a **Done** button that takes you straight into the [editor](/user-guide/editor-and-writing/overview/), with no second password prompt; the Unlock screen first appears the next time you launch Myne. Rather than an empty editor, your new vault opens on **Start here**, the first of five example notes Myne seeds under a single **Getting started** folder. They are ordinary notes (edit, rename or delete any of them), and right-clicking the folder and choosing **Delete** moves the whole set to Trash together, where you can still restore it. Two more things sit on that screen, on the desktop:
 
 - **Show vault folder** opens the directory on disk where Myne keeps this vault's encrypted files.
 - **Back up this vault now** writes an encrypted backup you can keep elsewhere. It is worth taking. How backups work and the habit worth building are in [Back up your vault](/user-guide/safety-and-recovery/back-up-your-vault/).
+
+Neither appears in a browser, and neither is missing by accident: there is no folder to open and no save dialog to write a backup through, so both controls are left out of the browser build rather than shown and refused. Your notes there live in the browser's own storage for the site, and the server keeps the copy a new browser re-downloads. See [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/).
 
 ## Limits
 

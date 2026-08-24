@@ -1,12 +1,12 @@
 ---
 title: "Developer mode"
 category: "settings-and-privacy"
-updated: 2026-08-13
-summary: "Developer mode reveals the settings Myne keeps out of the way by default: the AI and Network panels, Vim keyboard mode in the Editor panel, and Terminal access in the Privacy panel. It is per-device, takes effect immediately, and turning it back off only hides those settings again."
+updated: 2026-08-24
+summary: "Developer mode reveals the settings Myne keeps out of the way by default: the AI and Network panels, Vim keyboard mode in the Editor panel, and Terminal access in the Privacy panel. It is set per vault and per device, takes effect immediately, and turning it back off only hides those settings again."
 tags: ["settings", "security", "privacy"]
 ---
 
-Developer mode reveals the settings Myne keeps out of the way by default: the ones where you leave the path Myne vouches for, and the power-user tools most people never need. It is a switch in the About panel, it applies to this device only, and turning it back off hides those settings again without turning any of them off.
+Developer mode reveals the settings Myne keeps out of the way by default: the ones where you leave the path Myne vouches for, and the power-user tools most people never need. It is a switch in the About panel, it is set per vault on the device you set it on, and turning it back off hides those settings again without turning any of them off.
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ Developer mode reveals the settings Myne keeps out of the way by default: the on
 
 Open Settings from the gear in the bottom bar or with `⌘,`, choose **About** in the left rail, and switch on **Developer mode**. It takes effect immediately — there is no restart and no confirmation step.
 
-The setting is not synced, so it does not travel to your other computers — each device you use decides for itself. It is kept with the rest of this vault's preferences, which means a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) of the vault carries it along; sync never does.
+The setting is not synced, so it does not travel to your other computers: each device decides for itself, and so does each vault on that device. It is kept with the rest of this vault's preferences, which means a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) of the vault carries it along; sync never does.
 
 ## What it reveals
 

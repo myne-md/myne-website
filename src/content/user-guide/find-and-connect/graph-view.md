@@ -1,20 +1,20 @@
 ---
 title: "Graph view"
 category: "find-and-connect"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "How the graph view shows your notes and the links between them, the filters that focus it, the color groups that tint nodes by tag or folder, the settings panel that tunes the layout, and where the arrangement you leave behind is saved."
 tags: ["links", "search", "tags"]
 ---
 
 The graph view draws your vault as a map: each note is a dot, and each link between notes is a line. It is a way to see structure: clusters, hubs, and the notes nothing points to.
 
-![The graph view open as its own tab, with the All, Isolated and Tag filter chips above the canvas.](./graph-view.png)
+![The graph view open as its own tab, with the All, Isolated and Tag filter chips above the canvas and the graph settings gear in its top-right corner.](./graph-view.png)
 
 The graph opens as its own workspace tab, a peer alongside your note tabs and [saved-view](/user-guide/editor-and-writing/saved-views/) tabs. There is exactly one graph tab — opening the graph again reveals the existing one rather than stacking up duplicates. It stays open as a tab while you navigate elsewhere, and is part of your saved workspace, so it comes back when you reopen the vault or switch [named workspaces](/user-guide/notes-and-organization/named-workspaces/).
 
 ## Opening the graph
 
-Open it from the **Graph** button in the bottom bar, from the command palette (**Show graph view**), or with `⌘⇧G`. Any of these opens or reveals the single graph tab.
+Open it from the **Graph** button in the bottom bar, from the command palette (**Show graph view…**), or with `⌘⇧G`. Any of these opens or reveals the single graph tab.
 
 ## What's on it
 
@@ -27,8 +27,8 @@ Filter chips narrow what's shown:
 
 - **All**: the whole vault.
 - **Isolated**: only notes that neither link out to anything nor are named by another note, so you can find what's disconnected and wire it in.
-- **Around this note**: just the neighborhood of the note you have open, out to one or two hops (toggle the depth between 1 and 2).
-- **Tag**: a dropdown that narrows the graph to notes carrying a tag, counting nested tags under their parent.
+- **Around this note**: just the neighborhood of the note you have open, out to one or two hops (toggle the depth between 1 and 2). This chip appears once you have a note selected.
+- **Tag**: a dropdown that narrows the graph to notes carrying a tag, counting nested tags under their parent. It appears once the vault has at least one tag.
 
 A large vault is drawn in full — there is no note limit on the graph. What keeps it usable is that the layout runs off the main thread and the renderer draws only what is on screen, with labels appearing once you zoom in far enough to read them.
 

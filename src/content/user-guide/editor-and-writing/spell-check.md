@@ -1,7 +1,7 @@
 ---
 title: "Spell check"
 category: "editor-and-writing"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "Misspelled words are underlined as you type by a fully offline checker that never sends your notes anywhere. Right-click a word for suggestions, add words to a personal dictionary, and choose from 23 bundled languages."
 tags: ["editor", "settings", "privacy"]
 ---
@@ -30,9 +30,9 @@ Choosing a suggestion replaces exactly the flagged word with a precise edit and 
 
 ## Turning it on or off and choosing languages
 
-Spell check lives in **Settings → Editor**. A **Spell check** toggle (**On** by default) turns the underlines on or off, with the helper line "Underline misspelled words as you type. Fully offline — your notes never leave the device."
+Spell check lives in **Settings → Editor**. A **Spell check** toggle (**On** by default) turns the underlines on or off, with the helper line "Underline misspelled words as you type. Fully offline: your notes never leave the device." The command palette carries the same switch as **Toggle spell check**, under **Editor**, if you would rather not open Settings for it.
 
-Below it, a searchable **Languages** picker lets you select one or more of the 23 bundled languages. Its helper line reads "A word is correct if it's valid in any selected language — handy for mixing English terms into other-language notes." The bundled set is: English (US), English (UK), Bulgarian, Catalan, German, Spanish, Persian, French, Hebrew, Croatian, Hungarian, Italian, Korean, Lithuanian, Latvian, Dutch, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, and Swedish. Turkish is not yet available.
+Below it, a searchable **Languages** picker lets you select one or more of the 23 bundled languages. Its helper line reads "A word is correct if it’s valid in any selected language. Handy for mixing English terms into other-language notes." Each language is listed under its own name rather than an English one, and the list is sorted by that name, so you search for `Deutsch`, not German, and `Русский`, not Russian. The bundled set is English (US), English (UK), Български, Català, Deutsch, Español, فارسی, Français, עברית, Hrvatski, Magyar, Italiano, 한국어, Lietuvių, Latviešu, Nederlands, Polski, Português, Română, Русский, Slovenčina, Slovenščina, and Svenska. Turkish is not yet available.
 
 Dictionaries are loaded only when a language is active, and they are bundled with the app — there is no language pack to download at any point. Adding more languages widens what counts as correct rather than narrowing it, because the languages are pooled.
 

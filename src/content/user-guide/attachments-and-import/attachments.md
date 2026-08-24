@@ -1,7 +1,7 @@
 ---
 title: "Attachments"
 category: "attachments-and-import"
-updated: 2026-08-16
+updated: 2026-08-24
 summary: "How to attach files to your notes, which file types render in place and which are kept as an export-only card, the size limits, and how attachments are stored inside the encrypted vault."
 tags: ["attachments", "notes"]
 ---
@@ -27,7 +27,7 @@ What differs is how a file appears in the note, which depends on whether Myne ca
 
 ## Image compression on import
 
-When an image enters your vault — pasted, dropped, or brought in by the importer — Myne downscales and re-encodes it on the way in, so a vault full of screenshots doesn't grow without bound on disk, in backups, or over sync. This happens before the file is stored, and **the original bytes are not kept**: the re-encoded copy is what lives in your vault, with no way to recover the file exactly as it came in. If you need an image kept byte-for-byte, turn the setting below off before you add it.
+When an image enters your vault (pasted, dropped, or brought in by the importer), Myne downscales and re-encodes it on the way in, so a vault full of screenshots doesn't grow without bound on disk, in backups, or over sync. This happens before the file is stored, and **the original bytes are not kept**: the re-encoded copy is what lives in your vault, with no way to recover the file exactly as it came in. If you need an image kept byte-for-byte, turn the setting below off before you add it. The browser app is the one exception, and it is covered with the setting below.
 
 A few rules keep the transform from costing you anything unexpected:
 
@@ -36,7 +36,7 @@ A few rules keep the transform from costing you anything unexpected:
 - If an image cannot be decoded or re-encoded, the original is stored unchanged and the import still succeeds; compression is best-effort and never turns a working import into a failed one.
 - Only images added from now on are affected — by any route. Attachments already in the vault are left exactly as they are.
 
-The control is **Compress images on import** in Settings → Files. It is a single vault-wide switch, **on by default**. When compression actually changes an image, a one-time notice after the import reports the size before and after; an import that changed nothing — a file that was already small, a duplicate you already had, or the switch turned off — shows no notice.
+The control is **Compress images on import** in Settings → Files. It is a single vault-wide switch, **on by default**, and it follows the vault to your other devices. The re-encoding itself does not run in the browser app: images you add there are stored exactly as given, whatever the switch says, and the setting row says so when you open it there. When compression actually changes an image, a one-time notice after the import reports the size before and after. An import that changed nothing (a file that was already small, a duplicate you already had, or the switch turned off) shows no notice.
 
 ## How attachments render
 
@@ -44,9 +44,9 @@ In a note, an embedded image shows inline. A PDF shows a first-page preview wher
 
 An MP4 or WebM video shows an inline player with your system's own video controls; nothing plays until you press play, and a video your system has no codec for falls back to a file-card. A recorded voice note or an attached audio file shows as an inline player with a play control and a time readout. See [Voice notes](/user-guide/attachments-and-import/voice-notes/) for recording one with the `/record` command.
 
-A plain-text or source-code file — `.txt`, `.md`, `.csv`, `.json`, `.yaml` and the common source extensions — shows a read-only preview of its first lines; a long one ends with "Preview truncated — Export for the full file." A `.docx` or `.xlsx` shows a read-only structured preview: headings and paragraphs for a document, the first rows and columns for a sheet. Neither preview is editable: changing such a file means exporting it, editing it outside Myne, and attaching it again.
+A plain-text or source-code file (`.txt`, `.md`, `.csv`, `.json`, `.yaml` and the common source extensions) shows a read-only preview of its first lines; a long one ends with "Preview truncated. Export for the full file." A `.docx` or `.xlsx` shows a read-only structured preview: headings and paragraphs for a document, the first rows and columns for a sheet. Neither preview is editable: changing such a file means exporting it, editing it outside Myne, and attaching it again.
 
-Anything else — an archive, an installer, a font — surfaces as a **file-card**: a file-type icon, the filename, a `type · size` line, and a `⋯` menu with **Export**, **Rename**, **Remove**, and **Reveal in library**. "Using" a file-card file means exporting it to disk through the native Save dialog.
+Anything else, an archive, an installer or a font, surfaces as a **file-card**: a file-type icon, the filename, a `type · size` line, and a `⋯` menu with **Export**, **Rename**, **Remove**, and **Reveal in library**. "Using" a file-card file means exporting it out of the vault, which is described below.
 
 Identical files are stored once: if you add the same file twice, Myne keeps a single copy and both embeds point at it.
 
@@ -61,13 +61,13 @@ Every embedded image and PDF carries its own `⋯` menu in the top-right corner.
 
 A size is a maximum, not a fixed frame: an image never grows wider than your text column, so changing the column width in **Settings → Editor** re-flows your notes rather than breaking them. **Full width** is the way to say "fill the page" and keeps meaning that on any screen, where a large pixel number does not.
 
-Your choices are written into the note itself, so they travel with it: they survive sync, and they are still there when you read the file outside Myne. Which surfaces **apply** them is a shorter list than which surfaces keep them. The desktop and browser apps lay the embed out as you set it; the phone app currently shows every embed at its default size and reads the filename rather than your alt text; and an HTML or PDF export uses the filename as the alt and its own layout. The bytes are intact in all four cases, which is why an embed laid out on a computer is still laid out when you open that note there again. Opening an exported note in **Obsidian** is a partial match rather than a promise: a pixel width comes across, because Obsidian has its own way of writing one, while a percentage width and an alignment do not, so it falls back to its own default for those. Nothing is lost from the file either way. The exact syntax is in [Embeds](/user-guide/markdown/embeds/), though you never need to type it.
+Your choices are written into the note itself, so they travel with it: they survive sync, and they are still there when you read the file outside Myne. Which surfaces **apply** them is a shorter list than which surfaces keep them. The desktop and browser apps lay the embed out as you set it, and so does the phone app while you have the note open for editing. The phone's reading view shows every embed at its default size and reads the filename rather than your alt text, and an HTML or PDF export uses the filename as the alt and its own layout. The bytes are intact in every case, which is why an embed laid out on a computer is still laid out when you open that note there again. Opening an exported note in **Obsidian** is a partial match rather than a promise: a pixel width comes across, because Obsidian has its own way of writing one, while a percentage width and an alignment do not, so it falls back to its own default for those. Nothing is lost from the file either way. The exact syntax is in [Embeds](/user-guide/markdown/embeds/), though you never need to type it.
 
 ## Renaming, exporting, and deleting
 
 Renaming an attachment changes its **display name in the library only**; it never rewrites the embeds in your notes, so links don't break.
 
-**Export** writes one attachment back to a file you choose through the native Save dialog — the same Save-As action that backs a file-card's `⋯` menu. The export is decrypted to the path you pick; the copy on disk is no longer protected by your vault.
+**Export** writes one attachment back out of the vault, the same Save-As action that backs a file-card's `⋯` menu. On a computer you pick the destination through the native Save dialog. On a phone or tablet neither system lets an app ask, so the file lands in the app's own Documents folder and the system share sheet opens on it. Either way the copy is decrypted and is no longer protected by your vault. Your phone's automatic cloud backup would normally copy that folder to iCloud or Google Drive; Myne now tells both systems to leave it out, though we have not yet been able to confirm on a real device that they obey, and a file you exported before that change may already sit in an existing backup.
 
 Attachments are not removed automatically. When you remove a note, the files it embedded stay in the library as **unused attachments** (zero references) rather than disappearing. The only way to erase them is the explicit **Clean unused attachments** sweep in the attachments library, which reviews and then permanently deletes the files you confirm; Myne also reconciles **stray attachment files** when you unlock. If you delete an attachment that a note still embeds, that embed becomes a "deleted attachment" marker (a tombstone) rather than a broken image, so you can see what used to be there.
 

@@ -1,7 +1,7 @@
 ---
 title: "Restore from a backup"
 category: "safety-and-recovery"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "How to restore your vault from a backup file, where you can start a restore from, what happens when a copy of the same vault already exists on this device, and how a damaged backup is handled."
 tags: ["backup", "recovery"]
 ---
@@ -13,6 +13,8 @@ Restoring brings a vault back from a `.myne-backup` file, onto a new computer, o
 ## Starting a restore
 
 You can start a restore from five places: the **Restore from backup** door on the Welcome screen, the same entry in the vault picker when you have more than one vault, **Settings → Storage**, the command palette, and the screen Myne shows when it cannot open a vault. They all lead to the same flow: pick the `.myne-backup` file, and Myne rebuilds the vault from it.
+
+All five are desktop app controls. In a browser there is no restore at all: the backup controls are omitted rather than shown greyed out, so **Settings → Storage** there only tells you where your notes live in that browser, and that clearing the site's data means signing in again to download them back. A browser's local copy comes from the sync server, so what a restore would do for it, syncing already does. On a phone or tablet the restore screen exists and says so: **Not available on mobile yet**, and it points you at creating a vault or unlocking with your recovery phrase instead.
 
 Restoring does not ask for your password, because the backup is encrypted bytes and copying them back needs no key. The restored vault arrives **locked**; you open it afterward with its password or recovery phrase, the same as any vault.
 
@@ -33,7 +35,7 @@ Salvage is lossy on purpose, and Myne does not hide it. It takes the notes it ca
 
 ## The restore summary
 
-When the restore finishes, Myne reports what came back: notes, attachments, and the number of **version history entries** recovered, since a note's snapshots travel inside the backup. A backup of a vault whose [format has been upgraded](/user-guide/safety-and-recovery/upgrade-your-vault-format/) has no snapshots to count, because each note carries its history inside itself instead. Review the summary to confirm the vault looks complete before you rely on it.
+When the restore finishes, Myne reports what came back: notes, attachments, and the number of **version history entries** recovered. That last count is for a vault in Myne's original format, whose notes keep their history as separate snapshots inside the backup. A backup of a vault on the newer format (one created on a current version of Myne, or one whose [format you upgraded](/user-guide/safety-and-recovery/upgrade-your-vault-format/)) has none to count, because each note carries its history inside itself. Review the summary to confirm the vault looks complete before you rely on it.
 
 ## When your live vault is corrupted
 

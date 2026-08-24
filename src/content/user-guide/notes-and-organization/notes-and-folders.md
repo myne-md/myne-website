@@ -1,8 +1,8 @@
 ---
 title: "Notes and folders"
 category: "notes-and-organization"
-updated: 2026-08-13
-summary: "How to create, rename, move, and delete notes and folders in Myne — the sidebar's + menu, the editor's Note actions menu, how the folder tree maps to your vault on disk, and how nesting works."
+updated: 2026-08-24
+summary: "How to create, rename, move, and delete notes and folders in Myne: the sidebar's + menu, the editor's Note actions menu, where a note's title actually comes from, how folders nest and stay private, and how autosave keeps your edits."
 tags: ["notes", "folders"]
 ---
 
@@ -12,11 +12,13 @@ Notes and folders are the backbone of a vault. This article covers creating and 
 
 ## Creating a note
 
-New items come from the **+** button at the top of the sidebar. Its menu has four rows — **New note**, **New note from template…**, **New drawing**, and **New folder** — and the same actions are on the right-click menu of a folder row and of empty sidebar space.
+New items come from the **+** button at the top of the sidebar. Its menu has four rows: **New note**, **New note from template…**, **New drawing**, and **New folder**. Right-clicking empty sidebar space offers three of them, without the template row. Right-clicking a folder row offers **New note here**, **New drawing here**, and **New subfolder**, which do the same things inside that folder; making a note from a template stays on the **+** menu.
 
 **New note**, `⌘N` / `Ctrl N`, and the new-note-in-pane shortcut all make an **instant blank note** and drop you into it, ready to type. There is no dialog and no template to pick. A note built from a template is the separate, deliberate path; see [Templates](/user-guide/notes-and-organization/templates/). **New drawing** makes a note you draw in instead of type in; see [Drawings](/user-guide/notes-and-organization/drawings/).
 
-The first line of the note becomes its title. Renaming a note updates wherever its title comes from: the heading in the note, or the `title` in its frontmatter if it has one.
+A note's title comes from the `title` field in its frontmatter, and from nothing else. Until a note has one it shows as **Untitled** in the sidebar, even when its first line is a `# ` heading: a heading in the body stays a heading, and never doubles as the note's name.
+
+Two places give a note its title, renaming its row in the sidebar and the title field in the note's **Properties**. Both write that same one `title` field, and on a note that had no frontmatter block the first rename adds one and leaves the body byte-for-byte alone.
 
 To copy a note as a starting point, **Duplicate** makes a clone with a fresh title. When you want to act on several notes at once, you can select multiple notes and move, archive, or delete them together, or drag a selection into a folder; an **Open random note** action in the command palette pulls up a live note at random for serendipitous review. These are covered in [Bulk note actions](/user-guide/notes-and-organization/bulk-note-actions/).
 
@@ -28,7 +30,7 @@ The sidebar's right-click menu is not the only way in. While a note is open, a *
 
 Folders group your notes in the sidebar. You can nest them, drag notes between them, and create as many as you like. Deleting a folder that still contains notes moves the whole subtree to the Trash rather than destroying it, so nothing is lost to a misclick (see [Trash](/user-guide/notes-and-organization/trash/)).
 
-A folder can have an **index note** — an ordinary note marked as that folder's landing page, pinned and badged at the top of the folder. A wikilink that ends in a slash, like `[[Projects/]]`, opens the folder's index note. See [Folder notes](/user-guide/notes-and-organization/folder-notes/).
+A folder can have an **index note**, an ordinary note marked as that folder's landing page. It gets no row of its own in the sidebar tree; you open it from the folder row instead, by double-clicking the row or by clicking the book icon on it. A wikilink that ends in a slash, like `[[Projects/]]`, opens the folder's index note. See [Folder notes](/user-guide/notes-and-organization/folder-notes/).
 
 ### Private by design
 

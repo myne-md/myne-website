@@ -1,12 +1,12 @@
 ---
 title: "Editor & writing"
 category: "editor-and-writing"
-updated: 2026-08-16
+updated: 2026-08-24
 summary: "An overview of writing in Myne: how the editor's view modes, focus mode, folding, multiple cursors, find and replace, slash commands, comments, spell check, display settings, note covers, the selection toolbar, saved views, and note export fit together, with a link to each."
 tags: ["editor", "markdown"]
 ---
 
-Most of your time in Myne is spent in the editor, writing. This section covers the tools around the text: switching between Live preview, Reading, and Source view, focus mode for one paragraph at a time, folding long notes, editing with multiple cursors, find and replace, slash commands for quick inserts, comments alongside the text, spell check, the display settings that shape how the editor looks, the toolbar that appears over a selection, saved views you can return to, and exporting a note to a plain file. Each one has its own article below.
+Most of your time in Myne is spent in the editor, writing. This section covers the tools around the text: switching between Live preview, Reading, and Source view, focus mode for one paragraph at a time, folding long notes, editing with multiple cursors, find and replace, slash commands for quick inserts, comments alongside the text, spell check, the display settings that shape how the editor looks, the toolbar that appears over a selection, saved views that filter your notes into a slice you can return to, and exporting a note to a plain file. Each one has its own article below.
 
 ## What's in this section
 
@@ -23,7 +23,7 @@ Most of your time in Myne is spent in the editor, writing. This section covers t
 - **[Selection toolbar](/user-guide/editor-and-writing/selection-toolbar/)**: the formatting buttons that appear over selected text, and choosing which ones show.
 - **[Vim mode](/user-guide/editor-and-writing/vim-mode/)**: an optional modal-editing keymap for the editor, off by default and behind Developer mode.
 - **[Spell check](/user-guide/editor-and-writing/spell-check/)**: catching typos as you type.
-- **[Saved views](/user-guide/editor-and-writing/saved-views/)**: returning to a layout you set up before.
+- **[Saved views](/user-guide/editor-and-writing/saved-views/)**: a filtered, read-only slice of your notes you can return to from the sidebar, shown as cards, a table, or a list. Off by default.
 - **[Exporting notes](/user-guide/editor-and-writing/export-notes/)**: writing a single note or your whole vault out to plain files.
 
 Sketching inside a note is covered in [Drawings](/user-guide/notes-and-organization/drawings/), because a drawing is a note of its own.

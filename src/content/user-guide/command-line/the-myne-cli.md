@@ -1,7 +1,7 @@
 ---
 title: "The myne CLI"
 category: "command-line"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "The myne command reads, searches, and creates notes from a terminal by talking to the running, unlocked app over a local socket. This article covers turning on terminal access, getting your shell to find the command, the six commands, the stable --json output, and what each refusal means."
 tags: ["notes", "search", "settings", "privacy"]
 ---
@@ -21,11 +21,15 @@ Terminal access is off by default, and its control stays hidden until you turn o
 1. Open **Settings → About** and turn on **Developer mode**. The terminal-access controls live in the **Privacy** panel, but they are not shown until you do this. See [Developer mode](/user-guide/settings-and-privacy/developer-mode/).
 2. Open the **Privacy** panel and turn on **Terminal access**.
 
+While terminal access is on, the same row shows when the door was last used: **Last used just now.**, a count in minutes, hours or days, or **Not used since this vault was unlocked.** Every command that reached the door counts, including ones it refused, so a script running quietly in the background shows up here. The figure is held in memory for the session only. Locking the vault clears it, and it is never written into your vault.
+
 Until you turn it on, every command refuses with `CLI access is off. Enable it in Myne's Settings.` and exits with code 5.
 
-It is opt-in because an open socket lets any program running under your account read what the app has already decrypted — see [Limits](#limits) below.
+It is opt-in because an open socket lets any program running under your account read what the app has already decrypted. See [Limits](#limits) below.
 
 Turning Developer mode back off only hides these controls. An enabled socket keeps serving until you turn **Terminal access** itself off, so switch the door off first if that is what you meant to do.
+
+Terminal access is set per device. Turning it on here opens the door on this machine only, and turning it off closes it here only: each device you want to use the command from has its own switch. **Let the terminal run at full speed** is per device in the same way.
 
 ## Making your shell find the command
 
@@ -66,9 +70,11 @@ You can fill the list before you turn terminal access on, which is the safer ord
 
 If the folder your daily notes are configured to live in is on the exclusion list, `daily` and `daily:append` both fail with an error rather than quietly doing nothing.
 
+The exclusion list is the exception to the per-device rule above: it is part of your vault rather than of this device, so with sync on it travels to your other devices. Devices merge it by keeping every entry any of them holds, so an exclusion added anywhere is never lost, and a folder you take off the list on one device comes back if another device still lists it. To stop excluding a folder, remove it on every device.
+
 ## Searching
 
-`myne search` prints one `id`-and-title line per match. It also prints a fixed line to standard error — `Some notes may be excluded from search results — see Settings.` — which is identical on every search, so it can never be read as a count of what was hidden.
+`myne search` prints one `id`-and-title line per match. It also prints a fixed line to standard error: `Some notes may be excluded from search results (see Settings).` That line is identical on every search, so it can never be read as a count of what was hidden.
 
 <div class="ug-cast" data-cast="/casts/cli-search.cast" data-title="myne search" aria-label="Terminal session: myne search prints matching note ids and titles"></div>
 
@@ -80,7 +86,7 @@ Add the global `--json` flag before any command for a stable, single-line envelo
 
 ## Pace
 
-Myne answers at most 120 terminal commands a minute. Past that, commands are refused with exit code 8 and the message "Too many requests in a short time", and the next minute lets them through again. The limit paces a runaway script; it decides nothing about which program is allowed to ask, and it is not a permission check. For bulk work — piping every note through another tool — turn on **Let the terminal run at full speed** in Settings → Privacy.
+Myne answers at most 120 terminal commands a minute. Past that, commands are refused with exit code 8 and the message `Too many requests in a short time. Wait a moment and try again, or turn the CLI rate limit off in Myne's Settings.`, and the next minute lets them through again. The limit paces a runaway script; it decides nothing about which program is allowed to ask, and it is not a permission check. For bulk work, such as piping every note through another tool, turn on **Let the terminal run at full speed** in Settings → Privacy.
 
 ## When a command is refused
 

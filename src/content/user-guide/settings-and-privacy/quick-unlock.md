@@ -1,7 +1,7 @@
 ---
 title: "Quick unlock with a PIN or Touch ID"
 category: "settings-and-privacy"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "Opt in to re-entering a vault after auto-lock with a short PIN, or macOS Touch ID, instead of the full master password. It is device-local, off by default; a PIN still needs the master password after a restart, while a configured Touch ID credential can be used on a cold start."
 tags: ["security", "privacy", "settings"]
 ---
@@ -14,7 +14,7 @@ Quick unlock lets you re-enter a vault after it auto-locks with a short PIN, or 
 
 Quick unlock is opt-in and off by default. You set it up per device, while the vault is unlocked, from **Settings → Privacy → Quick unlock**, the control below **Screen-capture protection** and **Auto-lock**.
 
-The helper text under the toggle states the trade plainly, and it distinguishes the two paths: "Re-enter after auto-lock with a PIN or Touch ID instead of the full master password. A convenience over the encrypted vault — with a PIN the master password is required again after a restart; Touch ID covers a restart too, until the fingerprints enrolled on this device change."
+The helper text under the toggle states the trade plainly, and it distinguishes the two paths: "Re-enter after auto-lock with a PIN or Touch ID instead of the full master password. A convenience over the encrypted vault: with a PIN the master password is required again after a restart; Touch ID covers a restart too, until the fingerprints enrolled on this device change."
 
 Switch it on and a PIN field appears, with two buttons:
 
@@ -25,7 +25,7 @@ A note next to those buttons is honest about which path is which: "Touch ID is m
 
 Touch ID is offered only where it can actually work. On Windows and Linux the button is not shown at all. On a Mac, if enrolling fails Myne says why — "Touch ID isn't available in this build. It needs a signed macOS build with Touch ID enrolled." — and then hides the button for the rest of the session, because trying again cannot succeed until the build is signed. If you see that message, use a PIN.
 
-Once configured, the panel shows a **Turn off** button. Turning it off wipes the quick-unlock credential from this device; you then unlock with your master password as before.
+Once it is configured, the row's own toggle is the off switch. Flip it back off and Myne wipes the quick-unlock credential from this device; you then unlock with your master password as before.
 
 Each device opts in separately, and so does each vault — setting up quick unlock for one vault leaves your other vaults on the same computer untouched. The credential never syncs, and the Touch ID variant is bound to that one machine's hardware; it does not travel to another computer even if you later sync your vault.
 

@@ -46,7 +46,7 @@ const threats: [string, string, string, string][] = [
   ["A8", "Compromised dependency / supply chain", "best-effort", "Hash-pinned lockfiles, a minimal dependency tree, and update reviews. A malicious transitive dependency can't be fully defended."],
   ["A10", "State-level actor", "best-effort", "Boring vetted primitives, public spec. No claim against zero-days or hardware implants."],
   ["A13", "Traffic analysis", "best-effort", "Sync timing and blob sizes are visible. Padding and cover traffic deferred beyond v1."],
-  ["A15", "Malicious served web bundle", "best-effort", "The web client is re-sent unsigned on every page load, so an operator could target you with a modified bundle; per-release published hashes catch substitution only after the fact. For the strongest guarantees, use the desktop or mobile app, or self-host."],
+  ["A15", "Malicious served web bundle", "best-effort", "The web client is re-sent unsigned on every page load, so an operator could target you with a modified bundle; per-release recorded hashes catch substitution only after the fact, and that record is not public yet. For the strongest guarantees, use the desktop or mobile app, or self-host."],
   ["A12", 'Coerced user ("rubber-hose")', "out-of-scope", "No plausibly-deniable encryption in v1. If compelled to enter your password, the data is exposed."],
 ];
 

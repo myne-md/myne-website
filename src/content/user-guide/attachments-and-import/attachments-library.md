@@ -1,7 +1,7 @@
 ---
 title: "The attachments library"
 category: "attachments-and-import"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "How the attachments library lists every file in your vault, how to search, filter and sort it, what the per-item menu can do to a file, how to see which notes use a given attachment, and what the unused-attachment cleanup checks before it deletes anything."
 tags: ["attachments"]
 ---
@@ -33,13 +33,13 @@ Each attachment shows **used in N notes**, computed from your current notes — 
 
 Deleting a note never deletes the files it embedded, so files with zero references can build up. The **Clean unused attachments** command, run from the library, finds every file that nothing in the vault still references. It reads your notes **and your snapshots** at the moment you run it, so a file that has gone from a note but survives in a snapshot you could restore is never offered for cleanup — restoring that snapshot would otherwise bring back a note pointing at a file that no longer exists. If any note or snapshot can't be read, the sweep refuses rather than guessing, and nothing is deleted. What it does find, it shows you as a list to review before anything happens.
 
-On a device that hasn't finished its first sync, Clean unused refuses to run at all: it would be deciding what is unused from a fraction of your notes. It says so — "Finish syncing first — this device doesn't have all your notes yet, so it can't tell which attachments are unused." — and nothing is deleted. Wait for the sync to finish and run it again.
+On a device that hasn't finished its first sync, Clean unused refuses to run at all: it would be deciding what is unused from a fraction of your notes. It says so, in those words: "Finish syncing first. This device doesn't have all your notes yet, so it can't tell which attachments are unused." Nothing is deleted. Wait for the sync to finish and run it again.
 
 Deleting the files you confirm is permanent and cannot be undone, so read the list before you confirm. When you do confirm, Myne re-checks every note before erasing anything, so a file that became used between the review and the confirm is skipped instead of deleted; the closing summary reports what was removed, how much space that freed, and how many were skipped as now in use. Everything else on the list is erased from the vault. There is no trash tier for a cleanup, so the review-and-confirm step is the only undo.
 
 ## Acting on a file
 
-A per-item menu — the `⋮` button, or a right-click anywhere on the card or row — gives you **Preview** (images and PDFs only), **Export**, **Rename**, and **Delete**, the same actions covered in [Attachments](/user-guide/attachments-and-import/attachments/) (rename changes the display name only; delete is explicit and leaves a tombstone in any note that embedded the file). **Export** opens a native Save dialog and writes a plaintext copy of the file to a path you choose; the copy you save sits outside the vault and is no longer encrypted.
+A per-item menu (the `⋮` button, or a right-click anywhere on the card or row) gives you **Preview** (images and PDFs only), **Export**, **Rename**, and **Delete**, the same actions covered in [Attachments](/user-guide/attachments-and-import/attachments/) (rename changes the display name only; delete is explicit and leaves a tombstone in any note that embedded the file). On a computer, **Export** opens a native Save dialog and writes a plaintext copy of the file to a path you choose. On a phone or tablet you are not asked where it goes (see Limits, below). Either way the copy you save sits outside the vault and is no longer encrypted.
 
 An audio attachment carries two more actions. **Transcribe** runs speech-to-text on this device; it is hidden when speech-to-text is off in Settings → Transcription. **View transcription** opens a transcript an earlier run already wrote — read-only, under the line "This transcript was made by a small model running on your device and may be wrong — check it against the audio." That one stays available with speech-to-text turned off, because reading text you already have needs no model. Inserting a transcript into a note is a separate action, in the editor.
 
@@ -51,6 +51,6 @@ You can bring a file in from the library with its **Import attachment** picker. 
 
 The library lists what this vault holds on this device. Attachment names, contents, and types are encrypted at rest — see [Attachments](/user-guide/attachments-and-import/attachments/) for what a copy of the vault folder can still reveal about them. The search box matches file names only; it never reads inside a file to find a match.
 
-Export is the point where a file leaves the vault's protection: the copy it writes is decrypted, sits wherever you saved it, and is no longer covered by your master password.
+Export is the point where a file leaves the vault's protection: the copy it writes is decrypted and is no longer covered by your master password. On a computer it sits wherever you saved it. On a phone or tablet you are not asked, and it lands in the app's own Documents folder; see [Attachments](/user-guide/attachments-and-import/attachments/) for what that means for your phone's cloud backup.
 
 Clean unused decides from the notes and snapshots this device holds, which is why it refuses on a device that has not finished its first sync. Once a sweep has erased a file, nothing inside Myne brings it back — only a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) taken before the sweep still contains it.

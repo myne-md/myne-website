@@ -1,7 +1,7 @@
 ---
 title: "Tasks"
 category: "notes-and-organization"
-updated: 2026-08-23
+updated: 2026-08-25
 summary: "How tasks work in Myne: checkbox lines that carry due, reminder, priority, and repeat chips you set from controls rather than typing, whole-note tasks, a Tasks panel and an embedded task-list block, and local reminders — all kept as plain markdown inside your notes."
 tags: ["notes", "editor", "markdown", "import"]
 ---
@@ -33,14 +33,14 @@ You never have to type the field syntax by hand. Put the caret on a task line an
 
 ### The repeat control
 
-A repeat rule is always **chosen from a control, never typed**. The control offers four rule families:
+A repeat rule is always **chosen from a control, never typed**. The control's first field picks one of four rule families:
 
-- **Interval** — every day, week, month, or year, or every _N_ of them.
-- **Weekday set** — every Monday, or any set of weekdays.
-- **Day of the month** — a specific day (1 to 31) or the last day.
-- **Ordinal in the month** — the first, second, third, fourth, or last weekday of every month.
+- **Every…**: every day, week, month, or year, or every _N_ of them, with the number and the unit set in the two fields beside it.
+- **Weekly on…**: every Monday, or any set of weekdays.
+- **Monthly on a day…**: a specific day (1 to 31) or the last day.
+- **Monthly on a weekday…**: the first, second, third, fourth, or last weekday of every month.
 
-A separate **when done** option anchors the next occurrence to the day you complete the task rather than to its due date — the difference between watering the plants every three days counted from when you last did it, and a bill due on a fixed calendar day.
+A separate checkbox, **Repeat from the date it's completed**, anchors the next occurrence to the day you complete the task rather than to its due date: the difference between watering the plants every three days counted from when you last did it, and a bill due on a fixed calendar day. A rule saved that way reads back in the note as "when done".
 
 The vocabulary is closed on purpose: these families are the whole set, and there is no free-text rule box. The rule is stored in canonical English inside your note and displayed in your app language, so a note stays readable on a device set to another language. A rule advances only when you complete the task; a missed occurrence stays overdue and visible until you act on it. Completing a recurring task generates its next occurrence, and undoing that completion in the same step removes it again.
 
@@ -59,7 +59,7 @@ The **Tasks** panel gathers your tasks into one list, so you do not have to open
 - **Filters.** **Overdue** is anything dated before today, **Today** is today only, **Upcoming** is the next seven days starting tomorrow, and **All** is everything, including tasks with no date. Overdue tasks are not folded into Today, so a daily list stays a daily list; the Overdue count is where the backlog stays visible. A task is filed under its due date, or under its reminder when it has no due date. Which day counts as today follows your **Time zone** setting under **Settings → Editor** when you set one, and this device otherwise.
 - **Scope.** Narrow the list to a folder or a tag with the **Narrow by** control, or leave it at **All folders** for the whole vault.
 
-The right panel also has a **Tasks in this note** tab, scoped to the note you are reading.
+The right panel also has a **Tasks** tab, scoped to the note you are reading rather than to the whole vault.
 
 A task list is a view over your notes, not a place your tasks are stored. The one change you can make from it is ticking or unticking a task's checkbox; that write goes back to the note that owns the task. You cannot edit a task's text or fields from the list — open its note for that.
 
@@ -74,6 +74,10 @@ The builder writes the query for you from a set of choices — completion state,
 A task line can carry a reminder. Set one from the **Reminder** chip, from the task line's **+** menu, or with the `/remind` slash command; it takes a date and an optional time, the same way the due date does.
 
 Myne's reminders are **local**: while the app is open and your vault unlocked, a due reminder appears as a toast in the app. There is no server that pushes reminders to your devices, and a reminder does not fire while Myne is closed.
+
+The toast says a reminder is due and nothing more. It never quotes the task, its note, or its title. That is deliberate: a reminder can surface over a shared screen, so the notice stays content-free, and the task surfaces are where you go to see which one it was.
+
+Reminders are on to begin with. Turn them off under **Settings → Editor → Task reminders**; existing reminders stay written in your notes and simply stop being announced.
 
 ## Importing tasks
 

@@ -1,7 +1,7 @@
 ---
 title: "Callouts"
 category: "markdown"
-updated: 2026-06-11
+updated: 2026-08-24
 summary: "How to add callout blocks (note, warning, tip, and similar) to highlight passages in your notes, and how they appear when rendered."
 tags: ["markdown"]
 ---
@@ -26,7 +26,7 @@ That renders as a warning-styled box with an icon and a "Warning" title. To set 
 > One placeholder per line reads best.
 ```
 
-The `/callout` command inserts a callout for you.
+The `/callout` command starts one for you: it writes `> [!note] ` on the line, and you type the title and change `note` to whichever type you want.
 
 ## The callout types
 

@@ -1,7 +1,7 @@
 ---
 title: "Document statistics"
 category: "editor-and-writing"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "A live word and character readout in the bottom bar, with a hover tooltip for characters, words, spaces, and paragraphs. It counts the prose body only, switching to your selection when you select text."
 tags: ["editor"]
 ---
@@ -36,7 +36,9 @@ The counts cover the prose body of the note only. Three things are left out of e
 
 So the numbers track the words a reader would actually read, not the scaffolding around them.
 
-There is no reading-time estimate. The readout reports four things and only those four: words, characters, spaces, and paragraphs.
+The bottom-bar readout carries no reading-time estimate. It reports four things and only those four: words, characters, spaces, and paragraphs.
+
+The mobile app is the one place a reading time appears. Open a note's menu there and the top line pairs the word count with an estimate, in the shape `340 words · 2 min read`. It is computed on your device from the same text, like every other figure here.
 
 ## Limits
 

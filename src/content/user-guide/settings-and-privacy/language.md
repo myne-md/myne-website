@@ -1,7 +1,7 @@
 ---
 title: "Language"
 category: "settings-and-privacy"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "Myne's interface is available in 32 bundled languages. The language selector lives in the Appearance panel, changes the app's own labels and menus, and does not translate the text inside your notes."
 tags: ["settings"]
 ---
@@ -16,7 +16,7 @@ Myne's interface is available in 32 languages. The language selector lets you pi
 2. Choose **Appearance** in the left rail. The **Language** selector is at the top of the panel.
 3. Pick a language. The interface relabels immediately.
 
-The translation catalogs are bundled inside the app, so switching languages needs no download and no translation service ever sees your text. The choice is stored on this device and applies before you unlock a vault, so the Welcome and unlock screens are localized too.
+The translation catalogs ship with the app rather than arriving from a translation service, so no outside service ever sees your text or learns which language you read in. On the desktop app they are read from disk. In a browser, the catalog for the language you pick is loaded from the same address that served Myne, and from nowhere else. The choice is stored on this device and applies before you unlock a vault, so the Welcome and unlock screens are localized too.
 
 Because the catalogs ship with the app rather than arriving afterwards, a string added to the interface recently can still appear in English in a language whose translation has not landed yet. It is a small number of strings at any time, and the rest of that language is unaffected.
 
@@ -32,4 +32,4 @@ Because the catalogs ship with the app rather than arriving afterwards, a string
 
 ## Limits
 
-The language catalogs are compiled into the app, so changing languages makes no network request. The setting is a device-local interface preference stored outside the encrypted vault — it must work before you unlock — so it is not carried inside your notes and is not part of what your master password protects.
+The language catalogs come from the build you already have, so changing languages reaches no third party. In a browser it fetches that language's catalog from Myne's own address, and nothing else. The setting is a device-local interface preference stored outside the encrypted vault (it has to work before you unlock), so it is not carried inside your notes and is not part of what your master password protects.

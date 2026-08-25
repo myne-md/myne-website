@@ -1,8 +1,8 @@
 ---
 title: "Route sync through Tor"
 category: "settings-and-privacy"
-updated: 2026-08-13
-summary: "Send Myne's sync traffic through Tor so the sync server sees a Tor exit rather than your own address. It is off by default and lives behind Developer mode, and while Tor is connecting or unavailable sync pauses rather than falling back to a direct connection."
+updated: 2026-08-24
+summary: "Send Myne's sync traffic through Tor so the sync server sees a Tor exit rather than your own address. It is off by default and lives behind Developer mode, sync pauses rather than falling back to a direct connection while Tor is connecting or unavailable, and adding a server then takes its certificate fingerprint, obtained elsewhere."
 tags: ["sync", "privacy", "security", "settings"]
 ---
 
@@ -18,6 +18,10 @@ Myne can send its sync traffic through Tor. The sync server then sees a Tor exit
 
 Read this first, because it is the behaviour most likely to look like a bug. While Tor is connecting, and whenever the Tor client is unavailable, **sync pauses**. Myne does not quietly fall back to a direct connection — refusing to connect at all is the point of the setting. So the first sync after you turn it on is not instant, and a Tor client that fails to start leaves your notes unsynced until you either fix it or turn the setting off.
 
+There is a second thing to know first, and it is the one most likely to stop you. **With Tor routing on, Myne will not take a sync server's certificate on trust.** A first connection to a server is normally accepted on faith, and over Tor the relay that ends your circuit is in exactly the position to abuse that. So while Tor routing is on, adding a sync server, or joining a new device to one, asks you for the server's SHA-256 certificate fingerprint first: "Tor routing is on, so this device will not trust a certificate it has not been told to expect. Get your server’s SHA-256 certificate fingerprint from the server itself or from a device that is already connected, then paste it here."
+
+Get it from the machine running your server (`openssl x509 -noout -fingerprint -sha256 -in <your certificate file>`), or from a device already connected to the account, where Settings → Sync shows the same fingerprint. Do not fetch it over the connection you are trying to check: anything that could swap the certificate could swap that page too. If you cannot get it any of those ways, that server cannot be added while Tor routing is on, and the alternative the app offers is to turn Tor routing off and connect directly, which shows your address to the server and to whoever can watch your network. If what you paste does not match, nothing is saved, and Myne does not show you the fingerprint it saw: someone who could not find their own would otherwise copy the one on screen.
+
 ## Turning it on
 
 1. Open Settings from the gear in the bottom bar or with `⌘,`.
@@ -28,11 +32,11 @@ Read this first, because it is the behaviour most likely to look like a bug. Whi
 
 The switch records what you asked for. The **Right now** row below it reports what is actually happening, which is a different question — a Tor client that failed to start leaves the setting on and the tunnel down. Five states:
 
-- **Sync goes straight to the sync server** — the setting is off. This is the shipped default and a legitimate choice, not a fault.
-- **Connecting to Tor — sync is paused** — the client is starting. Nothing is being sent directly in the meantime.
-- **Sync is going through Tor** — the one state in which your sync traffic is actually routed.
-- **Tor is unavailable — sync is paused** — the client could not start or has stopped. Nothing is being sent directly. Turn the setting off and on again to try starting it, or turn it off to sync without Tor.
-- **Sync isn't using Tor — this address points at this device** — the sync server address you configured names this computer, so there is no circuit to route through. Sync is not paused. If that address forwards on to a server somewhere else, Myne cannot see that and cannot route it.
+- **Sync goes straight to the sync server**. The setting is off. This is the shipped default and a legitimate choice, not a fault.
+- **Connecting to Tor: sync is paused**. The client is starting. Nothing is being sent directly in the meantime.
+- **Sync is going through Tor**. The one state in which your sync traffic is actually routed.
+- **Tor is unavailable: sync is paused**. The client could not start or has stopped. Nothing is being sent directly. Turn the setting off and on again to try starting it, or turn it off to sync without Tor.
+- **Sync isn't using Tor: this address points at this device**. The sync server address you configured names this computer, so there is no circuit to route through. Sync is not paused. If that address forwards on to a server somewhere else, Myne cannot see that and cannot route it.
 
 ## Turning it off
 
@@ -42,7 +46,7 @@ Switch **Route sync through Tor** off. New connections go straight to the sync s
 
 The panel keeps this list behind a **What this doesn't hide** disclosure, and it is worth reading before you rely on the setting:
 
-- The last relay in a Tor circuit — the exit node — sees which sync server you connect to. It cannot read what you sync; that stays encrypted end to end.
+- The last relay in a Tor circuit, the exit node, sees which sync server you connect to. It cannot read what you sync; that stays encrypted end to end.
 - The sync server still sees when you sync, how many blobs you push and how large they are, and how many devices you have. Tor does not change that.
 - If you pay for hosted sync, the payment and your account can still be linked to you. Tor changes where the connection comes from, not the billing trail.
 - Only Myne's own sync traffic goes through Tor. Nothing else on this device does.

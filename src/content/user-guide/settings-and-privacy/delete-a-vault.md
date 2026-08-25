@@ -1,8 +1,8 @@
 ---
 title: "Delete a vault"
 category: "settings-and-privacy"
-updated: 2026-08-13
-summary: "How to permanently delete a vault from your device, what is removed, and why a deleted vault cannot be brought back by your recovery phrase."
+updated: 2026-08-24
+summary: "How to permanently delete a vault from your device, what is removed, why a deleted vault cannot be brought back by your recovery phrase, and why the same control in a browser erases that browser's copy rather than the vault."
 tags: ["vault", "security"]
 ---
 
@@ -20,7 +20,15 @@ If some files can't be removed in the moment, such as a permissions or lock issu
 
 A deleted vault **cannot be undone**, and your **recovery phrase will not bring it back**. The phrase unlocks a vault; it does not recreate one that no longer exists on disk. Once the files are gone and the keys are wiped, there is nothing left to unlock.
 
+Two smaller things go with the vault. If this device had stored that vault's name for the lock screen, deletion destroys the key that name was sealed under and removes the stored copy, so the name cannot be read back here. And the neutral placeholders the picker shows for vaults it has no name for are numbered in a fixed order, so deleting a vault moves every vault that sorted after it down by one, turning a **Vault 3** into a **Vault 2**. See [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/).
+
 One thing deletion does **not** reach: your backups. A `.myne-backup` you exported before deleting still contains the whole vault, and restoring it brings the vault back. Deleting the live vault does nothing to copies you have already made. That is the safety net if you delete something you shouldn't have, and the thing to remember if you meant the deletion to be complete.
+
+## In a browser
+
+In a browser this is a different operation, and the screen says so: the heading reads **Sign out and erase this browser's copy**, not Delete vault. What it removes is Myne's copy of the vault held in that browser. The app states the bound in full: "This erases Myne's copy of your vault from this browser only. Your account and everything already synced stay on the server, and signing in here again brings them back. It is not an account deletion and not a remote wipe. Anything this browser has not synced yet is lost for good."
+
+The reason is that a browser's copy is a cache of a vault the sync server holds, never the only copy, which is what the rest of this article assumes. If what you want is the permanent deletion described above, do it from the desktop app.
 
 ## Limits
 

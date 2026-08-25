@@ -1,7 +1,7 @@
 ---
 title: "Find and replace in a note"
 category: "editor-and-writing"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "Open the in-note find bar with ⌘F to search the current note, step through matches, toggle case sensitivity, and reveal a replace row for replace-one or one-undo replace-all."
 tags: ["editor", "search"]
 ---
@@ -12,7 +12,7 @@ The in-note find bar searches the note you are reading. Press `⌘F` (or `Ctrl F
 
 ## Opening the find bar
 
-Press `⌘F` (or `Ctrl F`) while a note is open. A bar docks at the top of the editor pane with a **Find in note** input, and the cursor lands in it ready to type. The search is literal: it matches the exact substring you type, with no regular expressions, and it covers only the one open note. As you type, every match in the note is highlighted and a live `k/N` count appears, where `k` is the match you are on and `N` is the total. If nothing matches, the bar reads **No matches**.
+Press `⌘F` (or `Ctrl F`) while a note is open. A bar docks at the top of the editor pane with a **Find in note** input, and the cursor lands in it ready to type. If you had text selected when you pressed the chord, that text is already in the box and already searched: one line of selected text becomes the query, while a selection spanning several lines, or none at all, leaves the box as you left it. The search is literal: it matches the exact substring you type, with no regular expressions, and it covers only the one open note. As you type, every match in the note is highlighted and a live `k/N` count appears, where `k` is the match you are on and `N` is the total. If nothing matches, the bar reads **No matches**.
 
 Press `⌘F` again while the bar is open and it refocuses the input and selects its contents, rather than closing. Press Esc to close the bar. The command palette can open it too — **Find in note** and **Find and replace in note** both live in the palette's **Editor** category. `⌘F` is the default chord and can be changed in [Customizing keyboard shortcuts](/user-guide/settings-and-privacy/custom-hotkeys/), where the command is listed under **General** as **Find in note**.
 

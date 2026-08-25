@@ -1,8 +1,8 @@
 ---
 title: "Reading sync status"
 category: "sync-and-devices"
-updated: 2026-08-22
-summary: "How to read the sync status indicator and the banners: the coloured status dot, the named failure states and what each one means, the manual sync-now action, the first-sync download count, the catching-up notice, the notice after a vault was upgraded elsewhere, and the honest integrity alert when Myne rejects out-of-date or altered data."
+updated: 2026-08-25
+summary: "How to read the sync status indicator and the banners: the coloured status dot, the named failure states including a changed server certificate, the manual sync-now action, the first-sync download count, the banner that appears once sync has been failing for days, and the honest integrity alert when Myne rejects out-of-date or altered data."
 tags: ["sync", "security"]
 ---
 
@@ -25,12 +25,21 @@ Under **Settings → Sync → Sync status**, a coloured dot and a short label sh
 Where Myne can name the reason a sync failed, it does so instead of showing the generic error, because each one has a different remedy:
 
 - **Sync sign-in expired** — this device's access was rejected. Add it again from **Devices**.
-- **Sync throttled — retrying** — the server is rate-limiting this account. There is nothing to do; the next attempt is spaced out.
-- **Storage full — uploads paused**, **A file is too large to upload** and **Account frozen — uploads paused** — the three states covered in [Storage and account limits](/user-guide/sync-and-devices/storage-and-limits/).
-- **Storage full — syncing paused** — this device's own disk is full, not your account's ceiling. Free space on the machine.
+- **Sync throttled: retrying**. The server is rate-limiting this account. There is nothing to do; the next attempt is spaced out.
+- **Storage full: uploads paused**, **A file is too large to upload** and **Account frozen: uploads paused**. These are the three states covered in [Storage and account limits](/user-guide/sync-and-devices/storage-and-limits/).
+- **Storage full: syncing paused**. This device's own disk is full, not your account's ceiling. Free space on the machine.
 - **This device was removed from your account** — someone removed it from another device; see [Managing devices](/user-guide/sync-and-devices/managing-devices/).
+- **Server certificate changed: verify it to reconnect**. The server answered, but with a different certificate than the one this device pinned. Myne stops rather than retrying; see below.
 
 A **Sync now** button triggers an immediate sync. It is hidden when there is nothing to trigger — when sync is off, when the device is not enrolled, or while it is awaiting approval.
+
+## The server's certificate changed
+
+Certificates are renewed on a schedule, so a pinned one is replaced eventually. When that happens the indicator reads **Server certificate changed: verify it to reconnect**, and Myne stops retrying, because every retry would reach the same replacement certificate.
+
+**Settings → Sync → Devices** says it in full, "The sync server answered, but with a different certificate than the one this device pinned.", and then states the position plainly: "This is what a renewed certificate looks like, and also what an impostor looks like. Myne cannot tell them apart, so it will not guess. Get the fingerprint from your server, then re-enter the server URL under **Sync server** above and paste it in when asked."
+
+That is the whole remedy, and [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/) walks through it. **Reset sync on this device** is deliberately not offered in this state: a reset clears this device's local sync state, and would not change which certificate it trusts.
 
 ## Per-note status, in the sidebar and the bottom bar
 
@@ -50,9 +59,15 @@ Hover either mark for the longer sentence.
 
 If a device has been offline for a while, its next sync may do a fuller reconcile to catch up. During that, a reassuring, dismissable banner appears: it says the device was offline for a while and is catching up, and that your notes are safe. It is informational, does not block the editor, and never implies data loss.
 
+## When sync has been failing for days
+
+A sync failure lasting four seconds and one lasting four days look identical in the status indicator, and the indicator lives in Settings, which you have no reason to open while your notes are saving normally. So once about three days have passed with no successful sync, a banner appears in the editor: "Myne hasn’t reached the sync server in several days. Your notes are saving on this device, but nothing has left it, so this is the only copy. Open Settings → Sync to see why."
+
+It names no date and no elapsed time, because it answers a threshold rather than keeping a record of when you last synced. **Dismiss** hides it for the outage in front of you, and it re-arms once sync works again, so a dismissal does not cover the next one. A device that has never synced does not get it, because a device part-way through setup is not stale.
+
 ## The first-sync download notice
 
-When a device pulls a vault for the first time, a notice counts the notes as they arrive — "Downloading your notes — 40 of 900". It is a count rather than a percentage or an estimate, because how long the rest takes depends on the machine and the connection. You can start working while it runs; the remaining notes appear as they land.
+When a device pulls a vault for the first time, a notice counts the notes as they arrive: "Downloading your notes: 40 of 900". It is a count rather than a percentage or an estimate, because how long the rest takes depends on the machine and the connection. You can start working while it runs; the remaining notes appear as they land.
 
 ## The vault was upgraded elsewhere
 

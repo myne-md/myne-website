@@ -1,7 +1,7 @@
 ---
 title: "Drawings"
 category: "notes-and-organization"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "A drawing is an ordinary note you draw in rather than type in. Make one from the sidebar, from a folder, or from the new-tab chooser, or type /drawing to create one beside the note you are writing and embed it inline as an editable canvas."
 tags: ["notes", "editor", "markdown"]
 ---
@@ -33,7 +33,7 @@ The embed renders as a thumbnail of the drawing. Click it, or the **Edit** butto
 
 Whether an embed is open or collapsed is interface state and nothing more. It is never written into the note, so the note's text is the same `![[Drawing 1]]` either way. In reading mode an embedded drawing is always the thumbnail — reading mode does not edit, so it does not open a canvas.
 
-An empty drawing shows **Empty drawing — click to draw** instead of a blank frame, so a drawing you made and have not drawn in yet does not read as broken.
+An empty drawing shows **Empty drawing: click to draw** instead of a blank frame, so a drawing you made and have not drawn in yet does not read as broken.
 
 ## Renaming and removing
 

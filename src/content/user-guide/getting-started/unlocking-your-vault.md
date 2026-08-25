@@ -1,7 +1,7 @@
 ---
 title: "Unlocking your vault"
 category: "getting-started"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "How to unlock an existing vault with your master password each time you open Myne, what the unlock screen shows, and what it means for a vault to be locked."
 tags: ["vault", "security"]
 ---
@@ -46,7 +46,7 @@ The third door, **Add this device to an account**, is for a vault that already e
 
 ## Locking the vault
 
-The bottom bar has a **Lock vault** control. Selecting it locks the vault immediately and returns you to the Unlock screen, which is useful when you leave your desk. Myne also locks the vault on its own after a period of inactivity; the timing and the screen-capture protection that goes with it are covered in [Auto-lock and screen-capture protection](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/).
+The bottom bar has a **Lock** control, next to Settings. Selecting it locks the vault immediately and returns you to the Unlock screen, which is useful when you leave your desk. The command palette carries the same action, listed there as **Lock vault**. Myne also locks the vault on its own after a period of inactivity; the timing and the screen-capture protection that goes with it are covered in [Auto-lock and screen-capture protection](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/).
 
 ## Limits
 

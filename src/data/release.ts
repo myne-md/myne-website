@@ -29,9 +29,9 @@
  * which is the thing this file exists to check.
  */
 
-export const RELEASE_TAG = "v0.5.0";
-export const RELEASE_VERSION = "0.5.0";
-export const RELEASE_DATE = "2026-08-13";
+export const RELEASE_TAG = "v0.6.0";
+export const RELEASE_VERSION = "0.6.0";
+export const RELEASE_DATE = "2026-08-26";
 
 /** Pre-1.0. The download page frames every artefact with this. */
 export const RELEASE_CHANNEL = "early access · pre-alpha";
@@ -57,39 +57,34 @@ export interface ReleaseAsset {
 
 export const ASSETS: ReleaseAsset[] = [
   {
-    name: "Myne_0.5.0_universal.dmg",
-    bytes: 537064404,
-    sha256: "4597613c34335feb3a1700162940889d1f1d77ad7aa2e29c63fc7ecbff88cb18",
+    name: "Myne_0.6.0_universal.dmg",
+    bytes: 538244457,
+    sha256: "ba5d360852c338b47e1fbcde3e5d409acb4a7ced4141342b1e513792f7d22cae",
   },
   {
-    name: "Myne_0.5.0_amd64.deb",
-    bytes: 496076406,
-    sha256: "e4ea227ba1df344cd52fccb82f1a2d562b7d2948b38d880b0252f9d87fa805a9",
+    name: "Myne_0.6.0_amd64.deb",
+    bytes: 496703512,
+    sha256: "d418dd78bbbf3d27ec1a6568d206a72220840fbfda063017b321dcfd813d3753",
   },
   {
-    name: "Myne_0.5.0_arm64.deb",
-    bytes: 495536818,
-    sha256: "ae61c5ae523460d80c03ac8090c674e57d2c197216c5543eb8be8b5d63a9c14d",
+    name: "Myne_0.6.0_arm64.deb",
+    bytes: 496115110,
+    sha256: "8dd379767c8d330cc69ac2f6f0d440bb1ffa0ae69b8ec541432237ead430f673",
   },
   {
-    name: "Myne_0.5.0_amd64.AppImage",
-    bytes: 590428664,
-    sha256: "4503f31337319ee2d2675e63268024c84798cc171598dae36515d3cb6afbfbbd",
+    name: "Myne_0.6.0_amd64.AppImage",
+    bytes: 590993912,
+    sha256: "a8af41651734544710e1e6c7ba211086dad8be00d825a1701a2741d54e6bbe3a",
   },
   {
-    name: "Myne_0.5.0_aarch64.AppImage",
-    bytes: 585619976,
-    sha256: "41dc4727dbaa17ba86a742041ebf2fca7f93e5712636971f1519e2b40021c26e",
+    name: "Myne_0.6.0_aarch64.AppImage",
+    bytes: 586156552,
+    sha256: "c18010da272b5e874b3f3669ed2079ce3b217beb6d190d38a8b9a8f3ae23ac1c",
   },
   {
-    name: "myne-bin-0.5.0-1-x86_64.pkg.tar.zst",
-    bytes: 494781926,
-    sha256: "07c29b07970cb922e8f2d17ad7f1747f04497d73d5225fd08a5e8b20374e74c8",
-  },
-  {
-    name: "Myne_0.5.0_universal.apk",
-    bytes: 286730485,
-    sha256: "33acf5b0c047f6a6aaa13835ee3ffed7a475ba22d47723070db9cb14b7bb0ee6",
+    name: "myne-bin-0.6.0-1-x86_64.pkg.tar.zst",
+    bytes: 495326918,
+    sha256: "169e616a7d550c8e730f25e0dad02b8ea3fdb646ce1331082d132e3bd4577a67",
   },
 ];
 

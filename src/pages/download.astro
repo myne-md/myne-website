@@ -6,6 +6,7 @@ import { PLATFORM_ICON } from "../data/platformIcons";
 import { absoluteOg } from "../lib/og";
 import {
   RELEASE_TAG,
+  RELEASE_VERSION,
   RELEASE_CHANNEL,
   RELEASE_BASE,
   RELEASE_DATE,
@@ -36,7 +37,7 @@ const platforms = [
     sub: "Universal · .dmg",
     note: "macOS 11 Big Sur or later · Apple Silicon + Intel",
     d: PLATFORM_ICON.apple,
-    downloads: [{ label: "Universal .dmg", name: "Myne_0.5.0_universal.dmg" }],
+    downloads: [{ label: "Universal .dmg", name: `Myne_${RELEASE_VERSION}_universal.dmg` }],
   },
   {
     os: "Windows",
@@ -51,11 +52,11 @@ const platforms = [
     note: "x86-64 and arm64 for both formats. No screen-capture exclusion on Linux.",
     d: PLATFORM_ICON.linux,
     downloads: [
-      { label: "AppImage · x86-64", name: "Myne_0.5.0_amd64.AppImage" },
-      { label: "AppImage · arm64", name: "Myne_0.5.0_aarch64.AppImage" },
-      { label: ".deb · x86-64", name: "Myne_0.5.0_amd64.deb" },
-      { label: ".deb · arm64", name: "Myne_0.5.0_arm64.deb" },
-      { label: "Arch · x86-64", name: "myne-bin-0.5.0-1-x86_64.pkg.tar.zst" },
+      { label: "AppImage · x86-64", name: `Myne_${RELEASE_VERSION}_amd64.AppImage` },
+      { label: "AppImage · arm64", name: `Myne_${RELEASE_VERSION}_aarch64.AppImage` },
+      { label: ".deb · x86-64", name: `Myne_${RELEASE_VERSION}_amd64.deb` },
+      { label: ".deb · arm64", name: `Myne_${RELEASE_VERSION}_arm64.deb` },
+      { label: "Arch · x86-64", name: `myne-bin-${RELEASE_VERSION}-1-x86_64.pkg.tar.zst` },
     ],
   },
 ];
@@ -82,11 +83,26 @@ const extensions = [
 ];
 
 /**
- * Android ships an `.apk` for sideloading; iOS does not, deliberately. An
- * `.ipa` needs a developer certificate to install, so publishing one hands
- * almost every reader a file they cannot open.
+ * Neither mobile platform ships an installable file in this release. iOS never
+ * has, deliberately: an `.ipa` needs a developer certificate to install, so
+ * publishing one hands almost every reader a file they cannot open. Android has
+ * shipped an `.apk` before and will again, which is why `download` stays in the
+ * shape rather than being removed.
+ *
+ * The annotation is load-bearing: with every entry's `download` currently null,
+ * inference narrows the property to `null` and every `it.download.name` in the
+ * markup becomes an error on `never`. Typing the array keeps the branch that
+ * renders a download compiling for the release that has one again.
  */
-const mobile = [
+type MobileRow = {
+  os: string;
+  status: string;
+  note: string;
+  d: string;
+  download: { label: string; name: string } | null;
+};
+
+const mobile: MobileRow[] = [
   {
     os: "iOS",
     status: "not yet",
@@ -96,10 +112,10 @@ const mobile = [
   },
   {
     os: "Android",
-    status: "sideload",
-    note: "The same 256 MiB Argon2id unlock as desktop — the KDF is never weakened to fit a device. Not on Play Store: install it yourself, which Android will ask you to allow.",
+    status: "not yet",
+    note: "The same 256 MiB Argon2id unlock as desktop, and the KDF is never weakened to fit a device. No build is published for this release, so there is nothing here to install yet.",
     d: PLATFORM_ICON.android,
-    download: { label: "Universal .apk", name: "Myne_0.5.0_universal.apk" },
+    download: null,
   },
 ];
 

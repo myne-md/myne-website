@@ -1,7 +1,7 @@
 ---
 title: "Create your vault"
 category: "getting-started"
-updated: 2026-08-24
+updated: 2026-08-25
 summary: "The vault-creation wizard — a short safety briefing, then set a master password, save your recovery phrase, confirm a few words, and save your account number — and the one consequence to understand before you start."
 tags: ["vault", "basics"]
 ---
@@ -44,7 +44,7 @@ It is not a password, but it is not nothing either. If you use sync, anyone who 
 
 **Copy** tells you whether it worked, so a failed copy does not look like a successful one. What happens to the clipboard afterwards depends on where you are. On the desktop, Myne clears it after 30 seconds, and that clear runs inside Myne, so quitting within those 30 seconds leaves the number on the clipboard. On Android the clear is not selective: it cannot read the clipboard to check what is on it, so anything you copy inside those 30 seconds is cleared too. **In a browser nothing is cleared at all.** A page is not allowed to read the clipboard back, so no timer is scheduled, and the account number stays there until you copy something else.
 
-**Save as file** differs in the same way. On the desktop it opens a save dialog and you pick the folder, and where your operating system supports it Myne writes the file readable only by your own user account. In a browser it is an ordinary download, landing wherever your browser puts downloads. Either way the result is a plain text file that anyone who reaches that location can read, so move it somewhere safe and delete the local copy.
+**Save as file** differs in the same way, and so does what it can tell you afterwards. On the desktop it opens a save dialog and you pick the folder, and where your operating system supports it Myne writes the file readable only by your own user account, so it can say whether the write landed. In a browser it is an ordinary download, landing wherever your browser puts downloads, and there Myne can only confirm the download was sent: your browser chooses where the file goes and never tells the page whether it arrived. Either way the result is a plain text file that anyone who reaches that location can read, so move it somewhere safe and delete the local copy.
 
 ## Your vault is ready
 

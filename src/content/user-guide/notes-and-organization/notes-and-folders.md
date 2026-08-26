@@ -1,7 +1,7 @@
 ---
 title: "Notes and folders"
 category: "notes-and-organization"
-updated: 2026-08-24
+updated: 2026-08-25
 summary: "How to create, rename, move, and delete notes and folders in Myne: the sidebar's + menu, the editor's Note actions menu, where a note's title actually comes from, how folders nest and stay private, and how autosave keeps your edits."
 tags: ["notes", "folders"]
 ---
@@ -45,6 +45,10 @@ Myne autosaves; there is no save button. Concretely:
 - It also flushes immediately when you switch away from the window, lock the vault, or close the app.
 
 So in a normal session nothing is ever unsaved for long. In the worst case, a hard crash or power loss mid-edit, you could lose **at most about the last ten seconds** of typing. If a save ever fails, Myne shows the error and a **Retry** so you know, rather than failing silently. Each note also records its own "last edited" time inside the encrypted note.
+
+While a save is failing, actions that would rewrite the same note from disk are **declined rather than half-applied**: renaming a note or a folder, setting a cover, turning a note into a template, ticking a task from the Tasks panel. Myne says an open note has not finished saving and leaves the note alone. That is deliberate. Those actions read the file, change one field and write it back, so running one against a note whose newest text is still in the editor would write over your typing. Nothing is lost either way, and the action works normally as soon as the save lands.
+
+One action can land partly, and it is worth knowing which. Renaming a **folder** moves every note in it in a single all-or-nothing write, and then records separately that the folder is one you created. If that second, smaller write fails, the rename itself has still happened: Myne says so, and an empty folder may reappear under the old name the next time you open the vault. Deleting it then is safe.
 
 ## Setting notes aside
 

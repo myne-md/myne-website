@@ -1,7 +1,7 @@
 ---
 title: "Reading sync status"
 category: "sync-and-devices"
-updated: 2026-08-24
+updated: 2026-08-25
 summary: "How to read the sync status indicator and the banners: the coloured status dot, the named failure states including a changed server certificate, the manual sync-now action, the first-sync download count, the banner that appears once sync has been failing for days, and the honest integrity alert when Myne rejects out-of-date or altered data."
 tags: ["sync", "security"]
 ---
@@ -40,6 +40,20 @@ Certificates are renewed on a schedule, so a pinned one is replaced eventually. 
 **Settings → Sync → Devices** says it in full, "The sync server answered, but with a different certificate than the one this device pinned.", and then states the position plainly: "This is what a renewed certificate looks like, and also what an impostor looks like. Myne cannot tell them apart, so it will not guess. Get the fingerprint from your server, then re-enter the server URL under **Sync server** above and paste it in when asked."
 
 That is the whole remedy, and [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/) walks through it. **Reset sync on this device** is deliberately not offered in this state: a reset clears this device's local sync state, and would not change which certificate it trusts.
+
+## Per-note status, in the sidebar and the bottom bar
+
+The status row above is about the device. It says nothing about any one note, and the two can disagree in exactly the case that matters: a device sitting happily at **Synced** can still be holding a note the server has never seen, because the last cycle failed or the machine was offline when you wrote it.
+
+So each note carries its own small mark, in the sidebar row and again beside the save readout at the bottom of the editor, and both use the same three shapes:
+
+- a **filled dot** means settled. Nothing is owed for that note.
+- an **arc with a gap in it, standing still**, means something is outstanding. The note is not on the server yet, or what you just typed is not written to disk yet. An arc that is not moving is not a problem; it is the ordinary state of a note you are working on, and of every note on a laptop that is offline.
+- the **same arc, turning**, means it is happening right now. A save being written, or a push in flight.
+
+The distinction is deliberate. A mark that spun the whole time a note was unsynced would spin for days on a machine with no connection, and a spinner that never stops stops meaning anything. The arc turns only while Myne is actually doing something.
+
+Hover either mark for the longer sentence.
 
 ## The catching-up notice
 

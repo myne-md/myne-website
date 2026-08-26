@@ -1,7 +1,7 @@
 ---
 title: "Tasks"
 category: "notes-and-organization"
-updated: 2026-08-24
+updated: 2026-08-25
 summary: "How tasks work in Myne: checkbox lines that carry due, reminder, priority, and repeat chips you set from controls rather than typing, whole-note tasks, a Tasks panel and an embedded task-list block, and local reminders — all kept as plain markdown inside your notes."
 tags: ["notes", "editor", "markdown", "import"]
 ---
@@ -10,7 +10,9 @@ A task in Myne is a line, or a whole note, that you have marked as a unit of wor
 
 ## Line-tasks and their fields
 
-A **line-task** is a checkbox list item: `- [ ]` for an open item and `- [x]` for a done one. The checkbox is clickable, and toggling it marks the task done in place. Markdown checkboxes are also covered in [Markdown basics](/user-guide/markdown/markdown-basics/).
+A **line-task** is a checkbox list item: `- [ ]` for an open item and `- [x]` for a done one. The checkbox is clickable in Live preview and in Source, and toggling it marks the task done in place. In **Reading** view, and in the reading pane beside the editor, the checkbox is shown but does nothing: those surfaces never change the note, so the box is drawn dimmed and does not take focus rather than looking live and quietly discarding the tick. Markdown checkboxes are also covered in [Markdown basics](/user-guide/markdown/markdown-basics/).
+
+Move the caret into the checkbox, or select across it, and the checkbox turns back into the `- [ ]` it is written as, the way every other piece of markdown in Myne shows its source when you are inside it. It becomes a checkbox again as soon as you move away. Selecting a whole task row is worth knowing about for the same reason: the row is selected as source, so what you copy is `- [x] the task`, which pastes into any other markdown editor as the task it was.
 
 A line-task can carry four inline fields — a due date, a reminder, a priority, and a repeat rule — which render as small chips at the end of the line while you write. Click a chip to open its editor:
 
@@ -21,9 +23,13 @@ A line-task can carry four inline fields — a due date, a reminder, a priority,
 
 Editing any one field rewrites every field on that line into Myne's own form, in a single step you can undo as one action. A value Myne cannot read — an impossible date like `2026-02-31`, for example — is left exactly as you wrote it and shown as raw text with a quiet hint, rather than being corrected.
 
+### Leaving a task list
+
+Press Enter at the end of a task and Myne opens the next one for you. Press it again on that empty task and the checkbox goes away, leaving a plain line directly underneath, which is how you get out of a list without deleting anything by hand. There is no third press to wait through and no blank line left behind.
+
 ### Adding a field
 
-You never have to type the field syntax by hand. Put the caret on a task line and a **+** appears at the end of it; click it for a menu of the four fields. The `/due`, `/remind`, `/repeat`, and `/priority` slash commands open the same editors directly. If the caret is on an ordinary line rather than a task, Myne turns it into `- [ ] ` first, because asking for a due date implies a task. Choosing a field the line already carries opens it for editing rather than adding a second one.
+You never have to type the field syntax by hand. Put the caret on a task line and a **+** appears at the end of it; click it for a menu of the four fields. It is a caret affordance, so it steps out of the way while you have text selected on that line. The `/due`, `/remind`, `/repeat`, and `/priority` slash commands open the same editors directly. If the caret is on an ordinary line rather than a task, Myne turns it into `- [ ] ` first, because asking for a due date implies a task. Choosing a field the line already carries opens it for editing rather than adding a second one.
 
 ### The repeat control
 
@@ -97,3 +103,6 @@ Task lists and query blocks are read-only projections over your notes. The only 
 |---|---|---|
 | Show tasks | ⌘⇧T | Ctrl Shift T |
 | Toggle task list | ⌘⇧M | Ctrl Shift M |
+| Select to the start of the task text | ⌘⇧← | Home Shift |
+| Select the whole row, checkbox included | ⌘⇧← twice | Home Shift twice |
+| Delete back to the start of the task text | ⌘⌫ | Ctrl Backspace |

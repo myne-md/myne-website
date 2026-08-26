@@ -1,7 +1,7 @@
 ---
 title: "Myne in your browser"
 category: "getting-started"
-updated: 2026-08-24
+updated: 2026-08-25
 summary: "Myne runs in a desktop browser at app.example.com as a second client, with nothing to install. It is the same app compiled for the browser, holding an encrypted copy of a synced vault. You can create an account here or sign in to one you already have, and how the client's code reaches you differs from the desktop app."
 tags: ["basics", "sync", "devices", "privacy", "security"]
 ---
@@ -14,7 +14,8 @@ The browser client is a window onto a synced vault, never a standalone one. Beca
 
 - **A sync server to reach.** The browser holds an encrypted copy of a vault that arrives over sync, so the account needs a server. Creating a brand-new account here registers it with the sync server as part of setup. If you already have an account and have not connected a server yet, start with [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/).
 - **One account per browser profile.** A browser origin holds a single vault. Once this browser holds an account, creating a second one tells you to open the Myne desktop app or use a different browser profile.
-- **Another device already signed in, when you are joining an account that exists.** A browser signing in to an existing account enrolls as a new device and stays pending until an approved device confirms it; the browser cannot approve itself. Keep a desktop, mobile, or already-approved browser handy. Creating a brand-new account needs no second device, because there is nothing yet to approve it against.
+- **Another device already signed in, when you are joining an account that exists.** A browser signing in to an existing account enrolls as a new device and stays pending until an approved device confirms it; the browser cannot approve itself. Keep a desktop, mobile, or already-approved browser handy. Creating a brand-new account needs no second device, because there is nothing yet to approve it against, and neither does recovering one with the 24 words: a recovery-path browser is admitted on the strength of the phrase itself. That is deliberate rather than an oversight, and it is the reason those words are worth guarding, because whoever holds them plus your account number is admitted the same way you are.
+- **The 24 words are generated, shown and typed in the browser** on the create, recover and password-reset paths, which they were not before the 2026-08-15 change. The difference from the desktop app is the one below and only that one: the code doing it arrives from a server on every load. If you would rather the phrase never touch a browser, do those steps in the desktop app; see [Install Myne](/user-guide/getting-started/install/).
 - **A desktop browser.** Phones and tablets are refused before anything loads, because the browser client is the desktop-browser client and the native mobile app is a better fit on a touch device.
 - **Accepting the beta terms.** A device does not sync until the person at that device has accepted them, and this client cannot reach your vault any other way.
 

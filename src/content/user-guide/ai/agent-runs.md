@@ -23,7 +23,7 @@ The AI can do more than answer questions about your notes: it can propose change
 
 Notes at the top level of your vault are not offered as a folder. With no note open and no folder attached there is nothing for a run to work on, so **Send** stays greyed out and nothing on screen says why.
 
-The run appears in the same conversation as your questions. When it stops, its turn stays there with what it proposed and three figures about the run itself: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider. You can look back at all of it after the review screen is closed.
+The run appears in the same conversation as your questions. When it stops, its turn stays there with what it proposed and three figures about the run itself: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider. You can look back at all of it once the review screen has gone.
 
 A run stops for one of five reasons, and its turn says which: it finished, you stopped it, it is waiting for you to widen its scope, it made too many steps, or it stopped making progress. That last one means the model stopped producing changes Myne could use, three replies in a row that proposed nothing new. It is a statement about the model rather than about your notes, and the fix is a different model rather than a different request. Anything it had already proposed before that point still goes to the review screen.
 
@@ -43,6 +43,10 @@ When it finishes, a review screen opens with everything it proposes, grouped by 
 
 Nothing reaches your notes before this step. If you close the review without approving, nothing was written.
 
+**The review closes itself when there is nothing left to decide.** Once you have approved, if nothing was refused and no row is still waiting on you, the screen goes and you are back in your editor. It stays open otherwise, and each reason is one you need to see: a change that could not be placed, a row you have neither approved nor rejected, a note the run created, or an apply that failed outright. A review still on screen after you approved is telling you something rather than waiting for a click.
+
+What you see after it closes is the undo offer at the top of the AI panel, which names how many notes the run changed.
+
 ### Applying automatically
 
 In **Apply automatically** nothing is held back for your approval: what the AI proposed is written as soon as the run ends, and the run's turn tells you what changed. Three things still hold, and they are what make this a different amount of trust rather than none.
@@ -55,9 +59,9 @@ Every change still takes a snapshot before it is written, and the undo offer sit
 
 One thing this mode does not do: it does not read your notes any differently, and it does not send more of them anywhere. It changes when a proposal is written, not what the AI is allowed to see.
 
-If the review screen does open after an automatic apply, it is a report rather than a decision. Every row on it is already marked **Applied**, and **Undo this run** still works from there.
+The review screen does not open when the apply succeeds. Nothing is held for your approval, so there is nothing to review; what tells you what happened is the run's own turn in the conversation and the undo offer above the composer.
 
-If the automatic apply fails outright, nothing is written and the composer says so: **The changes could not be applied automatically. Nothing was written; open the review to apply them yourself.** The manual path stays open, so a failed automatic apply costs you the convenience rather than the proposal.
+If the automatic apply fails outright, nothing is written and the composer says so: **The changes could not be applied automatically. Nothing was written; open the review to apply them yourself.** The proposal survives, so the review screen opens with everything the run proposed still on it: a failed automatic apply costs you the convenience rather than the proposal.
 
 ## Widening what it can touch
 
@@ -87,7 +91,7 @@ The reason all five need their own click is the same: at the diff level, each of
 
 Approving takes a snapshot of every note the run is about to **change**, so those changes can be undone as one action. If Myne cannot take those snapshots, it refuses to write at all rather than making a change you could not reverse.
 
-The Undo button is on the review screen, and it stays available after you close that screen: it moves to the top of the AI panel, so closing the review is not the same as accepting what happened. The offer lasts until you run the agent again or lock your vault, whichever comes first. After that the same snapshots are still there, in each note's own **Snapshots** history, one note at a time.
+The Undo button is on the review screen, and it stays available once that screen has gone, whether you closed it or it closed itself: it moves to the top of the AI panel, so the review going away is not the same as accepting what happened. The offer lasts until you run the agent again or lock your vault, whichever comes first. After that the same snapshots are still there, in each note's own **Snapshots** history, one note at a time.
 
 Notes the run **created** are not part of that undo, and Myne says so when you use it. A new note has no earlier version to go back to, so removing one means moving it to Trash yourself.
 

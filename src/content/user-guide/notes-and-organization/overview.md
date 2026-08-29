@@ -20,7 +20,7 @@ Once you have more than a handful of notes, organization starts to matter. Myne 
 - **[Pinned and stacked tabs](/user-guide/notes-and-organization/pinned-and-stacked-tabs/)**: pinning a tab so navigation leaves it alone, and switching a pane to a stacked deck.
 - **[Named workspaces](/user-guide/notes-and-organization/named-workspaces/)**: saving the current editor layout under a name and switching between layouts.
 - **[Templates](/user-guide/notes-and-organization/templates/)**: reusable note structures, with a small set of placeholders.
-- **[Daily notes](/user-guide/notes-and-organization/daily-notes/)**: one note per day, on demand.
+- **[Periodic notes](/user-guide/notes-and-organization/periodic-notes/)**: one note per day, week or month, on demand.
 - **[Drawings](/user-guide/notes-and-organization/drawings/)**: a note you draw in rather than type in, on its own or embedded inside a note you are writing.
 - **[Tasks](/user-guide/notes-and-organization/tasks/)**: checkbox line-tasks with due, priority, and repeat chips, whole-note tasks, a Tasks panel, and an embedded task-list block.
 - **[Saved views](/user-guide/editor-and-writing/saved-views/)**: filtered, projected card galleries of your notes in the Views sidebar section.

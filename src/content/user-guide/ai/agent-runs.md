@@ -59,9 +59,9 @@ Every change still takes a snapshot before it is written, and the undo offer sit
 
 One thing this mode does not do: it does not read your notes any differently, and it does not send more of them anywhere. It changes when a proposal is written, not what the AI is allowed to see.
 
-The review screen does not open in this mode. Nothing is held for your approval, so there is nothing to review; what tells you what happened is the run's own turn in the conversation and the undo offer above the composer.
+The review screen does not open when the apply succeeds. Nothing is held for your approval, so there is nothing to review; what tells you what happened is the run's own turn in the conversation and the undo offer above the composer.
 
-If the automatic apply fails outright, nothing is written and the composer says so: **The changes could not be applied automatically. Nothing was written; open the review to apply them yourself.** The manual path stays open, so a failed automatic apply costs you the convenience rather than the proposal.
+If the automatic apply fails outright, nothing is written and the composer says so: **The changes could not be applied automatically. Nothing was written; open the review to apply them yourself.** The proposal survives, so the review screen opens with everything the run proposed still on it: a failed automatic apply costs you the convenience rather than the proposal.
 
 ## Widening what it can touch
 

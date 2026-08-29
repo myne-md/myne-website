@@ -1,7 +1,7 @@
 ---
 title: "A tour of the interface"
 category: "getting-started"
-updated: 2026-08-13
+updated: 2026-08-29
 summary: "A guided tour of the main Myne window: the note sidebar and its plus menu, the tab strip and editor with its note-actions menu, the multi-tab right panel, the command palette, and the status bar along the bottom."
 tags: ["basics", "editor", "sidebar"]
 ---
@@ -26,7 +26,7 @@ The center is where you read and write. Notes open in **tabs** along the top, an
 
 In the top-left chrome, next to the sidebar toggle, two arrow buttons walk through the notes you have visited: **navigate back** (`⌘[` / `Ctrl [`) and **navigate forward** (`⌘]` / `Ctrl ]`). Each greys out when there is nowhere to go.
 
-In the top-right, while a note is open, a **…** button opens the note-actions menu: Rename, Move to folder…, Duplicate, Turn into template, Version history, Export as Markdown, PDF, HTML or Plain Text, and Move to trash. It is the same set of actions the note's right-click menu in the sidebar offers, reachable from the note you are reading.
+In the top-right, while a note is open, a **…** button opens the note-actions menu: Rename, Move to folder…, Duplicate, Turn into template, Version history, Export… (which opens the formats beside it: Markdown, PDF, HTML, Plain text) and Move to trash. It is the same set of actions the note's right-click menu in the sidebar offers, reachable from the note you are reading.
 
 Opening a new tab shows a chooser card rather than a blank editor — search your notes to open one, pick from **Recent**, or create a new note or drawing from there.
 
@@ -49,7 +49,7 @@ How links and unlinked mentions work, and the rest of Myne's linking and search 
 The status bar along the bottom carries small, persistent controls and readouts:
 
 - **Sync status**: on the far left, shows the vault's sync state. It reads **Sync off** until you set up sync; once a sync server is configured it shows states like Syncing, Synced, or a count of conflicts to review, with a **Sync now** action beside it. Setting up sync and pairing devices is covered in the sync section of the guide.
-- **Save status**: shows "Saving…" while a save is in flight, so you can see autosave working.
+- **Save status**: a dashed ring while your typing is still waiting to be written, a turning ring while it is being written, and a filled dot with the time once it is saved. A crossed-out cloud after it means the server has not seen this version yet.
 - **Workspace** chip: shows the active named workspace and lets you switch between, rename, or save the current layout as a [named workspace](/user-guide/notes-and-organization/named-workspaces/).
 - **View mode**: shows the focused note's mode (Live, Reading, or Source) and cycles through them on click; see [View modes](/user-guide/editor-and-writing/view-modes/).
 - **Side-by-side preview**: in source mode only, toggles a rendered preview beside the markdown.

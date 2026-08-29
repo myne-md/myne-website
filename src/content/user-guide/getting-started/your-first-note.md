@@ -1,7 +1,7 @@
 ---
 title: "Your first note"
 category: "getting-started"
-updated: 2026-08-13
+updated: 2026-08-29
 summary: "The example notes a new vault is seeded with, how to create a note of your own and name it, how Myne autosaves as you type, how each note is encrypted, and what the 'Local-only' indicator in the bottom bar means."
 tags: ["notes", "editor", "basics"]
 ---
@@ -27,7 +27,9 @@ Myne saves as you type. There is no save button to press and nothing to remember
 - While you type, Myne saves in the background a moment after you pause.
 - It also flushes your latest edits immediately when you **switch away** from the window, **lock** the vault, or **close** the app, so nothing in flight is lost.
 
-The bottom bar shows the current state ("Saving…" while a save is in progress) so you can see it happen. You never lose work to a forgotten save, and you never have to interrupt your writing to keep it.
+The bottom bar shows the current state so you can see it happen: a dashed ring while what you have typed is still waiting to be written, a turning one while it is being written, and a filled dot with the time once it is saved. You never lose work to a forgotten save, and you never have to interrupt your writing to keep it.
+
+When sync is set up, a small crossed-out cloud sits beside a note that has not reached the server yet, both in the bottom bar and on the note's row in the sidebar. It stands still rather than spinning, because a note waiting on a device that is offline is not work in progress; it means the server has not seen this version, which stays true whether you are online or the laptop has been shut for a week.
 
 ## Private by design
 

@@ -1,7 +1,7 @@
 ---
 title: "Trash"
 category: "notes-and-organization"
-updated: 2026-08-13
+updated: 2026-08-30
 summary: "How deleted notes move to Trash, how the undo toast and the Trash panel each get a note back, and what happens when you permanently delete a note from the vault."
 tags: ["notes", "recovery"]
 ---
@@ -15,6 +15,8 @@ When you delete a note, it moves to the **Trash** and disappears from the sideba
 If the note is open, its tabs close in every pane. Restoring it is an explicit step; it does not reopen on its own.
 
 Deleting a folder that still contains notes asks you to confirm first, then moves the whole subtree to the Trash together.
+
+Every one of these confirmations opens with the focus ring already on the button that goes ahead, so Enter confirms and Escape backs out. If you would rather click, the buttons work the way they look. And if you have moved the ring to **Cancel** with Tab, Enter cancels: the key always does what the button under the ring says.
 
 Notes in the Trash and notes marked as templates are hidden from the sidebar and never appear in search results.
 
@@ -34,6 +36,8 @@ A note holds at most one of these markers at a time: archiving a note clears its
 ## Permanent deletion
 
 Removing a note from the Trash, the opposite of **Restore**, is the only irreversible step. You can delete a single note permanently, or use **Empty trash** to clear everything at once (Myne shows a count and asks you to confirm, because this cannot be undone).
+
+These two dialogs confirm on Enter like the others, and they are the two where that is worth knowing: there is no undo behind them. When you reach one with the keyboard, it waits for you to let go of the key before Enter will confirm, so a key you were already holding cannot carry through into the answer. When you reach one with the mouse, the first Enter confirms. Either way it names the note, or the count, before you answer. Read the line, then press it.
 
 When a note is permanently deleted, its encrypted file is removed, and with it the only on-disk copy of the key that note was encrypted under, so the content is not just unlinked, it becomes unrecoverable. The note's [snapshots](/user-guide/safety-and-recovery/note-snapshots/) are removed in the same step. After this, the recovery phrase cannot bring the note back, because there is nothing left to decrypt.
 

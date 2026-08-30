@@ -1,7 +1,7 @@
 ---
 title: "Where your AI runs"
 category: "ai"
-updated: 2026-08-24
+updated: 2026-08-30
 summary: "Myne never sends your notes anywhere you have not named, and never downloads a model. This page covers the three things you can name (a model file on this computer, a model runtime on this computer, or a remote provider), what each one means for where your notes go, and the consent screen, API key and model list a remote provider adds."
 tags: ["ai", "privacy", "security", "settings"]
 ---
@@ -40,14 +40,15 @@ Myne states the honest bound on the runtime itself: it "is a separate program wi
 
 Under **Remote provider** you can name a service to send requests to instead. The choices are **None**, Ollama Cloud and OpenRouter, a closed list rather than a free-form address, because a destination you type is one the consent screen cannot name. **None** is the default and means no service is contacted at all.
 
-Choosing a provider for the first time shows a consent screen before anything is stored or sent. It is headed "Before Myne sends anything to …" and answers six questions in labelled sections:
+Choosing a provider for the first time shows a consent screen before anything is stored or sent. It is headed "Before Myne sends anything to …" and answers seven questions in labelled sections:
 
 - **What leaves your device**: "The text of the notes involved in each request leaves your device: the note you are working in, and any note used to answer you. An agent run also sends the titles and identifiers of every note in the scope you approved, before it has read any of them."
 - **When it leaves**: "Only when you ask for something: chat, summarize, rewrite, edit selection, or an agent run. Nothing is sent as you type, and nothing is sent in the background."
 - **Who receives it**: the provider, named, "which Myne does not run."
 - **What Myne cannot check**: "Myne cannot see or control what … keeps, how long it keeps it, or whether it passes your request to someone else."
 - **How to undo this**: "You can remove the key at any time, which stops Myne sending anything. Revoking the key itself is done at the provider, and it applies to the key rather than to this device."
-- **Which devices this covers**: "This choice is part of your vault, so any device you add later inherits it and will not ask again."
+- **Which devices this covers**: "This choice covers this device only. Your key does travel to your other devices, but each one asks before it sends anything."
+- **How it travels**: "The connection is direct. The provider sees this device's IP address, and your network can see which provider you use."
 
 The accepting button names the provider rather than saying "OK". Cancelling leaves the state you were in.
 
@@ -67,15 +68,39 @@ Some AI work is refused a remote provider in the code rather than by a setting, 
 
 If one of those is somehow asked to go to a provider, Myne refuses in the same words: "This kind of request never goes to a provider: it runs on this device or not at all." What a remote provider serves is the work you asked for: chat, summarize, rewrite, edit selection, or [an agent run](/user-guide/ai/agent-runs/).
 
+## On a phone
+
+There is no on-device option on a phone. Myne runs no model there, so the three
+states above collapse to one: either you have named a remote provider, or AI
+does nothing. Every request goes to the service you name, and the text of the
+notes involved leaves the device when it does.
+
+The settings panel is **Settings → AI**, a top-level entry rather than something
+nested under Developer, and the switch that turns it on says the same thing:
+"Off by default. Myne runs no model on a phone, so every request goes to a
+service you name below, and your notes leave this device when it does."
+
+**Approving on a laptop does not approve on a phone.** A phone you add to an
+account that already has AI set up arrives holding the provider, the model and
+the key, and holding no approval. The AI panel shows the provider as chosen and,
+above the key, a row reading **Approve sending on this phone**. Until you open
+that and accept, the phone sends nothing, and asking anything says so rather
+than failing vaguely: "You have not agreed to send notes to this provider from
+this device."
+
 ## Turning it off
 
-Removing the API key stops Myne sending anything. Setting **Remote provider** back to **None** removes the key and the recorded consent with it, which leaves the state you were in before you turned it on. Clearing the **Local model runtime** address returns answering to a model file on this computer.
+Removing the API key stops Myne sending anything. Setting **Remote provider** back to **None** removes the key and this device's recorded approval with it, which leaves the state you were in before you turned it on. The key is vault content, so removing it reaches your other devices; the approval was only ever on this one. Clearing the **Local model runtime** address returns answering to a model file on this computer.
 
 Revoking the key itself is done at the provider, and it applies to the key rather than to this device.
 
 ## Limits
 
-The provider you chose, the consent you gave for it, the key you pasted and the model you picked are part of your vault, so they travel with it. A device you add to the account later inherits all four and starts sending on the same terms without showing the consent screen again. One person agreeing once for their own account is the intent, and the cost is that the agreement is not re-asked per device. Removing the key propagates the same way, which is what makes it reach your other devices. Whether AI is on at all stays a per-device setting, as does a local runtime address, because that names a program on one machine.
+The provider you chose, the key you pasted and the model you picked are part of your vault, so they travel with it. **The consent does not.** A device you add to the account later inherits the provider, the key and the model, and shows you the consent screen before it sends anything, because agreeing on one device is not agreeing on another. That is worth knowing in both directions: a new device is set up in one tap rather than four, and it still cannot send until somebody at that device has read what leaves it.
+
+Removing the key propagates the way the other three do, which is what makes it reach your other devices. Whether AI is on at all stays a per-device setting, as does a local runtime address, because that names a program on one machine.
+
+The connection to a provider is direct. Myne can route its sync traffic through Tor where you have turned that on; it does not route provider requests, so the provider sees this device's IP address and your network can see which provider you use.
 
 Myne can say what it sends and to whom. It cannot say what the far side keeps, how long it keeps it, or whether it passes your request onward, and it does not claim to. A runtime on your own computer keeps your notes on the device, but it is software Myne neither ships nor audits, and its listener generally accepts connections from any program running on that computer, which makes it a poor choice on a shared machine. Notes in [excluded folders](/user-guide/ai/turning-on-ai/#excluding-folders) are kept out of every one of these paths. None of this changes the fact that the model Myne runs in-process is not sandboxed from your decrypted notes and keys. See [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/) for that boundary.
 

@@ -64,6 +64,10 @@ The **Excluded folders** box lets you name folders that AI must never read or in
 
 Exclusion is enforced both when notes are indexed and when they are queried, and every AI surface checks it before the model is ever called. A note in an excluded folder is never embedded, never summarized, never used to ground a chat answer, and never offered tag suggestions or writing help.
 
+**Excluding a folder travels to your other devices, and un-excluding one does not.** The exclusion list only ever grows when devices sync: a folder you exclude here shows up as excluded everywhere, which is what stops a second device from indexing something the first was told to leave alone. The consequence is that removing a folder from the list is a per-device change. Once another device has seen the exclusion, take the folder off the list on each device you want it gone from. The CLI exclusion list works the same way, for the same reason.
+
+Myne can remember a large but limited number of folders across all of its folder lists together. If you reach that limit it says so when you add one, and deleting a folder you no longer need makes room.
+
 ## Limits
 
 Turning on AI adds a model runtime to the Myne process. That process holds your decrypted notes and keys, and the model is not isolated from them; a model file you download is untrusted input that Myne does not vouch for. Turning the toggle on does not by itself send anything anywhere: that depends on what you name, and [Where your AI runs](/user-guide/ai/where-your-ai-runs/) is where that choice is made and explained. Excluding a folder keeps its notes out of AI reading and indexing, but it is a Myne-level control rather than an operating-system boundary, and it does not protect the folder against malware already running on your device, which can read app memory regardless. The encrypted index Myne builds for search is a rebuildable local cache; it is never uploaded. Full detail is in [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/).

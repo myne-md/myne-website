@@ -1,18 +1,22 @@
 ---
 title: "Multiple vaults"
 category: "safety-and-recovery"
-updated: 2026-08-15
+updated: 2026-08-30
 summary: "How to keep more than one vault, how to switch between them, how to give each a name and icon, what you can see before a vault is unlocked, and how vaults stay independent of one another."
 tags: ["vault", "privacy"]
 ---
 
 You can keep more than one vault, say one for work and one for personal notes. They are fully separate, and Myne keeps only one open at a time. This article covers switching, what's visible before you unlock, and how vaults stay independent.
 
+If you have decided you no longer want two, you can bring the notes from one into the other: see [Combine two Myne vaults](../attachments-and-import/combine-two-vaults).
+
 ![The vault switcher menu open from the sidebar, listing your vaults with an option to create or switch to another.](./multiple-vaults.png)
 
 ## One vault open at a time
 
-Myne unlocks one vault at a time. Switching to another means locking the current one and unlocking the next with its own password. There is no way to hop between vaults without unlocking, because each vault's key is only in memory while it is open.
+Myne unlocks one vault at a time. Switching to another means locking the current one and unlocking the next with its own password. There is no way to hop between vaults without unlocking, and no way to read or edit a second vault while one is open.
+
+One deliberate exception, and it is not an unlock: while you are [importing notes from another vault](../attachments-and-import/combine-two-vaults), Myne holds that vault's key in memory so it can read from it. You cannot open, edit or switch into it, and the key is dropped when the import finishes, when you lock the vault you are in, or after thirty minutes if an import is abandoned.
 
 When you have two or more vaults, Myne shows a **picker** at launch, and the vault-switcher chip at the top of the sidebar lets you switch while you work.
 
@@ -30,7 +34,9 @@ Like the vault's contents, its name and icon live inside the vault's encrypted p
 
 ## Vaults are independent
 
-Each vault is its own world: its own notes, folders, settings, recovery phrase, and backups. A backup is of one specific vault and restores only that vault. Changing your password in one vault does nothing to another. Nothing crosses between them.
+Each vault is its own world: its own notes, folders, settings, recovery phrase, and backups. A backup is of one specific vault and restores only that vault. Changing your password in one vault does nothing to another. Nothing moves between them on its own.
+
+The one way anything crosses is if you ask for it: [importing notes from another vault](../attachments-and-import/combine-two-vaults) copies notes and their attachments into the vault you have open. It is one-directional, it runs once, and the vault you import from is not changed.
 
 ## Managing the list
 

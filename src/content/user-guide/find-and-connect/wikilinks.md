@@ -32,7 +32,7 @@ A folder link can break in two ways, and the chip's hint tells you which. **`(no
 
 A wikilink can point past a note's title to a spot inside it. Write `[[Note#Heading]]` and following the link opens the note and scrolls to that heading; the chip reads `Note › Heading` so you can see where it lands. If the heading isn't there — it was renamed or removed — the link still opens the note, just at the top rather than failing.
 
-While you type a link, two prefixes help you fill in the heading. `[[#` lists headings in the **current note**; `[[##` lists headings across the **whole vault**, so you can deep-link into another note without leaving your place. Myne also follows `^block-id` anchors that came in with an [imported Obsidian vault](/user-guide/attachments-and-import/import-from-obsidian/), scrolling to the marked line — but it never mints new block-ids of its own, so headings are the anchor you author here.
+While you type a link, two prefixes help you fill in the heading. `[[#` lists headings in the **current note**; `[[##` lists headings across the **whole vault**, so you can deep-link into another note without leaving your place. Myne also follows `^block-id` anchors that came in with an [imported Obsidian vault](/user-guide/attachments-and-import/import-your-notes/), scrolling to the marked line — but it never mints new block-ids of its own, so headings are the anchor you author here.
 
 ## Limits
 

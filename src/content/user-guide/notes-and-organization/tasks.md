@@ -71,7 +71,7 @@ Myne's reminders are **local**: while the app is open and your vault unlocked, a
 
 ## Importing tasks
 
-Myne reads three task dialects and writes one. When you import a vault, tasks written in Obsidian's emoji form (the 📅, 🔁, and priority markers) and in Dataview-style inline fields (`[due:: …]`) are recognized, so your existing tasks light up without rework. Myne emits a single bracketed form of its own. State the consequence plainly before you rely on it: the first time you **edit** an imported task in Myne, its whole line is rewritten to that form, and it drops out of Obsidian's Tasks view. A task you never edit is left byte-for-byte as it was. See [Import from Obsidian](/user-guide/attachments-and-import/import-from-obsidian/) for the wider mapping.
+Myne reads three task dialects and writes one. When you import a vault, tasks written in Obsidian's emoji form (the 📅, 🔁, and priority markers) and in Dataview-style inline fields (`[due:: …]`) are recognized, so your existing tasks light up without rework. Myne emits a single bracketed form of its own. State the consequence plainly before you rely on it: the first time you **edit** an imported task in Myne, its whole line is rewritten to that form, and it drops out of Obsidian's Tasks view. A task you never edit is left byte-for-byte as it was. See [Import your notes](/user-guide/attachments-and-import/import-your-notes/) for the wider mapping.
 
 ## Finding tasks
 

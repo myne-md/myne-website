@@ -16,6 +16,8 @@ You can start a restore from five places: the **Restore from backup** door on th
 
 Restoring does not ask for your password, because the backup is encrypted bytes and copying them back needs no key. The restored vault arrives **locked**; you open it afterward with its password or recovery phrase, the same as any vault.
 
+A restore **places a vault**; it does not merge one into another. If what you want is to bring notes from one vault into a vault you already have open, that is a different flow: see [Combine two Myne vaults](../attachments-and-import/combine-two-vaults).
+
 ## When a matching vault already exists
 
 If the backup is of a vault you still have, Myne asks how to handle the overlap. You have two choices:

@@ -13,7 +13,7 @@ Three words in this section mean specific things, and Myne keeps them apart:
 - You **restore** from a backup. That word is reserved for backups.
 - You **unlock with your recovery phrase** when you've forgotten your password, never "restore" for that.
 - You **clean up leftover files** when a deletion didn't finish, never "repair".
-- You **upgrade** a vault to the new format. That is a re-encryption of the whole vault, never a "restore" and never a "migration" of content in from elsewhere — bringing outside notes in is [import](/user-guide/attachments-and-import/import-from-obsidian/).
+- You **upgrade** a vault to the new format. That is a re-encryption of the whole vault, never a "restore" and never a "migration" of content in from elsewhere — bringing outside notes in is [import](/user-guide/attachments-and-import/import-your-notes/).
 
 ## What's in this section
 

@@ -1,7 +1,7 @@
 ---
 title: "Appearance"
 category: "settings-and-privacy"
-updated: 2026-08-24
+updated: 2026-08-30
 summary: "How to switch between the light, dark, AMOLED and system themes, set a custom accent color, import and export custom themes, install a theme from the Themes page, and how the app's appearance behaves while the vault is locked."
 tags: ["settings"]
 ---
@@ -50,7 +50,7 @@ A few things worth knowing:
 
 Appearance now holds purely-visual controls. Note-authoring settings that used to live here have moved to the new **Editor** panel:
 
-- **Daily notes** setup — the folder they go in and the date format for their titles — is now under **Settings → Editor**. What daily notes are and how to open today's note is covered in [Daily notes](/user-guide/notes-and-organization/daily-notes/).
+- **Daily notes** setup — the folder they go in and the date format for their titles — is now under **Settings → Editor**. What daily notes are and how to open today's note is covered in [Daily notes](/user-guide/notes-and-organization/daily-notes/). That date format is the daily note's TITLE only; how Myne writes a date everywhere else is [Dates and times](/user-guide/settings-and-privacy/dates-and-times/).
 - **Spell check** — the toggle and language picker — is also under **Settings → Editor**, described in [Spell check](/user-guide/editor-and-writing/spell-check/).
 
 The Editor panel is also where the editor's typography presets live — text size, line spacing, content width, and the editor font. Those are covered in [Editor display](/user-guide/editor-and-writing/editor-display/).

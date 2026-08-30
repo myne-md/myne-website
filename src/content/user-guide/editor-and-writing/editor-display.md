@@ -1,7 +1,7 @@
 ---
 title: "Editor display and typography"
 category: "editor-and-writing"
-updated: 2026-08-24
+updated: 2026-08-30
 summary: "Tune the editor's reading surface: text size, line spacing, content width, font, and an optional line-number gutter, plus how dates and times are printed. All controls live in Settings, apply live, and store in your encrypted vault prefs. Mixed-direction text needs no setting at all."
 tags: ["editor", "settings"]
 ---
@@ -31,13 +31,15 @@ The gutter numbers one logical line per row. When a long line soft-wraps onto mo
 
 Further down the **Editor** panel, under **Editing**, three controls decide how Myne prints dates and times.
 
-- **Date format** — helper text: "How dates are shown across tasks, saved views and attachments." The options are **Match language**, which follows the interface language you chose, plus one option per layout, each labelled with the same worked example date so you can see what you are picking.
+- **Date format** — helper text: "How a date is written wherever Myne shows one." The options are **Match language**, which follows the interface language you chose, plus one option per layout, each labelled with the same worked example date so you can see what you are picking.
 - **Time format** — **Match language**, **24-hour**, or **12-hour**. Helper text: "Whether times are shown on a 24-hour or 12-hour clock."
 - **Time zone**, helper text: "Which zone decides what counts as today. Leave empty to follow this device. Times you write in a note are never changed; 09:00 stays 09:00 everywhere."
 
-The first two change what you see across tasks, saved views, and attachments; they never change a note. **Time zone** decides only what Myne counts as today, so a task due today stays due today when you travel. Type a zone name like `Europe/Berlin`; a name Myne cannot use is refused rather than stored, with "Myne doesn't know that time zone. Use a name like Europe/Berlin."
+The first two change what you see wherever Myne prints a date, including a due date on a task line inside a note; they never change the note itself. **Time zone** decides two things: what Myne counts as today, so a task due today stays due today when you travel, and how a real moment is printed, such as the date an attachment was added. Type a zone name like `Europe/Berlin`; a name Myne cannot use is refused rather than stored, with "Myne doesn't know that time zone. Use a name like Europe/Berlin."
 
 A time you type into a note is never rewritten by any of this. Myne stores note times as plain wall-clock text, so `09:00` stays `09:00` everywhere, and no zone name is written into a note.
+
+[Dates and times](/user-guide/settings-and-privacy/dates-and-times/) covers the rest: which of the three travel with your vault and which stay on the device, what the phone shows, and what happens when you search a note for a date the way you read it.
 
 ## Right-to-left and mixed-direction text
 

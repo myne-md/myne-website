@@ -1,7 +1,7 @@
 ---
 title: "Custom theme reference"
 category: "settings-and-privacy"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "The complete reference for writing a custom theme: the JSON file format, every required color key, the ornament, tint and measure tokens a theme may also set, which value formats are accepted, what gets rejected and why, and how you import, export, and store them."
 tags: ["settings"]
 ---
@@ -24,13 +24,15 @@ A theme is a single `.json` file: a flat object whose keys are CSS variables and
 
 It is **one flat palette**, not a light/dark pair. When you apply a custom theme it *replaces* the built-in Light / Dark / System choice — the custom palette is what you see until you switch back to a built-in theme.
 
-The file name (without `.json`) is the theme's name in the picker. Names may use letters, digits, `-`, and `_` only — no spaces, dots, or slashes.
+The file name, minus the `.json`, becomes the theme's name in the picker. Spaces, punctuation and mixed case are all fine: the name is a label stored inside your vault rather than a file on disk, so there is nothing for it to collide with. Importing a file whose name matches a theme you already have replaces that theme, so give an edited copy a new file name if you want to keep both.
 
 ## Importing and exporting
 
 Themes live inside your vault, not as loose files on disk. In **Settings → Appearance → Custom themes**, use **Import theme…** to pick a `.json` file — Myne validates it and, if it is well formed, adds it to the list. To get a copy back out — to share it or edit it in an external editor — use **Export** on a theme and Myne writes it as plain `.json`. That export is your own local action, so the palette leaves the encrypted vault only because you asked; the server never sees it.
 
 The easiest way to start is to export an existing theme, edit the values, and import it back under a new name.
+
+Importing, exporting and deleting a theme are things you do on a computer. On a phone the Custom themes block lists the themes your vault holds, and applying one is all it offers: "Custom themes are installed on your computer. Yours arrive here on their own after a sync."
 
 ## Required keys
 
@@ -107,7 +109,7 @@ This is an **allowlist**: Myne accepts the known color formats above and refuses
 
 ## When a theme is rejected
 
-If an import fails the check, Myne rejects it and tells you why — a missing key, an invalid value (and the key it belongs to), a bad name, or a JSON syntax error with its line. The theme is not added; fix the values and import it again. Validation runs entirely on your device.
+If an import fails the check, Myne rejects it and tells you why: a missing key, an invalid value (and the key it belongs to), a key reserved for Myne's own use, or a JSON syntax error with its line. The theme is not added; fix the values and import it again. Validation runs entirely on your device.
 
 Two further checks run at import.
 

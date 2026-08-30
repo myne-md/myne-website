@@ -1,7 +1,7 @@
 ---
 title: "Exporting notes and your vault"
 category: "editor-and-writing"
-updated: 2026-08-16
+updated: 2026-08-24
 summary: "Export a single note as Markdown, PDF, HTML, or plain text, or export the whole vault as a Markdown folder tree. Every export is unencrypted plaintext that leaves Myne's protection the moment it is written."
 tags: ["notes", "markdown", "attachments"]
 ---
@@ -14,7 +14,7 @@ Single-note export has three surfaces, and they run the exact same flow:
 
 - **Right-click a note** in the sidebar to open its context menu. The export items are there, one per format: **Export as Markdown…**, **Export as PDF…**, **Export as HTML…**, and **Export as Plain Text…**.
 - **Open the command palette** while a note is open. The same export actions live in the **Editor** category, and they only appear when a note is open; in the palette each item reads **Export note as Markdown…**, **Export note as PDF…**, **Export note as HTML…**, and **Export note as Plain Text…** (the palette spells out "note").
-- **The note-actions menu** in the editor's top-right. While a note is open, the **…** button (**Note actions**) opens a menu with the same four export items — **Export as Markdown…**, **Export as PDF…**, **Export as HTML…**, and **Export as Plain Text…** — alongside Rename, Move to folder, Duplicate, Turn into template, Version history, and Move to trash.
+- **The note-actions menu** in the editor's top-right. While a note is open, the **…** button (**Note actions**) opens a menu with the same four export items (**Export as Markdown…**, **Export as PDF…**, **Export as HTML…**, and **Export as Plain Text…**) alongside Rename, Add cover, Move to folder, Duplicate, Version history, Turn into template, and Move to trash.
 
 Picking any of them opens your operating system's save dialog so you choose where the file goes; if a file with that name is already there, the dialog's own Replace prompt is your consent to overwrite. When the export finishes, a toast reads **Exported to &lt;filename&gt;** with a **Show in folder** action that reveals the file in your file manager. When attachments or images are written out beside the file, the toast names them too — **Exported to &lt;filename&gt; + N attachment(s)** for Markdown, **+ N image(s)** for HTML.
 
@@ -32,7 +32,7 @@ The modal also carries a **Copy note text to clipboard** button. It copies that 
 
 **Export as PDF…** renders the note to a standalone page — math (KaTeX), [diagrams](/user-guide/markdown/diagrams/) (mermaid), and highlighted code all rendered — and hands it to your operating system's built-in print-to-PDF engine. The page size follows your system region: A4 by default, Letter in US regions, with fixed 20 mm margins.
 
-Non-image embedded attachments are **not** carried into the PDF. When the note embeds any, a notice appears before the save dialog listing what will be left out — "Attached files (PDFs and other non-image attachments) are not included in the generated PDF." — and you **Continue** or **Cancel**. A PDF is a fixed, rendered picture of the note, not a copy of its text: it does not round-trip back into Myne. Reach for PDF when you want something to read or print, not something to re-import.
+Non-image embedded attachments are **not** carried into the PDF. When the note embeds any, a notice appears before the save dialog listing what will be left out: "Attached files (PDFs and other non-image attachments) are not included in the generated PDF." You then choose **Continue…** or **Cancel**. A PDF is a fixed, rendered picture of the note, not a copy of its text: it does not round-trip back into Myne. Reach for PDF when you want something to read or print, not something to re-import.
 
 ## HTML export
 

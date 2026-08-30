@@ -1,7 +1,7 @@
 ---
 title: "Storage and account limits"
 category: "sync-and-devices"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "The Storage and devices block in Sync settings shows encrypted data stored against a ceiling, your signed-in device count against a cap, and a frozen badge when uploads are paused. It also covers the refusal states — over your limit, an oversize file, a frozen account — where your device keeps downloading but uploads are held, so nothing is lost."
 tags: ["sync", "devices", "settings", "security"]
 ---
@@ -34,13 +34,13 @@ A freeze is one of two things an operator can do to a hosted account on a substa
 
 There are a few states in which the server accepts your device's downloads but refuses its uploads. In each one the [sync status indicator](/user-guide/sync-and-devices/sync-status/) names the reason rather than showing a generic error, and your device keeps pulling other devices' changes — only pushing your own is held:
 
-- **Over your storage limit** — the status reads "Storage full — uploads paused." Your account is at its storage ceiling, so no new encrypted data can be stored. Your local edits stay on this device and upload once you are back under the limit.
+- **Over your storage limit**: the status reads "Storage full: uploads paused." Your account is at its storage ceiling, so no new encrypted data can be stored. Your local edits stay on this device and upload once you are back under the limit.
 - **A file too large to upload** — the status reads "A file is too large to upload." A single note or attachment is larger than the server accepts in one piece. That item stays on this device and will not sync until it is smaller; the rest of your notes continue to sync normally.
-- **A frozen account** — the status reads "Account frozen — uploads paused," matching the badge above.
+- **A frozen account**: the status reads "Account frozen: uploads paused," matching the badge above.
 
 In all three, uploads are held, not discarded. A refusal does not drop the change you made and does not delete anything already on this device; the held changes upload once the condition clears.
 
-There is a fourth state that reads almost the same and is not about your account at all: **Storage full — syncing paused** means the disk of the machine you are on is full. Nothing on the server is over its ceiling, and freeing space on the device is what clears it. The two labels are worded differently on purpose, because only one of them is fixable from an account page.
+There is a fourth state that reads almost the same and is not about your account at all: **Storage full: syncing paused** means the disk of the machine you are on is full. Nothing on the server is over its ceiling, and freeing space on the device is what clears it. The two labels are worded differently on purpose, because only one of them is fixable from an account page.
 
 ## Limits
 

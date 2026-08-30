@@ -1,12 +1,12 @@
 ---
 title: "Customizing keyboard shortcuts"
 category: "settings-and-privacy"
-updated: 2026-08-13
-summary: "View, search, and rebind keyboard shortcuts in the Hotkeys settings panel. Add or remove shortcuts per command, restore defaults, and resolve conflicts, which are warning-only and never blocking. Every shortcut is rebindable except the tab-cycle chord."
+updated: 2026-08-24
+summary: "View, search, and rebind keyboard shortcuts in the Hotkeys settings panel. Add or remove shortcuts per command, restore defaults, and resolve conflicts, which are warning-only and never blocking. Every shortcut is rebindable except the tab-cycle chord, and in a browser the combinations the browser keeps for itself."
 tags: ["settings", "editor"]
 ---
 
-The Hotkeys panel lists every keyboard shortcut in Myne and lets you search them by name. You can add or remove a shortcut for most commands, restore a command's default, or reset every custom shortcut at once. If a key combination is already used by another command, Myne warns you and names that command, but it never blocks you — the new shortcut is assigned anyway.
+The Hotkeys panel lists every keyboard shortcut in Myne and lets you search them by name. You can add or remove a shortcut for most commands, restore a command's default, or reset every custom shortcut at once. If a key combination is already used by another command, Myne warns you and names the commands it collides with, but it never blocks you: the new shortcut is assigned anyway.
 
 ## The Hotkeys panel
 
@@ -20,7 +20,7 @@ To find a command quickly, type into the **Search shortcuts…** box at the top.
 
 To add a shortcut to a command, click the **+** on its row and press the key combination you want. The captured combination is added to that command, so a single command can carry several shortcuts.
 
-A combination has to include at least one modifier — **Cmd**, **Ctrl**, or **Alt** — or be a function key. A plain key on its own is rejected, with the message: "Add a modifier (⌘, Ctrl, or Alt) — a key on its own can't be a shortcut."
+A combination has to include at least one modifier (**Cmd**, **Ctrl**, or **Alt**) or be a function key. A plain key on its own is rejected, with the message: "Add a modifier (⌘, Ctrl, or Alt). A key on its own can't be a shortcut."
 
 To remove a shortcut, click the **×** on its key chip. Removing a command's only shortcut leaves it with none until you add one back.
 
@@ -30,7 +30,7 @@ Your custom shortcuts are saved in the vault's encrypted preferences, so they st
 
 ## Conflicts
 
-If you assign a combination that another command already uses, Myne shows a warning that names the other command — "Already used by <command> — added anyway." — and assigns the shortcut anyway. Conflicts are warning-only on purpose; the app tells you, but it never stops you mid-rebind.
+If you assign a combination that another command already uses, Myne shows a warning naming the other commands ("Already used by <commands>. Added anyway.") and assigns the shortcut anyway. A combination that collides with more than one command names all of them, separated by commas. Conflicts are warning-only on purpose; the app tells you, but it never stops you mid-rebind.
 
 Once two commands share a combination, both rows keep a small **⚠ conflict** marker so you can find and resolve them later if you want to. You resolve a conflict the same way you made it: remove the shared shortcut from one of the commands, or rebind one of them to something else.
 
@@ -39,6 +39,8 @@ Once two commands share a combination, both rows keep a small **⚠ conflict** m
 One row is shown for reference and cannot be changed: the tab-cycle shortcut, **Ctrl+Tab**, which cycles through open tabs. It is tagged **fixed**, and the **+**, **×**, and **↺** controls are not offered on that row — it is a literal-Ctrl combination Myne's shortcut layer cannot tell apart from its neighbours on Windows and Linux.
 
 Everything else in the panel can be rebound, including the editor-formatting shortcuts such as bold, italic and the list toggles. A rebind takes effect in the open editor immediately, without losing your cursor or your undo history.
+
+In a browser there is a second class of exception, and it belongs to the browser rather than to Myne. Some combinations never reach the page at all: the ones your browser keeps for opening a tab, focusing the address bar and so on. Try to bind one and Myne refuses it and names the browser action that owns it. A combination that only some browsers intercept is warned about and assigned anyway, the same warn-only policy conflicts get. A shortcut you already had that your browser takes stays in the list, marked **Unavailable here**, because it is not broken: your keymap syncs, and the same shortcut still works in the desktop app.
 
 ## Limits
 

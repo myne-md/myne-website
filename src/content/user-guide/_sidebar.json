@@ -133,13 +133,14 @@
   {
     "slug": "sync-and-devices",
     "label": "Sync & devices",
-    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server, add and approve devices with your account number, read sync status, and resolve conflicts — all zero-knowledge, with no email.",
+    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server, check its certificate fingerprint, add and approve devices with your account number, read sync status, and resolve conflicts, all zero-knowledge, with no email.",
     "intro": "overview",
     "articles": [
       "overview",
       "how-sync-works",
       "turn-on-sync",
       "add-a-device",
+      "server-certificates",
       "sync-status",
       "storage-and-limits",
       "resolving-conflicts",
@@ -149,11 +150,12 @@
   {
     "slug": "safety-and-recovery",
     "label": "Safety & recovery",
-    "description": "Recover a forgotten password, back up and restore your vault, upgrade its storage format, use note snapshots, and manage multiple vaults.",
+    "description": "Recover a forgotten password, tell a real recovery-phrase prompt from a fake one, back up and restore your vault, upgrade its storage format, use note snapshots, and manage multiple vaults.",
     "intro": "overview",
     "articles": [
       "overview",
       "if-you-forget-your-password",
+      "recovery-phrase-scams",
       "back-up-your-vault",
       "restore-from-a-backup",
       "upgrade-your-vault-format",

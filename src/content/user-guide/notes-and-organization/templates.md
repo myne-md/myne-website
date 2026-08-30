@@ -1,7 +1,7 @@
 ---
 title: "Templates"
 category: "notes-and-organization"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "How to create reusable note templates, turn a note you already wrote into one, insert them into new notes, and use them to standardize the structure of notes you write often."
 tags: ["templates", "notes"]
 ---
@@ -23,14 +23,14 @@ Making a note from a template is a deliberate, two-step path (distinct from the 
 1. Choose **New note from template…** and pick the template you want, or **Blank note** to skip the template. If you have no templates yet, the same surface offers **Create a template**; **Manage templates** opens the manager from here too.
 2. Give the new note a name. Myne copies the template's body into a fresh note, fills in any placeholders, and opens it.
 
-You manage templates from the **Manage templates** surface, which has four actions:
+You manage templates from the **Manage templates** surface, a dialog titled **Note templates**. It lists your templates, one per row, and offers four things:
 
-- **New**: create a fresh template and open it to edit.
-- **Edit**: open an existing template to change it.
-- **Remove from templates**: turn a template back into an ordinary note. Non-destructive; the note and its content stay, it just stops being a template.
-- **Delete**: send the template to the Trash like any note (recoverable from there).
+- **New template** creates a fresh template and opens it to edit.
+- **Clicking a row** opens that template so you can change it. There is no separate Edit button.
+- **Remove from templates** turns a template back into an ordinary note. Non-destructive; the note and its content stay, it just stops being a template.
+- **The trash icon** on a row sends that template to the Trash like any note (recoverable from there).
 
-"Remove from templates" and "Delete" are deliberately different: one demotes, the other deletes.
+The last two are deliberately different: one demotes, the other deletes.
 
 ## Turning a note into a template
 

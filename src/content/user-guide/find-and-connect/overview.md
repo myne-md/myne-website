@@ -1,7 +1,7 @@
 ---
 title: "Find & connect"
 category: "find-and-connect"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "An overview of how Myne helps you locate and relate notes (wikilinks, backlinks, unlinked mentions, the outline, tags, full-text search, and the graph view), where the multi-tab right panel lives and when its toggle appears, and which tool fits which task."
 tags: ["search", "links"]
 ---
@@ -12,7 +12,7 @@ Find looks inside the note you're reading; to search across every note in your v
 
 ## The right panel
 
-Several of these tools share the editor's right panel, a multi-tab surface with one tab shown at a time: Links (what links here, and what this note links out to), Unlinked mentions, Outline and Tasks, plus the AI chat tab. The panel is about the note you have open, so its toggle appears in the title bar only while a note is open — not on the new-tab chooser. Show or hide the panel with that toggle, or with the **Toggle backlinks sidebar** command; switch between tabs by clicking the icons in the strip along the top, and reorder or hide tabs by dragging and right-clicking the strip.
+Several of these tools share the editor's right panel, a multi-tab surface with one tab shown at a time: Links (what links here, and what this note links out to), Unlinked mentions, Outline and Tasks, plus the AI chat tab. The tabs describe the note you are reading, and the panel's toggle appears in the title bar whenever a tab is open, including a graph, Tasks or saved-view tab. It is absent in two places: the new-tab chooser, and Attachments. Show or hide the panel with that toggle, or with the **Toggle backlinks sidebar** command; switch between tabs by clicking the icons in the strip along the top, and reorder or hide tabs by dragging and right-clicking the strip.
 
 ## What's in this section
 

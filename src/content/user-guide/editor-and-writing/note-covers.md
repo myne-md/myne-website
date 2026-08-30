@@ -1,7 +1,7 @@
 ---
 title: "Note covers"
 category: "editor-and-writing"
-updated: 2026-08-16
+updated: 2026-08-25
 summary: "How to give a note a cover image, where the cover appears and where it deliberately does not, and what happens to a note when its cover attachment is deleted."
 tags: ["notes", "attachments", "editor"]
 ---
@@ -22,8 +22,8 @@ The picker is the same one used everywhere else in Myne, so you can also drag an
 
 Two other ways reach the same picker:
 
-- The **"…"** menu in the top right of the note.
-- The command palette (⌘K / Ctrl K), which is the keyboard route: run **Set note cover…**, or **Remove note cover** to clear one. The hover controls are the only other way, so the palette is what makes covers reachable without a pointer.
+- The **…** menu in the top right of the note (**Note actions**) carries an **Add cover** row. It reads **Add cover** whether or not the note already has one, because the menu cannot see the note's frontmatter and a label that guessed would be wrong half the time. It always opens the picker in its no-cover state, so **Remove cover** is not offered from there.
+- The command palette (⌘K / Ctrl K): run **Set note cover…**, or **Remove note cover** to clear one. Removing is the part that needs the palette. The banner's own **Remove cover** sits inside the note's text, where Tab indents rather than moving focus, so the palette is the only way to clear a cover without a pointer.
 
 ## Changing or removing a cover
 
@@ -32,7 +32,7 @@ Hover the cover itself. Two controls appear on it:
 - **Change cover** opens the picker again.
 - **Remove cover** clears it. The image stays in your vault; only the note stops using it as a cover.
 
-Two present-tense caveats on removing, both being fixed. Use the controls on the pane you are actually working in: in a split, pressing Remove on a pane you have not clicked into yet can clear the other pane's cover. And let a pending edit settle before removing, because a cover write and an unsaved edit can land in either order.
+Both controls act on the note whose cover you clicked, so in a split you can use them on a pane you have not clicked into first. A pending edit is saved before the cover is written, so you do not have to let your typing settle first. If that save cannot be made, the cover is left alone and Myne says so rather than writing over the note you were typing in; try again once the save lands.
 
 On a touch screen there is no hover, so these controls are always visible. The mobile app has the same two controls; the picker they open is a bottom sheet, without drag and drop.
 

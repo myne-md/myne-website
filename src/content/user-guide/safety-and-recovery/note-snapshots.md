@@ -1,12 +1,16 @@
 ---
 title: "Snapshots"
 category: "safety-and-recovery"
-updated: 2026-08-13
-summary: "How Myne keeps a short version history of each note, how to review and restore an earlier snapshot, how long snapshots are kept, and what replaces them once you upgrade the vault format."
+updated: 2026-08-24
+summary: "How the original vault format keeps a short version history of each note, why a vault you create today has none, how to review and restore an earlier snapshot, how long they are kept, and what carries a note's history instead."
 tags: ["snapshots", "notes", "vault"]
 ---
 
-Snapshots are your note's version history. As you edit a note, Myne quietly keeps earlier versions of it for a while, so you can look back or roll back without thinking about it.
+Snapshots are the original vault format's version history. In a vault on that format, Myne quietly keeps earlier versions of each note as you edit, so you can look back or roll back without thinking about it. A vault you create on a current version of Myne is already on the newer format and takes no snapshots at all (each note carries its own edit history inside itself instead), so its snapshots panel stays empty from the first note onward.
+
+## Which vaults have snapshots
+
+Snapshots belong to the original vault format. Two vaults never have them: one you create on a current version of Myne, which is born on the newer format, and one whose [format you have upgraded](/user-guide/safety-and-recovery/upgrade-your-vault-format/). In both, the snapshots panel shows its empty state and nothing is wrong. The rest of this article describes a vault still on the original format.
 
 ## How snapshots are taken
 
@@ -31,10 +35,10 @@ Snapshots are a short-term undo for edits, not a deletion safety net. When a not
 
 ## After you upgrade the vault format
 
-Snapshots are how version history works for a vault in the original format. If you [upgrade the vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/), snapshots stop for that vault: no new ones are taken, the existing ones move into the upgrade's old copy and are erased when you confirm the upgrade, and the snapshots panel shows its empty state from then on.
+If you [upgrade the vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/), snapshots stop for that vault: no new ones are taken, the existing ones move into the upgrade's old copy and are erased when you confirm the upgrade, and the snapshots panel shows its empty state from then on.
 
-Each note carries its own edit history instead, and two things about that are worth knowing before you upgrade. It travels: the history is part of the encrypted note, so it syncs to your other devices and is included in every backup, where a snapshot never left the device that made it. And nothing in the app shows it to you yet, so an upgraded note has no version history you can browse or restore. If there is a revision you want to keep, take a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) before you upgrade.
+Each note carries its own edit history instead, and that is also what a vault created on a current version of Myne has had from the start. Two things about it are worth knowing. It travels: the history is part of the encrypted note, so it syncs to your other devices and is included in every backup, where a snapshot never left the device that made it. And nothing in the app shows it to you yet, so a note on the newer format has no version history you can browse or restore. If there is a revision you want to keep before an upgrade, take a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) first.
 
 ## Limits
 
-Snapshots cover roughly the last week of a note's edits, live only inside the vault that holds the note, and are not exported on their own. They are not a substitute for a backup. All of that describes a vault in the original format; after the format upgrade the note carries its own history instead, and that history syncs and is backed up with the note.
+Snapshots cover roughly the last week of a note's edits, live only inside the vault that holds the note, and are not exported on their own. They are not a substitute for a backup. All of that describes a vault on the original format. On the newer format (a vault you created on a current version of Myne, or one you upgraded) there are no snapshots: the note carries its own history, and that history syncs and is backed up with the note.

@@ -1,8 +1,8 @@
 ---
 title: "Change your password"
 category: "settings-and-privacy"
-updated: 2026-08-13
-summary: "How to change your master password, what the change does and does not re-encrypt, and how it affects backups you made with the old password."
+updated: 2026-08-24
+summary: "How to change your master password, what the change does and does not re-encrypt, how it reaches your other devices once it reaches the sync server, and how it affects backups you made with the old password."
 tags: ["security", "settings"]
 ---
 
@@ -24,6 +24,12 @@ Changing your password rotates **only the password's wrap** of the vault key. It
 
 One thing it does clear: if you had set up [quick unlock](/user-guide/settings-and-privacy/quick-unlock/) on this device, the password change wipes that stored credential. Quick unlock stores a separate device-local credential unlocked by your PIN or Touch ID; changing your master password deliberately wipes it, so you re-enroll your PIN or Touch ID from Settings → Privacy afterward.
 
+## If you sync
+
+The change is written on this device first. Your other devices learn about it when it reaches the sync server, and until it does they still expect the old password. On the desktop app a later sync cycle carries it. In a browser Myne waits for the server to acknowledge it and tells you when it could not: "Your new password works on this device, but Myne couldn't reach the server to save it. Until it does, your other devices still expect the old password, and if this browser's copy is cleared before then, the change is lost. It will retry automatically."
+
+If you see that, do not change the password again to force it through. A second change re-wraps the copy the first one made, which leaves this device further from the server rather than closer. Get back online and let it retry.
+
 ## The caveat about old backups
 
 Changing your password does **not** lock anyone out of backups you already made. An old password opens old backups. The recovery phrase opens every backup of the vault, forever. So if you are changing your password because you fear it was exposed, treat every pre-change backup as still openable by the old password, and make a fresh backup afterward. The full picture is in [Back up your vault](/user-guide/safety-and-recovery/back-up-your-vault/).
@@ -32,4 +38,4 @@ Changing your password does **not** lock anyone out of backups you already made.
 
 A password change protects your *live* vault going forward; it cannot reach back into copies you have already exported. Pair a password change with a new backup, and retire the old ones if the reason for the change was a possible compromise.
 
-There is one more copy it does not reach. If you have upgraded your vault to the new format and not finished the upgrade yet, Myne is still keeping the old vault on this device, and that copy opens with your old password and your recovery phrase. The app says so at the time: "The old copy is still on this device until you finish up — until then, changing your password won't lock it away." Finish the upgrade in Settings → Sync before you rely on a password change.
+There is one more copy it does not reach. If you have upgraded your vault to the new format and not finished the upgrade yet, Myne is still keeping the old vault on this device, and that copy opens with your old password and your recovery phrase. The app says so at the time: "Your vault was upgraded. The old copy is still on this device until you finish up. Until then, changing your password won't lock it away." Finish the upgrade in Settings → Sync before you rely on a password change.

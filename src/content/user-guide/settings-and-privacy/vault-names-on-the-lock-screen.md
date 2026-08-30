@@ -1,8 +1,8 @@
 ---
 title: "Vault names on the lock screen"
 category: "settings-and-privacy"
-updated: 2026-08-15
-summary: "The vault picker shows a vault's real name once this device has unlocked it at least once, on macOS and iOS, and a neutral placeholder everywhere else. A Privacy setting keeps names off that screen and destroys the copies stored here — but it cannot reach a disk image taken earlier, and a rename reaches another device only when it next unlocks the vault."
+updated: 2026-08-24
+summary: "The vault picker shows a vault's real name once this device has unlocked it at least once, on macOS and iOS, and a neutral placeholder everywhere else. A Privacy setting keeps names off that screen and destroys the copies stored here. It cannot reach a disk image taken earlier, and the setting itself is a plain file on this disk."
 tags: ["vault", "privacy", "settings"]
 ---
 
@@ -23,7 +23,7 @@ So Myne remembers instead. When you unlock a vault, it writes that vault's name 
 Three things follow from storing it that way:
 
 - A vault you have never unlocked on this device keeps its placeholder. Myne is not withholding the name; it does not have it.
-- The placeholder number belongs to the vault rather than to the row, so **Vault 2** stays **Vault 2** from launch to launch, even as the list reorders by when each vault was last opened.
+- The placeholder number belongs to the vault rather than to the row, so **Vault 2** stays **Vault 2** from launch to launch, even as the list reorders by when each vault was last opened. It is not fixed against a change to the set, though. The number is each vault's place in a fixed order of the vaults on this device, so adding a vault renumbers nobody, and deleting one moves every vault that sorted after it down by one, turning a **Vault 3** into a **Vault 2**. See [Delete a vault](/user-guide/settings-and-privacy/delete-a-vault/).
 - This stored copy never leaves the device that wrote it. It is not synced, and a `.myne-backup` cannot carry it: the backup format accepts a fixed list of contents, and this file is not on that list.
 
 ## Keeping names off the lock screen
@@ -37,6 +37,8 @@ Names are shown by default. To keep them off:
 The setting applies to this device rather than to one vault, and it is visible to everyone: you do not need [Developer mode](/user-guide/settings-and-privacy/developer-mode/) to find it. Turning it on does two things at once. Every name already stored on this device becomes unreadable, because Myne destroys the per-vault keys that open those files and then removes the files themselves; and no further name is written while the setting stays on. The picker falls back to placeholders on every row.
 
 Destroying the keys reaches the copy on this disk and nothing else: a full-system backup made by your operating system, a disk image, or any other system-level copy of this disk, taken while names were still showing, carries both the stored names and the keys that open them, and turning this setting on afterwards does not reach that copy.
+
+The switch reports whether the erase actually happened. Myne attempts every vault on this device, and if one of them will not give up its stored name it leaves the setting off and says so: "One stored name couldn't be destroyed, so the setting was left off rather than claiming an erase that did not happen. Try again." A switch that claimed more than it did would be worse than one that failed. Two other notices can appear on that row. "Couldn't read the current setting. Flip the switch to set it again." means Myne could not tell you which way the setting is; flip it to set it. "Couldn't save the setting, so it is unchanged. If you were turning it on, some stored names may already have been destroyed; turn it on again to finish." means the erase ran and the setting itself would not save, so turning it on again finishes the job.
 
 Turning the setting back off brings nothing back. Names return one vault at a time, as you unlock each one again.
 
@@ -54,6 +56,8 @@ That is a limit on where names can be stored, not a gap in the protection: a dev
 
 The Privacy row tells you which of the two you are on, rather than sitting there appearing to do nothing.
 
+In a browser the setting is not there at all, and there is nothing for it to do. A browser holds one vault per address, so there is no picker before unlock for a name to appear on, and a page has no keychain to seal a name with. The row is left out rather than shown greyed.
+
 ## Placeholders after moving your data
 
 You may also see placeholders after moving this app's data folder to another machine. The sealed files travelled with the folder, their keys did not, and a sealed file whose key is gone can never be opened again. Myne removes those files and shows placeholders. Nothing is damaged, and each vault gets its name back on the picker the next time you unlock it here.
@@ -67,6 +71,8 @@ While names are showing, they are showing to whoever is at your screen. That is 
 The stored copy is protected against someone who reads the disk afterwards, not against software running on your device now. A program with access to your session and your keychain can read what you can read. That is true of an unlocked vault in general, and the stored name is no exception.
 
 Erasing is real, and it is bounded exactly as stated above: a copy of this machine taken while names were showing still carries them, and nothing you do here reaches a copy someone already has.
+
+The erase is permanent; the setting that keeps it that way is not tamper-proof. Whether names are hidden is recorded in an ordinary file in this app's own configuration folder, outside the vault's encryption. It has to be, because the picker reads it before any vault is unlocked and so has no key to read it with. Someone who can write to this disk can put that file back to showing names, and the next unlock starts storing them again and mints a fresh key to seal them with. What was already erased stays erased: that was a key destruction rather than a setting. The Privacy row reads the same file, so a setting that has been flipped back shows there the next time you look at it.
 
 Finally, this setting covers this device. Each of your other devices keeps its own stored names, and its own stale ones, until you turn the setting on there as well.
 

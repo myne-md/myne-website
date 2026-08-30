@@ -1,12 +1,12 @@
 ---
 title: "Saved views"
 category: "editor-and-writing"
-updated: 2026-08-16
-summary: "Views are off by default; turn them on in Settings → Editor, then save a filtered, projected slice of your notes behind the sidebar's Views entry: build a condition filter, render matching notes as a card gallery, set a cover image, and import Obsidian Bases views. A view is a read-only projection, not a database."
+updated: 2026-08-24
+summary: "Views are off by default; turn them on in Settings → Editor, then save a filtered, projected slice of your notes behind the sidebar's Views entry: build a condition filter, render matching notes as cards, a table, or a list, set a cover image, and import Obsidian Bases views. A view is a read-only projection, not a database."
 tags: ["notes", "search", "folders"]
 ---
 
-A saved view is a filtered, projected slice of your notes that you can return to from the left sidebar. The feature is off by default and you turn it on in Settings. You build a view from condition filters — tag, folder, or free-text search — and Myne renders the matching notes as a calm card gallery, with optional cover images and a few display choices. You can also import view definitions from an Obsidian Bases `.base` file. A view is a read-only projection over your notes, not a database: it never changes a note, and there is no formula language behind it.
+A saved view is a filtered, projected slice of your notes that you can return to from the left sidebar. The feature is off by default and you turn it on in Settings. You build a view from condition filters (tag, folder, or free-text search) and Myne renders the matching notes as cards, as a table, or as a list, with optional cover images and a few display choices. You can also import view definitions from an Obsidian Bases `.base` file. A view is a read-only projection over your notes, not a database: it never changes a note, and there is no formula language behind it.
 
 ![The saved-view builder, where conditions filter and group which notes a view shows.](./saved-views.png)
 
@@ -22,11 +22,11 @@ Click the row or the caret and a flyout opens to the right, listing every saved 
 
 Right-clicking a view row in the flyout opens a menu:
 
-- **Edit filter…** — reopen the filter builder for this view.
-- **View settings…** — the cards display settings. This item appears for cards views only.
-- **Rename** — edit the view's name in place.
-- **Move up** / **Move down** — reorder the view within the list.
-- **Delete view** — remove the view definition.
+- **Edit filter…**: reopen the filter builder for this view.
+- **View settings…**: how the view renders, meaning its type, grouping, sorting, columns, and for a cards view its cover settings. It appears for every view type.
+- **Rename**: edit the view's name in place.
+- **Move up** / **Move down**: reorder the view within the list.
+- **Delete view**: remove the view definition.
 
 You can also reach the views from the **Views** button in the bottom bar, or with the **Browse views…** action in the command palette. Both expand the sidebar, scroll the row into view, open the flyout, and briefly highlight the row so the click always lands somewhere visible.
 
@@ -56,15 +56,28 @@ Cards are read-only — they only open notes, they never edit them:
 
 Right-clicking a card offers exactly four non-destructive actions: **Open**, **Open in new tab**, **Reveal in folder**, and **Copy link**. **Copy link** writes a wikilink to the clipboard and reports nothing either way, so check the clipboard rather than the screen. When no notes match the filter, the gallery reads **No notes match this view**.
 
-The other view types are not built yet. A view set to a table or list type shows **This view type arrives in a later update.** in place of its content.
+## The table and list views
 
-## Covers and display settings
+A view can also render as a table or as a list. You pick which in **View settings…**, and the choice is per view.
 
-For a cards view, **View settings…** opens a modal with three controls:
+A **table** draws one row per note: a **Name** column with the note's title, then one column for each frontmatter property you added under **Columns**. A **list** draws one line per note, with those same properties as a quiet detail line under the title.
 
-- **Cover image property** — the frontmatter property whose value is an image, shown as each card's cover. Leave it empty for no cover. To show the covers you set on notes themselves, point this at `cover`, which is the property [Note covers](/user-guide/editor-and-writing/note-covers/) writes.
-- **Image aspect ratio** — **Default (16:9)**, **16:9 (wide)**, **3:2**, **4:3**, or **1:1 (square)**.
-- **Card size** — a slider from 120 to 600 pixels (default 220), with a **Reset** button.
+Both behave like the cards gallery in every other respect. They group under the same section headings with a per-group count, they sort the same way, they open notes with the same clicks (single-click in the focused tab, ⌘-click or Ctrl-click or middle-click in a new tab, Alt-click to the side), and they offer the same four-item right-click menu. Both are read-only, like cards. When nothing matches the filter, all three read **No notes match this view**.
+
+## View settings and covers
+
+**View settings…** decides how a view renders. The first four controls apply to every view type:
+
+- **View type**: **Cards**, **Table**, or **List**.
+- **Group by**: the frontmatter property whose value groups the results under section headings, or **None** for one flat run.
+- **Sort by**: the property to sort on, or **None**. Pick one and an **Ascending** / **Descending** control appears beside it.
+- **Columns**: "Frontmatter properties shown as columns (table) or as a detail line (list / cards)."
+
+The last three appear for a cards view only:
+
+- **Cover image property**: the frontmatter property whose value is an image, shown as each card's cover. Leave it empty for no cover. To show the covers you set on notes themselves, point this at `cover`, which is the property [Note covers](/user-guide/editor-and-writing/note-covers/) writes. Properties already in your vault are offered as one-click chips under the field.
+- **Image aspect ratio**: **Default (16:9)**, **16:9 (wide)**, **3:2**, **4:3**, or **1:1 (square)**.
+- **Card size**: a slider from 120 to 600 pixels (default 220), with a **Reset** button.
 
 You can also set a cover on an individual note from its card. Hover the card and click **Set cover** (or **Change cover** if it already has one) to open the **Choose a cover image** modal. There you pick from a grid of images already in your vault, use **Upload** to add a new one, or drag and drop a file in. **Remove cover** clears the note's cover.
 

@@ -1,7 +1,7 @@
 ---
 title: "Footnotes and reference links"
 category: "markdown"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "How to use footnotes and reference-style links in your notes, how wikilink-style references appear, how the picker writes one for you, and how each renders in the reading view."
 tags: ["markdown", "links"]
 ---
@@ -20,7 +20,9 @@ Here is a claim.[^1]
 [^1]: And here is the supporting note.
 ```
 
-The marker `[^1]` renders as a small reference; clicking it jumps to the definition. The identifier can be any short label, not just a number (`[^source]` works). Definitions are usually grouped at the end of the note, but Myne finds them wherever they are. A definition can span multiple paragraphs, and a marker with no matching definition simply stays as plain text.
+The marker `[^1]` renders as a small reference; clicking it jumps to the definition. The identifier can be any short label, not just a number (`[^source]` works). Definitions are usually grouped at the end of the note, but Myne finds them wherever they are. A definition can span more than one paragraph: indent the continuation lines by four spaces. The definition ends at the first non-blank line indented less than that. A marker with no matching definition still renders as a marker, tinted to show that it points at nothing, and clicking it does nothing.
+
+Myne also draws a **Footnotes** list at the end of the note, under a rule: every definition in the note, ordered by where its marker first appears, each with a ↩ that jumps back to the marker. A definition nothing refers to is listed after the rest and labelled **unreferenced**. The list is drawn, not written: your `[^1]:` lines stay exactly where you put them, and nothing is added to your file.
 
 ## Reference-style links
 

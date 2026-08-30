@@ -20,9 +20,11 @@ There is one way Myne reads from a second vault without opening it, and it is wo
 
 When you have two or more vaults, Myne shows a **picker** at launch, and the vault-switcher chip at the top of the sidebar lets you switch while you work.
 
+**In a browser, one account per profile.** The browser client holds a single vault, so neither control exists there: no launch picker, and no switcher chip in the sidebar. To keep a second account on the same machine, use the Myne desktop app, or open Myne in a different browser profile.
+
 ## What's visible before you unlock
 
-On macOS and iOS, a vault this device has unlocked before is listed by its real name, from a sealed copy Myne keeps locally after that first unlock. On Windows, Linux and Android there is no keychain to seal that copy with yet, so every row stays neutral. A vault this device has never unlocked is shown neutrally instead, as **Vault 1**, **Vault 2**, and so on, because its name is still sealed inside it. A Privacy setting keeps names off that screen entirely and destroys the copies already stored here: see [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/). Either way, be aware of what *is* visible before any vault is unlocked: how many vaults you have, and when each was last opened. Their contents and notes stay sealed until you unlock them.
+On macOS and iOS, a vault this device has unlocked before is listed by its real name, from a sealed copy Myne keeps locally after that first unlock. On Windows, Linux and Android there is no keychain to seal that copy with yet, so every row stays neutral. A vault this device has never unlocked is shown neutrally instead, as **Vault 1**, **Vault 2**, and so on, because its name is still sealed inside it. That number belongs to the vault rather than to its row, so it does not move as you unlock vaults and the list reorders. It also counts across every vault on this device, not only the neutral ones, so a picker holding two named vaults and one never-unlocked one shows a lone **Vault 3**. A Privacy setting keeps names off that screen entirely and destroys the copies already stored here: see [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/). Either way, be aware of what *is* visible before any vault is unlocked: how many vaults you have, and when each was last opened. Their contents and notes stay sealed until you unlock them.
 
 ## Naming a vault and giving it an icon
 

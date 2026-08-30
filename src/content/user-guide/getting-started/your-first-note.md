@@ -1,8 +1,8 @@
 ---
 title: "Your first note"
 category: "getting-started"
-updated: 2026-08-13
-summary: "The example notes a new vault is seeded with, how to create a note of your own and name it, how Myne autosaves as you type, how each note is encrypted, and what the 'Local-only' indicator in the bottom bar means."
+updated: 2026-08-24
+summary: "The example notes a new vault is seeded with, how to create a note of your own and name it, how Myne autosaves as you type, how each note is encrypted, and what the bottom bar's save status tells you."
 tags: ["notes", "editor", "basics"]
 ---
 
@@ -35,11 +35,13 @@ Each note is encrypted with its own key, which is stored wrapped by your vault's
 
 ## Local-only
 
-The bottom bar reads **Local-only · not synced**. That is the literal, honest state of your notes:
+Nothing in the window announces this, because it is the default rather than a mode you switched on:
 
 Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
 AI is the one other door out, and it is off until you turn it on. Myne never sends your notes anywhere you have not named, and never downloads a model — but if the provider you name runs somewhere other than this computer, what you send it leaves this device. [Turning on AI](/user-guide/ai/turning-on-ai/) covers what each option means.
+
+Once you do turn on sync, the bottom bar starts reporting something about it: a note whose latest edits have not reached the server carries a small marker beside its save status, labelled **Not yet on the server**.
 
 ## Bringing notes in from somewhere else
 

@@ -100,7 +100,7 @@ A few things to check after a large import:
 
 Obsidian is one of six sources the same importer reads. When the flow opens, you land on a card grid asking "Where are your notes coming from?", one card per source. The first card is another Myne vault; the rest name a format, not a Myne feature:
 
-- **Another Myne vault** — a second vault on this device. It has its own article, because it is the one source that needs the other vault's password or recovery phrase and the one that loses nothing: [Combine two vaults](/user-guide/attachments-and-import/combine-two-vaults/).
+- **Myne vault** — a second vault on this device. It has its own article, because it is the one source that needs the other vault's password or recovery phrase, and the highest-fidelity one: both sides speak the same format, so nothing is converted. Some things still stay behind, and that article lists them: [Combine two vaults](/user-guide/attachments-and-import/combine-two-vaults/).
 - **Obsidian** — a vault folder of Markdown notes (the walkthrough above).
 - **Notion** — an unzipped export folder. Unzip the export yourself first: Myne reads the folder, not the `.zip`.
 - **Evernote** — a single `.enex` export file.

@@ -101,7 +101,7 @@
   {
     "slug": "attachments-and-import",
     "label": "Attachments & import",
-    "description": "Attach files and record voice notes, manage them in the attachments library, and import an existing Obsidian vault.",
+    "description": "Attach files and record voice notes, manage them in the attachments library, and bring notes in from another app or another Myne vault.",
     "intro": "overview",
     "articles": [
       "overview",

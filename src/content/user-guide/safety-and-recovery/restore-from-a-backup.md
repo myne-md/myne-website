@@ -1,7 +1,7 @@
 ---
 title: "Restore from a backup"
 category: "safety-and-recovery"
-updated: 2026-08-13
+updated: 2026-08-30
 summary: "How to restore your vault from a backup file, where you can start a restore from, what happens when a copy of the same vault already exists on this device, and how a damaged backup is handled."
 tags: ["backup", "recovery"]
 ---
@@ -16,7 +16,7 @@ You can start a restore from five places: the **Restore from backup** door on th
 
 Restoring does not ask for your password, because the backup is encrypted bytes and copying them back needs no key. The restored vault arrives **locked**; you open it afterward with its password or recovery phrase, the same as any vault.
 
-A restore **places a vault**; it does not merge one into another. If what you want is to bring notes from one vault into a vault you already have open, that is a different flow: see [Combine two Myne vaults](../attachments-and-import/combine-two-vaults).
+A restore **places a vault**; it does not merge one into another. If what you want is to bring notes from one vault into a vault you already have open, that is a different flow: see [Combine two Myne vaults](/user-guide/attachments-and-import/combine-two-vaults/).
 
 ## When a matching vault already exists
 

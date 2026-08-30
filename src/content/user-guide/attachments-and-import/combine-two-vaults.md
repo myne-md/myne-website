@@ -51,11 +51,13 @@ The summary counts everything, including what did not come across. Read it: this
 
 - **Version history.** The notes arrive with a clean history. The old history stays in the vault you imported from, which is still there.
 - **Deleted notes.** Anything in that vault's trash stays in its trash. Your deletions are not undone.
-- **Templates.**
+- **Templates.** A note marked as a template stays a template in the vault it is in. Templates are how you start a new note, so they belong with the vault you use to write, and bringing them across would put a second copy of every one of them in your template list.
 - **Attachments no imported note uses.** Files sitting in the source vault's attachment library with nothing pointing at them are not brought over.
 - **Settings, themes, window layout, search index, your devices and sync setup.** This brings notes and their attachments, not a whole vault.
 
-The summary gives you a count for each of these, so you can see what was left rather than discover it later.
+The summary counts the notes it left in the source vault's trash, the templates it left, the attachments this vault would not accept, and any link that now points at a note that did not come across. Version history and unused attachments are not counted, because Myne would have to read the whole source vault a second time to count them; they are named here instead so you know they stayed.
+
+Myne also writes all of this into a note, so the numbers are still there after you close the summary.
 
 ## Limits
 

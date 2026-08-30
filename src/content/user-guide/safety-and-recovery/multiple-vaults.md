@@ -8,15 +8,15 @@ tags: ["vault", "privacy"]
 
 You can keep more than one vault, say one for work and one for personal notes. They are fully separate, and Myne keeps only one open at a time. This article covers switching, what's visible before you unlock, and how vaults stay independent.
 
-If you have decided you no longer want two, you can bring the notes from one into the other: see [Combine two Myne vaults](../attachments-and-import/combine-two-vaults).
+If you have decided you no longer want two, you can bring the notes from one into the other: see [Combine two Myne vaults](/user-guide/attachments-and-import/combine-two-vaults/).
 
 ![The vault switcher menu open from the sidebar, listing your vaults with an option to create or switch to another.](./multiple-vaults.png)
 
 ## One vault open at a time
 
-Myne unlocks one vault at a time. Switching to another means locking the current one and unlocking the next with its own password. There is no way to hop between vaults without unlocking, and no way to read or edit a second vault while one is open.
+Myne unlocks one vault at a time. Switching to another means locking the current one and unlocking the next with its own password. There is no way to hop between vaults without unlocking, and no way to **open or edit** a second vault while one is open.
 
-One deliberate exception, and it is not an unlock: while you are [importing notes from another vault](../attachments-and-import/combine-two-vaults), Myne holds that vault's key in memory so it can read from it. You cannot open, edit or switch into it, and the key is dropped when the import finishes, when you lock the vault you are in, or after thirty minutes if an import is abandoned.
+There is one way Myne reads from a second vault without opening it, and it is worth knowing about because the sentence above is otherwise easy to over-read. While you are [importing notes from another vault](/user-guide/attachments-and-import/combine-two-vaults/), Myne holds that vault's key in memory for as long as the import runs, so it can read the notes it is copying. It is not an unlock: you cannot open that vault, edit it, or switch into it, and no editor ever opens on it. The key is dropped when the import finishes or fails, when you lock or switch the vault you are in, and when that vault is deleted or its password changed. If the app is killed mid-import so none of those happen, a timer drops it anyway.
 
 When you have two or more vaults, Myne shows a **picker** at launch, and the vault-switcher chip at the top of the sidebar lets you switch while you work.
 
@@ -36,7 +36,7 @@ Like the vault's contents, its name and icon live inside the vault's encrypted p
 
 Each vault is its own world: its own notes, folders, settings, recovery phrase, and backups. A backup is of one specific vault and restores only that vault. Changing your password in one vault does nothing to another. Nothing moves between them on its own.
 
-The one way anything crosses is if you ask for it: [importing notes from another vault](../attachments-and-import/combine-two-vaults) copies notes and their attachments into the vault you have open. It is one-directional, it runs once, and the vault you import from is not changed.
+The one way anything crosses is if you ask for it: [importing notes from another vault](/user-guide/attachments-and-import/combine-two-vaults/) copies notes and their attachments into the vault you have open. It is one-directional, it runs once, and the vault you import from is not changed.
 
 ## Managing the list
 

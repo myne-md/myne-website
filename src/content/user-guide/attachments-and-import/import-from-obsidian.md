@@ -41,8 +41,7 @@ The summary leads with the number of notes imported, then reports each other out
 - **Images compressed**: how much smaller the imported images are, when image compression is on.
 - **.canvas files skipped** and **Excalidraw drawings skipped**: drawings the importer reports and leaves behind rather than converting.
 - **Other files skipped**: files that are neither notes nor referenced media.
-- **Empty folders kept**: folders that came across with nothing in them. Every folder the import creates is remembered, whether or not it holds notes, so emptying one later does not delete it.
-- **Folders not kept**: only shown if the vault has more folders than Myne can remember. Those folders work, but they will disappear when their last note leaves them.
+- **Empty folders kept**: folders that came across with nothing in them.
 - **Cancelled**: how many notes were left unimported if you stopped the run.
 - **Needs attention**: everything the import wants you to look at by hand.
 

@@ -48,9 +48,7 @@ So in a normal session nothing is ever unsaved for long. In the worst case, a ha
 
 While a save is failing, actions that would rewrite the same note from disk are **declined rather than half-applied**: renaming a note or a folder, setting a cover, turning a note into a template, ticking a task from the Tasks panel. Myne says an open note has not finished saving and leaves the note alone. That is deliberate. Those actions read the file, change one field and write it back, so running one against a note whose newest text is still in the editor would write over your typing. Nothing is lost either way, and the action works normally as soon as the save lands.
 
-One action can land partly, and it is worth knowing which. Renaming a **folder** moves every note in it in a single all-or-nothing write, and then records separately that the folder is one you keep. If that second, smaller write fails, the rename itself has still happened: Myne says so, and an empty folder may reappear under the old name the next time you open the vault. Deleting it then is safe.
-
-Making a folder writes that same small record, and there Myne retries once before telling you anything, so a passing hiccup costs you nothing. If it still cannot record the folder, it says so: the folder works, but it will disappear when its last note leaves it. Very rarely it will say instead that the folder list is full. Myne remembers a large but limited number of folders, and past that a new one is not recorded; deleting a folder you no longer need makes room.
+One action can land partly, and it is worth knowing which. Renaming a **folder** moves every note in it in a single all-or-nothing write, and then records separately that the folder is one you created. If that second, smaller write fails, the rename itself has still happened: Myne says so, and an empty folder may reappear under the old name the next time you open the vault. Deleting it then is safe.
 
 ## Setting notes aside
 

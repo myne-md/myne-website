@@ -114,7 +114,7 @@ The Undo button is on the review screen, and it stays available once that screen
 
 Notes the run **created** are not part of that undo, and Myne says so when you use it. A new note has no earlier version to go back to, so removing one means moving it to Trash yourself.
 
-On a phone the same one-tap undo is there, and it ends sooner: locking the vault, switching vault or the phone reclaiming the app all take it, and backgrounding the app is enough. The strip says so in as many words, and points at the same durable path: "This one-tap undo lasts until you lock the vault or close the app. After that, restore notes one at a time from a note's version history."
+On a phone the same one-tap undo is there, and it ends sooner: locking the vault, switching vault or the phone reclaiming the app all take it, and backgrounding the app is enough. **The strip names two of those four**, and points at the durable path: "This one-tap undo lasts until you lock the vault or close the app. After that, restore notes one at a time from a note's version history." Backgrounding is not closing, and switching vault is not in the sentence at all, so on a phone the terminator you are most likely to hit is the one the strip does not mention. Treat the offer as lasting only while the app is in front of you.
 
 The reason it is not simply made to last is worth one sentence. That record names the notes a run changed, and keeping it across a restart would mean writing it to storage; the run's own proposal is text copied out of your notes, and Myne's design is that none of it is written down. The per-note snapshots, which are encrypted like everything else in your vault, are the version that persists.
 

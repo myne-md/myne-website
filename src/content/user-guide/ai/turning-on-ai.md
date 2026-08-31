@@ -13,7 +13,9 @@ AI is off until you turn it on and give Myne something to run. This page walks t
 - An unlocked vault.
 - Something for Myne to run: a model file you downloaded yourself, a model runtime already running on this computer, or a remote provider you name. Myne never downloads a model. See [Choosing model files](#choosing-model-files) below and [Where your AI runs](/user-guide/ai/where-your-ai-runs/).
 
-## Enabling local AI
+## Enabling local AI, on a computer
+
+These steps are the computer's. **A phone has no Developer mode and no Developer group**, and reaches AI from Settings directly; skip to [Enabling AI on a phone](#enabling-ai-on-a-phone) below.
 
 1. Open Settings from the gear in the bottom bar or with `⌘,`.
 2. Open the **About** panel and turn on **Developer mode**. The AI features live in a **Developer** group that stays hidden until you do this.

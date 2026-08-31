@@ -28,7 +28,7 @@ A folder can have one note that stands in as its index — its "folder note". A 
 
 ## Empty folders and loose notes
 
-Folders are kept on purpose. Once a folder holds a note, or once you make one to fill later, it stays: emptying it does not delete it, and the only thing that removes a folder is deleting it yourself. Notes do not have to live in a folder at all; **loose notes** at the top level are first-class, not an error state.
+Folders are kept on purpose. Once a folder holds a note, or once you make one to fill later, it stays: emptying it does not delete it. Deleting it yourself is the ordinary way one goes, and there is one case where a folder can still disappear on its own, described under [Notes and folders](/user-guide/notes-and-organization/notes-and-folders/): if Myne could not record the folder, or if the folder list was full, it works but does not survive its last note leaving. Notes do not have to live in a folder at all; **loose notes** at the top level are first-class, not an error state.
 
 ## Collapsing
 

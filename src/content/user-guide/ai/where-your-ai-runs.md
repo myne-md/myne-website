@@ -70,15 +70,17 @@ If one of those is somehow asked to go to a provider, Myne refuses in the same w
 
 ## On a phone
 
-There is no on-device option on a phone. Myne runs no model there, so the three
+There is no on-device option on a phone. No model there answers a question, summarizes or suggests a tag, so the three
 states above collapse to one: either you have named a remote provider, or AI
 does nothing. Every request goes to the service you name, and the text of the
 notes involved leaves the device when it does.
 
 The settings panel is **Settings → AI**, a top-level entry rather than something
 nested under Developer, and the switch that turns it on says the same thing:
-"Off by default. Myne runs no model on a phone, so every request goes to a
-service you name below, and your notes leave this device when it does."
+"Off by default. No AI model on this phone answers questions or reads your
+notes for AI, so every request goes to a service you name below, and your notes
+leave this device when it does. Transcription and image text still run here, on
+models that ship with Myne."
 
 **Approving on a laptop does not approve on a phone.** A phone you add to an
 account that already has AI set up arrives holding the provider, the model and

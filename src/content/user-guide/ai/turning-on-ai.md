@@ -25,13 +25,17 @@ Below the toggle, one sentence never changes (Myne never sends your notes anywhe
 ## Enabling AI on a phone
 
 The steps above are the computer's. A phone has no Developer group and no model
-files to choose, because Myne runs no model on a phone at all.
+files to choose, because no model on a phone answers questions or indexes your
+notes. (Transcription and image text do run on the phone, on models that ship
+with Myne; they are not part of this switch.)
 
 1. Open Settings and tap **AI**. It is a top-level entry, not nested under
    another category.
 2. Turn on **Use AI on this phone**. The helper says what that commits you to:
-   "Off by default. Myne runs no model on a phone, so every request goes to a
-   service you name below, and your notes leave this device when it does."
+   "Off by default. No AI model on this phone answers questions or reads your
+   notes for AI, so every request goes to a service you name below, and your
+   notes leave this device when it does. Transcription and image text still run
+   here, on models that ship with Myne."
 3. Choose a provider. Choosing one for the first time on this phone opens the
    consent screen described in
    [Where your AI runs](/user-guide/ai/where-your-ai-runs/), and nothing is

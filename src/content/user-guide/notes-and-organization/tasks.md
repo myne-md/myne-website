@@ -79,6 +79,14 @@ The toast says a reminder is due and nothing more. It never quotes the task, its
 
 Reminders are on to begin with. Turn them off under **Settings → Editor → Task reminders**; existing reminders stay written in your notes and simply stop being announced.
 
+### How far ahead Myne looks
+
+Under the reminders switch there is a **Schedule ahead** picker offering 1, 3, 5 or 7 days, and a line beneath it naming the date that choice reaches. Myne only prepares the reminders falling inside that window; anything further out is picked up on a later pass, as the window rolls forward with the days.
+
+The reason to make it shorter is privacy rather than speed. A prepared reminder is a time your device is holding on to, so a shorter window means fewer of your future plans are staged anywhere outside the encrypted note that holds them. Seven days is the default because it is the span most people want a reminder to survive; one day is the tightest, and a reminder set for next month still fires, it is simply prepared the day before rather than a month ahead.
+
+The setting is **per device**: a phone that travels and a computer that does not can hold different windows, and one does not overwrite the other. On a phone the same picker is in **Settings → Privacy**.
+
 ## Importing tasks
 
 Myne reads three task dialects and writes one. When you import a vault, tasks written in Obsidian's emoji form (the 📅, 🔁, and priority markers) and in Dataview-style inline fields (`[due:: …]`) are recognized, so your existing tasks light up without rework. Myne emits a single bracketed form of its own. State the consequence plainly before you rely on it: the first time you **edit** an imported task in Myne, its whole line is rewritten to that form, and it drops out of Obsidian's Tasks view. A task you never edit is left byte-for-byte as it was. See [Import from Obsidian](/user-guide/attachments-and-import/import-from-obsidian/) for the wider mapping.

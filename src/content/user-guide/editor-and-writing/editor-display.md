@@ -1,7 +1,7 @@
 ---
 title: "Editor display and typography"
 category: "editor-and-writing"
-updated: 2026-08-24
+updated: 2026-09-01
 summary: "Tune the editor's reading surface: text size, line spacing, content width, font, and an optional line-number gutter, plus how dates and times are printed. All controls live in Settings, apply live, and store in your encrypted vault prefs. Mixed-direction text needs no setting at all."
 tags: ["editor", "settings"]
 ---
@@ -33,9 +33,9 @@ Further down the **Editor** panel, under **Editing**, three controls decide how 
 
 - **Date format** — helper text: "How dates are shown across tasks, saved views and attachments." The options are **Match language**, which follows the interface language you chose, plus one option per layout, each labelled with the same worked example date so you can see what you are picking.
 - **Time format** — **Match language**, **24-hour**, or **12-hour**. Helper text: "Whether times are shown on a 24-hour or 12-hour clock."
-- **Time zone**, helper text: "Which zone decides what counts as today. Leave empty to follow this device. Times you write in a note are never changed; 09:00 stays 09:00 everywhere."
+- **Time zone**, helper text: "Which zone decides what counts as today, and so which note your daily, weekly and monthly notes open. Leave empty to follow this device. The choice settles per device: no other device overwrites it, so an override can put this device on a different day from your others. Times you write in a note are never changed; 09:00 stays 09:00 everywhere."
 
-The first two change what you see across tasks, saved views, and attachments; they never change a note. **Time zone** decides only what Myne counts as today, so a task due today stays due today when you travel. Type a zone name like `Europe/Berlin`; a name Myne cannot use is refused rather than stored, with "Myne doesn't know that time zone. Use a name like Europe/Berlin."
+The first two change what you see across tasks, saved views, and attachments; they never change a note. **Time zone** decides only what Myne counts as today, so a task due today stays due today when you travel, and so does which note [this week's or this month's note](/user-guide/notes-and-organization/periodic-notes/) opens. The command line is the exception: it uses the clock of the machine it runs on and says so. Type a zone name like `Europe/Berlin`; a name Myne cannot use is refused rather than stored, with "Myne doesn't know that time zone. Use a name like Europe/Berlin."
 
 A time you type into a note is never rewritten by any of this. Myne stores note times as plain wall-clock text, so `09:00` stays `09:00` everywhere, and no zone name is written into a note.
 
@@ -56,7 +56,9 @@ Each writes the same preference its Settings control writes, so the open editor 
 
 ## Where these settings live
 
-The display preferences — text size, line spacing, content width, font, the line-number toggle, and the date, time, and zone choices — are stored per vault in your encrypted vault prefs. They stay on your device and are never sent anywhere. Because Myne only writes a value when it differs from the default, a vault you have left untouched stays identical on disk to one where you explicitly chose every default.
+The display preferences (text size, line spacing, content width, font, the line-number toggle, and the date, time, and zone choices) are stored per vault in your encrypted vault prefs. They stay on your device and are never sent anywhere. Because Myne only writes a value when it differs from the default, a vault you have left untouched stays identical on disk to one where you explicitly chose every default.
+
+**The time zone is the one that behaves differently across your devices, and the two facts fit together rather than contradicting each other.** It is stored in the same encrypted vault prefs as the rest, so it does travel with the vault, and a device you add later starts out holding whatever it was set to. What is per-device is that no other device ever OVERWRITES it: change the zone on your laptop and your phone keeps its own. So the choice settles per device rather than never leaving one, and an override you set on a computer can put that computer on a different day from your phone.
 
 To reach Settings, click the gear in the bottom bar or press ⌘, (Ctrl , on Windows and Linux).
 

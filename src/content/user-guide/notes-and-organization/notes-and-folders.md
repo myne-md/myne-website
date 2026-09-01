@@ -1,7 +1,7 @@
 ---
 title: "Notes and folders"
 category: "notes-and-organization"
-updated: 2026-08-25
+updated: 2026-08-29
 summary: "How to create, rename, move, and delete notes and folders in Myne: the sidebar's + menu, the editor's Note actions menu, where a note's title actually comes from, how folders nest and stay private, and how autosave keeps your edits."
 tags: ["notes", "folders"]
 ---
@@ -24,7 +24,7 @@ To copy a note as a starting point, **Duplicate** makes a clone with a fresh tit
 
 ## Acting on the note you have open
 
-The sidebar's right-click menu is not the only way in. While a note is open, a **Note actions** menu sits at the top right of the editor with the actions that apply to that one note: **Rename**, **Move to folder…**, **Duplicate**, **Version history**, **Turn into template** (or **Convert to note** on a template), the four **Export as…** formats, and **Move to trash**. They do exactly what their sidebar equivalents do — the menu is there so you do not have to find the note's row first. It is absent on a new, empty tab, where there is no note for it to act on.
+The sidebar's right-click menu is not the only way in. While a note is open, a **Note actions** menu sits at the top right of the editor with the actions that apply to that one note: **Rename**, **Move to folder…**, **Duplicate**, **Version history**, **Turn into template** (or **Convert to note** on a template), **Export…**, which opens the four formats beside it rather than listing them in the menu, and **Move to trash**. They do exactly what their sidebar equivalents do, and the sidebar's own right-click menu groups Export the same way. The menu is there so you do not have to find the note's row first. It is absent on a new, empty tab, where there is no note for it to act on.
 
 ## Folders
 

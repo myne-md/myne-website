@@ -1,7 +1,7 @@
 ---
 title: "A tour of the interface"
 category: "getting-started"
-updated: 2026-08-24
+updated: 2026-08-29
 summary: "A guided tour of the main Myne window: the note sidebar and its plus menu, the tab strip and editor with its note-actions menu, the multi-tab right panel, the command palette, and the status bar along the bottom."
 tags: ["basics", "editor", "sidebar"]
 ---
@@ -26,7 +26,7 @@ The center is where you read and write. Notes open in **tabs** along the top, an
 
 In the top-left chrome, next to the sidebar toggle, two arrow buttons walk through the notes you have visited: **navigate back** (`⌘[` / `Ctrl [`) and **navigate forward** (`⌘]` / `Ctrl ]`). Each greys out when there is nowhere to go.
 
-In the top-right, while a note is open, a **…** button opens the note-actions menu: Rename, Add cover, Move to folder…, Duplicate, Version history, Turn into template, Export as Markdown, PDF, HTML or Plain Text, and Move to trash.
+In the top-right, while a note is open, a **…** button opens the note-actions menu: Rename, Add cover, Move to folder…, Duplicate, Version history, Turn into template, Export… (which opens the formats beside it: Markdown, PDF, HTML, Plain text) and Move to trash.
 
 The note's right-click menu in the sidebar overlaps with that list without matching it. It carries the organizing actions instead: Open in new tab, Open to the side, Move to…, Add to favorites, Set as folder note, Color…, Archive and Delete, alongside Rename, Duplicate and the same four exports. It does not offer Add cover, Version history or Turn into template. Use the **…** menu for what a note *is*, and the right-click menu for where a note *sits*.
 
@@ -51,7 +51,7 @@ How links and unlinked mentions work, and the rest of Myne's linking and search 
 The status bar along the bottom carries small, persistent controls and readouts. The left half is empty; everything sits in one cluster on the right, in this order:
 
 - **Side-by-side preview**: in source mode only, toggles a rendered preview beside the markdown. It is pinned at the start of the cluster and is the one item you cannot hide or reorder.
-- **Save status**: shows "Saving…" while a save is in flight, so you can see autosave working. Once sync is on, a note whose latest edits have not reached the server carries a small marker beside it, labelled **Not yet on the server**.
+- **Save status**: a dashed ring while your typing is still waiting to be written, a turning ring while it is being written, and a filled dot with the time once it is saved. Once sync is on, a note whose latest edits have not reached the server carries a crossed-out cloud after it, labelled **Not yet on the server**.
 - **Workspace** chip: shows the active named workspace and lets you switch between, rename, or save the current layout as a [named workspace](/user-guide/notes-and-organization/named-workspaces/).
 - **View mode**: shows the focused note's mode (Live, Reading, or Source) and cycles through them on click; see [View modes](/user-guide/editor-and-writing/view-modes/).
 - **Tags**: opens the [tag browser](/user-guide/find-and-connect/tags/) for the vault.

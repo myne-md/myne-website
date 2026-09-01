@@ -1,7 +1,7 @@
 ---
 title: "Attachments"
 category: "attachments-and-import"
-updated: 2026-08-24
+updated: 2026-08-29
 summary: "How to attach files to your notes, which file types render in place and which are kept as an export-only card, the size limits, and how attachments are stored inside the encrypted vault."
 tags: ["attachments", "notes"]
 ---
@@ -40,7 +40,9 @@ The control is **Compress images on import** in Settings → Files. It is a sing
 
 ## How attachments render
 
-In a note, an embedded image shows inline. A PDF shows a first-page preview where it can, and an icon otherwise.
+In a note, an embedded image takes a line of its own, the way a figure does rather than the way a word does. Everything that adds one for you (paste, drag and drop, the `/attach` picker, a voice note) writes it on its own line, so that is the shape you meet. An embed you typed in the middle of a sentence yourself stays where you put it, drawn inline; Myne never moves what you wrote.
+
+A PDF shows a first-page preview where it can, and an icon otherwise.
 
 An MP4 or WebM video shows an inline player with your system's own video controls; nothing plays until you press play, and a video your system has no codec for falls back to a file-card. A recorded voice note or an attached audio file shows as an inline player with a play control and a time readout. See [Voice notes](/user-guide/attachments-and-import/voice-notes/) for recording one with the `/record` command.
 
@@ -58,6 +60,8 @@ Every embedded image and PDF carries its own `⋯` menu in the top-right corner.
 - **Align left**, **Align center**, **Align right**. Picking the one already ticked clears it.
 - **Edit alt text…**: what a screen reader announces, and what [Search](/user-guide/find-and-connect/search/) can match on. To mark an image decorative so a screen reader skips it instead of reading out a camera filename, give it alt text and then clear that back to empty. Submitting an empty box on an embed that never had alt text leaves it as it was, because those are two different requests and only one of them is a decision about the image.
 - If Myne cannot read something in the embed, it says so rather than fixing it quietly: a warning sits beside the `⋯` and a **Could not read:** line at the bottom of the menu quotes the text as written. Your file is not changed.
+
+You can also **drag an image to size it**, if it is on a line of its own. Hovering one shows a bar on its right edge and a small grip in its bottom-right corner: drag the bar to set the width, or the corner to set width and height together. The picture follows your pointer while you drag and the note is written once, when you let go, so undo takes the whole drag back in one step. An image sharing a line with text has no handles, because there is no steady edge to take hold of there; the `⋯` menu still sizes it, and **Custom size…** takes the same exact numbers a drag would write.
 
 A size is a maximum, not a fixed frame: an image never grows wider than your text column, so changing the column width in **Settings → Editor** re-flows your notes rather than breaking them. **Full width** is the way to say "fill the page" and keeps meaning that on any screen, where a large pixel number does not.
 

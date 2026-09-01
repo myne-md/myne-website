@@ -1,7 +1,7 @@
 ---
 title: "Wikilinks"
 category: "find-and-connect"
-updated: 2026-08-24
+updated: 2026-08-29
 summary: "How to link notes together with wikilinks, how Myne resolves a link to its target note, how the link picker's prefixes deep-link to a heading or an imported block anchor, and what happens when a link points to a note that does not exist yet."
 tags: ["links", "notes"]
 ---
@@ -14,7 +14,7 @@ A wikilink connects one note to another inside your vault. You write it in doubl
 
 Write `[[Another note]]` and Myne renders it as a chip you can read past, and the link starts working:
 
-1. **In the editor**: the chip stands in for the bracketed text, so the prose stays clean.
+1. **In the editor**: the chip stands in for the bracketed text, so the prose stays clean. Click it and the note opens. Put the caret on the link's line and the chip lifts back to the brackets so you can edit where it points; clicking that raw text places the caret in it rather than following the link, which is what lets you fix a typo in a target.
 2. **In backlinks**: the linked note gains an entry pointing back to yours (see [Backlinks](/user-guide/find-and-connect/backlinks/)).
 3. **In the graph**: the link becomes an edge between the two notes (see [Graph view](/user-guide/find-and-connect/graph-view/)).
 
@@ -31,6 +31,8 @@ A folder link can break in two ways, and the chip's hint tells you which. **`(no
 ## Jump to a heading
 
 A wikilink can point past a note's title to a spot inside it. Write `[[Note#Heading]]` and following the link opens the note and scrolls to that heading; the chip reads `Note › Heading` so you can see where it lands. If the heading isn't there — it was renamed or removed — the link still opens the note, just at the top rather than failing.
+
+The list that appears while you type offers the notes you have opened most recently first, among the ones that match equally well. That matters most at the very start: the list opens the moment you type `[[`, before there is anything to match on, and the note you are linking to is usually one you have just had open.
 
 While you type a link, three prefixes help you fill in what comes after the note. `[[#` lists headings in the **current note**; `[[##` lists headings across the **whole vault**, so you can deep-link into another note without leaving your place; and `[[^^` lists the `^block-id` anchors that came in with an [imported Obsidian vault](/user-guide/attachments-and-import/import-your-notes/), so you can link to a marked line without remembering its id. Following one of these links scrolls to the anchor, opening the target note first when the link points somewhere else. Myne never mints new block-ids of its own, so headings are the anchor you author here.
 

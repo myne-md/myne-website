@@ -1,7 +1,7 @@
 ---
 title: "Tabs and split view"
 category: "notes-and-organization"
-updated: 2026-08-24
+updated: 2026-08-29
 summary: "How to open notes in multiple tabs and arrange them side by side with split view, what a new empty tab offers you instead of a blank note, and how Myne remembers your open workspace between sessions."
 tags: ["workspace", "editor"]
 ---
@@ -27,6 +27,8 @@ You can also **pin** a tab so it is protected from being replaced by the next no
 ## Your workspace is remembered
 
 Myne saves your open tabs and split layout and restores them the next time you unlock the vault, so you pick up where you left off.
+
+Each note also keeps its **reading position** for as long as the vault is unlocked. Leave a long note half way down, go somewhere else, come back, and you land where you were rather than at the top. It survives a split too, which is where it used to be lost: the pane you split is rebuilt from scratch, and what is remembered is the LINE you were on rather than a pixel offset, so a narrower pane that re-wraps the text still puts you back on the same sentence. Locking the vault clears it, along with everything else Myne holds in memory.
 
 You start in a workspace named **Default**, and you can keep several named workspaces — separate, switchable layout slots — for different kinds of work. Save the current arrangement under a name, switch between them, and rename or delete them from the workspace switcher in the bottom bar or from the command palette. See [Named workspaces](/user-guide/notes-and-organization/named-workspaces/) for the full walkthrough.
 

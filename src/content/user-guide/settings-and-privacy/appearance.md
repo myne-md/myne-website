@@ -1,7 +1,7 @@
 ---
 title: "Appearance"
 category: "settings-and-privacy"
-updated: 2026-08-24
+updated: 2026-08-30
 summary: "How to switch between the light, dark, AMOLED and system themes, set a custom accent color, import and export custom themes, install a theme from the Themes page, and how the app's appearance behaves while the vault is locked."
 tags: ["settings"]
 ---

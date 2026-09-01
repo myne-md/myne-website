@@ -1,7 +1,7 @@
 ---
 title: "Periodic notes"
 category: "notes-and-organization"
-updated: 2026-08-29
+updated: 2026-09-01
 summary: "How daily, weekly and monthly notes give you one note per period, how to open the current one, and how to pair each period with its own folder, title format and template."
 tags: ["notes", "templates"]
 ---
@@ -42,7 +42,9 @@ A title format is a small pattern. These pieces are replaced:
 | `gggg` | Four-digit **week-year** (see below)  | `2026`  |
 | `ww`   | Two-digit ISO week number            | `35`    |
 
-Anything else is kept as written. To keep a letter that would otherwise be replaced, put it in square brackets: `gggg-[W]ww` gives `2026-W35`, and the `W` survives because the brackets protect it. If you already use this pattern in another app, it will most likely work here unchanged.
+Anything else is kept as written. To keep a letter that would otherwise be replaced, put it in square brackets: `gggg-[W]ww` gives `2026-W35`, and the `W` survives because the brackets protect it.
+
+**A pattern you already use in another app will be SPELLED the same here, and `gggg` and `ww` always mean the ISO week, whatever that app was set to.** Most apps that use these letters let a locale decide where a week starts. Myne does not: weeks start Monday and the week number is the ISO one, always. That matches those apps under European locales and differs from their US default, so a `gggg-[W]ww` pattern carried over from an app on a US locale will produce a different week number for part of the year, and the notes it makes sit beside your old ones rather than in them. Myne freezes it this way on purpose: a week boundary that moved with a setting would change which note "open this week" opens, silently, for every note already written.
 
 The same pieces work in all three formats, daily included. **If you set a daily note title format before periodic notes existed, check it once.** `gggg`, `ww` and square brackets used to be ordinary characters there and are pattern pieces now, so a format like `YYYY-MM-DD [journal]` used to produce `2026-08-26 [journal]` and now produces `2026-08-26 journal`. Myne finds a note by its folder and its title, so the first "Open today's note" after the change makes a new note rather than opening the one already there. Nothing is deleted: the older notes keep the titles they were written with and stay in the folder. This is the same thing that happens whenever you edit a title format yourself.
 

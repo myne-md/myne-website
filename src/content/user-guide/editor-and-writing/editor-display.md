@@ -1,7 +1,7 @@
 ---
 title: "Editor display and typography"
 category: "editor-and-writing"
-updated: 2026-08-29
+updated: 2026-09-01
 summary: "Tune the editor's reading surface: text size, line spacing, content width, font, and an optional line-number gutter, plus how dates and times are printed. All controls live in Settings, apply live, and store in your encrypted vault prefs. Mixed-direction text needs no setting at all."
 tags: ["editor", "settings"]
 ---
@@ -56,7 +56,9 @@ Each writes the same preference its Settings control writes, so the open editor 
 
 ## Where these settings live
 
-The display preferences — text size, line spacing, content width, font, the line-number toggle, and the date, time, and zone choices — are stored per vault in your encrypted vault prefs. They stay on your device and are never sent anywhere. Because Myne only writes a value when it differs from the default, a vault you have left untouched stays identical on disk to one where you explicitly chose every default.
+The display preferences (text size, line spacing, content width, font, the line-number toggle, and the date, time, and zone choices) are stored per vault in your encrypted vault prefs. They stay on your device and are never sent anywhere. Because Myne only writes a value when it differs from the default, a vault you have left untouched stays identical on disk to one where you explicitly chose every default.
+
+**The time zone is the one that behaves differently across your devices, and the two facts fit together rather than contradicting each other.** It is stored in the same encrypted vault prefs as the rest, so it does travel with the vault, and a device you add later starts out holding whatever it was set to. What is per-device is that no other device ever OVERWRITES it: change the zone on your laptop and your phone keeps its own. So the choice settles per device rather than never leaving one, and an override you set on a computer can put that computer on a different day from your phone.
 
 To reach Settings, click the gear in the bottom bar or press ⌘, (Ctrl , on Windows and Linux).
 

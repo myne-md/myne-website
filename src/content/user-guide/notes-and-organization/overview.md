@@ -1,8 +1,8 @@
 ---
 title: "Notes & organization"
 category: "notes-and-organization"
-updated: 2026-08-13
-summary: "An overview of how Myne organizes notes (folders and folder notes, favorites, trash, the archive, tabs and split view, named workspaces, templates, daily notes, drawings, tasks, bulk selection, and sidebar customization) and where to find each feature."
+updated: 2026-09-01
+summary: "An overview of how Myne organizes notes (folders and folder notes, favorites, trash, the archive, tabs and split view, named workspaces, templates, periodic notes (daily, weekly and monthly), drawings, tasks, bulk selection, and sidebar customization) and where to find each feature."
 tags: ["notes", "folders"]
 ---
 

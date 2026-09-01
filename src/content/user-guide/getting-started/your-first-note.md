@@ -45,9 +45,9 @@ Once you do turn on sync, the bottom bar starts reporting something about it: a 
 
 ## Bringing notes in from somewhere else
 
-The first time you unlock a fresh vault, Myne asks whether you want to import your existing notes. Choosing **Choose folder…** opens the importer, where you pick the source: Obsidian, Notion, Evernote, HTML, or CSV. Each note is encrypted as it is imported, and your original files stay exactly where they are.
+The first time you unlock a fresh vault, Myne asks whether you want to import your existing notes. Choosing **Choose folder…** opens the importer, where you pick the source: another Myne vault, Obsidian, Notion, Evernote, HTML, or CSV. Each note is encrypted as it is imported, and your original files stay exactly where they are.
 
-The offer appears until you act on it once. **Not now** is safe: it dismisses the offer for good and does not come back. You can import at any time afterwards from Settings → Storage. What each importer does, and how it maps notes, links and attachments, is in [Import from Obsidian](/user-guide/attachments-and-import/import-from-obsidian/).
+The offer appears until you act on it once. **Not now** is safe: it dismisses the offer for good and does not come back. You can import at any time afterwards from Settings → Storage. What each importer does, and how it maps notes, links and attachments, is in [Import your notes](/user-guide/attachments-and-import/import-your-notes/).
 
 ## Limits
 

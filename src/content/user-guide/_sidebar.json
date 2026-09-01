@@ -18,7 +18,7 @@
   {
     "slug": "notes-and-organization",
     "label": "Notes & organization",
-    "description": "Organize your vault with folders and folder notes, favorites, trash and archive, multi-select actions, tabs, split view and named workspaces, templates, daily notes, drawings, and tasks.",
+    "description": "Organize your vault with folders and folder notes, favorites, trash and archive, multi-select actions, tabs, split view and named workspaces, templates, periodic notes (daily, weekly and monthly), drawings, and tasks.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -32,7 +32,7 @@
       "pinned-and-stacked-tabs",
       "named-workspaces",
       "templates",
-      "daily-notes",
+      "periodic-notes",
       "drawings",
       "tasks",
       "sidebar-customization",
@@ -101,14 +101,15 @@
   {
     "slug": "attachments-and-import",
     "label": "Attachments & import",
-    "description": "Attach files and record voice notes, manage them in the attachments library, and import an existing Obsidian vault.",
+    "description": "Attach files and record voice notes, manage them in the attachments library, and bring notes in from another app or another Myne vault.",
     "intro": "overview",
     "articles": [
       "overview",
       "attachments",
       "voice-notes",
       "attachments-library",
-      "import-from-obsidian",
+      "import-your-notes",
+      "combine-two-vaults",
       "browser-clipper"
     ]
   },
@@ -174,6 +175,7 @@
       "account",
       "appearance",
       "language",
+      "dates-and-times",
       "custom-theme-reference",
       "files",
       "auto-lock-and-screen-capture",

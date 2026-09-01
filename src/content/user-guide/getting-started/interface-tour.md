@@ -40,7 +40,7 @@ The right sidebar is a multi-tab panel. A strip of tabs at the top switches what
 - **Unlinked mentions**: notes that name this one without linking to it.
 - **Outline**: the note's headings, as a jump list.
 - **Tasks**: the open note's own checklist items, in one place. The vault-wide [Tasks](/user-guide/notes-and-organization/tasks/) view is separate; this tab is about the note you are reading.
-- **AI Chat**: a chat panel over your notes. It appears only once you have turned AI on, and AI is off by default — with it off, the tab is not in the strip at all. Turning it on is itself behind Developer mode; see [Turning on AI](/user-guide/ai/turning-on-ai/).
+- **AI Chat**: a chat panel over your notes. It appears only once you have turned AI on, and AI is off by default — with it off, the tab is not in the strip at all. On a computer, turning it on is itself behind Developer mode; on a phone there is no such group and **AI** is a top-level Settings category. See [Turning on AI](/user-guide/ai/turning-on-ai/).
 
 The tabs behave like the items in the bottom bar: right-click the strip to hide or show individual tabs, and drag a tab to reorder it. Your choices persist with the vault.
 

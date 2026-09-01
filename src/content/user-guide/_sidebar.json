@@ -18,7 +18,7 @@
   {
     "slug": "notes-and-organization",
     "label": "Notes & organization",
-    "description": "Organize your vault with folders and folder notes, favorites, trash and archive, multi-select actions, tabs, split view and named workspaces, templates, daily notes, drawings, and tasks.",
+    "description": "Organize your vault with folders and folder notes, favorites, trash and archive, multi-select actions, tabs, split view and named workspaces, templates, periodic notes (daily, weekly and monthly), drawings, and tasks.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -32,7 +32,7 @@
       "pinned-and-stacked-tabs",
       "named-workspaces",
       "templates",
-      "daily-notes",
+      "periodic-notes",
       "drawings",
       "tasks",
       "sidebar-customization",
@@ -175,6 +175,7 @@
       "account",
       "appearance",
       "language",
+      "dates-and-times",
       "custom-theme-reference",
       "files",
       "auto-lock-and-screen-capture",

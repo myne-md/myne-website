@@ -21,6 +21,18 @@ The AI can do more than answer questions about your notes: it can propose change
 4. Type what you want changed in the box marked **Ask the AI to change these notes** and send it. Enter sends; Shift+Enter starts a new line.
 5. The AI reads the notes it needs and works. Its progress, the number of notes it can currently change, and a **Stop** button sit just above the composer for as long as it runs.
 
+The AI remembers the conversation. Ask something, then say "add that to the
+note" and it knows what you meant: recent messages travel with your next one, so
+a run can follow on from the answer before it. What travels is what you can see
+in the panel, your messages and its replies, and nothing else. Notes it read
+during an earlier run do not come along.
+
+Only the recent part travels, not the whole conversation, and an older message
+that was too long arrives shortened and marked as shortened. If you are asking
+about something far back in a long conversation, say it again rather than
+pointing at it. **New chat** clears this: the next run starts with no memory of
+what came before.
+
 Notes at the top level of your vault are not offered as a folder. With no note open and no folder attached there is nothing for a run to work on, so **Send** stays greyed out and nothing on screen says why.
 
 The run appears in the same conversation as your questions. When it stops, its turn stays there with what it proposed and three figures about the run itself: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider. You can look back at all of it once the review screen has gone.
@@ -92,6 +104,30 @@ The set is fixed when you approve it. If you allow a folder and a note is added 
 
 There is no limit on how many times it can ask, or on how large the scope can become. The running total is shown while the run works and on the review screen, and that number is the thing to watch. If it is climbing past what you expected, stop the run.
 
+## Adding to a note
+
+Not every change replaces something. When you ask the AI to add material rather
+than rewrite it, it appends to the end of the note, and the review screen shows
+the new text as an addition with nothing removed.
+
+This is the only way it can write into a note that is **empty**. A change that
+replaces text needs some existing text to attach itself to, and an empty note has
+none, so before this the AI would tell you the note was empty rather than fill
+it. Now it fills it.
+
+Two things it will not do while adding:
+
+- **It cannot put text above the note's properties.** Anything it adds goes into
+  the body, underneath them. If the note has no properties and no text at all, and
+  what the AI wants to add would read as a properties block, Myne refuses that
+  change rather than writing something you did not intend.
+- **It cannot move the note to another folder.** No change the AI proposes may
+  alter which folder a note is in, and one that would is refused with **Could not
+  be applied: that change would move the note to another folder.** That holds for
+  every change, not only additions, and it holds whether you approve one change or
+  all of them. Folders are how you keep notes away from the AI, so the AI does not
+  get to choose them.
+
 ## New notes
 
 The AI can also propose new notes. Those appear on the review screen as their own group, with the title, the folder and the whole body, and you can reject any of them the same way you reject a change. Only the ones you keep are created.
@@ -139,7 +175,7 @@ In both cases **Send** stays blocked and what you typed is kept, so changing mod
 - **Approving is the protection, and it is a human one.** Myne does not limit how large a run can get. It shows you the number and asks you each time.
 - **Nothing survives locking your vault.** If the vault locks while a run is working, or while its changes are waiting for you, the run is cancelled and the proposal is gone. Nothing was written. Myne gives you no warning about this before a long run, so check your auto-lock setting yourself first: a run over a folder can take minutes, and an idle lock in the middle of one throws the work away.
 - **New chat does the same thing, on purpose.** Starting a new conversation stops a run that is working and discards a proposal that was waiting for you, for the same reason: the proposal belongs to the conversation you are clearing. Nothing was written, and the offer to undo an earlier run that *did* write is kept.
-- **On a remote provider, the notes leave your device.** A run opens by sending the title and identifier of every note in its scope, before it has read any of them, and when the scope is exactly one note it sends that note's text as well. Every further note the run reads goes too. Myne cannot see or control what that provider keeps. There is no limit on how many requests one run makes, so the cost is yours and it is not capped; when the run stops, its turn reports how many requests it made, how many notes it read, and roughly how many characters of your notes were sent. A run that stayed on this device says **nothing left this device** in the same place.
+- **On a remote provider, the notes leave your device.** A run opens by sending the title and identifier of every note in its scope, before it has read any of them, and when the scope is exactly one note it sends that note's text as well. Every further note the run reads goes too, and so does the recent part of your conversation with the panel, since that is what lets a follow-up refer to the answer before it. Myne cannot see or control what that provider keeps. There is no limit on how many requests one run makes, so the cost is yours and it is not capped; when the run stops, its turn reports how many requests it made, how many notes it read, and roughly how many characters of your notes were sent. A run that stayed on this device says **nothing left this device** in the same place.
 - **Your excluded folders stay excluded, and they stay excluded during the run.** Notes in a folder you have excluded from AI are removed from the scope, and the approval screen tells you how many were removed. Excluding a folder while a run is working takes effect at once: from that moment its notes stop being listed, searched and read, and on a remote provider stop being sent. A change that can no longer be applied says so on the review screen rather than being written: **Could not be applied: that note's folder is now excluded from AI.** A refused change is not marked applied, so you can approve it again once the cause is gone.
 - **On a phone, a run ends when the app does.** Locking the vault, switching vault and putting the app in the background all cancel the run and clear the proposal. The first two match the computer; the third does not, and it is the one that will bite: on a phone, taking a call or checking a message is how most long runs will end. Myne tells you the run was cancelled rather than leaving a screen that looks like it is still working, and nothing was written.
 

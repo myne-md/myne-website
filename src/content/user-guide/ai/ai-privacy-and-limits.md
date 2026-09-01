@@ -14,6 +14,39 @@ Where AI work runs is a setting you control, and the default is that nothing lea
 
 The three states, the consent screen shown before the first remote request, and what is refused a provider outright are covered in [Where your AI runs](/user-guide/ai/where-your-ai-runs/).
 
+## What an agent run carries besides the notes
+
+When you send a message to the AI panel, a run carries the recent part of your
+conversation with it: your earlier messages and the AI's earlier replies. That is
+what lets you ask something and then say "add that to the note" without repeating
+yourself. It is the text you can see in the panel, and only that. Notes read
+during an earlier run are not carried, and neither is anything the AI proposed
+but you did not approve.
+
+Two bounds on it are worth knowing, because they are the only ones there are.
+
+It is limited by length rather than by how far back it goes: roughly three
+thousand characters by default, oldest messages dropped first, and a single
+message too long for that arrives shortened and marked as shortened so the AI
+does not read a cut-off list as a complete one. If you turn that number up in
+developer options, more of your conversation travels with every request, and on a
+remote provider that is more of your text leaving the device. Myne caps how far
+you can raise it.
+
+It is **not** limited by the scope you set. If an earlier answer came from a run
+over a whole folder, that answer still travels when your next run is scoped to a
+single note. Narrowing the scope narrows what the AI can read and change; it does
+not un-say what was already said in the conversation. Use **New chat** when you
+want a genuinely fresh start.
+
+On a remote provider, Myne also asks the provider to keep a copy of the fixed
+instructions it sends at the start of every request, which is what makes a long
+run cheaper. That is the same text every time and contains none of your notes,
+but it is worth saying plainly: for that part, Myne is asking the provider to
+retain something rather than merely accepting that it might. What the provider
+actually does with anything it receives is outside what Myne can see or promise,
+and that has not changed.
+
 ## In-process, not sandboxed
 
 This is the part that bounds the guarantee. In this version the model runs inside the main Myne process, the same process that holds your decrypted notes and encryption keys. It is not isolated from them.

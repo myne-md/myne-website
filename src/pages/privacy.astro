@@ -79,7 +79,7 @@ const network = [
     feature: "AI via a remote provider",
     goes: "Yes — note text leaves your device. An agent run also sends the titles and identifiers of every note in the scope you approved, before it has read any of them.",
     where: "The provider you named",
-    when: "Only when five separate conditions are all true: you named a provider, you consented to that specific provider, you supplied its key, AI is enabled, and developer mode is on. Every one of them is off by default, and with none named the code path is unreachable rather than merely disabled. One request per thing you ask for, except an agent run, which makes a bounded series of them: how many is decided by the model, not by us.",
+    when: "Only when every condition is true, and the set differs by platform. On a computer there are five: you named a provider, you consented to that specific provider, you supplied its key, AI is enabled, and developer mode is on. On a phone the first four apply and there is no developer mode, so there are four. Every one of them is off by default, and with none named the code path is unreachable rather than merely disabled. One request per thing you ask for, except an agent run, which makes a bounded series of them: how many is decided by the model, not by us.",
   },
   {
     feature: "Web clipper",
@@ -239,8 +239,9 @@ const notStored = [
           > sends your notes, encrypted, to the server you chose — that is the feature. <strong
             style="color:#e6e6e4;">AI via a remote provider</strong
           > sends note text <em>in the clear</em> to a company that is not us, because that is what asking
-          a remote model to read your note means. It is off, it takes five deliberate steps to turn on,
-          and once on, that provider's privacy policy governs what they do with what you send. We do
+          a remote model to read your note means. It is off, and turning it on takes five deliberate
+          steps on a computer and four on a phone, which has no developer mode; once on, that
+          provider's privacy policy governs what they do with what you send. We do
           not proxy it and we never see it.
         </p>
         <p style={body}>

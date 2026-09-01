@@ -50,7 +50,7 @@ A few things worth knowing:
 
 Appearance now holds purely-visual controls. Note-authoring settings that used to live here have moved to the new **Editor** panel:
 
-- **Daily notes** setup — the folder they go in and the date format for their titles — is now under **Settings → Editor**. What daily notes are and how to open today's note is covered in [Daily notes](/user-guide/notes-and-organization/daily-notes/). That date format is the daily note's TITLE only; how Myne writes a date everywhere else is [Dates and times](/user-guide/settings-and-privacy/dates-and-times/).
+- **Periodic notes** setup, meaning the folder each period's notes go in, the format for their titles and their templates, is now under **Settings → Editor**. What periodic notes are and how to open the current one is covered in [Periodic notes](/user-guide/notes-and-organization/periodic-notes/).
 - **Spell check** — the toggle and language picker — is also under **Settings → Editor**, described in [Spell check](/user-guide/editor-and-writing/spell-check/).
 
 The Editor panel is also where the editor's typography presets live — text size, line spacing, content width, and the editor font. Those are covered in [Editor display](/user-guide/editor-and-writing/editor-display/).

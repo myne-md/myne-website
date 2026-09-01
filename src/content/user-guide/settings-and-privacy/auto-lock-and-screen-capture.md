@@ -30,7 +30,7 @@ Two ceilings apply. Quick unlock allows **five consecutive failed attempts**; on
 
 Screen-capture protection asks your operating system to keep the Myne window out of screenshots and screen recordings. It is applied before the window is first painted, and it is **on by default**.
 
-You can toggle it in the Privacy panel, and the toggle governs what happens **after** you unlock: the Welcome and Unlock screens are always protected, whatever the setting says. The panel says so when the toggle is off — "Protection always applies before unlock. After unlock, follows this preference." Turning it off is what you do to take a screenshot of your own notes.
+You can toggle it in the Privacy panel, and the toggle governs what happens **after** you unlock: the Welcome and Unlock screens are protected whatever the setting says, because that setting lives inside your vault and cannot be read until the vault is open. The panel says so when the toggle is off: "Protection always applies before unlock. After unlock, follows this preference." Turning it off is what you do to take a screenshot of your own notes. If protection before unlock is what is in your way, see [If the window looks black](#if-the-window-looks-black) below.
 
 Be clear about its reach:
 
@@ -39,6 +39,34 @@ Be clear about its reach:
 - On **Linux**, no display server lets an application ask to be left out of a capture, so there is nothing for Myne to call. That is how the display servers work rather than a feature Myne has not written yet. On X11 any client can read the screen, so there is nowhere to put the check. On Wayland the compositor decides, and two of them let you set it yourself, per window: KWin's **Hide from Screencast** (Plasma 6.6, kept as a window rule from 6.7) and Hyprland's `no_screen_share` window rule. Set it there if you need it; Myne cannot ask for it on your behalf.
 - In a **browser**, a page cannot ask a compositor for this at all, so the setting governs nothing there.
 - Where it does work it uses the operating system's own content-protection feature, so it is only as strong as that feature, and it is **not anti-malware**. It stops a cooperating screen recorder from catching the window; it cannot stop software that has already compromised your machine from reading what's on screen.
+
+### If the window looks black
+
+On Windows, protection works by asking the compositor to leave the Myne window out of every capture. Some software you might *want* to see the window is on the other side of that: remote-desktop tools, screen sharing in a meeting, and screen magnifiers such as ZoomText all read the screen the same way a recorder does. To them, Myne is a black rectangle.
+
+That matters most before you unlock, because the setting above cannot help you there: it lives inside your vault, and your vault is closed. Behind that black rectangle are the screens you least want to be locked out of: your account number, the 24-word recovery phrase you are asked to write down when you create a vault, and the QR code for adding a device.
+
+So there is a way out that does not need an open vault. On any screen before unlock:
+
+1. Press **Tab**, or **Shift+Tab** on the Unlock screen, where the password box already has the cursor. Either way the control you land on is a button labelled **Turn off screen-capture protection**: it is first on the screen, and invisible until you focus it, so it costs nothing on a screen you can already read, and a screen reader announces it whether or not the window is drawing.
+2. Press **Enter**. A dialog explains what turning it off means before anything is saved.
+3. Confirm. The window becomes visible to whatever was seeing black.
+
+This is **per device**, not per vault. It applies before you unlock and after, it is not synced to your other devices, and it stays set until you turn it back on. The same switch is in the Privacy panel afterwards, as **Allow screen capture on this device**, and while it is on, the toggle above it is greyed out and says why. Two switches quietly fighting over one window is worse than one switch that tells you which one is winning.
+
+If you cannot reach the keyboard control at all (you are talking someone through it over the phone, say), the Myne app also accepts a command-line flag. Start the app itself with it, not the `myne` terminal command, which does something else entirely and will answer `unknown command`:
+
+```
+# macOS
+open -a Myne --args --disable-screen-capture-protection
+
+# Linux
+myne-desktop --disable-screen-capture-protection
+```
+
+On Windows, run `Myne.exe` with the same flag, from a terminal in the install directory or by adding it to a shortcut's Target.
+
+That turns protection off for **one run** and saves nothing on its own. **Quit Myne first if it is already open.** On Windows and Linux a second launch carrying the flag is handed to the window that is already running, so it takes effect there too, but macOS does not pass arguments to an app that is already open, so on a Mac the flag only counts at a fresh start. It is also the way back in if the saved setting is ever unreadable, because a setting Myne cannot read is treated as protection **on**, which is safer and recoverable with one flag.
 
 ## Limits
 

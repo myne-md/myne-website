@@ -1,12 +1,12 @@
 ---
-title: "Import from Obsidian"
+title: "Import your notes"
 category: "attachments-and-import"
-updated: 2026-08-24
-summary: "How to import an existing Obsidian vault into Myne and, through the same flow, from Notion, Evernote, HTML, and CSV. How notes, links, and attachments map, and the edge cases to check in the import summary and report."
+updated: 2026-08-30
+summary: "How to import notes into Myne from another Myne vault, Obsidian, Notion, Evernote, HTML, and CSV: one flow, six sources. How notes, links, and attachments map, and the edge cases to check in the import summary and report."
 tags: ["import", "attachments"]
 ---
 
-If you are coming from Obsidian, Myne can import an existing vault (your notes, your folder structure, your links, and your attachments) in one pass. Obsidian is one of five sources the same importer reads — Notion, Evernote, HTML, and CSV are the others — so this article walks the Obsidian path in full and covers the other four under "Other sources", below. The import is a one-time, one-way copy: Myne reads your Obsidian vault and builds a Myne vault from it. It is **not** sync; nothing connects the two afterward, and nothing leaves this device.
+If you are coming from Obsidian, Myne can import an existing vault (your notes, your folder structure, your links, and your attachments) in one pass. Obsidian is one of six sources the same importer reads. Another Myne vault, Notion, Evernote, HTML, and CSV are the others, so this article walks the Obsidian path in full and covers the rest under "Other sources", below. The import is a one-time, one-way copy: Myne reads your Obsidian vault and builds a Myne vault from it. It is **not** sync; nothing connects the two afterward, and nothing leaves this device.
 
 ## Before you start
 
@@ -98,17 +98,18 @@ A few things to check after a large import:
 
 ## Other sources
 
-Obsidian is one of five sources the same importer reads. When the flow opens, you land on a card grid asking "Where are your notes coming from?" — one card per source. Each card names a format, not a Myne feature:
+Obsidian is one of six sources the same importer reads. When the flow opens, you land on a card grid asking "Where are your notes coming from?", one card per source. The first card is another Myne vault; the rest name a format, not a Myne feature:
 
+- **Myne vault** — a second vault on this device. It has its own article, because it is the one source that needs the other vault's password or recovery phrase, and the highest-fidelity one: both sides speak the same format, so nothing is converted. Some things still stay behind, and that article lists them: [Combine two vaults](/user-guide/attachments-and-import/combine-two-vaults/).
 - **Obsidian** — a vault folder of Markdown notes (the walkthrough above).
 - **Notion** — an unzipped export folder. Unzip the export yourself first: Myne reads the folder, not the `.zip`.
 - **Evernote** — a single `.enex` export file.
 - **HTML** — a folder of saved web pages.
 - **CSV** — one spreadsheet file, which becomes a single note holding the table (one note, not one note per row — Myne is not a database).
 
-Whichever you pick, the setup step shows that source's own **keeps / leaves behind** disclosure before the import starts, so you see the fidelity bar for that format up front. For HTML, for example, it keeps headings, lists, tables, links, code and emphasis, and leaves behind styling, scripts and embeds — remote images stay as links and are never downloaded.
+Whichever format you pick, the setup step shows that source's own **keeps / leaves behind** disclosure before the import starts, so you see the fidelity bar for that format up front. A Myne vault has no such list, because there is no construct one Myne vault has and another does not. For HTML, for example, it keeps headings, lists, tables, links, code and emphasis, and leaves behind styling, scripts and embeds — remote images stay as links and are never downloaded.
 
-Every source funnels through the same ingest path, so the outcomes above hold for all five: nothing is overwritten, re-running is safe, and your original files are never changed. Where a note imports but loses a construct the format has and Myne does not (a Notion toggle, an HTML callout) the importer collects those into an **import report**: an ordinary note it writes at the end, when there is anything to report, titled `Import report (<source>) <time>`, linking each affected note next to what was dropped. It is a plain note you can read, act on, and delete.
+Every source funnels through the same ingest path, so the outcomes above hold for all six: nothing is overwritten, re-running is safe, and your original files are never changed. Where a note imports but loses a construct the format has and Myne does not (a Notion toggle, an HTML callout) the importer collects those into an **import report**: an ordinary note it writes at the end, when there is anything to report, titled `Import report (<source>) <time>`, linking each affected note next to what was dropped. It is a plain note you can read, act on, and delete.
 
 ## Limits
 

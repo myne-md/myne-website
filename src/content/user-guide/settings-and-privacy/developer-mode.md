@@ -16,7 +16,7 @@ Developer mode reveals the settings Myne keeps out of the way by default: the on
 
 Open Settings from the gear in the bottom bar or with `⌘,`, choose **About** in the left rail, and switch on **Developer mode**. It takes effect immediately — there is no restart and no confirmation step.
 
-The setting is not synced, so it does not travel to your other computers: each device decides for itself, and so does each vault on that device. It is kept with the rest of this vault's preferences, which means a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) of the vault carries it along; sync never does.
+The setting is per device: switching it on here does not switch it on anywhere else, and each vault on this device decides separately. It is kept with the rest of this vault's preferences, in the encrypted preferences file, which travels to the server like the rest of your vault and stays unreadable there. What "per device" means is that your choice here is the one that wins on this device, not that the value never leaves it: a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) carries it along, and a brand-new device that has never had an opinion starts from whatever the vault last held.
 
 ## What it reveals
 

@@ -1,7 +1,7 @@
 ---
 title: "Welcome to Myne"
 category: "getting-started"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "An orientation to Myne, the local-first encrypted markdown notebook, and a map of the Getting started section: installing the app, creating a vault, saving your recovery phrase, and finding your way around the editor."
 tags: ["basics", "vault"]
 ---
@@ -14,7 +14,7 @@ Myne is a local-first, encrypted markdown notebook. You write in plain markdown,
 
 - **Encrypted by default.** Encryption is the only mode; there is no plaintext option to forget to turn on.
 - **No account, no email.** You don't sign up. A vault is created locally, protected by a password only you know.
-- **A vault is a folder of encrypted files on your device.** It is not a single file and not a cloud account, but a directory Myne creates and manages on your disk, where each note is its own encrypted file.
+- **A vault is a set of encrypted files that stay where you are.** It is not a single file and not a cloud account: each note is its own encrypted file. On a computer or a phone that is a directory Myne creates and manages on your disk. In a browser it is the browser's own storage for the site, with no folder to open; see [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/).
 
 Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 

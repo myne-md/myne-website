@@ -18,7 +18,7 @@
   {
     "slug": "notes-and-organization",
     "label": "Notes & organization",
-    "description": "Organize your vault with folders and folder notes, favorites, trash and archive, multi-select actions, tabs, split view and named workspaces, templates, daily notes, drawings, and tasks.",
+    "description": "Organize your vault with folders and folder notes, favorites, trash and archive, multi-select actions, tabs, split view and named workspaces, templates, periodic notes (daily, weekly and monthly), drawings, and tasks.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -32,7 +32,7 @@
       "pinned-and-stacked-tabs",
       "named-workspaces",
       "templates",
-      "daily-notes",
+      "periodic-notes",
       "drawings",
       "tasks",
       "sidebar-customization",
@@ -101,14 +101,15 @@
   {
     "slug": "attachments-and-import",
     "label": "Attachments & import",
-    "description": "Attach files and record voice notes, manage them in the attachments library, and import an existing Obsidian vault.",
+    "description": "Attach files and record voice notes, manage them in the attachments library, and bring notes in from another app or another Myne vault.",
     "intro": "overview",
     "articles": [
       "overview",
       "attachments",
       "voice-notes",
       "attachments-library",
-      "import-from-obsidian",
+      "import-your-notes",
+      "combine-two-vaults",
       "browser-clipper"
     ]
   },
@@ -132,13 +133,14 @@
   {
     "slug": "sync-and-devices",
     "label": "Sync & devices",
-    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server, add and approve devices with your account number, read sync status, and resolve conflicts — all zero-knowledge, with no email.",
+    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server, check its certificate fingerprint, add and approve devices with your account number, read sync status, and resolve conflicts, all zero-knowledge, with no email.",
     "intro": "overview",
     "articles": [
       "overview",
       "how-sync-works",
       "turn-on-sync",
       "add-a-device",
+      "server-certificates",
       "sync-status",
       "storage-and-limits",
       "resolving-conflicts",
@@ -148,11 +150,12 @@
   {
     "slug": "safety-and-recovery",
     "label": "Safety & recovery",
-    "description": "Recover a forgotten password, back up and restore your vault, upgrade its storage format, use note snapshots, and manage multiple vaults.",
+    "description": "Recover a forgotten password, tell a real recovery-phrase prompt from a fake one, back up and restore your vault, upgrade its storage format, use note snapshots, and manage multiple vaults.",
     "intro": "overview",
     "articles": [
       "overview",
       "if-you-forget-your-password",
+      "recovery-phrase-scams",
       "back-up-your-vault",
       "restore-from-a-backup",
       "upgrade-your-vault-format",
@@ -172,6 +175,7 @@
       "account",
       "appearance",
       "language",
+      "dates-and-times",
       "custom-theme-reference",
       "files",
       "auto-lock-and-screen-capture",

@@ -2,7 +2,7 @@
 title: "Wikilinks"
 category: "find-and-connect"
 updated: 2026-08-29
-summary: "How to link notes together with wikilinks, how Myne resolves a link to its target note, and what happens when a link points to a note that does not exist yet."
+summary: "How to link notes together with wikilinks, how Myne resolves a link to its target note, how the link picker's prefixes deep-link to a heading or an imported block anchor, and what happens when a link points to a note that does not exist yet."
 tags: ["links", "notes"]
 ---
 
@@ -34,7 +34,7 @@ A wikilink can point past a note's title to a spot inside it. Write `[[Note#Head
 
 The list that appears while you type offers the notes you have opened most recently first, among the ones that match equally well. That matters most at the very start: the list opens the moment you type `[[`, before there is anything to match on, and the note you are linking to is usually one you have just had open.
 
-While you type a link, two prefixes help you fill in the heading. `[[#` lists headings in the **current note**; `[[##` lists headings across the **whole vault**, so you can deep-link into another note without leaving your place. Myne also follows `^block-id` anchors that came in with an [imported Obsidian vault](/user-guide/attachments-and-import/import-from-obsidian/), scrolling to the marked line — but it never mints new block-ids of its own, so headings are the anchor you author here.
+While you type a link, three prefixes help you fill in what comes after the note. `[[#` lists headings in the **current note**; `[[##` lists headings across the **whole vault**, so you can deep-link into another note without leaving your place; and `[[^^` lists the `^block-id` anchors that came in with an [imported Obsidian vault](/user-guide/attachments-and-import/import-your-notes/), so you can link to a marked line without remembering its id. Following one of these links scrolls to the anchor, opening the target note first when the link points somewhere else. Myne never mints new block-ids of its own, so headings are the anchor you author here.
 
 ## Limits
 

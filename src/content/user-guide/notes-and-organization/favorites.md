@@ -1,7 +1,7 @@
 ---
 title: "Favorites"
 category: "notes-and-organization"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "How to mark notes as favorites for quick access, where favorites appear in the sidebar, and how to reorder or remove them."
 tags: ["notes", "sidebar"]
 ---
@@ -24,4 +24,4 @@ Your favorites list is part of your vault's encrypted preferences, the same plac
 
 ## Limits
 
-Favorites are pointers. Removing a note from Favorites does nothing to the note itself; deleting the underlying note (see [Trash](/user-guide/notes-and-organization/trash/)) removes it from Favorites along with everywhere else.
+Favorites are pointers. Removing a note from Favorites does nothing to the note itself. Moving a note to the Trash takes its row out of the Favorites list, and restoring it from the Trash puts the row back; only permanently deleting the note drops it from Favorites for good. See [Trash](/user-guide/notes-and-organization/trash/).

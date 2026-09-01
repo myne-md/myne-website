@@ -1,7 +1,7 @@
 ---
 title: "Folder notes"
 category: "notes-and-organization"
-updated: 2026-07-11
+updated: 2026-08-24
 summary: "Give a folder one index note that represents it. A folder note is hidden from the sidebar tree and opened by double-clicking the folder row; it stays findable in search and is the target of a trailing-slash wikilink like [[Projects/]]."
 tags: ["notes", "folders", "links"]
 ---
@@ -12,7 +12,7 @@ A folder can have one note that stands in as its index — its "folder note". A 
 
 Double-click a folder's row in the sidebar to open its folder note. If the folder does not have one yet, the double-click creates one and opens it, titled after the folder's last path segment.
 
-A folder that already has a folder note also shows an inline **Open folder note** button on its row. A folder that has none reveals a **folder note** create affordance when you hover its row; clicking it mints the folder note and opens it.
+A folder that already has a folder note carries a small book icon on its row; the icon is named **Open folder note**, and clicking it opens the note. A folder that has none reveals the same icon when you hover its row, named **Create a folder note**; clicking it mints the folder note and opens it. Both controls are icon-only, so the name shows on hover rather than on the row itself.
 
 You can reach the same actions from the folder's right-click menu:
 

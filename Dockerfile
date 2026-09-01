@@ -11,10 +11,13 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 ARG SITE=https://myne.md
 ENV SITE=$SITE
-# pnpm-lock.yaml is lockfileVersion 9.0 → pnpm 9. No `packageManager` field,
-# so install pnpm explicitly rather than relying on corepack.
-RUN npm install -g pnpm@9
+# pnpm comes from `package.json`'s `packageManager` field, which is the ONE
+# place the version is written (myne-md/myne#584). This line said `pnpm@9` while
+# `.woodpecker.yml` said `pnpm@10`, against the same `lockfileVersion: 9.0`, so
+# the tests ran on a different package manager than the build and nothing tied
+# the two together. Corepack is still not used: node:22-alpine does not ship it.
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN npm install -g "pnpm@$(node -p "require('./package.json').packageManager.split('@')[1]")"
 RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm build

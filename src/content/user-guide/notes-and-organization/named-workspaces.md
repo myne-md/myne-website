@@ -1,7 +1,7 @@
 ---
 title: "Named workspaces"
 category: "notes-and-organization"
-updated: 2026-06-18
+updated: 2026-08-24
 summary: "Save the current editor layout under a name like Writing or Research and switch between named workspaces. Switching auto-saves the outgoing layout; layouts are saved best-effort, not on every keystroke."
 tags: ["workspace", "editor"]
 ---
@@ -12,7 +12,11 @@ Save the current editor layout under a name like Writing or Research, then switc
 
 ## What a workspace saves
 
-A named workspace stores the arrangement of your editor, not the notes themselves. Saved under a name you choose, it captures the set of open tabs, the split-pane layout, which pane is focused, each tab's cursor and scroll position, and each tab's view mode (see [View modes](/user-guide/editor-and-writing/view-modes/)). It does not copy or move any note; switching workspaces rearranges what is on screen, while your notes stay exactly where they are in the vault.
+A named workspace stores the arrangement of your editor, not the notes themselves. Saved under a name you choose, it captures the set of open tabs, the split-pane layout, which pane is focused, which tabs are pinned, which panes are stacked, and each tab's view mode (see [View modes](/user-guide/editor-and-writing/view-modes/)).
+
+Where your cursor sat and how far you had scrolled are not part of it. Those are held in memory for as long as the pane stays open, and they are gone after a lock, a restart, or a switch that rebuilds the pane.
+
+A workspace does not copy or move any note; switching workspaces rearranges what is on screen, while your notes stay exactly where they are in the vault.
 
 ## Saving and switching workspaces
 

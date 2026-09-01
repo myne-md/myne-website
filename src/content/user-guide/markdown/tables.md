@@ -1,8 +1,8 @@
 ---
 title: "Tables"
 category: "markdown"
-updated: 2026-06-18
-summary: "How to insert, edit, navigate, and reorder markdown tables in Myne — slash-insert a starter, click cells to edit in place, move with Tab and arrow keys, add or delete or reorder via the gutter controls, and align columns, while the underlying text stays standard pipe-separated markdown."
+updated: 2026-08-24
+summary: "How to insert, edit, navigate, and reorder markdown tables in Myne: slash-insert a starter, click cells to edit in place, move with Tab and arrow keys, add or delete or reorder via the gutter controls, and align columns, while the underlying text stays standard pipe-separated markdown."
 tags: ["markdown"]
 ---
 
@@ -63,5 +63,7 @@ Mark alignment in the divider row with colons:
 ```
 
 ## Limits
+
+The editing controls apply to a table that stands on its own in the note. A table written inside a block quote, a callout or a list item renders read-only: no cell editing, no gutter controls, no reordering. Clicking a row there puts your cursor on that row's raw markdown line, which is how you edit it. Rewriting such a table through the grid would have to re-indent it, and that would break the block it sits in.
 
 The in-cell editor handles bold, italic, inline code, and links; other markdown inside a cell stays as literal text rather than rendering. Tables are standard markdown, so they travel to any other markdown editor unchanged — the editing controls are a convenience layer over the same pipe-separated text.

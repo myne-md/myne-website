@@ -1,7 +1,7 @@
 ---
 title: "Pinned and stacked tabs"
 category: "notes-and-organization"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "Pin a tab so navigation opens new tabs instead of replacing it, and flip a pane between the normal tab strip and a stacked deck. Both states persist across lock and unlock."
 tags: ["workspace", "editor"]
 ---
@@ -14,7 +14,7 @@ Pin a tab to keep it open: once a tab is pinned, selecting a note that would nor
 
 By default, selecting a note in the sidebar reuses the focused pane's active tab rather than piling up new ones (see [Tabs and split view](/user-guide/notes-and-organization/tabs-and-split-view/)). Pinning a tab changes that for the tab you pin: navigation opens a **new** tab instead of replacing the pinned one, so a reference note you want to keep on screen stays open.
 
-To pin a tab, right-click it and choose **Pin**. The tab's close control changes to a pin glyph in its place, and the tab becomes close-protected: its × close button is gone and middle-clicking the tab no longer closes it. Hovering the pin glyph shows the tooltip **Pinned — unpin to close**.
+To pin a tab, right-click it and choose **Pin**. The tab's close control changes to a pin glyph in its place, and the tab becomes close-protected: its × close button is gone and middle-clicking the tab no longer closes it. Hovering the pin glyph shows the tooltip **Pinned: unpin to close**.
 
 To close a pinned tab, right-click it and choose **Unpin** first, then close it as usual. The pinned state belongs to the tab, so it is restored along with the rest of your layout the next time you unlock the vault.
 

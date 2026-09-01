@@ -14,7 +14,7 @@ Myne lets you keep several notes open at once, in tabs and in side-by-side panes
 
 Selecting a note opens it in the **focused pane's active tab**; it reuses the tab you are in, rather than piling up new ones. When you want to keep the current note open alongside a new one, open the new note in a **new tab** instead. Tabs in a pane can be cycled with the keyboard (see Shortcuts below), and closing a tab leaves the others untouched.
 
-A new, empty tab does not force a blank note on you. It shows a chooser: a search box over your notes, your most recent notes below it, and rows to create a new note or a new drawing instead. Trashed notes and templates are left out, matching what the sidebar shows. Press Esc to go back to the tab you were on, if the pane still has one.
+A new, empty tab does not force a blank note on you. It shows a chooser: a search box over your notes, your most recent notes below it, and rows to create a new note or a new drawing instead. Trashed notes, archived notes and templates are left out, matching what the sidebar shows. Press Esc to go back to the tab you were on, if the pane still has one.
 
 Each tab carries its own **view mode** — Live preview, Reading, or Source — so you can read one tab while editing another, and ⇧⌘E toggles the focused tab between editing and reading. See [View modes](/user-guide/editor-and-writing/view-modes/) for what each mode shows.
 

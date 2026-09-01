@@ -1,7 +1,7 @@
 ---
 title: "Templates"
 category: "notes-and-organization"
-updated: 2026-08-13
+updated: 2026-08-29
 summary: "How to create reusable note templates, turn a note you already wrote into one, insert them into new notes, and use them to standardize the structure of notes you write often."
 tags: ["templates", "notes"]
 ---
@@ -23,14 +23,14 @@ Making a note from a template is a deliberate, two-step path (distinct from the 
 1. Choose **New note from template…** and pick the template you want, or **Blank note** to skip the template. If you have no templates yet, the same surface offers **Create a template**; **Manage templates** opens the manager from here too.
 2. Give the new note a name. Myne copies the template's body into a fresh note, fills in any placeholders, and opens it.
 
-You manage templates from the **Manage templates** surface, which has four actions:
+You manage templates from the **Manage templates** surface, a dialog titled **Note templates**. It lists your templates, one per row, and offers four things:
 
-- **New**: create a fresh template and open it to edit.
-- **Edit**: open an existing template to change it.
-- **Remove from templates**: turn a template back into an ordinary note. Non-destructive; the note and its content stay, it just stops being a template.
-- **Delete**: send the template to the Trash like any note (recoverable from there).
+- **New template** creates a fresh template and opens it to edit.
+- **Clicking a row** opens that template so you can change it. There is no separate Edit button.
+- **Remove from templates** turns a template back into an ordinary note. Non-destructive; the note and its content stay, it just stops being a template.
+- **The trash icon** on a row sends that template to the Trash like any note (recoverable from there).
 
-"Remove from templates" and "Delete" are deliberately different: one demotes, the other deletes.
+The last two are deliberately different: one demotes, the other deletes.
 
 ## Turning a note into a template
 
@@ -40,7 +40,7 @@ The same menu shows **Convert to note** on a template, which demotes it again. N
 
 ## Placeholders
 
-When a note is created from a template, Myne fills in these five placeholders, and only these five:
+When a note is created from a template, Myne fills in these seven placeholders, and only these seven:
 
 | Placeholder | Becomes |
 |---|---|
@@ -49,10 +49,19 @@ When a note is created from a template, Myne fills in these five placeholders, a
 | `{{time}}` | the current time, as `HH:mm`, 24-hour, local |
 | `{{datetime}}` | the local date and time combined |
 | `{{weekday}}` | the day's name, in the app's language |
+| `{{period_start}}` | the first day of the period, as `YYYY-MM-DD` |
+| `{{period_end}}` | the last day of the period, as `YYYY-MM-DD` |
+
+The last two are for [periodic notes](/user-guide/notes-and-organization/periodic-notes/): in a weekly template they
+give you the Monday and the Sunday, in a monthly one the first and the last day
+of the month. They are filled in everywhere else too, where they both become
+today, so a template never leaves an empty placeholder behind because you used
+it from the wrong place. `{{date}}` always means today, even in a weekly note
+you open on a Wednesday, so that one template file can be used both ways.
 
 A few rules keep this predictable:
 
-- **The list is closed.** These five are the only placeholders. This is deliberate: there is no plugin system and no scripting; a template can only ever fill in this fixed set, never run code.
+- **The list is closed.** These seven are the only placeholders. This is deliberate: there is no plugin system and no scripting; a template can only ever fill in this fixed set, never run code.
 - **Anything else passes through unchanged.** An unknown name, a format-style `{{title:foo}}`, or an unbalanced run of braces is copied through exactly as written. That passthrough is also how you escape: to get a literal `{{date}}` in your output, you would write a name that isn't a placeholder.
 - **Placeholders are matched once, left to right,** and names are case-sensitive; `{{Date}}` is not a placeholder.
 - **Only inside templates.** In an ordinary note, `{{date}}` is just literal text; placeholders fill in only when a note is created from a template.

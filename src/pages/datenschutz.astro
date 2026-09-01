@@ -70,7 +70,7 @@ const network = [
     feature: "KI über einen entfernten Anbieter",
     goes: "Ja — Notiztext verlässt Ihr Gerät. Ein Agentenlauf sendet zusätzlich die Titel und Kennungen jeder Notiz im von Ihnen freigegebenen Bereich, bevor er auch nur eine davon gelesen hat.",
     where: "Der von Ihnen benannte Anbieter",
-    when: "Nur wenn fünf Bedingungen gleichzeitig erfüllt sind: Sie haben einen Anbieter benannt, diesem konkreten Anbieter zugestimmt, seinen Schlüssel hinterlegt, die KI aktiviert und den Entwicklermodus eingeschaltet. Jede einzelne ist standardmäßig aus; ohne benannten Anbieter ist der Pfad nicht erreichbar, nicht bloß abgeschaltet. Eine Anfrage je Aufgabe, die Sie stellen — außer beim Agentenlauf, der eine begrenzte Folge davon auslöst: wie viele, entscheidet das Modell, nicht wir.",
+    when: "Nur wenn alle Bedingungen gleichzeitig erfüllt sind, und die Menge unterscheidet sich je nach Plattform. Am Computer sind es fünf: Sie haben einen Anbieter benannt, diesem konkreten Anbieter zugestimmt, seinen Schlüssel hinterlegt, die KI aktiviert und den Entwicklermodus eingeschaltet. Auf dem Telefon gelten die ersten vier; einen Entwicklermodus gibt es dort nicht, also sind es vier. Jede einzelne ist standardmäßig aus; ohne benannten Anbieter ist der Pfad nicht erreichbar, nicht bloß abgeschaltet. Eine Anfrage je Aufgabe, die Sie stellen — außer beim Agentenlauf, der eine begrenzte Folge davon auslöst: wie viele, entscheidet das Modell, nicht wir.",
   },
   {
     feature: "Web-Clipper",
@@ -146,7 +146,7 @@ const notStored = [
 ];
 ---
 
-<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
+<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage} notice="updating" noticeLang="de">
   <div
     style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
   >
@@ -227,7 +227,8 @@ const notStored = [
           <strong style="color:#e6e6e4;">KI über einen entfernten Anbieter</strong> sendet Notiztext
           <em>im Klartext</em> an ein Unternehmen, das nicht wir sind — denn genau das heißt es, ein entferntes
           Modell um das Lesen einer Notiz zu bitten. Diese Funktion ist aus, ihre Aktivierung erfordert
-          fünf bewusste Schritte, und ist sie an, gilt für das Gesendete die Datenschutzerklärung jenes
+          am Computer fünf bewusste Schritte und auf dem Telefon vier, da es dort keinen
+          Entwicklermodus gibt; und ist sie an, gilt für das Gesendete die Datenschutzerklärung jenes
           Anbieters. Wir vermitteln dabei nichts und sehen nichts davon.
         </p>
         <p style={body}>

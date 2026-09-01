@@ -1,7 +1,7 @@
 ---
 title: "Find and replace in a note"
 category: "editor-and-writing"
-updated: 2026-08-13
+updated: 2026-08-30
 summary: "Open the in-note find bar with ⌘F to search the current note, step through matches, toggle case sensitivity, and reveal a replace row for replace-one or one-undo replace-all."
 tags: ["editor", "search"]
 ---
@@ -12,7 +12,7 @@ The in-note find bar searches the note you are reading. Press `⌘F` (or `Ctrl F
 
 ## Opening the find bar
 
-Press `⌘F` (or `Ctrl F`) while a note is open. A bar docks at the top of the editor pane with a **Find in note** input, and the cursor lands in it ready to type. The search is literal: it matches the exact substring you type, with no regular expressions, and it covers only the one open note. As you type, every match in the note is highlighted and a live `k/N` count appears, where `k` is the match you are on and `N` is the total. If nothing matches, the bar reads **No matches**.
+Press `⌘F` (or `Ctrl F`) while a note is open. A bar docks at the top of the editor pane with a **Find in note** input, and the cursor lands in it ready to type. If you had text selected when you pressed the chord, that text is already in the box and already searched: one line of selected text becomes the query, while a selection spanning several lines, or none at all, leaves the box as you left it. The search is literal: it matches the exact substring you type, with no regular expressions, and it covers only the one open note. As you type, every match in the note is highlighted and a live `k/N` count appears, where `k` is the match you are on and `N` is the total. If nothing matches, the bar reads **No matches**.
 
 Press `⌘F` again while the bar is open and it refocuses the input and selects its contents, rather than closing. Press Esc to close the bar. The command palette can open it too — **Find in note** and **Find and replace in note** both live in the palette's **Editor** category. `⌘F` is the default chord and can be changed in [Customizing keyboard shortcuts](/user-guide/settings-and-privacy/custom-hotkeys/), where the command is listed under **General** as **Find in note**.
 
@@ -32,6 +32,14 @@ The chevron at the lead edge of the bar (**Toggle replace**) expands a second ro
 - **Replace all** shows the live match count in its label, for example **Replace all (12)**, and rewrites every occurrence at once. This happens as a single undoable step, so one `⌘Z` (or `Ctrl Z`) reverts the whole bulk replace, not just the last match.
 
 Replace works on the note's underlying text, which includes matches inside [folded](/user-guide/editor-and-writing/folding/) sections. Stepping onto a match inside a folded section unfolds it so you can see the change in context.
+
+## Searching for a date
+
+Myne draws a task's due date in [the format you chose](/user-guide/settings-and-privacy/dates-and-times/), and stores it in a fixed one. If you type a date the way it appears on screen and Myne finds nothing, it searches again for the stored form and says so in the bar, naming the text it looked for.
+
+**Replace is switched off while that is happening**, and the bar says why. The text being matched is the stored form, so a replacement written the way you read dates would leave a date Myne can no longer read, and the task would drop out of every dated view without warning. Opening the find bar shows the stored text on the line, so if you do want to replace a date, that is the text to type.
+
+This second look runs whichever date format you have chosen, and in whichever language you are reading Myne in. The one format it skips is the stored one, because a date typed that way already matches on the first pass. One thing it does not do: if your language prints its own numerals, Find needs the date typed in those, not in the Western ones.
 
 ## Find and replace versus search
 

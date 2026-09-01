@@ -37,14 +37,34 @@ steps:
   test:
     image: node:22-slim
     commands:
-      - npm install -g pnpm@10
+      # pnpm comes from `package.json`'s `packageManager` field, which is the
+      # ONE place the version is written (myne-md/myne#584). This line used to
+      # say `pnpm@10` while `Dockerfile` said `pnpm@9`, against the same
+      # `lockfileVersion: 9.0`, with no field tying them together and the
+      # Dockerfile's own comment asserting a third thing. Tests ran on a
+      # different package manager than the build.
+      - npm install -g "pnpm@$(node -p "require('./package.json').packageManager.split('@')[1]")"
       - pnpm install --frozen-lockfile
       - pnpm test
+      # The site must COMPILE on every push, and until now nothing on the push
+      # path checked that: the only build was inside the docker image, which is
+      # a publication step and is manual since #584. `astro build` here produces
+      # nothing anyone ships, it just fails when the site cannot be built.
+      # SITE is passed explicitly rather than left to `astro.config.mjs`'s
+      # default, so a verification build never silently claims prod's origin.
+      - SITE=https://preview.example.com pnpm build
 
   build:
     depends_on: [test]
     image: *docker_image
     volumes: *shared_volumes
+    # MANUAL only (myne-md/myne#584). This step carried no `when` at all, so it
+    # produced a docker image on every push. An image is a publication artefact
+    # even before it is deployed, and the compile verification a push actually
+    # owes now lives in `test` above.
+    when: &manual-deploy
+      - event: [manual]
+        branch: [release, develop]
     commands:
       - |
         if [ "$CI_COMMIT_BRANCH" = "release" ]; then
@@ -70,9 +90,7 @@ steps:
       - docker compose up -d
       - docker image prune -f
     depends_on: [build]
-    when:
-      - event: [push, manual]
-        branch: [release, develop]
+    when: *manual-deploy
 
   # Failure notification via Pushover. The token + group come ONLY from CI
   # secrets, never committed (public repo). A missing secret makes the step skip
@@ -80,6 +98,11 @@ steps:
   notify-failure:
     image: alpine:3.21
     depends_on:
+      # `test` is named here and was not (myne-md/myne#584). It is now the only
+      # step a push runs, since `build` and `deploy` are manual, so leaving it
+      # out meant the one gate a push has could go red with nothing pushed.
+      - name: test
+        optional: true
       - name: build
         optional: true
       - name: deploy
@@ -100,6 +123,12 @@ steps:
           --data-urlencode "message=$CI_COMMIT_AUTHOR · $CI_COMMIT_MESSAGE" \
           --data-urlencode "url=$CI_PIPELINE_URL" \
           https://api.pushover.net/1/messages.json
+    # A PULL-REQUEST failure sends nothing, deliberately (myne-md/myne#584):
+    # `myne-bot` runs a pipeline on every PR and reports on the PR itself, so a
+    # push per branch iteration would be noise on top of a signal the author is
+    # already reading. A push or a manual run has no such surface. All five
+    # repos with a `notify-failure` step now read the same and all five say why;
+    # they disagreed three ways before, with no file stating the intent.
     when:
       - event: [push, manual]
         status: failure

@@ -1,7 +1,7 @@
 ---
 title: "Appearance"
 category: "settings-and-privacy"
-updated: 2026-08-13
+updated: 2026-08-30
 summary: "How to switch between the light, dark, AMOLED and system themes, set a custom accent color, import and export custom themes, install a theme from the Themes page, and how the app's appearance behaves while the vault is locked."
 tags: ["settings"]
 ---
@@ -10,7 +10,7 @@ The Appearance panel controls how Myne looks. The main choice is the theme.
 
 ## Theme
 
-Choose **Light**, **Dark**, **AMOLED** (a true-black variant for OLED screens) or **System**, which follows your operating system's light/dark setting. Each option is shown as a small preview of the app painted in that theme's own colors, so you can compare them without switching. Your choice is saved inside the vault's encrypted preferences. It stays on your device and is never sent anywhere or stored in any cloud.
+Choose **Light**, **Dark**, **AMOLED** (a true-black variant for OLED screens) or **System**, which follows your operating system's light/dark setting. Each option is shown as a small preview of the app painted in that theme's own colors, so you can compare them without switching. Your choice is saved inside the vault's encrypted preferences, and it is settled per device: another computer signed in to the same vault keeps the theme you picked there, and your choice here never overwrites it. With sync on, the encrypted preferences file travels to the server like the rest of your vault, and what is inside it, this setting included, stays unreadable there.
 
 One small privacy detail: while a vault is **locked**, Myne hasn't decrypted your preferences yet, so the app follows your operating system's appearance until you unlock. Your saved theme applies once the vault is open.
 
@@ -50,7 +50,7 @@ A few things worth knowing:
 
 Appearance now holds purely-visual controls. Note-authoring settings that used to live here have moved to the new **Editor** panel:
 
-- **Daily notes** setup — the folder they go in and the date format for their titles — is now under **Settings → Editor**. What daily notes are and how to open today's note is covered in [Daily notes](/user-guide/notes-and-organization/daily-notes/).
+- **Periodic notes** setup, meaning the folder each period's notes go in, the format for their titles and their templates, is now under **Settings → Editor**. What periodic notes are and how to open the current one is covered in [Periodic notes](/user-guide/notes-and-organization/periodic-notes/).
 - **Spell check** — the toggle and language picker — is also under **Settings → Editor**, described in [Spell check](/user-guide/editor-and-writing/spell-check/).
 
 The Editor panel is also where the editor's typography presets live — text size, line spacing, content width, and the editor font. Those are covered in [Editor display](/user-guide/editor-and-writing/editor-display/).
@@ -59,10 +59,10 @@ The Editor panel is also where the editor's typography presets live — text siz
 
 Three smaller controls sit alongside the theme:
 
+- **Show edit times** puts each note's last-edited time under its title in the sidebar.
 - **Show task marker** marks notes you have declared as tasks, in the sidebar and on their tab.
-- The per-note timestamp toggle decides whether a note's edit time is shown.
 - **Graph appearance** is a pointer, not a control: node colors, labels, sizing and layout forces are set inside the graph itself, from the gear in its corner. **Open graph** takes you there. Those are kept per device, so a change does not follow you to another machine.
 
 ## Limits
 
-Appearance settings change presentation only, and never affect what is encrypted or what is stored. Most of them live in the encrypted vault, not in any external account. Two do not: the accent color and the graph's own appearance settings are kept on this device, so they do not travel with your vault.
+Appearance settings change presentation only, and never affect what is encrypted or what is stored. Most of them settle per device rather than per vault. The theme, the custom-theme selection and **Show edit times** live in the vault's encrypted preferences, but each device keeps its own answer for them, so changing one here does not reach your other machines. The accent color and the graph's own appearance controls are not in the vault at all; they are kept on this device. Two things do travel: **Show task marker** is a vault-level choice and follows you to your other devices, and the custom themes themselves are vault content, so a palette you import arrives on your other devices once sync has run, even though which one is active stays a per-device choice.

@@ -48,11 +48,10 @@ const platforms = [
   },
   {
     os: "Linux",
-    sub: "AppImage · .deb · Arch",
-    note: "x86-64 and arm64 for both formats. No screen-capture exclusion on Linux.",
+    sub: ".deb · Arch · AppImage (arm64)",
+    note: "The .deb is built for x86-64 and arm64; the AppImage is arm64 only this release, and x86-64 is covered by the .deb and the Arch package. No screen-capture exclusion on Linux.",
     d: PLATFORM_ICON.linux,
     downloads: [
-      { label: "AppImage · x86-64", name: `Myne_${RELEASE_VERSION}_amd64.AppImage` },
       { label: "AppImage · arm64", name: `Myne_${RELEASE_VERSION}_aarch64.AppImage` },
       { label: ".deb · x86-64", name: `Myne_${RELEASE_VERSION}_amd64.deb` },
       { label: ".deb · arm64", name: `Myne_${RELEASE_VERSION}_arm64.deb` },

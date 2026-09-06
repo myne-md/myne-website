@@ -44,7 +44,7 @@ On a device that already has access:
 
 1. Open **Settings → Sync** and find **Add a device with a QR**.
 2. Paste your account number into the **Account number** field. Myne does not store your account number, so you supply it here from your own saved copy.
-3. Choose **Make QR**. A QR code appears, labelled **Scan with the iOS app**.
+3. Choose **Make QR**. A QR code appears, labelled **Scan with the iOS app**. The code carries the Myne mark in its centre, so the person scanning can see at a glance that it is a Myne code and not some other QR on the screen.
 4. On the new device, open the Myne app and scan the code. The sync server address and account number are filled in for you; enter that device's password to continue.
 
 On a phone the confirm step shows the server, the account number, and a line naming where the certificate trust comes from. When the code carried a fingerprint, that line reads **Cert pinned from your trusted device**. What the phone then does is pin the certificate it meets on its own first connect: the carried fingerprint is shown to you, not compared for you.

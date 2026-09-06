@@ -31,7 +31,7 @@ Bold, italic, strikethrough and inline code all have toolbar buttons. Bold, ital
 - **Numbered lists** start with `1. `.
 - **Task lists** use `- [ ]` for an open item and `- [x]` for a done one; the checkbox is clickable. A task line can also carry a due date, a priority and a repeat rule, which you set from controls rather than type — see [Tasks](/user-guide/notes-and-organization/tasks/).
 
-Lists nest by indenting.
+Lists nest by indenting, and **Tab** on a list line does it for you: it lines the item up under the one above, whatever marker that one uses. This matters most on task lists. Markdown treats four spaces after an ordinary paragraph as a continuation of that paragraph rather than as a list, so a checkbox indented by hand under a line of prose quietly stops being a task and drops out of the Tasks panel. Tab never indents a line that far, so a todo you nest stays a todo.
 
 ## Links, quotes, and rules
 

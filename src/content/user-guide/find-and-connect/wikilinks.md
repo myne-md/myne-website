@@ -14,7 +14,7 @@ A wikilink connects one note to another inside your vault. You write it in doubl
 
 Write `[[Another note]]` and Myne renders it as a chip you can read past, and the link starts working:
 
-1. **In the editor**: the chip stands in for the bracketed text, so the prose stays clean. Click it and the note opens. Put the caret on the link's line and the chip lifts back to the brackets so you can edit where it points; clicking that raw text places the caret in it rather than following the link, which is what lets you fix a typo in a target.
+1. **In the editor**: the chip stands in for the bracketed text, so the prose stays clean, and it appears as soon as you finish typing the closing brackets. Click it and the note opens. Put the caret **on the link itself** and that one chip lifts back to the brackets so you can edit where it points; clicking that raw text places the caret in it rather than following the link, which is what lets you fix a typo in a target. Other links on the same line stay as chips, and a caret resting just past a link's last bracket leaves it alone too, so arrowing along a line of links does not make the line jump about. Select across several and every link the selection touches lifts together.
 2. **In backlinks**: the linked note gains an entry pointing back to yours (see [Backlinks](/user-guide/find-and-connect/backlinks/)).
 3. **In the graph**: the link becomes an edge between the two notes (see [Graph view](/user-guide/find-and-connect/graph-view/)).
 

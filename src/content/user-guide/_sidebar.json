@@ -48,6 +48,7 @@
       "overview",
       "view-modes",
       "focus-mode",
+      "detached-windows",
       "folding",
       "multiple-cursors",
       "find-and-replace",

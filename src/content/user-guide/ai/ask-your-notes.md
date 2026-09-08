@@ -45,7 +45,7 @@ What you have to work with is the scope you set, which is the whole of what the 
 
 ## Where the transcript lives
 
-The conversation is held in memory only. It is never written to disk, and it is dropped when the vault locks: on manual lock, auto-lock, or vault delete. There is no saved chat history in this version.
+Conversations persist as vault content: the full turn list is sealed into the vault when a turn settles, listed in Chat history, synced to your other devices, and included in backups. Locking the vault still locks everything; history adds no second way in and no second copy outside the vault. See [Chat history](/user-guide/ai/ai-chat-history/) for continuing, renaming, and deleting conversations.
 
 ## When the chat cannot answer
 

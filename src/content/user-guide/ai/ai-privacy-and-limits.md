@@ -72,7 +72,7 @@ It is held in memory while the vault is unlocked and wiped when the vault locks,
 
 The index records which model built it, so choosing a different search model rebuilds it rather than serving answers from vectors the new model cannot compare against. Building and querying that index is also the one piece of AI that never goes to a provider, on this computer or elsewhere: it runs on this device or not at all, which is why the passages behind an answer are always found here even when the answer itself is written somewhere else.
 
-Assembled prompts, ghost-text previews, and chat transcripts are never persisted at all; they live only in memory and are dropped on lock.
+Assembled prompts and ghost-text previews are never persisted at all; they live only in memory and are dropped on lock. Chat transcripts are the exception: settled turns persist as vault content (see [Chat history](/user-guide/ai/ai-chat-history/)).
 
 ## What a run discloses beyond the text you asked about
 

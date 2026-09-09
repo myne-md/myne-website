@@ -25,16 +25,16 @@ The source of this tool is not yet public, so the binary cannot be independently
 Open a terminal and run:
 
 ```
-myne-decrypt <vault-or-backup> <out-dir>
+myne-decrypt [--recovery] [--history] [--yes] <vault-or-backup> <out-dir>
 ```
 
 `<vault-or-backup>` is the path to your vault folder or your `.myne-backup` file. `<out-dir>` is where the plain Markdown tree is written; it must not already exist.
 
-The command asks for your master password with the prompt hidden as you type. To unlock with your recovery phrase instead, add `--recovery`. For scripting, pipe the password or phrase on standard input; there is no `--password` flag and no environment variable, so the credential never lands in your shell history or a process listing.
+The command asks for your master password with the prompt hidden as you type. To unlock with your recovery phrase instead, add `--recovery`. For scripting, pipe the password or phrase on standard input; there is no `--password` flag and no environment variable, so the credential never appears in a process listing and typed entry never lands in shell history. A piped credential inherits the pipe's own exposure: `echo SECRET |` puts the secret in the invoking shell's history and in the echo process itself, so prefer a file-descriptor redirect or a file only your user can read.
 
 ## What it writes
 
-The command writes one `.md` file per note, in the same folder structure the app shows, with attachments in an `attachments/` folder beside them and links rewritten to point at the exported files. Notes you deleted but did not purge are not exported, and note snapshots are not exported.
+The command writes one `.md` file per note, in the same folder structure the app shows, with attachments in an `attachments/` folder beside them and links rewritten to point at the exported files. Notes you deleted but did not purge are not exported. Note snapshots are not exported unless you add `--history`, which also writes each note's version history under `snapshots/`.
 
 When it finishes it prints the directory it wrote to. Read that line: it names where your plaintext now lives.
 

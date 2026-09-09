@@ -40,7 +40,7 @@ From the picker you can:
 
 These are organisational choices on this device only. If you group differently on your laptop and your phone, each keeps its own grouping, and Myne never shows a conflict about it. If a grouping change fails, the picker says so and keeps showing the old grouping: a failed rename or move never looks like success.
 
-These actions appear only for vaults that belong to an account. A vault with no account — on a device with no keychain, or while vault names are hidden — offers no rename or move, because there is nothing those actions could change. While [vault names are hidden](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/), grouping is suppressed entirely: the picker lists every vault individually with no headers, and the account actions are refused rather than applied invisibly.
+These actions appear only for vaults that belong to an account, and only while a vault is unlocked: rename, move and split are refused on a locked device, so the locked picker is a read surface. A vault with no account (on a device with no keychain, or while vault names are hidden) offers no rename or move, because there is nothing those actions could change. While [vault names are hidden](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/), grouping is suppressed entirely: the picker lists every vault individually with no headers, and the account actions are refused rather than applied invisibly.
 
 ## Naming a vault and giving it an icon
 

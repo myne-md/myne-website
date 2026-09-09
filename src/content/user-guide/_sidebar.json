@@ -192,11 +192,12 @@
   {
     "slug": "command-line",
     "label": "Command line",
-    "description": "Read, search, and add notes from a terminal with the myne command-line client, which drives the running, unlocked app over a local socket.",
+    "description": "Read, search, and add notes from a terminal with the myne command-line client, and export a vault to plain Markdown without the app installed.",
     "intro": "overview",
     "articles": [
       "overview",
-      "the-myne-cli"
+      "the-myne-cli",
+      "export-a-vault-without-the-app"
     ]
   }
 ]

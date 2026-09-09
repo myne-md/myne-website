@@ -1,7 +1,7 @@
 ---
 title: "Multiple vaults"
 category: "safety-and-recovery"
-updated: 2026-08-30
+updated: 2026-09-08
 summary: "How to keep more than one vault, how to switch between them, how to give each a name and icon, what you can see before a vault is unlocked, and how vaults stay independent of one another."
 tags: ["vault", "privacy"]
 ---
@@ -25,6 +25,22 @@ When you have two or more vaults, Myne shows a **picker** at launch, and the vau
 ## What's visible before you unlock
 
 On macOS and iOS, a vault this device has unlocked before is listed by its real name, from a sealed copy Myne keeps locally after that first unlock. On Windows, Linux and Android there is no keychain to seal that copy with yet, so every row stays neutral. A vault this device has never unlocked is shown neutrally instead, as **Vault 1**, **Vault 2**, and so on, because its name is still sealed inside it. That number belongs to the vault rather than to its row, so it does not move as you unlock vaults and the list reorders. It also counts across every vault on this device, not only the neutral ones, so a picker holding two named vaults and one never-unlocked one shows a lone **Vault 3**. A Privacy setting keeps names off that screen entirely and destroys the copies already stored here: see [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/). Either way, be aware of what *is* visible before any vault is unlocked: how many vaults you have, and when each was last opened. Their contents and notes stay sealed until you unlock them.
+
+## Grouping vaults under an account
+
+When you have more than one vault, Myne groups them under an **account** so the picker reads as your vaults rather than a list of strangers. The account is a name you choose, and it lives only on this device: it is not synced, and it does not change how your vaults are encrypted or how the server sees them. Each vault keeps its own password, recovery phrase, and account number, exactly as before.
+
+The grouping is automatic. On upgrade, the vaults already on this device are placed into one account. A new vault joins the account you most recently unlocked, or a fresh account if this is your first vault. On a device with no keychain (Windows, Linux, and Android today), there is nowhere to seal the account record, so vaults stay listed individually with no grouping and no error.
+
+From the picker you can:
+
+- **Rename the account.** Right-click a vault and choose **Rename account**, then type the name in the inline form. The header above the group updates.
+- **Move a vault to a new account.** Right-click a vault and choose **Move to new account**. It leaves its current group and starts a new one.
+- **Move a vault to another account.** Right-click a vault and choose **Move to account**, then pick the destination account from the list. You choose from your accounts; there is nothing to type.
+
+These are organisational choices on this device only. If you group differently on your laptop and your phone, each keeps its own grouping, and Myne never shows a conflict about it. If a grouping change fails, the picker says so and keeps showing the old grouping: a failed rename or move never looks like success.
+
+These actions appear only for vaults that belong to an account, and only while a vault is unlocked: rename, move and split are refused on a locked device, so the locked picker is a read surface. A vault with no account (on a device with no keychain, or while vault names are hidden) offers no rename or move, because there is nothing those actions could change. While [vault names are hidden](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/), grouping is suppressed entirely: the picker lists every vault individually with no headers, and the account actions are refused rather than applied invisibly.
 
 ## Naming a vault and giving it an icon
 

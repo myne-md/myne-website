@@ -1,7 +1,7 @@
 ---
 title: "Let the AI change your notes"
 category: "ai"
-updated: 2026-08-30
+updated: 2026-09-13
 summary: "Ask the AI to make changes across a set of notes you choose. In the default mode it proposes every change as a diff and nothing is written until you approve it, one note at a time or all at once."
 tags: ["ai", "notes"]
 ---
@@ -49,7 +49,7 @@ The composer carries a choice for what happens when a run finishes, under the la
 
 When it finishes, a review screen opens with everything it proposes, grouped by note.
 
-1. Read each diff. Removed text is struck through; added text is highlighted.
+1. Read each diff, shown side by side: the note as it is now is on the left and the change it proposes is on the right. Removed text is struck through; added text is highlighted.
 2. **Reject** any change you do not want. Rejecting one leaves the rest alone.
 3. **Approve** the rest in one action, or approve a single change on its own.
 

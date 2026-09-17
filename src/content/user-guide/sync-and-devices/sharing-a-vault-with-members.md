@@ -2,7 +2,7 @@
 title: "Sharing a vault with members"
 category: "sync-and-devices"
 updated: 2026-09-16
-summary: "Invite other people to work in one shared vault with you. Each member joins with their own identity and their own credentials; your master password and recovery phrase never leave your control. Covers what sharing is, what a member can see, and what happens when a member is removed."
+summary: "Invite other people to work in one shared vault with you. Each member joins with their own identity and their own credentials; your master password and recovery phrase never leave your control. Covers what sharing is, what a member can see, and the current limits."
 tags: ["devices", "sync", "security"]
 ---
 
@@ -24,7 +24,7 @@ Every member of a shared vault can read and write the vault's notes and attachme
 
 ## Limits
 
-- **Removal works on the device you remove from.** When you remove a member, Myne rotates the vault's internal content key and rewrites the local notes, attachments and version history under it, so the removed member cannot decrypt content written after the rotation. The rotation is applied on the device you removed from; bringing the new key to your other devices is not part of sharing today. A member who was removed keeps everything they already synced.
+- **Member removal is currently disabled.** Inviting members and viewing the member list work. Removing a member is disabled in the app until the roster synchronization ships.
 - **Losing a device loses that person's identity.** A member's identity lives on the device where it was established. Their recovery phrase unwraps it on that same device; on a new device the phrase establishes a fresh identity, which the vault owner must invite again.
 - **Device loss, for you as the vault owner, is separate.** Your own master password and recovery phrase still recover the vault itself, exactly as without sharing.
 - The list of members in a shared vault is visible to your sync server only as opaque ciphertext: it can see that the vault metadata grew and that it is marked as a shared vault, consistent with [how sync works](/user-guide/sync-and-devices/how-sync-works/).

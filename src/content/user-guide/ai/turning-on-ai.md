@@ -102,6 +102,14 @@ Exclusion is enforced both when notes are indexed and when they are queried, and
 
 Myne can remember a large but limited number of folders across all of its folder lists together. If you reach that limit it says so when you add one, and deleting a folder you no longer need makes room.
 
+## What the assistant remembers
+
+Agent runs can remember things about you between runs: facts they learned while working, such as how you like answers written. This memory is off the same switch as everything else on this page. A vault that never turned AI on carries no memory at all.
+
+You do not approve each thing it remembers. Instead, everything it writes is visible and editable, in two places. The **memory button** in the AI Chat tab header opens the live list beside the conversation. **Settings → AI** holds the full panel: the same list with edit and delete, a **Clear all memory** button that removes every entry after a confirm, and a voice-preferences editor, one instruction per line, for standing rules about tone, length, or language. A run that wrote something says so on its own turn with a one-line marker, so the write is never silent.
+
+Three properties are worth knowing. First, at most one entry per run: a run cannot fill your memory in one go. The roster holds at most 100 entries; when it is full, new entries are refused until you edit or delete one. Second, memory only learns from notes AI was allowed to read. The run that learns is the same run whose reading the exclusion box above constrains, so anything remembered came from notes AI could see. There is no second exclusion check at the moment of remembering; the boundary is the reading, not the writing. Third, memory entries and voice preferences are vault content like notes: encrypted at rest, synced to your other devices, and included in backups.
+
 ## Limits
 
 On a phone, "turning on AI" means turning on sending. There is no on-device

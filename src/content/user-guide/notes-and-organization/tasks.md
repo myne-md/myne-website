@@ -1,7 +1,7 @@
 ---
 title: "Tasks"
 category: "notes-and-organization"
-updated: 2026-08-25
+updated: 2026-09-13
 summary: "How tasks work in Myne: checkbox lines that carry due, reminder, priority, and repeat chips you set from controls rather than typing, whole-note tasks, a Tasks panel and an embedded task-list block, and local reminders — all kept as plain markdown inside your notes."
 tags: ["notes", "editor", "markdown", "import"]
 ---
@@ -16,8 +16,8 @@ Move the caret into the checkbox, or select across it, and the checkbox turns ba
 
 A line-task can carry four inline fields — a due date, a reminder, a priority, and a repeat rule — which render as small chips at the end of the line while you write. Click a chip to open its editor:
 
-- **Due date** opens a native date control, with an optional time beside it. Leave the time empty for a date-only task; fill it in for a task due at a particular hour.
-- **Reminder** opens the same date-and-time control. This is the field the reminder scheduler reads.
+- **Due date** opens Myne's own calendar. Pick a day from the month grid, and the day you chose is shown in the **Date format** you set under **Settings → Editor**. The time is optional: choose **Add time** for an hour and minute in your **Time format**, or leave it off for a date-only task. Arrow keys move the focused day, PageUp and PageDown move a month, and Enter saves.
+- **Reminder** opens the same calendar and time control. This is the field the reminder scheduler reads.
 - **Priority** opens a menu of five levels: highest, high, medium, low, lowest.
 - **Repeat** opens the recurrence control described below.
 

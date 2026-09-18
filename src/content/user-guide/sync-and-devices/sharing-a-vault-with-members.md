@@ -1,8 +1,8 @@
 ---
 title: "Sharing a vault with members"
 category: "sync-and-devices"
-updated: 2026-09-16
-summary: "Invite other people to work in one shared vault with you. Each member joins with their own identity and their own credentials; your master password and recovery phrase never leave your control. Covers what sharing is, what a member can see, and the current limits."
+updated: 2026-09-18
+summary: "Invite other people to work in one shared vault with you. Each member joins with their own identity and their own credentials; your master password and recovery phrase never leave your control. Covers what sharing is, the owner and member roles, what a member can see, and the current limits."
 tags: ["devices", "sync", "security"]
 ---
 
@@ -22,8 +22,16 @@ The invited member applies the invite from their own Myne and unlocks the shared
 
 Every member of a shared vault can read and write the vault's notes and attachments, because they hold the vault's content key. The member list itself (who else is in the vault) is carried inside the encrypted vault metadata, so the server does not read it.
 
+## Roles: owner and member
+
+A shared vault has exactly one owner: the person who created it. Everyone else is a member. The member list in Settings → Sync marks each person with their role.
+
+Roles are administrative, not cryptographic. A member can read and write everything in the vault, just like the owner; there is no read-only viewer role. The difference is administration: only the owner can invite new members, and a member is never shown an invite control they cannot use.
+
 ## Limits
 
+- **There is no viewer role.** Every member can read and write. If you need someone to look without changing anything, sharing is not the tool for that today.
+- **Edits carry no signature.** Nothing records who changed a note, so one member's edit is indistinguishable from another's. Signed authorship arrives with a later update.
 - **Member removal is currently disabled.** Inviting members and viewing the member list work. Removing a member is disabled in the app until the roster synchronization ships.
 - **Losing a device loses that person's identity.** A member's identity lives on the device where it was established. Their recovery phrase unwraps it on that same device; on a new device the phrase establishes a fresh identity, which the vault owner must invite again.
 - **Device loss, for you as the vault owner, is separate.** Your own master password and recovery phrase still recover the vault itself, exactly as without sharing.

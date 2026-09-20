@@ -45,5 +45,5 @@ If the Mermaid source has an error, or the renderer is still loading, Myne falls
 ## Limits
 
 - **Mermaid only.** Other diagram languages, PlantUML for example, are not rendered; a ` ```plantuml ` block stays a plain code card.
-- **Default styling.** Diagrams render on a light card whatever theme you use, because Mermaid's own palette is drawn for a light background; there are no per-diagram theme controls.
+- **Default styling.** Diagrams follow the theme you are using, and there are no per-diagram theme controls.
 - **Local.** Diagrams are rendered on your device. Nothing is sent anywhere to draw them.

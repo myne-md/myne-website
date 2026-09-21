@@ -1,7 +1,7 @@
 ---
 title: "Diagrams"
 category: "markdown"
-updated: 2026-08-30
+updated: 2026-09-20
 summary: "How to embed diagrams in your notes using fenced diagram blocks, and which diagram types Myne can render."
 tags: ["markdown"]
 ---
@@ -23,13 +23,20 @@ flowchart LR
 ```
 ````
 
-When the diagram is valid, Myne replaces the block with the rendered image. Put your cursor back in the block to edit the source.
+When the diagram is valid, Myne replaces the block with a rendered diagram in a small viewer, fitted to the width of the note.
 
-## Large diagrams
+## Looking at a diagram
 
-A diagram is drawn at its own size, whatever that turns out to be. A big flowchart with nested subgraphs is wide, and rather than shrinking it until the boxes are dots, Myne lets the diagram card itself scroll sideways. The rest of the note stays where it is; only the card moves.
+A control bar sits in the bottom-right corner of the diagram: zoom out, the current zoom percentage (click it to reset to fit), zoom in, pan up, pan down, pan left, pan right, edit the source, and expand.
 
-That means a diagram stays legible in a narrow window and in a split pane, and it is the same picture you would get in a wide one. Scroll the card to see the far side of it.
+- **Fit.** The diagram opens fitted to the width of the note. If it is taller than the viewer it stays inside a bounded box rather than stretching the note, so nothing is clipped and the rest of the note does not move.
+- **Zoom and pan.** Use the buttons, or drag the diagram to pan. `Ctrl` (Windows and Linux) or `Cmd` (macOS) plus the scroll wheel zooms; a plain scroll wheel scrolls the note as usual. On a touch screen, drag with one finger to pan and pinch with two to zoom.
+- **Keyboard.** With the diagram focused, the arrow keys pan, `+` and `-` zoom, and `0` resets to fit.
+- **Expand.** Opens the same diagram in a full-window view, closed with `Esc`, the close button, or a click outside it.
+
+## Editing a diagram
+
+Click **edit source** in the control bar, or double-click the diagram, to put your cursor back in the block and show the raw ```` ```mermaid ```` source. Opening a diagram never changes the note: zooming and panning are a view, and nothing is written to your text.
 
 ## When a diagram can't render
 
@@ -38,5 +45,5 @@ If the Mermaid source has an error, or the renderer is still loading, Myne falls
 ## Limits
 
 - **Mermaid only.** Other diagram languages, PlantUML for example, are not rendered; a ` ```plantuml ` block stays a plain code card.
-- **Default styling.** Diagrams render on a light card whatever theme you use, because Mermaid's own palette is drawn for a light background; there are no per-diagram theme controls.
+- **Default styling.** Diagrams follow the theme you are using, and there are no per-diagram theme controls.
 - **Local.** Diagrams are rendered on your device. Nothing is sent anywhere to draw them.

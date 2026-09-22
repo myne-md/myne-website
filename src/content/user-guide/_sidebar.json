@@ -171,7 +171,7 @@
   {
     "slug": "settings-and-privacy",
     "label": "Settings & privacy",
-    "description": "Adjust appearance and keyboard shortcuts, set up quick unlock and auto-lock, protect against screen capture, choose whether vault names appear on the lock screen, change your password, reach the settings behind Developer mode, and understand the privacy model.",
+    "description": "Adjust appearance and keyboard shortcuts, work by keyboard and screen reader, set up quick unlock and auto-lock, protect against screen capture, choose whether vault names appear on the lock screen, change your password, reach the settings behind Developer mode, and understand the privacy model.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -187,6 +187,7 @@
       "vault-names-on-the-lock-screen",
       "change-your-password",
       "custom-hotkeys",
+      "accessibility",
       "developer-mode",
       "route-sync-through-tor",
       "delete-a-vault",

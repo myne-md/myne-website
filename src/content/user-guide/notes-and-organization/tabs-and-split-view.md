@@ -1,7 +1,7 @@
 ---
 title: "Tabs and split view"
 category: "notes-and-organization"
-updated: 2026-08-29
+updated: 2026-09-21
 summary: "How to open notes in multiple tabs and arrange them side by side with split view, what a new empty tab offers you instead of a blank note, and how Myne remembers your open workspace between sessions."
 tags: ["workspace", "editor"]
 ---
@@ -19,6 +19,24 @@ A new, empty tab does not force a blank note on you. It shows a chooser: a searc
 Each tab carries its own **view mode** — Live preview, Reading, or Source — so you can read one tab while editing another, and ⇧⌘E toggles the focused tab between editing and reading. See [View modes](/user-guide/editor-and-writing/view-modes/) for what each mode shows.
 
 You can also **pin** a tab so it is protected from being replaced by the next note you open — once a tab is pinned, navigating to a note opens it in a new tab instead of reusing the pinned one — and pinning also hides the tab's close button (right-click the tab to pin or unpin). You can **stack** a pane's tabs into an overlapping deck when you have many open. See [Pinned and stacked tabs](/user-guide/notes-and-organization/pinned-and-stacked-tabs/).
+
+## The tab context menu, and closing a tab from the keyboard
+
+Right-click a tab for its menu: **Pin** or **Unpin**, **Move left**, **Move
+right**, and **Close tab**. Move left and Move right shift the tab one slot at
+a time, and each direction is offered only when there is somewhere to go, so
+the first tab is not offered a move to its left.
+
+A tab strip is one stop in the Tab order. The arrow keys move between the tabs
+in a pane, and **Enter** or **Space** switches to the tab you have moved to.
+Moving the focus does not switch tabs on its own, so arrowing across a row of
+open notes does not open each one on the way past.
+
+With a tab focused, **Delete** or **Backspace** closes it. The close **x** on
+the tab itself is there for the mouse and is not a keyboard stop; the keyboard
+paths are Delete or Backspace, ⌘W / Ctrl W for the active tab, and Close tab in
+the menu above. A pinned tab has no close x and no Close tab item: unpin it
+first.
 
 ## Split view
 
@@ -43,6 +61,7 @@ The Default workspace's layout is saved when you **close or lock Myne normally**
 | New note in the focused pane | ⌘T | Ctrl T |
 | Next / previous tab in the pane | Ctrl Tab / Ctrl Shift Tab | Ctrl Tab / Ctrl Shift Tab |
 | Close the active tab | ⌘W | Ctrl W |
+| Close the focused tab | Delete or Backspace | Delete or Backspace |
 | Toggle the focused tab between editing and reading | ⇧⌘E | Ctrl Shift E |
 | Split the focused pane right / down | ⌘\ / ⌘⇧&#124; | Ctrl \ / Ctrl Shift &#124; |
 

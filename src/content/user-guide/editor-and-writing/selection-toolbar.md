@@ -1,7 +1,7 @@
 ---
 title: "Selection toolbar"
 category: "editor-and-writing"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "Select text and a small toolbar appears above it with a block-type control, bold, italic, strikethrough, inline code, highlight, and link. The highlight button also edits a highlight you are already inside, and Settings → Editor lets you reorder and hide the buttons."
 tags: ["editor", "markdown", "settings"]
 ---
@@ -20,7 +20,9 @@ Left to right, an un-customized toolbar shows:
 - **H** — highlight, covered below.
 - **↗** — link. It replaces the toolbar with a **Paste link URL** field and an **Apply** button, so the selected text becomes the link's label.
 
-On the desktop app a further button sits at the end of the row: **Export selection as image**, which saves the selected text as a picture. It is a fixed control rather than one of the customizable ones, so it cannot be reordered or hidden.
+A further button sits at the end of the row: **Export selection as image**, which renders the selected text to a PNG. The desktop app opens your operating system's save dialog for it; in the browser the file arrives as an ordinary download. It is a fixed control rather than one of the customizable ones, so it cannot be reordered or hidden.
+
+The same export is in the command palette as **Export selection as image…**, under **Editor**, and both routes run the same code. With nothing selected, either one reports **Select some text first, then export it as an image.** A finished export reports **Selection saved as an image.**, and a failure reports **Could not export the selection as an image.** Dismissing the save dialog reports nothing, because nothing happened.
 
 Every button writes the same Markdown you would type by hand. The toolbar is a shortcut to the syntax, not a different format, and everything it does is an ordinary edit you can undo.
 

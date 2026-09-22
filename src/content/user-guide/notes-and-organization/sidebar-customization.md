@@ -1,7 +1,7 @@
 ---
 title: "Customizing the sidebar"
 category: "notes-and-organization"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "How to customize the sidebar and the bottom bar: reordering and re-nesting notes and folders by drag or from the folder menu, which sections are visible, reordering the bottom-bar items, and how to adjust the layout to match the way you navigate your vault."
 tags: ["sidebar", "workspace"]
 ---
@@ -28,11 +28,11 @@ A folder can have one note that stands in as its index — its "folder note". A 
 
 ## Empty folders and loose notes
 
-Empty folders are kept on purpose; if you make a folder to fill later, it stays. Notes do not have to live in a folder at all; **loose notes** at the top level are first-class, not an error state.
+Folders are kept on purpose. Once a folder holds a note, or once you make one to fill later, it stays: emptying it does not delete it. Deleting it yourself is the ordinary way one goes, and there is one case where a folder can still disappear on its own, described under [Notes and folders](/user-guide/notes-and-organization/notes-and-folders/): if Myne could not record the folder, or if the folder list was full, it works but does not survive its last note leaving. Notes do not have to live in a folder at all; **loose notes** at the top level are first-class, not an error state.
 
 ## Collapsing
 
-Collapse a folder to tuck its contents away while you work elsewhere; expand it to bring them back. Collapse state is a convenience for the current session and is not part of the saved order.
+Collapse a folder to tuck its contents away while you work elsewhere; expand it to bring them back. Which folders are open is remembered along with the rest of your layout, so the tree comes back the way you left it the next time you unlock the vault. It is kept separately from the manual order, and it is one set for the sidebar rather than one per workspace, so switching workspaces does not change what is collapsed.
 
 ## Views and the footer
 
@@ -48,7 +48,9 @@ The status bar along the bottom of the editor carries small readouts and control
 
 You can rearrange these items. Drag a bottom-bar item left or right to set its position. As a pointer-free alternative, right-click an item and choose **Move left** or **Move right**; the same menu lets you **Hide** an item. The order you set is saved with your vault.
 
-The local-only / sync status indicator stays pinned at the far left and does not move. To bring a hidden item back, right-click the bottom bar and turn it on again in the visibility list.
+Two things sit outside the order you set. The side-by-side preview toggle is pinned to the start of the right-hand cluster and never moves. And sync state is not an item of its own: when a note's latest changes have not reached the server yet, a small marker appears beside **Save status**, so hiding Save status hides that marker with it.
+
+To bring a hidden item back, right-click empty bar space and turn it on again in the visibility list; that list is the only way back.
 
 ## Limits
 

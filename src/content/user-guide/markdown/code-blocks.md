@@ -1,7 +1,7 @@
 ---
 title: "Code blocks"
 category: "markdown"
-updated: 2026-08-16
+updated: 2026-08-24
 summary: "How to write inline code and fenced code blocks with language hints, and how Myne applies syntax highlighting to the code you write."
 tags: ["markdown", "editor"]
 ---
@@ -21,7 +21,7 @@ def greet(name):
 ```
 ````
 
-The language label appears on the card, and the code is highlighted for that language. If you start a fence and don't close it, Myne keeps the rest of the note as code until you add the closing fence. Typing the opening fence offers to auto-close it for you.
+The language label appears on the card, and the code is highlighted for that language. If you start a fence and don't close it, Myne keeps the rest of the note as code until you add the closing fence. Press Enter at the end of the opening fence line and Myne writes the closing fence for you, leaving your cursor on the empty line between the two.
 
 ## Supported languages
 

@@ -1,7 +1,7 @@
 ---
 title: "Summarize a note"
 category: "ai"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "Ask for a short summary of the current note or a selection. The summary appears in the AI Chat tab, and you can insert it into the note as a plain-markdown Summary block only when you choose to."
 tags: ["ai", "notes"]
 ---
@@ -10,7 +10,7 @@ With AI on, Myne can summarize the note you are reading, or just a selection of 
 
 ## Prerequisites
 
-- AI enabled, with a text model selected or a provider named — see [Turning on AI](/user-guide/ai/turning-on-ai/).
+- AI enabled, with a text model selected or a provider named. See [Turning on AI](/user-guide/ai/turning-on-ai/).
 - A note open in the editor.
 
 ## Summarizing
@@ -23,10 +23,10 @@ The summary is produced by the model and appears in the AI Chat tab, which shows
 
 ## Inserting the summary
 
-The summary is not added to your note automatically. When it is ready in the AI Chat tab, an **Insert into note** action appears beneath it. Choosing it appends a `## Summary` block to the end of the note, as ordinary Markdown — the same text you could have typed by hand, with no special format. It saves through the normal note-save path, so it participates in autosave, snapshots, and undo like any other edit.
+The summary is not added to your note automatically. When it is ready in the AI Chat tab, an **Insert into note** action appears beneath it. Choosing it appends a `## Summary` block to the end of the note, as ordinary Markdown, the same text you could have typed by hand, with no special format. It saves through the normal note-save path, so it participates in autosave, snapshots, and undo like any other edit.
 
 If you do not insert it, nothing is written; the summary stays in the tab until it is replaced or the vault locks.
 
 ## Limits
 
-Where summarizing runs depends on what you have named. With no provider set up it runs on your device and the note text never leaves your machine. If you have named a remote provider, summarizing is one of the surfaces that can use it — the note text you summarize is sent there, after the consent step that says so ([Where your AI runs](/user-guide/ai/where-your-ai-runs/)). The summary comes from a small model and can miss or distort points, so treat it as a draft to check against the note, not a substitute for reading it. A note in an [excluded folder](/user-guide/ai/turning-on-ai/#excluding-folders) is never summarized. Nothing is added to a note without your explicit Insert action. The model Myne runs itself runs in-process and is not isolated from your decrypted notes; see [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/) for the full boundary.
+Where summarizing runs depends on what you have named. With no provider set up it runs on your device and the note text never leaves your machine. If you have named a remote provider, summarizing is one of the surfaces that can use it: the note text you summarize is sent there, after the consent step that says so ([Where your AI runs](/user-guide/ai/where-your-ai-runs/)). The summary comes from a small model and can miss or distort points, so treat it as a draft to check against the note, not a substitute for reading it. A note in an [excluded folder](/user-guide/ai/turning-on-ai/#excluding-folders) is never summarized, and **Summarize note** says nothing about it: the AI Chat tab opens and stays empty, with no summary and no message. If you ran the command and nothing happened, check whether the note's folder is one you excluded. Nothing is added to a note without your explicit Insert action. The model Myne runs itself runs in-process and is not isolated from your decrypted notes; see [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/) for the full boundary.

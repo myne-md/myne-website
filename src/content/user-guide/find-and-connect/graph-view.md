@@ -27,8 +27,8 @@ Filter chips narrow what's shown:
 
 - **All**: the whole vault.
 - **Isolated**: only notes that neither link out to anything nor are named by another note, so you can find what's disconnected and wire it in.
-- **Around this note**: just the neighborhood of the note you have open, out to one or two hops (toggle the depth between 1 and 2).
-- **Tag**: a dropdown that narrows the graph to notes carrying a tag, counting nested tags under their parent.
+- **Around this note**: just the neighborhood of the note you have open, out to one or two hops (toggle the depth between 1 and 2). This chip appears once you have a note selected.
+- **Tag**: a dropdown that narrows the graph to notes carrying a tag, counting nested tags under their parent. It appears once the vault has at least one tag.
 
 A large vault is drawn in full: there is no note limit on the graph. What keeps it usable is that the layout is computed off the main thread and does not block the window, the renderer draws only what is on screen, and labels appear once you zoom in far enough to read them.
 

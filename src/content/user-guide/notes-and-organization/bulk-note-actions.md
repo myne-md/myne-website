@@ -1,7 +1,7 @@
 ---
 title: "Selecting and acting on multiple notes"
 category: "notes-and-organization"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "Select several notes in the sidebar with Cmd/Ctrl-click or Shift-click, then move, archive, or delete the whole set, or drag the selection onto a folder. The keyboard delete asks you to confirm first. You can also duplicate a single note and open a random one."
 tags: ["notes", "sidebar"]
 ---
@@ -42,7 +42,7 @@ A multi-selection can be dragged the same way a single note can. Pick up any sel
 To copy a single note, right-click its row and choose **Duplicate**. The copy:
 
 - Gets a new note identity of its own, separate from the original.
-- Takes the source title with **(copy)** appended, or just **(copy)** when the source has no title.
+- Takes the source title with **(kopya)** appended, or just **(kopya)** when the source has no title. That suffix is a fixed string in the app rather than a translated one, so it reads the same whichever language you use Myne in.
 - Lands in the same folder as the original and opens in the focused pane.
 - Stays a template if the note you duplicated was a template.
 
@@ -50,7 +50,7 @@ Favorites and color labels are **not** carried over to the copy. Those are kept 
 
 ## Opening a random note
 
-For serendipitous review, the command palette has an **Open random note** action. It picks one note uniformly at random from your live notes; trashed notes and templates are excluded, matching what the sidebar shows. When two or more notes are eligible, the note that is currently open is dropped from the pool, so the pick always moves you to a different note. If there are no eligible notes, a toast reads **No notes to open.**
+For serendipitous review, the command palette has an **Open random note** action. It picks one note uniformly at random, leaving out trashed notes and templates. Archived notes are not left out, so a note you set aside can still come up. When two or more notes are eligible, the note that is currently open is dropped from the pool, so the pick always moves you to a different note. If there are no eligible notes, a toast reads **No notes to open.**
 
 This action lives only in the command palette: there is no sidebar button and no default keyboard shortcut for it.
 

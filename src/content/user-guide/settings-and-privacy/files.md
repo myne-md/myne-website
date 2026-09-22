@@ -1,7 +1,7 @@
 ---
 title: "Files"
 category: "settings-and-privacy"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "The Files panel sets which file opens when Myne starts, where new notes are placed, whether imported images are compressed, and whether text is read out of image and scanned-PDF attachments for search. Choosing a startup file other than the last-opened one never overwrites your saved workspace layout, so switching back restores your panes."
 tags: ["settings", "notes", "folders", "attachments"]
 ---
@@ -34,7 +34,7 @@ The **Default location for new notes** control decides where a newly created not
 
 - **Vault folder** places new notes at the top level of the vault.
 - **Same folder as current note** places a new note beside the note you have open. When no note is selected, it falls back to the vault folder.
-- **In the folder specified below** reveals a **Folder for new notes** field; type a folder path such as `Inbox/`.
+- **In the folder specified below** reveals a **Folder for new notes** control. Search your vault's folders and pick one, so the path is chosen rather than typed from memory. A vault with no folders yet gets a plain field instead: type a path such as `Inbox/`, and it becomes a folder when the first note lands there.
 
 This is only the default. Creating a note through a folder's own "new note here" action always places it in that folder, regardless of this setting. See [Notes and folders](/user-guide/notes-and-organization/notes-and-folders/) for the sidebar actions that create notes.
 

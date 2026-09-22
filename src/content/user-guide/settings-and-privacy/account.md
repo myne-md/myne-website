@@ -1,7 +1,7 @@
 ---
 title: "Account"
 category: "settings-and-privacy"
-updated: 2026-08-15
+updated: 2026-08-24
 summary: "The Account panel lets you rename the vault, manage connected browser extensions, change your master password, and delete the vault. It also explains your account number, the identity you use to add another device."
 tags: ["settings", "devices", "security"]
 ---
@@ -16,12 +16,15 @@ Open Settings from the gear in the bottom bar or with `⌘,`, then choose **Acco
 
 ## What's in the panel
 
-- **Change password** — rotate your master password while keeping the same vault. See [Change your password](/user-guide/settings-and-privacy/change-your-password/).
-- **Vault label and icon** — a name and glyph for this vault, shown in the in-app vault switcher. Both are stored encrypted inside the vault. See [Working with multiple vaults](/user-guide/safety-and-recovery/multiple-vaults/).
-- **Connected extensions** — the browser extensions currently paired with this vault, with a per-row Revoke. A revoked extension has to pair again before it can send clips.
-- **Danger zone** — the **Delete vault…** action, covered below.
+- **Change password**: rotate your master password while keeping the same vault. See [Change your password](/user-guide/settings-and-privacy/change-your-password/).
+- **Vault label and icon**: a name and glyph for this vault, shown in the in-app vault switcher and on the startup vault picker before you unlock. Both are stored encrypted inside the vault. See [Working with multiple vaults](/user-guide/safety-and-recovery/multiple-vaults/).
+- **Browser clipper**: a switch that registers the native-messaging host the Myne browser extension talks to. It is on by default; turning it off removes the host, so no extension can reach this app until you turn it back on. See [Browser clipper](/user-guide/attachments-and-import/browser-clipper/).
+- **Connected extensions**: the browser extensions currently paired with this vault, with a per-row Revoke. A revoked extension has to pair again before it can send clips.
+- **Danger zone**: the **Delete vault…** action, covered below.
 
-The vault label is also kept in a sealed device-local copy, so the locked vault picker can show this vault's name after a restart. Renaming updates that copy only on the device you rename from: your other devices keep showing the old name on their lock screens until you unlock the vault there. See [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/).
+In a browser the panel is shorter, and its last section makes a different promise. The browser client keeps your vault as a synced copy rather than as the only copy, so that section is headed **This browser** and its button reads **Sign out and erase this browser's copy…**. It removes Myne's copy from that browser and nothing else: your account and everything already synced stay on the server, and signing in again brings them back. Browser extensions do not pair with a browser tab either, so the clipper switch and the extension list are absent there. The permanent, unrecoverable delete described below is the desktop and mobile action.
+
+The vault label is also kept in a sealed device-local copy, so the locked vault picker can show this vault's name after a restart. Renaming updates that copy only on the device you rename from, and Myne says so under the field while the change is pending. Until you unlock the vault on your other devices, their lock screens keep showing whatever they stored last: an earlier name, or a placeholder if they never stored one. Clearing the label works the same way, so emptying the field here does not reach the copy sitting on another device's lock screen. See [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/).
 
 The panel does not show the key-derivation settings your password runs through. Myne stretches your master password with Argon2id (256 MiB of memory, three passes, two lanes) before it becomes your vault key, and that figure is shown when you create a vault. The model behind it is in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/).
 

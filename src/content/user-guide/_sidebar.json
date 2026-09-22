@@ -12,13 +12,14 @@
       "your-recovery-phrase",
       "unlocking-your-vault",
       "your-first-note",
-      "interface-tour"
+      "interface-tour",
+      "left-ribbon"
     ]
   },
   {
     "slug": "notes-and-organization",
     "label": "Notes & organization",
-    "description": "Organize your vault with folders and folder notes, favorites, trash and archive, multi-select actions, tabs, split view and named workspaces, templates, daily notes, drawings, and tasks.",
+    "description": "Organize your vault with folders and folder notes, favorites, trash and archive, multi-select actions, tabs, split view and named workspaces, templates, periodic notes (daily, weekly and monthly), drawings, and tasks.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -32,7 +33,7 @@
       "pinned-and-stacked-tabs",
       "named-workspaces",
       "templates",
-      "daily-notes",
+      "periodic-notes",
       "drawings",
       "tasks",
       "sidebar-customization",
@@ -48,6 +49,7 @@
       "overview",
       "view-modes",
       "focus-mode",
+      "detached-windows",
       "folding",
       "multiple-cursors",
       "find-and-replace",
@@ -101,21 +103,22 @@
   {
     "slug": "attachments-and-import",
     "label": "Attachments & import",
-    "description": "Attach files and record voice notes, manage them in the attachments library, and import an existing Obsidian vault.",
+    "description": "Attach files and record voice notes, manage them in the attachments library, and bring notes in from another app or another Myne vault.",
     "intro": "overview",
     "articles": [
       "overview",
       "attachments",
       "voice-notes",
       "attachments-library",
-      "import-from-obsidian",
+      "import-your-notes",
+      "combine-two-vaults",
       "browser-clipper"
     ]
   },
   {
     "slug": "ai",
     "label": "AI (Beta)",
-    "description": "Turn on Myne's experimental AI, choose where it runs — a model file on your computer, a runtime you already have, or a remote provider you name — then ask questions across your notes with citations, summarize notes, suggest tags, get inline writing help, and read the honest privacy boundary.",
+    "description": "Turn on Myne's experimental AI, choose where it runs \u2014 a model file on your computer, a runtime you already have, or a remote provider you name \u2014 then ask questions across your notes with citations, summarize notes, suggest tags, get inline writing help, and read the honest privacy boundary.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -126,19 +129,22 @@
       "suggest-tags",
       "writing-assistant",
       "agent-runs",
+      "ai-chat-history",
       "ai-privacy-and-limits"
     ]
   },
   {
     "slug": "sync-and-devices",
     "label": "Sync & devices",
-    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server, add and approve devices with your account number, read sync status, and resolve conflicts — all zero-knowledge, with no email.",
+    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server, check its certificate fingerprint, add and approve devices with your account number, read sync status, and resolve conflicts, all zero-knowledge, with no email.",
     "intro": "overview",
     "articles": [
       "overview",
       "how-sync-works",
       "turn-on-sync",
       "add-a-device",
+      "sharing-a-vault-with-members",
+      "server-certificates",
       "sync-status",
       "storage-and-limits",
       "resolving-conflicts",
@@ -148,11 +154,12 @@
   {
     "slug": "safety-and-recovery",
     "label": "Safety & recovery",
-    "description": "Recover a forgotten password, back up and restore your vault, upgrade its storage format, use note snapshots, and manage multiple vaults.",
+    "description": "Recover a forgotten password, tell a real recovery-phrase prompt from a fake one, back up and restore your vault, upgrade its storage format, use note snapshots, and manage multiple vaults.",
     "intro": "overview",
     "articles": [
       "overview",
       "if-you-forget-your-password",
+      "recovery-phrase-scams",
       "back-up-your-vault",
       "restore-from-a-backup",
       "upgrade-your-vault-format",
@@ -164,7 +171,7 @@
   {
     "slug": "settings-and-privacy",
     "label": "Settings & privacy",
-    "description": "Adjust appearance and keyboard shortcuts, set up quick unlock and auto-lock, protect against screen capture, choose whether vault names appear on the lock screen, change your password, reach the settings behind Developer mode, and understand the privacy model.",
+    "description": "Adjust appearance and keyboard shortcuts, work by keyboard and screen reader, set up quick unlock and auto-lock, protect against screen capture, choose whether vault names appear on the lock screen, change your password, reach the settings behind Developer mode, and understand the privacy model.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -172,6 +179,7 @@
       "account",
       "appearance",
       "language",
+      "dates-and-times",
       "custom-theme-reference",
       "files",
       "auto-lock-and-screen-capture",
@@ -179,6 +187,7 @@
       "vault-names-on-the-lock-screen",
       "change-your-password",
       "custom-hotkeys",
+      "accessibility",
       "developer-mode",
       "route-sync-through-tor",
       "delete-a-vault",
@@ -188,11 +197,12 @@
   {
     "slug": "command-line",
     "label": "Command line",
-    "description": "Read, search, and add notes from a terminal with the myne command-line client, which drives the running, unlocked app over a local socket.",
+    "description": "Read, search, and add notes from a terminal with the myne command-line client, and export a vault to plain Markdown without the app installed.",
     "intro": "overview",
     "articles": [
       "overview",
-      "the-myne-cli"
+      "the-myne-cli",
+      "export-a-vault-without-the-app"
     ]
   }
 ]

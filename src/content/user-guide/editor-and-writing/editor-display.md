@@ -1,12 +1,12 @@
 ---
 title: "Editor display and typography"
 category: "editor-and-writing"
-updated: 2026-08-13
+updated: 2026-09-01
 summary: "Tune the editor's reading surface: text size, line spacing, content width, font, and an optional line-number gutter, plus how dates and times are printed. All controls live in Settings, apply live, and store in your encrypted vault prefs. Mixed-direction text needs no setting at all."
 tags: ["editor", "settings"]
 ---
 
-The editor's reading surface is yours to tune. You can set the text size, the line spacing, the width of the editing column, and the font, you can turn on a line-number gutter, and you can choose how dates and times are printed. Every control lives in Settings, applies to the open editor right away, and is saved in your vault's encrypted preferences. Right-to-left and mixed-direction text is the one thing here with nothing to configure — the editor works it out per line.
+The editor's reading surface is yours to tune. You can set the text size, the line spacing, the width of the editing column, and the font, you can turn on a line-number gutter, and you can choose how dates and times are printed. Every control lives in Settings, applies to the open editor right away, and is saved in your vault's encrypted preferences. Four of them can also be reached from the command palette, which the last section covers. Right-to-left and mixed-direction text is the one thing here with nothing to configure. The editor works it out per line.
 
 ![The Editor settings panel with the text-size and display options.](./editor-display.png)
 
@@ -31,21 +31,36 @@ The gutter numbers one logical line per row. When a long line soft-wraps onto mo
 
 Further down the **Editor** panel, under **Editing**, three controls decide how Myne prints dates and times.
 
-- **Date format** — helper text: "How dates are shown across tasks, saved views and attachments." The options are **Match language**, which follows the interface language you chose, plus one option per layout, each labelled with the same worked example date so you can see what you are picking.
+- **Date format** — helper text: "How a date is written wherever Myne shows one." The options are **Match language**, which follows the interface language you chose, plus one option per layout, each labelled with the same worked example date so you can see what you are picking.
 - **Time format** — **Match language**, **24-hour**, or **12-hour**. Helper text: "Whether times are shown on a 24-hour or 12-hour clock."
-- **Time zone** — helper text: "Which zone decides what counts as today. Leave empty to follow this device. Times you write in a note are never changed — 09:00 stays 09:00 everywhere."
+- **Time zone**, helper text: "Which zone decides what counts as today, and so which note your daily, weekly and monthly notes open. Leave empty to follow this device. The choice settles per device: no other device overwrites it, so an override can put this device on a different day from your others. Times you write in a note are never changed; 09:00 stays 09:00 everywhere."
 
-The first two change what you see across tasks, saved views, and attachments; they never change a note. **Time zone** decides only what Myne counts as today, so a task due today stays due today when you travel. Type a zone name like `Europe/Berlin`; a name Myne cannot use is refused rather than stored, with "Myne doesn't know that time zone. Use a name like Europe/Berlin."
+The first two change what you see wherever Myne prints a date, including a due date on a task line inside a note; they never change the note itself. **Time zone** decides two things: what Myne counts as today, so a task due today stays due today when you travel, and so does which note [this week's or this month's note](/user-guide/notes-and-organization/periodic-notes/) opens. The command line is the exception: it uses the clock of the machine it runs on and says so. Type a zone name like `Europe/Berlin`; a name Myne cannot use is refused rather than stored, with "Myne doesn't know that time zone. Use a name like Europe/Berlin."
 
 A time you type into a note is never rewritten by any of this. Myne stores note times as plain wall-clock text, so `09:00` stays `09:00` everywhere, and no zone name is written into a note.
+
+[Dates and times](/user-guide/settings-and-privacy/dates-and-times/) covers the rest: which of the three travel with your vault and which stay on the device, what the phone shows, and what happens when you search a note for a date the way you read it.
 
 ## Right-to-left and mixed-direction text
 
 There is nothing to configure here. The editor works out each line's direction from the line's own text, so a note that mixes Arabic or Hebrew paragraphs with Latin ones lays each one out correctly — the right-to-left lines run right to left and the English lines run left to right, in the same note. A blank line follows the direction of the interface. This applies in Live preview, Reading, and Source alike, and it changes only how the text is drawn: the bytes stored in the note are untouched.
 
+## From the command palette
+
+Four of these settings can be changed without opening Settings. From the editor, open the command palette (⌘K / Ctrl K) and run one of:
+
+- **Cycle editor text size** steps through Small, Default, Large, Extra large, then back to Small.
+- **Cycle editor content width** steps through Narrow, Normal, Wide, Full, then back to Narrow.
+- **Toggle editor font (mono / sans)** swaps between the two.
+- **Toggle line numbers** turns the gutter on or off.
+
+Each writes the same preference its Settings control writes, so the open editor picks it up live and the choice persists. Line spacing and the date, time, and zone controls have no palette entry; those stay in Settings.
+
 ## Where these settings live
 
-The display preferences — text size, line spacing, content width, font, the line-number toggle, and the date, time, and zone choices — are stored per vault in your encrypted vault prefs. They stay on your device and are never sent anywhere. Because Myne only writes a value when it differs from the default, a vault you have left untouched stays identical on disk to one where you explicitly chose every default.
+The display preferences (text size, line spacing, content width, font, the line-number toggle, and the date, time, and zone choices) are stored per vault in your encrypted vault prefs. They stay on your device and are never sent anywhere. Because Myne only writes a value when it differs from the default, a vault you have left untouched stays identical on disk to one where you explicitly chose every default.
+
+**The time zone is the one that behaves differently across your devices, and the two facts fit together rather than contradicting each other.** It is stored in the same encrypted vault prefs as the rest, so it does travel with the vault, and a device you add later starts out holding whatever it was set to. What is per-device is that no other device ever OVERWRITES it: change the zone on your laptop and your phone keeps its own. So the choice settles per device rather than never leaving one, and an override you set on a computer can put that computer on a different day from your phone.
 
 To reach Settings, click the gear in the bottom bar or press ⌘, (Ctrl , on Windows and Linux).
 

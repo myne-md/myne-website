@@ -1,7 +1,7 @@
 ---
 title: "View modes"
 category: "editor-and-writing"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "Switch a note tab between Live preview, Reading, and Source over the same bytes, set the default new-tab mode, and open a side-by-side read-only preview beside Source."
 tags: ["editor", "workspace"]
 ---
@@ -14,7 +14,7 @@ Every note tab can render in one of three view modes — Live preview, Reading, 
 
 A note tab is always in one of three modes:
 
-- **Live preview** is the default. It is the cursor-aware editor you write in: markdown renders as you go, and the raw syntax lifts back into view where your cursor is, so you edit the markup in place. How much lifts depends on the mark. A bullet's disc and a heading's `#` come back only when the cursor is on the marker itself, so editing the text of a list item leaves the disc alone; a numbered list's `1.` and most inline marks come back for the whole line your cursor is on. A colored highlight always lifts as `==text==`, never as the underlying HTML it is stored as.
+- **Live preview** is the default. It is the cursor-aware editor you write in: markdown renders as you go, and the raw syntax lifts back into view where your cursor is, so you edit the markup in place. How much lifts depends on the mark. A bullet's disc and a heading's `#` come back only when the cursor is on the marker itself, so editing the text of a list item leaves the disc alone. Most inline marks work the same way: `**bold**`, `*italic*`, `` `code` ``, and a link's brackets and URL lift only while the cursor is inside that span, so two formatted spans on one line never both open at once. A numbered list's `1.` is the exception, and comes back for the whole line your cursor is on. A colored highlight always lifts as `==text==`, never as the underlying HTML it is stored as.
 - **Reading** is the fully rendered, read-only view. Markdown never lifts — everything stays rendered — and keystrokes are no-ops, so it is a clean way to read a note without touching it.
 - **Source** shows the raw markdown verbatim, with the live-preview rendering decorations turned off. It is still fully editable, and syntax colouring stays on, so you are editing coloured plain markdown.
 
@@ -30,9 +30,11 @@ Each tab remembers its own mode, so two tabs of different notes can sit in diffe
 
 ## Setting the default view mode
 
-To choose which mode new tabs open in, go to **Settings → Editor → Default view mode** and pick one of the segmented options: **Live preview**, **Reading**, or **Source**. The helper text reads: "How a note opens: Live preview (default), read-only Reading, or raw Source. Toggle a note with ⇧⌘E."
+To choose which mode new tabs open in, go to **Settings → Editor → Default view mode** and pick one of the segmented options: **Live preview**, **Reading**, or **Source**. The helper text reads: "How a note opens: Live preview (default), read-only Reading, or raw Source. Toggle a note with ⇧⌘E." The command palette reaches the same preference: **Cycle default view mode**, in the **Editor** category, steps it through Live preview, Reading, and Source without opening Settings.
 
-This sets the starting mode for tabs you open from now on. Tabs that are already open keep whatever mode they are in — changing the default does not reach back and re-mode them.
+This sets the starting mode for tabs you open from now on. Tabs that are already open keep whatever mode they are in: changing the default does not reach back and re-mode them.
+
+One setting elsewhere changes the starting mode without you picking it here. While **Vim keyboard mode** is on (it lives in **Settings → Editor** and appears once Developer mode is on), a note opens in Source unless you have chosen a **Default view mode** yourself. Live preview hides the markdown characters vim's motions still count, so raw source is the honest surface to move around in. The setting says so itself: "Notes open in source view while this is on." An explicit **Default view mode** wins in either direction, and a tab's own mode wins over both.
 
 ## Side-by-side preview while editing source
 

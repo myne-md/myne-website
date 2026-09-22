@@ -1,7 +1,7 @@
 ---
 title: "Managing devices"
 category: "sync-and-devices"
-updated: 2026-08-13
+updated: 2026-08-24
 summary: "View the devices on your account, rename one, and remove one. Covers the device list, the confirmation before a removal and what removal really does (it revokes sync access but is not a remote wipe), recovering a device removed elsewhere, resetting sync locally, and the recovered notes kept when a deletion arrives by sync."
 tags: ["devices", "sync", "security"]
 ---
@@ -35,7 +35,11 @@ Deleting a recovered note is permanent. It is the only copy kept on this device,
 
 ## Resetting sync on this device
 
-If sync is refused for a reason retrying cannot fix — a rejected credential, a frozen account, an account at its device limit, or a device stuck waiting for an approval that is not coming — the panel offers **Reset sync on this device**. A device waiting on an approval has no other way out: while the enrolment looks live, the **Add a device** form stays hidden, so resetting is what returns it to a state where it can be added again. This clears the device's local sync token and its sync baseline so it can be re-added. It never touches your notes and makes no changes on the server — it only resets this device's local sync state. If the trouble is instead that the server moved or its certificate changed, re-enter the server URL under **Sync server** to re-trust it rather than resetting.
+If sync is refused for a reason retrying cannot fix (a rejected credential, a frozen account, an account at its device limit, or a device stuck waiting for an approval that is not coming), the panel offers **Reset sync on this device**. A device waiting on an approval has no other way out: while the enrolment looks live, the **Add a device** form stays hidden, so resetting is what returns it to a state where it can be added again. This clears the device's local sync token and its sync baseline so it can be re-added. It never touches your notes and makes no changes on the server: it only resets this device's local sync state.
+
+When sync fails for a reason a reset cannot fix, the panel names it in plain words rather than an error code. The line reads "Couldn't reach sync (the server didn't answer)." or "Couldn't reach sync (the account is frozen).", with a plain-language phrase for each reason the backend can tell apart, and a neutral one for anything it cannot.
+
+One of those reasons gets its own treatment, because Myne knows exactly what happened. If the server's certificate changed, the panel reads "The sync server answered, but with a different certificate than the one this device pinned.", and then: "This is what a renewed certificate looks like, and also what an impostor looks like. Myne cannot tell them apart, so it will not guess. Get the fingerprint from your server, then re-enter the server URL under **Sync server** above and paste it in when asked." **Reset sync on this device** is not offered in that state, because a reset would clear this device's local sync state without changing which certificate it trusts. [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/) covers pasting the new fingerprint. For any other transport failure the panel still says the more cautious thing: that the server may have moved or its certificate may have changed, and re-entering the server URL under **Sync server** is what re-trusts it.
 
 ## Limits
 

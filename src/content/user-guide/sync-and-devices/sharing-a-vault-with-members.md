@@ -42,7 +42,7 @@ A member vault has no password of its own. On a later start you unlock it with y
 
 ## Key changes
 
-If a member's identity changes (for example, after re-enrolling on a new device), the member list shows it as a key change you have not yet vouched for. Check the new fingerprint with that person out of band. Once you confirm it, the row is marked as relinked by the owner. A cryptographic key change and an owner-confirmed relink are shown differently on purpose.
+Myne does not yet show a key-change or owner-confirmed-relink state on the member list: identities are derived from the recovery phrase, so re-enrolling on a new device with the same phrase yields the same fingerprint rather than a key change. A future release will surface a genuine key change for out-of-band review. Until then, compare the fingerprint shown for a member out of band if you need certainty about who they are.
 
 ## Removing a member
 
@@ -52,8 +52,8 @@ Only the owner can remove a member. Removing someone rotates the vault's keys, s
 
 - **Removal stops future access only.** It cannot erase anything a removed member already synced, copied, or exported, and it does not recall content from their device or their AI provider. Anyone who already holds a copy of the vault keeps it.
 - **There is no viewer role.** Every member can read and write. If you need someone to look without changing anything, sharing is not the tool for that today.
-- **Authorship is attributable, not preventible.** Each sync push is signed, so a change can be traced to the person who pushed it. That is attribution at push granularity, not a block on what a member can do, and it is not a per-note signature.
-- **A member's private AI settings stay private.** Their AI provider choice, provider credential, and consent are stored only on their own devices; they are never shared with the vault or the other members.
+- **Authorship is attributable, not preventable.** Each sync push is signed, so a change can be traced to the person who pushed it. That is attribution at push granularity, not a block on what a member can do, and it is not a per-note signature.
+- **AI provider settings are shared, but each member's consent is their own.** A shared vault's preferences sync, so the AI provider, the provider key and the chosen model are part of the shared vault settings and every member of the vault can read them. Whether to send to that provider at all is a per-device consent, and each member grants it on their own device. Treat a shared vault's provider credential as visible to everyone in the vault.
 - **A removed member's private AI profile is scheduled for deletion after a retention period**, an operator policy rather than a cryptographic guarantee; anything they already copied is not recalled.
 - **The identity list and the membership graph.** Your sync server knows only the pseudonymous account-to-vault mapping, the accepted exposure described in [How sync works](/user-guide/sync-and-devices/how-sync-works/); it reads no names, no fingerprints, and no note content.
 - **Sharing is not on the web client.** Myne in a browser does not offer member sharing, because it depends on the recovery phrase as a credential, which does not belong in a served page.

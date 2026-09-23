@@ -29,9 +29,9 @@
  * which is the thing this file exists to check.
  */
 
-export const RELEASE_TAG = "v0.7.0";
-export const RELEASE_VERSION = "0.7.0";
-export const RELEASE_DATE = "2026-09-02";
+export const RELEASE_TAG = "v0.8.0";
+export const RELEASE_VERSION = "0.8.0";
+export const RELEASE_DATE = "2026-09-23";
 
 /** Pre-1.0. The download page frames every artefact with this. */
 export const RELEASE_CHANNEL = "early access · pre-alpha";
@@ -57,29 +57,24 @@ export interface ReleaseAsset {
 
 export const ASSETS: ReleaseAsset[] = [
   {
-    name: "Myne_0.7.0_universal.dmg",
-    bytes: 538979698,
-    sha256: "37a9f3373e0d06050c32a54f010da74597986f61efb86e02f47c4332295a60ba",
+    name: "Myne_0.8.0_universal.dmg",
+    bytes: 542230222,
+    sha256: "bae1ef3c73013dc4c4e8b110bee13c8e292ff0d53edc1305c266bbf718716c87",
   },
   {
-    name: "Myne_0.7.0_amd64.deb",
-    bytes: 497121502,
-    sha256: "6d8d71e7f82b6fd2534b10021715746b4b0598294280eb96e5445a70bf4d28e3",
+    name: "Myne_0.8.0_arm64.deb",
+    bytes: 498304550,
+    sha256: "dc981f82a8d20515bb1d66fc42033fe3bb90a5c5ec6fc218aa8959a67e14d6d4",
   },
   {
-    name: "Myne_0.7.0_arm64.deb",
-    bytes: 496526424,
-    sha256: "362ca5ab132f24f7c1e54eff9ef56ddb296e30ab21b72c59371b5f9d791a0cb1",
+    name: "Myne_0.8.0_aarch64.AppImage",
+    bytes: 164682248,
+    sha256: "7edb33004332289de99411cf75b13ec49ba1e40787f4e87fabc6206847fa85ec",
   },
   {
-    name: "Myne_0.7.0_aarch64.AppImage",
-    bytes: 586562056,
-    sha256: "ccbc9066029c3720c27cce863cc8d2129ca7770eea34a823d45b9b7d94260aaa",
-  },
-  {
-    name: "myne-bin-0.7.0-1-x86_64.pkg.tar.zst",
-    bytes: 495729697,
-    sha256: "67ebc1110ebcde1ec0584dbe5843fe7061fb9595939b37783c3b5e844a4746c7",
+    name: "Myne_0.8.0_universal.apk",
+    bytes: 315114565,
+    sha256: "a4fc6ecfcb8cb7b8bd9d322e665223d9d957fc8d28880a575e7472bc4874c974",
   },
 ];
 

@@ -1,7 +1,7 @@
 ---
 title: "Let the AI change your notes"
 category: "ai"
-updated: 2026-09-13
+updated: 2026-09-24
 summary: "Ask the AI to make changes across a set of notes you choose. In the default mode it proposes every change as a diff and nothing is written until you approve it, one note at a time or all at once."
 tags: ["ai", "notes"]
 ---
@@ -35,7 +35,7 @@ what came before.
 
 Notes at the top level of your vault are not offered as a folder. With no note open and no folder attached there is nothing for a run to work on, so **Send** stays greyed out and nothing on screen says why.
 
-The run appears in the same conversation as your questions. When it stops, its turn stays there with what it proposed and three figures about the run itself: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider. You can look back at all of it once the review screen has gone.
+The run appears in the same conversation as your questions. When it stops, its turn stays there with a summary of what it proposed and three figures about the run itself: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider. The turn also carries a diff icon that opens exactly what the run proposed, read-only, so you can look back at it once the review screen has gone.
 
 A run stops for one of five reasons, and its turn says which: it finished, you stopped it, it is waiting for you to widen its scope, it made too many steps, or it stopped making progress. That last one means the model stopped producing changes Myne could use, three replies in a row that proposed nothing new. It is a statement about the model rather than about your notes, and the fix is a different model rather than a different request. Anything it had already proposed before that point still goes to the review screen.
 
@@ -57,7 +57,7 @@ Nothing reaches your notes before this step. If you close the review without app
 
 **The review closes itself when there is nothing left to decide.** Once you have approved, if nothing was refused and no row is still waiting on you, the screen goes and you are back in your editor. It stays open otherwise, and each reason is one you need to see: a change that could not be placed, a row you have neither approved nor rejected, a note the run created, or an apply that failed outright. A review still on screen after you approved is telling you something rather than waiting for a click.
 
-What you see after it closes is the undo offer at the top of the AI panel, which names how many notes the run changed.
+What you see after it closes is the run's own turn in the conversation, carrying a **revert** control: the whole run can be undone as one action from there, and a confirmation step shows before anything is reverted.
 
 ### Applying automatically
 
@@ -67,11 +67,11 @@ In **Apply automatically** nothing is held back for your approval: what the AI p
 - **Deletions still need your own act.** An edit that would trash, delete, archive, turn into a template or mark as conflicted is refused in this mode and reported to you, exactly as it is refused inside a bulk approval. Myne checks this against the note as it would actually be, not against what the AI says it is doing.
 - **The mode lasts for the session.** Locking your vault or switching to another one puts it back to Review first, so a choice you made for one vault never carries into the next.
 
-Every change still takes a snapshot before it is written, and the undo offer sits in the composer after the run, so an automatic change you did not want is one action away from being reverted.
+Every change still takes a snapshot before it is written, and the run's turn carries a **revert** control, so an automatic change you did not want is one action away from being reverted.
 
 One thing this mode does not do: it does not read your notes any differently, and it does not send more of them anywhere. It changes when a proposal is written, not what the AI is allowed to see.
 
-The review screen does not open when the apply succeeds. Nothing is held for your approval, so there is nothing to review; what tells you what happened is the run's own turn in the conversation and the undo offer above the composer.
+The review screen does not open when the apply succeeds. Nothing is held for your approval, so there is nothing to review; what tells you what happened is the run's own turn in the conversation and the **revert** control on it.
 
 If the automatic apply fails outright, nothing is written and the composer says so: **The changes could not be applied automatically. Nothing was written; open the review to apply them yourself.** The proposal survives, so the review screen opens with everything the run proposed still on it: a failed automatic apply costs you the convenience rather than the proposal.
 
@@ -146,11 +146,13 @@ The reason all five need their own click is the same: at the diff level, each of
 
 Approving takes a snapshot of every note the run is about to **change**, so those changes can be undone as one action. If Myne cannot take those snapshots, it refuses to write at all rather than making a change you could not reverse.
 
-The Undo button is on the review screen, and it stays available once that screen has gone, whether you closed it or it closed itself: it moves to the top of the AI panel, so the review going away is not the same as accepting what happened. The offer lasts until you run the agent again or lock your vault, whichever comes first. After that the same snapshots are still there, in each note's own **Snapshots** history, one note at a time.
+The review screen carries its own **Undo** once something has been applied, and the run's turn carries a **revert** control as well, so the offer outlives the screen: whether you closed the review or it closed itself, the turn stays in the conversation with the revert control on it. Using either asks you to confirm first, and the confirmation states the limit in the same breath as the remedy: the offer lasts until you lock the vault or close the app, and after that the same snapshots are still there, in each note's own **Snapshots** history, one note at a time.
+
+The offer is tied to the run, not to a screen. If the run's turn is not in the conversation on screen, which after **New chat** or after switching to another conversation it is not, the revert control appears in the panel's own controls instead, so a run that wrote your notes is still one action from being undone.
 
 Notes the run **created** are not part of that undo, and Myne says so when you use it. A new note has no earlier version to go back to, so removing one means moving it to Trash yourself.
 
-On a phone the same one-tap undo is there, and it ends sooner: locking the vault, switching vault or the phone reclaiming the app all take it, and backgrounding the app is enough. **The strip names two of those four**, and points at the durable path: "This one-tap undo lasts until you lock the vault or close the app. After that, restore notes one at a time from a note's version history." Backgrounding is not closing, and switching vault is not in the sentence at all, so on a phone the terminator you are most likely to hit is the one the strip does not mention. Treat the offer as lasting only while the app is in front of you.
+On a phone the same one-tap undo is there, and it ends sooner: locking the vault, switching vault or the phone reclaiming the app all take it, and backgrounding the app is enough. The confirmation names only the first two of those, and points at the durable path: "This one-tap undo lasts until you lock the vault or close the app. After that, restore notes one at a time from a note's version history." Backgrounding is not closing, and switching vault is not in the sentence at all, so on a phone the terminator you are most likely to hit is the one the sentence does not mention. Treat the offer as lasting only while the app is in front of you.
 
 The reason it is not simply made to last is worth one sentence. That record names the notes a run changed, and keeping it across a restart would mean writing it to storage; the run's own proposal is text copied out of your notes, and Myne's design is that none of it is written down. The per-note snapshots, which are encrypted like everything else in your vault, are the version that persists.
 
@@ -174,7 +176,7 @@ In both cases **Send** stays blocked and what you typed is kept, so changing mod
 - **A note's own text can steer it.** The AI reads your notes, and a note that came from somewhere you do not control (synced from another device, or imported) can contain text that reads like an instruction. That is why the scope is yours to set, why widening it needs your approval, and why nothing is written without your say-so. Those approvals are the protection; they only work if you read them.
 - **Approving is the protection, and it is a human one.** Myne does not limit how large a run can get. It shows you the number and asks you each time.
 - **Nothing survives locking your vault.** If the vault locks while a run is working, or while its changes are waiting for you, the run is cancelled and the proposal is gone. Nothing was written. Myne gives you no warning about this before a long run, so check your auto-lock setting yourself first: a run over a folder can take minutes, and an idle lock in the middle of one throws the work away.
-- **New chat does the same thing, on purpose.** Starting a new conversation stops a run that is working and discards a proposal that was waiting for you, for the same reason: the proposal belongs to the conversation you are clearing. Nothing was written, and the offer to undo an earlier run that *did* write is kept.
+- **New chat does the same thing, on purpose.** Starting a new conversation stops a run that is working and discards a proposal that was waiting for you, for the same reason: the proposal belongs to the conversation you are clearing. Nothing was written, and the offer to undo an earlier run that *did* write is kept: with the turn cleared, the revert control appears in the panel's own controls.
 - **On a remote provider, the notes leave your device.** A run opens by sending the title and identifier of every note in its scope, before it has read any of them, and when the scope is exactly one note it sends that note's text as well. Every further note the run reads goes too, and so does the recent part of your conversation with the panel, since that is what lets a follow-up refer to the answer before it. Myne cannot see or control what that provider keeps. There is no limit on how many requests one run makes, so the cost is yours and it is not capped; when the run stops, its turn reports how many requests it made, how many notes it read, and roughly how many characters of your notes were sent. A run that stayed on this device says **nothing left this device** in the same place.
 - **Your excluded folders stay excluded, and they stay excluded during the run.** Notes in a folder you have excluded from AI are removed from the scope, and the approval screen tells you how many were removed. Excluding a folder while a run is working takes effect at once: from that moment its notes stop being listed, searched and read, and on a remote provider stop being sent. A change that can no longer be applied says so on the review screen rather than being written: **Could not be applied: that note's folder is now excluded from AI.** A refused change is not marked applied, so you can approve it again once the cause is gone.
 - **On a phone, a run ends when the app does.** Locking the vault, switching vault and putting the app in the background all cancel the run and clear the proposal. The first two match the computer; the third does not, and it is the one that will bite: on a phone, taking a call or checking a message is how most long runs will end. Myne tells you the run was cancelled rather than leaving a screen that looks like it is still working, and nothing was written.

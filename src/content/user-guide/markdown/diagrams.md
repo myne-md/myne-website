@@ -30,7 +30,7 @@ When the diagram is valid, Myne replaces the block with a rendered diagram in a 
 A control bar sits in the bottom-right corner of the diagram: zoom out, the current zoom percentage (click it to reset to fit), zoom in, pan up, pan down, pan left, pan right, edit the source, and expand.
 
 - **Fit.** The diagram opens fitted to the width of the note. If it is taller than the viewer it stays inside a bounded box rather than stretching the note, so nothing is clipped and the rest of the note does not move.
-- **Zoom and pan.** Use the buttons, or drag the diagram to pan. `Ctrl` (Windows and Linux) or `Cmd` (macOS) plus the scroll wheel zooms; a plain scroll wheel scrolls the note as usual. On a touch screen, drag with one finger to pan and pinch with two to zoom.
+- **Zoom and pan.** Use the buttons, drag the diagram to pan, or scroll while the pointer is over the diagram: a plain scroll wheel zooms it, with or without `Ctrl` (Windows and Linux) or `Cmd` (macOS). A scroll wheel anywhere else still scrolls the note as usual. On a touch screen, drag with one finger to pan and pinch with two to zoom.
 - **Keyboard.** With the diagram focused, the arrow keys pan, `+` and `-` zoom, and `0` resets to fit.
 - **Expand.** Opens the same diagram in a full-window view, closed with `Esc`, the close button, or a click outside it.
 

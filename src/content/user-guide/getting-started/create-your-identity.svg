@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-label="One identity spans every vault. A person account, addressed by an identity code, can create a vault or be invited to someone else's, and each vault keeps its own password and its own recovery phrase.">
+  <style>
+    .bg{fill:#f4f4f2}
+    .card{fill:#fbfbfa;stroke:#c8c7c1;stroke-width:1.25}
+    .tile{fill:#ecebe7;stroke:#e3e2dd;stroke-width:1}
+    .lbl{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a17;font-weight:600}
+    .sub{font-family:Inter,ui-sans-serif,system-ui,sans-serif;fill:#6b6a64}
+    .eye{font-family:'JetBrains Mono',ui-monospace,monospace;fill:#6b6a64;letter-spacing:.09em}
+    .mono{font-family:'JetBrains Mono',ui-monospace,monospace;fill:#6b6a64}
+    .lock{fill:none;stroke:#8d8c85;stroke-width:1.4}
+    .accent{fill:#2c4a7a}
+    .accent-soft{fill:#e8edf5}
+    .link{stroke:#8d8c85;stroke-width:1.25;stroke-dasharray:4 4;fill:none}
+  </style>
+  <rect class="bg" width="720" height="360"/>
+
+  <text class="eye" x="28" y="30" font-size="11">ONE IDENTITY, MANY VAULTS</text>
+
+  <!-- identity card -->
+  <rect class="card" x="28" y="52" width="272" height="272" rx="12"/>
+  <circle class="accent-soft" cx="106" cy="128" r="40"/>
+  <circle class="accent" cx="106" cy="116" r="14"/>
+  <path class="accent" d="M78 164 a28 28 0 0 1 56 0 z"/>
+  <text class="lbl" x="164" y="122" font-size="16">Your identity</text>
+  <text class="sub" x="164" y="144" font-size="11.5">a person account,</text>
+  <text class="sub" x="164" y="160" font-size="11.5">not a vault</text>
+  <rect class="tile" x="52" y="192" width="224" height="46" rx="8"/>
+  <text class="eye" x="66" y="211" font-size="9.5">IDENTITY CODE</text>
+  <text class="mono" x="66" y="228" font-size="10.5">MYNE-PERSON-1:9f3c…4b21</text>
+  <text class="sub" x="52" y="268" font-size="11.5">Recovers with your identity phrase.</text>
+  <text class="sub" x="52" y="286" font-size="11.5">It unlocks no vault by itself.</text>
+
+  <!-- connectors -->
+  <path class="link" d="M300 118 H340"/>
+  <path class="link" d="M300 258 H340"/>
+
+  <!-- vault you created -->
+  <rect class="card" x="340" y="52" width="352" height="132" rx="12"/>
+  <rect class="tile" x="364" y="80" width="40" height="40" rx="8"/>
+  <rect class="lock" x="374" y="94" width="20" height="16" rx="3"/>
+  <path class="lock" d="M377 94 v-5 a7 7 0 0 1 14 0 v5"/>
+  <text class="lbl" x="420" y="94" font-size="14">Vault you created</text>
+  <text class="sub" x="420" y="114" font-size="11.5">Own password, own recovery phrase.</text>
+  <text class="mono" x="364" y="150" font-size="10.5">MY-XXXX-XXXX-XXXX-XXXX-X</text>
+  <text class="sub" x="364" y="168" font-size="10.5">bound to this identity on creation</text>
+
+  <!-- vault you joined -->
+  <rect class="card" x="340" y="194" width="352" height="132" rx="12"/>
+  <rect class="tile" x="364" y="222" width="40" height="40" rx="8"/>
+  <rect class="lock" x="374" y="236" width="20" height="16" rx="3"/>
+  <path class="lock" d="M377 236 v-5 a7 7 0 0 1 14 0 v5"/>
+  <text class="lbl" x="420" y="236" font-size="14">Vault you joined</text>
+  <text class="sub" x="420" y="256" font-size="11.5">Owner invited your identity code.</text>
+  <text class="mono" x="364" y="292" font-size="10.5">MY-YYYY-YYYY-YYYY-YYYY-Y</text>
+  <text class="sub" x="364" y="310" font-size="10.5">unlocked with your identity phrase</text>
+</svg>

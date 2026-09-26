@@ -1,7 +1,7 @@
 ---
 title: "Where your AI runs"
 category: "ai"
-updated: 2026-08-30
+updated: 2026-09-26
 summary: "Myne never sends your notes anywhere you have not named, and never downloads a model. This page covers the three things you can name (a model file on this computer, a model runtime on this computer, or a remote provider), what each one means for where your notes go, and the consent screen, API key and model list a remote provider adds."
 tags: ["ai", "privacy", "security", "settings"]
 ---
@@ -54,7 +54,7 @@ The accepting button names the provider rather than saying "OK". Cancelling leav
 
 After you accept, two more controls appear.
 
-- **API key.** Paste the key the provider issued you. Myne never shows a stored key back. The field reads "A key is stored. Myne never shows it back to you. Paste a new one to replace it." Until a key is stored, nothing can be sent. **Remove this key** clears it.
+- **API key.** Paste the key the provider issued you. Myne never shows a stored key back. The field reads "A key is stored. Myne never shows it back to you. Paste a new one to replace it." Until a key is stored, nothing can be sent. **Remove this key** clears it. A key that contains a line break or a control character is refused, and the reason is worth knowing because the usual cause is a paste rather than a typing mistake: text copied out of a terminal, a shell history file or a chat window often carries a trailing newline, and a key carrying one cannot be used. Myne reports it the same way it reports no key at all, so if a key you just pasted stops working, paste it again from the provider's own page rather than adding or removing spaces. That refusal is on the sending side: a key in that state never becomes a request, so nothing carrying it reaches the provider. It is refused, not repaired, and the stored copy is not corrected for you.
 - **Model.** Myne ships no default model, so nothing is chosen for you. **Load models** asks the provider what it publishes and fills the list; that request carries no note text. The panel says why the list is fetched rather than pinned: "The list comes from the provider, so it stays current and you are never billed for a model you did not choose."
 
 ## What never goes to a remote provider
@@ -97,6 +97,11 @@ Removing the API key stops Myne sending anything. Setting **Remote provider** ba
 Revoking the key itself is done at the provider, and it applies to the key rather than to this device.
 
 ## Limits
+
+**This page describes a build that refuses a malformed provider key, and older builds do not.** The
+refusal and the shared-writable key both arrive with myne-md/myne#753. On a build before that, a
+key carrying a stray line break is passed to the provider instead of refused, which is the
+behaviour the refusal was added to stop. Nothing here describes a planned change.
 
 The provider you chose, the key you pasted and the model you picked are part of your vault, so they travel with it. **The consent does not.** A device you add to the account later inherits the provider, the key and the model, and shows you the consent screen before it sends anything, because agreeing on one device is not agreeing on another. That is worth knowing in both directions: a new device is set up in one tap rather than four, and it still cannot send until somebody at that device has read what leaves it.
 

@@ -13,7 +13,7 @@ Turning on sync has three parts: pointing Myne at a server, accepting the beta t
 ## Prerequisites
 
 - An unlocked vault.
-- A sync server address — either Myne's hosted server or the `https://` address of a server you run yourself. A server you run yourself is available now; Myne's hosted server is currently a free, invite-only beta.
+- A sync server address — either Myne's hosted server or the `https://` address of a server you run yourself. A server you run yourself is available now; Myne's hosted server is currently a free, invite-only beta. If you do not have one yet, [Run your own sync server](/user-guide/sync-and-devices/run-your-own-sync-server/) brings one up on a machine you control.
 - Your account number, which Myne showed once when you [created your vault](/user-guide/getting-started/create-your-vault/). Settings does not display it again, so use the copy you saved then.
 
 ## Your account number

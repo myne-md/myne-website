@@ -25,6 +25,7 @@ Sync keeps your notes in step across the devices you own. Each device encrypts i
 
 - **[How sync works](/user-guide/sync-and-devices/how-sync-works/)** explains the zero-knowledge model and exactly what the server can and cannot see.
 - **[Turn on sync](/user-guide/sync-and-devices/turn-on-sync/)** covers choosing a server and the first device.
+- **[Run your own sync server](/user-guide/sync-and-devices/run-your-own-sync-server/)** covers bringing up a server you operate, and what that makes you responsible for.
 - **[Add a device](/user-guide/sync-and-devices/add-a-device/)** covers the pairing and approval flow.
 - **[Reading sync status](/user-guide/sync-and-devices/sync-status/)** covers the status indicator and the banners.
 - **[Storage and account limits](/user-guide/sync-and-devices/storage-and-limits/)** covers the usage meters and the over-limit, oversize, and frozen refusal states.

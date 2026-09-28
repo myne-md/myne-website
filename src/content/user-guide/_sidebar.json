@@ -2,12 +2,13 @@
   {
     "slug": "getting-started",
     "label": "Getting started",
-    "description": "Install Myne, create your first encrypted vault, save your recovery phrase, and write your first note.",
+    "description": "Install Myne, create your first encrypted vault, save your recovery phrase, write your first note, and run the browser client from your own address.",
     "intro": "welcome",
     "articles": [
       "welcome",
       "install",
       "myne-in-your-browser",
+      "run-your-own-browser-client",
       "create-your-identity",
       "create-your-vault",
       "your-recovery-phrase",
@@ -143,6 +144,7 @@
       "overview",
       "how-sync-works",
       "turn-on-sync",
+      "run-your-own-sync-server",
       "add-a-device",
       "sharing-a-vault-with-members",
       "server-certificates",

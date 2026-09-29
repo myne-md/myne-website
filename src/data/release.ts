@@ -29,9 +29,9 @@
  * which is the thing this file exists to check.
  */
 
-export const RELEASE_TAG = "v0.8.0";
-export const RELEASE_VERSION = "0.8.0";
-export const RELEASE_DATE = "2026-09-23";
+export const RELEASE_TAG = "v0.8.1";
+export const RELEASE_VERSION = "0.8.1";
+export const RELEASE_DATE = "2026-09-29";
 
 /** Pre-1.0. The download page frames every artefact with this. */
 export const RELEASE_CHANNEL = "early access · pre-alpha";
@@ -57,24 +57,9 @@ export interface ReleaseAsset {
 
 export const ASSETS: ReleaseAsset[] = [
   {
-    name: "Myne_0.8.0_universal.dmg",
-    bytes: 542230222,
-    sha256: "bae1ef3c73013dc4c4e8b110bee13c8e292ff0d53edc1305c266bbf718716c87",
-  },
-  {
-    name: "Myne_0.8.0_arm64.deb",
-    bytes: 498304550,
-    sha256: "dc981f82a8d20515bb1d66fc42033fe3bb90a5c5ec6fc218aa8959a67e14d6d4",
-  },
-  {
-    name: "Myne_0.8.0_aarch64.AppImage",
-    bytes: 164682248,
-    sha256: "7edb33004332289de99411cf75b13ec49ba1e40787f4e87fabc6206847fa85ec",
-  },
-  {
-    name: "Myne_0.8.0_universal.apk",
-    bytes: 315114565,
-    sha256: "a4fc6ecfcb8cb7b8bd9d322e665223d9d957fc8d28880a575e7472bc4874c974",
+    name: "Myne_0.8.1_universal.dmg",
+    bytes: 542277360,
+    sha256: "682c02ee525658b86b5e9b4f6faef9c910815183ff728345291ceba1f97404b0",
   },
 ];
 

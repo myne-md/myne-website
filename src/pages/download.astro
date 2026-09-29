@@ -48,13 +48,10 @@ const platforms = [
   },
   {
     os: "Linux",
-    sub: ".deb · AppImage (arm64)",
-    note: "This release ships the arm64 .deb and the arm64 AppImage. x86-64 desktop packages were skipped for v0.8.0; no screen-capture exclusion on Linux.",
+    sub: "not built for this release",
+    note: "This release is macOS and iOS only. Linux desktop packages (.deb, AppImage, Arch) are not built for it; use the previous release or wait for the next full release.",
     d: PLATFORM_ICON.linux,
-    downloads: [
-      { label: "AppImage · arm64", name: `Myne_${RELEASE_VERSION}_aarch64.AppImage` },
-      { label: ".deb · arm64", name: `Myne_${RELEASE_VERSION}_arm64.deb` },
-    ],
+    downloads: [],
   },
 ];
 
@@ -107,10 +104,10 @@ const mobile: MobileRow[] = [
   },
   {
     os: "Android",
-    status: "sideload",
-    note: "The same 256 MiB Argon2id unlock as desktop, and the KDF is never weakened to fit a device. Not on the Play Store: install it yourself, which Android will ask you to allow.",
+    status: "not built for this release",
+    note: "The Android build is skipped for this interim release. It is not on the Play Store; when it ships you install it yourself, which Android will ask you to allow.",
     d: PLATFORM_ICON.android,
-    download: { label: "Universal .apk", name: "Myne_0.8.0_universal.apk" },
+    download: null,
   },
 ];
 

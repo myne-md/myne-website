@@ -138,7 +138,7 @@
   {
     "slug": "sync-and-devices",
     "label": "Sync & devices",
-    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server, check its certificate fingerprint, add and approve devices with your account number, read sync status, and resolve conflicts, all zero-knowledge, with no email.",
+    "description": "Keep your encrypted notes in step across the devices you own. Set up a hosted or self-hosted server with an automatically checked certificate, add and approve devices with your account number, read sync status, and resolve conflicts, all zero-knowledge, with no email.",
     "intro": "overview",
     "articles": [
       "overview",

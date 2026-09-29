@@ -1,8 +1,8 @@
 ---
 title: "Route sync through Tor"
 category: "settings-and-privacy"
-updated: 2026-08-24
-summary: "Send Myne's sync traffic through Tor so the sync server sees a Tor exit rather than your own address. It is off by default and lives behind Developer mode, sync pauses rather than falling back to a direct connection while Tor is connecting or unavailable, and adding a server then takes its certificate fingerprint, obtained elsewhere."
+updated: 2026-09-29
+summary: "Send Myne's sync traffic through Tor so the sync server sees a Tor exit rather than your own address. It is off by default and lives behind Developer mode, sync pauses rather than falling back to a direct connection while Tor is connecting or unavailable, and the server's certificate is still checked against the public authorities even over Tor."
 tags: ["sync", "privacy", "security", "settings"]
 ---
 
@@ -18,9 +18,9 @@ Myne can send its sync traffic through Tor. The sync server then sees a Tor exit
 
 Read this first, because it is the behaviour most likely to look like a bug. While Tor is connecting, and whenever the Tor client is unavailable, **sync pauses**. Myne does not quietly fall back to a direct connection — refusing to connect at all is the point of the setting. So the first sync after you turn it on is not instant, and a Tor client that fails to start leaves your notes unsynced until you either fix it or turn the setting off.
 
-There is a second thing to know first, and it is the one most likely to stop you. **With Tor routing on, Myne will not take a sync server's certificate on trust.** A first connection to a server is normally accepted on faith, and over Tor the relay that ends your circuit is in exactly the position to abuse that. So while Tor routing is on, adding a sync server, or joining a new device to one, asks you for the server's SHA-256 certificate fingerprint first: "Tor routing is on, so this device will not trust a certificate it has not been told to expect. Get your server’s SHA-256 certificate fingerprint from the server itself or from a device that is already connected, then paste it here."
+## The server certificate, over Tor
 
-Get it from the machine running your server (`openssl x509 -noout -fingerprint -sha256 -in <your certificate file>`), or from a device already connected to the account, where Settings → Sync shows the same fingerprint. Do not fetch it over the connection you are trying to check: anything that could swap the certificate could swap that page too. If you cannot get it any of those ways, that server cannot be added while Tor routing is on, and the alternative the app offers is to turn Tor routing off and connect directly, which shows your address to the server and to whoever can watch your network. If what you paste does not match, nothing is saved, and Myne does not show you the fingerprint it saw: someone who could not find their own would otherwise copy the one on screen.
+Tor routing does not change how the server's certificate is checked, and there is nothing extra to set up. The relay that ends a Tor circuit could answer in your server's place, and the chain-and-name check is what rules that out: an exit cannot present a certificate that passes verification for your server's name unless a public authority issued one for it. Adding a server, or joining a device to one, does not ask for a fingerprint. [Server certificates](/user-guide/sync-and-devices/server-certificates/) covers what the check does and does not prove.
 
 ## Turning it on
 

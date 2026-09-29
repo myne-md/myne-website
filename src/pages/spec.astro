@@ -39,7 +39,7 @@ const threats: [string, string, string, string][] = [
   ["A3", "Passive network attacker", "strong", "TLS in transit plus client-side E2EE before transit — encrypted bytes between encrypted bytes."],
   ["A5", "Lost / stolen device (locked)", "strong", "Root key derived via Argon2id from a password the device never stores."],
   ["A11", "Insider threat (the Myne team)", "strong", "The team gets no more access than any external attacker. Keys never leave the client."],
-  ["A4", "Active network attacker (MitM)", "mitigated", "Strict TLS; self-host trust is trust-on-first-use (a QR device-join, not a fingerprint eye-compare). A MitM still cannot decrypt notes — the payload is end-to-end encrypted before transit."],
+  ["A4", "Active network attacker (MitM)", "mitigated", "Public-CA and server-name verification on native clients (including the first connection and over Tor); browser trust-store verification on web. A compromised or compelled public CA can still issue a certificate these clients accept, and revocation is not checked. A MitM still cannot decrypt notes — the payload is end-to-end encrypted before transit."],
   ["A6", "Lost / stolen device (unlocked)", "mitigated", "Auto-lock on idle zeroizes keys and tears down the open note — narrows the window, not closes it."],
   ["A9", "Compromised build / distribution", "best-effort", "Minisign-signed release hashes cross-published on a second origin, verified by hand. Desktop installers are unsigned and not reproducible; there is no auto-update."],
   ["A7", "Malware on your device", "best-effort", "Active malware defeats any user-mode encryption. Screen-capture exclusion is defense-in-depth."],
@@ -55,6 +55,7 @@ const notProtected: [string, string][] = [
   ["Malware running as you", "A keylogger reads your password; a scraper reads decrypted notes. No user-mode app defends this."],
   ["Coercion to enter your password", "No plausibly-deniable encryption in v1. The data is exposed."],
   ["Files you export", "Exported markdown or PDF is ordinary unencrypted. Myne protects what it stores, not what you take out."],
+  ["A compromised public certificate authority", "Native clients verify the server's certificate against public roots. An authority that is compromised or compelled can issue a certificate they accept, and revocation is never checked, so a revoked certificate is trusted until it expires."],
 ];
 
 const docs: [string, string, string][] = [

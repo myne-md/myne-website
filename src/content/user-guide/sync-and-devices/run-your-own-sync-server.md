@@ -11,7 +11,7 @@ Myne's sync server is open source and ships as a container image, so you can run
 ## Prerequisites
 
 - A machine with Docker and Docker Compose.
-- A public domain pointed at the machine, reachable on ports 80 and 443. That is what lets the bundled edge issue a certificate from a public authority. Without one, the internal profile below issues a self-signed certificate and your devices pin it on first connect, which is a weaker starting position.
+- A public domain pointed at the machine, reachable on ports 80 and 443. That is what lets the bundled edge issue a certificate from a public authority. Without one, the internal profile below issues a self-signed certificate, which Myne's desktop and mobile clients refuse: they require a certificate a public authority issued for a public name.
 - About 1 vCPU, 512 MB of memory, and disk for your vault plus roughly twice that again. See [Sizing](#sizing) for why the headroom is there.
 
 ## Bring the server up
@@ -109,7 +109,7 @@ If you have no domain to point here, add one line inside the site block, directl
 }
 ```
 
-`tls internal` makes the edge issue a certificate from its own local authority instead of asking a public one, so nothing has to reach the internet. The cost is that no device will trust that certificate on arrival: each one records it on first connect and you compare the fingerprints across your devices by hand. That is the same comparison the public profile needs anyway, except here there is no authority behind it to fall back on if something is already in the path.
+`tls internal` makes the edge issue a certificate from its own local authority instead of asking a public one, so nothing has to reach the internet. The cost is that Myne's desktop and mobile clients will not accept that certificate: it does not chain to a public authority, so the connection is refused. Use the internal profile only behind a proxy that terminates TLS with a public certificate, or for a browser you have told to trust the local authority. The native clients cannot use it.
 
 ### Then start it
 
@@ -128,9 +128,9 @@ curl https://your.domain/readyz     # {"status":"ready"} once migrations finish
 
 ## Connect a device
 
-Open **Settings → Sync** on a desktop client, enter `https://your.domain` under **Sync server**, and choose **Connect**. Myne completes one handshake, records a hash of the certificate it saw, and shows you that fingerprint. Compare it across your devices: matching values mean they are all talking to the same server. [Server certificates and fingerprints](/user-guide/sync-and-devices/server-certificates/) covers what the comparison is worth and what it is not.
+Open **Settings → Sync** on a desktop client, enter `https://your.domain` under **Sync server**, and choose **Connect**. Myne checks the server's certificate against the public authorities and checks the server name, automatically, on the first connection and every one after it. There is nothing to compare or paste. [Server certificates](/user-guide/sync-and-devices/server-certificates/) covers what the check does and does not prove.
 
-The first device on an account approves itself, and it also has to accept the beta terms before it will sync. Every device added after that waits for approval. [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/) walks the whole flow, including what to do when the certificate is later replaced.
+The first device on an account approves itself, and it also has to accept the beta terms before it will sync. Every device added after that waits for approval. [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/) walks the whole flow.
 
 ## The policy knobs
 
@@ -210,7 +210,7 @@ The value is the client's **origin** — scheme, host, and port, with no path an
 
 There is one more line in the browser client's own deployment that has to name this server, and the two files fail in opposite directions if you only set one of them. [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/) has the pair side by side.
 
-The browser client has no certificate fingerprint to compare and no field to change the server address. The address is fixed when the deployment is built, and the sync origin comes from a setting on the deployment rather than from anything you can edit in the app. It ships as a public container image, so you can run your own: [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/) covers it, including the setting on this side that has to name your address.
+The browser client has no certificate control and no field to change the server address. The address is fixed when the deployment is built, and the sync origin comes from a setting on the deployment rather than from anything you can edit in the app. It ships as a public container image, so you can run your own: [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/) covers it, including the setting on this side that has to name your address.
 
 ## Limits
 
@@ -220,6 +220,6 @@ The browser client has no certificate fingerprint to compare and no field to cha
 
 **Running the server does not make it trustworthy, and neither is the hosted one.** A server operator can see that a device connected, the connection's IP for as long as it lasts, how many devices the account has, and the size and count of the encrypted blobs. It cannot read a note. What changes when you self-host is which person can do that, not whether they can.
 
-**The fingerprint comparison is a check you perform, not one the app performs.** The first connection to your server is taken on trust. If something was already in the path at that moment, that is what gets recorded, and every later connection matches it perfectly. Comparing the fingerprint across devices you set up separately is what turns that assumption into something you checked.
+**The certificate check is against public authorities, and that is its limit.** Myne confirms the server's certificate chains to a public authority and names your server, on every connection. A compromised or compelled authority can still issue a certificate these clients accept, and revocation is not checked; [Server certificates](/user-guide/sync-and-devices/server-certificates/) states each of those plainly.
 
 **Sync is not a backup, on your server or anyone else's.** It keeps devices in step, including propagating deletions, rather than preserving a fixed copy. A [backup](/user-guide/safety-and-recovery/back-up-your-vault/) is a separate deliberate copy that you keep.

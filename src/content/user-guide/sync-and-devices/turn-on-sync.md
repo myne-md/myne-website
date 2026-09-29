@@ -1,8 +1,8 @@
 ---
 title: "Turn on sync"
 category: "sync-and-devices"
-updated: 2026-08-24
-summary: "Choose a sync server, understand the account number that identifies you instead of an email, accept the beta terms on this device, and connect your first device. Covers the certificate fingerprint to compare across devices, what happens when that certificate changes, the browser client's fixed server, and the first-device self-approval."
+updated: 2026-09-29
+summary: "Choose a sync server, understand the account number that identifies you instead of an email, accept the beta terms on this device, and connect your first device. Covers how Myne checks the server's certificate automatically, the browser client's fixed server, and the first-device self-approval."
 tags: ["sync", "settings", "devices"]
 ---
 
@@ -30,25 +30,19 @@ Because there is no email, there is also no email-based recovery; keep your acco
 2. Under **Sync server**, enter the server URL. Use the `https://` address for a hosted or self-hosted server; a local server on the same machine can use its loopback `http://` address.
 3. Choose **Connect**. Once connected, the button rests as a disabled **Connected**; it becomes available again as soon as you edit the address.
 
-For an `https` server, Myne pins the server's certificate on first connect and shows its **fingerprint**, a line you can eye-compare across your devices to confirm they are all talking to the same server. Myne has no built-in certificate for its hosted server yet, so a hosted endpoint is pinned on first connect in exactly the same way a self-hosted one is. Compare the fingerprint across your devices either way. A loopback `http` server has no TLS, so there is no fingerprint to show.
+For an `https` server, Myne checks the server's certificate against the public certificate authorities and checks the server name, on the first connection and every one after it. There is nothing for you to set up and no fingerprint to compare. Myne's own hosted server is checked the same way as one you run yourself. A loopback `http` server has no TLS, so there is no certificate to check. [Server certificates](/user-guide/sync-and-devices/server-certificates/) covers what the check does and does not prove.
 
 Enter the **same** server URL on every device you want to sync.
 
-## When the server's certificate changes
+## The server's certificate is checked automatically
 
-A certificate has a lifetime, so a pinned one is replaced eventually. When that happens sync stops and names the reason rather than retrying (see [Reading sync status](/user-guide/sync-and-devices/sync-status/)).
-
-Re-entering the same server URL does not quietly accept the new certificate. Myne compares it against the one this device pinned and refuses when they differ, changing nothing: "This server presented a different certificate than the one this device trusts. Nothing was changed. If you renewed it, paste the new fingerprint below; if you did not, do not connect."
-
-Below that refusal a block appears, headed **Check this server's certificate before trusting it**, with an **Expected certificate fingerprint** field. Get the fingerprint from the server itself. The **Where do I find this fingerprint?** disclosure gives the `openssl` command that prints it, and names a device that is already connected as the other source. Myne echoes what you typed in groups of four characters so you can read it against your own copy, and connects only once the certificate the server presents matches. Colons, spaces and a leading `sha256:` are accepted, so the whole line the `openssl` command prints can be pasted as it is. If it does not match, nothing is saved. **I don't have it, cancel** backs out and leaves the device on the certificate it already trusted.
-
-Do this only when you know why the certificate changed. A renewal and an impostor look the same from here, which is why Myne asks rather than guessing.
+A certificate has a lifetime, so it is renewed on a schedule. A renewed certificate with a valid replacement is simply a valid certificate, and sync continues; there is no "certificate changed" state to clear and nothing for you to re-enter. If a server presents a certificate that fails the check, sync stops with a clear failure rather than connecting anyway. The remedy there is about the server, not a fingerprint you paste: check the address and that the certificate is valid. [Server certificates](/user-guide/sync-and-devices/server-certificates/) covers what the check does and does not prove.
 
 ## In a browser
 
 The browser client does not have these steps. It syncs with one server, fixed when the deployment was built, so **Sync server** shows that address read-only, with no field to edit and no **Connect** button: "This client syncs with one server, set when it was deployed. It cannot be changed from here: the page is only allowed to talk to this one address."
 
-There is no fingerprint to compare there either, and no certificate for Myne to pin or re-pin. A page cannot read a server's certificate, so the panel names what does the checking instead: "Verified by your browser’s certificate store. This client cannot pin a certificate itself." The check is real, but it is your browser's rather than Myne's.
+There is no fingerprint to compare there either, and Myne does not do the certificate check itself. A page cannot read a server's certificate, so the panel names what does the checking instead: "Server certificate verified by this client's trust store." The check is real, but it is your browser's rather than Myne's.
 
 ## Accept the beta terms
 
@@ -62,7 +56,7 @@ The first device on an account is the one you are setting up now, so there is no
 
 ## Limits
 
-Setting a server does not weaken your at-rest protection: your notes are still encrypted with keys derived from your password, and the server stores only ciphertext (see [How sync works](/user-guide/sync-and-devices/how-sync-works/)). The certificate fingerprint confirms your devices reach the same server; it is not a guarantee about the operator, who can still see connection metadata. Sync is not a substitute for a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) — it keeps devices in step, including propagating deletions, rather than preserving a fixed snapshot.
+Setting a server does not weaken your at-rest protection: your notes are still encrypted with keys derived from your password, and the server stores only ciphertext (see [How sync works](/user-guide/sync-and-devices/how-sync-works/)). The certificate check confirms this device can verify the server it is talking to; it is not a guarantee about the operator, who can still see connection metadata. Sync is not a substitute for a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) — it keeps devices in step, including propagating deletions, rather than preserving a fixed snapshot.
 
 ## Shortcuts
 

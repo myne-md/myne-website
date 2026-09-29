@@ -1,8 +1,8 @@
 ---
 title: "Reading sync status"
 category: "sync-and-devices"
-updated: 2026-08-25
-summary: "How to read the sync status indicator and the banners: the coloured status dot, the named failure states including a changed server certificate, the manual sync-now action, the first-sync download count, the banner that appears once sync has been failing for days, and the honest integrity alert when Myne rejects out-of-date or altered data."
+updated: 2026-09-29
+summary: "How to read the sync status indicator and the banners: the coloured status dot, the named failure states including a certificate that could not be verified, the manual sync-now action, the first-sync download count, the banner that appears once sync has been failing for days, and the honest integrity alert when Myne rejects out-of-date or altered data."
 tags: ["sync", "security"]
 ---
 
@@ -29,17 +29,17 @@ Where Myne can name the reason a sync failed, it does so instead of showing the 
 - **Storage full: uploads paused**, **A file is too large to upload** and **Account frozen: uploads paused**. These are the three states covered in [Storage and account limits](/user-guide/sync-and-devices/storage-and-limits/).
 - **Storage full: syncing paused**. This device's own disk is full, not your account's ceiling. Free space on the machine.
 - **This device was removed from your account** — someone removed it from another device; see [Managing devices](/user-guide/sync-and-devices/managing-devices/).
-- **Server certificate changed: verify it to reconnect**. The server answered, but with a different certificate than the one this device pinned. Myne stops rather than retrying; see below.
+- **Couldn't verify the sync server's HTTPS connection** — the server's certificate did not pass the check against the public certificate authorities. Verify the address and that the certificate is valid; see below.
 
 A **Sync now** button triggers an immediate sync. It is hidden when there is nothing to trigger — when sync is off, when the device is not enrolled, or while it is awaiting approval.
 
-## The server's certificate changed
+## The server's certificate could not be verified
 
-Certificates are renewed on a schedule, so a pinned one is replaced eventually. When that happens the indicator reads **Server certificate changed: verify it to reconnect**, and Myne stops retrying, because every retry would reach the same replacement certificate.
+Myne checks the server's certificate against the public certificate authorities and checks the server name on every connection. If that check fails, sync stops with **Couldn't verify the sync server's HTTPS connection**, and Myne will reconnect once the server presents a certificate that passes.
 
-**Settings → Sync → Devices** says it in full, "The sync server answered, but with a different certificate than the one this device pinned.", and then states the position plainly: "This is what a renewed certificate looks like, and also what an impostor looks like. Myne cannot tell them apart, so it will not guess. Get the fingerprint from your server, then re-enter the server URL under **Sync server** above and paste it in when asked."
+This is not the "the server didn't answer" case. The server answered; what it presented could not be checked. The remedy is about the server: check that the address is right and that its certificate is valid. The panel says as much: "Couldn't verify the server's HTTPS certificate. Check the server address, certificate and its validity."
 
-That is the whole remedy, and [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/) walks through it. **Reset sync on this device** is deliberately not offered in this state: a reset clears this device's local sync state, and would not change which certificate it trusts.
+A renewed certificate with a valid replacement passes the check and needs nothing from you. There is no fingerprint to compare and no re-enter-the-URL step. [Server certificates](/user-guide/sync-and-devices/server-certificates/) covers what the check does and does not prove.
 
 ## Per-note status, in the sidebar and the bottom bar
 

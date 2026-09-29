@@ -159,4 +159,4 @@ Losing the container loses nothing. Recovery is `docker compose up -d`. The cost
 
 **Architecture is `linux/amd64`.** On an ARM host, emulation works and is slower. This is a property of the published images rather than of the client.
 
-**The client cannot pin a certificate and shows no fingerprint.** That is not a missing feature awaiting a build: a web page is never shown a server's certificate, so there is no hash for it to record and nothing for you to compare between devices. What checks the connection is the browser's own certificate store, which is a real check and a different one from what desktop and mobile clients do.
+**The client does not check the certificate itself and shows no fingerprint.** That is not a missing feature awaiting a build: a web page is never shown a server's certificate, so there is no hash for it to record and nothing for you to compare between devices. What checks the connection is the browser's own certificate store, which is a real check against the public authorities and the same class of check the desktop and mobile clients make.

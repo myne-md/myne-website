@@ -2,7 +2,7 @@
 title: "Run your own sync server"
 category: "sync-and-devices"
 updated: 2026-09-28
-summary: "Bring up the Myne sync server on a machine you control: a pinned container image, a compose file, and a domain. Covers the TLS edge, the policy knobs, sizing, backup, and what operating the server makes you responsible for."
+summary: "Bring up the Myne sync server on a machine you control: a pinned container image, a compose file, and a domain. Covers the TLS edge, the policy knobs, the operator panel, sizing, backup, and what operating the server makes you responsible for."
 tags: ["sync", "security", "privacy"]
 ---
 
@@ -140,11 +140,47 @@ Each of these bounds storage or abuse. None of them can weaken the zero-knowledg
 |---|---|---|
 | `MYNE_QUOTA_CEILING_BYTES` | `0` | Per-account storage ceiling in deduplicated ciphertext bytes. `0` means unlimited, which is the right default when the disk is yours. |
 | `MYNE_MAX_ACCOUNTS` | `1000000` | How many accounts may exist. Set it to your own number plus some margin and let it fill; that is the whole access-control mechanism, there are no invite tokens. |
+| `MYNE_MAX_DEVICES_PER_ACCOUNT` | `0` | Active devices per account. `0` means unlimited. A per-account override set through the operator console wins over this. |
 | `MYNE_RATELIMIT_BURST` / `_REFILL` | `256` / `16` | A per-account token bucket, keyed on the account's hash. It is never keyed on an IP address. |
+| `MYNE_PREAUTH_RATELIMIT_BURST` / `_REFILL` | `64` / `8` | The same idea for the requests that arrive before a session exists, where there is no account yet to key on. The hardened values; you rarely need to change them. Unlike every other ceiling here, a burst of `0` is **refused at startup**, because it would reject every enrolment rather than lift the limit. |
+| `MYNE_MAX_HANDSHAKES` / `MYNE_HANDSHAKE_TTL_SECONDS` | `16384` / `60` | How many handshakes may be in flight, and how long one is held. What bounds a flood of unauthenticated enrolment attempts. |
+| `MYNE_MAX_ATTACHMENTS_PER_VAULT` | `100000` | How many attachment ids one vault may hold. |
 | `MYNE_HORIZON_MARKERS` | `120` | How long deleted notes' tombstones are kept. The server clamps this to a floor of 30 and your configuration cannot go below it. |
+| `MYNE_EXTENDED_RETENTION` | `false` | **Leave it off.** It stops the server reclaiming deleted ciphertext once the horizon passes, which keeps it on your disk past the point your users expect a deletion to be permanent. A deliberate weakening rather than a convenience. |
+| `MYNE_ALLOWED_ORIGINS` | empty | Which browser origins may talk to the server, if you serve the browser client. Empty means off, which is what you want for a native-only setup. |
 | `MYNE_ADMIN_SOCKET` | `/tmp/myne-admin.sock` | A local Unix socket for the operator console, reachable by anyone who can run `docker compose exec`. Set it empty to switch the console off. It is never a TCP port. |
+| `MYNE_ADMIN_PANEL_ADDR` | empty | The operator panel's address. Off by default; see [the operator panel](#the-operator-panel) before you set it. |
+| `MYNE_METRICS_ADDR` | empty | Where to serve Prometheus counters, on their own listener. Off by default. A non-loopback address is normal here, since another machine usually scrapes them. |
+| `MYNE_BACKUP_ENABLED` and friends | off | The built-in encrypted off-box backup. Off unless you set it; see [backing it up](#backing-it-up). |
 
-`MYNE_EXTENDED_RETENTION` also exists, and you should leave it off. It stops the server reclaiming deleted ciphertext once the horizon passes, which keeps it on your disk past the point your users expect a deletion to be permanent. It is a deliberate weakening rather than a convenience.
+`operations` ships an annotated copy of all of this, `bundle/bundle.env.example`, and that file is the one you edit. The server's own README carries the same list. What each knob obliges you to do, and what it costs, is in the [self-hosting policy](https://myne.md/self-host-policy/) in the specification, which is the normative half; this page is the how.
+
+## The operator panel
+
+The sync server has an operator panel: a web page showing your accounts, how much ciphertext each holds, how many devices it has, and which accounts you have frozen. It is off by default. To turn it on, set the address in your `.env` and restart:
+
+```
+MYNE_ADMIN_PANEL_ADDR=127.0.0.1:8081
+```
+
+Then open `http://127.0.0.1:8081` on the server machine. If the server is somewhere else, tunnel to it rather than binding a wider address: `ssh -L 8081:127.0.0.1:8081 you@your-server`, then open the same URL locally.
+
+Four things to know before you set it.
+
+**It is read-only.** The panel shows you things; it does not change anything. Freezing an account, setting a quota or a device cap, and deleting an account are still `myne-server admin` commands on the local socket:
+
+```
+docker compose exec server myne-server admin list
+docker compose exec server myne-server admin freeze <account-hash>
+```
+
+That is deliberate rather than a limitation we plan to remove soon. A page you open in a browser can be reached by any other page you happen to visit, so a panel that could act would be acting on your behalf from a tab you were not looking at.
+
+**It has no password.** There is no login. Anything that can reach the address reads the whole roster. Bind it to `127.0.0.1` and do not add a reverse-proxy route for it. The server prints a warning at startup when the address is not loopback, and does not refuse it.
+
+**It shows hashes, not account numbers.** Your account numbers never reach the server, so there is nothing for it to show. What you see is a hash, which is how you identify an account to a command.
+
+**It records nothing.** The panel keeps no history, shows no timestamp, and does not log who connected. Two visits a minute apart show the same numbers.
 
 ## Sizing
 

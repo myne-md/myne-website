@@ -7,7 +7,6 @@ import { absoluteOg } from "../lib/og";
 import {
   RELEASE_TAG,
   RELEASE_DATE,
-  RELEASE_BASE,
   MINISIGN_PUBKEY,
   ASSETS,
   humanSize,
@@ -64,12 +63,6 @@ const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
             list and the file came from the same place — which is exactly what an
             attacker who controls that place would arrange.
           </p>
-          <pre
-            class="mono"
-            style="margin-top:14px;font-size:11.5px;line-height:1.75;color:#8a8a86;overflow-x:auto;white-space:pre;">{`curl -fsSLO ${RELEASE_BASE}/SHA256SUMS
-curl -fsSLO ${RELEASE_BASE}/SHA256SUMS.minisig
-minisign -Vm SHA256SUMS -P ${MINISIGN_PUBKEY}
-sha256sum -c SHA256SUMS --ignore-missing`}</pre>
           <div style="margin-top:18px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;">
             <div class="mono up" style="font-size:10px;color:#54544f;">
               minisign public key
@@ -140,27 +133,14 @@ sha256sum -c SHA256SUMS --ignore-missing`}</pre>
             </table>
           </div>
 
-          <div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;">
-            <a
-              href={`${RELEASE_BASE}/SHA256SUMS`}
-              class="mono up"
-              style="display:inline-flex;align-items:center;gap:8px;color:#e6e6e4;text-decoration:none;border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:11px 18px;font-size:10px;"
-              >SHA256SUMS</a
-            >
-            <a
-              href={`${RELEASE_BASE}/SHA256SUMS.minisig`}
-              class="mono up"
-              style="display:inline-flex;align-items:center;gap:8px;color:#e6e6e4;text-decoration:none;border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:11px 18px;font-size:10px;"
-              >Signature</a
-            >
           </div>
         </div>
 
         <p class="mono" style="margin-top:18px;font-size:11.5px;line-height:1.7;color:#6a6a66;max-width:64ch;">
           No dates and no cadence promise — builds ship when they're ready to
           trust, not on a schedule. Older versions are not published here: they
-          are superseded pre-1.0 builds, and offering them next to a working
-          download button invites installing one by mistake.
+          are superseded pre-1.0 builds, and listing them next to the current one
+          invites installing the wrong one.
         </p>
       </div>
     </section>

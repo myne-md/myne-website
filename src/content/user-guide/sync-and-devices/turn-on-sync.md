@@ -28,7 +28,8 @@ Because there is no email, there is also no email-based recovery; keep your acco
 
 1. Open **Settings** (the gear in the bottom bar, or `⌘,` / `Ctrl ,`) and select the **Sync** panel.
 2. Under **Sync server**, enter the server URL. Use the `https://` address for a hosted or self-hosted server; a local server on the same machine can use its loopback `http://` address.
-3. Choose **Connect**. Once connected, the button rests as a disabled **Connected**; it becomes available again as soon as you edit the address.
+3. If your server is a closed beta, it also asks for an **invite code** — the shared code the operator gave you. Enter it in the **Invite code** field under the address. An open server needs none, and the field is safe to leave empty; a server that requires a code refuses a new account without it, with a message that says so rather than a generic failure. Adding another device to an account you already have does not ask for the code again.
+4. Choose **Connect**. Once connected, the button rests as a disabled **Connected**; it becomes available again as soon as you edit the address.
 
 For an `https` server, Myne checks the server's certificate against the public certificate authorities and checks the server name, on the first connection and every one after it. There is nothing for you to set up and no fingerprint to compare. Myne's own hosted server is checked the same way as one you run yourself. A loopback `http` server has no TLS, so there is no certificate to check. [Server certificates](/user-guide/sync-and-devices/server-certificates/) covers what the check does and does not prove.
 

@@ -17,10 +17,10 @@ What exists today:
 - **Landing page** (`/`) — single-page dark landing with how-it-works, comparison, and roadmap sections.
 - **Ledger** (`/ledger`) — changelog/notes collection with `shipped` / `thinking` / `milestone` entries, filter views, per-entry OG images, and an RSS feed (`/ledger/rss.xml`).
 - **User guide** (`/user-guide`) — 70+ articles across eight categories, served from a Markdown content collection with a validated sidebar. The subtree is currently `noindex` and excluded from the sitemap; per `design-notes.md`, real-content go-live drops the banner, `noindex`, and sitemap filter atomically in one PR.
-- **Static surfaces** — `/download`, `/releases`, `/roadmap`, `/security`, `/spec`, a `404`, plus build-time `robots.txt`, `llms.txt`, and a sitemap.
+- **Static surfaces** — `/download`, `/roadmap`, `/security`, `/spec`, a `404`, plus build-time `robots.txt`, `llms.txt`, and a sitemap.
 - **`/.well-known/security.txt`** — RFC 9116 disclosure, served from the apex (`public/.well-known/security.txt`).
 - **OG image generation** — built at compile time with `satori` + `@resvg/resvg-js` (no headless browser).
-- **Deploy** — Dockerized Astro static output behind nginx, shipped via Woodpecker CI to `myne.md` (release) and `preview.example.com` (develop).
+- **Deploy** — Dockerized Astro static output behind nginx, rolled by hand over SSH to `myne.md` (prod) and `preview.example.com` (staging). Procedure: [`operations/runbooks/website-deploy.md`](https://github.com/example-org/operations/blob/develop/runbooks/website-deploy.md). No CI/CD.
 
 Marketing copy, pricing, and the bug-bounty page are intentionally conservative: the security page is acknowledgment-only (no monetary bounty yet), matching `docs/threat-model.md` §6.
 

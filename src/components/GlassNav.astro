@@ -46,7 +46,6 @@ const links = [
   { key: "guide", label: "Guide", href: "/user-guide/getting-started/welcome/" },
   { key: "security", label: "Security", href: "/security/" },
   { key: "releases", label: "Releases", href: "/releases/" },
-  { key: "roadmap", label: "Roadmap", href: "/roadmap/" },
   { key: "ledger", label: "Ledger", href: "/ledger/" },
 ] as const;
 ---
@@ -88,15 +87,11 @@ const links = [
             Guide contents →
           </button>
         )}
-        {/* Mobile-only CTAs — the bar chips are hidden on narrow viewports. */}
+        {/* Mobile-only CTA — the bar chips are hidden on narrow viewports.
+           A download, never an "Open app" route into the hosted web client
+           (design-notes/clients/0623). */}
         <a href="/download/" class="gnav-download gnav-download--panel up mono">
           Download
-        </a>
-        <a
-          href="https://app.example.com"
-          class="gnav-openapp gnav-openapp--panel up mono"
-        >
-          Open app
         </a>
       </div>
 
@@ -139,7 +134,6 @@ const links = [
           </svg>
         </button>
       )}
-      <a href="https://app.example.com" class="gnav-openapp up">Open app</a>
       <a href="/download/" class="gnav-download up">Download</a>
     </div>
 

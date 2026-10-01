@@ -29,9 +29,9 @@
  * which is the thing this file exists to check.
  */
 
-export const RELEASE_TAG = "v0.8.1";
-export const RELEASE_VERSION = "0.8.1";
-export const RELEASE_DATE = "2026-09-29";
+export const RELEASE_TAG = "v0.8.2";
+export const RELEASE_VERSION = "0.8.2";
+export const RELEASE_DATE = "2026-10-01";
 
 /** Pre-1.0. The download page frames every artefact with this. */
 export const RELEASE_CHANNEL = "early access · pre-alpha";
@@ -57,9 +57,9 @@ export interface ReleaseAsset {
 
 export const ASSETS: ReleaseAsset[] = [
   {
-    name: "Myne_0.8.1_universal.dmg",
-    bytes: 542277360,
-    sha256: "682c02ee525658b86b5e9b4f6faef9c910815183ff728345291ceba1f97404b0",
+    name: "Myne_0.8.2_aarch64.dmg",
+    bytes: 495735945,
+    sha256: "adf2d4c1df222903dc4be7283636da3a52bb36f75d572f73ad13d92163ff455a",
   },
 ];
 

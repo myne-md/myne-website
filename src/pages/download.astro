@@ -34,10 +34,10 @@ const ogImage = absoluteOg("download", Astro.site!);
 const platforms = [
   {
     os: "macOS",
-    sub: "Universal · .dmg",
-    note: "macOS 11 Big Sur or later · Apple Silicon + Intel",
+    sub: "Apple Silicon · .dmg",
+    note: "macOS 11 Big Sur or later · Apple Silicon",
     d: PLATFORM_ICON.apple,
-    downloads: [{ label: "Universal .dmg", name: `Myne_${RELEASE_VERSION}_universal.dmg` }],
+    downloads: [{ label: "Apple Silicon .dmg", name: `Myne_${RELEASE_VERSION}_aarch64.dmg` }],
   },
   {
     os: "Windows",

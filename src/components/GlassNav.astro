@@ -24,7 +24,6 @@ interface Props {
     | "download"
     | "spec"
     | "security"
-    | "releases"
     /** Legal pages live in the footer, not the nav — they pass this so no
      *  unrelated nav entry lights up (the default `"home"` would). */
     | "legal";
@@ -45,7 +44,6 @@ const links = [
   { key: "method", label: "Compare", href: "/#capab", spy: "capab" },
   { key: "guide", label: "Guide", href: "/user-guide/getting-started/welcome/" },
   { key: "security", label: "Security", href: "/security/" },
-  { key: "releases", label: "Releases", href: "/releases/" },
   { key: "ledger", label: "Ledger", href: "/ledger/" },
 ] as const;
 ---

@@ -207,7 +207,6 @@ export type OgKey =
   | "roadmap"
   | "spec"
   | "security"
-  | "releases"
   | "ledger"
   | "guide"
   | "privacy"
@@ -356,23 +355,6 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
       "Angaben nach § 5 DDG für myne.md, app.example.com und sync.myne.md. Kein Unternehmen, keine Umsatzsteuer-Identifikationsnummer, keine Zahlungen.",
     note: "§ 5 DDG",
     path: "impressum",
-  },
-  releases: {
-    kicker: "Releases",
-    // Both fields render INTO the generated PNG (`o.description` and `o.note`
-    // below), so a stale one is not merely unmaintained: it is the half of a
-    // shared link that people actually read. This card said "No installers are
-    // published yet" over a page handing out seven signed installers, with a
-    // note reading v0.1 while /download served v0.5.0. The `<meta
-    // og:description>` was fine the whole time, which is why nobody saw it.
-    //
-    // The note reads from `RELEASE_TAG` for the same reason `VersionBadge` does:
-    // that string was hand-typed in seven files and survived four releases.
-    title: "Every artefact, with its hash.",
-    description:
-      "Myne releases, with the SHA-256 of every published artefact and the minisign public key that signs the checksum list. Early access, pre-alpha.",
-    note: `${RELEASE_TAG} · pre-alpha`,
-    path: "releases",
   },
   ledger: {
     kicker: "Ledger",

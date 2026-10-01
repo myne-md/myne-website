@@ -35,7 +35,6 @@ Myne is a notes app — desktop-first, with a hosted browser client (app.example
 ## Project
 - [Specification](${origin}/spec/): The v0.1 cryptographic protocol.
 - [Roadmap](${origin}/roadmap/): The phased plan and the anti-features Myne commits to never building.
-- [Releases](${origin}/releases/): Every published artefact with its SHA-256 and the minisign public key that signs the checksum list. There is no auto-updater.
 - [Ledger](${origin}/ledger/): An append-only record of protocol, threat-model, and spec changes, with the reasoning behind them.
 - [Security](${origin}/security/): Coordinated-disclosure policy and researcher acknowledgments.
 

@@ -10,7 +10,7 @@ Myne runs as a native app on your own machine: a desktop app for macOS and Linux
 
 ## Download and install
 
-Download Myne from the [releases page](/releases/) and run the installer for your platform:
+Download Myne and run the installer for your platform:
 
 - **macOS**: a universal `.dmg` disk image. Open it and drag Myne to your Applications folder. One file covers both Apple silicon and Intel.
 - **Linux**: a `.deb` or an AppImage, each built for x86-64 and arm64. Both carry AppStream metadata, so your software centre lists Myne with its name and description. An Arch package is published alongside them, for x86-64 only.
@@ -36,7 +36,7 @@ minisign -Vm SHA256SUMS -P <public key from the releases page>
 sha256sum -c SHA256SUMS --ignore-missing
 ```
 
-On macOS, `shasum -a 256 -c SHA256SUMS` does the second step. The same hashes are also listed on the [releases page](/releases/), which is a different machine with its own deploy chain, so if the two ever disagree, that disagreement is the thing to act on.
+On macOS, `shasum -a 256 -c SHA256SUMS` does the second step. The same hashes are also published from a different machine with its own deploy chain, so if the two ever disagree, that disagreement is the thing to act on.
 
 What the signature does not cover is worth stating plainly: it authenticates the hash list, not the installer, and it is not something your operating system checks.
 

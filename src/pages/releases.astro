@@ -10,7 +10,6 @@ import {
   RELEASE_BASE,
   MINISIGN_PUBKEY,
   ASSETS,
-  assetUrl,
   humanSize,
 } from "../data/release";
 
@@ -126,10 +125,8 @@ sha256sum -c SHA256SUMS --ignore-missing`}</pre>
               <tbody>
                 {ASSETS.map((a) => (
                   <tr style="border-top:1px solid rgba(255,255,255,0.08);">
-                    <td style="padding:9px 10px 9px 0;vertical-align:top;">
-                      <a href={assetUrl(a.name)} style="color:#8aa4d0;text-decoration:none;">
-                        {a.name}
-                      </a>
+                    <td style="padding:9px 10px 9px 0;vertical-align:top;color:#8a8a86;word-break:break-all;">
+                      {a.name}
                     </td>
                     <td style="padding:9px 10px;vertical-align:top;color:#6a6a66;white-space:nowrap;">
                       {humanSize(a.bytes)}

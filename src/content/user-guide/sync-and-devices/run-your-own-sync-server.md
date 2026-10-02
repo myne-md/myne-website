@@ -139,7 +139,8 @@ Each of these bounds storage or abuse. None of them can weaken the zero-knowledg
 | Setting | Default | What it does |
 |---|---|---|
 | `MYNE_QUOTA_CEILING_BYTES` | `0` | Per-account storage ceiling in deduplicated ciphertext bytes. `0` means unlimited, which is the right default when the disk is yours. |
-| `MYNE_MAX_ACCOUNTS` | `1000000` | How many accounts may exist. Set it to your own number plus some margin and let it fill; that is the whole access-control mechanism, there are no invite tokens. |
+| `MYNE_MAX_ACCOUNTS` | `1000000` | How many accounts may exist. Set it to your own number plus some margin and let it fill. On its own this is a coarse cap, not an admission control: to admit only people you gave a code to, set `MYNE_INVITE_CODE` as well. |
+| `MYNE_INVITE_CODE` | *(unset)* | A shared invite code that closes new-account registration. Unset means registration is open (the self-host default). When set (at least 32 characters, or the server refuses to start), a new account is refused unless it carries the code; an account that already exists is unaffected, so later devices on it need no code. The code is never stored or logged server-side. |
 | `MYNE_MAX_DEVICES_PER_ACCOUNT` | `0` | Active devices per account. `0` means unlimited. A per-account override set through the operator console wins over this. |
 | `MYNE_RATELIMIT_BURST` / `_REFILL` | `256` / `16` | A per-account token bucket, keyed on the account's hash. It is never keyed on an IP address. |
 | `MYNE_PREAUTH_RATELIMIT_BURST` / `_REFILL` | `64` / `8` | The same idea for the requests that arrive before a session exists, where there is no account yet to key on. The hardened values; you rarely need to change them. Unlike every other ceiling here, a burst of `0` is **refused at startup**, because it would reject every enrolment rather than lift the limit. |

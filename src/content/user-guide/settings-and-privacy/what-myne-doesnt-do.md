@@ -2,7 +2,7 @@
 title: "What Myne doesn't do"
 category: "settings-and-privacy"
 updated: 2026-08-24
-summary: "The things Myne deliberately does not do (no plaintext mode, no email recovery, no telemetry, no request for your recovery phrase to sign you in, no egress until you name where it goes) and why each omission is a commitment rather than a missing feature."
+summary: "The things Myne deliberately does not do (no plaintext mode for your vault, no email recovery, no telemetry, no request for your recovery phrase to sign you in, no egress until you name where it goes) and why each omission is a commitment rather than a missing feature."
 tags: ["privacy", "security"]
 ---
 
@@ -10,7 +10,7 @@ Some of what defines Myne is what it refuses to do. These are not features that 
 
 ## Commitments
 
-- **No plaintext mode, and no way to turn encryption off.** Encryption is the only mode. There is no "skip encryption for speed" switch, because a switch like that gets left off.
+- **No plaintext mode for your vault, and no way to turn encryption off.** Encryption is the only mode. There is no "skip encryption for speed" switch, because a switch like that gets left off. The one surface that edits plaintext on purpose is the [plain-file editor](/user-guide/editor-and-writing/plain-files/), an optional desktop tool for your own `.md` files that already live outside any vault: Myne does not encrypt, sync, or back up those files, and it never turns a note into a plain file.
 - **No email at sign-up, and no email recovery, ever.** Adding an email reset would mean someone other than you could trigger access to your vault. You hold the only keys; that is the whole point.
 - **Myne never asks for your recovery phrase to sign you in, or to add a device.** In a browser there is exactly one screen that asks for those 24 words: an unlock with recovery phrase that you started yourself, after forgetting your password. Adding a device takes your account number and your master password and nothing else, and the phrase grid the desktop app uses for that is left out of the browser bundle entirely rather than merely hidden. This is a commitment rather than a description of today, and it exists so that a web page asking you for your phrase is something you can act on: outside an unlock you began yourself, the answer is no.
 - **No telemetry and no analytics.** Myne sends no usage data — no counters, no crash pings, nothing about how you use the app. This holds whether or not you turn on sync: sync moves your *encrypted* notes between your devices, never usage data, and the server can never read them.

@@ -1,12 +1,12 @@
 ---
 title: "Where your AI runs"
 category: "ai"
-updated: 2026-09-26
-summary: "Myne never sends your notes anywhere you have not named, and never downloads a model. This page covers the three things you can name (a model file on this computer, a model runtime on this computer, or a remote provider), what each one means for where your notes go, and the consent screen, API key and model list a remote provider adds."
+updated: 2026-10-03
+summary: "Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin. This page covers the three things you can name (a model file here, a runtime here, or a remote provider), what each means for where your notes go, and the consent screen and API key a provider adds."
 tags: ["ai", "privacy", "security", "settings"]
 ---
 
-Myne never sends your notes anywhere you have not named, and never downloads a model. Out of the box you have named nothing. This page covers the three things you can name (a model file on this computer, a model runtime on this computer, or a remote provider) and what each one means for where the text of your notes goes.
+Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin, which keeps no IP logs and no analytics. Out of the box you have named nothing. This page covers the three things you can name (a model file on this computer, a model runtime on this computer, or a remote provider) and what each one means for where the text of your notes goes.
 
 ## Prerequisites
 
@@ -15,7 +15,7 @@ Myne never sends your notes anywhere you have not named, and never downloads a m
 
 ## The three states
 
-One sentence never changes, whatever you have named: **Myne never sends your notes anywhere you have not named, and never downloads a model.** Underneath it, the AI panel shows a second sentence that describes the state you are actually in.
+One sentence never changes, whatever you have named: **Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin, which keeps no IP logs and no analytics.** Underneath it, the AI panel shows a second sentence that describes the state you are actually in.
 
 - **A model file on this computer.** The panel reads *"This model runs entirely on your device."* The model is a file here and no network connection is involved. This is the state you are in until you name something else.
 - **A model runtime on this computer.** The panel reads *"This runs on a program on your computer. Your notes stay on this device."* Your notes go to a separate program on the same machine. They do not leave the device, but that program is not part of Myne, and Myne cannot see what it does with them.
@@ -62,7 +62,7 @@ After you accept, two more controls appear.
 Some AI work is refused a remote provider in the code rather than by a setting, so it stays on your device even while a provider is named:
 
 - **Inline ghost-text completions.** They appear because you typed, not because you asked.
-- **Automatic tag suggestions.** Same reason, and they run on a model that ships inside Myne.
+- **Automatic tag suggestions.** Same reason, and they run on a model on this device, either fetched on demand from Myne's own origin or side-loaded by you. If no tag model is installed, Myne offers the download in Settings → AI before the switch can turn on.
 - **The semantic index behind [asking your notes](/user-guide/ai/ask-your-notes/).** It runs on your device or not at all, so the notes behind an answer are always found here, even when the answer itself is written elsewhere.
 - **Speech-to-text.** [Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note) uses a model that ships with Myne, and no provider you name takes audio.
 

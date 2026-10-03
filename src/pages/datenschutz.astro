@@ -21,7 +21,7 @@ const description =
 const canonical = new URL("/datenschutz/", Astro.site!).toString();
 const ogImage = absoluteOg("datenschutz", Astro.site!);
 
-const effective = "17. September 2026";
+const effective = "3. Oktober 2026";
 
 const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
 const h2 =
@@ -58,7 +58,13 @@ const network = [
     feature: "KI auf dem Gerät",
     goes: "Nein",
     where: "—",
-    when: "Die Modelle sind Teil der App und laufen auf Ihrem Rechner.",
+    when: "Das Modell läuft auf Ihrem Rechner. Die Modelle für Transkription und Bildtext sind Teil der App; die Modelle für Tag-Vorschläge und semantische Suche werden bei Bedarf geladen (siehe nächste Zeile) und laufen danach hier.",
+  },
+  {
+    feature: "KI-Modell-Download",
+    goes: "Ja — kein Notiztext",
+    where: "downloads.myne.md, der eigene Ursprung von Myne",
+    when: "Nur wenn Sie in den Einstellungen unter KI auf Herunterladen klicken. Jede Datei wird vor der Verwendung gegen einen in die App eingebauten Fingerabdruck geprüft, sodass ein manipulierter Download abgelehnt wird. Die Anfrage übermittelt Ihre IP-Adresse an den eigenen Ursprung von Myne und sonst nichts; dieser Ursprung führt keine IP-Protokolle und keine Analyse.",
   },
   {
     feature: "KI über eine lokale Laufzeitumgebung",

@@ -1,7 +1,7 @@
 ---
 title: "Suggest tags"
 category: "ai"
-updated: 2026-08-13
+updated: 2026-10-03
 summary: "Myne can suggest topical tags for the note you are writing. Suggestions appear as chips at the top of the note after you pause typing, prefer tags you already use, and are added to the note's frontmatter only when you click one."
 tags: ["ai", "tags"]
 ---
@@ -14,13 +14,13 @@ With AI on and the tag switch turned on, Myne can suggest topical [tags](/user-g
 - AI enabled — see [Turning on AI](/user-guide/ai/turning-on-ai/).
 - **Suggest tags automatically** turned on in Settings → Developer → AI.
 
-There is no model file to choose for this. Tag suggestion uses a model that ships inside Myne, not the text model you side-load for chat and writing.
+There is no model file to choose here by default. Tag suggestion uses its own small model, fetched on demand from Myne's own origin (or side-loaded with Developer mode), not the text model you use for chat and writing.
 
 ## Turning it on
 
 Open Settings → Developer → AI and turn on **Suggest tags automatically**. It is off by default, and it sits under **Enable local AI**, so it does nothing while AI is off.
 
-If your build of Myne ships without the tag model, the switch is off and cannot be turned on. Myne tells you so in the panel rather than leaving a switch that would do nothing, and it never downloads one.
+If the tag model is not installed yet, the switch is off and Myne tells you so in the panel, pointing you at **Download models**; once the download finishes the switch turns on by itself.
 
 ## Getting suggestions
 

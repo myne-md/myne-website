@@ -25,7 +25,7 @@ const description =
 const canonical = new URL("/privacy/", Astro.site!).toString();
 const ogImage = absoluteOg("privacy", Astro.site!);
 
-const effective = "17 September 2026";
+const effective = "3 October 2026";
 
 const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
 const h2 =
@@ -67,7 +67,13 @@ const network = [
     feature: "On-device AI",
     goes: "No",
     where: "—",
-    when: "The models ship inside the app and run on your machine.",
+    when: "The model runs on your machine. The speech-to-text and image-text models ship inside the app; the tag and semantic-search models are fetched on demand (see the next row) and run here once downloaded.",
+  },
+  {
+    feature: "AI model download",
+    goes: "Yes — no note content",
+    where: "downloads.myne.md, Myne's own origin",
+    when: "Only when you click Download in Settings → AI. Each file is checked against a fingerprint built into the app before it is used, so a tampered download is rejected. The request reveals your IP address to Myne's own origin and nothing else, and that origin keeps no IP logs and no analytics.",
   },
   {
     feature: "AI via a local runtime",

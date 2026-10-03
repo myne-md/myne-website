@@ -1,7 +1,7 @@
 ---
 title: "Turning on AI"
 category: "ai"
-updated: 2026-08-30
+updated: 2026-10-03
 summary: "Enable the AI beta opt-in in Settings, give Myne something to run (model files you downloaded yourself, a runtime on this computer, or a provider you name), understand what 'ready' means, and exclude folders you never want AI to read or index. On a phone there is no on-device option and the approval is per device."
 tags: ["ai", "settings"]
 ---
@@ -11,7 +11,7 @@ AI is off until you turn it on and give Myne something to run. This page walks t
 ## Prerequisites
 
 - An unlocked vault.
-- Something for Myne to run: a model file you downloaded yourself, a model runtime already running on this computer, or a remote provider you name. Myne never downloads a model. See [Choosing model files](#choosing-model-files) below and [Where your AI runs](/user-guide/ai/where-your-ai-runs/).
+- Something for Myne to run: a model file you downloaded yourself, a model runtime already running on this computer, or a remote provider you name. Myne fetches a model only when you ask, from its own origin. See [Choosing model files](#choosing-model-files) below and [Where your AI runs](/user-guide/ai/where-your-ai-runs/).
 
 ## Enabling local AI, on a computer
 
@@ -22,7 +22,7 @@ These steps are the computer's. **A phone has no Developer mode and no Developer
 3. In the panel rail, open **AI** under the **Developer** group that now appears.
 4. Turn on **Enable local AI**. The helper text says what the toggle does and does not settle: it runs a model you provide, whether your notes leave this device depends on the provider you name below, and the feature is experimental and off by default.
 
-Below the toggle, one sentence never changes (Myne never sends your notes anywhere you have not named, and never downloads a model) followed by a headline stating the configuration you are actually in: a model on your device, a program on your computer, or a provider you named. Under those, a line reads **Answering now:** with a name, or **Nothing is set up to answer yet.** The **How does this work?** disclosure expands the honest detail, including the part Myne does not protect against. That copy is worth reading once; it is the same boundary described in [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/).
+Below the toggle, one sentence never changes (Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin, which keeps no IP logs and no analytics) followed by a headline stating the configuration you are actually in: a model on your device, a program on your computer, or a provider you named. Under those, a line reads **Answering now:** with a name, or **Nothing is set up to answer yet.** The **How does this work?** disclosure expands the honest detail, including the part Myne does not protect against. That copy is worth reading once; it is the same boundary described in [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/).
 
 ## Enabling AI on a phone
 
@@ -58,7 +58,16 @@ network, and the screen that says what leaves it should be read on it.
 
 ## Suggesting tags automatically
 
-Under the toggle sits a second switch, **Suggest tags automatically**, off by default. It has no model file to choose: tag suggestion runs on a model that ships inside Myne. If your build ships without that model, the switch is off and cannot be turned on, and Myne says so: it never downloads one. See [Suggest tags](/user-guide/ai/suggest-tags/).
+Under the toggle sits a second switch, **Suggest tags automatically**, off by default. There is no model file to choose here: tag suggestion runs on a model Myne fetches on demand from its own origin. If it is not installed yet, the switch is off and Myne says so, pointing you at **Download models**; once the download finishes the switch turns on by itself. You can also side-load your own with Developer mode. See [Suggest tags](/user-guide/ai/suggest-tags/).
+
+## Downloading a model from Myne
+
+Two model roles can be fetched for you, both from Myne's own origin (`downloads.myne.md`) and only when you click **Download** under **Download models** in Settings → AI:
+
+- **Tag model** (about 337 MB) for automatic tag suggestions.
+- **Semantic-search model** (about 449 MB) so [Ask your notes](/user-guide/ai/ask-your-notes/) can search by meaning, not only by words.
+
+Each download is a single explicit action, and nothing is fetched unless you click. The bytes are checked against a fingerprint built into the app before the model is registered, so a download that was tampered with or truncated is rejected rather than used. The request carries no note content: it reveals your IP address to Myne's own origin and nothing else, and that origin keeps no IP logs and no analytics. If you would rather fetch nothing, Developer mode also lets you point Myne at a model file you got yourself with **Choose file…**; a file from elsewhere is not checked by Myne, so only use one you trust.
 
 ## Choosing model files
 

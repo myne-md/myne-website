@@ -1,7 +1,7 @@
 ---
 title: "What Myne doesn't do"
 category: "settings-and-privacy"
-updated: 2026-08-24
+updated: 2026-10-03
 summary: "The things Myne deliberately does not do (no plaintext mode for your vault, no email recovery, no telemetry, no request for your recovery phrase to sign you in, no egress until you name where it goes) and why each omission is a commitment rather than a missing feature."
 tags: ["privacy", "security"]
 ---
@@ -14,7 +14,7 @@ Some of what defines Myne is what it refuses to do. These are not features that 
 - **No email at sign-up, and no email recovery, ever.** Adding an email reset would mean someone other than you could trigger access to your vault. You hold the only keys; that is the whole point.
 - **Myne never asks for your recovery phrase to sign you in, or to add a device.** In a browser there is exactly one screen that asks for those 24 words: an unlock with recovery phrase that you started yourself, after forgetting your password. Adding a device takes your account number and your master password and nothing else, and the phrase grid the desktop app uses for that is left out of the browser bundle entirely rather than merely hidden. This is a commitment rather than a description of today, and it exists so that a web page asking you for your phrase is something you can act on: outside an unlock you began yourself, the answer is no.
 - **No telemetry and no analytics.** Myne sends no usage data — no counters, no crash pings, nothing about how you use the app. This holds whether or not you turn on sync: sync moves your *encrypted* notes between your devices, never usage data, and the server can never read them.
-- **Nothing leaves your device until you name where it goes.** Sync is off by default. A remote AI provider is off by default and has to be named, with a consent step stating what is sent, before anything reaches it. Myne makes no request of its own — no telemetry, no reachability probe — and it never downloads a model. What Myne cannot promise is what a provider you named does with what it receives; it can only tell you what it sent and to whom.
+- **Nothing leaves your device until you name where it goes.** Sync is off by default. A remote AI provider is off by default and has to be named, with a consent step stating what is sent, before anything reaches it. Myne makes no request of its own — no telemetry, no reachability probe — and it fetches a model only when you click Download, from Myne's own origin, which keeps no IP logs and no analytics. What Myne cannot promise is what a provider you named does with what it receives; it can only tell you what it sent and to whom.
 - **No way to disable auto-lock.** You can make the timer longer, but auto-lock is always on. See [Auto-lock and screen-capture protection](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/). You can opt in to [quick unlock](/user-guide/settings-and-privacy/quick-unlock/), which lets a fast credential (a PIN or Touch ID) reverse an auto-lock instead of retyping the master password — but that is a convenience layer over the always-on lock, not a way to switch it off. The PIN path is honestly bounded: someone who copies the vault can try to guess the PIN offline, slowed only by the PIN's length and the same memory-hard key derivation Myne uses elsewhere, so a short PIN buys less protection than the master password does.
 - **No claim to protect a compromised machine.** Myne encrypts your notes on disk. It does not claim to defend against malware running on your computer or someone using it while a vault is open, and it won't pretend to.
 - **No hidden or deniable vaults.** Myne doesn't offer a secret second vault behind a decoy password; it doesn't claim a property it can't actually provide.
@@ -29,7 +29,7 @@ Two opt-ins move data off this device, and both are off until you turn them on: 
 
 ## On AI
 
-Myne never downloads a model. Models are either bundled with the app or files you fetch yourself and point Myne at; the app has no fetch path of its own. Myne never sends your notes anywhere you have not named, and every provider setting starts unset — unset means the path is unreachable, not merely switched off.
+Myne fetches a model only when you ask it to, from its own origin, and that fetch carries no note content. The speech-to-text and image-text models ship inside the app; the tag and semantic-search models are downloaded on your click and checked against a fingerprint built into the app before use; the text models for chat, summaries and writing are files you fetch yourself and point Myne at. Myne never sends your notes anywhere you have not named, and every provider setting starts unset — unset means the path is unreachable, not merely switched off.
 
 The features that fire without you asking — inline suggestions as you type, automatic tag suggestions, and the search index — can never reach a remote provider at all. That is a rule in the code rather than a setting you could flip. A remote provider serves only work you ask for.
 

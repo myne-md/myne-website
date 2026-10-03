@@ -1,7 +1,7 @@
 ---
 title: "AI privacy and limits"
 category: "ai"
-updated: 2026-08-30
+updated: 2026-10-03
 summary: "The honest boundary of Myne's AI: nothing is sent until you name a provider, what leaves your device when you do, a model runtime that runs in-process and is not sandboxed from your notes, the encrypted embedding index at rest, what an agent run learns about notes it cannot read, and what AI does not do."
 tags: ["ai", "privacy", "security"]
 ---
@@ -10,7 +10,7 @@ This page states plainly what Myne's AI protects and what it does not. It does n
 
 ## Where your notes go
 
-Where AI work runs is a setting you control, and the default is that nothing leaves. Myne never sends your notes anywhere you have not named, and never downloads a model. With no provider named, the model is a file on this computer and no network connection is involved. If you name a model runtime on your own machine, your notes go to that program over a connection that stays on the device, but the program is not part of Myne, and Myne cannot see what it does with them. If you name a remote provider, the text of the notes involved in a request leaves this device, and Myne cannot see or control what that provider keeps, how long it keeps it, or whether it passes your request to someone else. Every provider setting starts unset, and while it is unset there is no path for anything to go out.
+Where AI work runs is a setting you control, and the default is that nothing leaves. Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin, which keeps no IP logs and no analytics. With no provider named, the model is a file on this computer and no network connection is involved. If you name a model runtime on your own machine, your notes go to that program over a connection that stays on the device, but the program is not part of Myne, and Myne cannot see what it does with them. If you name a remote provider, the text of the notes involved in a request leaves this device, and Myne cannot see or control what that provider keeps, how long it keeps it, or whether it passes your request to someone else. Every provider setting starts unset, and while it is unset there is no path for anything to go out.
 
 The three states, the consent screen shown before the first remote request, and what is refused a provider outright are covered in [Where your AI runs](/user-guide/ai/where-your-ai-runs/).
 
@@ -110,7 +110,7 @@ The requests are TLS, and the certificate is checked against a bundle compiled i
 
 ## Where models come from
 
-Myne never downloads a model. Two of them ship inside Myne itself (the one that suggests tags and the one that turns speech into text), so they are part of the same build as the rest of the app, and there is nothing to fetch. Bundling a model is not downloading one: no path exists for Myne to fetch weights at runtime in either case. The models for chat, summaries, writing and semantic search you supply yourself. The AI settings panel links to recommended starting points that open in your own browser as an operating-system handoff; you download the files there and point Myne at them. A model file you pick is referenced from a location on your device outside your vault and is never copied into the vault. Because you chose it, its provenance and trustworthiness are yours to judge. See [In-process, not sandboxed](#in-process-not-sandboxed) above for why that judgement matters. A model that shipped with Myne narrows that particular question and nothing else: it still runs in the same process as your notes.
+Myne fetches a model only when you ask it to, and only from its own origin (`downloads.myne.md`). The speech-to-text model and the image-text (OCR) model ship inside Myne, part of the same build as the rest of the app. The tag-suggestion model (about 337 MB) and the semantic-search model (about 449 MB) are fetched on demand: you click Download in Settings → AI, the bytes come from Myne's own origin, and each file is checked against a fingerprint built into the app before the model is registered, so a download that was tampered with or truncated is rejected rather than used. The request carries no note content; it reveals your IP address to Myne's own origin and nothing else, and that origin keeps no IP logs and no analytics. The text models for chat, summaries and writing you supply yourself: the AI settings panel links to recommended starting points that open in your own browser as an operating-system handoff, you download the files there and point Myne at them. A model file you pick is referenced from a location on your device outside your vault and is never copied into the vault. Because you chose it, its provenance and trustworthiness are yours to judge. See [In-process, not sandboxed](#in-process-not-sandboxed) above for why that judgement matters. A model that shipped with Myne narrows that particular question and nothing else: it still runs in the same process as your notes.
 
 ## What AI does not do
 

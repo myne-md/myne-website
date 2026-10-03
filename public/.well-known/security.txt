@@ -1,13 +1,16 @@
 # Myne security contact — RFC 9116.
 # Acknowledgment-only: we credit researchers; there is no monetary bounty yet.
 #
-# Release signing key (minisign). It signs the SHA256SUMS of every release
+# Release signing keys (minisign). They sign the SHA256SUMS of every release
 # published at https://downloads.myne.md/releases/ — NOT the installers, which
 # are unsigned and will make your OS warn you.
 #
+#   RWRk3+M9oGvHo33oHg5kOL7a5DbNj8sR2KPLg0gwHMujnHOpQI+kX+nm
+#     current, from 2026-10-03; signs v0.9.0 and later.
 #   RWSzhweIGbX53vxsmyZ218e3pqUU8/zKiqHMarzXv3Ddx4rcyvDQOT5k
+#     previous, signed releases through v0.8.x; rotated (not compromised).
 #
-# The same key is published at https://myne.md/releases/ and in the download
+# The same keys are published at https://myne.md/download and in the download
 # origin's own /releases/index.json. Three copies on two different hosts, so
 # that compromising one of them shows up as a disagreement rather than as
 # nothing at all. Carried as a comment rather than an RFC 9116 field on

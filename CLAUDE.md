@@ -19,7 +19,7 @@ This site owns these public-facing surfaces required by main repo's Phase 1 ship
 
 - **`/.well-known/security.txt`** — RFC 9116 disclosure file. Plan 1 §C6 batch (Day 1 hygiene), but the FILE itself ships from this repo's `public/.well-known/security.txt`
 - **`/security` page** — public bug-bounty page (Plan 1 §C7). First iteration acknowledgment-only per `threat-model.md` §6 — no monetary bounty, just credited researchers + scope/contact channel
-- **`/releases` or release-notes pages** — auto-updater manifest endpoint (Plan 1 §C5 endpoint consumer side; Tauri client-side wiring lives in main repo)
+- **`/download` + `src/data/release.ts`** — the public download surface and the second-witness hash list. The standalone `/releases` page was removed during the closed beta (`610a7c8`); `/download` states the closed-beta position while a release is team-only. The auto-updater manifest endpoint Plan 1 §C5 called for is not built: Myne ships no updater by design, so there is nothing to sign or serve.
 - **Marketing copy** — landing, pricing (free / hosted-paid / self-host-free), FAQ, philosophy
 
 ## Marketing copy discipline (HARD RULE)
@@ -37,6 +37,30 @@ Brand discipline lives in main repo `docs/vision.md` "Myne is" / "Myne is not" l
 The same don't-exceed-the-threat-model rule **explicitly extends to `/user-guide` content** — placeholder and real. Per `design-notes.md` 2026-05-04 "Placeholder-first /user-guide route on myne-website with atomic go-live + marketing-copy discipline extension", every user-guide article (recovery flow, vault creation, settings, etc.) must (i) not exceed `docs/threat-model.md` guarantees, (ii) match `PRODUCT.md` "careful engineer to careful engineer" voice, (iii) not contradict `docs/spec/protocol.md` or `docs/spec/account-number.md`. Real-content go-live is gated by a (g2) per-article checklist and ships atomically (banner + noindex + sitemap-filter all dropped in one PR).
 
 The site **links no downloads and no route into the hosted web client**. Per `design-notes/clients/0624`, Myne is a closed beta and the legal texts have had no legal review, so the site states that Myne is **in private testing** and offers nothing to install: no download CTA, and no "Open app" route into `app.example.com`. The web client keeps working and stays reachable at its own origin, and `/download` states the closed-beta position instead of linking installers. Reopening either is a new decision entry, not a copy edit.
+
+## Release role (this site is one of the shipped surfaces)
+
+Team-only is the default for every Myne release, and while a release is team-only **this site does
+not change**: `/download` keeps stating the closed-beta position and `src/data/release.ts` stays
+where it is. The site moves only when the maintainer makes a release **public**, and then the change
+is in one release pass (owned by `operations/runbooks/release-checklist.md` phases 8–9 and
+`operations/runbooks/website-deploy.md`):
+
+1. `src/data/release.ts` — bump `RELEASE_TAG`/`RELEASE_VERSION`/`RELEASE_DATE` and replace the
+   `ASSETS` rows (name, bytes, sha256) with the values **from the verified staging tree**, never
+   read back off the origin this page exists to check.
+2. `node scripts/validate-release.mjs` (already wired into `pnpm build`) must be green: it is the
+   gate that catches a placeholder key, a truncated hash, and a filename that does not carry its own
+   version.
+3. `src/pages/download.astro` must still resolve every asset name (`assetByName()` throws on a typo,
+   which is the intended tripwire).
+4. Deploy **by hand over SSH** (`operations/runbooks/website-deploy.md`); this repo has had no CI
+   since 2026-10-01, so a push builds and deploys nothing.
+
+**Independent of public/team-only:** a user-facing feature ships with its `/user-guide` update in the
+same change (root `AGENTS.md` standing obligation). The site's hashes are the *second witness* for
+release integrity (`design-notes/ops/0496`), so they are copied from the staging tree and never
+fetched — a compromise of the downloads origin must not supply both the binary and its hash.
 
 ## Reproducibility discipline
 

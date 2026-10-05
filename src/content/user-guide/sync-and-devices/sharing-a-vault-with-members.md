@@ -1,7 +1,7 @@
 ---
 title: "Sharing a vault with members"
 category: "sync-and-devices"
-updated: 2026-09-30
+updated: 2026-10-05
 summary: "Invite other people into one shared vault. Each member joins with their own identity and credentials; your master password and recovery phrase never leave your control. Covers sharing, owner and member roles, inviting and accepting, unlocking your identity on a device, and what removal does and does not do."
 tags: ["devices", "sync", "security"]
 ---
@@ -21,8 +21,8 @@ A shared vault has exactly one owner, the person who created it, and zero or mor
 
 ## Invite someone
 
-1. Open **Settings → Sync → Members & Security**. On a first visit, unlock your identity with your recovery phrase. Once unlocked on a device, the vault remembers the identity there (sealed with the vault's own key), so a later unlock of that vault installs it automatically and you are not asked for the phrase again. An explicit **Lock identity** stands down until you unlock it again.
-2. Share your own **identity code** with the person you are inviting. It contains only public information, never your phrase.
+1. Open **Settings → Sync**. At the top, under **Identity**, choose **Enter recovery phrase** and enter your recovery phrase if the identity is locked. Once unlocked on a device, the vault remembers the identity there (sealed with the vault's own key), so a later unlock of that vault installs it automatically and you are not asked for the phrase again. **Lock member identity**, in the **Vault members** panel below, stands it down until you unlock it again.
+2. Share your own **identity code**, shown in the **Vault members** panel, with the person you are inviting. It contains only public information, never your phrase.
 3. Ask them for their identity code and paste it into the invite field. Nothing leaves your device yet.
 4. Check the fingerprint the code produces against the one the other person reads you. Confirm it explicitly before continuing.
 5. Confirm. Your device seals the invite and posts it to the relay; the recipient is told when an invite is waiting.
@@ -42,9 +42,9 @@ A member vault has no password of its own. On a later start you unlock it with y
 
 ## Unlocking your identity on a device
 
-Sync signs everything you push with your identity, so a shared vault syncs only while your identity is unlocked for the session. If it is not, the sync status reads **Unlock your identity to sync** with an action that asks for your recovery phrase.
+Sync signs everything you push with your identity, so a shared vault syncs only while your identity is unlocked for the session. If it is not, the sync status reads **Unlock your identity to sync** with an action that opens the **Identity** block's recovery-phrase entry.
 
-You only do this once per device. The first time you unlock the identity, the vault remembers it in a device-local file sealed with the vault's own key, so a later unlock of that vault installs it for you. To drop it, use **Lock identity** in the member panel (which stands it down until you unlock again) or **Forget this identity** (which erases the remembered copy). The remembered copy is never synced and never leaves the device.
+You only do this once per device. The first time you unlock the identity, the vault remembers it in a device-local file sealed with the vault's own key, so a later unlock of that vault installs it for you. To drop it, use **Lock member identity** in the **Vault members** panel (which stands it down until you unlock again) or **Forget this identity** (which erases the remembered copy). The remembered copy is never synced and never leaves the device.
 
 Because that copy is sealed with the vault's own key, anyone who can unlock the vault on that device (your master password, or a quick-unlock PIN or biometric) can also act as your identity there. Myne records this trade-off in its threat model, and a later release will decouple the identity from the vault credential.
 

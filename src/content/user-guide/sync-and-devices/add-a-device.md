@@ -1,7 +1,7 @@
 ---
 title: "Add a device"
 category: "sync-and-devices"
-updated: 2026-08-24
+updated: 2026-10-05
 summary: "Connect another device to your account and approve it. Covers the beta terms each device accepts before it first syncs, joining from a fresh device or one that already holds the vault, naming the device, pairing by a QR code, comparing a verification code between the two devices, and what Myne says when the server refuses an enrolment."
 tags: ["devices", "sync", "recovery"]
 ---
@@ -42,14 +42,14 @@ Instead of typing your account number on the new device, a device that is alread
 
 On a device that already has access:
 
-1. Open **Settings → Sync** and find **Add a device with a QR**.
+1. Open **Settings → Sync**, then choose the **+** next to **Devices** to open **Add a device with a QR**.
 2. Paste your account number into the **Account number** field. Myne does not store your account number, so you supply it here from your own saved copy.
 3. Choose **Make QR**. A QR code appears, labelled **Scan with the iOS app**. The code carries the Myne mark in its centre, so the person scanning can see at a glance that it is a Myne code and not some other QR on the screen.
 4. On the new device, open the Myne app and scan the code. The sync server address and account number are filled in for you; enter that device's password to continue.
 
 On a phone the confirm step shows the server and the account number. The new device checks the server's certificate against the public certificate authorities on its own first connection, the same check every connection gets; no fingerprint is carried by the code or compared.
 
-The code is short-lived and refreshes while the panel is open, so a photograph of it cannot be scanned later: the new device has to read it off this screen while both are in front of you.
+The code is short-lived and refreshes while the dialog is open, so a photograph of it cannot be scanned later: the new device has to read it off this screen while both are in front of you.
 
 That freshness bound is on the join, not on the account number inside the picture. The number does not expire, and on its own it is enough to ask the sync server for your account's encrypted key file and start guessing your master password offline. So treat the code the way you treat the account number itself: do not photograph it, and do not leave it up on a shared screen.
 

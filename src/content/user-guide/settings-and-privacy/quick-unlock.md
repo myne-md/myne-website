@@ -1,7 +1,7 @@
 ---
 title: "Quick unlock with a PIN or Touch ID"
 category: "settings-and-privacy"
-updated: 2026-08-24
+updated: 2026-10-05
 summary: "Opt in to re-entering a vault after auto-lock with a short PIN, or macOS Touch ID, instead of the full master password. It is device-local, off by default; a PIN still needs the master password after a restart, while a configured Touch ID credential can be used on a cold start."
 tags: ["security", "privacy", "settings"]
 ---
@@ -23,7 +23,7 @@ Switch it on and a PIN field appears, with two buttons:
 
 A note next to those buttons is honest about which path is which: "Touch ID is macOS-only and currently experimental (pending hardware verification). PIN works everywhere." Treat the PIN as the path Myne stands behind today; see the limits below for what "experimental" means here.
 
-Touch ID is offered only where it can actually work. On Windows and Linux the button is not shown at all. On a Mac, if enrolling fails Myne says why — "Touch ID isn't available in this build. It needs a signed macOS build with Touch ID enrolled." — and then hides the button for the rest of the session, because trying again cannot succeed until the build is signed. If you see that message, use a PIN.
+Touch ID is offered only where it can actually work. On Windows and Linux the button is not shown at all. On a Mac, if setting it up fails Myne says why, and the two failures behave differently. The message "Touch ID isn't available in this build. It needs a signed macOS build with Touch ID enrolled." means the build itself cannot use Touch ID (see the limits below); the button is then hidden for the rest of the session, because retrying cannot succeed until the build is signed, and you should use a PIN. A different message, "Touch ID couldn't be set up. Make sure a fingerprint is enrolled in System Settings, or use a PIN instead.", means no fingerprint is enrolled (or Touch ID is otherwise unavailable right now); the button stays, so you can enroll a fingerprint in System Settings and try again.
 
 Once it is configured, the row's own toggle is the off switch. Flip it back off and Myne wipes the quick-unlock credential from this device; you then unlock with your master password as before.
 
@@ -61,7 +61,7 @@ The PIN path has a specific, honest bound. The 5-attempt cap only limits an atta
 
 The Touch ID path is experimental and hardware-unverified — its own setup note calls it "experimental (pending hardware verification)". It is offered so you can try it, not as a verified security boundary; until that verification lands, rely on the PIN as the path Myne stands behind, and on your master password as the credential that always works.
 
-It also needs a signed macOS build. Myne's own installers are not code-signed today, so on a build you fetched from the releases page, enrolling Touch ID fails with the message above and the button disappears for the session. That is the app telling you the truth rather than a fault you can retry your way out of.
+It also needs a signed macOS build. Myne's own installers are not code-signed today, so on a build you fetched from the releases page, enrolling Touch ID fails with the "Touch ID isn't available in this build" message and the button disappears for the session. That is the app telling you the truth rather than a fault you can retry your way out of. A separate message, that Touch ID couldn't be set up, points at enrolling a fingerprint instead; that one does clear once you enroll one in System Settings and try again.
 
 ## Shortcuts
 

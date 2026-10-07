@@ -66,7 +66,7 @@ Some AI work is refused a remote provider in the code rather than by a setting, 
 - **The semantic index behind [asking your notes](/user-guide/ai/ask-your-notes/).** It runs on your device or not at all, so the notes behind an answer are always found here, even when the answer itself is written elsewhere.
 - **Speech-to-text.** [Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note) uses a model that ships with Myne, and no provider you name takes audio.
 
-If one of those is somehow asked to go to a provider, Myne refuses in the same words: "This kind of request never goes to a provider: it runs on this device or not at all." What a remote provider serves is the work you asked for: chat, summarize, rewrite, edit selection, or [an agent run](/user-guide/ai/agent-runs/).
+If one of those is somehow asked to go to a provider, Myne refuses in the same words: "This kind of request never goes to a provider: it runs on this device or not at all." What a remote provider serves is the work you asked for: chat, summarize, rewrite, edit selection, [summarize a meeting](/user-guide/ai/meeting-summaries/), or [an agent run](/user-guide/ai/agent-runs/). A meeting summary is a bounded series of requests rather than one: the transcript is read in parts, so a long meeting sends several.
 
 ## On a phone
 

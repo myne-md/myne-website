@@ -25,7 +25,7 @@ const description =
 const canonical = new URL("/privacy/", Astro.site!).toString();
 const ogImage = absoluteOg("privacy", Astro.site!);
 
-const effective = "3 October 2026";
+const effective = "8 October 2026";
 
 const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
 const h2 =
@@ -101,9 +101,9 @@ const network = [
   },
   {
     feature: "Update check",
-    goes: "None",
-    where: "—",
-    when: "There is no auto-updater. The app never phones home to ask whether it is current.",
+    goes: "Your version and platform, plus your IP (which the origin does not log). Never your notes or your account.",
+    where: "downloads.myne.md",
+    when: "Automatically, on by default: shortly after launch and about once a day. Turn it off in Settings → About, where you can also check by hand. The update itself is verified against an offline release key before it installs.",
   },
   {
     feature: "Analytics, telemetry, crash reports",

@@ -21,7 +21,7 @@ const description =
 const canonical = new URL("/datenschutz/", Astro.site!).toString();
 const ogImage = absoluteOg("datenschutz", Astro.site!);
 
-const effective = "3. Oktober 2026";
+const effective = "8. Oktober 2026";
 
 const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
 const h2 =
@@ -92,9 +92,9 @@ const network = [
   },
   {
     feature: "Update-Prüfung",
-    goes: "Keine",
-    where: "—",
-    when: "Es gibt keinen automatischen Updater. Die App fragt nirgends nach, ob sie aktuell ist.",
+    goes: "Deine Version und Plattform, dazu deine IP (die der Ursprung nicht protokolliert). Nie deine Notizen oder dein Konto.",
+    where: "downloads.myne.md",
+    when: "Automatisch, standardmäßig an: kurz nach dem Start und etwa einmal täglich. Abschaltbar unter Einstellungen → Über, wo du auch von Hand prüfen kannst. Das Update selbst wird vor der Installation gegen einen Offline-Release-Schlüssel geprüft.",
   },
   {
     feature: "Analyse, Telemetrie, Absturzberichte",

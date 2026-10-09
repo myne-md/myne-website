@@ -25,7 +25,7 @@ const description =
 const canonical = new URL("/privacy/", Astro.site!).toString();
 const ogImage = absoluteOg("privacy", Astro.site!);
 
-const effective = "8 October 2026";
+const effective = "9 October 2026";
 
 const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
 const h2 =
@@ -95,8 +95,8 @@ const network = [
   },
   {
     feature: "Tor routing",
-    goes: "Routes sync through Tor",
-    where: "The Tor network, then your sync server",
+    goes: "Routes sync, and on desktop AI provider requests, through Tor",
+    where: "The Tor network, then your sync server or the AI provider",
     when: "Only if you switch it on.",
   },
   {

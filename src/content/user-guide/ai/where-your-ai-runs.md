@@ -48,7 +48,7 @@ Choosing a provider for the first time shows a consent screen before anything is
 - **What Myne cannot check**: "Myne cannot see or control what … keeps, how long it keeps it, or whether it passes your request to someone else."
 - **How to undo this**: "You can remove the key at any time, which stops Myne sending anything. Revoking the key itself is done at the provider, and it applies to the key rather than to this device."
 - **Which devices this covers**: "This choice covers this device only. Your key does travel to your other devices, but each one asks before it sends anything."
-- **How it travels**: "The connection is direct. The provider sees this device's IP address, and your network can see which provider you use."
+- **How it travels**: "The connection is direct by default: the provider sees this device's IP address, and your network can see which provider you use. If you turn on Tor routing on desktop, this request goes through the same Tor proxy as sync, so the provider sees the exit node rather than this device. Mobile has no Tor routing yet, so it always connects directly."
 
 The accepting button names the provider rather than saying "OK". Cancelling leaves the state you were in.
 
@@ -107,7 +107,7 @@ The provider you chose, the key you pasted and the model you picked are part of 
 
 Removing the key propagates the way the other three do, which is what makes it reach your other devices. Whether AI is on at all stays a per-device setting, as does a local runtime address, because that names a program on one machine.
 
-The connection to a provider is direct. Myne can route its sync traffic through Tor where you have turned that on; it does not route provider requests, so the provider sees this device's IP address and your network can see which provider you use.
+The connection to a provider is direct by default. On desktop, turning on Tor routing sends both your sync traffic and your provider requests through Tor, so the provider sees the exit node rather than this device; when the Tor proxy is not ready the request is refused rather than sent directly. Mobile has no Tor routing yet, so its provider requests always go direct.
 
 Myne can say what it sends and to whom. It cannot say what the far side keeps, how long it keeps it, or whether it passes your request onward, and it does not claim to. A runtime on your own computer keeps your notes on the device, but it is software Myne neither ships nor audits, and its listener generally accepts connections from any program running on that computer, which makes it a poor choice on a shared machine. Notes in [excluded folders](/user-guide/ai/turning-on-ai/#excluding-folders) are kept out of every one of these paths. None of this changes the fact that the model Myne runs in-process is not sandboxed from your decrypted notes and keys. See [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/) for that boundary.
 

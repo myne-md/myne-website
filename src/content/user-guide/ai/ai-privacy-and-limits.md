@@ -102,9 +102,9 @@ Removing the key propagates the way the setup does, which is what makes it reach
 
 ## How a request travels
 
-The connection to a provider is direct, and Myne says so on the consent screen: "The connection is direct. The provider sees this device's IP address, and your network can see which provider you use."
+The connection to a provider is direct by default, and Myne says so on the consent screen: "The connection is direct by default: the provider sees this device's IP address, and your network can see which provider you use. If you turn on Tor routing on desktop, this request goes through the same Tor proxy as sync, so the provider sees the exit node rather than this device. Mobile has no Tor routing yet, so it always connects directly."
 
-That is worth stating because Myne can route its **sync** traffic through Tor where you have turned that on, and it would be reasonable to assume the same applies here. It does not. Provider requests are not routed, so two things are visible that the text of your notes is not: your address to the provider, and, to anyone who can see your network, which provider you are using and roughly when.
+That is worth stating because Myne can route traffic through Tor where you have turned that on. What it covers depends on the client. On desktop, turning on Tor routing now sends both your **sync** traffic and your **AI provider** requests through it; by default neither is routed. On mobile there is no Tor routing yet, so provider requests always go direct. When a request is not routed, two things are visible that the text of your notes is not: your address to the provider, and, to anyone who can see your network, which provider you are using and roughly when.
 
 The requests are TLS, and the certificate is checked against a bundle compiled into Myne rather than against your system's trust store, so the contents are not readable in transit by your network.
 

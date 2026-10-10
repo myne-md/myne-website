@@ -1,7 +1,7 @@
 ---
 title: "Sharing a vault with members"
 category: "sync-and-devices"
-updated: 2026-10-05
+updated: 2026-10-10
 summary: "Invite other people into one shared vault. Each member joins with their own identity and credentials; your master password and recovery phrase never leave your control. Covers sharing, owner and member roles, inviting and accepting, unlocking your identity on a device, and what removal does and does not do."
 tags: ["devices", "sync", "security"]
 ---
@@ -38,7 +38,7 @@ A shared vault has exactly one owner, the person who created it, and zero or mor
 
 Every member of a shared vault can read and write the vault's notes and attachments, because they hold the vault's content key. Roles are administrative, not cryptographic: there is no read-only viewer role, and a member can change anything the owner can.
 
-A member vault has no password of its own. On a later start you unlock it with your recovery phrase, the same phrase as your identity.
+A member vault has no password of its own. On a later start you unlock it with your recovery phrase, the same phrase as your identity. If you would rather not retype the phrase every session, set a **shared-vault password** under **Settings → Privacy → Shared vault password**. It stores a copy of that vault's keys on this device, wrapped by your password, so the vault re-opens with the password instead. The phrase still works everywhere and stays the fallback, and on a new device the password must be set again. The stored copy also carries your identity, so a leaked shared-vault password would open your identity in your other vaults too; leave it off if a stolen device is part of your threat model.
 
 ## Unlocking your identity on a device
 

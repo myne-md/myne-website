@@ -31,6 +31,7 @@ Sync keeps your notes in step across the devices you own. Each device encrypts i
 - **[Storage and account limits](/user-guide/sync-and-devices/storage-and-limits/)** covers the usage meters and the over-limit, oversize, and frozen refusal states.
 - **[Resolving conflicts](/user-guide/sync-and-devices/resolving-conflicts/)** covers keep-both and choosing a version, and what changes once the vault format is upgraded.
 - **[Managing devices](/user-guide/sync-and-devices/managing-devices/)** covers viewing, renaming and removing devices, and the notes kept back when a deletion arrives by sync.
+- **[Live collaboration](/user-guide/sync-and-devices/live-collaboration/)** covers seeing another person's cursor, selection and name while a note is open, the Who's here tab, and click to jump.
 - **[Upgrade your vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/)**, in the safety chapter, covers the one-way upgrade that gives notes automatic cross-device merging.
 
 ## Limits

@@ -26,6 +26,8 @@ Each snapshot is encrypted under the note's own key: a snapshot is as private as
 
 Open the snapshots panel for a note to see its earlier versions. Pick one and Myne shows what changed as a diff. **Compare against** chooses what it is compared with: **Current note** answers "what would restoring this undo?", and **Previous snapshot** answers "what did this snapshot itself change?". The oldest snapshot has nothing before it, and says so. Restoring a snapshot is **always undoable**: before it rolls the note back, Myne takes a snapshot of the current version, so the state you restored *from* is itself in the history if you change your mind.
 
+Each revision also shows who made it. On a vault that is not shared this is the **device** that wrote the change, by the name you gave it in [Managing devices](/user-guide/sync-and-devices/managing-devices/), or a short code for a device you have not named. On a shared vault it is the **person**, taken from the roster. A revision from before Myne recorded this shows **Unknown device**. The author reflects the device that wrote the revision: it is what the editing session reported, not a signature, so it attributes a revision for your reading and cannot prove anything about who really made it.
+
 ## What snapshots are not
 
 Snapshots are a short-term undo for edits, not a deletion safety net. When a note is **permanently deleted, its snapshots go with it**: version history is part of the note, not a separate copy that outlives it. For protection across deletion, use the tools that are built for it:
@@ -35,9 +37,9 @@ Snapshots are a short-term undo for edits, not a deletion safety net. When a not
 
 ## After you upgrade the vault format
 
-If you [upgrade the vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/), snapshots stop for that vault: no new ones are taken, the existing ones move into the upgrade's old copy and are erased when you confirm the upgrade, and the snapshots panel shows its empty state from then on.
+If you [upgrade the vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/), snapshots stop for that vault: no new ones are taken, and the existing ones move into the upgrade's old copy and are erased when you confirm the upgrade. From then on the snapshots panel browses each note's OWN edit history instead, which is also what a vault created on a current version of Myne has had from the start.
 
-Each note carries its own edit history instead, and that is also what a vault created on a current version of Myne has had from the start. Two things about it are worth knowing. It travels: the history is part of the encrypted note, so it syncs to your other devices and is included in every backup, where a snapshot never left the device that made it. And nothing in the app shows it to you yet, so a note on the newer format has no version history you can browse or restore. If there is a revision you want to keep before an upgrade, take a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) first.
+Two things about that history are worth knowing. It travels: it is part of the encrypted note, so it syncs to your other devices and is included in every backup, where an old snapshot never left the device that made it. And each revision now shows who made it (see above), which an old snapshot did not.
 
 ## Limits
 

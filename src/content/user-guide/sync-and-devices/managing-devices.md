@@ -14,8 +14,8 @@ The **Devices** section of **Settings → Sync** lists the devices connected to 
 
 Under **Settings → Sync → Devices**, you see:
 
-- **Your devices** — the approved devices on the account. The one you are using is marked **This device**. Each shows an editable name, which it was given when it was added; a device enrolled before names existed falls back to a short name derived from its identifier. The **Rename** action on a row turns the name into an editable field in place: Enter saves it, Esc cancels.
-- **Awaiting approval** — devices that have connected with a password and are waiting for an existing device to approve them. Approving one starts the verification-code compare described in [Add a device](/user-guide/sync-and-devices/add-a-device/).
+- **Your devices**: the approved devices on the account. The one you are using is marked **This device**. Each shows an editable name, which it was given when it was added; a device enrolled before names existed falls back to a short name derived from its identifier. The **Rename** action on a row turns the name into an editable field in place: Enter saves it, Esc cancels. A device's name is also what labels its revisions in a note's [version history](/user-guide/safety-and-recovery/note-snapshots/), where a device you have not named shows a short code instead.
+- **Awaiting approval**: devices that have connected with a password and are waiting for an existing device to approve them. Approving one starts the verification-code compare described in [Add a device](/user-guide/sync-and-devices/add-a-device/).
 
 ## Removing a device
 

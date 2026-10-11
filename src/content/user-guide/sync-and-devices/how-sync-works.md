@@ -30,6 +30,7 @@ The server **can** see:
 - A hashed form of your account number (not the number itself in a reusable way, and never your password).
 - Opaque per-note version counters it uses to order changes and detect conflicts — numbers, not your text.
 - How many devices are on the account, and the timing of each device's pushes and pulls over time.
+- While a vault is unlocked and the app is in the foreground, that a note is being edited live, and roughly when. This is the [live-collaboration](/user-guide/sync-and-devices/live-collaboration/) stream: the frames are sealed end to end, so the server sees that editing is happening and its timing, never which note, what is typed, or where the cursor is.
 - The current connection IP for the duration of a connection. Myne's design does not persistently log IPs, but the connection itself is visible while it happens.
 
 The server **cannot**:

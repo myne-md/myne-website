@@ -1,7 +1,7 @@
 ---
 title: "AI (Beta)"
 category: "ai"
-updated: 2026-10-03
+updated: 2026-10-11
 summary: "An overview of Myne's experimental AI: what it is, the runtime beta opt-in that keeps it off until you turn it on, the honest privacy posture (nothing is sent until you name a provider; the model Myne runs is in-process and not sandboxed), that it can propose changes for you to approve, and a map of the rest of this section."
 tags: ["ai", "privacy"]
 ---
@@ -40,6 +40,8 @@ That third point is the boundary of the guarantee. It is covered plainly in [AI 
 - **[Writing assistant](/user-guide/ai/writing-assistant/)** covers inline completions and the AI slash commands.
 - **[Agent runs](/user-guide/ai/agent-runs/)** covers asking the AI to change notes: how you set what it may touch, the review screen where you approve or reject each change, and what the undo does and does not cover.
 - **[Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note)** covers turning a recorded or imported audio clip into searchable, insertable text on your device.
+- **[The agent hub](/user-guide/ai/the-agent-hub/)** covers the list of every conversation, what a run's own line in the transcript reports, and moving a note between folders.
+- **[Chat history](/user-guide/ai/ai-chat-history/)** covers finding an older conversation and what deleting one does on your other devices.
 - **[AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/)** is the honesty deep-dive: what is sent and to whom, the built-in model being in-process and not sandboxed, the encrypted embedding index, and what AI does not do.
 
 ## Limits

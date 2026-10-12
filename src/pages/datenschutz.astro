@@ -21,7 +21,7 @@ const description =
 const canonical = new URL("/datenschutz/", Astro.site!).toString();
 const ogImage = absoluteOg("datenschutz", Astro.site!);
 
-const effective = "3. Oktober 2026";
+const effective = "12. Oktober 2026";
 
 const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
 const h2 =
@@ -74,7 +74,7 @@ const network = [
   },
   {
     feature: "KI über einen entfernten Anbieter",
-    goes: "Ja — Notiztext verlässt Ihr Gerät. Ein Agentenlauf sendet zusätzlich die Titel und Kennungen jeder Notiz im von Ihnen freigegebenen Bereich, bevor er auch nur eine davon gelesen hat. Er überträgt außerdem, woran er sich über Sie erinnert: destillierte Fakten aus früheren Läufen (höchstens 100 Einträge) sowie Ihre Stimmanweisungen — jeder Eintrag mit einer stabilen Kennung.",
+    goes: "Ja: Notiztext verlässt Ihr Gerät. Ein Agentenlauf sendet zusätzlich die Titel, Kennungen und Ordnerpfade der Notizen, die er lesen darf, bevor er auch nur eine davon gelesen hat. Sofern Sie ihn nicht einschränken, ist das Ihr gesamter Vault abzüglich der von Ihnen von der KI ausgeschlossenen Ordner. Er überträgt außerdem, woran er sich über Sie erinnert: destillierte Fakten aus früheren Läufen (höchstens 100 Einträge) sowie Ihre Stimmanweisungen, jeder Eintrag mit einer stabilen Kennung.",
     where: "Der von Ihnen benannte Anbieter",
     when: "Nur wenn alle Bedingungen gleichzeitig erfüllt sind, und die Menge unterscheidet sich je nach Plattform. Am Computer sind es fünf: Sie haben einen Anbieter benannt, diesem konkreten Anbieter zugestimmt, seinen Schlüssel hinterlegt, die KI aktiviert und den Entwicklermodus eingeschaltet. Auf dem Telefon gelten die ersten vier; einen Entwicklermodus gibt es dort nicht, also sind es vier. Jede einzelne ist standardmäßig aus; ohne benannten Anbieter ist der Pfad nicht erreichbar, nicht bloß abgeschaltet. Eine Anfrage je Aufgabe, die Sie stellen — außer beim Agentenlauf, der eine begrenzte Folge davon auslöst: wie viele, entscheidet das Modell, nicht wir.",
   },
@@ -240,10 +240,12 @@ const notStored = [
         <p style={body}>
           Ein Teil davon sei ausdrücklich genannt, weil er nicht dem entspricht, was man unter
           &bdquo;Notiztext&ldquo; erwartet. Wenn Sie die KI <strong style="color:#e6e6e4;">Änderungen</strong>
-          an mehreren Notizen vorschlagen lassen, erhält sie zuerst die <em>Liste</em>: Titel und Kennung
-          jeder Notiz im freigegebenen Bereich, gesendet, bevor sie eine einzige davon gelesen hat. Wer
-          also einen Ordner freigibt und den Lauf dann abbricht, hat die Titel dieses Ordners dennoch
-          gesendet. Titel sind oft die aufschlussreichste Zeile einer Notiz. Die Kennungen sind stabil,
+          an mehreren Notizen vorschlagen lassen, erhält sie zuerst die <em>Liste</em>: Titel, Kennung
+          und Ordnerpfad jeder Notiz, die sie lesen darf, gesendet, bevor sie eine einzige davon gelesen
+          hat. Diese Menge ist Ihr gesamter Vault abzüglich der von der KI ausgeschlossenen Ordner,
+          sofern Sie sie im Composer nicht einschränken. Wer also eine Unterhaltung beginnt und den Lauf
+          dann abbricht, hat dennoch alle diese Titel gesendet, und den Ordner, in dem jede Notiz liegt.
+          Titel sind oft die aufschlussreichste Zeile einer Notiz. Die Kennungen sind stabil,
           sodass ein Anbieter, der Anfragen aufbewahrt, erkennen kann, dass zwei davon dieselbe Notiz
           betreffen.
         </p>

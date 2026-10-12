@@ -25,7 +25,7 @@ const description =
 const canonical = new URL("/privacy/", Astro.site!).toString();
 const ogImage = absoluteOg("privacy", Astro.site!);
 
-const effective = "3 October 2026";
+const effective = "12 October 2026";
 
 const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
 const h2 =
@@ -83,7 +83,7 @@ const network = [
   },
   {
     feature: "AI via a remote provider",
-    goes: "Yes — note text leaves your device. An agent run also sends the titles and identifiers of every note in the scope you approved, before it has read any of them. It also carries what it remembers about you: distilled facts from earlier runs (at most 100 entries) and your voice preferences, each entry with a stable identifier.",
+    goes: "Yes: note text leaves your device. An agent run also sends the titles, identifiers and folder paths of the notes it may read, before it has read a single one of them. Unless you narrow it, that set is your whole vault minus the folders you excluded from AI. It also carries what it remembers about you: distilled facts from earlier runs (at most 100 entries) and your voice preferences, each entry with a stable identifier.",
     where: "The provider you named",
     when: "Only when every condition is true, and the set differs by platform. On a computer there are five: you named a provider, you consented to that specific provider, you supplied its key, AI is enabled, and developer mode is on. On a phone the first four apply and there is no developer mode, so there are four. Every one of them is off by default, and with none named the code path is unreachable rather than merely disabled. One request per thing you ask for, except an agent run, which makes a bounded series of them: how many is decided by the model, not by us.",
   },
@@ -253,10 +253,11 @@ const notStored = [
         <p style={body}>
           One part of that is worth spelling out, because it is not what &ldquo;note text&rdquo; brings to
           mind. When you let the AI propose <strong style="color:#e6e6e4;">changes</strong> to a set of
-          notes, the first thing it receives is the <em>list</em>: the title and identifier of every
-          note in the scope you approved, sent before it has read a single one of them. So approving a
-          folder and then stopping the run still sent that folder&rsquo;s titles. Titles are often the
-          most revealing line in a note. The identifiers are stable, so a provider that keeps requests
+          notes, the first thing it receives is the <em>list</em>: the title, identifier and folder path
+          of every note it may read, sent before it has read a single one of them. That set is your
+          whole vault minus the folders you excluded from AI unless you narrow it on the composer, so
+          starting a conversation and then stopping the run still sent every one of those titles, and
+          the folder each note sits in. Titles are often the most revealing line in a note. The identifiers are stable, so a provider that keeps requests
           can tell that two of them concern the same note.
         </p>
         <p style={body}>

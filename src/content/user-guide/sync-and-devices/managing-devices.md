@@ -1,12 +1,12 @@
 ---
 title: "Managing devices"
 category: "sync-and-devices"
-updated: 2026-08-24
-summary: "View the devices on your account, rename one, and remove one. Covers the device list, the confirmation before a removal and what removal really does (it revokes sync access but is not a remote wipe), recovering a device removed elsewhere, resetting sync locally, and the recovered notes kept when a deletion arrives by sync."
+updated: 2026-10-13
+summary: "View the devices on your account, rename one, and remove one. Covers the device list, the Vault members panel and what each shows, what removal really does (it revokes sync access, never a remote wipe), how removing a device differs from removing a member, resetting sync locally, and the recovered notes kept when a deletion arrives by sync."
 tags: ["devices", "sync", "security"]
 ---
 
-The **Devices** section of **Settings → Sync** lists the devices connected to your account and lets you approve pending ones or remove ones you no longer want syncing. Before removing a device, it is worth being precise about what removal does and does not do — the honest answer is narrower than "kick it off," and this page states it plainly.
+**Settings → Sync** carries two lists that are easy to confuse, and this page keeps them apart. The **Devices** section lists the machines connected to your account: approve a pending one, rename one, remove one you no longer want syncing. The **Vault members** panel lists the people in a shared vault. Removing a device and removing a member sound alike and are not; before either, it is worth being precise about what removal does and does not do, and the honest answer is narrower than "kick it off."
 
 ![The Devices section of Sync settings, which lists the devices on your account.](./managing-devices.png)
 
@@ -16,6 +16,29 @@ Under **Settings → Sync → Devices**, you see:
 
 - **Your devices**: the approved devices on the account. The one you are using is marked **This device**. Each shows an editable name, which it was given when it was added; a device enrolled before names existed falls back to a short name derived from its identifier. The **Rename** action on a row turns the name into an editable field in place: Enter saves it, Esc cancels. A device's name is also what labels its revisions in a note's [version history](/user-guide/safety-and-recovery/note-snapshots/), where a device you have not named shows a short code instead.
 - **Awaiting approval**: devices that have connected with a password and are waiting for an existing device to approve them. Approving one starts the verification-code compare described in [Add a device](/user-guide/sync-and-devices/add-a-device/).
+
+This list is the server's own roster of enrolled devices, so it counts installations rather than people: two of your own computers are two rows, and your computer and your phone are two more. It holds no name, no note content and no key material, and the server cannot read what any device carries.
+
+## The Members list
+
+The **Vault members** section of the same panel answers a different question: who is in this vault. It lists one row per person, not per device, and on a vault nobody has been invited to yet it says so instead of showing an empty list.
+
+- A row shows the member's name when Myne has one whose signature it can check. A member who has no name, or whose name record did not check out, shows the short fingerprint instead.
+- A name record that exists without a signature behind it is marked **Name not verified** rather than shown as that member's name. A name is a label, not a credential, and this is where that shows.
+- Each row carries a role: **Owner** for the person who created the vault, **Member** for everyone else. Your own row shows **You**.
+- The owner is the one who sees the controls that invite someone or remove a member. A member sees the list and their own row.
+
+This list lives inside the encrypted vault, so your sync server relays it but cannot read it. One person is one row here, whatever number of devices they use, which is the difference from the device list above.
+
+## Removing a device is not removing a member
+
+The two lists have their own removal, and they do different things.
+
+Removing a device from **Devices** retires that installation: the server stops syncing to it. The person who uses it stays a member, and their other devices are unaffected. Nothing the retired device already did is rewritten. If the same person signs in again later, that is a new device row; the retired one does not come back.
+
+Removing a member from **Vault members** is the larger act, and only the owner can do it. It ends their membership: the vault's keys rotate so they receive no future changes, and the record that tied their devices to them is tombstoned, so the work they do afterwards is no longer attributed to them. It does not reach into what is already on their device, and it does not delete the notes they wrote. [Sharing a vault with members](/user-guide/sync-and-devices/sharing-a-vault-with-members/) covers what the owner sees when they remove a member.
+
+Neither removal is a remote wipe, and neither reaches back into a copy a device already holds.
 
 ## Removing a device
 

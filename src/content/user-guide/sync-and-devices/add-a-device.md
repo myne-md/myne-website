@@ -1,12 +1,12 @@
 ---
 title: "Add a device"
 category: "sync-and-devices"
-updated: 2026-10-05
-summary: "Connect another device to your account and approve it. Covers the beta terms each device accepts before it first syncs, joining from a fresh device or one that already holds the vault, naming the device, pairing by a QR code, comparing a verification code between the two devices, and what Myne says when the server refuses an enrolment."
+updated: 2026-10-13
+summary: "Connect another device to your account and approve it. Covers the beta terms, joining from a fresh device or one that already holds the vault, naming the device, pairing by a QR code, comparing a verification code, what Myne says when the server refuses an enrolment, and a member's second device joining from the recovery phrase alone."
 tags: ["devices", "sync", "recovery"]
 ---
 
-Adding a device connects it to your account so it syncs the same notes. A device you add with your password waits until a device that already has access approves it, and both devices then compare a short verification code to confirm they are on the same account. This page covers both ends of that flow.
+Adding a device connects it to your account so it syncs the same notes. A device you add with your password waits until a device that already has access approves it, and both devices then compare a short verification code to confirm they are on the same account. This page covers both ends of that flow, and the shorter path a member of a shared vault takes when they bring in a second device of their own.
 
 ![The Add a device form in Sync settings, where you sign a new device in to your account.](./add-a-device.png)
 
@@ -74,6 +74,19 @@ A device you joined from the welcome screen shows the same **verification code**
 
 - **They match, continue** finishes joining, and the device starts syncing.
 - **They don't match, remove this device** disconnects this device from the account, so it stops trusting the synced data, and undoes the join. If the disconnect itself fails, the screen stays open and says so: the device is still enrolled with that server and should be treated as untrusted until you remove it from **Settings → Sync** on a device that already has access. No notes are deleted either way.
+
+## Add a second device to a shared vault
+
+If you have already joined someone else's vault as a member, you bring a second device into it yourself. The flow is yours alone: it needs no owner, no owner action and no fresh invite, because the membership is already in your name and the vault is already addressed to you. Recovering your identity from your recovery phrase is the whole of what the new device needs from you, and it is the same phrase you use on any device you join.
+
+On the new device:
+
+1. Enter your recovery phrase. That recovers your identity, and it is the only secret this flow asks for.
+2. Myne finds the shared vaults that are already addressed to you. You are not asked to paste the owner's identity code again: your first device saved it for you when it joined, because the server is not allowed to hand it out.
+3. Choose the vault, and type your recovery phrase again when Myne asks for it. The phrase is what your own copy of the vault's keys is sealed to, so it is asked here as well as at the start. Myne then fetches your place in the vault from the server and checks the result against the owner it recorded before it installs anything. A device that cannot confirm the owner is the one you expect refuses rather than proceeding; a vault whose key material cannot be reached right now answers a plain "not reachable" you can retry, not a lockout.
+4. Set a password for this device. It is the same kind of device-local password the first join asks for: it opens this shared vault here, it is not the owner's password, and your recovery phrase stays the portable way back in on any device. You can change it later under **Settings → Privacy → Shared vault unlock**.
+
+There is no display-name step, and none is needed. The name you chose for that vault is already yours and travels with your membership, so the second device shows it from the moment it opens, the same as the first. The second device is not a second-class copy: it opens the same vault, the same notes and the same membership, and the revisions you make from it are attributed to you the same way your first device's are.
 
 ## When the server refuses
 

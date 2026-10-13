@@ -80,4 +80,4 @@ myne monthly:append "…"
 
 A periodic note is matched by its folder and its title together. If you rename this week's note, or move it out of its folder, **Open this week's note** no longer recognizes it and will create a fresh one for the week. Keep both if you want the command to keep finding it.
 
-For the same reason, pointing two periods at the same folder **and** the same title format makes both commands open the same note. Settings warns you when you do, and does not stop you.
+These are settings the AI can change for you as well: the folder, the template and the date format for each period. Ask in the AI Chat tab, as [Let the AI change your notes](/user-guide/ai/agent-runs/#changing-settings) describes, and approve the change on the review screen.

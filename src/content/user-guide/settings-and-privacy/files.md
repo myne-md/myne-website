@@ -52,4 +52,4 @@ All four settings are stored inside your vault's encrypted preferences. The star
 
 **Compress images on import** changes an attachment's size and fidelity, not its protection — the file is encrypted either way. The compression happens once, at import, and cannot be undone: Myne does not keep the original bytes.
 
-**Search inside images and scanned documents** runs the text extraction on your device; nothing is uploaded, and the extracted text is stored inside the vault's own encrypted files, like the rest of your notes. Turning it off stops new extraction but does not remove text already extracted.
+Where new notes are created is one of the settings the AI can change for you. Ask in the AI Chat tab, as [Let the AI change your notes](/user-guide/ai/agent-runs/#changing-settings) describes, and approve the change on the review screen.

@@ -70,6 +70,8 @@ These are cosmetic display preferences. They change how your notes are drawn on 
 
 The values are stored in the encrypted vault prefs, but they are not load-bearing: a tampered or replayed value can at worst change how text renders, show or hide the line-number gutter, or print a date in a different layout. There is no security claim attached to them. How your notes themselves are protected is covered in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/).
 
+The editor text size is per-device, so the AI declines to change it: a change made on the machine you asked from would not reach your other devices. Everything else in this article that travels in the vault is a setting the AI can change for you. See [Let the AI change your notes](/user-guide/ai/agent-runs/#changing-settings).
+
 ## Shortcuts
 
 | Action | macOS | Windows / Linux |

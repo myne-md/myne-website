@@ -75,6 +75,26 @@ The review screen does not open when the apply succeeds. Nothing is held for you
 
 If the automatic apply fails outright, nothing is written and the composer says so: **The changes could not be applied automatically. Nothing was written; open the review to apply them yourself.** The proposal survives, so the review screen opens with everything the run proposed still on it: a failed automatic apply costs you the convenience rather than the proposal.
 
+## Changing settings
+
+Some requests are about your settings rather than your notes. "Change my weekly notes folder to Journals/Weekly" is one of those: the AI proposes the change, and the review screen shows the setting as it is now and what it would become.
+
+A setting change is always its own decision. The **Approve** action that applies several note changes at once never carries one, and **Apply automatically** never writes one either, because a setting is not inside the folder you gave the run. Approve it on its own, or reject it and change it yourself in Settings. "Remove my weekly notes folder setting" is a request of its own too, and the review screen shows it as a removal rather than as an empty value.
+
+These are the settings the AI can change:
+
+- The folder, the template and the date format for daily, weekly and monthly notes.
+- Where new notes are created.
+
+And these are the ones it declines, with the reason it gives:
+
+- **The settings that bound what AI and the CLI may reach.** The folder exclusions, screen-capture protection, auto-lock, Terminal access with its own folder exclusions and rate limit, the AI switch, and provider consent. A change here would move the limit the AI itself runs under, so the AI tells you to change it yourself.
+- **The settings that belong to one device.** The theme, the editor text size and **Show edit times** are kept per device and do not sync. A change would land on this machine and leave your other devices showing the old value, with nothing on screen saying why, so the AI declines these as well.
+
+A setting change is not offered at all in a note's own detached window, and the AI says so if you ask there. That window runs the same copy of Myne as the main window but is not allowed to write your preferences, so a change approved there could not be carried out. Ask in the main window instead.
+
+Undoing a run puts a changed setting back, and the report counts the settings it restored separately from the notes.
+
 ## Reviewing on a phone
 
 The review screen is the same decision in a shape that fits a phone. It opens on

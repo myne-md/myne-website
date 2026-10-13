@@ -85,6 +85,7 @@ These are the settings the AI can change:
 
 - The folder, the template and the date format for daily, weekly and monthly notes.
 - Where new notes are created.
+- The formats Myne uses to show dates and times.
 
 And these are the ones it declines, with the reason it gives:
 

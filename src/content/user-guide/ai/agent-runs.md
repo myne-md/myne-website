@@ -92,7 +92,7 @@ And these are the ones it declines, with the reason it gives:
 - **The settings that bound what AI and the CLI may reach.** The folder exclusions, screen-capture protection, auto-lock, Terminal access with its own folder exclusions and rate limit, the AI switch, and provider consent. A change here would move the limit the AI itself runs under, so the AI tells you to change it yourself.
 - **The settings that belong to one device.** The theme, the editor text size and **Show edit times** are kept per device and do not sync. A change would land on this machine and leave your other devices showing the old value, with nothing on screen saying why, so the AI declines these as well.
 
-A setting change is not offered at all in a note's own detached window, and the AI says so if you ask there. That window runs the same copy of Myne as the main window but is not allowed to write your preferences, so a change approved there could not be carried out. Ask in the main window instead.
+A setting change is not offered at all in a note's own detached window, and the AI says so if you ask there. That window runs the same copy of Myne as the main window, so it can show you your notes, but the app does not offer it a setting change to make. Ask in the main window instead.
 
 Undoing a run puts a changed setting back, and the report counts the settings it restored separately from the notes.
 

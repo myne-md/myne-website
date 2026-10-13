@@ -1,8 +1,8 @@
 ---
 title: "Sharing a vault with members"
 category: "sync-and-devices"
-updated: 2026-10-10
-summary: "Invite other people into one shared vault. Each member joins with their own identity and credentials; your master password and recovery phrase never leave your control. Covers sharing, owner and member roles, inviting and accepting, unlocking your identity on a device, and what removal does and does not do."
+updated: 2026-10-12
+summary: "Invite other people into one shared vault. Each member joins with their own identity, sets a password for their own device and picks the name the others see; your master password and recovery phrase never leave your control. Covers roles, inviting and accepting, names in the member list, and what removal does and does not do."
 tags: ["devices", "sync", "security"]
 ---
 
@@ -32,7 +32,19 @@ A shared vault has exactly one owner, the person who created it, and zero or mor
 
 1. Open Myne. At zero vaults, an identity-only home shows the invites addressed to you.
 2. Paste the owner's identity code and check the fingerprint it produces against the one the owner reads you. Confirm it explicitly.
-3. Enter your own recovery phrase to finish. The shared vault unlocks as a member. You keep your own credentials, and you are never shown an owner-only control.
+3. Enter your own recovery phrase.
+4. Choose a password for this vault **on this device**. It is separate from the owner's password and from your recovery phrase: it opens this shared vault here, and your phrase stays the portable way back in.
+5. Choose a display name. This is what the other members see beside your fingerprint in the member list.
+
+The shared vault then unlocks as a member. You keep your own credentials, and you are never shown an owner-only control.
+
+## Your name in the member list
+
+Every row of the **Vault members** panel (Settings → Sync) follows one rule: the name when that member has one, the short fingerprint when they do not, and the role badge either way. A row with no name is still identified, just less usefully, which is why the name step is part of accepting.
+
+A name is **per vault**, not per person. The same person can be called one thing in your vault and something else in another they belong to, and nothing about it follows them between vaults. Your own name syncs to the other members, so they see it without you telling them.
+
+You can change your name later from your own row, or clear it and go back to the fingerprint. A name is a label rather than a credential. It is signed by the person it names, which stops another member claiming your row, and the list marks a name it could not verify rather than showing it as that member's name. It still proves nothing about who a person is beyond the key they hold, so compare fingerprints out of band when identity matters.
 
 ## After acceptance
 
@@ -40,7 +52,9 @@ Every member of a shared vault can read and write the vault's notes and attachme
 
 When you and another member have the same note open at the same time, you see each other's cursors, selections and names as you type. See [Live collaboration](/user-guide/sync-and-devices/live-collaboration/) for what is shown and what it does and does not prove.
 
-A member vault has no password of its own. On a later start you unlock it with your recovery phrase, the same phrase as your identity. If you would rather not retype the phrase every session, set a **shared-vault password** under **Settings → Privacy → Shared vault password**. It stores a copy of that vault's keys on this device, wrapped by your password, so the vault re-opens with the password instead. The phrase still works everywhere and stays the fallback, and on a new device the password must be set again. The stored copy also carries your identity, so a leaked shared-vault password would open your identity in your other vaults too; leave it off if a stolen device is part of your threat model.
+The password you chose when you accepted is stored on this device only, and it is not the owner's password. On a later start the Unlock screen says the vault is shared with you and asks for the password you set here. Your recovery phrase still opens the vault anywhere, and on a new device the password has to be set again.
+
+To change that password, replace it with a PIN or a device biometric, or remove it and go back to the phrase, use **Settings → Privacy → Shared vault unlock**. If you accepted an invite before that step existed, the vault asks for your recovery phrase every time until you set one, and the row says so. The stored copy also carries your identity, so a leaked shared-vault password would open your identity in your other vaults too; leave it off if a stolen device is part of your threat model.
 
 ## Unlocking your identity on a device
 

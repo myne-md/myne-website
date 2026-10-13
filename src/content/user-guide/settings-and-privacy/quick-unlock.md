@@ -1,8 +1,8 @@
 ---
 title: "Quick unlock with a PIN or Touch ID"
 category: "settings-and-privacy"
-updated: 2026-10-05
-summary: "Opt in to re-entering a vault after auto-lock with a short PIN, or macOS Touch ID, instead of the full master password. It is device-local, off by default; a PIN still needs the master password after a restart, while a configured Touch ID credential can be used on a cold start."
+updated: 2026-10-12
+summary: "Opt in to re-entering a vault after auto-lock with a PIN or macOS Touch ID instead of the full master password. Device-local and off by default; a PIN still needs the master password after a restart. A vault shared with you instead uses the password you set on this device when you accept."
 tags: ["security", "privacy", "settings"]
 ---
 
@@ -50,6 +50,16 @@ Quick unlock is wiped, and you fall back to the master password, when any of the
 - For Touch ID, the enrolled set of fingerprints changes at the operating-system level.
 
 After any of these, quick unlock is simply gone until you set it up again from Settings. Nothing about your vault, your notes, or your recovery phrase is affected — only the convenience credential on this device.
+
+## A vault that was shared with you
+
+A vault someone invited you into has no password of its own and no master password to fall back on. Your portable credential there is your own recovery phrase, the same phrase as your identity.
+
+When you accept an invite you choose a password for that vault on this device. The Unlock screen asks for it on later starts, the row that manages it is **Settings → Privacy → Shared vault unlock**, and it is not the owner's password. That credential is device-local like the one above: it never syncs, and on a new device you set it again. You can replace it with a PIN or a device biometric from the same row, or remove it and go back to typing the phrase.
+
+Two differences from the quick unlock above are worth knowing. The member credential is not gated behind a full password unlock after a restart, because for a shared vault it is the primary path rather than a convenience layered on one. And if you accepted the invite before this step existed, no credential is set: the row offers **Set**, and the vault asks for your recovery phrase every time until you use it.
+
+The same limits below apply here. A PIN is short, the credential is device-local, and the stored copy also carries your identity, so a leaked shared-vault password would open your identity in your other vaults too.
 
 ## Limits
 

@@ -66,3 +66,5 @@ Three smaller controls sit alongside the theme:
 ## Limits
 
 Appearance settings change presentation only, and never affect what is encrypted or what is stored. Most of them settle per device rather than per vault. The theme, the custom-theme selection and **Show edit times** live in the vault's encrypted preferences, but each device keeps its own answer for them, so changing one here does not reach your other machines. The accent color and the graph's own appearance controls are not in the vault at all; they are kept on this device. Two things do travel: **Show task marker** is a vault-level choice and follows you to your other devices, and the custom themes themselves are vault content, so a palette you import arrives on your other devices once sync has run, even though which one is active stays a per-device choice.
+
+Because the theme and **Show edit times** are per-device, the AI declines to change them: a change made on the machine you asked from would not reach your other devices, so it points you here instead. See [Let the AI change your notes](/user-guide/ai/agent-runs/#changing-settings).

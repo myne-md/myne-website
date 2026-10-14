@@ -54,4 +54,4 @@ This works whichever date format you have chosen, and in whichever language you 
 
 These settings change presentation only. They do not encrypt anything, protect anything, or change what is stored: nothing here alters a byte in a note, and nothing here changes what the server can read, which for the encrypted preferences file is nothing. The server does hold that file's ciphertext, its size and a version counter, as it does for everything else you sync.
 
-The dates and times you write in a note are stored without a zone, so a note does not record where you were when you wrote it. The time-zone setting is a display preference kept in the vault's encrypted preferences, and it never becomes part of a note.
+The date and time formats are two of the settings the AI can change for you. Ask in the AI Chat tab, as [Let the AI change your notes](/user-guide/ai/agent-runs/#changing-settings) describes, and approve the change on the review screen.

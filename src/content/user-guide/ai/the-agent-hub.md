@@ -1,7 +1,7 @@
 ---
 title: "The agent hub"
 category: "ai"
-updated: 2026-09-27
+updated: 2026-10-11
 summary: "Every conversation you have had with the AI, in one place you can open as a tab. Search it, open one beside the note it was about, and watch a run without losing the note you were writing."
 tags: ["ai", "notes"]
 ---
@@ -25,9 +25,13 @@ You can also put it on the left ribbon. It is not there by default — add it fr
 
 ## The list
 
-Conversations are listed newest first. Each row shows its title, when it was last used, and — for a conversation that was about a particular note — a small **note** chip.
+Conversations are listed newest first. Each row is one card, and the whole card is the button: pressing anywhere on it opens that conversation.
 
-- **Open** a row to read it and continue it. The conversation appears beside the list, not instead of it, so you can keep scanning while you read.
+- **An icon on each card says what it is about**: a note, a folder, or nothing in particular, which means the whole vault. The same fact is on the card's chip when it is anchored to a note.
+- **Point at a card** and it shows the first words you typed in that conversation, on one line. Two conversations with similar titles are otherwise hard to tell apart.
+- **The controls for a card are behind a menu** on the card's right, which appears when you point at it or reach it with the keyboard. That keeps the list reading as titles rather than as buttons.
+- **The card for the conversation you have open is shaded**, so the list and the reading pane cannot disagree about which one you are in.
+- **A conversation with a run in flight carries a small spinner** beside its title. The run belongs to the conversation rather than to the pane you started it from, so it keeps working while you read something else, and the spinner is how the list says where.
 - **Search** narrows the list by title as you type.
 
 Renaming and deleting work here exactly as they do everywhere else, including what a delete does on your other devices — see [Chat history](/user-guide/ai/ai-chat-history/).
@@ -35,6 +39,20 @@ Renaming and deleting work here exactly as they do everywhere else, including wh
 ## Working on a note
 
 Opening a row, or using **Agent: open on note**, switches the tab to a single conversation with a link back to the note it is anchored to. The tab sits in your workspace like any other, so you can split it beside that note and keep writing while a run works.
+
+## The run's footprint
+
+Each run leaves one line in the conversation at the point where it happened: what it did, how long it took, and a control to open the numbers behind it. Nothing is pinned to the bottom of the panel, so the line scrolls away with the messages around it and scrolling back through a conversation finds every run's own record.
+
+Open the line and it shows three figures: how many requests the run made, how many notes it read, and roughly how many characters of your notes were sent to the provider, or **nothing left this device** when it stayed here. Those are the same figures the review screen reports, and they are the disclosure for a run that used a remote provider. If the run wrote something to your AI memory, that appears there too, as one chip per entry written.
+
+A run that stopped, failed or was cancelled says so on its own line, with the reason.
+
+## Moving a note
+
+A run can propose that a note move to another folder. It is a request like any other: it appears on the review screen, one row per move, showing the note and the folder it is in now beside the folder it would land in. Nothing moves until you approve that row.
+
+Two things are refused rather than proposed away. A note in a folder you excluded from AI cannot be moved out of it, and no note can be moved into one: a folder you excluded is a boundary a run does not cross, and the refusal appears above the run's own summary so you read what did not happen before you read what did.
 
 
 ## Limits

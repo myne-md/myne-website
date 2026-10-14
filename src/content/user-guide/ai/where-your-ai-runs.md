@@ -1,7 +1,7 @@
 ---
 title: "Where your AI runs"
 category: "ai"
-updated: 2026-10-03
+updated: 2026-10-11
 summary: "Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin. This page covers the three things you can name (a model file here, a runtime here, or a remote provider), what each means for where your notes go, and the consent screen and API key a provider adds."
 tags: ["ai", "privacy", "security", "settings"]
 ---
@@ -35,6 +35,12 @@ Under **Local model runtime** you can point Myne at a model runtime you already 
 The address must name this computer. If you enter one that does not, Myne refuses it and says why: "This address must be on this computer: localhost, 127.0.0.1 or ::1. To use a provider that runs somewhere else, name it under Provider instead." The check is on the address you typed, not on where a name happens to point today.
 
 Myne states the honest bound on the runtime itself: it "is a separate program with its own network behaviour, and Myne does not control it. Your notes are sent to it while it runs on this computer." The link the panel offers to that runtime's own site opens in your browser as an operating-system handoff: Myne fetches nothing.
+
+## Conversation titles are generated here, never by a provider
+
+When you send the first message in a new conversation, Myne titles it from your own words: the opening of that message, shortened. If a text model is installed on this computer, Myne also asks that model for a shorter title and uses it when it can, so the list reads better than a truncated sentence does.
+
+That second step never reaches a provider, in any configuration, even when a provider is answering your questions. It is routed through the same class of request as inline ghost text and tag suggestions, which Myne refuses to send to a remote service at all. So a title adds nothing to what a provider already receives; your conversation titles are produced on this device, always. With no model installed, nothing but the shortening runs, and that makes no model call at all.
 
 ## Naming a remote provider
 

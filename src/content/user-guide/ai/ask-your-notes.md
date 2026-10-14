@@ -1,7 +1,7 @@
 ---
 title: "Ask your notes"
 category: "ai"
-updated: 2026-08-24
+updated: 2026-10-11
 summary: "The AI Chat tab has one composer, and every message you send starts an agent run. The run works on the notes in the scope you set, can search the rest of your vault from this device, and writes its answer into the transcript."
 tags: ["ai", "search"]
 ---
@@ -22,14 +22,16 @@ The header shows a status: **No provider**, **Not answering**, **Unavailable**, 
 
 ## Asking a question
 
-1. Check what the run may touch. The line above the box reads **Working on** followed by **This note**, or the name of a folder. Press **Change** to pick a different one.
+1. Check what the run may touch. The control under the box is marked **Working on** and reads **All notes** for a new conversation, or a folder you attached, or **This note** when the sidebar has a note open beside the box. Press it to pick a different one.
 2. Type your question in the box marked **Ask the AI to change these notes**. The same box takes questions and change requests; there is no mode to choose.
 3. Press Enter to send, or Shift+Enter to start a new line.
 4. Your turn appears in the transcript with the scope it was sent under, followed by the assistant's turn.
-5. The answer arrives whole rather than a word at a time, so a long question is a wait with nothing on screen changing. While the run works, its status, the number of notes it can currently change and a **Stop** button sit just above the composer. Stopping ends the run; there is no partial answer to keep.
-6. Underneath the answer the run reports three figures: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider, or **nothing left this device** when the run stayed here.
+5. The answer arrives whole rather than a word at a time, so a long question is a wait with nothing on screen changing. The run's own line in the transcript says it is working, and **Stop** sits under the box. Stopping ends the run; there is no partial answer to keep.
+6. The same line reports what the run cost when it stops. Open it for the three figures: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider, or **nothing left this device** when the run stayed here. See [The agent hub](/user-guide/ai/the-agent-hub/) for that line.
 
-With no note open and no folder attached, there is nothing for a run to work on, so **Send** stays greyed out and nothing on screen says why. Open a note, or press **Change** and pick a folder. Notes at the top level of your vault are not offered as a folder: the list holds the folders your notes are actually in.
+**A new conversation starts on the whole vault**, minus any folder you excluded from AI. That is the default because "ask about my notes" is the ordinary question; attaching a folder or leaving **This note** makes it narrower. Next to the count of notes in scope, the panel also says how many your excluded folders took out, including when that number is zero, so a number you did not expect is explainable where you are looking rather than in another article.
+
+When there is genuinely nothing to work on (the vault is empty, or every note in it sits in an excluded folder) the box refuses what you type and the scope control is outlined, so the block is on screen before you have written a paragraph. Notes at the top level of your vault are not offered as a folder: the list holds the folders your notes are actually in.
 
 A run that proposes changes opens a review screen when it stops. A run that only answered you does not: the answer stays in the transcript. See [Let the AI change your notes](/user-guide/ai/agent-runs/).
 

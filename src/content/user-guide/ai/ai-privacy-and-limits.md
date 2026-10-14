@@ -1,7 +1,7 @@
 ---
 title: "AI privacy and limits"
 category: "ai"
-updated: 2026-10-03
+updated: 2026-10-11
 summary: "The honest boundary of Myne's AI: nothing is sent until you name a provider, what leaves your device when you do, a model runtime that runs in-process and is not sandboxed from your notes, the encrypted embedding index at rest, what an agent run learns about notes it cannot read, and what AI does not do."
 tags: ["ai", "privacy", "security"]
 ---
@@ -46,6 +46,14 @@ but it is worth saying plainly: for that part, Myne is asking the provider to
 retain something rather than merely accepting that it might. What the provider
 actually does with anything it receives is outside what Myne can see or promise,
 and that has not changed.
+
+## Folders you exclude
+
+Excluding a folder from AI is the control that keeps notes out of every AI path: nothing in that folder is read, indexed, or sent, and the exclusion survives across the whole feature rather than applying to one surface. The list is in **Settings → Developer → AI**, under **Excluded folders**, and you can either pick a folder from the control above the box or type a path on its own line; the box is the authority, and it is the same list the command-line client honors.
+
+The guarantee covers writes as well as reads, and it covers a folder **move** as well as an edit. A note in an excluded folder cannot be moved out of it by a run, and no note can be moved into one, whatever the run asks for: the destination is checked before the move is applied, exactly as the note's current folder is. A refused move appears on the review screen above the run's own summary, so the summary does not describe work that was not done.
+
+That refusal is deliberate rather than a limitation. A folder you excluded is a boundary about where your notes live, and a run that could move a note across it would make the exclusion advisory.
 
 ## In-process, not sandboxed
 

@@ -112,6 +112,7 @@
       "overview",
       "attachments",
       "voice-notes",
+      "meeting-notes",
       "attachments-library",
       "import-your-notes",
       "combine-two-vaults",
@@ -129,6 +130,7 @@
       "where-your-ai-runs",
       "ask-your-notes",
       "summarize-a-note",
+      "meeting-summaries",
       "suggest-tags",
       "writing-assistant",
       "agent-runs",
@@ -154,7 +156,8 @@
       "sync-status",
       "storage-and-limits",
       "resolving-conflicts",
-      "managing-devices"
+      "managing-devices",
+      "live-collaboration"
     ]
   },
   {

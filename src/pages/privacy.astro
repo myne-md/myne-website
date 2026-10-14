@@ -95,15 +95,15 @@ const network = [
   },
   {
     feature: "Tor routing",
-    goes: "Routes sync through Tor",
-    where: "The Tor network, then your sync server",
+    goes: "Routes sync, and on desktop AI provider requests, through Tor",
+    where: "The Tor network, then your sync server or the AI provider",
     when: "Only if you switch it on.",
   },
   {
     feature: "Update check",
-    goes: "None",
-    where: "—",
-    when: "There is no auto-updater. The app never phones home to ask whether it is current.",
+    goes: "Your version and platform, plus your IP (which the origin does not log). Never your notes or your account.",
+    where: "downloads.myne.md",
+    when: "Automatically, on by default: shortly after launch and about once a day. Turn it off in Settings → About, where you can also check by hand. The update itself is verified against an offline release key before it installs.",
   },
   {
     feature: "Analytics, telemetry, crash reports",

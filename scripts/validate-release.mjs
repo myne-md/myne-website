@@ -69,7 +69,13 @@ for (const a of assets) {
   seen.add(a.name);
   if (!/^[0-9a-f]{64}$/.test(a.sha256)) fail.push(`${a.name}: sha256 is not 64 lowercase hex`);
   if (!(a.bytes > 0)) fail.push(`${a.name}: bytes must be positive`);
-  if (version && !a.name.includes(version)) {
+  // The `myne-decrypt-*` CLI binaries are named without a version by convention
+  // (they are the tool, not a release of an app) and the origin serves them that
+  // way, so the version-in-name rule is exempt for them. Everything else must
+  // carry the version, or the page links a real file from a DIFFERENT release
+  // with this release's hash beside it.
+  const isVersionless = a.name.startsWith("myne-decrypt-");
+  if (version && !isVersionless && !a.name.includes(version)) {
     fail.push(`${a.name}: filename does not contain ${version}`);
   }
 }

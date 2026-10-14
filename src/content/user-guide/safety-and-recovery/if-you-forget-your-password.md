@@ -1,8 +1,8 @@
 ---
 title: "If you forget your password"
 category: "safety-and-recovery"
-updated: 2026-09-08
-summary: "What you can and cannot do if you forget your master password, how the 24-word recovery phrase lets you set a new one, what to check before you type it into a browser, and what happens if both are lost."
+updated: 2026-10-12
+summary: "What you can and cannot do if you forget your master password, how the 24-word recovery phrase lets you set a new one, why a vault shared with you is different, what to check before you type the phrase into a browser, and what happens if both are lost."
 tags: ["recovery", "security"]
 ---
 
@@ -28,6 +28,12 @@ If you have turned it on, the Unlock screen also offers a faster way back after 
 
 Setting a new password through recovery also turns quick unlock off on this device. The PIN or Touch ID credential you had is deleted as part of the reset, without a prompt, so that anyone who knew the old PIN loses access along with the old password. Set it up again from **Settings → Privacy** when you want it back.
 
+## If you forget the password on a shared vault
+
+A vault someone invited you into does not ask for the owner's password, and the owner cannot reset yours. The password there is the one you chose when you accepted the invite, stored on that device only. Forgetting it costs you nothing: the Unlock screen offers your recovery phrase as the way in, and once the vault is open you set a new password for this device from **Settings → Privacy → Shared vault unlock**. The owner does not need to do anything and cannot do it for you.
+
+The phrase is worth more in a shared vault than in your own. In your own vault it is a second key to the same vault. In a shared one it is also your identity, the thing that makes you the same member to everyone else, so losing it costs more than losing the password does. Devices where the vault is still open keep working, and a device with a password set keeps working. What you cannot do is appear as yourself anywhere new: the owner cannot reissue your identity, and inviting you again with a fresh phrase makes you a new member with a new fingerprint. Your notes in that vault and the other members are unaffected either way. See [Sharing a vault with members](/user-guide/sync-and-devices/sharing-a-vault-with-members/) for what a member's credentials are.
+
 ## Recovering in a browser
 
 You can do the same thing at `app.example.com`. The **Forgot your password? Unlock with recovery phrase** link is on the browser's unlock screen too, it leads to the same 24-word grid, and it ends the same way, with a required new password. Two things are worth knowing before you type those words into a web page.
@@ -52,4 +58,4 @@ If both are truly lost, the only path forward is to start fresh. The Unlock scre
 
 ## Limits
 
-The recovery phrase recovers a forgotten **password**; it does not recover lost **vault files**. Keep the phrase and a recent [backup](/user-guide/safety-and-recovery/back-up-your-vault/) in separate, safe places. Together they cover both ways you could lose access.
+The recovery phrase recovers a forgotten **password**; it does not recover lost **vault files**. In a vault shared with you it is also your identity, so it is the one credential there with no replacement at all. Keep the phrase and a recent [backup](/user-guide/safety-and-recovery/back-up-your-vault/) in separate, safe places. Together they cover both ways you could lose access.

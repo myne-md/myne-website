@@ -1,7 +1,7 @@
 ---
 title: "How Myne protects your notes"
 category: "settings-and-privacy"
-updated: 2026-08-24
+updated: 2026-10-08
 summary: "The privacy model in plain language: what is encrypted on disk, how your password and recovery phrase protect it, the two opt-ins that can move data off your device, and what Myne cannot protect you from."
 tags: ["privacy", "security"]
 ---
@@ -26,7 +26,7 @@ Any one of these decrypts the vault's key, and with the key Myne decrypts your n
 
 ## Where your notes live
 
-Myne makes no network connection you did not ask for: no background connection, no analytics, no telemetry. Two settings, both off until you turn them on, can move data off this device, and nothing else does.
+Myne makes no background connection except one, and you can turn it off. The exception, added 2026-10-07, is the desktop update check: shortly after launch and about once a day it fetches your version and platform from Myne's own origin, which keeps no IP logs, and it is disablable under Settings → About. Beyond that: no analytics, no telemetry. Two settings, both off until you turn them on, can move data off this device, and nothing else does.
 
 **Sync** is one. When you turn it on, Myne stays zero-knowledge: only encrypted blobs leave your device, the server can never read your notes, and you can point Myne at [a server you host yourself](/user-guide/sync-and-devices/) instead of the hosted one. Either way Myne-the-company never sees your notes — the only thing sync changes is that ciphertext is stored and relayed between your devices, never decrypted off them. The app still sends no telemetry, synced or not.
 

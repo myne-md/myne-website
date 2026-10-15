@@ -1,18 +1,18 @@
 ---
 title: "The attachments library"
 category: "attachments-and-import"
-updated: 2026-08-24
+updated: 2026-10-15
 summary: "How the attachments library lists every file in your vault, how to search, filter and sort it, what the per-item menu can do to a file, how to see which notes use a given attachment, and what the unused-attachment cleanup checks before it deletes anything."
 tags: ["attachments"]
 ---
 
-The attachments library is where every file in your vault lives in one place. It opens as a full-pane view in the center of the window, the same space your notes use. You leave it by opening a note again; there is nothing to close.
+The attachments library is where every file in your vault lives in one place. It opens as its own tab in the tab strip, the same space your notes use, so you leave it by closing that tab or by opening a note. Because it is an ordinary tab, it can sit beside a note in a split pane, and the [left ribbon](/user-guide/getting-started/left-ribbon/) shows it as the surface you are looking at.
 
 ![The attachments library, the central place where files added to the vault are listed.](./attachments-library.png)
 
 ## Opening the library
 
-Open it from the **Open attachments…** command in the palette, or from its button in the sidebar.
+Open it from the **Open attachments…** command in the palette, from its button on the left ribbon, or from the destinations listed in a new, empty tab.
 
 ## Browsing
 

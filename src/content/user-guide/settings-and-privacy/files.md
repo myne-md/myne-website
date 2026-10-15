@@ -1,14 +1,14 @@
 ---
 title: "Files"
 category: "settings-and-privacy"
-updated: 2026-08-24
-summary: "The Files panel sets which file opens when Myne starts, where new notes are placed, whether imported images are compressed, and whether text is read out of image and scanned-PDF attachments for search. Choosing a startup file other than the last-opened one never overwrites your saved workspace layout, so switching back restores your panes."
+updated: 2026-10-15
+summary: "The Files panel sets which file opens when Myne starts, where new notes are placed, whether folder notes are on, whether imported images are compressed, and whether text is read out of image and scanned-PDF attachments for search. A startup file other than the last-opened one never overwrites your saved workspace layout."
 tags: ["settings", "notes", "folders", "attachments"]
 ---
 
-The Files panel holds four file-oriented preferences: which file opens when the app starts, where new notes are created, whether images are compressed as you import them, and whether Myne reads text out of image and scanned-PDF attachments so search can find them. All four are stored in your vault's encrypted preferences and take effect the next time the relevant action happens.
+The Files panel holds five file-oriented preferences: which file opens when the app starts, where new notes are created, whether a note can act as its folder's index, whether images are compressed as you import them, and whether Myne reads text out of image and scanned-PDF attachments so search can find them. All five are stored in your vault's encrypted preferences and take effect the next time the relevant action happens.
 
-![The Files settings panel, showing the startup file, new-note location, image-compression, and attachment text-recognition controls.](./files.png)
+![The Files settings panel, showing the startup file, new-note location, folder-notes, image-compression, and attachment text-recognition controls.](./files.png)
 
 ## Prerequisites
 
@@ -38,6 +38,12 @@ The **Default location for new notes** control decides where a newly created not
 
 This is only the default. Creating a note through a folder's own "new note here" action always places it in that folder, regardless of this setting. See [Notes and folders](/user-guide/notes-and-organization/notes-and-folders/) for the sidebar actions that create notes.
 
+## Folder notes
+
+The **Folder notes** control decides whether a note can act as its folder's index, opened by double-clicking the folder row, and whether a link like `[[Projects/]]` resolves to it. It is **off by default**. With it off, the buttons and menu items that create a folder note are hidden and any note already carrying the flag shows as an ordinary note.
+
+Turning it off changes nothing on disk: a note keeps its `folder_index: true` frontmatter either way, so switching the control back on restores exactly what was there. See [Folder notes](/user-guide/notes-and-organization/folder-notes/) for what a folder note is and how to use one.
+
 ## Compress images on import
 
 The **Compress images on import** control decides whether an image you paste or drop into a note is downscaled and re-encoded before it is encrypted and stored. It is on by default, so a vault of screenshots stays smaller on disk, in backups, and over sync. The transform is irreversible: Myne does not keep the original file, so anything added while this is on cannot be restored to its full-resolution bytes later. This preference is shared across the vault, so turning it off applies to the whole vault. See [Attachments](/user-guide/attachments-and-import/attachments/) for how attachment files are stored.
@@ -48,7 +54,7 @@ The **Search inside images and scanned documents** control decides whether Myne 
 
 ## Limits
 
-All four settings are stored inside your vault's encrypted preferences. The startup-file and new-note-location controls change where notes land and which one opens on launch — not what is protected or how. Selecting **New note** or **Specific note** as the startup file never deletes or overwrites the multi-pane layout saved from your last **Last opened** session; that layout stays on disk untouched until you return to **Last opened**.
+All five settings are stored inside your vault's encrypted preferences. The startup-file and new-note-location controls change where notes land and which one opens on launch — not what is protected or how. Selecting **New note** or **Specific note** as the startup file never deletes or overwrites the multi-pane layout saved from your last **Last opened** session; that layout stays on disk untouched until you return to **Last opened**.
 
 **Compress images on import** changes an attachment's size and fidelity, not its protection — the file is encrypted either way. The compression happens once, at import, and cannot be undone: Myne does not keep the original bytes.
 

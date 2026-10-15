@@ -1,7 +1,7 @@
 ---
 title: "Command line"
 category: "command-line"
-updated: 2026-08-24
+updated: 2026-10-15
 summary: "The myne command-line client lets you read, search, and add notes from a terminal. It talks to the Myne app you already have open and unlocked over a local socket on your device, and never opens the vault, holds a key, or asks for a password itself."
 tags: ["notes", "settings"]
 ---
@@ -14,7 +14,7 @@ The command line is for scripting and quick terminal work — piping a note into
 
 ## What it needs
 
-Because it drives the running app rather than the vault, the app must already be open, unlocked, and have **Terminal access** turned on, a setting that appears in Settings → Privacy only once Developer mode is on in Settings → About. When any of those is not true, the command refuses with a clear message and never prompts for anything. The command line runs on macOS and Linux; there is no Windows version. It is also a desktop-app feature only: a browser tab cannot host a local socket, so **Terminal access** is absent from the browser client's settings rather than greyed out, and the phone app does not have it either. See [The myne CLI](/user-guide/command-line/the-myne-cli/) for the full command set and how to turn it on.
+Because it drives the running app rather than the vault, the app must already be open, unlocked, and have **Terminal access** turned on, a setting that lives in the **CLI** panel and appears only once Developer mode is on in Settings → About. When any of those is not true, the command refuses with a clear message and never prompts for anything. The command line runs on macOS and Linux; there is no Windows version. It is also a desktop-app feature only: a browser tab cannot host a local socket, so **Terminal access** is absent from the browser client's settings rather than greyed out, and the phone app does not have it either. See [The myne CLI](/user-guide/command-line/the-myne-cli/) for the full command set and how to turn it on.
 
 ## Limits
 

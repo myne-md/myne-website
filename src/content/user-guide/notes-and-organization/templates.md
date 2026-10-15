@@ -1,14 +1,14 @@
 ---
 title: "Templates"
 category: "notes-and-organization"
-updated: 2026-08-29
+updated: 2026-10-15
 summary: "How to create reusable note templates, turn a note you already wrote into one, insert them into new notes, and use them to standardize the structure of notes you write often."
 tags: ["templates", "notes"]
 ---
 
 A template is a note you reuse as a starting point: a meeting structure, a daily layout, a checklist. Myne keeps templates simple and local: a template is just a note you have marked, and a small, fixed set of placeholders fill in things like today's date. This article covers making templates, managing them, and the placeholders.
 
-![The Manage templates modal, where note templates are created, renamed, and removed.](./templates.png)
+![The Note templates tab, where note templates are created, renamed, and removed.](./templates.png)
 
 ## What a template is
 
@@ -23,9 +23,9 @@ Making a note from a template is a deliberate, two-step path (distinct from the 
 1. Choose **New note from template…** and pick the template you want, or **Blank note** to skip the template. If you have no templates yet, the same surface offers **Create a template**; **Manage templates** opens the manager from here too.
 2. Give the new note a name. Myne copies the template's body into a fresh note, fills in any placeholders, and opens it.
 
-You manage templates from the **Manage templates** surface, a dialog titled **Note templates**. It lists your templates, one per row, and offers four things:
+You manage templates from the **Note templates** tab, which the **Manage templates** command opens. It lists your templates, one per row, and offers four things:
 
-- **New template** creates a fresh template and opens it to edit.
+- **New template** creates a fresh template, asks you for a name, and opens it to edit.
 - **Clicking a row** opens that template so you can change it. There is no separate Edit button.
 - **Remove from templates** turns a template back into an ordinary note. Non-destructive; the note and its content stay, it just stops being a template.
 - **The trash icon** on a row sends that template to the Trash like any note (recoverable from there).

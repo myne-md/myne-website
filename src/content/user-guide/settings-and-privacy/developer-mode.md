@@ -1,8 +1,8 @@
 ---
 title: "Developer mode"
 category: "settings-and-privacy"
-updated: 2026-08-24
-summary: "Developer mode reveals the settings Myne keeps out of the way by default: the AI and Network panels, Vim keyboard mode in the Editor panel, and Terminal access in the Privacy panel. It is set per vault and per device, takes effect immediately, and turning it back off only hides those settings again."
+updated: 2026-10-15
+summary: "Developer mode reveals the settings Myne keeps out of the way by default: the AI, Network and CLI panels, and Vim keyboard mode in the Editor panel. It is set per vault and per device, takes effect immediately, and turning it back off only hides those settings again."
 tags: ["settings", "security", "privacy"]
 ---
 
@@ -20,17 +20,17 @@ The setting is per device: switching it on here does not switch it on anywhere e
 
 ## What it reveals
 
-Turning it on adds a **Developer** section at the bottom of the settings rail, holding two panels:
+Turning it on adds a **Developer** section at the bottom of the settings rail, holding three panels:
 
 - **AI** — Myne's experimental AI features. AI is off until you opt in, and nothing is sent anywhere until you name a provider. See [Where your AI runs](/user-guide/ai/where-your-ai-runs/).
 - **Network** — the option to send Myne's sync traffic through Tor. See [Routing sync through Tor](/user-guide/settings-and-privacy/route-sync-through-tor/).
+- **CLI** — terminal access, the door that lets the `myne` command on this machine read and change an unlocked vault, plus the folders it never sees and its rate limit. See [The myne command-line client](/user-guide/command-line/the-myne-cli/).
 
-It also reveals two settings that stay in the panels where their topic lives, rather than moving into the Developer section:
+It also reveals one setting that stays in the panel where its topic lives, rather than moving into the Developer section:
 
 - **Vim keyboard mode**, in the **Editor** panel. See [Vim mode](/user-guide/editor-and-writing/vim-mode/).
-- **Terminal access**, in the **Privacy** panel — the door that lets the `myne` command on this machine read and change an unlocked vault. See [The myne command-line client](/user-guide/command-line/the-myne-cli/).
 
-Those two keep their homes on purpose, so looking for a Vim setting still lands you in Editor and looking for terminal access still lands you in Privacy.
+Look for a Vim setting in Editor, then, and for a terminal setting in CLI. The CLI surface used to sit inside Privacy; it is a panel of its own now because it is a whole client rather than one switch, and Privacy keeps the controls about what somebody looking at this machine can see.
 
 ## Turning it back off
 

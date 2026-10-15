@@ -16,7 +16,7 @@ Names on the picker need a system keychain, which Myne uses on macOS and iOS. On
 
 ## Where the name on the picker comes from
 
-Your vault's name is the **Vault label** you set in **Settings → Account**, and it lives inside the vault's encrypted preferences along with the rest of its contents. That is why a locked vault cannot simply be read for its name: until you unlock it, Myne holds no key for it.
+Your vault's name is the **Vault label** you set in **Settings → Vault**, and it lives inside the vault's encrypted preferences along with the rest of its contents. That is why a locked vault cannot simply be read for its name: until you unlock it, Myne holds no key for it.
 
 So Myne remembers instead. When you unlock a vault, it writes that vault's name into a small sealed file beside the vault on this device, and keeps the key to that file in your operating system's keychain. One file and one key per vault. At the next launch the picker can open that file and show the real name while every vault is still locked.
 
@@ -44,7 +44,7 @@ Turning the setting back off brings nothing back. Names return one vault at a ti
 
 ## Renaming a vault
 
-Renaming is the same **Vault label** field in **Settings → Account**. On the device where you rename, the stored copy is updated as you save, so the picker shows the new name at the next launch. Clearing the label removes that device's stored file for the vault, and the row falls back to its placeholder.
+Renaming is the same **Vault label** field in **Settings → Vault**. On the device where you rename, the stored copy is updated as you save, so the picker shows the new name at the next launch. Clearing the label removes that device's stored file for the vault, and the row falls back to its placeholder.
 
 **A rename does not reach a device that is locked.** The stored copy is device-local and does not sync, so every other device that has stored the old name keeps showing it on its lock screen until you unlock that vault there. A locked device has no way to learn otherwise, because reading the new name would mean opening the vault. If you are renaming a vault precisely to get a name off the screen, the rename alone does not achieve that: unlock the vault once on each of your other devices, or turn on **Hide vault names on the lock screen** there.
 

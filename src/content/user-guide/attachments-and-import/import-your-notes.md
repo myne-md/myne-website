@@ -1,8 +1,8 @@
 ---
 title: "Import your notes"
 category: "attachments-and-import"
-updated: 2026-08-30
-summary: "How to import notes into Myne from another Myne vault, Obsidian, Notion, Evernote, HTML, and CSV: one flow, six sources. How notes, links, and attachments map, and the edge cases to check in the import summary and report."
+updated: 2026-10-15
+summary: "How to import notes into Myne from another Myne vault's backup, Obsidian, Notion, Evernote, HTML, and CSV: one flow, six sources. How notes, links, and attachments map, and the edge cases to check in the import summary and report."
 tags: ["import", "attachments"]
 ---
 
@@ -101,14 +101,14 @@ A few things to check after a large import:
 
 Obsidian is one of six sources the same importer reads. When the flow opens, you land on a card grid asking "Where are your notes coming from?", one card per source. The first card is another Myne vault; the rest name a format, not a Myne feature:
 
-- **Myne vault** — a second vault on this device. It has its own article, because it is the one source that needs the other vault's password or recovery phrase, and the highest-fidelity one: both sides speak the same format, so nothing is converted. Some things still stay behind, and that article lists them: [Combine two vaults](/user-guide/attachments-and-import/combine-two-vaults/).
+- **Myne vault** — an exported `.myne-backup` file from another vault. It has its own article, because it is the one source that asks for a backup file and for that vault's password or recovery phrase, and it is the highest-fidelity one: both sides speak the same format, so nothing is converted. Some things still stay behind, and that article lists them: [Combine two vaults](/user-guide/attachments-and-import/combine-two-vaults/).
 - **Obsidian** — a vault folder of Markdown notes (the walkthrough above).
 - **Notion** — an unzipped export folder. Unzip the export yourself first: Myne reads the folder, not the `.zip`.
 - **Evernote** — a single `.enex` export file.
 - **HTML** — a folder of saved web pages.
 - **CSV** — one spreadsheet file, which becomes a single note holding the table (one note, not one note per row — Myne is not a database).
 
-Whichever format you pick, the setup step shows that source's own **keeps / leaves behind** disclosure before the import starts, so you see the fidelity bar for that format up front. A Myne vault has no such list, because there is no construct one Myne vault has and another does not. For HTML, for example, it keeps headings, lists, tables, links, code and emphasis, and leaves behind styling, scripts and embeds — remote images stay as links and are never downloaded.
+Whichever format you pick, the setup step shows that source's own **keeps / leaves behind** disclosure before the import starts, so you see the fidelity bar for that format up front. For **Myne vault**, that is the one list whose two halves are near-empty: it keeps notes, folders, tags, links between the notes you import, and the attachments those notes use, and leaves behind version history, deleted notes and templates. For HTML, for example, it keeps headings, lists, tables, links, code and emphasis, and leaves behind styling, scripts and embeds — remote images stay as links and are never downloaded.
 
 Every source funnels through the same ingest path, so the outcomes above hold for all six: nothing is overwritten, re-running is safe, and your original files are never changed. Where a note imports but loses a construct the format has and Myne does not (a Notion toggle, an HTML callout) the importer collects those into an **import report**: an ordinary note it writes at the end, when there is anything to report, titled `Import report (<source>) <time>`, linking each affected note next to what was dropped. It is a plain note you can read, act on, and delete.
 

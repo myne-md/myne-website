@@ -1,8 +1,8 @@
 ---
 title: "A tour of the interface"
 category: "getting-started"
-updated: 2026-08-29
-summary: "A guided tour of the main Myne window: the note sidebar and its plus menu, the tab strip and editor with its note-actions menu, the multi-tab right panel, the command palette, and the status bar along the bottom."
+updated: 2026-10-15
+summary: "A guided tour of the main Myne window: the note sidebar with its search row and create buttons, the tab strip and editor with its note-actions menu, the multi-tab right panel, the command palette, and the status bar along the bottom."
 tags: ["basics", "editor", "sidebar"]
 ---
 
@@ -16,9 +16,9 @@ The left sidebar runs top to bottom:
 
 - **The vault-switcher chip** at the top shows which vault is open. If you keep more than one vault, this is where you switch between them; see [Multiple vaults](/user-guide/safety-and-recovery/multiple-vaults/).
 - **Favorites**, above the tree, once you have added notes to it.
-- **The note tree**, with a **+** button in its header. That one button is where new things come from: **New note**, **New note from template…**, **New drawing**, and **New folder**. Select a note to open it; right-click a note or folder for the rest of the organizing actions.
-- **Views**, when saved views are turned on (Settings → Editor). Selecting it opens a searchable flyout listing your [saved views](/user-guide/editor-and-writing/saved-views/).
-- **A footer** carrying **Attachments**, and a single line split between **Trash** and **Archive**, each showing a count when it is not empty.
+- **A search row** at the top of the notes area. It is the app's own clickable route into the command palette, so the fastest way to reach anything starts where your notes are. To its right sit three create buttons: **New drawing**, **New folder** and **New note**. **New note from template…** is not among them; it stays in the command palette.
+- **The note tree**. Select a note to open it; right-click a note or folder for the rest of the organizing actions.
+- **Views**, **Attachments**, **Trash** and **Archive** are not in the sidebar. They live on the [left ribbon](/user-guide/getting-started/left-ribbon/) at the window's far-left edge, each showing a count when it is not empty.
 
 ## The tab strip and editor
 
@@ -57,7 +57,7 @@ The status bar along the bottom carries small, persistent controls and readouts.
 - **Tags**: opens the [tag browser](/user-guide/find-and-connect/tags/) for the vault.
 - **Views**: opens the [saved views](/user-guide/editor-and-writing/saved-views/) surface.
 - **Graph**: opens the graph view of your notes and their links (also `⌘⇧G`).
-- **Settings**: the gear opens settings (also `⌘,`). Its panels cover your account, privacy, sync, the editor, files, transcription, hotkeys, appearance, storage, and an about page. See [Settings & privacy](/user-guide/settings-and-privacy/overview/).
+- **Settings**: the gear opens settings (also `⌘,`). Its panels cover your account and vault, privacy, sync, the editor, files, transcription, hotkeys, appearance, storage, and an about page. See [Settings & privacy](/user-guide/settings-and-privacy/overview/).
 - **Lock**: locks the vault immediately and returns to the Unlock screen. The command palette lists the same action as **Lock vault**.
 - **Vim mode**: when Vim keyboard mode is on, shows the current mode (Normal, Insert, Visual, or Replace).
 - **Word count**: the [document-statistics](/user-guide/editor-and-writing/document-statistics/) readout for the current note (words and characters, with the full breakdown on hover); it follows your selection when you have one.
@@ -68,7 +68,7 @@ Right-click anywhere on the bottom bar to hide or show individual items, right-c
 
 ## Panels that are hidden until you ask for them
 
-Some controls are not missing, just kept out of the way. Turning on **Developer mode** in Settings → About adds a **Developer** group at the bottom of the settings list — **AI** and **Network** (Tor routing) — and reveals two settings that stay in their own panels: CLI terminal access under Privacy, and Vim keyboard mode under Editor. Turning it back off hides those controls again without switching off anything already running. If you are looking for a panel this tour does not name, that is where it is; see [Developer mode](/user-guide/settings-and-privacy/developer-mode/).
+Some controls are not missing, just kept out of the way. Turning on **Developer mode** in Settings → About adds a **Developer** group at the bottom of the settings list — **AI**, **Network** (Tor routing) and **CLI** (terminal access) — and reveals the **Vim keyboard mode** setting in the Editor panel. Turning it back off hides those controls again without switching off anything already running. If you are looking for a panel this tour does not name, that is where it is; see [Developer mode](/user-guide/settings-and-privacy/developer-mode/).
 
 ## The command palette
 

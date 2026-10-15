@@ -1,7 +1,7 @@
 ---
 title: "Periodic notes"
 category: "notes-and-organization"
-updated: 2026-09-01
+updated: 2026-10-15
 summary: "How daily, weekly and monthly notes give you one note per period, how to open the current one, and how to pair each period with its own folder, title format and template."
 tags: ["notes", "templates"]
 ---
@@ -18,7 +18,7 @@ Earlier periods are reached by browsing the folder they are filed in. There is n
 
 ## Settings
 
-Each period has its own folder, title format and template, in Settings → **Editor**, under **Periodic notes**. The three sections, Daily, Weekly and Monthly, carry the same three controls.
+Each period has its own folder, title format and template, in Settings → **Editor**, under **Periodic notes**. A **Daily / Weekly / Monthly** switcher at the top of the block picks which period you are editing, and only that period's three controls are shown: the same three rows serve all three periods, one at a time, so the block stays short. Daily is the one it opens on.
 
 Once your vault has folders, the folder control is a picker over the ones you already have rather than a path you type, so filing weekly notes somewhere new means creating that folder in the sidebar first. In a brand-new vault with no folders yet it is a plain text field instead, since a picker with nothing in it would be worse. A folder you choose here stays visible in the sidebar even before its first note exists.
 
@@ -80,6 +80,6 @@ myne monthly:append "…"
 
 A periodic note is matched by its folder and its title together. If you rename this week's note, or move it out of its folder, **Open this week's note** no longer recognizes it and will create a fresh one for the week. Keep both if you want the command to keep finding it.
 
-For the same reason, pointing two periods at the same folder **and** the same title format makes both commands open the same note. Settings warns you when you do, and does not stop you.
+For the same reason, pointing two periods at the same folder **and** the same title format makes both commands open the same note. Settings warns you when you do, and does not stop you; the warning also offers to jump to the other period's rows, since only one period is on screen at a time.
 
 These are settings the AI can change for you as well: the folder, the template and the date format for each period. Ask in the AI Chat tab, as [Let the AI change your notes](/user-guide/ai/agent-runs/#changing-settings) describes, and approve the change on the review screen.

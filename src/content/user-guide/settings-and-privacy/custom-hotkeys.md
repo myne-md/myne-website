@@ -1,7 +1,7 @@
 ---
 title: "Customizing keyboard shortcuts"
 category: "settings-and-privacy"
-updated: 2026-09-21
+updated: 2026-10-15
 summary: "View, search, and rebind keyboard shortcuts in the Hotkeys settings panel. Add or remove shortcuts per command, restore defaults, and resolve conflicts, which are warning-only and never blocking. Every shortcut is rebindable except the tab-cycle chord, and in a browser the combinations the browser keeps for itself."
 tags: ["settings", "editor"]
 ---
@@ -10,7 +10,7 @@ The Hotkeys panel lists every keyboard shortcut in Myne and lets you search them
 
 ## The Hotkeys panel
 
-Open **Settings → Hotkeys** (the rail runs Account → Privacy → Sync → Editor → Files → Transcription → Hotkeys → Appearance → Storage → About, with a Developer section below it when [Developer mode](/user-guide/settings-and-privacy/developer-mode/) is on). The panel opens with a short reminder at the top: "View and change keyboard shortcuts. Only the tab-cycle shortcut (Ctrl+Tab) is fixed."
+Open **Settings → Hotkeys** (the rail runs Account → Vault → Privacy → Sync → Editor → Files → Transcription → Hotkeys → Appearance → Storage → About, with a Developer section — AI, Network and CLI — below it when [Developer mode](/user-guide/settings-and-privacy/developer-mode/) is on). The panel opens with a short reminder at the top: "View and change keyboard shortcuts. Only the tab-cycle shortcut (Ctrl+Tab) is fixed."
 
 Shortcuts are listed in groups: **General**, **Notes**, **Panes & Tabs**, **Navigation**, **View**, and **Editor formatting**. Each row names a command and shows its current shortcut as a small key chip. A command can have no shortcut, one, or several.
 

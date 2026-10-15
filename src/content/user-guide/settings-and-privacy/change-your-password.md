@@ -1,18 +1,18 @@
 ---
 title: "Change your password"
 category: "settings-and-privacy"
-updated: 2026-08-24
+updated: 2026-10-15
 summary: "How to change your master password, what the change does and does not re-encrypt, how it reaches your other devices once it reaches the sync server, and how it affects backups you made with the old password."
 tags: ["security", "settings"]
 ---
 
-You can change your master password from **Settings → Account**. This article covers how to do it, what it actually changes, and the one honest caveat about your old backups.
+You can change your master password from **Settings → Vault**. This article covers how to do it, what it actually changes, and the one honest caveat about your old backups.
 
-![The Change password form in Account settings, with fields for the current password, the new password, and confirmation.](./change-your-password.png)
+![The Change password form in Vault settings, with fields for the current password, the new password, and confirmation.](./change-your-password.png)
 
 ## Changing it
 
-Open Settings → Account and choose Change password. Enter your current password, then a new one. The new password must meet the same floor as at creation (at least 12 characters and a strength the meter accepts). Confirm, and Myne re-wraps your vault under the new password.
+Open Settings → Vault and choose Change password. Enter your current password, then a new one. The new password must meet the same floor as at creation (at least 12 characters and a strength the meter accepts). Confirm, and Myne re-wraps your vault under the new password.
 
 While the change is processing, Myne works for a second or two and the settings window won't dismiss; `Esc`, clicking away, and the close button are held until it finishes, so the operation can't be interrupted halfway. If you need to back out, the **Lock** control in the bottom bar still works: locking the vault is the clean way to cancel a change in progress.
 

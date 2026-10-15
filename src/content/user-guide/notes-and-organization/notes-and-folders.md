@@ -1,8 +1,8 @@
 ---
 title: "Notes and folders"
 category: "notes-and-organization"
-updated: 2026-08-29
-summary: "How to create, rename, move, and delete notes and folders in Myne: the sidebar's + menu, the editor's Note actions menu, where a note's title actually comes from, how folders nest and stay private, and how autosave keeps your edits."
+updated: 2026-10-15
+summary: "How to create, rename, move, and delete notes and folders in Myne: the sidebar's create buttons, the editor's Note actions menu, where a note's title actually comes from, how folders nest and stay private, and how autosave keeps your edits."
 tags: ["notes", "folders"]
 ---
 
@@ -12,7 +12,7 @@ Notes and folders are the backbone of a vault. This article covers creating and 
 
 ## Creating a note
 
-New items come from the **+** button at the top of the sidebar. Its menu has four rows: **New note**, **New note from template…**, **New drawing**, and **New folder**. Right-clicking empty sidebar space offers three of them, without the template row. Right-clicking a folder row offers **New note here**, **New drawing here**, and **New subfolder**, which do the same things inside that folder; making a note from a template stays on the **+** menu.
+New items come from three buttons at the top of the sidebar, to the right of the search row: **New drawing**, **New folder** and **New note**. **New note from template…** is not among them; it stays in the command palette. Right-clicking empty sidebar space offers the same three actions. Right-clicking a folder row offers **New note here**, **New drawing here**, and **New subfolder**, which do the same things inside that folder.
 
 **New note**, `⌘N` / `Ctrl N`, and the new-note-in-pane shortcut all make an **instant blank note** and drop you into it, with the caret already in the note's own title field, so you can name it and press Enter without reaching for the mouse. The new note also sits at the **top of wherever it was made**, above the folders, until you make the next one. There is no dialog and no template to pick. A note built from a template is the separate, deliberate path; see [Templates](/user-guide/notes-and-organization/templates/). **New drawing** makes a note you draw in instead of type in; see [Drawings](/user-guide/notes-and-organization/drawings/).
 
@@ -32,7 +32,7 @@ The sidebar's right-click menu is not the only way in. While a note is open, a *
 
 Folders group your notes in the sidebar. You can nest them, drag notes between them, and create as many as you like. Deleting a folder that still contains notes moves the whole subtree to the Trash rather than destroying it, so nothing is lost to a misclick (see [Trash](/user-guide/notes-and-organization/trash/)).
 
-A folder can have an **index note**, an ordinary note marked as that folder's landing page. It gets no row of its own in the sidebar tree; you open it from the folder row instead, by double-clicking the row or by clicking the book icon on it. A wikilink that ends in a slash, like `[[Projects/]]`, opens the folder's index note. See [Folder notes](/user-guide/notes-and-organization/folder-notes/).
+A folder can have an **index note**, an ordinary note marked as that folder's landing page. It gets no row of its own in the sidebar tree; you open it from the folder row instead, by double-clicking the row or by clicking the book icon on it. A wikilink that ends in a slash, like `[[Projects/]]`, opens the folder's index note. The feature is off by default; turn it on under **Folder notes** in Settings → Files. See [Folder notes](/user-guide/notes-and-organization/folder-notes/).
 
 ### Private by design
 

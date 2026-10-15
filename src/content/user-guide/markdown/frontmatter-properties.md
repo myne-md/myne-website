@@ -1,7 +1,7 @@
 ---
 title: "Frontmatter and properties"
 category: "markdown"
-updated: 2026-08-16
+updated: 2026-10-15
 summary: "How YAML frontmatter at the top of a note defines properties, which properties Myne recognizes, and how they affect the note."
 tags: ["markdown", "notes"]
 ---
@@ -23,7 +23,9 @@ tags: [planning, review]
 The note body starts here.
 ```
 
-When a note has frontmatter, the editor renders it as a **Properties** widget at the top of the note. The note's title sits above the list as its own field. Below it, each key is an editable name beside its value: a plain value is a text input, and a list value is a row of chips you can remove, with a field for adding another item. **+ Add property** adds a new key. Editing an input and pressing Enter or moving focus away writes the change straight back into the note's frontmatter.
+When a note has frontmatter, the editor renders it as a **Properties** widget at the top of the note. The note's title sits above the list as its own field. Below it, each key is an editable name beside its value, and the value control follows the value's own type: a **date** gets the platform's date picker, a **number** gets a numeric field, a **checkbox** (`true` or `false`) gets a checkbox, a **list** is a row of chips you can remove with a field for adding another item, and anything else is a text input. A small glyph at the start of each row shows which type that row is. **+ Add property** adds a new key. Editing an input and pressing Enter or moving focus away writes the change straight back into the note's frontmatter.
+
+A value that *looks* like a date but is not a real calendar day — `2026-13-45` — keeps a plain text input rather than the date picker, which would silently discard it. The type Myne reads for filtering and search is still `date`; the widget only refuses to hand a value to a control that would eat it.
 
 A value with structure the widget has no control for — nested keys under a key of yours, a multi-line block — gets no editable row of its own; its key line still appears, with nothing in the value field. The value itself stays in your file untouched, and to change it you edit the note in another editor.
 

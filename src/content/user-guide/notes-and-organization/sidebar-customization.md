@@ -1,7 +1,7 @@
 ---
 title: "Customizing the sidebar"
 category: "notes-and-organization"
-updated: 2026-08-24
+updated: 2026-10-15
 summary: "How to customize the sidebar and the bottom bar: reordering and re-nesting notes and folders by drag or from the folder menu, which sections are visible, reordering the bottom-bar items, and how to adjust the layout to match the way you navigate your vault."
 tags: ["sidebar", "workspace"]
 ---
@@ -24,7 +24,7 @@ A plain click opens a note and clears any selection. To act on more than one not
 
 ## Folder notes
 
-A folder can have one note that stands in as its index — its "folder note". A folder note is hidden from the sidebar tree; double-click the folder row to open it, or to create one if the folder has none. Right-click the folder for the same actions (**Open folder note**, **Create folder note**, **Remove folder note**). To promote an existing note, right-click it and choose **Set as folder note**. See [Folder notes](/user-guide/notes-and-organization/folder-notes/).
+A folder can have one note that stands in as its index — its "folder note". A folder note is hidden from the sidebar tree; double-click the folder row to open it, or to create one if the folder has none. Right-click the folder for the same actions (**Open folder note**, **Create folder note**, **Remove folder note**). To promote an existing note, right-click it and choose **Set as folder note**. The feature is off by default and its controls appear only once you turn on **Folder notes** in Settings → Files. See [Folder notes](/user-guide/notes-and-organization/folder-notes/).
 
 ## Empty folders and loose notes
 
@@ -34,11 +34,11 @@ Folders are kept on purpose. Once a folder holds a note, or once you make one to
 
 Collapse a folder to tuck its contents away while you work elsewhere; expand it to bring them back. Which folders are open is remembered along with the rest of your layout, so the tree comes back the way you left it the next time you unlock the vault. It is kept separately from the manual order, and it is one set for the sidebar rather than one per workspace, so switching workspaces does not change what is collapsed.
 
-## Views and the footer
+## Navigation entries
 
-Below the notes tree, the sidebar ends in a stack of compact entries: **Views**, **Attachments**, and a shared line holding **Trash** and **Archive**, split by a vertical hairline. Trash and Archive each show a count when they hold anything.
+**Views**, **Attachments**, **Trash** and **Archive** used to sit in the sidebar's footer. They live on the [left ribbon](/user-guide/getting-started/left-ribbon/) now, which is the only place they are, and the ribbon highlights whichever of them is the surface you are looking at. Trash and Archive each show a count when they hold anything.
 
-**Views** opens a searchable, scrollable panel to the right of the sidebar listing your saved views, with the one currently open marked by a checkmark. Opening a view puts its filtered set in a tab. See [Saved views](/user-guide/editor-and-writing/saved-views/). The Views entry is off for a new vault — turn it on under **Settings → Editor → Views**. A vault that already has saved views keeps the entry without your changing the setting.
+**Views** opens a searchable, scrollable panel listing your saved views, with the one currently open marked by a checkmark. Opening a view puts its filtered set in a tab. See [Saved views](/user-guide/editor-and-writing/saved-views/). The Views entry is off for a new vault — turn it on under **Settings → Editor → Views**. A vault that already has saved views keeps the entry without your changing the setting.
 
 **Archive** is for notes you want out of the tree but not deleted; open the panel to see what is archived and restore a note from it. See [Archiving notes](/user-guide/notes-and-organization/archive/).
 

@@ -1,7 +1,7 @@
 ---
 title: "The left ribbon"
 category: "getting-started"
-updated: 2026-09-13
+updated: 2026-10-15
 summary: "The left ribbon is a thin column of icon buttons at the window's far-left edge. Pin the commands you use most, reorder them, hide the ribbon, or turn it off for a vault."
 tags: ["basics", "sidebar", "workspace"]
 ---
@@ -10,7 +10,9 @@ The left ribbon is a thin column of icon buttons along the far-left edge of the 
 
 ## What starts on the ribbon
 
-A new vault starts with three buttons: **New note**, **Today's note**, and **This week's note**. You can remove any of them, and add many more.
+A new vault starts with eight buttons. First comes the entry into the command palette — the fastest way to reach everything else — then **New note**, **Today's note** and **This week's note**, then **Views**, **Attachments**, **Trash** and **Archive**. Those last four used to sit in the note sidebar's footer; the ribbon is where they live now. You can remove any of them, and add many more.
+
+The button for the surface you are looking at is highlighted: open the attachment library and its ribbon button is the one that reads as current, and the same goes for the graph, the task list and the template library. Myne decides this from the tab you have focused, so a surface opened in another pane still shows as current when you are in it.
 
 If the ribbon is empty because you removed everything, it stays empty. Myne does not put the default buttons back.
 

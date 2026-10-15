@@ -6,7 +6,7 @@ summary: "An overview of working with files in Myne: attaching files of any type
 tags: ["attachments", "import"]
 ---
 
-This section is about getting files into Myne and keeping track of them. Attachments are files of any type — images, PDFs, video, audio and documents, but also any other file you drop in — stored inside the encrypted vault; voice notes are audio you record straight into a note; the attachments library is where you see and manage them all; the importer is a one-time way to bring an existing vault across, whether it came from another app or from a second Myne vault; and the browser clipper saves web pages into your vault from a browser extension.
+This section is about getting files into Myne and keeping track of them. Attachments are files of any type — images, PDFs, video, audio and documents, but also any other file you drop in — stored inside the encrypted vault; voice notes are audio you record straight into a note; the attachments library is where you see and manage them all; the importer is a one-time way to bring an existing vault across, whether it came from another app or from a backup of another Myne vault; and the browser clipper saves web pages into your vault from a browser extension.
 
 ## What's in this section
 

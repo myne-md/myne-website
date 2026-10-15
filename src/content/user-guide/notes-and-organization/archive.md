@@ -1,7 +1,7 @@
 ---
 title: "Archive"
 category: "notes-and-organization"
-updated: 2026-08-13
+updated: 2026-10-15
 summary: "Set a note or a whole folder aside without deleting it. Archived items leave the sidebar but stay searchable and linkable, are kept indefinitely with no auto-purge, and are separate from Trash. Archiving can be turned off entirely in settings."
 tags: ["notes", "folders", "sidebar"]
 ---
@@ -26,7 +26,7 @@ Like an archived note, the notes inside an archived folder stay findable in sear
 
 ## The Archive panel
 
-Open the Archive from the **Archive** button in the sidebar footer, next to **Trash**. When the Archive holds anything, the button shows a count. The panel opens as a modal, newest-first. Press **Esc**, click the backdrop, or use **Close** to dismiss it.
+Open the Archive from the **Archive** button on the left ribbon, beside **Views**, **Attachments** and **Trash**. When the Archive holds anything, the button shows a count. The panel opens as a modal, newest-first. Press **Esc**, click the backdrop, or use **Close** to dismiss it.
 
 The panel lists two kinds of rows:
 
@@ -42,7 +42,7 @@ There is no "empty archive" action. The Archive is meant to be kept, not cleared
 
 ## Turning archiving off
 
-If you do not want the archive feature at all, you can disable it. Open **Settings → Editor** and turn **Archiving** off. This hides the archive entry points: the sidebar **Archive** footer button and the **Archive** / **Archive folder** context-menu actions.
+If you do not want the archive feature at all, you can disable it. Open **Settings → Editor** and turn **Archiving** off. This hides the archive entry points: the ribbon **Archive** button and the **Archive** / **Archive folder** context-menu actions.
 
 Turning archiving off first restores every archived note to its folder, so no note is left set aside with no way to reach it, and clears any archived folders too. Because that restore runs before the setting is saved, a note can never end up archived while the controls that would surface it are hidden.
 

@@ -1,7 +1,7 @@
 ---
 title: "The attachments library"
 category: "attachments-and-import"
-updated: 2026-10-15
+updated: 2026-10-16
 summary: "How the attachments library lists every file in your vault, how to search, filter and sort it, what the per-item menu can do to a file, how to see which notes use a given attachment, and what the unused-attachment cleanup checks before it deletes anything."
 tags: ["attachments"]
 ---
@@ -41,7 +41,9 @@ Deleting the files you confirm is permanent and cannot be undone, so read the li
 
 A per-item menu (the `⋮` button, or a right-click anywhere on the card or row) gives you **Preview** (images and PDFs only), **Export**, **Rename**, and **Delete**, the same actions covered in [Attachments](/user-guide/attachments-and-import/attachments/) (rename changes the display name only; delete is explicit and leaves a tombstone in any note that embedded the file). On a computer, **Export** opens a native Save dialog and writes a plaintext copy of the file to a path you choose. On a phone or tablet you are not asked where it goes (see Limits, below). Either way the copy you save sits outside the vault and is no longer encrypted.
 
-An audio attachment carries two more actions. **Transcribe** runs speech-to-text on this device; it is hidden when speech-to-text is off in Settings → Transcription. **View transcription** opens a transcript an earlier run already wrote — read-only, under the line "This transcript was made by a small model running on your device and may be wrong — check it against the audio." That one stays available with speech-to-text turned off, because reading text you already have needs no model. Inserting a transcript into a note is a separate action, in the editor.
+An audio attachment can be transcribed. **Transcribe** runs speech-to-text on this device, and it is hidden when speech-to-text is off in Settings → Transcription. A transcript an earlier run wrote opens read-only, under the line "This transcript was made by a small model running on your device and may be wrong — check it against the audio." That one stays available with speech-to-text turned off, because reading text you already have needs no model.
+
+Where those two actions live depends on the client. On a computer they are entries in the item's `⋮` menu: **Transcribe**, and **View transcription** once a transcript exists. On a phone or tablet the file itself is the control: tap an audio file's name and its transcript opens in a sheet. The sheet shows the transcript an earlier run wrote, or offers **Transcribe** when there is none, and it is where a phone reads and keeps one. It scrolls a long transcript, sets the model's phrases as paragraphs, and carries **Copy** and **Save as note**; opened from the editor it also carries **Insert transcript into note**. **Save as note** writes a new note holding the audio embed, a **Transcript** heading and the text, so the transcript travels with its recording. Once a transcript exists, **Transcribe** stays available in the sheet's header so a newer model can re-derive it.
 
 ## Importing from the library
 

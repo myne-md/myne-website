@@ -34,6 +34,8 @@ Myne makes no background connection except one, and you can turn it off. The exc
 
 Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
+**A third opt-in stays on it, and it is not encrypted.** Diagnostic logging is off until you turn it on under Settings → About. While it is on, Myne keeps a plain text log of what the app is doing, in this device's log folder rather than inside your vault, because its whole purpose is to be readable when the app is not working. It holds only Myne's own messages, never the libraries it is built on; it never records your note text, your note titles or your file paths; Myne caps how large it can grow, drops the oldest entries first, and turning the switch off deletes it. A crash is recorded once even while logging is off, holding the source location inside Myne's own source tree, the version and your platform; Settings → About shows it and lets you delete it. See [Diagnostic logging and bug reports](/user-guide/settings-and-privacy/diagnostic-logging/).
+
 There is also **no email at sign-up and no email recovery**. This is deliberate, not a missing feature. An email reset would mean someone other than you could trigger access to your vault, which is exactly the power Myne refuses to hold. The flip side is that *you* hold the only keys; the operational walkthrough for a forgotten password is [If you forget your password](/user-guide/safety-and-recovery/if-you-forget-your-password/).
 
 ## What we cannot protect you from

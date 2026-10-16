@@ -195,6 +195,7 @@
       "auto-lock-and-screen-capture",
       "quick-unlock",
       "vault-names-on-the-lock-screen",
+      "diagnostic-logging",
       "change-your-password",
       "custom-hotkeys",
       "accessibility",

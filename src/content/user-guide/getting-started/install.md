@@ -1,8 +1,8 @@
 ---
 title: "Install Myne"
 category: "getting-started"
-updated: 2026-10-16
-summary: "How Myne is distributed: which download exists for which platform, why your operating system warns on first launch, and how to check a download against the signed SHA256SUMS list before you run it."
+updated: 2026-10-17
+summary: "How Myne is distributed: which download exists for which platform, why your operating system warns on first launch, how to check a download against the signed SHA256SUMS list before you run it, and the two routes that work on NixOS."
 tags: ["basics", "security"]
 ---
 
@@ -27,6 +27,22 @@ When the listing does appear, one thing about it is worth knowing **before** you
 F-Droid signs what it builds with **its own key**. Android refuses to install an update signed by a key different from the one already on the device, so the F-Droid build cannot be installed over an `.apk` you sideloaded from here. The only route through is to uninstall first, and uninstalling deletes the app's private storage, which is where your vault lives. **Export your notes to markdown before you make that switch.** This is not a hypothetical risk: the Android signing key has had to be replaced twice already, and each time an uninstall was the only way forward, which cost everyone whose notes existed only on their phone.
 
 Myne is attempting a reproducible build for exactly this reason. A build that reproduces byte for byte can be verified against the source and then signed with our key rather than F-Droid's, which removes the uninstall from that day entirely. If that lands, this section will say so instead.
+
+## NixOS
+
+NixOS does not run the Linux downloads directly. Both the AppImage and the `.deb` expect a normal filesystem layout, which a NixOS system deliberately does not have, so neither will start on its own. Two routes work, and both end up running the same build.
+
+**Through `appimage-run`, from nixpkgs.** This unpacks the AppImage into the layout it expects and launches it. It is the shorter path, it needs nothing from us beyond the AppImage itself, and it is the one to reach for if you just want to try Myne.
+
+**Through the flake we publish with each Linux release.** Myne wraps that same AppImage in a small Nix flake using `appimageTools.wrapType2`, which gives you a package that behaves like any other Nix build. It is published beside the installers of the release it belongs to, for that release's version. Ask whoever gave you your download for the release's address.
+
+Three things about the flake are worth knowing before you use it, and all three are properties of what it is rather than caveats bolted on.
+
+It **fetches the released AppImage** and wraps it; it does not build Myne from source. A from-source NixOS build does not exist. That also means the thing you end up running is the same **unsigned** build the AppImage is, so your computer warns you on first launch exactly as described in the next section. Wrapping changes how the filesystem looks to the program, not who vouches for it.
+
+It is published **only for releases that built both the x86-64 and the arm64 AppImage**, because it pins one per architecture. A release that built one, or neither, has no flake — that is not a fault, and the two routes above are why it does not matter much.
+
+And it is **not in nixpkgs**, because we have not submitted it there. It is not a `nix-env -iA nixpkgs.myne`, and it is not an argument that Myne is packaged for NixOS. It is the release AppImage, reachable without the `appimage-run` incantation.
 
 ## Your computer will warn you on first launch
 

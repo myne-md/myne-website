@@ -21,7 +21,7 @@ const description =
 const canonical = new URL("/datenschutz/", Astro.site!).toString();
 const ogImage = absoluteOg("datenschutz", Astro.site!);
 
-const effective = "12. Oktober 2026";
+const effective = "16. Oktober 2026";
 
 const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
 const h2 =
@@ -100,7 +100,7 @@ const network = [
     feature: "Analyse, Telemetrie, Absturzberichte",
     goes: "Keine",
     where: "—",
-    when: "Nie. Nichts davon ist im Build enthalten.",
+    when: "Nie. Keine Analyse, keine Telemetrie, und kein Absturz wird irgendwohin gemeldet. Auf Ihrem eigenen Ger\u00e4t legt die Desktop-App allerdings zwei Dinge im Klartext ab; keines davon verl\u00e4sst es. Siehe \u201eWas auf Ihrem Ger\u00e4t bleibt\u201c weiter unten.",
   },
   {
     feature: "Schriftarten, CDNs, Inhalte Dritter",
@@ -259,6 +259,39 @@ const notStored = [
           schreibt höchstens einen Eintrag pro Lauf, und alles, woran er sich erinnert, ist in der App
           sichtbar und änderbar &mdash; die Gedächtnisliste, niemals ein stiller Schreibvorgang.
         </p>
+
+        <!-- ── Die zwei gerätelokalen Klartext-Artefakte der Desktop-App. ── -->
+        <!-- myne-md/myne#860. Keines steht in der Tabelle oben, weil keines  -->
+        <!-- das Netz berührt: das ist die Hälfte, die den Satz "keine       -->
+        <!-- Absturzberichterstattung" wahr statt bloß großzügig macht.      -->
+        <h2 style={h2}>Was auf Ihrem Gerät bleibt</h2>
+        <p style={body}>
+          Zwei Dinge, die die Desktop-App schreibt, gehören hier genannt, weil beide im Klartext auf
+          Ihrer eigenen Festplatte liegen. Keines von beiden geht irgendwohin: es gibt keinen
+          Melde-Endpunkt, kein Beacon und kein automatisches Senden. Ein Bericht existiert also erst,
+          wenn Sie sich entscheiden, jemandem einen zu geben.
+        </p>
+        <ul style={body + "padding-left:20px;"}>
+          <li style="margin-top:8px;">
+            <strong style="color:#e6e6e4;">Ein Diagnoseprotokoll, ausgeschaltet, bis Sie es einschalten.</strong>
+            Unter Einstellungen &rarr; Über können Sie eine Klartext-Aufzeichnung dessen einschalten,
+            was die App tut, damit ein Fehlerbericht sagen kann, was passiert ist, statt nur, was Sie
+            gesehen haben. Sie liegt im Protokollordner dieses Geräts und nicht in Ihrem Tresor, sie
+            enthält nur Meldungen von Myne selbst und nie die Bibliotheken, aus denen die App gebaut
+            ist, ihre Größe ist begrenzt und die ältesten Einträge fallen zuerst heraus, und
+            <strong style="color:#e6e6e4;">das Ausschalten löscht sie</strong>. Sie zeichnet niemals
+            Ihren Notiztext, einen Notiztitel oder einen Dateipfad auf.
+          </li>
+          <li style="margin-top:8px;">
+            <strong style="color:#e6e6e4;">Ein Absturzeintrag, geschrieben, ob das Protokoll an ist oder nicht.</strong>
+            Wenn die App abstürzt, schreibt sie eine einzelne kleine Datei mit dem Quellort, der
+            Version und Ihrer Plattform, und sonst nichts: keine Absturzmeldung und nichts über Ihre
+            Notizen, denn eine Absturzmeldung ist beliebiger Text aus beliebigem Code. Nur der
+            jüngste Absturz wird behalten, der nächste ersetzt ihn. Einstellungen &rarr; Über zeigt
+            ihn mit seinem Datum, damit seine Existenz nie verborgen bleibt, und ein Löschen dort
+            entfernt ihn.
+          </li>
+        </ul>
 
         <h2 style={h2}>Was der Sync-Server speichert</h2>
         <p style={body}>

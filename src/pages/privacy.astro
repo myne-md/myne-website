@@ -25,7 +25,7 @@ const description =
 const canonical = new URL("/privacy/", Astro.site!).toString();
 const ogImage = absoluteOg("privacy", Astro.site!);
 
-const effective = "12 October 2026";
+const effective = "16 October 2026";
 
 const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
 const h2 =
@@ -109,7 +109,7 @@ const network = [
     feature: "Analytics, telemetry, crash reports",
     goes: "None",
     where: "—",
-    when: "Never. None of it is in the build.",
+    when: "Never. No analytics, no telemetry, and no crash is reported anywhere. The desktop does keep two plain-text things on your own device; neither leaves it. See \u201cWhat stays on your device\u201d below.",
   },
   {
     feature: "Fonts, CDNs, third-party assets",
@@ -269,6 +269,36 @@ const notStored = [
           assistant writes at most one entry per run, and everything it remembers is visible and
           editable in the app &mdash; the memory list, never a silent write.
         </p>
+
+        <!-- ── The two device-local plain text artefacts the desktop writes. ── -->
+        <!-- myne-md/myne#860. Neither is in the network table above, because   -->
+        <!-- neither crosses the network: this is the half a reader needs so    -->
+        <!-- that "no crash reports" is a true sentence rather than a loose one.-->
+        <h2 style={h2}>What stays on your device</h2>
+        <p style={body}>
+          Two things the desktop writes are worth naming, because both are plain text on your own
+          disk. Neither of them goes anywhere: there is no reporting endpoint, no beacon and no
+          automatic send, so a report exists only once you decide to hand one to someone.
+        </p>
+        <ul style={body + "padding-left:20px;"}>
+          <li style="margin-top:8px;">
+            <strong style="color:#e6e6e4;">A diagnostic log, off until you turn it on.</strong> Under
+            Settings &rarr; About you can switch on a plain-text record of what the app is doing, so
+            that a bug report can say what happened instead of only what you saw. It sits in this
+            device&rsquo;s log folder rather than inside your vault, it holds only Myne&rsquo;s own
+            messages and never the libraries the app is built on, its size is capped with the oldest
+            entries dropped first, and <strong style="color:#e6e6e4;">switching it off deletes it</strong>.
+            It never records your note text, a note title or a file path.
+          </li>
+          <li style="margin-top:8px;">
+            <strong style="color:#e6e6e4;">One crash record, written whether or not the log is on.</strong>
+            If the app crashes, it writes a single small file holding the source location, the version
+            and your platform, and nothing else: no crash message and nothing about your notes,
+            because a crash message is arbitrary text from arbitrary code. Only the most recent crash
+            is kept and the next one replaces it. Settings &rarr; About shows it with its date, so its
+            existence is never hidden, and a Delete there removes it.
+          </li>
+        </ul>
 
         <!-- ── What the server holds. §1.3 of server-protocol.md is the -->
         <!-- ceiling; this list may not be shorter than it.              -->

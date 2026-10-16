@@ -17,23 +17,23 @@ const description =
 const canonical = new URL("/behoerdenanfragen/", Astro.site!).toString();
 const ogImage = absoluteOg("behoerdenanfragen", Astro.site!);
 
-const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
 const h3 =
-  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:var(--ink-1);";
 const body =
-  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
-  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+  "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
 const tableWrap = "margin-top:22px;overflow-x:auto;";
 const table =
   "width:100%;border-collapse:collapse;font-size:14px;line-height:1.6;min-width:560px;";
 const th =
-  "text-align:left;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.14);color:#e6e6e4;font-weight:650;white-space:nowrap;";
+  "text-align:left;padding:10px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.14);color:var(--ink-1);font-weight:650;white-space:nowrap;";
 const td =
-  "padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);color:#8a8a86;vertical-align:top;";
-const tdEm = td + "color:#e6e6e4;white-space:nowrap;";
+  "padding:10px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.06);color:var(--ink-3);vertical-align:top;";
+const tdEm = td + "color:var(--ink-1);white-space:nowrap;";
 
 const have = [
   ["account_number_hash", "Ein 16-Byte-Hash. Nicht die Kontonummer selbst."],
@@ -77,7 +77,7 @@ const haveNot = [
   robots="noindex,nofollow"
 >
   <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
   >
     <GlassNav active="legal" />
 
@@ -98,8 +98,8 @@ const haveNot = [
 
         <div style={cardStyle}>
           <div class="mono up" style={eyebrow}>Kontakt</div>
-          <p style="margin:0;font-size:15px;line-height:1.7;color:#8a8a86;">
-            <a href="mailto:legal@myne.md" style="color:#8aa4d0;">legal@myne.md</a> — auf Deutsch oder
+          <p style="margin:0;font-size:15px;line-height:1.7;color:var(--ink-3);">
+            <a href="mailto:legal@myne.md" style="color:var(--accent);">legal@myne.md</a> — auf Deutsch oder
             Englisch. Anfragen werden elektronisch entgegengenommen; eine postalische Übersendung ist
             nicht erforderlich. Bitte nennen Sie die Rechtsgrundlage, auf die Sie sich stützen, sowie
             das Ihnen vorliegende Kontokennzeichen.
@@ -164,7 +164,7 @@ const haveNot = [
           übermittelt.
         </p>
         <p style={body}>
-          <strong style="color:#e6e6e4;">§ 22 begründet keine Erhebungspflicht.</strong> Die Vorschrift
+          <strong style="color:var(--ink-1);">§ 22 begründet keine Erhebungspflicht.</strong> Die Vorschrift
           regelt die Auskunft über Bestandsdaten, die ein Anbieter vorhält. Sie verpflichtet nicht dazu,
           Daten künftig zu erheben, die nicht erhoben werden, und sie kann Daten nicht erreichen, die
           nie entstanden sind. Praktisch bedeutet das: Ein Verlangen nach § 22 gegen ein Myne-Konto erbringt
@@ -225,10 +225,10 @@ const haveNot = [
           Installation zu richten.
         </p>
 
-        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
-          English version: <a href="/law-enforcement/" style="color:#8aa4d0;">Law Enforcement
+        <p style={body + "margin-top:44px;font-size:14px;color:var(--ink-3);"}>
+          English version: <a href="/law-enforcement/" style="color:var(--accent);">Law Enforcement
             Requests</a
-          >. Siehe auch die <a href="/datenschutz/" style="color:#8aa4d0;">Datenschutzerklärung</a>.
+          >. Siehe auch die <a href="/datenschutz/" style="color:var(--accent);">Datenschutzerklärung</a>.
         </p>
       </div>
     </section>

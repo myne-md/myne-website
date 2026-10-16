@@ -59,13 +59,13 @@ const cards = themes.map((t) => ({
 
 <LandingLayout title={title} description={description} canonical={canonical}>
   <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
   >
     <GlassNav />
 
     <section style="padding:128px 28px 40px;">
       <div style="max-width:1280px;margin:0 auto;">
-        <div class="mono up" style="font-size:11px;color:#8aa4d0;margin-bottom:18px;">
+        <div class="mono up" style="font-size:11px;color:var(--accent);margin-bottom:18px;">
           Themes
         </div>
         <h1
@@ -73,13 +73,13 @@ const cards = themes.map((t) => ({
         >
           Make it yours.
         </h1>
-        <p style="margin-top:22px;max-width:64ch;font-size:16px;line-height:1.65;color:#8a8a86;">
+        <p style="margin-top:22px;max-width:64ch;font-size:16px;line-height:1.65;color:var(--ink-3);">
           Community themes for Myne. Pick one and it
-          <span style="color:#cfcfca;">opens in the app</span>, which shows you what
+          <span style="color:var(--ink-1);">opens in the app</span>, which shows you what
           it is and asks before applying it — or download the
-          <span style="color:#cfcfca;">.json</span> and import it yourself from
+          <span style="color:var(--ink-1);">.json</span> and import it yourself from
           Settings → Appearance. A theme is a small, validated palette — not code —
-          and Myne <span style="color:#cfcfca;">validates it on your device</span>.
+          and Myne <span style="color:var(--ink-1);">validates it on your device</span>.
           We don't sandbox themes and we don't call this "safe"; the theme travels
           inside the link, so the app never phones this page, and there are no
           trackers or download counters here. Themes you keep are stored as
@@ -89,7 +89,7 @@ const cards = themes.map((t) => ({
         <a
           href="/themes/builder"
           class="tbuild-cta"
-          style="display:inline-flex;align-items:center;gap:8px;margin-top:30px;background:#e6e6e4;color:#0a0a0a;text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;transition:background 0.15s ease;"
+          style="display:inline-flex;align-items:center;gap:8px;margin-top:30px;background:var(--ink-1);color:var(--paper);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;transition:background 0.15s ease;"
           >Build your own →</a
         >
       </div>
@@ -99,9 +99,9 @@ const cards = themes.map((t) => ({
       <div style="max-width:1280px;margin:0 auto;">
         {
           themes.length === 0 ? (
-            <p class="mono" style="color:#6a6a66;font-size:13px;">
+            <p class="mono" style="color:var(--ink-3);font-size:13px;">
               No themes published yet.{" "}
-              <a href={`${REPO}/blob/main/CONTRIBUTING.md`} style="color:#8aa4d0;text-decoration:none;">
+              <a href={`${REPO}/blob/main/CONTRIBUTING.md`} style="color:var(--accent);text-decoration:none;">
                 Contribute the first one →
               </a>
             </p>
@@ -184,22 +184,22 @@ const cards = themes.map((t) => ({
 
         <div
           class="mono"
-          style="margin-top:44px;border-top:1px solid rgba(255,255,255,0.1);padding:30px 0 0;font-size:12.5px;line-height:1.8;color:#6a6a66;max-width:70ch;"
+          style="margin-top:44px;border-top:1px solid rgb(var(--line-rgb) / 0.1);padding:30px 0 0;font-size:12.5px;line-height:1.8;color:var(--ink-3);max-width:70ch;"
         >
           Want to share your own? Themes live in the{" "}
-          <a href={REPO} style="color:#8aa4d0;text-decoration:none;">myne-themes</a>{" "}
+          <a href={REPO} style="color:var(--accent);text-decoration:none;">myne-themes</a>{" "}
           repository — one folder, one pull request. Every submission is checked by
           the <em>same validator the app runs</em> plus a contrast check, then reviewed
           by a maintainer. Contributed themes are{" "}
-          <a href={`${REPO}/blob/main/LICENSING.md`} style="color:#8aa4d0;text-decoration:none;">CC-BY-4.0</a>.
+          <a href={`${REPO}/blob/main/LICENSING.md`} style="color:var(--accent);text-decoration:none;">CC-BY-4.0</a>.
         </div>
       </div>
     </section>
 
-    <footer style="border-top:1px solid rgba(255,255,255,0.1);padding:36px 28px;">
+    <footer style="border-top:1px solid rgb(var(--line-rgb) / 0.1);padding:36px 28px;">
       <div
         class="mono up"
-        style="max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;color:#54544f;"
+        style="max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;color:var(--ink-4);"
       >
         <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><StatusBadge /><VersionBadge />
       </div>
@@ -208,7 +208,7 @@ const cards = themes.map((t) => ({
 
   <style>
     .tbuild-cta:hover {
-      background: #ffffff;
+      background: var(--ink-0);
     }
     .tgrid {
       display: grid;
@@ -216,21 +216,21 @@ const cards = themes.map((t) => ({
       gap: 22px;
     }
     .tcard {
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgb(var(--line-rgb) / 0.1);
       border-radius: 14px;
       overflow: hidden;
-      background: #0c0c0c;
+      background: var(--paper-2);
       display: flex;
       flex-direction: column;
       transition: border-color 0.18s ease, transform 0.18s ease;
     }
     .tcard:hover {
-      border-color: rgba(255, 255, 255, 0.22);
+      border-color: rgb(var(--line-rgb) / 0.22);
       transform: translateY(-2px);
     }
     .tcard-preview {
       aspect-ratio: 1200 / 760;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgb(var(--line-rgb) / 0.08);
       overflow: hidden;
     }
     .tcard-preview img {
@@ -263,26 +263,26 @@ const cards = themes.map((t) => ({
       font-size: 19px;
       font-weight: 600;
       letter-spacing: -0.015em;
-      color: #e6e6e4;
+      color: var(--ink-1);
     }
     .tcard-chip {
       margin-left: auto;
       font-size: 9px;
-      color: #8aa4d0;
-      border: 1px solid rgba(138, 164, 208, 0.35);
+      color: var(--accent);
+      border: 1px solid rgb(var(--accent-rgb) / 0.35);
       border-radius: 999px;
       padding: 3px 9px;
     }
     .tcard-author {
       margin-top: 5px;
       font-size: 11px;
-      color: #6a6a66;
+      color: var(--ink-3);
     }
     .tcard-desc {
       margin: 13px 0 0;
       font-size: 14px;
       line-height: 1.55;
-      color: #a7a7a2;
+      color: var(--ink-2);
       flex: 1;
     }
     .tcard-swatches {
@@ -294,7 +294,7 @@ const cards = themes.map((t) => ({
       width: 22px;
       height: 22px;
       border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgb(var(--line-rgb) / 0.12);
     }
     .tcard-actions {
       display: flex;
@@ -315,14 +315,14 @@ const cards = themes.map((t) => ({
       max-width: 78ch;
       font-size: 13px;
       line-height: 1.7;
-      color: #8a8a86;
+      color: var(--ink-3);
     }
     .tgrid-hint strong {
-      color: #cfcfca;
+      color: var(--ink-1);
       font-weight: 600;
     }
     .tgrid-hint a {
-      color: #8aa4d0;
+      color: var(--accent);
       text-decoration: none;
     }
     .tgrid-hint a:hover {
@@ -336,19 +336,19 @@ const cards = themes.map((t) => ({
       border: 1px solid transparent;
     }
     .tbtn-primary {
-      background: #e6e6e4;
-      color: #0a0a0a;
+      background: var(--ink-1);
+      color: var(--paper);
       font-weight: 600;
     }
     .tbtn-primary:hover {
-      background: #fff;
+      background: var(--ink-0);
     }
     .tbtn-ghost {
-      color: #cfcfca;
-      border-color: rgba(255, 255, 255, 0.2);
+      color: var(--ink-1);
+      border-color: rgb(var(--line-rgb) / 0.2);
     }
     .tbtn-ghost:hover {
-      border-color: rgba(255, 255, 255, 0.4);
+      border-color: rgb(var(--line-rgb) / 0.4);
     }
     @media (max-width: 600px) {
       .tgrid {
@@ -372,13 +372,13 @@ const cards = themes.map((t) => ({
     @media (pointer: coarse) {
       .tcard-actions .tbtn-open {
         background: transparent;
-        color: #cfcfca;
+        color: var(--ink-1);
         font-weight: 400;
-        border-color: rgba(255, 255, 255, 0.2);
+        border-color: rgb(var(--line-rgb) / 0.2);
       }
       .tcard-actions .tbtn-file {
-        background: #e6e6e4;
-        color: #0a0a0a;
+        background: var(--ink-1);
+        color: var(--paper);
         font-weight: 600;
         border-color: transparent;
       }

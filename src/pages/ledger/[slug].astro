@@ -11,7 +11,6 @@ import { absoluteLedgerOg } from "../../lib/og";
 import "../../styles/tokens.css";
 import "../../styles/global.css";
 import "../../styles/ledger.css";
-import "../../styles/ledger-dark.css";
 
 export async function getStaticPaths() {
   const entries = await getPublishedLedgerEntries();
@@ -88,7 +87,7 @@ const ogImage = absoluteLedgerOg(entry, Astro.site!);
       z-index: 90;
       transform: scaleX(0);
       transform-origin: 0 50%;
-      background: linear-gradient(90deg, rgba(138, 164, 208, 0.55), #8aa4d0);
+      background: linear-gradient(90deg, rgb(var(--accent-rgb) / 0.55), var(--accent));
       pointer-events: none;
       will-change: transform;
     }

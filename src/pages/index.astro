@@ -13,13 +13,13 @@ const ogImage = absoluteOg("home", Astro.site!);
 <LandingLayout title={title} description={description} ogImage={ogImage}>
   <div
     data-root
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;overflow-x:clip;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);overflow-x:clip;"
   >
     <!-- Cursor glow: a soft light that follows the pointer everywhere except
          the hero, whose own 01 field already carries the glow. -->
     <div
       data-cursorglow
-      style="position:fixed;top:0;left:0;width:460px;height:460px;border-radius:50%;pointer-events:none;z-index:70;opacity:0;transform:translate3d(-9999px,-9999px,0) translate(-50%,-50%);background:radial-gradient(circle closest-side, rgba(236,235,231,0.06), rgba(236,235,231,0.022) 45%, transparent 70%);mix-blend-mode:screen;transition:opacity .35s ease;"
+      style="position:fixed;top:0;left:0;width:460px;height:460px;border-radius:50%;pointer-events:none;z-index:70;opacity:0;transform:translate3d(-9999px,-9999px,0) translate(-50%,-50%);background:radial-gradient(circle closest-side, rgb(var(--particle-c-rgb) / 0.06), rgb(var(--particle-c-rgb) / 0.022) 45%, transparent 70%);mix-blend-mode:var(--blend-glow);transition:opacity .35s ease;"
     ></div>
     <!-- TOP BAR -->
     <GlassNav active="home" spy />
@@ -45,7 +45,7 @@ const ogImage = absoluteOg("home", Astro.site!);
           </h1>
           <p
             class="mono"
-            style="margin-top:22px;max-width:46ch;font-size:13px;line-height:1.7;color:#8a8a86;"
+            style="margin-top:22px;max-width:46ch;font-size:13px;line-height:1.7;color:var(--ink-3);"
           >
             Myne is a privacy-first markdown notes app that encrypts every byte
             before it leaves your device, asks for no email, and stores only
@@ -55,13 +55,13 @@ const ogImage = absoluteOg("home", Astro.site!);
             <a
               href="/spec/"
               class="up"
-              style="background:#e6e6e4;color:#0a0a0a;text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;"
+              style="background:var(--ink-1);color:var(--paper);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;"
               >Read the spec</a
             >
             <a
               href="#work"
               class="up"
-              style="background:transparent;color:#e6e6e4;text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px solid rgba(255,255,255,0.2);"
+              style="background:transparent;color:var(--ink-1);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px solid rgb(var(--line-rgb) / 0.2);"
               >Learn how it works</a
             >
           </div>
@@ -70,7 +70,7 @@ const ogImage = absoluteOg("home", Astro.site!);
     </section>
 
     <!-- ===================== MANIFESTO (pinned word reveal) ===================== -->
-    <section data-manifesto style="position:relative;height:300vh;background:#0a0a0a;">
+    <section data-manifesto style="position:relative;height:300vh;background:var(--paper);">
       <div
         style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;padding:0 6vw;"
       >
@@ -109,48 +109,48 @@ const ogImage = absoluteOg("home", Astro.site!);
             ></canvas>
           </div>
           <div data-process>
-            <div style="border-top:1px solid rgba(255,255,255,0.14);padding:22px 0;">
-              <div class="mono" style="font-size:12px;color:#54544f;">01</div>
+            <div style="border-top:1px solid rgb(var(--line-rgb) / 0.14);padding:22px 0;">
+              <div class="mono" style="font-size:12px;color:var(--ink-4);">01</div>
               <div
                 class="mono up"
-                style="margin-top:8px;font-size:13px;color:#e6e6e4;"
+                style="margin-top:8px;font-size:13px;color:var(--ink-1);"
               >
                 Key derivation
               </div>
               <p
-                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:#8a8a86;"
+                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:var(--ink-3);"
               >
                 Your password is stretched with Argon2id (m=256 MiB, t=3, p=2)
                 into a key that never leaves the device. Parameters are bound
                 into the ciphertext to defeat downgrade attacks.
               </p>
             </div>
-            <div style="border-top:1px solid rgba(255,255,255,0.14);padding:22px 0;">
-              <div class="mono" style="font-size:12px;color:#54544f;">02</div>
+            <div style="border-top:1px solid rgb(var(--line-rgb) / 0.14);padding:22px 0;">
+              <div class="mono" style="font-size:12px;color:var(--ink-4);">02</div>
               <div
                 class="mono up"
-                style="margin-top:8px;font-size:13px;color:#e6e6e4;"
+                style="margin-top:8px;font-size:13px;color:var(--ink-1);"
               >
                 Local encryption
               </div>
               <p
-                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:#8a8a86;"
+                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:var(--ink-3);"
               >
                 Every note is sealed with XChaCha20-Poly1305 plus a key
                 commitment before it touches disk. Content, titles, folders,
                 timestamps — all of it.
               </p>
             </div>
-            <div style="border-top:1px solid rgba(255,255,255,0.14);padding:22px 0;">
-              <div class="mono" style="font-size:12px;color:#54544f;">03</div>
+            <div style="border-top:1px solid rgb(var(--line-rgb) / 0.14);padding:22px 0;">
+              <div class="mono" style="font-size:12px;color:var(--ink-4);">03</div>
               <div
                 class="mono up"
-                style="margin-top:8px;font-size:13px;color:#e6e6e4;"
+                style="margin-top:8px;font-size:13px;color:var(--ink-1);"
               >
                 Ciphertext at rest
               </div>
               <p
-                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:#8a8a86;"
+                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:var(--ink-3);"
               >
                 Your notes' contents are unreadable on disk without your
                 password. There is no plaintext mode for your notes to forget
@@ -158,17 +158,17 @@ const ogImage = absoluteOg("home", Astro.site!);
               </p>
             </div>
             <div
-              style="border-top:1px solid rgba(255,255,255,0.14);border-bottom:1px solid rgba(255,255,255,0.14);padding:22px 0;"
+              style="border-top:1px solid rgb(var(--line-rgb) / 0.14);border-bottom:1px solid rgb(var(--line-rgb) / 0.14);padding:22px 0;"
             >
-              <div class="mono" style="font-size:12px;color:#54544f;">04</div>
+              <div class="mono" style="font-size:12px;color:var(--ink-4);">04</div>
               <div
                 class="mono up"
-                style="margin-top:8px;font-size:13px;color:#e6e6e4;"
+                style="margin-top:8px;font-size:13px;color:var(--ink-1);"
               >
                 Sync or self-host
               </div>
               <p
-                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:#8a8a86;"
+                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:var(--ink-3);"
               >
                 The same zero-knowledge server — self-hostable, or hosted by us —
                 stores and routes ciphertext, never holding a key. (Sync is in
@@ -184,7 +184,7 @@ const ogImage = absoluteOg("home", Astro.site!);
     <section id="capab" style="padding:100px 28px;">
       <div style="max-width:1280px;margin:0 auto;">
         <div data-reveal style="max-width:620px;margin-bottom:40px;">
-          <span class="mono up" style="font-size:11px;color:#8a8a86;"
+          <span class="mono up" style="font-size:11px;color:var(--ink-3);"
             >Why not the workarounds</span
           >
           <h2
@@ -196,37 +196,37 @@ const ogImage = absoluteOg("home", Astro.site!);
         <div data-reveal class="cmp-scroll">
         <div
           class="cmp-card"
-          style="border:1px solid rgba(255,255,255,0.12);border-radius:12px;overflow:hidden;background:#0c0c0c;"
+          style="border:1px solid rgb(var(--line-rgb) / 0.12);border-radius:12px;overflow:hidden;background:var(--paper-2);"
         >
           <div
             style="display:grid;grid-template-columns:minmax(0,2fr) repeat(5,minmax(0,1fr));"
           >
             <div
-              style="padding:16px 18px;border-bottom:1px solid rgba(255,255,255,0.1);"
+              style="padding:16px 18px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);"
             >
             </div>
             <div
-              style="padding:16px 14px;border-bottom:1px solid rgba(255,255,255,0.1);border-left:1px solid rgba(255,255,255,0.1);background:rgba(138,164,208,0.14);text-align:center;font-weight:700;color:#8aa4d0;"
+              style="padding:16px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);border-left:1px solid rgb(var(--line-rgb) / 0.1);background:rgb(var(--accent-rgb) / 0.14);text-align:center;font-weight:700;color:var(--accent);"
             >
               Myne
             </div>
             <div
-              style="padding:16px 14px;border-bottom:1px solid rgba(255,255,255,0.1);border-left:1px solid rgba(255,255,255,0.1);text-align:center;font-size:13.5px;font-weight:600;color:#c4c4c0;"
+              style="padding:16px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;font-size:13.5px;font-weight:600;color:var(--ink-2);"
             >
               Obsidian
             </div>
             <div
-              style="padding:16px 14px;border-bottom:1px solid rgba(255,255,255,0.1);border-left:1px solid rgba(255,255,255,0.1);text-align:center;font-size:13.5px;font-weight:600;color:#c4c4c0;"
+              style="padding:16px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;font-size:13.5px;font-weight:600;color:var(--ink-2);"
             >
               Standard Notes
             </div>
             <div
-              style="padding:16px 14px;border-bottom:1px solid rgba(255,255,255,0.1);border-left:1px solid rgba(255,255,255,0.1);text-align:center;font-size:13.5px;font-weight:600;color:#c4c4c0;"
+              style="padding:16px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;font-size:13.5px;font-weight:600;color:var(--ink-2);"
             >
               Joplin
             </div>
             <div
-              style="padding:16px 14px;border-bottom:1px solid rgba(255,255,255,0.1);border-left:1px solid rgba(255,255,255,0.1);text-align:center;font-size:13.5px;font-weight:600;color:#c4c4c0;"
+              style="padding:16px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;font-size:13.5px;font-weight:600;color:var(--ink-2);"
             >
               Notesnook
             </div>
@@ -234,10 +234,10 @@ const ogImage = absoluteOg("home", Astro.site!);
           <div data-cmp-rows></div>
         </div>
         </div>
-        <p class="mono" style="margin-top:14px;font-size:11.5px;line-height:1.7;color:#54544f;max-width:90ch;">
+        <p class="mono" style="margin-top:14px;font-size:11.5px;line-height:1.7;color:var(--ink-4);max-width:90ch;">
           Comparison reflects each tool's default configuration. Myne is
           pre-alpha, with no published signed release yet — cells marked
-          <span style="color:#c2a35e;">partial</span> on the Myne column
+          <span style="color:var(--warning);">partial</span> on the Myne column
           (zero-knowledge sync, self-hostable sync) are implemented in code and
           ship in v1.0 (Phase 1); signed reproducible builds are a committed v1.0
           deliverable, not yet produced. Only the managed hosted-sync tier is
@@ -257,24 +257,24 @@ const ogImage = absoluteOg("home", Astro.site!);
           <h2
             style="font-size:clamp(30px,4vw,56px);font-weight:700;letter-spacing:-0.03em;line-height:1.02;"
           >
-            Frequently<br />asked<br /><span style="color:rgba(255,255,255,0.4);"
+            Frequently<br />asked<br /><span style="color:rgb(var(--line-rgb) / 0.4);"
               >questions</span
             >
           </h2>
           <p
-            style="margin-top:20px;max-width:34ch;font-size:13.5px;line-height:1.7;color:#8a8a86;"
+            style="margin-top:20px;max-width:34ch;font-size:13.5px;line-height:1.7;color:var(--ink-3);"
           >
             No vault is worth much if you can't understand it. Straight answers,
             including the uncomfortable ones.
           </p>
           <p
             class="mono"
-            style="margin-top:18px;font-size:12px;line-height:1.6;color:#54544f;"
+            style="margin-top:18px;font-size:12px;line-height:1.6;color:var(--ink-4);"
           >
             Still have a question?<br />
             <a
               href="mailto:info@myne.md"
-              style="color:#8aa4d0;text-decoration:none;"
+              style="color:var(--accent);text-decoration:none;"
               >info@myne.md</a
             >
           </p>
@@ -288,7 +288,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       <div
         data-reveal
         class="cta-grid"
-        style="max-width:1280px;margin:0 auto;border:1px dashed rgba(255,255,255,0.2);padding:56px 48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;"
+        style="max-width:1280px;margin:0 auto;border:1px dashed rgb(var(--line-rgb) / 0.2);padding:56px 48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;"
       >
         <div>
           <h2
@@ -298,7 +298,7 @@ const ogImage = absoluteOg("home", Astro.site!);
             Write like no one's watching.<br />Because no one else can read a word.
           </h2>
           <p
-            style="margin-top:16px;max-width:46ch;font-size:12.5px;line-height:1.7;color:#8a8a86;"
+            style="margin-top:16px;max-width:46ch;font-size:12.5px;line-height:1.7;color:var(--ink-3);"
           >
             Your notes deserve more than a privacy policy. Step into a tool where
             encryption is effortless, invisible, and always on.
@@ -307,13 +307,13 @@ const ogImage = absoluteOg("home", Astro.site!);
             <a
               href="/spec/"
               class="up"
-              style="background:#e6e6e4;color:#0a0a0a;text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;"
+              style="background:var(--ink-1);color:var(--paper);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;"
               >Read the spec</a
             >
             <a
               href="https://github.com/myne-md"
               class="up"
-              style="background:transparent;color:#e6e6e4;text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px solid rgba(255,255,255,0.2);"
+              style="background:transparent;color:var(--ink-1);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px solid rgb(var(--line-rgb) / 0.2);"
               >View source</a
             >
           </div>
@@ -325,17 +325,17 @@ const ogImage = absoluteOg("home", Astro.site!);
           <div
             class="mono"
             data-enclabel
-            style="font-size:10.5px;letter-spacing:0.04em;color:#54544f;margin-bottom:12px;transition:color .45s ease;"
+            style="font-size:10.5px;letter-spacing:0.04em;color:var(--ink-4);margin-bottom:12px;transition:color .45s ease;"
           >
             note.md · in memory
           </div>
           <div
-            style="border:1px solid rgba(255,255,255,0.12);border-radius:8px;background:rgba(255,255,255,0.025);padding:16px 18px;overflow:hidden;"
+            style="border:1px solid rgb(var(--line-rgb) / 0.12);border-radius:8px;background:rgb(var(--line-rgb) / 0.025);padding:16px 18px;overflow:hidden;"
           >
             <div
               data-enclines
               class="mono"
-              style="font-size:12px;line-height:1.95;color:#c4c4c0;white-space:nowrap;"
+              style="font-size:12px;line-height:1.95;color:var(--ink-2);white-space:nowrap;"
             ></div>
           </div>
         </div>
@@ -370,10 +370,10 @@ const ogImage = absoluteOg("home", Astro.site!);
          the text; then a soft falloff that dissolves into the binary. */
       background: radial-gradient(
         62% 58% at 34% 50%,
-        rgba(10, 10, 10, 1) 0%,
-        rgba(10, 10, 10, 1) 28%,
-        rgba(10, 10, 10, 0.55) 52%,
-        rgba(10, 10, 10, 0) 74%
+        rgb(var(--paper-rgb) / 1) 0%,
+        rgb(var(--paper-rgb) / 1) 28%,
+        rgb(var(--paper-rgb) / 0.55) 52%,
+        rgb(var(--paper-rgb) / 0) 74%
       );
     }
     @media (max-width: 760px) {
@@ -381,10 +381,10 @@ const ogImage = absoluteOg("home", Astro.site!);
         inset: -32% -30% -34% -26%;
         background: radial-gradient(
           78% 60% at 42% 46%,
-          rgba(10, 10, 10, 1) 0%,
-          rgba(10, 10, 10, 1) 34%,
-          rgba(10, 10, 10, 0.5) 60%,
-          rgba(10, 10, 10, 0) 82%
+          rgb(var(--paper-rgb) / 1) 0%,
+          rgb(var(--paper-rgb) / 1) 34%,
+          rgb(var(--paper-rgb) / 0.5) 60%,
+          rgb(var(--paper-rgb) / 0) 82%
         );
       }
     }
@@ -426,12 +426,34 @@ const ogImage = absoluteOg("home", Astro.site!);
 <script>
   // Ported from the Claude Design v13 prototype (DCLogic.componentDidMount).
   // Plain DOM + canvas — no framework. Module scope keeps locals off window.
-  const accent = "#8aa4d0";
   const $ = (s: string) => document.querySelector(s);
   const $$ = (s: string) => Array.from(document.querySelectorAll(s));
   const reduce =
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Canvas colours cannot use var() because the 2D context does not resolve
+  // custom properties, so the palette's RGB triples are read from the document
+  // runtime and re-read when the theme switch fires myne:themechange. The
+  // values are published by styles/tokens.css as space-separated triples;
+  // comma form is what rgba() wants.
+  const tri = (v: string) => v.trim().replace(/\s+/g, ",");
+  const readTokens = () => {
+    const cs = getComputedStyle(document.documentElement);
+    return {
+      accent: tri(cs.getPropertyValue("--accent-rgb")),
+      particleA: tri(cs.getPropertyValue("--particle-a-rgb")),
+      particleB: tri(cs.getPropertyValue("--particle-b-rgb")),
+      particleC: tri(cs.getPropertyValue("--particle-c-rgb")),
+    };
+  };
+  let T = readTokens();
+  window.addEventListener("myne:themechange", () => {
+    T = readTokens();
+  });
+  // Markup colours (inline styles in generated HTML) DO take var(), so they
+  // are written as the token itself and re-resolve on every theme change.
+  const accent = "var(--accent)";
 
   let manCheck: (() => void) | null = null;
   let nRaf = 0;
@@ -610,7 +632,6 @@ const ogImage = absoluteOg("home", Astro.site!);
       [0, 5],
       [2, 4],
     ];
-    const ACCENT = "138,164,208";
     const rot = (x: number, y: number, z: number, ry: number, rx: number) => {
       const x1 = x * Math.cos(ry) - z * Math.sin(ry),
         z1 = x * Math.sin(ry) + z * Math.cos(ry);
@@ -664,8 +685,8 @@ const ogImage = absoluteOg("home", Astro.site!);
         cy,
         R,
       );
-      body.addColorStop(0, "rgba(" + ACCENT + ",0.06)");
-      body.addColorStop(1, "rgba(" + ACCENT + ",0)");
+      body.addColorStop(0, "rgba(" + T.accent + ",0.06)");
+      body.addColorStop(1, "rgba(" + T.accent + ",0)");
       ctx.fillStyle = body;
       ctx.beginPath();
       ctx.arc(cx, cy, R, 0, 6.2832);
@@ -684,7 +705,7 @@ const ogImage = absoluteOg("home", Astro.site!);
           const sx = cx + p.x * R,
             sy = cy + p.y * R;
           ctx.strokeStyle =
-            "rgba(232,231,225," +
+            "rgba(" + T.particleA + "," +
             (0.1 + gclamp((p.z + 1) / 2, 0, 1) * 0.35).toFixed(2) +
             ")";
           if (!started) {
@@ -707,7 +728,7 @@ const ogImage = absoluteOg("home", Astro.site!);
           const sx = cx + p.x * R,
             sy = cy + p.y * R;
           ctx.strokeStyle =
-            "rgba(232,231,225," +
+            "rgba(" + T.particleA + "," +
             (0.08 + gclamp((p.z + 1) / 2, 0, 1) * 0.28).toFixed(2) +
             ")";
           if (!started) {
@@ -734,7 +755,7 @@ const ogImage = absoluteOg("home", Astro.site!);
           if (prev) {
             const zf = gclamp(((p.z + prev.z) / 2) * 0.5 + 0.5, 0, 1);
             ctx.strokeStyle =
-              "rgba(" + ACCENT + "," + (0.05 + zf * 0.33).toFixed(3) + ")";
+              "rgba(" + T.accent + "," + (0.05 + zf * 0.33).toFixed(3) + ")";
             ctx.beginPath();
             ctx.moveTo(prev.sx, prev.sy);
             ctx.lineTo(sx, sy);
@@ -758,13 +779,13 @@ const ogImage = absoluteOg("home", Astro.site!);
           sy = cy + p.y * R;
         const fade = gclamp((p.z + 0.05) / 0.6, 0, 1);
         const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, 9);
-        g.addColorStop(0, "rgba(" + ACCENT + "," + (0.85 * fade).toFixed(3) + ")");
-        g.addColorStop(1, "rgba(" + ACCENT + ",0)");
+        g.addColorStop(0, "rgba(" + T.accent + "," + (0.85 * fade).toFixed(3) + ")");
+        g.addColorStop(1, "rgba(" + T.accent + ",0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(sx, sy, 9, 0, 6.2832);
         ctx.fill();
-        ctx.fillStyle = "rgba(214,226,247," + (0.9 * fade).toFixed(3) + ")";
+        ctx.fillStyle = "rgba(" + T.particleB + "," + (0.9 * fade).toFixed(3) + ")";
         ctx.beginPath();
         ctx.arc(sx, sy, 1.6, 0, 6.2832);
         ctx.fill();
@@ -783,9 +804,9 @@ const ogImage = absoluteOg("home", Astro.site!);
         const gg = ctx.createRadialGradient(sx, sy, 0, sx, sy, glowR);
         gg.addColorStop(
           0,
-          "rgba(" + ACCENT + "," + (0.4 * (0.5 + depth * 0.5)).toFixed(3) + ")",
+          "rgba(" + T.accent + "," + (0.4 * (0.5 + depth * 0.5)).toFixed(3) + ")",
         );
-        gg.addColorStop(1, "rgba(" + ACCENT + ",0)");
+        gg.addColorStop(1, "rgba(" + T.accent + ",0)");
         ctx.fillStyle = gg;
         ctx.beginPath();
         ctx.arc(sx, sy, glowR, 0, 6.2832);
@@ -801,8 +822,8 @@ const ogImage = absoluteOg("home", Astro.site!);
         const depth = (p.z + 1) / 2;
         const hubN = i === 1;
         ctx.fillStyle = hubN
-          ? "rgba(224,233,250," + (0.6 + depth * 0.4).toFixed(3) + ")"
-          : "rgba(232,231,225," + (0.4 + depth * 0.6).toFixed(3) + ")";
+          ? "rgba(" + T.particleB + "," + (0.6 + depth * 0.4).toFixed(3) + ")"
+          : "rgba(" + T.particleA + "," + (0.4 + depth * 0.6).toFixed(3) + ")";
         ctx.beginPath();
         ctx.arc(sx, sy, hubN ? 3.1 : 2.3, 0, 6.2832);
         ctx.fill();
@@ -817,9 +838,9 @@ const ogImage = absoluteOg("home", Astro.site!);
   // ---------- comparison rows ----------
   const cmp = $("[data-cmp-rows]") as HTMLElement | null;
   if (cmp) {
-    const Y = '<span style="color:#7fb89a;font-weight:600;">✓</span>';
-    const N = '<span style="color:#54544f;">—</span>';
-    const P = '<span style="color:#c2a35e;font-size:12px;">partial</span>';
+    const Y = '<span style="color:var(--success);font-weight:600;">✓</span>';
+    const N = '<span style="color:var(--ink-4);">—</span>';
+    const P = '<span style="color:var(--warning);font-size:12px;">partial</span>';
     // Columns: label, Myne, Obsidian+Cryptomator+Syncthing, Standard Notes,
     // Joplin, Notesnook. Researched + adversarially verified against each
     // tool's default config (see /spec + the workarounds research).
@@ -843,25 +864,25 @@ const ogImage = absoluteOg("home", Astro.site!);
       row.style.cssText =
         "display:grid;grid-template-columns:minmax(0,2fr) repeat(5,minmax(0,1fr));" +
         (ri < rows.length - 1
-          ? "border-bottom:1px solid rgba(255,255,255,0.1);"
+          ? "border-bottom:1px solid rgb(var(--line-rgb) / 0.1);"
           : "");
       const cells = [
-        '<div style="padding:14px 18px;font-size:13.5px;color:#e6e6e4;">' +
+        '<div style="padding:14px 18px;font-size:13.5px;color:var(--ink-1);">' +
           r[0] +
           "</div>",
-        '<div style="padding:14px 14px;border-left:1px solid rgba(255,255,255,0.1);background:rgba(138,164,208,0.08);text-align:center;">' +
+        '<div style="padding:14px 14px;border-left:1px solid rgb(var(--line-rgb) / 0.1);background:rgb(var(--accent-rgb) / 0.08);text-align:center;">' +
           r[1] +
           "</div>",
-        '<div style="padding:14px 14px;border-left:1px solid rgba(255,255,255,0.1);text-align:center;">' +
+        '<div style="padding:14px 14px;border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;">' +
           r[2] +
           "</div>",
-        '<div style="padding:14px 14px;border-left:1px solid rgba(255,255,255,0.1);text-align:center;">' +
+        '<div style="padding:14px 14px;border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;">' +
           r[3] +
           "</div>",
-        '<div style="padding:14px 14px;border-left:1px solid rgba(255,255,255,0.1);text-align:center;">' +
+        '<div style="padding:14px 14px;border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;">' +
           r[4] +
           "</div>",
-        '<div style="padding:14px 14px;border-left:1px solid rgba(255,255,255,0.1);text-align:center;">' +
+        '<div style="padding:14px 14px;border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;">' +
           r[5] +
           "</div>",
       ];
@@ -956,9 +977,9 @@ const ogImage = absoluteOg("home", Astro.site!);
             const d = Math.hypot(px - mouse.x, py - mouse.y);
             if (d < R) {
               const a2 = clamp(a + (1 - d / R) * 0.62, 0, 0.82);
-              ctx.fillStyle = "rgba(236,235,231," + a2.toFixed(3) + ")";
+              ctx.fillStyle = "rgba(" + T.particleC + "," + a2.toFixed(3) + ")";
             } else {
-              ctx.fillStyle = "rgba(232,231,225," + a.toFixed(3) + ")";
+              ctx.fillStyle = "rgba(" + T.particleA + "," + a.toFixed(3) + ")";
             }
             ctx.fillText(cell.c, px, py);
           }
@@ -1056,13 +1077,13 @@ const ogImage = absoluteOg("home", Astro.site!);
     items.forEach(([q, a], i) => {
       const row = document.createElement("div");
       row.style.cssText =
-        "border-bottom:1px solid rgba(255,255,255,0.1);" +
-        (i === 0 ? "border-top:1px solid rgba(255,255,255,0.1);" : "");
+        "border-bottom:1px solid rgb(var(--line-rgb) / 0.1);" +
+        (i === 0 ? "border-top:1px solid rgb(var(--line-rgb) / 0.1);" : "");
       const head = document.createElement("button");
       head.style.cssText =
-        "width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 16px;background:rgba(255,255,255,0.02);border:0;cursor:pointer;text-align:left;font-family:inherit;margin:8px 0;border-radius:8px;";
+        "width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 16px;background:rgb(var(--line-rgb) / 0.02);border:0;cursor:pointer;text-align:left;font-family:inherit;margin:8px 0;border-radius:8px;";
       head.innerHTML =
-        '<span style="font-size:15px;font-weight:500;color:#e6e6e4;">' +
+        '<span style="font-size:15px;font-weight:500;color:var(--ink-1);">' +
         q +
         '</span><span class="mono" data-plus style="font-size:18px;color:' +
         accent +
@@ -1071,7 +1092,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       body.style.cssText =
         "overflow:hidden;max-height:0;transition:max-height .35s ease;";
       body.innerHTML =
-        '<p style="padding:0 16px 18px;max-width:60ch;font-size:13.5px;line-height:1.65;color:#8a8a86;">' +
+        '<p style="padding:0 16px 18px;max-width:60ch;font-size:13.5px;line-height:1.65;color:var(--ink-3);">' +
         a +
         "</p>";
       const plus = head.querySelector("[data-plus]") as HTMLElement;
@@ -1166,7 +1187,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       enclabel.textContent = cipher
         ? "note.myn · ciphertext"
         : "note.md · in memory";
-      enclabel.style.color = cipher ? "#8aa4d0" : "#54544f";
+      enclabel.style.color = cipher ? "var(--accent)" : "var(--ink-4)";
     };
     if (reduce) {
       // Static ciphertext conveys the point without motion.

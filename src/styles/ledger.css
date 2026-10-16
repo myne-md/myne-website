@@ -171,3 +171,73 @@
   .ledger-filter-row { gap: 16px; }
   .ledger-filter-spacer { flex-basis: 100%; height: 0; }
 }
+
+/* =========================================================================
+   v13 ledger chrome, merged in from the retired ledger-dark.css.
+
+   That file was a `:root:root` token override that flipped the whole page
+   dark; the palette is now site-wide (styles/tokens.css is dark by default,
+   light under [data-theme="light"]), so only the LAYOUT rules and the handful
+   of literal prose tweaks it carried remain here, tokenised.
+   ========================================================================= */
+
+.ledger-root {
+  min-height: 100vh;
+}
+
+/* The bare <section> hairline + big block padding from global.css don't suit
+   the v13 page: clear the fixed header and drop the divider. */
+.ledger-root section {
+  border-bottom: 0;
+  padding: 116px 0 64px;
+}
+
+/* v13 eyebrow: mono, dimmer, to match the other pages. */
+.ledger-root .section-eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+/* v13 prose polish (the rest of .ledger-prose already follows the theme). */
+.ledger-prose h2,
+.ledger-prose h3 {
+  color: var(--ink-1);
+}
+.ledger-prose strong {
+  color: var(--ink-1);
+}
+.ledger-prose blockquote {
+  border-left: 2px solid var(--accent);
+  background: rgb(var(--accent-rgb) / 0.07);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  color: var(--fg-2);
+}
+.ledger-prose code {
+  background: rgb(var(--line-rgb) / 0.07);
+  border-color: rgb(var(--line-rgb) / 0.08);
+  color: var(--ink-1);
+}
+.ledger-prose pre {
+  background: var(--paper-2);
+  border-color: rgb(var(--line-rgb) / 0.1);
+}
+
+/* v13 footer: matches the roadmap / guide footers. */
+.ledger-footer {
+  border-top: 1px solid rgb(var(--line-rgb) / 0.1);
+  padding: 36px 0;
+}
+.ledger-footer__inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 10px;
+  color: var(--ink-4);
+}

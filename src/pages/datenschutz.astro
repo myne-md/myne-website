@@ -23,23 +23,23 @@ const ogImage = absoluteOg("datenschutz", Astro.site!);
 
 const effective = "16. Oktober 2026";
 
-const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
 const h3 =
-  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:var(--ink-1);";
 const body =
-  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
-  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+  "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
 const tableWrap = "margin-top:22px;overflow-x:auto;";
 const table =
   "width:100%;border-collapse:collapse;font-size:14px;line-height:1.6;min-width:640px;";
 const th =
-  "text-align:left;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.14);color:#e6e6e4;font-weight:650;white-space:nowrap;";
+  "text-align:left;padding:10px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.14);color:var(--ink-1);font-weight:650;white-space:nowrap;";
 const td =
-  "padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);color:#8a8a86;vertical-align:top;";
-const tdEm = td + "color:#e6e6e4;white-space:nowrap;";
+  "padding:10px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.06);color:var(--ink-3);vertical-align:top;";
+const tdEm = td + "color:var(--ink-1);white-space:nowrap;";
 
 const network = [
   {
@@ -154,7 +154,7 @@ const notStored = [
 
 <LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage} notice="updating" noticeLang="de">
   <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
   >
     <GlassNav active="legal" />
 
@@ -168,7 +168,7 @@ const notStored = [
         </h1>
         <p style={body}>
           Gültig ab {effective}. Sie gilt für myne.md, den Modell-Download-Ursprung sowie die
-          Desktop-, Mobil- und Browser-Clients. <strong style="color:#e6e6e4;">Myne betreibt keinen
+          Desktop-, Mobil- und Browser-Clients. <strong style="color:var(--ink-1);">Myne betreibt keinen
           eigenen Synchronisationsdienst</strong>: Wenn Sie Sync nutzen, liegt Ihr Chiffrat auf einem
           Server, den Sie oder eine andere Person betreiben, und für das, was dort liegt, ist diese
           Person verantwortlich, nicht wir. Der folgende Abschnitt ist so geschrieben, dass er in
@@ -177,20 +177,20 @@ const notStored = [
 
         <div style={cardStyle}>
           <div class="mono up" style={eyebrow}>Kurzfassung</div>
-          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Ihre Notizen werden auf Ihrem Gerät verschlüsselt, bevor sie es verlassen, und wir
             besitzen keinen Schlüssel, der sie öffnet. Für die Anmeldung wird keine E-Mail-Adresse
             verlangt — Ihr Konto ist eine 20-stellige Nummer, die Sie behalten. Wir protokollieren
             keine IP-Adressen, setzen keine Cookies, betreiben keine Analyse und laden nichts von
             fremden Servern nach.
           </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Was wir haben, ist kurz und wird hier benannt statt umschrieben: ein Hash, der Ihr Konto
             kennzeichnet, ein Anmelde-Verifier, Ihre verschlüsselten Blobs, ein Verzeichnis Ihrer
             angemeldeten Geräte und zwei Zähler für Speicherplatz und Ratenbegrenzung. Das ist die
             vollständige Liste, und sie steht unten.
           </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Die Kehrseite davon, keinen Schlüssel zu besitzen: Wenn Sie Ihr Passwort <em>und</em> Ihre
             Wiederherstellungsphrase verlieren, kann niemand Ihre Notizen zurückholen — wir eingeschlossen.
           </p>
@@ -231,10 +231,10 @@ const notStored = [
         </div>
 
         <p style={body}>
-          Zwei Zeilen verdienen mehr als eine Fußnote. Die <strong style="color:#e6e6e4;"
+          Zwei Zeilen verdienen mehr als eine Fußnote. Die <strong style="color:var(--ink-1);"
             >Synchronisation</strong
           > sendet Ihre Notizen verschlüsselt an den von Ihnen gewählten Server — das ist die Funktion.
-          <strong style="color:#e6e6e4;">KI über einen entfernten Anbieter</strong> sendet Notiztext
+          <strong style="color:var(--ink-1);">KI über einen entfernten Anbieter</strong> sendet Notiztext
           <em>im Klartext</em> an ein Unternehmen, das nicht wir sind — denn genau das heißt es, ein entferntes
           Modell um das Lesen einer Notiz zu bitten. Diese Funktion ist aus, ihre Aktivierung erfordert
           am Computer fünf bewusste Schritte und auf dem Telefon vier, da es dort keinen
@@ -243,7 +243,7 @@ const notStored = [
         </p>
         <p style={body}>
           Ein Teil davon sei ausdrücklich genannt, weil er nicht dem entspricht, was man unter
-          &bdquo;Notiztext&ldquo; erwartet. Wenn Sie die KI <strong style="color:#e6e6e4;">Änderungen</strong>
+          &bdquo;Notiztext&ldquo; erwartet. Wenn Sie die KI <strong style="color:var(--ink-1);">Änderungen</strong>
           an mehreren Notizen vorschlagen lassen, erhält sie zuerst die <em>Liste</em>: Titel, Kennung
           und Ordnerpfad jeder Notiz, die sie lesen darf, gesendet, bevor sie eine einzige davon gelesen
           hat. Diese Menge ist Ihr gesamter Vault abzüglich der von der KI ausgeschlossenen Ordner,
@@ -277,17 +277,17 @@ const notStored = [
         </p>
         <ul style={body + "padding-left:20px;"}>
           <li style="margin-top:8px;">
-            <strong style="color:#e6e6e4;">Ein Diagnoseprotokoll, ausgeschaltet, bis Sie es einschalten.</strong>
+            <strong style="color:var(--ink-1);">Ein Diagnoseprotokoll, ausgeschaltet, bis Sie es einschalten.</strong>
             Unter Einstellungen &rarr; Über können Sie eine Klartext-Aufzeichnung dessen einschalten,
             was die App tut, damit ein Fehlerbericht sagen kann, was passiert ist, statt nur, was Sie
             gesehen haben. Sie liegt im Protokollordner dieses Geräts und nicht in Ihrem Tresor, sie
             enthält nur Meldungen von Myne selbst und nie die Bibliotheken, aus denen die App gebaut
             ist, ihre Größe ist begrenzt und die ältesten Einträge fallen zuerst heraus, und
-            <strong style="color:#e6e6e4;">das Ausschalten löscht sie</strong>. Sie zeichnet niemals
+            <strong style="color:var(--ink-1);">das Ausschalten löscht sie</strong>. Sie zeichnet niemals
             Ihren Notiztext, einen Notiztitel oder einen Dateipfad auf.
           </li>
           <li style="margin-top:8px;">
-            <strong style="color:#e6e6e4;">Ein Absturzeintrag, geschrieben, ob das Protokoll an ist oder nicht.</strong>
+            <strong style="color:var(--ink-1);">Ein Absturzeintrag, geschrieben, ob das Protokoll an ist oder nicht.</strong>
             Wenn die App abstürzt, schreibt sie eine einzelne kleine Datei mit dem Quellort, der
             Version und Ihrer Plattform, und sonst nichts: keine Absturzmeldung und nichts über Ihre
             Notizen, denn eine Absturzmeldung ist beliebiger Text aus beliebigem Code. Nur der
@@ -357,10 +357,10 @@ const notStored = [
 
         <h3 style={h3}>Sicherungen</h3>
         <p style={body}>
-          Verschlüsselte Sicherungen laufen in einem <strong style="color:#e6e6e4;"
+          Verschlüsselte Sicherungen laufen in einem <strong style="color:var(--ink-1);"
             >14-Tage-Zyklus</strong
           >. Ein gelöschtes Konto verschwindet daher sofort aus dem laufenden Dienst und
-          <strong style="color:#e6e6e4;">binnen 14 Tagen</strong> aus dem letzten Sicherungssatz. Wir
+          <strong style="color:var(--ink-1);">binnen 14 Tagen</strong> aus dem letzten Sicherungssatz. Wir
           nennen diese Zahl, weil die meisten Dienste sie nicht nennen: „sofort gelöscht" trifft auf niemanden
           zu, der Sicherungen führt, und eine Erklärung, die das Sicherungsfenster verschweigt, beschreibt
           ein System, das es nicht gibt.
@@ -385,12 +385,20 @@ const notStored = [
           Notiz-App, die keine Notizen speichern kann, ist nicht der Dienst. Wir beschreiben es
           hier, statt Sie ein Häkchen setzen zu lassen, weil das Häkchen eine Inszenierung wäre. Wir
           setzen überhaupt keine Cookies und speichern nichts zu einem anderen Zweck als dem
-          Betrieb der von Ihnen geöffneten App.
+          Betrieb der von Ihnen geöffneten Seite oder App.
+        </p>
+        <p style={body}>
+          Eines wird noch gespeichert, und nur, wenn Sie es nutzen: Wenn Sie die Website auf Hell
+          umstellen, bleibt diese Wahl im lokalen Speicher Ihres Browsers unter dem Schlüssel
+          <code>myne-theme</code>, damit die nächste Seite im gewählten Thema öffnet. Es ist eine
+          Anzeigeeinstellung auf Ihrem eigenen Gerät, sie wird nur beim Klick auf den Schalter
+          geschrieben, sie sagt nichts über Sie aus und wird nirgendwohin gesendet. Mit dem Löschen
+          Ihrer Browserdaten verschwindet sie.
         </p>
 
         <h2 style={h2}>Spenden</h2>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Myne nimmt seit dem 16. Oktober 2026 keine Spenden mehr
+          <strong style="color:var(--ink-1);">Myne nimmt seit dem 16. Oktober 2026 keine Spenden mehr
           an.</strong> Die Sammlung über Open Collective wurde geschlossen; es gibt daher keinen
           Zahlungsweg und keinen Zahlungsdienstleister mehr zu beschreiben, weshalb der Abschnitt zu
           den Auftragsverarbeitern keinen nennt. Der Satz bleibt hier stehen, weil eine Person, deren
@@ -407,19 +415,19 @@ const notStored = [
           beiden Fällen aus demselben Grund:
         </p>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Auskunft und Übertragbarkeit.</strong> Ihre Notizen sind bereits
+          <strong style="color:var(--ink-1);">Auskunft und Übertragbarkeit.</strong> Ihre Notizen sind bereits
           bei Ihnen — das ist die App. Was wir darüber hinaus haben, ist die kurze Liste oben, und entschlüsseln
           können wir davon nichts. Ein Export ist in der App enthalten und liefert mehr, als wir liefern
           könnten.
         </p>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Löschung.</strong> Die Löschung liegt in der App, aus dem oben
+          <strong style="color:var(--ink-1);">Löschung.</strong> Die Löschung liegt in der App, aus dem oben
           beschriebenen Überprüfungsgrund. Schreiben Sie uns, wenn dieser Weg für Sie nicht funktioniert
           — dann finden wir eine Lösung.
         </p>
         <p style={body}>
           Ihnen steht ferner ein Beschwerderecht bei einer Aufsichtsbehörde zu. Zuständig ist
-          <span style="color:#e6e6e4;"
+          <span style="color:var(--ink-1);"
             >Die Landesbeauftragte für den Datenschutz und für das Recht auf Akteneinsicht
             Brandenburg</span
           >, Stahnsdorfer Damm 77, 14532 Kleinmachnow.
@@ -427,12 +435,12 @@ const notStored = [
 
         <h2 style={h2}>Verantwortlicher</h2>
         <div style={cardStyle}>
-          <p style="margin:0;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:0;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Ömer Duran<br />
             Potsdam, Deutschland<br />
-            <a href="mailto:privacy@myne.md" style="color:#8aa4d0;">privacy@myne.md</a>
+            <a href="mailto:privacy@myne.md" style="color:var(--accent);">privacy@myne.md</a>
           </p>
-          <p style="margin:14px 0 0;font-size:14px;line-height:1.65;color:#6f6f6c;">
+          <p style="margin:14px 0 0;font-size:14px;line-height:1.65;color:var(--ink-3);">
             Eine vollständige Postanschrift ist unter der genannten Adresse auf Anfrage erhältlich.
             Eine öffentliche Beta gibt es nicht mehr, es gibt also auch keine Hostname-Ankündigung,
             die sie tragen würde; die Impressum-Seite bleibt zurückgehalten, bis die Anschrift
@@ -443,7 +451,7 @@ const notStored = [
 
         <h3 style={h3}>Auftragsverarbeiter</h3>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Hetzner Online GmbH</strong>, Industriestr. 25, 91710
+          <strong style="color:var(--ink-1);">Hetzner Online GmbH</strong>, Industriestr. 25, 91710
           Gunzenhausen, betreibt die Maschinen. myne.md und der Modell-Download-Ursprung laufen im
           Rechenzentrum Falkenstein in Deutschland, auf Grundlage eines Vertrags zur
           Auftragsverarbeitung nach Art. 28 DSGVO. Ein Zahlungsdienstleister besteht nicht mehr, da
@@ -458,7 +466,7 @@ const notStored = [
         <h2 style={h2}>Missbrauchsmeldungen und behördliche Anfragen</h2>
         <p style={body}>
           Meldungen richten Sie bitte an
-          <a href="mailto:abuse@myne.md" style="color:#8aa4d0;">abuse@myne.md</a>. Wir können nicht
+          <a href="mailto:abuse@myne.md" style="color:var(--accent);">abuse@myne.md</a>. Wir können nicht
           lesen, was Menschen speichern, also können wir es nicht vorab prüfen, und wir behaupten
           nichts anderes. Auf eine begründete Meldung hin können wir das Konto betreffen, denn das
           ist das einzige Mittel, das einem Betreiber eines blinden Speichers bleibt.
@@ -466,7 +474,7 @@ const notStored = [
         <p style={body}>
           Behördliche Anfragen richten Sie bitte an <a
             href="mailto:legal@myne.md"
-            style="color:#8aa4d0;">legal@myne.md</a
+            style="color:var(--accent);">legal@myne.md</a
           >; wir beantworten sie anhand der obigen Liste und nicht darüber hinaus: Wir können nur
           herausgeben, was wir haben, und das ist ein Hash, ein Verifier, einige Zähler und
           Chiffrat, das wir nicht öffnen können. Ein Schlüssel liegt uns nicht vor, keine deutsche
@@ -485,8 +493,8 @@ const notStored = [
           ein öffentlicher Commit.
         </p>
 
-        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
-          English version: <a href="/privacy/" style="color:#8aa4d0;">Privacy Policy</a>.
+        <p style={body + "margin-top:44px;font-size:14px;color:var(--ink-3);"}>
+          English version: <a href="/privacy/" style="color:var(--accent);">Privacy Policy</a>.
         </p>
       </div>
     </section>

@@ -27,23 +27,23 @@ const ogImage = absoluteOg("privacy", Astro.site!);
 
 const effective = "16 October 2026";
 
-const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
 const h3 =
-  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:var(--ink-1);";
 const body =
-  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
-  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+  "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
 const tableWrap = "margin-top:22px;overflow-x:auto;";
 const table =
   "width:100%;border-collapse:collapse;font-size:14px;line-height:1.6;min-width:640px;";
 const th =
-  "text-align:left;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.14);color:#e6e6e4;font-weight:650;white-space:nowrap;";
+  "text-align:left;padding:10px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.14);color:var(--ink-1);font-weight:650;white-space:nowrap;";
 const td =
-  "padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);color:#8a8a86;vertical-align:top;";
-const tdEm = td + "color:#e6e6e4;white-space:nowrap;";
+  "padding:10px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.06);color:var(--ink-3);vertical-align:top;";
+const tdEm = td + "color:var(--ink-1);white-space:nowrap;";
 
 // Every row below is a statement about code, not about intent. The inventory
 // was read out of the tree on 2026-08-12: the CSP `connect-src` in
@@ -163,7 +163,7 @@ const notStored = [
 
 <LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage} notice="updating">
   <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
   >
     <GlassNav active="legal" />
 
@@ -177,7 +177,7 @@ const notStored = [
         </h1>
         <p style={body}>
           Effective {effective}. It covers myne.md, the model-download origin and the desktop, mobile
-          and browser clients. <strong style="color:#e6e6e4;">Myne runs no sync service of its own</strong>,
+          and browser clients. <strong style="color:var(--ink-1);">Myne runs no sync service of its own</strong>,
           so if you use sync, the server holding your ciphertext is one you run or one somebody else
           runs; that operator is the controller for what it holds, not us. The section below is
           written to be read either way.
@@ -188,19 +188,19 @@ const notStored = [
         <!-- away with an accurate picture, not a flattering one.          -->
         <div style={cardStyle}>
           <div class="mono up" style={eyebrow}>The short version</div>
-          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Your notes are encrypted on your device before they go anywhere, and we hold no key that
             opens them. Signing up takes no email address — your account is a 20-character number
             you keep. We do not log IP addresses, set no cookies, run no analytics, and load nothing
             from anyone else's server.
           </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             What we do have is short and worth naming rather than glossing: a hash that identifies
             your account, a login verifier, your encrypted blobs, a record of which devices you
             enrolled, and two counters for storage and rate limits. That is the whole list, and it
             is below in full.
           </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             The flip side of holding no key: if you lose your password <em>and</em> your recovery phrase,
             nobody — including us — can get your notes back.
           </p>
@@ -243,10 +243,10 @@ const notStored = [
         </div>
 
         <p style={body}>
-          Two rows deserve emphasis rather than a footnote. <strong style="color:#e6e6e4;"
+          Two rows deserve emphasis rather than a footnote. <strong style="color:var(--ink-1);"
             >Sync</strong
           > sends your notes, encrypted, to the server you chose — that is the feature. <strong
-            style="color:#e6e6e4;">AI via a remote provider</strong
+            style="color:var(--ink-1);">AI via a remote provider</strong
           > sends note text <em>in the clear</em> to a company that is not us, because that is what asking
           a remote model to read your note means. It is off, and turning it on takes five deliberate
           steps on a computer and four on a phone, which has no developer mode; once on, that
@@ -255,7 +255,7 @@ const notStored = [
         </p>
         <p style={body}>
           One part of that is worth spelling out, because it is not what &ldquo;note text&rdquo; brings to
-          mind. When you let the AI propose <strong style="color:#e6e6e4;">changes</strong> to a set of
+          mind. When you let the AI propose <strong style="color:var(--ink-1);">changes</strong> to a set of
           notes, the first thing it receives is the <em>list</em>: the title, identifier and folder path
           of every note it may read, sent before it has read a single one of them. That set is your
           whole vault minus the folders you excluded from AI unless you narrow it on the composer, so
@@ -285,16 +285,16 @@ const notStored = [
         </p>
         <ul style={body + "padding-left:20px;"}>
           <li style="margin-top:8px;">
-            <strong style="color:#e6e6e4;">A diagnostic log, off until you turn it on.</strong> Under
+            <strong style="color:var(--ink-1);">A diagnostic log, off until you turn it on.</strong> Under
             Settings &rarr; About you can switch on a plain-text record of what the app is doing, so
             that a bug report can say what happened instead of only what you saw. It sits in this
             device&rsquo;s log folder rather than inside your vault, it holds only Myne&rsquo;s own
             messages and never the libraries the app is built on, its size is capped with the oldest
-            entries dropped first, and <strong style="color:#e6e6e4;">switching it off deletes it</strong>.
+            entries dropped first, and <strong style="color:var(--ink-1);">switching it off deletes it</strong>.
             It never records your note text, a note title or a file path.
           </li>
           <li style="margin-top:8px;">
-            <strong style="color:#e6e6e4;">One crash record, written whether or not the log is on.</strong>
+            <strong style="color:var(--ink-1);">One crash record, written whether or not the log is on.</strong>
             If the app crashes, it writes a single small file holding the source location, the version
             and your platform, and nothing else: no crash message and nothing about your notes,
             because a crash message is arbitrary text from arbitrary code. Only the most recent crash
@@ -371,9 +371,9 @@ const notStored = [
 
         <h3 style={h3}>Backups</h3>
         <p style={body}>
-          Encrypted backups run on a <strong style="color:#e6e6e4;">14-day rotation</strong>. A
+          Encrypted backups run on a <strong style="color:var(--ink-1);">14-day rotation</strong>. A
           deleted account therefore disappears from the live service immediately and from the last
-          backup set <strong style="color:#e6e6e4;">within 14 days</strong>. We are stating the
+          backup set <strong style="color:var(--ink-1);">within 14 days</strong>. We are stating the
           number because most services do not: "deleted immediately" is rarely true of anyone who
           keeps backups, and a policy that omits the backup window is describing a system that does
           not exist.
@@ -397,12 +397,19 @@ const notStored = [
           you explicitly requested — a notes app that cannot store your notes is not the service. We
           describe it here rather than asking you to click a box, because the box would be
           theatre. We set no cookies at all, and we store nothing for any purpose other than running
-          the app you opened.
+          the page or the app you opened.
+        </p>
+        <p style={body}>
+          One more thing is stored, and only if you use it: switching the site to light keeps that
+          choice in your browser's local storage under the key <code>myne-theme</code>, so the next
+          page opens in the theme you picked. It is a display preference on your own device, it is
+          written only when you click the switch, it says nothing about you, and it is never sent
+          anywhere. Clearing your browser data removes it.
         </p>
 
         <h2 style={h2}>Donations</h2>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Myne takes no donations, as of 16 October 2026.</strong> The
+          <strong style="color:var(--ink-1);">Myne takes no donations, as of 16 October 2026.</strong> The
           Open Collective collection was closed, so there is no payment path to describe and no
           payment processor in the chain. The section below about processors therefore lists none.
           This is recorded rather than deleted because a donor whose data reached the fiscal host
@@ -418,17 +425,17 @@ const notStored = [
           same in both cases:
         </p>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Access and portability.</strong> Your notes are already in your
+          <strong style="color:var(--ink-1);">Access and portability.</strong> Your notes are already in your
           hands — that is what the app is. What we hold beyond them is the short list above, and we cannot
           decrypt any of it. An export lives in the app, and it produces more than we could.
         </p>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Erasure.</strong> Deletion is in the app, for the verification
+          <strong style="color:var(--ink-1);">Erasure.</strong> Deletion is in the app, for the verification
           reason described above. Write to us if that path fails you and we will work it out.
         </p>
         <p style={body}>
           You may also complain to a supervisory authority. Ours is
-          <span style="color:#e6e6e4;"
+          <span style="color:var(--ink-1);"
             >Die Landesbeauftragte für den Datenschutz und für das Recht auf Akteneinsicht
             Brandenburg</span
           >, Stahnsdorfer Damm 77, 14532 Kleinmachnow.
@@ -436,12 +443,12 @@ const notStored = [
 
         <h2 style={h2}>Who is responsible</h2>
         <div style={cardStyle}>
-          <p style="margin:0;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:0;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Ömer Duran<br />
             Potsdam, Germany<br />
-            <a href="mailto:privacy@myne.md" style="color:#8aa4d0;">privacy@myne.md</a>
+            <a href="mailto:privacy@myne.md" style="color:var(--accent);">privacy@myne.md</a>
           </p>
-          <p style="margin:14px 0 0;font-size:14px;line-height:1.65;color:#6f6f6c;">
+          <p style="margin:14px 0 0;font-size:14px;line-height:1.65;color:var(--ink-3);">
             A full postal address is available on request at the address above. There is no public
             beta any more, so there is no hostname announcement that would carry it; the Impressum
             page is withheld until that address is settled. There is no data protection officer: the
@@ -451,7 +458,7 @@ const notStored = [
 
         <h3 style={h3}>Processors</h3>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Hetzner Online GmbH</strong>, Industriestr. 25, 91710
+          <strong style="color:var(--ink-1);">Hetzner Online GmbH</strong>, Industriestr. 25, 91710
           Gunzenhausen, runs the machines. myne.md and the model-download origin live in Hetzner's
           Falkenstein data centre in Germany, under an Art. 28 processing agreement. There is no
           payment processor any more, because donations stopped. There is no other processor: no CDN,
@@ -464,13 +471,13 @@ const notStored = [
 
         <h2 style={h2}>Abuse reports and legal requests</h2>
         <p style={body}>
-          Reports go to <a href="mailto:abuse@myne.md" style="color:#8aa4d0;">abuse@myne.md</a>. We
+          Reports go to <a href="mailto:abuse@myne.md" style="color:var(--accent);">abuse@myne.md</a>. We
           cannot read what people store, so we cannot screen it, and we do not pretend otherwise. On
           a valid report what we can do is act on the account, because that is the only instrument an
           operator of a blind store has.
         </p>
         <p style={body}>
-          Requests from authorities go to <a href="mailto:legal@myne.md" style="color:#8aa4d0;"
+          Requests from authorities go to <a href="mailto:legal@myne.md" style="color:var(--accent);"
             >legal@myne.md</a
           > and are answered against the list above and no further: we can only hand over what we have,
           and what we have is a hash, a verifier, some counters and ciphertext we cannot open. There is
@@ -488,8 +495,8 @@ const notStored = [
           edit to it is a public commit.
         </p>
 
-        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
-          Deutsche Fassung: <a href="/datenschutz/" style="color:#8aa4d0;">Datenschutzerklärung</a>.
+        <p style={body + "margin-top:44px;font-size:14px;color:var(--ink-3);"}>
+          Deutsche Fassung: <a href="/datenschutz/" style="color:var(--accent);">Datenschutzerklärung</a>.
         </p>
       </div>
     </section>

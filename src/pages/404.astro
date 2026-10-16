@@ -9,7 +9,7 @@ const description = "This page can't be decrypted.";
 <LandingLayout title={title} description={description} robots="noindex,nofollow">
   <div
     data-root
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;position:relative;overflow:hidden;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;position:relative;overflow:hidden;"
   >
     <GlassNav />
 
@@ -19,7 +19,7 @@ const description = "This page can't be decrypted.";
       style="position:absolute;inset:0;width:100%;height:100%;display:block;"
     ></canvas>
     <div
-      style="position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 44%, rgba(10,10,10,0) 28%, rgba(10,10,10,0.7) 66%, rgba(10,10,10,0.95) 100%);pointer-events:none;"
+      style="position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 44%, rgb(var(--paper-rgb) / 0) 28%, rgb(var(--paper-rgb) / 0.7) 66%, rgb(var(--paper-rgb) / 0.95) 100%);pointer-events:none;"
     >
     </div>
 
@@ -40,7 +40,7 @@ const description = "This page can't be decrypted.";
         This page can't be decrypted.
       </h2>
       <p
-        style="margin-top:16px;max-width:50ch;font-size:15px;line-height:1.65;color:#8a8a86;"
+        style="margin-top:16px;max-width:50ch;font-size:15px;line-height:1.65;color:var(--ink-3);"
       >
         Either it never existed, or it's sealed somewhere we can't read — which,
         around here, is the whole point. No plaintext mode for your notes, no
@@ -53,13 +53,13 @@ const description = "This page can't be decrypted.";
         <a
           href="/"
           class="up"
-          style="background:#e6e6e4;color:#0a0a0a;text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border-radius:6px;"
+          style="background:var(--ink-1);color:var(--paper);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border-radius:6px;"
           >Back to home</a
         >
         <a
           href="/user-guide/getting-started/welcome/"
           class="up"
-          style="background:transparent;color:#e6e6e4;text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px solid rgba(255,255,255,0.2);border-radius:6px;"
+          style="background:transparent;color:var(--ink-1);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px solid rgb(var(--line-rgb) / 0.2);border-radius:6px;"
           >Read the guide</a
         >
       </div>
@@ -71,6 +71,27 @@ const description = "This page can't be decrypted.";
   const reduce =
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Canvas colours cannot use var() because the 2D context does not resolve
+  // custom properties, so the palette triples are read at runtime and re-read
+  // when
+  // the theme switch fires myne:themechange.
+  const tri = (v: string) => v.trim().replace(/\s+/g, ",");
+  const readTokens = () => {
+    const cs = getComputedStyle(document.documentElement);
+    return {
+      accent: tri(cs.getPropertyValue("--accent-rgb")),
+      particleC: tri(cs.getPropertyValue("--particle-c-rgb")),
+    };
+  };
+  let T = readTokens();
+  // Set by the canvas block when reduced motion leaves it with a single static
+  // frame; a theme change then has to repaint it, since there is no rAF loop.
+  let repaintStatic: (() => void) | null = null;
+  window.addEventListener("myne:themechange", () => {
+    T = readTokens();
+    if (repaintStatic) repaintStatic();
+  });
 
   // Glitch the "404" headline between glyphs.
   const gl = document.querySelector("[data-glitch]");
@@ -152,9 +173,9 @@ const description = "This page can't be decrypted.";
             let a = 0.05 + 0.05 * Math.sin((x + y) * 0.6 + f * 0.08);
             if (d < 150) {
               a = clamp(a + (1 - d / 150) * 0.45, 0, 0.6);
-              ctx.fillStyle = "rgba(236,235,231," + a.toFixed(3) + ")";
+              ctx.fillStyle = "rgba(" + T.particleC + "," + a.toFixed(3) + ")";
             } else {
-              ctx.fillStyle = "rgba(138,164,208," + a.toFixed(3) + ")";
+              ctx.fillStyle = "rgba(" + T.accent + "," + a.toFixed(3) + ")";
             }
             ctx.fillText(grid[idx], px, py);
           }
@@ -164,13 +185,19 @@ const description = "This page can't be decrypted.";
     };
     resize();
     window.addEventListener("resize", resize);
-    if (reduce) {
+    // Reduced motion keeps one static frame instead of the rAF loop, so it is
+    // painted through a named function the theme-change listener can re-run.
+    const paintStatic = () => {
       ctx.clearRect(0, 0, W, H);
       for (let y = 0; y < rows; y++)
         for (let x = 0; x < cols; x++) {
-          ctx.fillStyle = "rgba(138,164,208,0.08)";
+          ctx.fillStyle = "rgba(" + T.accent + ",0.08)";
           ctx.fillText(grid[y * cols + x], x * CELL, y * CELL);
         }
+    };
+    if (reduce) {
+      repaintStatic = paintStatic;
+      paintStatic();
     } else raf = requestAnimationFrame(draw);
   }
 </script>

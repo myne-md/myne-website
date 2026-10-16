@@ -47,21 +47,21 @@ const { token, label, unit, step } = Astro.props;
   }
   .tb-mc-label {
     font-size: 13px;
-    color: #cfcfca;
+    color: var(--ink-1);
   }
   .tb-mc-value {
     font-size: 11px;
-    color: #8f8f88;
+    color: var(--ink-3);
     font-variant-numeric: tabular-nums;
   }
   .tb-mc-range {
     width: 100%;
     margin: 4px 0 0;
-    accent-color: #8aa4d0;
+    accent-color: var(--accent);
     cursor: pointer;
   }
   .tb-mc-range:focus-visible {
-    outline: 2px solid #8aa4d0;
+    outline: 2px solid var(--accent);
     outline-offset: 4px;
     border-radius: 4px;
   }

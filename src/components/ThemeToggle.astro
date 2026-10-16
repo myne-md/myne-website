@@ -1,0 +1,185 @@
+---
+/*
+ * Site-wide light/dark theme switch: an icon-only button for GlassNav's
+ * right cluster. Renders on every route that carries the nav; the builder
+ * page hides it via `html[data-theme-lock="dark"]` (see the <style> block),
+ * because the theme builder is a fixed dark workspace with its own palette.
+ *
+ * The pre-paint decision lives inline in LandingLayout's <head>, so there is
+ * no flash of the wrong theme. This component owns the INTERACTION: one
+ * delegated listener on `document` (which survives Astro's View-Transitions
+ * node swaps, where a per-node listener would die) plus a re-sync on
+ * `astro:after-swap` / `astro:page-load`. The pure helpers are in lib/theme.mjs.
+ *
+ * No-JS: the button renders but does nothing, and the site stays dark. The
+ * documented, accepted behaviour.
+ */
+---
+
+<button
+  type="button"
+  class="theme-toggle"
+  data-theme-toggle
+  aria-label="Switch to light theme"
+  title="Switch to light theme"
+>
+  <svg
+    class="theme-toggle__icon theme-toggle__icon--moon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+  </svg>
+  <svg
+    class="theme-toggle__icon theme-toggle__icon--sun"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+    ></path>
+  </svg>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    /* The bar's row is 19px tall (the brand glyph) and the switch is 32px, so
+       its margin is pulled in to the row height and the extra 6.5px bleeds
+       symmetrically into the bar's 18px vertical padding, inside the bar, not
+       past it. Without this the bar would grow 55px → 68px on every non-guide
+       route, a visible move to the shipped dark chrome on the majority of
+       pages. Guide routes already set the row to 32px (the search button), so
+       they are untouched either way. */
+    margin: calc((19px - 32px) / 2) 0;
+    background: transparent;
+    border: 1px solid rgb(var(--line-rgb) / 0.16);
+    border-radius: 6px;
+    color: var(--ink-2);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard);
+  }
+  .theme-toggle:hover {
+    color: var(--ink-1);
+    border-color: rgb(var(--line-rgb) / 0.3);
+    background: rgb(var(--line-rgb) / 0.04);
+  }
+  .theme-toggle:focus-visible {
+    /* The canon's focus idiom (2px accent + 1px paper offset), same as
+       global.css's `.btn:focus-visible`, instead of a bespoke 1px outline. */
+    outline: none;
+    box-shadow: var(--ring);
+  }
+
+  .theme-toggle__icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+  /* Show the icon of the theme currently in force: moon on dark, sun on light. */
+  .theme-toggle__icon--sun {
+    display: none;
+  }
+  :global(html[data-theme="light"]) .theme-toggle__icon--sun {
+    display: block;
+  }
+  :global(html[data-theme="light"]) .theme-toggle__icon--moon {
+    display: none;
+  }
+
+  /* The theme builder pins itself dark; the switch is meaningless there. */
+  :global(html[data-theme-lock="dark"]) .theme-toggle {
+    display: none;
+  }
+</style>
+
+<script>
+  import {
+    THEME_EVENT,
+    applyTheme,
+    nextTheme,
+    normalizeTheme,
+    readTheme,
+    themeOf,
+    themeColorFor,
+    writeTheme,
+  } from "../lib/theme.mjs";
+
+  const root = document.documentElement;
+
+  function labelFor(theme: string) {
+    return theme === "light" ? "Switch to dark theme" : "Switch to light theme";
+  }
+
+  // Repaint every toggle and the browser-chrome colour to match the live
+  // theme. Called on load, after a View-Transitions swap, and after every
+  // click, so a reader whose stored choice is light gets the right
+  // theme-color on first paint rather than only after the first toggle. The
+  // label names the ACTION ("Switch to dark theme"), so there is deliberately
+  // no `aria-pressed`: a state bit alongside a command phrase announces a
+  // contradiction.
+  function syncToggleUI() {
+    const theme = themeOf(root);
+    const label = labelFor(theme);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", themeColorFor(theme));
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")
+      .forEach((btn) => {
+        btn.setAttribute("aria-label", label);
+        btn.setAttribute("title", label);
+      });
+  }
+
+  // Apply a theme to the document without persisting (used on swap re-sync).
+  function paint(theme: string) {
+    const t = normalizeTheme(theme);
+    applyTheme(root, t);
+    syncToggleUI();
+    window.dispatchEvent(new CustomEvent(THEME_EVENT, { detail: { theme: t } }));
+  }
+
+  // The reader's explicit choice: persist it, then paint.
+  function setTheme(theme: string) {
+    const t = normalizeTheme(theme);
+    writeTheme(t);
+    paint(t);
+  }
+
+  // One delegated listener. A per-button listener would be lost the moment
+  // View Transitions swaps the node.
+  document.addEventListener("click", (event) => {
+    const target = event.target as Element | null;
+    if (!target || typeof target.closest !== "function") return;
+    if (!target.closest("[data-theme-toggle]")) return;
+    setTheme(nextTheme(themeOf(root)));
+  });
+
+  // Astro's ClientRouter (user-guide only) replaces <html>'s attributes and
+  // the toggle node on every swap; the stored choice must be re-applied or a
+  // light reader flashes dark for a frame. `paint` also re-fires the redraw
+  // event the canvas listens for.
+  document.addEventListener("astro:after-swap", () => paint(readTheme()));
+  document.addEventListener("astro:page-load", () => syncToggleUI());
+
+  syncToggleUI();
+</script>

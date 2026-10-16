@@ -12,15 +12,15 @@ const description =
 const canonical = new URL("/meldung/", Astro.site!).toString();
 const ogImage = absoluteOg("meldung", Astro.site!);
 
-const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
 const h3 =
-  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:var(--ink-1);";
 const body =
-  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
-  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+  "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
 
 const noticeParts = [
   "Eine hinreichend begründete Darlegung, weshalb Sie das Material für rechtswidrig halten — welche Vorschrift, und warum sie hier greift",
@@ -40,7 +40,7 @@ const noticeParts = [
   robots="noindex,nofollow"
 >
   <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
   >
     <GlassNav active="legal" />
 
@@ -60,12 +60,12 @@ const noticeParts = [
 
         <div style={cardStyle}>
           <div class="mono up" style={eyebrow}>Was wir können und was nicht</div>
-          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Myne ist Ende-zu-Ende-verschlüsselt. Wir können nicht lesen, was Menschen speichern —
             wir können es also weder prüfen noch durchsuchen noch eine Meldung durch Hinsehen
             überprüfen. Wir filtern nicht vorab, und wir könnten es auch nicht, wenn wir es wollten.
           </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Was wir auf eine begründete Meldung hin tun können, betrifft das jeweilige Konto. Nichts
             in Myne Gespeichertes wird veröffentlicht oder geteilt — es gibt keine Teilen-Funktion,
             keine öffentlichen Links, keinen Feed —, sodass Material hier über uns kein Publikum
@@ -76,7 +76,7 @@ const noticeParts = [
         <h2 style={h2}>Melde- und Abhilfeverfahren — Art. 16 DSA</h2>
         <p style={body}>
           Meldungen richten Sie bitte an
-          <a href="mailto:abuse@myne.md" style="color:#8aa4d0;">abuse@myne.md</a>. Der Weg ist
+          <a href="mailto:abuse@myne.md" style="color:var(--accent);">abuse@myne.md</a>. Der Weg ist
           ausschließlich elektronisch und steht allen offen — ein Konto ist nicht erforderlich.
         </p>
 
@@ -110,7 +110,7 @@ const noticeParts = [
 
         <h3 style={h3}>Für Nutzerinnen und Nutzer — Art. 12 DSA</h3>
         <p style={body}>
-          <a href="mailto:hello@myne.md" style="color:#8aa4d0;">hello@myne.md</a>, auf Deutsch oder
+          <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>, auf Deutsch oder
           Englisch. Dieser Weg stützt sich nicht ausschließlich auf automatisierte Werkzeuge: Es
           gibt weder einen Chatbot noch eine automatische Antwort anstelle einer Antwort — ein
           Mensch liest mit.
@@ -118,14 +118,14 @@ const noticeParts = [
 
         <h3 style={h3}>Für Behörden — Art. 11 DSA</h3>
         <p style={body}>
-          <a href="mailto:legal@myne.md" style="color:#8aa4d0;">legal@myne.md</a>, für Behörden der
+          <a href="mailto:legal@myne.md" style="color:var(--accent);">legal@myne.md</a>, für Behörden der
           Mitgliedstaaten, die Kommission und das Europäische Gremium für digitale Dienste, auf
           elektronischem Weg und unmittelbar. Die Verständigung ist auf
-          <strong style="color:#e6e6e4;">Deutsch und Englisch</strong> möglich.
+          <strong style="color:var(--ink-1);">Deutsch und Englisch</strong> möglich.
         </p>
         <p style={body}>
           Für Auskunftsverlangen zu Daten statt zu Inhalten legt die Seite
-          <a href="/behoerdenanfragen/" style="color:#8aa4d0;">Behördenanfragen</a> dar, was vorhanden
+          <a href="/behoerdenanfragen/" style="color:var(--accent);">Behördenanfragen</a> dar, was vorhanden
           ist und was nicht — womit sich ein Verlangen meist schon vor der Abfassung beantwortet.
         </p>
 
@@ -136,7 +136,7 @@ const noticeParts = [
           dem Anbieter die elektronischen Kontaktdaten der betroffenen Person bekannt sind.
         </p>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Uns liegen keine vor.</strong> Die Anmeldung bei Myne erhebt
+          <strong style="color:var(--ink-1);">Uns liegen keine vor.</strong> Die Anmeldung bei Myne erhebt
           keine E-Mail-Adresse — es gibt kein Feld dafür, und das ist eine gestalterische Festlegung
           und kein Versäumnis (sie ist es, die ein Konto einer Person nicht zuordenbar macht). Die praktische
           Folge ist, dass die Benachrichtigungspflicht des Art. 17 keinen Weg hat, über den sie laufen
@@ -154,7 +154,7 @@ const noticeParts = [
           begangen wurde, wird oder wahrscheinlich begangen wird, die eine Gefahr für das Leben oder
           die Sicherheit einer Person darstellt, unterrichten wir unverzüglich die
           Strafverfolgungsbehörden. In Deutschland ist Adressat das Bundeskriminalamt, über
-          <a href="https://u-entrance.bka.de" rel="noopener" style="color:#8aa4d0;"
+          <a href="https://u-entrance.bka.de" rel="noopener" style="color:var(--accent);"
             >u-entrance.bka.de</a
           >.
         </p>
@@ -167,8 +167,8 @@ const noticeParts = [
 
         <h2 style={h2}>Was für uns nicht gilt, und warum</h2>
         <p style={body}>
-          Myne ist ein <strong style="color:#e6e6e4;">Hostingdienst</strong> im Sinne des DSA, aber
-          keine <strong style="color:#e6e6e4;">Online-Plattform</strong>: Eine Online-Plattform
+          Myne ist ein <strong style="color:var(--ink-1);">Hostingdienst</strong> im Sinne des DSA, aber
+          keine <strong style="color:var(--ink-1);">Online-Plattform</strong>: Eine Online-Plattform
           speichert Informationen <em>und verbreitet sie öffentlich</em> im Auftrag der Nutzerin oder
           des Nutzers. Myne hat keine Teilen-Funktion, keine öffentlichen Links und keinen Feed — was
           Sie speichern, erreicht niemanden. Diese Unterscheidung setzt Kapitel III Abschnitt 3
@@ -187,8 +187,8 @@ const noticeParts = [
           Anwendungsbereich, unabhängig von ihrer Größe.
         </p>
 
-        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
-          English version: <a href="/notice/" style="color:#8aa4d0;">Reporting Illegal Content</a>.
+        <p style={body + "margin-top:44px;font-size:14px;color:var(--ink-3);"}>
+          English version: <a href="/notice/" style="color:var(--accent);">Reporting Illegal Content</a>.
         </p>
       </div>
     </section>

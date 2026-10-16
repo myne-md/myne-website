@@ -14,7 +14,7 @@ Pre-alpha, like the rest of the project — but this site is functional and depl
 
 What exists today:
 
-- **Landing page** (`/`) — single-page dark landing with how-it-works, comparison, and roadmap sections.
+- **Landing page** (`/`): single-page landing with how-it-works, comparison, and roadmap sections, in dark or light (see Themes below).
 - **Ledger** (`/ledger`) — changelog/notes collection with `shipped` / `thinking` / `milestone` entries, filter views, per-entry OG images, and an RSS feed (`/ledger/rss.xml`).
 - **User guide** (`/user-guide`) — 70+ articles across eight categories, served from a Markdown content collection with a validated sidebar. The subtree is currently `noindex` and excluded from the sitemap; per `design-notes.md`, real-content go-live drops the banner, `noindex`, and sitemap filter atomically in one PR.
 - **Static surfaces** — `/download`, `/roadmap`, `/security`, `/spec`, a `404`, plus build-time `robots.txt`, `llms.txt`, and a sitemap.
@@ -27,6 +27,14 @@ Marketing copy, pricing, and the bug-bounty page are intentionally conservative:
 ## How it works
 
 Astro builds the whole thing to static HTML at compile time. The `site` value (and therefore canonical URLs, the sitemap, and RSS absolute links) is set per environment by the Docker build — `https://myne.md` for release, `https://preview.example.com` for preview — so the same source produces both deployments. There is no server runtime: nginx serves the static `dist/`. No analytics, no third-party trackers.
+
+## Themes
+
+The site ships **dark by default** and a reader may switch to **light** with the icon button in the nav. The choice is stored in `localStorage["myne-theme"]` (`"light"` / `"dark"`, absent means dark) and survives reloads and every full-load navigation. The OS `prefers-color-scheme` is deliberately **not** read: the brand register is dark, so a first visit is dark whatever the platform says.
+
+Everything is token-driven (`src/styles/tokens.css`): `:root` is the dark palette, `:root[data-theme="light"]` the light one, and hairline/wash alphas are written against RGB-triple tokens (`--line-rgb`, `--accent-rgb`, `--paper-rgb`, …) so the same alpha survives the flip. The pre-paint snippet in `layouts/LandingLayout.astro` applies a stored choice before the first paint (no flash), the runtime is `src/lib/theme.mjs` + `components/ThemeToggle.astro`, and `scripts/check-theme-tokens.mjs` pins the dark palette to the values it shipped with so the light theme cannot move it. The theme builder (`/themes/builder/`) is pinned dark with its switch hidden (`data-theme-lock="dark"`), because it is a fixed dark workspace with its own palette.
+
+With JS off the site stays dark and the switch does nothing. That is the accepted fallback.
 
 ## Structure
 

@@ -41,6 +41,7 @@ const galleryThemes = (themesIndex.themes ?? [])
   title="Theme Builder — Myne"
   description="Build your own Myne theme with live preview — pick colors, see them applied, download or share."
   notice="none"
+  themeLock
 >
   <div class="tb-page">
     <GlassNav />
@@ -270,8 +271,11 @@ const galleryThemes = (themesIndex.themes ?? [])
               carries no script of its own (the capture strips them), and the
               builder reaches in from the parent rather than posting messages.
               The comment sits ABOVE the tag rather than between its attributes
-              — Astro parses an attribute list as markup, not as JSX, so a
-              `{/* … */}` in that position is a syntax error. */}
+              Astro parses an attribute list as markup, not as JSX, so a JSX
+              comment block in that position is a syntax error. (Written out
+              rather than as the literal brace-star form: that form closing
+              here would terminate THIS comment early and leak the rest of the
+              sentence into the page as text.) */}
           <div id="tb-pv-stage" class="tb-pv-stage">
             <iframe
               id="tb-pv-frame"

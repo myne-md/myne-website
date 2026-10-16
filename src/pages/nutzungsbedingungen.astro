@@ -20,17 +20,17 @@ const ogImage = absoluteOg("nutzungsbedingungen", Astro.site!);
 
 const effective = "12. August 2026";
 
-const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
 const h3 =
-  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:var(--ink-1);";
 const body =
-  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
-  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+  "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
 const warnCard =
-  "border:1px solid rgba(255,255,255,0.16);border-radius:12px;padding:22px;background:#111;margin-top:22px;";
+  "border:1px solid rgb(var(--line-rgb) / 0.16);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
 
 const forbidden = [
   "Speichern oder Verbreiten von Material, das an Ihrem Aufenthaltsort oder nach deutschem Recht rechtswidrig ist",
@@ -50,7 +50,7 @@ const forbidden = [
   robots="noindex,nofollow"
 >
   <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
   >
     <GlassNav active="legal" />
 
@@ -66,7 +66,7 @@ const forbidden = [
           Gültig ab {effective}. Diese Bedingungen galten für die kostenlose Myne-Beta: den gehosteten
           Synchronisationsdienst unter sync.myne.md und die Web-App unter app.example.com sowie die
           Desktop- und Mobil-Anwendungen, die sie nutzten. <strong
-            style="color:#e6e6e4;">Myne hat diese Beta am 16. Oktober 2026 geschlossen</strong> und
+            style="color:var(--ink-1);">Myne hat diese Beta am 16. Oktober 2026 geschlossen</strong> und
           betreibt keinen eigenen Synchronisationsdienst mehr; zwischen Ihnen und Myne gibt es daher
           nichts mehr, was diese Bedingungen regeln könnten. Die Seite bleibt als Nachweis der
           Bedingungen veröffentlicht, die während der Beta galten, und wird nicht mehr verlinkt.
@@ -74,7 +74,7 @@ const forbidden = [
 
         <div style={cardStyle}>
           <div class="mono up" style={eyebrow}>Kurzfassung</div>
-          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Die Beta ist kostenlos und nimmt keine Zahlungen entgegen. Es gibt keine Gewährleistung
             und keine Verfügbarkeitszusage — so junge Software geht kaputt. Verlieren Sie Ihr
             Passwort und Ihre Wiederherstellungsphrase, sind Ihre Notizen endgültig verloren, und
@@ -114,13 +114,13 @@ const forbidden = [
 
         <div style={warnCard}>
           <div class="mono up" style={eyebrow}>Endgültiger Datenverlust</div>
-          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#e6e6e4;">
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-1);">
             <strong
               >Verlieren Sie Ihr Passwort und Ihre Wiederherstellungsphrase, lassen sich Ihre
               Notizen nicht wiederherstellen. Weder von Ihnen noch von uns.</strong
             >
           </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Das ist keine Beschränkung des Supports, die sich mit hinreichendem Nachdruck umgehen
             ließe. Ihre Schlüssel werden auf Ihrem Gerät aus Geheimnissen abgeleitet, die uns nie
             erreichen; bei uns liegt Chiffrat, zu dem wir keinen Schlüssel haben. Es gibt keinen
@@ -128,7 +128,7 @@ const forbidden = [
             einen zu bauen hieße, einen Schlüssel zu besitzen, und einen Schlüssel zu besitzen
             hieße, Ihre Notizen lesen zu können und dazu verpflichtet werden zu können.
           </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Schreiben Sie Ihre Wiederherstellungsphrase auf und bewahren Sie sie sicher auf. Sie ist
             der gesamte Notfallplan.
           </p>
@@ -168,7 +168,7 @@ const forbidden = [
         <p style={body}>
           Jedes Konto erhält 250 MB verschlüsselten Speicherplatz. Auf Anfrage erhöhen wir ihn
           kostenlos — schreiben Sie an
-          <a href="mailto:hello@myne.md" style="color:#8aa4d0;">hello@myne.md</a>. Die Zahl der
+          <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>. Die Zahl der
           Konten, die der Dienst annimmt, ist nicht begrenzt.
         </p>
         <p style={body}>
@@ -183,7 +183,7 @@ const forbidden = [
 
         <h3 style={h3}>Wie Moderation hier tatsächlich funktioniert</h3>
         <p style={body}>
-          <strong style="color:#e6e6e4;"
+          <strong style="color:var(--ink-1);"
             >Wir können Ihre Inhalte nicht sehen und filtern sie deshalb nicht vorab — und wir
             könnten es auch nicht, wenn wir es wollten.</strong
           > Es findet kein Scannen statt, keine automatisierte Prüfung und keine proaktive Erkennung
@@ -194,7 +194,7 @@ const forbidden = [
           Erreicht uns eine begründete Meldung, können wir auf Kontoebene handeln: das Konto sperren
           oder löschen. Wir können nicht eine einzelne Notiz entfernen und die übrigen belassen,
           weil wir sie nicht voneinander unterscheiden können. Das Meldeverfahren steht auf der
-          Seite <a href="/meldung/" style="color:#8aa4d0;">Rechtswidrige Inhalte melden</a>.
+          Seite <a href="/meldung/" style="color:var(--accent);">Rechtswidrige Inhalte melden</a>.
         </p>
         <p style={body}>
           Wir können ein Konto sperren oder löschen, das für etwas aus der vorstehenden Liste
@@ -205,7 +205,7 @@ const forbidden = [
 
         <h2 style={h2}>Wenn die Beta endet</h2>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Ihr Konto läuft weiter.</strong> Das Ende der Beta ist kein
+          <strong style="color:var(--ink-1);">Ihr Konto läuft weiter.</strong> Das Ende der Beta ist kein
           Ablaufdatum: Konten und ihre Daten bestehen unverändert fort. Sollte später ein kostenpflichtiges
           Angebot entstehen, ist es eine Option, die Sie annehmen oder ausschlagen können — keine Schranke,
           die sich vor bereits vorhandenen Daten schließt.
@@ -219,13 +219,13 @@ const forbidden = [
         <h2 style={h2}>Wenn der Dienst eingestellt wird</h2>
         <p style={body}>
           Sollten wir den gehosteten Dienst je einstellen, erhalten Sie
-          <strong style="color:#e6e6e4;">mindestens 90 Tage Vorlauf</strong>. Während dieser Zeit
+          <strong style="color:var(--ink-1);">mindestens 90 Tage Vorlauf</strong>. Während dieser Zeit
           bleibt der Dienst erreichbar und der Export funktioniert durchgehend, sodass Sie Ihre
           Notizen mitnehmen können.
         </p>
         <p style={body}>
           Auch danach sitzen Sie nicht fest: Der Server ist
-          <a href="https://github.com/myne-md" rel="noopener" style="color:#8aa4d0;">quelloffen</a>
+          <a href="https://github.com/myne-md" rel="noopener" style="color:var(--accent);">quelloffen</a>
           unter der AGPL, und der Client kann auf jeden von Ihnen betriebenen Server zeigen. Eine
           Einstellung auf unserer Seite beendet unser Hosting, nicht Ihre Möglichkeit, Myne zu
           nutzen.
@@ -233,7 +233,7 @@ const forbidden = [
 
         <h2 style={h2}>Spenden</h2>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Myne nimmt seit dem 16. Oktober 2026 keine Spenden mehr
+          <strong style="color:var(--ink-1);">Myne nimmt seit dem 16. Oktober 2026 keine Spenden mehr
           an</strong>, die Sammlung über Open Collective wurde geschlossen; es gibt daher keinen
           Spendenweg mehr zu beschreiben. Solange es ihn gab, galt: Spenden erkauften nichts.
           Spendende erhielten kein Abzeichen, keinen Vorabzugang, keinen bevorzugten Support, keinen
@@ -286,13 +286,13 @@ const forbidden = [
           Ihres gewöhnlichen Aufenthaltsorts erhalten.
         </p>
         <p style={body}>
-          Fragen: <a href="mailto:hello@myne.md" style="color:#8aa4d0;">hello@myne.md</a>. Wie wir
+          Fragen: <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>. Wie wir
           mit Daten umgehen, steht in der
-          <a href="/datenschutz/" style="color:#8aa4d0;">Datenschutzerklärung</a>.
+          <a href="/datenschutz/" style="color:var(--accent);">Datenschutzerklärung</a>.
         </p>
 
-        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
-          English version: <a href="/terms/" style="color:#8aa4d0;">Beta Terms</a>.
+        <p style={body + "margin-top:44px;font-size:14px;color:var(--ink-3);"}>
+          English version: <a href="/terms/" style="color:var(--accent);">Beta Terms</a>.
         </p>
       </div>
     </section>

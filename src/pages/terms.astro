@@ -35,17 +35,17 @@ const ogImage = absoluteOg("terms", Astro.site!);
 
 const effective = "12 August 2026";
 
-const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
 const h3 =
-  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:var(--ink-1);";
 const body =
-  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
-  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+  "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
 const warnCard =
-  "border:1px solid rgba(255,255,255,0.16);border-radius:12px;padding:22px;background:#111;margin-top:22px;";
+  "border:1px solid rgb(var(--line-rgb) / 0.16);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
 
 const forbidden = [
   "Storing or distributing material that is illegal where you are, or under German law",
@@ -64,7 +64,7 @@ const forbidden = [
   robots="noindex,nofollow"
 >
   <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
   >
     <GlassNav active="legal" />
 
@@ -79,7 +79,7 @@ const forbidden = [
         <p style={body}>
           Effective {effective}. These terms governed the free Myne beta: the hosted sync service at
           sync.myne.md and the web app at app.example.com, together with the desktop and mobile apps that
-          used them. <strong style="color:#e6e6e4;">Myne closed that beta on 16 October 2026</strong>
+          used them. <strong style="color:var(--ink-1);">Myne closed that beta on 16 October 2026</strong>
           and offers no sync service of its own, so there is nothing left for these terms to govern
           between you and Myne. It is kept published as the record of the terms that applied while
           the beta ran, and it is no longer linked from the site.
@@ -87,7 +87,7 @@ const forbidden = [
 
         <div style={cardStyle}>
           <div class="mono up" style={eyebrow}>The short version</div>
-          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             The beta is free and takes no payment. There is no warranty and no service level —
             software this young breaks. If you lose your password and your recovery phrase, your
             notes are gone permanently, and nobody can recover them. When the beta ends your account
@@ -125,20 +125,20 @@ const forbidden = [
         <!-- one most competitors' terms omit. It gets its own card.       -->
         <div style={warnCard}>
           <div class="mono up" style={eyebrow}>Permanent data loss</div>
-          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#e6e6e4;">
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-1);">
             <strong
               >If you lose your password and your recovery phrase, your notes cannot be recovered.
               Not by you, and not by us.</strong
             >
           </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             This is not a support limitation that a determined request could get around. Your keys
             are derived on your device from secrets we never receive; what we hold is ciphertext we
             have no key for. There is no reset link, no security question and no administrative
             override, because building one would mean holding a key — and holding a key would mean
             being able to read your notes, and being compelled to.
           </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Write your recovery phrase down and keep it somewhere safe. It is the entire backup
             plan.
           </p>
@@ -175,7 +175,7 @@ const forbidden = [
         <h2 style={h2}>Quota and limits</h2>
         <p style={body}>
           Each account gets 250 MB of encrypted storage. Ask and we will raise it, free — write to
-          <a href="mailto:hello@myne.md" style="color:#8aa4d0;">hello@myne.md</a>. There is no limit
+          <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>. There is no limit
           on the number of accounts the service accepts.
         </p>
         <p style={body}>
@@ -190,7 +190,7 @@ const forbidden = [
 
         <h3 style={h3}>How moderation actually works here</h3>
         <p style={body}>
-          <strong style="color:#e6e6e4;"
+          <strong style="color:var(--ink-1);"
             >We cannot see your content, so we do not filter it in advance — and we could not if we
             wanted to.</strong
           > There is no scanning, no automated review and no proactive detection of anything, because
@@ -200,7 +200,7 @@ const forbidden = [
           When a substantiated report reaches us, what we can do is act at the account level:
           freeze the account, or delete it. We cannot remove one note and leave the rest, because we
           cannot tell them apart. The reporting procedure is on the
-          <a href="/notice/" style="color:#8aa4d0;">notice page</a>.
+          <a href="/notice/" style="color:var(--accent);">notice page</a>.
         </p>
         <p style={body}>
           We may freeze or delete an account that is being used for something in the list above, or
@@ -210,7 +210,7 @@ const forbidden = [
 
         <h2 style={h2}>When the beta ends</h2>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Your account keeps working.</strong> The end of the beta is
+          <strong style="color:var(--ink-1);">Your account keeps working.</strong> The end of the beta is
           not an expiry date: accounts and their data carry on exactly as they are. If a paid tier appears
           later, it will be an option you can take or leave — not a gate that closes in front of data
           you already have.
@@ -224,19 +224,19 @@ const forbidden = [
         <h2 style={h2}>If the service shuts down</h2>
         <p style={body}>
           Should we ever stop running the hosted service, you get
-          <strong style="color:#e6e6e4;">at least 90 days' notice</strong>. Throughout that period
+          <strong style="color:var(--ink-1);">at least 90 days' notice</strong>. Throughout that period
           the service stays reachable and export keeps working, so you can take your notes with you.
         </p>
         <p style={body}>
           After that, you are still not stuck: the server is
-          <a href="https://github.com/myne-md" rel="noopener" style="color:#8aa4d0;">open source</a>
+          <a href="https://github.com/myne-md" rel="noopener" style="color:var(--accent);">open source</a>
           under the AGPL, and the client can point at any server you run. A shutdown on our side ends
           our hosting, not your ability to use Myne.
         </p>
 
         <h2 style={h2}>Donations</h2>
         <p style={body}>
-          <strong style="color:#e6e6e4;">Myne stopped taking donations on 16 October 2026</strong>
+          <strong style="color:var(--ink-1);">Myne stopped taking donations on 16 October 2026</strong>
           and the Open Collective collection was closed, so there is no donation path left to describe.
           While it existed the rule was that a donation bought nothing: no badge, no early access, no
           priority support, no additional storage and no influence over what gets built, and the
@@ -280,12 +280,12 @@ const forbidden = [
           residence.
         </p>
         <p style={body}>
-          Questions: <a href="mailto:hello@myne.md" style="color:#8aa4d0;">hello@myne.md</a>. How we
-          handle data is in the <a href="/privacy/" style="color:#8aa4d0;">Privacy Policy</a>.
+          Questions: <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>. How we
+          handle data is in the <a href="/privacy/" style="color:var(--accent);">Privacy Policy</a>.
         </p>
 
-        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
-          Deutsche Fassung: <a href="/nutzungsbedingungen/" style="color:#8aa4d0;"
+        <p style={body + "margin-top:44px;font-size:14px;color:var(--ink-3);"}>
+          Deutsche Fassung: <a href="/nutzungsbedingungen/" style="color:var(--accent);"
             >Nutzungsbedingungen</a
           >.
         </p>

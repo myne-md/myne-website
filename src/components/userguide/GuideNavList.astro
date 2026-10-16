@@ -63,12 +63,12 @@ const manifest = getManifest();
     font-size: 10px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #8a8a86;
+    color: var(--ink-3);
     text-decoration: none;
     padding: 2px 0 6px;
   }
   .gnl-catlink.active {
-    color: #8aa4d0;
+    color: var(--accent);
   }
   .gnl-articles {
     list-style: none;
@@ -82,13 +82,13 @@ const manifest = getManifest();
     padding: 10px 0 10px 14px;
     font-size: 14px;
     line-height: 1.3;
-    color: #c4c4c0;
+    color: var(--ink-2);
     text-decoration: none;
     text-transform: capitalize;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid rgb(var(--line-rgb) / 0.1);
   }
   .gnl-article.active {
-    color: #e6e6e4;
-    border-left-color: #8aa4d0;
+    color: var(--ink-1);
+    border-left-color: var(--accent);
   }
 </style>

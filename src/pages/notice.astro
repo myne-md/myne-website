@@ -32,15 +32,15 @@ const description =
 const canonical = new URL("/notice/", Astro.site!).toString();
 const ogImage = absoluteOg("notice", Astro.site!);
 
-const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
 const h3 =
-  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:#e6e6e4;";
+  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:var(--ink-1);";
 const body =
-  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
-  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+  "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
 
 const noticeParts = [
   "A sufficiently substantiated explanation of why you consider the material unlawful — which law, and why it applies here",
@@ -59,7 +59,7 @@ const noticeParts = [
   robots="noindex,nofollow"
 >
   <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
   >
     <GlassNav active="legal" />
 
@@ -82,12 +82,12 @@ const noticeParts = [
         <!-- rest of the page from implying otherwise.                       -->
         <div style={cardStyle}>
           <div class="mono up" style={eyebrow}>What we can and cannot do</div>
-          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Myne is end-to-end encrypted. We cannot read what people store, which means we cannot
             screen it, cannot search it, and cannot verify a report by looking. We do not filter
             proactively, and we could not if we wanted to.
           </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:#8a8a86;">
+          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             What we can do, on a substantiated notice, is act on the account it concerns. Nothing
             stored in Myne is published or shared — there is no sharing feature, no public link, no
             feed — so material here does not reach an audience through us.
@@ -96,7 +96,7 @@ const noticeParts = [
 
         <h2 style={h2}>Notice and action — Art. 16 DSA</h2>
         <p style={body}>
-          Send notices to <a href="mailto:abuse@myne.md" style="color:#8aa4d0;">abuse@myne.md</a>.
+          Send notices to <a href="mailto:abuse@myne.md" style="color:var(--accent);">abuse@myne.md</a>.
           The channel is electronic only, and it is open to anyone — no account is required.
         </p>
 
@@ -128,21 +128,21 @@ const noticeParts = [
 
         <h3 style={h3}>For users — Art. 12 DSA</h3>
         <p style={body}>
-          <a href="mailto:hello@myne.md" style="color:#8aa4d0;">hello@myne.md</a>, in German or
+          <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>, in German or
           English. This channel does not rely solely on automated tools: there is no chatbot and no
           auto-responder standing in for an answer — a person reads it.
         </p>
 
         <h3 style={h3}>For authorities — Art. 11 DSA</h3>
         <p style={body}>
-          <a href="mailto:legal@myne.md" style="color:#8aa4d0;">legal@myne.md</a>, for Member State
+          <a href="mailto:legal@myne.md" style="color:var(--accent);">legal@myne.md</a>, for Member State
           authorities, the Commission and the European Board for Digital Services, by electronic
           means and directly. Communication is possible in
-          <strong style="color:#e6e6e4;">German and English</strong>.
+          <strong style="color:var(--ink-1);">German and English</strong>.
         </p>
         <p style={body}>
           For requests for data rather than content, the
-          <a href="/law-enforcement/" style="color:#8aa4d0;">law enforcement page</a> sets out what exists
+          <a href="/law-enforcement/" style="color:var(--accent);">law enforcement page</a> sets out what exists
           and what does not — which usually answers the request before it is drafted.
         </p>
 
@@ -153,7 +153,7 @@ const noticeParts = [
           recipient's electronic contact details.
         </p>
         <p style={body}>
-          <strong style="color:#e6e6e4;">We hold none.</strong> Signing up to Myne collects no email
+          <strong style="color:var(--ink-1);">We hold none.</strong> Signing up to Myne collects no email
           address — there is no field for one, and this is a design commitment rather than an oversight
           (it is what makes an account unlinkable to a person). The practical consequence is that Art. 17's
           notification duty has no channel to run over, and we record that here rather than leaving the
@@ -171,7 +171,7 @@ const noticeParts = [
           involving a threat to the life or safety of a person has taken place, is taking place or
           is likely to take place, we inform law enforcement immediately. In Germany the addressee
           is the Bundeskriminalamt, via
-          <a href="https://u-entrance.bka.de" rel="noopener" style="color:#8aa4d0;"
+          <a href="https://u-entrance.bka.de" rel="noopener" style="color:var(--accent);"
             >u-entrance.bka.de</a
           >.
         </p>
@@ -183,8 +183,8 @@ const noticeParts = [
 
         <h2 style={h2}>What does not apply to us, and why</h2>
         <p style={body}>
-          Myne is a <strong style="color:#e6e6e4;">hosting service</strong> under the DSA, but not an
-          <strong style="color:#e6e6e4;">online platform</strong>: an online platform stores
+          Myne is a <strong style="color:var(--ink-1);">hosting service</strong> under the DSA, but not an
+          <strong style="color:var(--ink-1);">online platform</strong>: an online platform stores
           information <em>and disseminates it to the public</em> at the user's request. Myne has no
           sharing feature, no public links and no feed — what you store reaches nobody. That
           distinction disables Section 3 of Chapter III in its entirety (Art. 19 to 28): no internal
@@ -201,8 +201,8 @@ const noticeParts = [
           hosting provider has been in scope since 17 February 2024, regardless of size.
         </p>
 
-        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
-          Deutsche Fassung: <a href="/meldung/" style="color:#8aa4d0;">Meldung rechtswidriger
+        <p style={body + "margin-top:44px;font-size:14px;color:var(--ink-3);"}>
+          Deutsche Fassung: <a href="/meldung/" style="color:var(--accent);">Meldung rechtswidriger
             Inhalte</a
           >.
         </p>

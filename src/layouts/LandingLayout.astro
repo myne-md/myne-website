@@ -1,15 +1,21 @@
 ---
 /*
- * Self-contained shell for the dark, single-page landing (Myne v13 design).
- * Deliberately does NOT pull in the shared light-theme Nav / Footer /
- * SubscribeDialog or tokens.css / global.css — the landing carries its own
- * fixed header, footer and fully inline-styled sections, so the rest of the
- * site (/ledger, /user-guide) keeps its own theme untouched.
+ * Shell for the landing routes (Myne v13 design).
+ *
+ * The site is DARK by default and a reader may switch to light; the switch
+ * itself lives in GlassNav (components/ThemeToggle.astro) and the palette in
+ * styles/tokens.css. This layout imports tokens.css so every landing route
+ * has the token layer, and it carries the pre-paint snippet below that applies
+ * a stored "light" choice before the first paint (no flash).
+ *
+ * Still does NOT pull in the shared global.css or the unused light-theme
+ * SubscribeDialog.
  */
 import { ClientRouter } from "astro:transitions";
 import DraftNotice from "../components/DraftNotice.astro";
 import type { NoticeLang, NoticeVariant } from "../data/notice";
 import "../styles/fonts.css";
+import "../styles/tokens.css";
 
 interface Props {
   title: string;
@@ -40,6 +46,11 @@ interface Props {
   /** Language of that notice, matched to the page's prose (the German legal
    *  pages pass "de"). */
   noticeLang?: NoticeLang;
+  /** Pin this page to dark and hide the theme switch. The theme builder passes
+   *  it: it is a fixed dark workspace with its own `--tb-*` palette and a
+   *  live-preview iframe, so a light palette would fight its chrome. The head
+   *  snippet below short-circuits on it and ThemeToggle's CSS hides the button. */
+  themeLock?: boolean;
 }
 
 const {
@@ -52,6 +63,7 @@ const {
   clientRouter = false,
   notice = "status",
   noticeLang = "en",
+  themeLock = false,
 } = Astro.props;
 
 const canonicalUrl =
@@ -72,10 +84,28 @@ const canonicalUrl =
    Hi. If you're reading this, you're our kind of person.
    Specs, threat model, and source go public when Phase 1 ships.
 -->
-<html lang="en">
+<html lang="en" data-theme-lock={themeLock ? "dark" : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Pre-paint theme application. Inline and non-module because it must run
+        during head parsing, before the stylesheet paints, so a reader whose
+        stored choice is "light" never sees a dark first frame. Duplicates the
+        key/default from lib/theme.mjs, which can not be imported here; the
+        token guard (scripts/check-theme-tokens.mjs) asserts the key matches.
+        Dark is the CSS default, so a broken script or JS off still lands dark.
+        Pages that pin themselves dark (the theme builder) skip it entirely. */}
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        if (root.dataset.themeLock === "dark") return;
+        var stored = null;
+        try {
+          stored = localStorage.getItem("myne-theme");
+        } catch (e) {}
+        root.dataset.theme = stored === "light" ? "light" : "dark";
+      })();
+    </script>
     {clientRouter && <ClientRouter />}
     <meta name="theme-color" content="#0a0a0a" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -116,30 +146,33 @@ const canonicalUrl =
       }
       html {
         scroll-behavior: smooth;
-        /* Dark all the way down so nothing flashes pale during the page-in
-           fade or on overscroll. */
-        background: #0a0a0a;
+        /* Theme surface all the way down so nothing flashes a mismatched pale
+           (or dark) band during the page-in fade or on overscroll. --bg-1 is
+           the theme's page colour: #0a0a0a dark, #fbfbfa light. */
+        background: var(--bg-1);
         /* Kill the rubber-band overscroll: bouncing past the top let the
            content slide under the fixed, blurred navbar and made its
            backdrop-filter smear. No bounce → the bar's backdrop stays clean. */
         overscroll-behavior: none;
       }
       body {
-        background: #0a0a0a;
+        background: var(--bg-1);
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
       }
-      /* Smooth, unified page-in: a full-screen dark curtain sits over the
-         content and fades away on load, revealing it all at once with no
-         per-section stagger. The curtain's z-index is below the navbar (80) but
-         above the content/cursor-glow, so the navbar stays put on top — it never
-         fades or flashes; only the content behind the curtain reveals. Re-runs
-         on every navigation since each is a full document load. */
+      /* Smooth, unified page-in: a full-screen curtain in the theme's page
+         colour sits over the content and fades away on load, revealing it all
+         at once with no per-section stagger. The curtain's z-index is below
+         the navbar (80) but above the content/cursor-glow, so the navbar stays
+         put on top; it never fades or flashes; only the content behind the
+         curtain reveals. Re-runs on every navigation since each is a full
+         document load. The colour MUST follow the theme or a light reader
+         would get a dark flash on every navigation. */
       .page-curtain {
         position: fixed;
         inset: 0;
         z-index: 75;
-        background: #0a0a0a;
+        background: var(--bg-1);
         opacity: 0;
         pointer-events: none;
         animation: myne-page-in 0.7s ease both;
@@ -153,33 +186,33 @@ const canonicalUrl =
         }
       }
       ::selection {
-        background: #e6e6e4;
-        color: #0a0a0a;
+        background: var(--selection-bg);
+        color: var(--selection-fg);
       }
-      /* Site-wide custom scrollbar — muted grey thumb on the near-black page,
-         floated off the track by a matching inset border. Firefox uses the
-         thin native scrollbar with the same colours. */
+      /* Site-wide custom scrollbar: a muted thumb on the page colour, floated
+         off the track by a matching inset border. Firefox uses the thin native
+         scrollbar with the same colours. All four values follow the theme. */
       html {
         scrollbar-width: thin;
-        scrollbar-color: #2a2a2a #0a0a0a;
+        scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
       }
       ::-webkit-scrollbar {
         width: 12px;
         height: 12px;
       }
       ::-webkit-scrollbar-track {
-        background: #0a0a0a;
+        background: var(--scrollbar-track);
       }
       ::-webkit-scrollbar-thumb {
-        background: #2a2a2a;
-        border: 3px solid #0a0a0a;
+        background: var(--scrollbar-thumb);
+        border: 3px solid var(--scrollbar-track);
         border-radius: 8px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #383838;
+        background: var(--scrollbar-thumb-hover);
       }
       ::-webkit-scrollbar-corner {
-        background: #0a0a0a;
+        background: var(--scrollbar-track);
       }
       .mono {
         font-family: "JetBrains Mono", ui-monospace, monospace;
@@ -220,7 +253,7 @@ const canonicalUrl =
         position: absolute;
         width: 8px;
         height: 8px;
-        color: #54544f;
+        color: var(--ink-4);
         font-size: 11px;
         line-height: 8px;
         font-family: "JetBrains Mono", monospace;

@@ -286,22 +286,20 @@ const copy = COPY[variant][lang];
     align-items: baseline;
     gap: 8px;
     padding: 10px 14px;
-    /* Literals, not tokens, and that is the second attempt too. The first
-       version read var(--bg-2), var(--fg-2) and var(--accent) with these
-       values as fallbacks, which is right on every route that never imports
-       tokens.css and wrong on the largest subtree in the site. The user
-       guide's shell imports styles/tokens.css, whose :root ramp is the LIGHT
-       one, and scopes its dark values to `.ug-root` (styles/userguide.css).
-       LandingLayout renders this strip after the slot, so it is a SIBLING of
-       `.ug-root` and the lookup succeeded with the light ramp: --bg-2
-       #f4f4f2 and --accent #2c4a7a, a near-white strip with a navy label at
-       the bottom of every dark guide page. There is no palette to follow
-       here anyway. LandingLayout pins html and body to #0a0a0a on every
-       route, so the strip has exactly one ground to sit on, and the print
-       block below is the one place it changes. */
-    background: #0c0c0c;
-    border-top: 1px solid rgba(194, 163, 94, 0.4);
-    color: #c4c4c0;
+    /* Token-driven, and that is the whole story now. LandingLayout imports
+       styles/tokens.css on every route and the palette is site-wide (dark by
+       default, light under [data-theme="light"]), so the strip follows the
+       theme and there is exactly one ground to sit on. This used to be
+       literals: the guide's shell imported tokens.css whose :root ramp was
+       the LIGHT one and scoped its dark values to `.ug-root`, so the strip (a SIBLING of
+       `.ug-root`, rendered after the slot) resolved to the
+       light ramp (a near-white strip with a navy label on every dark guide
+       page). The theme switch retired that split: the light ramp is now the
+       light THEME, not a stray default, and the strip reads the same tokens
+       as everything else. */
+    background: var(--paper-2);
+    border-top: 1px solid rgb(var(--warning-rgb) / 0.4);
+    color: var(--ink-2);
     /* 11px is --text-xs, the smallest step of the canonical scale in both
        tokens.css and the main repo's docs/design/colors_and_type.css. The
        first version went to 10px on phones to save a wrapped line, which is
@@ -321,9 +319,10 @@ const copy = COPY[variant][lang];
 
   .draft-notice-label {
     flex: none;
-    /* Literal for the reason the block above gives: --accent resolves to the
-       light ramp's iron-blue on guide routes. */
-    color: #c2a35e;
+    /* The gold, not the accent: the label is a caution and reads as one on
+       both themes. This was a literal because --accent resolved to the light
+       ramp's iron-blue on guide routes, a hazard the theme switch removed. */
+    color: var(--warning);
     font-weight: 700;
   }
 

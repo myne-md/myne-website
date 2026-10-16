@@ -1,6 +1,24 @@
 /* =========================================================================
-   Myne — Color + Type Tokens (light only).
-   Ported from the design system at colors_and_type.css.
+   Myne: Color + Type Tokens.
+
+   The default (`:root`) is DARK, matching the brand register the whole site
+   ships in. `:root[data-theme="light"]` is the light theme, taken from the
+   canonical light ramp in the main repo's docs/design/colors_and_type.css.
+
+   Dark is the CSS default on purpose: a reader with JS off, or a first paint
+   before the theme script runs, gets the dark site rather than a flash of a
+   palette nobody asked for. The runtime writes the attribute explicitly,
+   data-theme="dark" or data-theme="light" (lib/theme.mjs applyTheme), and a
+   bare `:root` with no attribute is dark too, which is what the no-JS path
+   leaves in place.
+
+   Semantic aliases (--bg-*, --fg-*, --fg-display) are redeclared inside each
+   theme block rather than only once, because their mapping to the raw ramp is
+   NOT identical between themes: the dark ledger/guide have always drawn body
+   copy at --ink-2 (#c4c4c0) and display copy at --ink-1 (#e6e6e4), while the
+   light canon maps --fg-1 to --ink-1 and --fg-display to --ink-0. Sharing one
+   alias block would have moved every dark prose page's body text a step
+   brighter, which the theme switch is not allowed to do.
    ========================================================================= */
 
 /* @font-face rules live in ../styles/fonts.css — self-hosted Inter +
@@ -44,43 +62,79 @@
   --weight-semibold: 600;
   --weight-bold:     700;
 
-  /* -- Color: paper ramp --------------------------------------------- */
-  --paper:    #fbfbfa;
-  --paper-2:  #f4f4f2;
-  --paper-3:  #ecebe7;
-  --line-1:   #e3e2dd;
-  --line-2:   #c8c7c1;
-  --line-3:   #a3a29c;
+  /* -- Color: DARK (default) -----------------------------------------
+     Exactly the ramp the site has always shipped. `--line-rgb` is the
+     single source for every hairline: the landing uses sixteen different
+     white alphas, so they are written `rgb(var(--line-rgb) / a)` and the
+     alpha survives the flip to light untouched. Same technique for
+     --accent-rgb (washes), --ink-rgb, --scrim-rgb and --particle-*-rgb. */
+  --paper:    #0a0a0a;
+  --paper-2:  #101010;
+  --paper-3:  #1a1a1a;
+  --ink-0:    #f2f2ef;
+  --ink-1:    #e6e6e4;
+  --ink-2:    #c4c4c0;
+  --ink-3:    #8a8a86;
+  --ink-4:    #54544f;
 
-  --ink-3:    #6b6a64;
-  --ink-2:    #3a3934;
-  --ink-1:    #1a1a17;
-  --ink-0:    #0b0b09;
+  --line-rgb: 255 255 255;
+  --ink-rgb:  230 230 228;
+  --scrim-rgb: 10 10 10;
+  /* The page colour as a triple, for gradients/shadows that must FADE TO THE
+     PAGE rather than darken it: the hero's copy cloud, the glassy nav tint,
+     the 404 vignette. Distinct from --scrim-rgb, which is a true overlay and
+     stays dark in both themes. */
+  --paper-rgb: 10 10 10;
+
+  --line-1:   rgb(var(--line-rgb) / 0.1);
+  --line-2:   rgb(var(--line-rgb) / 0.18);
+  --line-3:   rgb(var(--line-rgb) / 0.3);
 
   --bg-1:     var(--paper);
   --bg-2:     var(--paper-2);
   --bg-3:     var(--paper-3);
-  --fg-1:     var(--ink-1);
+  --fg-1:     var(--ink-2);
   --fg-2:     var(--ink-2);
   --fg-3:     var(--ink-3);
-  --fg-display: var(--ink-0);
+  --fg-display: var(--ink-1);
 
   /* -- Color: accent (iron-blue) ------------------------------------- */
-  --accent:        #2c4a7a;
-  --accent-hover:  #233b62;
-  --accent-press:  #1b2e4d;
-  --accent-soft:   #e8edf5;
-  --accent-on:     #ffffff;
+  --accent:        #8aa4d0;
+  --accent-rgb:    138 164 208;
+  --accent-hover:  #a6bce0;
+  --accent-press:  #c0d2ee;
+  --accent-soft:   rgb(var(--accent-rgb) / 0.12);
+  --accent-on:     #0a0a0a;
 
   /* -- Color: state -------------------------------------------------- */
-  --danger:        #8a2a23;
-  --danger-soft:   #f5e7e5;
-  --warning:       #8a6a1f;
-  --warning-soft:  #f5efde;
-  --success:       #2f6048;
-  --success-soft:  #e3eee8;
-  --info:          #2c4a7a;
+  --danger-rgb:    217 144 134;
+  --danger:        rgb(var(--danger-rgb));
+  --danger-soft:   rgb(var(--danger-rgb) / 0.12);
+  --warning-rgb:   194 163 94;
+  --warning:       rgb(var(--warning-rgb));
+  --warning-soft:  rgb(var(--warning-rgb) / 0.12);
+  --success-rgb:   127 184 154;
+  --success:       rgb(var(--success-rgb));
+  --success-soft:  rgb(var(--success-rgb) / 0.12);
+  --info:          var(--accent);
   --info-soft:     var(--accent-soft);
+
+  /* -- Color: selection + scrollbar + canvas ------------------------- */
+  --selection-bg: #e6e6e4;
+  --selection-fg: #0a0a0a;
+  --scrollbar-track: #0a0a0a;
+  --scrollbar-thumb: #2a2a2a;
+  --scrollbar-thumb-hover: #383838;
+
+  /* RGB triples the hero canvas / cursor glow read at runtime (lib/theme.mjs
+     reads them with getComputedStyle) so the JS art follows the theme. */
+  --particle-a-rgb: 232 231 225;
+  --particle-b-rgb: 214 226 247;
+  --particle-c-rgb: 236 235 231;
+  /* Blend mode for the cursor glow: `screen` lights a dark page up, `multiply`
+     darkens a light one; the same radial gradient needs the opposite operator
+     to stay visible. */
+  --blend-glow: screen;
 
   --ring:        0 0 0 2px var(--bg-1), 0 0 0 4px var(--accent);
   --ring-inset:  inset 0 0 0 2px var(--accent);
@@ -89,6 +143,7 @@
   --shadow-2: 0 2px 4px rgba(11,11,9,0.06), 0 4px 12px rgba(11,11,9,0.08);
   --shadow-3: 0 8px 16px rgba(11,11,9,0.08), 0 16px 40px rgba(11,11,9,0.12);
 
+  /* -- Geometry + motion (theme-independent) ------------------------- */
   --radius-1: 3px;
   --radius-2: 6px;
   --radius-3: 10px;
@@ -110,6 +165,79 @@
   --duration-fast: 120ms;
   --duration-base: 180ms;
   --duration-slow: 260ms;
+}
+
+/* =========================================================================
+   Light theme: the canonical light ramp, opted into by lib/theme.mjs
+   setting data-theme="light" on <html>. `--line-*` inherit from the dark
+   block and resolve against the light `--line-rgb` (custom-property
+   substitution is lazy, so they do not need restating).
+   ========================================================================= */
+:root[data-theme="light"] {
+  --paper:    #fbfbfa;
+  --paper-2:  #f4f4f2;
+  --paper-3:  #ecebe7;
+  --ink-0:    #0b0b09;
+  --ink-1:    #1a1a17;
+  --ink-2:    #3a3934;
+  --ink-3:    #6b6a64;
+  --ink-4:    #6f6e68;
+  /* --ink-4 is the muted step and carries real text (footer links, guide
+     breadcrumb and updated line, small captions), so the light value is tuned
+     to clear WCAG AA on --paper (#fbfbfa) at ~4.9:1 rather than taking the
+     canon's --line-3 (#a3a29c), which is a hairline value and fails at ~2.5:1.
+     The dark value stays the shipped #54544f: the dark look is not allowed to
+     move, and that contrast is pre-existing rather than new. */
+
+  --line-rgb:  11 11 9;
+  --ink-rgb:   26 26 23;
+  --scrim-rgb: 11 11 9;
+  --paper-rgb: 251 251 250;
+
+  --bg-1:     var(--paper);
+  --bg-2:     var(--paper-2);
+  --bg-3:     var(--paper-3);
+  --fg-1:     var(--ink-1);
+  --fg-2:     var(--ink-2);
+  --fg-3:     var(--ink-3);
+  --fg-display: var(--ink-0);
+
+  --accent:        #2c4a7a;
+  --accent-rgb:    44 74 122;
+  --accent-hover:  #233b62;
+  --accent-press:  #1b2e4d;
+  --accent-soft:   #e8edf5;
+  --accent-on:     #ffffff;
+
+  --danger-rgb:    138 42 35;
+  --danger:        rgb(var(--danger-rgb));
+  --danger-soft:   #f5e7e5;
+  --warning-rgb:   138 106 31;
+  --warning:       rgb(var(--warning-rgb));
+  --warning-soft:  #f5efde;
+  --success-rgb:   47 96 72;
+  --success:       rgb(var(--success-rgb));
+  --success-soft:  #e3eee8;
+  --info:          var(--accent);
+  --info-soft:     var(--accent-soft);
+
+  --selection-bg: #1a1a17;
+  --selection-fg: #fbfbfa;
+  --scrollbar-track: #fbfbfa;
+  --scrollbar-thumb: #c8c7c1;
+  --scrollbar-thumb-hover: #a3a29c;
+
+  --particle-a-rgb: 40 40 36;
+  --particle-b-rgb: 44 74 122;
+  --particle-c-rgb: 26 26 23;
+  --blend-glow: multiply;
+
+  --ring:        0 0 0 2px var(--bg-1), 0 0 0 4px var(--accent);
+  --ring-inset:  inset 0 0 0 2px var(--accent);
+
+  --shadow-1: 0 1px 0 rgba(11,11,9,0.04), 0 1px 2px rgba(11,11,9,0.06);
+  --shadow-2: 0 2px 4px rgba(11,11,9,0.06), 0 4px 12px rgba(11,11,9,0.08);
+  --shadow-3: 0 8px 16px rgba(11,11,9,0.08), 0 16px 40px rgba(11,11,9,0.12);
 }
 
 /* =========================================================================

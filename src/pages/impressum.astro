@@ -41,17 +41,17 @@ const description =
 const canonical = new URL("/impressum/", Astro.site!).toString();
 const ogImage = absoluteOg("impressum", Astro.site!);
 
-const eyebrow = "font-size:11px;color:#8aa4d0;margin-bottom:14px;";
+const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
 const body =
-  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:#8a8a86;";
+  "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
-  "border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:22px;background:#0c0c0c;margin-top:22px;";
+  "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
 // The placeholder is styled to read as a gap rather than as content, so it
 // cannot be mistaken for an address at a glance.
 const pending =
-  "display:inline-block;padding:2px 8px;border:1px dashed rgba(255,255,255,0.28);border-radius:5px;color:#6f6f6c;font-size:13px;";
+  "display:inline-block;padding:2px 8px;border:1px dashed rgb(var(--line-rgb) / 0.28);border-radius:5px;color:var(--ink-3);font-size:13px;";
 ---
 
 <LandingLayout
@@ -63,7 +63,7 @@ const pending =
   notice="none"
 >
   <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
+    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
   >
     <GlassNav active="legal" />
 
@@ -82,26 +82,26 @@ const pending =
 
         <h2 style={h2}>Diensteanbieter</h2>
         <div style={cardStyle}>
-          <p style="margin:0;font-size:15px;line-height:1.9;color:#e6e6e4;">
+          <p style="margin:0;font-size:15px;line-height:1.9;color:var(--ink-1);">
             Ömer Duran
           </p>
-          <p style="margin:10px 0 0;font-size:15px;line-height:1.9;color:#8a8a86;">
+          <p style="margin:10px 0 0;font-size:15px;line-height:1.9;color:var(--ink-3);">
             <span style={pending}>Anschrift folgt zum öffentlichen Start</span>
           </p>
-          <p style="margin:14px 0 0;font-size:15px;line-height:1.9;color:#8a8a86;">
+          <p style="margin:14px 0 0;font-size:15px;line-height:1.9;color:var(--ink-3);">
             Deutschland
           </p>
         </div>
 
         <h2 style={h2}>Kontakt</h2>
         <div style={cardStyle}>
-          <p style="margin:0;font-size:15px;line-height:1.9;color:#8a8a86;">
-            E-Mail: <a href="mailto:hello@myne.md" style="color:#8aa4d0;">hello@myne.md</a><br />
-            Datenschutz: <a href="mailto:privacy@myne.md" style="color:#8aa4d0;">privacy@myne.md</a
+          <p style="margin:0;font-size:15px;line-height:1.9;color:var(--ink-3);">
+            E-Mail: <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a><br />
+            Datenschutz: <a href="mailto:privacy@myne.md" style="color:var(--accent);">privacy@myne.md</a
             ><br />
             Meldungen rechtswidriger Inhalte:
-            <a href="mailto:abuse@myne.md" style="color:#8aa4d0;">abuse@myne.md</a><br />
-            Behörden: <a href="mailto:legal@myne.md" style="color:#8aa4d0;">legal@myne.md</a>
+            <a href="mailto:abuse@myne.md" style="color:var(--accent);">abuse@myne.md</a><br />
+            Behörden: <a href="mailto:legal@myne.md" style="color:var(--accent);">legal@myne.md</a>
           </p>
         </div>
         <p style={body}>
@@ -113,7 +113,7 @@ const pending =
         <p style={body}>
           Verantwortlich im Sinne des § 18 Abs. 2 MStV für die redaktionellen Inhalte dieser Website
           — insbesondere die Beiträge im
-          <a href="/ledger/" style="color:#8aa4d0;">Ledger</a> — ist Ömer Duran, Anschrift wie oben.
+          <a href="/ledger/" style="color:var(--accent);">Ledger</a> — ist Ömer Duran, Anschrift wie oben.
         </p>
 
         <h2 style={h2}>Umsatzsteuer</h2>
@@ -126,7 +126,7 @@ const pending =
         <p style={body}>
           Die Kontaktstellen nach Art. 11 und Art. 12 DSA sowie das Melde- und Abhilfeverfahren nach
           Art. 16 DSA sind auf der Seite
-          <a href="/meldung/" style="color:#8aa4d0;">Rechtswidrige Inhalte melden</a> beschrieben. Die
+          <a href="/meldung/" style="color:var(--accent);">Rechtswidrige Inhalte melden</a> beschrieben. Die
           Verständigung ist auf Deutsch und Englisch möglich.
         </p>
 
@@ -140,15 +140,15 @@ const pending =
         <p style={body}>
           Die Landesbeauftragte für den Datenschutz und für das Recht auf Akteneinsicht Brandenburg,
           Stahnsdorfer Damm 77, 14532 Kleinmachnow. Was verarbeitet wird, steht in der
-          <a href="/datenschutz/" style="color:#8aa4d0;">Datenschutzerklärung</a>.
+          <a href="/datenschutz/" style="color:var(--accent);">Datenschutzerklärung</a>.
         </p>
 
-        <p style={body + "margin-top:44px;font-size:14px;color:#6f6f6c;"}>
+        <p style={body + "margin-top:44px;font-size:14px;color:var(--ink-3);"}>
           This page is the provider identification required of German service providers by § 5 DDG.
           It is published in German because that is the language the obligation is written in, and
           the German text is the binding one. What we do with data is in the
-          <a href="/privacy/" style="color:#8aa4d0;">Privacy Policy</a>; the terms of the free beta
-          are in the <a href="/terms/" style="color:#8aa4d0;">Beta Terms</a>.
+          <a href="/privacy/" style="color:var(--accent);">Privacy Policy</a>; the terms of the free beta
+          are in the <a href="/terms/" style="color:var(--accent);">Beta Terms</a>.
         </p>
       </div>
     </section>

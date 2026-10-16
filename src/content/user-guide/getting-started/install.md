@@ -1,7 +1,7 @@
 ---
 title: "Install Myne"
 category: "getting-started"
-updated: 2026-10-07
+updated: 2026-10-16
 summary: "How Myne is distributed: which download exists for which platform, why your operating system warns on first launch, and how to check a download against the signed SHA256SUMS list before you run it."
 tags: ["basics", "security"]
 ---
@@ -14,9 +14,19 @@ Download Myne and run the installer for your platform:
 
 - **macOS**: a universal `.dmg` disk image. Open it and drag Myne to your Applications folder. One file covers both Apple silicon and Intel.
 - **Linux**: a `.deb` or an AppImage, each built for x86-64 and arm64. Both carry AppStream metadata, so your software centre lists Myne with its name and description. An Arch package is published alongside them, for x86-64 only.
-- **Android**: a universal `.apk` you install yourself. It is not on the Play Store, so Android asks you to allow the install. This is the one Myne download carrying a signature your device checks, because Android refuses to install a package without one. The key is ours and is unknown to Google, so the warning you see is about where the file came from rather than about a missing signature.
+- **Android**: a universal `.apk` you install yourself. It is not on the Play Store, so Android asks you to allow the install. This is the one Myne download carrying a signature your device checks, because Android refuses to install a package without one. The key is ours and is unknown to Google, so the warning you see is about where the file came from rather than about a missing signature. An F-Droid listing is prepared but not published; the next section says why, and what to do on the day it is.
 - **Windows**: no Windows build is published yet. There is nothing to download for Windows today.
 - **iPhone and iPad**: no build you can install. An iOS build needs a developer certificate on your side to sideload, so nothing is published.
+
+## Android and F-Droid
+
+The `.apk` is the only Android download today. F-Droid builds every app it ships from its own copy of the source, and Myne's source is not public yet, so there is nothing for F-Droid to build and no listing to install from. Our side of that packaging is prepared; it waits on the source becoming readable.
+
+When the listing does appear, one thing about it is worth knowing **before** you switch, because it is the only irreversible step in this article.
+
+F-Droid signs what it builds with **its own key**. Android refuses to install an update signed by a key different from the one already on the device, so the F-Droid build cannot be installed over an `.apk` you sideloaded from here. The only route through is to uninstall first, and uninstalling deletes the app's private storage, which is where your vault lives. **Export your notes to markdown before you make that switch.** This is not a hypothetical risk: the Android signing key has had to be replaced twice already, and each time an uninstall was the only way forward, which cost everyone whose notes existed only on their phone.
+
+Myne is attempting a reproducible build for exactly this reason. A build that reproduces byte for byte can be verified against the source and then signed with our key rather than F-Droid's, which removes the uninstall from that day entirely. If that lands, this section will say so instead.
 
 ## Your computer will warn you on first launch
 
@@ -40,7 +50,7 @@ On macOS, `shasum -a 256 -c SHA256SUMS` does the second step. The same hashes ar
 
 What the signature does not cover is worth stating plainly: it authenticates the hash list, not the installer, and it is not something your operating system checks.
 
-On desktop, Myne now updates itself. It checks for a newer version shortly after launch and once a day, and when one is available it verifies the download against the same offline release key before installing it, so a downloaded update your operating system cannot vouch for is still checked against a key we publish. You can turn the automatic check off in Settings under About, and check by hand there too. The check sends only your version and platform to our download host, which keeps no IP logs; it sends nothing about your notes or your account. Android still updates through you installing a new APK, and the browser client is re-sent on every load.
+On desktop, Myne now updates itself. It checks for a newer version shortly after launch and once a day, and when one is available it verifies the download against the same offline release key before installing it, so a downloaded update your operating system cannot vouch for is still checked against a key we publish. You can turn the automatic check off in Settings under About, and check by hand there too. The check sends only your version and platform to our download host, which keeps no IP logs; it sends nothing about your notes or your account. Android still updates by you installing a new APK, or through F-Droid once that listing exists, and the browser client is re-sent on every load.
 
 The desktop installers are **not reproducible**, and Myne's source is not published today, so nobody outside the project can rebuild a release and compare it byte for byte. That check exists only for the browser client's WebAssembly, and only inside a fixed reference build environment. What holds the desktop side instead is the hash list above: it is signed with a key kept offline and on neither server, and the same hashes are published on a second site with its own machine and its own deploy chain, so one compromised host cannot make its lie agree with the other. The desktop update channel is signature-gated: an update installs only if its signature verifies against the offline release key and its version is strictly newer, so a substituted file is refused rather than installed, and a downgrade is refused too. Where this fits in the wider picture is in the [privacy model](/user-guide/settings-and-privacy/privacy-model/).
 

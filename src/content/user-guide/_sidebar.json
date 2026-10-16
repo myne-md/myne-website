@@ -122,7 +122,7 @@
   {
     "slug": "ai",
     "label": "AI (Beta)",
-    "description": "Turn on Myne's experimental AI, choose where it runs \u2014 a model file on your computer, a runtime you already have, or a remote provider you name \u2014 then ask questions across your notes with citations, summarize notes, suggest tags, get inline writing help, and read the honest privacy boundary.",
+    "description": "Turn on Myne's experimental AI, choose where it runs — a model file on your computer, a runtime you already have, or a remote provider you name — then ask questions across your notes with citations, summarize notes, suggest tags, get inline writing help, and read the honest privacy boundary.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -195,6 +195,7 @@
       "auto-lock-and-screen-capture",
       "quick-unlock",
       "vault-names-on-the-lock-screen",
+      "diagnostic-logging",
       "change-your-password",
       "custom-hotkeys",
       "accessibility",

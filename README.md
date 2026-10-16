@@ -6,7 +6,7 @@
 
 The marketing and documentation site for [Myne](https://github.com/myne-md/myne) — served at `myne.md`. Myne is an open-source, end-to-end-encrypted, local-first markdown notes app with optional zero-knowledge sync: no email at signup, a 20-character account number identifies you, recovery rides on a BIP-39 24-word phrase, and the crypto is Argon2id + XChaCha20-Poly1305.
 
-This repo is one of several under [`myne-md`](https://github.com/myne-md). It holds the public landing page, the changelog/ledger, and the user guide — nothing cryptographic. The protocol, threat model, and specs live in the main repo under [`docs/`](https://github.com/myne-md/myne/tree/main/docs); copy here must stay within those guarantees.
+This repo is one of several under [`myne-md`](https://github.com/myne-md). It holds the public landing page, the changelog/ledger, and the user guide — nothing cryptographic. The protocol, threat model, and specs live in the main repo under [`docs/`](https://github.com/myne-md/myne/tree/develop/docs); copy here must stay within those guarantees.
 
 ## Status
 
@@ -16,11 +16,13 @@ What exists today:
 
 - **Landing page** (`/`): single-page landing with how-it-works, comparison, and roadmap sections, in dark or light (see Themes below).
 - **Ledger** (`/ledger`) — changelog/notes collection with `shipped` / `thinking` / `milestone` entries, filter views, per-entry OG images, and an RSS feed (`/ledger/rss.xml`).
-- **User guide** (`/user-guide`) — 70+ articles across eight categories, served from a Markdown content collection with a validated sidebar. The subtree is currently `noindex` and excluded from the sitemap; per `design-notes.md`, real-content go-live drops the banner, `noindex`, and sitemap filter atomically in one PR.
+- **User guide** (`/user-guide`) — the article collection under `src/content/user-guide/`, served from a Markdown content collection with a validated sidebar. It is **live with real content**: the per-page `noindex`, the draft banner and the sitemap exclusion were dropped together at go-live, so the sitemap filter in `astro.config.mjs` no longer names it.
+- **Theme gallery and builder** (`/themes`, `/themes/builder`) — the community gallery, plus a theme builder kept pinned dark.
 - **Static surfaces** — `/download`, `/roadmap`, `/security`, `/spec`, a `404`, plus build-time `robots.txt`, `llms.txt`, and a sitemap.
+- **Legal pages** — `/privacy` is live and linked. `/impressum`, `/terms`, `/nutzungsbedingungen`, `/law-enforcement`, `/behoerdenanfragen`, `/notice` and `/meldung` are kept and build, but are deliberately delisted from the sitemap, the footer and their own `robots` prop together: `/impressum` until its address is real, and the rest because they describe a service Myne no longer offers (`design-notes/sync/0696`). Several carry a German version that is the same document rather than a shortened rendering.
 - **`/.well-known/security.txt`** — RFC 9116 disclosure, served from the apex (`public/.well-known/security.txt`).
 - **OG image generation** — built at compile time with `satori` + `@resvg/resvg-js` (no headless browser).
-- **Deploy** — Dockerized Astro static output behind nginx, rolled by hand over SSH to `myne.md` (prod) and `preview.example.com` (staging). Procedure: [`operations/runbooks/website-deploy.md`](https://github.com/example-org/operations/blob/develop/runbooks/website-deploy.md). No CI/CD.
+- **Deploy** — Dockerized Astro static output behind nginx, rolled by hand over SSH to `myne.md` (prod) and `preview.example.com` (staging). Procedure: [`operations/runbooks/website-deploy.md`](https://github.com/example-org/operations/blob/develop/runbooks/website-deploy.md). There is **no deploy pipeline at all**: the only GitHub workflow is issue triage (`.github/workflows/triage.yml`), and the site goes out by hand.
 
 Marketing copy, pricing, and the bug-bounty page are intentionally conservative: the security page is acknowledgment-only (no monetary bounty yet), matching `docs/threat-model.md` §6.
 
@@ -41,23 +43,27 @@ With JS off the site stays dark and the switch does nothing. That is the accepte
 ```
 myne-website/
 ├── src/
-│   ├── pages/         ← Astro routes: index, download, releases, roadmap,
-│   │   │                security, spec, 404, ledger/, user-guide/
+│   ├── pages/         ← Astro routes: index, download, roadmap, security, spec,
+│   │   │                themes/ (gallery + builder), 404, ledger/, user-guide/,
+│   │   │                and the legal roster (privacy, impressum, terms, …)
 │   │   ├── ledger/    ← feed (index, [filter], [slug]), OG endpoint, rss.xml
+│   │   ├── themes/    ← gallery index, builder, preview-frame
 │   │   ├── og/        ← build-time OG image endpoint
 │   │   ├── robots.txt.ts · llms.txt.ts
-│   ├── layouts/       ← BaseLayout, LandingLayout, ledger + user-guide shells
-│   ├── components/    ← Nav, GlassNav, Footer, SubscribeDialog, ledger/, userguide/
+│   ├── layouts/       ← LandingLayout, LedgerFeedLayout, UserGuide{Article,Shell}Layout
+│   ├── components/    ← GlassNav, SiteFooter, ThemeToggle, ledger/, userguide/, themeBuilder/
 │   ├── content/       ← ledger/ + user-guide/ Markdown collections
 │   ├── content.config.ts  ← collection schemas (Zod)
-│   ├── lib/           ← ledger.ts, og.ts, userGuide.ts
-│   ├── data/          ← people.ts, platformIcons.ts
+│   ├── lib/           ← ledger.ts, og.ts, userGuide.ts, themeBuilder/, theme.mjs
+│   ├── data/          ← people.ts, platformIcons.ts, release.ts, notice.ts, the theme index
 │   └── styles/        ← global, tokens, ledger, user-guide CSS
 ├── public/
 │   └── .well-known/security.txt   ← RFC 9116, served from /
-├── scripts/           ← validate-sidebar.mjs, wire-screenshots.mjs
+├── scripts/           ← validate-sidebar.mjs, wire-screenshots.mjs, the theme/token
+│                        guards and sync tools, casts, validate-release/-draft-notice
+├── .github/workflows/triage.yml   ← issue triage only; there is no deploy pipeline
 ├── astro.config.mjs   ← site/env wiring, sitemap filters
-├── Dockerfile · nginx.conf · .woodpecker.yml
+├── Dockerfile · nginx.conf
 ├── package.json · pnpm-lock.yaml
 └── CLAUDE.md          ← marketing-copy discipline + content rules
 ```
@@ -67,7 +73,7 @@ myne-website/
 ```bash
 pnpm install
 pnpm dev               # Astro dev server
-pnpm build             # validate sidebar, then build static output → dist/
+pnpm build             # validate sidebar + release + draft-notice, then build → dist/
 pnpm preview           # serve dist/ locally
 pnpm validate-sidebar  # check the user-guide sidebar against content
 ```
@@ -76,7 +82,7 @@ Node is pinned via `engines` (≥ 22.12) to match the main repo. Git hooks run t
 
 ## Discipline
 
-Marketing copy may **not** exceed the guarantees in the main repo's [`docs/threat-model.md`](https://github.com/myne-md/myne/blob/main/docs/threat-model.md) (normative) — this rule extends to every `/user-guide` article. Brand voice and the "Myne is / Myne is not" lists live in [`docs/vision.md`](https://github.com/myne-md/myne/blob/main/docs/vision.md). When a claim is in doubt, downgrade it. Adding a tracker or analytics requires a corresponding `design-notes.md` entry. See [`CLAUDE.md`](./CLAUDE.md) for the full content discipline.
+Marketing copy may **not** exceed the guarantees in the main repo's [`docs/threat-model.md`](https://github.com/myne-md/myne/blob/develop/docs/threat-model.md) (normative) — this rule extends to every `/user-guide` article. Brand voice and the "Myne is / Myne is not" lists live in [`docs/vision.md`](https://github.com/myne-md/myne/blob/develop/docs/vision.md). When a claim is in doubt, downgrade it. Adding a tracker or analytics requires a corresponding `design-notes.md` entry. See [`CLAUDE.md`](./CLAUDE.md) for the full content discipline.
 
 ## Related repos
 

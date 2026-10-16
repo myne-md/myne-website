@@ -1,8 +1,8 @@
 ---
 title: "Tasks"
 category: "notes-and-organization"
-updated: 2026-09-13
-summary: "How tasks work in Myne: checkbox lines that carry due, reminder, priority, and repeat chips you set from controls rather than typing, whole-note tasks, a Tasks panel and an embedded task-list block, and local reminders — all kept as plain markdown inside your notes."
+updated: 2026-10-16
+summary: "How tasks work in Myne: checkbox lines that carry due, reminder, priority, and repeat chips you set from controls rather than typing, a field editor that opens as a sheet on a phone, field editing from a Tasks list, whole-note tasks, a Tasks panel and an embedded task-list block, and local reminders. All of it stays plain markdown inside your notes."
 tags: ["notes", "editor", "markdown", "import"]
 ---
 
@@ -31,6 +31,16 @@ Press Enter at the end of a task and Myne opens the next one for you. Press it a
 
 You never have to type the field syntax by hand. Put the caret on a task line and a **+** appears at the end of it; click it for a menu of the four fields. It is a caret affordance, so it steps out of the way while you have text selected on that line. The `/due`, `/remind`, `/repeat`, and `/priority` slash commands open the same editors directly. If the caret is on an ordinary line rather than a task, Myne turns it into `- [ ] ` first, because asking for a due date implies a task. Choosing a field the line already carries opens it for editing rather than adding a second one.
 
+There are four ways in, and they all reach the same field editor: the **+** on the line, a click on an existing field chip, one of the four slash commands, and the control on a task's row in a Tasks list (see [The Tasks panel](#the-tasks-panel) below). Desktop and the browser show it as a panel beside whichever of those you used.
+
+On a phone it arrives as a **sheet** at the bottom of the screen, dimming the note behind it, and it is a two-step flow rather than a panel:
+
+1. The sheet opens on the **list of fields**. A field the line already carries is labelled **Edit** with its name, so the same row both adds and edits.
+2. Choose one and the sheet swaps to that field's editor, with its own **back** control at the top left returning to the list.
+3. **Save** and **Cancel** are pinned below the field, so the on-screen keyboard never covers them. Save returns you to the list with the sheet still open, and the list re-reads the line, so a field you just set now reads **Edit**.
+
+Close the sheet with its **x** control or by tapping the dimmed area. The **Skip this occurrence** row described under [The repeat control](#the-repeat-control) appears here too, from a note.
+
 ### The repeat control
 
 A repeat rule is always **chosen from a control, never typed**. The control's first field picks one of four rule families:
@@ -44,7 +54,7 @@ A separate checkbox, **Repeat from the date it's completed**, anchors the next o
 
 The vocabulary is closed on purpose: these families are the whole set, and there is no free-text rule box. The rule is stored in canonical English inside your note and displayed in your app language, so a note stays readable on a device set to another language. A rule advances only when you complete the task; a missed occurrence stays overdue and visible until you act on it. Completing a recurring task generates its next occurrence, and undoing that completion in the same step removes it again.
 
-To move a recurring task on without marking it done, open the line's **+** menu and choose **Skip this occurrence**. The rule advances to its next date and the task stays open. That row is offered only when the line's rule can actually advance, so an action that would silently do nothing is never on the menu.
+To move a recurring task on without marking it done, open the line's **+** menu and choose **Skip this occurrence**. The rule advances to its next date and the task stays open. That row is offered only when the line's rule can actually advance, so an action that would silently do nothing is never on the menu, and only from a note: a row in a Tasks list has no way to advance an occurrence, so its field menu does not offer it.
 
 ## Note-tasks
 
@@ -61,13 +71,15 @@ The **Tasks** panel gathers your tasks into one list, so you do not have to open
 
 The right panel also has a **Tasks** tab, scoped to the note you are reading rather than to the whole vault.
 
-A task list is a view over your notes, not a place your tasks are stored. The one change you can make from it is ticking or unticking a task's checkbox; that write goes back to the note that owns the task. You cannot edit a task's text or fields from the list — open its note for that.
+A task list is a view over your notes, not a place your tasks are stored. Two changes can be made from it, and both write back to the note that owns the task: ticking or unticking its checkbox, and editing its fields. Each row carries a **field control** at its trailing edge (the small **...**), which opens the same field editor a chip opens, for a task whose note you need not have open at all. On a phone that editor is the same bottom sheet described under [Adding a field](#adding-a-field).
+
+A task's **text** is still a note-only edit: neither the list nor the query block can rewrite a task's wording, retitle its note, or move it.
 
 ## The task-list query block
 
 You can drop a live task list into any note. Use the editor's slash menu and choose **Task list**, which opens a small builder, or write a fenced code block whose language is `tasks`. The block renders in place as a list of the tasks that match your query, and it updates as your notes change.
 
-The builder writes the query for you from a set of choices — completion state, a due-date window, a folder or tag, a priority, and a sort order — and shows a live preview of the text it produces. The query language is a **closed set of clauses** in English; the builder is there so you read the keywords rather than memorize them. If a clause cannot be read it is dropped and reported inside the block, and a query whose clauses are all unreadable shows nothing rather than matching your whole vault.
+The builder writes the query for you from a set of choices: completion state, a due-date window, a folder or tag, a priority, and a sort order. It shows a live preview of the text it produces. The query language is a **closed set of clauses** in English; the builder is there so you read the keywords rather than memorize them. If a clause cannot be read it is dropped and reported inside the block, and a query whose clauses are all unreadable shows nothing rather than matching your whole vault. The builder stays a dialog in the middle of the screen on every client; on a phone each label sits above its control rather than beside it, and the dialog is sized against the visible screen, so its own Insert button stays above the on-screen keyboard.
 
 ## Reminders
 
@@ -103,7 +115,7 @@ The recurrence vocabulary is closed. If a repeat rule already in a note (from an
 
 A repeat rule also needs something to repeat from. A rule on a line that carries neither a due date nor a reminder parses fine and still cannot advance, so it is shown as unread too, with a hint that says to add a date rather than to fix the rule. Myne does not invent an anchor, because a rule counted from a moving "today" would reappear every day without ever advancing.
 
-Task lists and query blocks are read-only projections over your notes. The only change any of them can make is ticking or unticking a checkbox; they cannot edit text, add or remove a field, or move a note.
+Task lists and query blocks are projections over your notes rather than stores. The changes a Tasks list can make are ticking or unticking a checkbox and rewriting a task's fields, and both go through the note that owns the task. Nothing any of them offers can rewrite a task's text, retitle a note, or move a note to another folder.
 
 ## Shortcuts
 

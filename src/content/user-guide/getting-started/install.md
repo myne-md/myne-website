@@ -6,7 +6,7 @@ summary: "How Myne is distributed: which download exists for which platform, why
 tags: ["basics", "security"]
 ---
 
-Myne runs as a native app on your own machine: a desktop app for macOS and Linux, and a mobile app for Android. Your vault lives on the device as encrypted files. There is also a browser client at `app.example.com` that runs the same application under a different trust boundary; see [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/). This article covers how to get the app, what your operating system will say about it, and how to check that what you install is what we published.
+Myne runs as a native app on your own machine: a desktop app for macOS and Linux, and a mobile app for Android. Your vault lives on the device as encrypted files. There is also a browser client that runs the same application under a different trust boundary, and you serve it yourself: Myne hosts no client. See [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/). This article covers how to get the app, what your operating system will say about it, and how to check that what you install is what we published.
 
 ## Download and install
 

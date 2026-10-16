@@ -237,8 +237,11 @@ const links = [
     color: #8a8a86;
     flex-shrink: 0;
   }
-  /* Primary CTA — styled identically to the Download pill, sitting to its
-     left, routing to the hosted web client at app.example.com. */
+  /* Primary CTA — styled identically to the Download pill. Retained after the
+     hosted web client closed (2026-10-16): nothing renders it today, and the
+     class is kept rather than deleted because the CTA is the shape a future
+     "run the browser client" entry point would use. It previously routed to
+     app.example.com, which no longer serves anything. */
   .gnav-openapp {
     color: #e6e6e4;
     text-decoration: none;

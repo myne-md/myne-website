@@ -36,10 +36,22 @@ export default defineConfig({
     // correct apart from the address — it just does not get advertised.
     // Drop this filter and the page's `robots` prop together when the
     // address lands (example-org/operations#9).
+    //
+    // The rest of the legal roster joined it on 2026-10-16, for the same
+    // mechanism and a different reason: those pages are kept and still build,
+    // but they describe a service Myne no longer offers (the hosted-sync beta
+    // terms, and the pages that say what a Myne-run server holds and how to
+    // report content on it). Footer link, sitemap entry and `robots` prop move
+    // together, exactly as with /impressum/. /privacy/ is deliberately NOT in
+    // this list: it is still live and still linked. SiteFooter.astro's header
+    // carries the full reasoning; the decision entry is
+    // `design-notes/sync/0696` in the main repo.
     sitemap({
       filter: (page) =>
         !/\/ledger\/(shipped|thinking|milestones)\/?$/.test(page) &&
-        !/\/impressum\/?$/.test(page),
+        !/\/(impressum|terms|nutzungsbedingungen|law-enforcement|behoerdenanfragen|notice|meldung)\/?$/.test(
+          page,
+        ),
     }),
   ],
 });

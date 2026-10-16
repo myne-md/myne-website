@@ -55,7 +55,14 @@ const forbidden = [
 ];
 ---
 
-<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage} notice="draft">
+<LandingLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+  notice="draft"
+  robots="noindex,nofollow"
+>
   <div
     style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
   >
@@ -70,8 +77,12 @@ const forbidden = [
           Beta Terms
         </h1>
         <p style={body}>
-          Effective {effective}. These terms govern the free Myne beta — the hosted sync service at
-          sync.myne.md, the web app at app.example.com, and the desktop and mobile apps that use them.
+          Effective {effective}. These terms governed the free Myne beta: the hosted sync service at
+          sync.myne.md and the web app at app.example.com, together with the desktop and mobile apps that
+          used them. <strong style="color:#e6e6e4;">Myne closed that beta on 16 October 2026</strong>
+          and offers no sync service of its own, so there is nothing left for these terms to govern
+          between you and Myne. It is kept published as the record of the terms that applied while
+          the beta ran, and it is no longer linked from the site.
         </p>
 
         <div style={cardStyle}>
@@ -225,14 +236,14 @@ const forbidden = [
 
         <h2 style={h2}>Donations</h2>
         <p style={body}>
-          Donations are welcome and buy nothing. Donors get no badge, no early access, no priority
-          support, no additional storage and no influence over what gets built. The service is
-          identical for everyone, whether they have donated or not.
-        </p>
-        <p style={body}>
-          This is deliberate and it is the line that keeps a donation a donation. The moment a
-          contribution bought something in return, it would stop being a gift and start being a
-          purchase — with everything that follows from that.
+          <strong style="color:#e6e6e4;">Myne stopped taking donations on 16 October 2026</strong>
+          and the Open Collective collection was closed, so there is no donation path left to describe.
+          While it existed the rule was that a donation bought nothing: no badge, no early access, no
+          priority support, no additional storage and no influence over what gets built, and the
+          service was identical for everyone whether or not they had donated. That rule is recorded
+          here because it is the line that kept a donation a donation. The moment a contribution
+          bought something in return, it would have stopped being a gift and started being a purchase,
+          with everything that follows from that.
         </p>
 
         <h2 style={h2}>Liability</h2>

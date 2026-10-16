@@ -1,12 +1,16 @@
 ---
 title: "Myne in your browser"
 category: "getting-started"
-updated: 2026-08-25
-summary: "Myne runs in a desktop browser at app.example.com as a second client, with nothing to install. It is the same app compiled for the browser, holding an encrypted copy of a synced vault. You can create an account here or sign in to one you already have, and how the client's code reaches you differs from the desktop app."
+updated: 2026-10-16
+summary: "Myne also runs in a desktop browser: the same app compiled for the browser, a second client holding an encrypted copy of a synced vault. You serve it yourself, because Myne offers no hosted browser client, and how its code reaches you differs from the desktop app."
 tags: ["basics", "sync", "devices", "privacy", "security"]
 ---
 
-Alongside the desktop app, Myne runs in a desktop browser at `app.example.com`, with nothing to install. It is the same application compiled to run in the browser: the same interface, the same protocol, holding an encrypted copy of a vault that reaches it over sync. You can create a new account and vault here, or sign in to one that already exists with your account number and master password. This article covers both doors, what the browser client is and is not, and one difference in how its code is delivered that is worth understanding before you rely on it.
+Alongside the desktop app, Myne runs in a desktop browser: the same application compiled to run in the browser, the same interface, the same protocol, holding an encrypted copy of a vault that reaches it over sync. You can create a new account and vault there, or sign in to one that already exists with your account number and master password.
+
+**Myne does not serve one.** There is no `app.example.com` to open, and no browser client is offered under Myne's own name: the maintainer-run instance closed in October 2026, because offering a service under the product's name is a different thing from shipping software. The client ships as a container image you run yourself, and [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/) is how. Everything below is about the client itself, and it holds whether the address you open is one you run or one a friend runs for you.
+
+This article covers the prerequisites, what the browser client is and is not, and one difference in how its code is delivered that is worth understanding before you rely on it.
 
 ## Before you start
 
@@ -29,7 +33,7 @@ The browser does show you the phrase once, when you create a vault here. That is
 
 ## Signing in from a browser
 
-1. Open `app.example.com` (or your own address, if you self-host the client) in a desktop browser. There is nothing to download.
+1. Open your own address for the client (see [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/)) in a desktop browser. There is nothing to download.
 2. Read the beta terms and accept them. Myne shows them before anything else here, because sync is how this client reaches your vault at all. In short: sync is a free beta with no warranty and no uptime promise; if you lose your password and your recovery phrase your notes cannot be recovered; your account keeps working when the beta ends; and Myne cannot read what you store, so it cannot screen it. The acceptance is recorded on this browser only — it is not carried across by sync, so each new device is asked once — and Myne asks again if the terms change.
 3. Enter your account number. The field formats it into its grouped display form as you type, and Myne checks it on your device before sending anything — a mistyped number is caught locally, not by asking the server.
 4. Enter your master password. Myne derives your keys from it in the browser; the raw account number and the password are handled on your device, not sent as-is to the server.
@@ -54,7 +58,7 @@ Two things about the phrase are different here, and both are covered in [Your re
 
 ## Coming back later
 
-Closing the tab ends the session on purpose. Your encrypted vault stays in the browser's storage, so it is still there next time; what does not stay is anything that could open it. Returning to `app.example.com` therefore asks for your master password again, every time.
+Closing the tab ends the session on purpose. Your encrypted vault stays in the browser's storage, so it is still there next time; what does not stay is anything that could open it. Returning to the address that serves the client therefore asks for your master password again, every time.
 
 That is the whole of it. You are **not** asked to approve the browser a second time, and no other device has to do anything: the browser is already a known device on your account, and the password is what it needs to start using it again.
 
@@ -64,7 +68,7 @@ If you are asked to approve it again, this browser is enrolling from scratch rat
 
 The browser client is not a rewrite. It compiles the same source as the desktop app, and it uses the same cryptographic code — the Myne protocol crate, compiled to WebAssembly and run in the page. It reads and writes byte-identical encrypted blobs: the same formats, the same keys, no new cryptography of its own. A note written on your desktop and a note written in the browser are the same encrypted file.
 
-Its local copy lives in the browser's own storage (the Origin Private File System, or OPFS), scoped to `app.example.com` and to that browser profile. The internal file layout differs slightly from the desktop's folder — the encrypted contents inside do not.
+Its local copy lives in the browser's own storage (the Origin Private File System, or OPFS), scoped to the address serving the client and to that browser profile. The internal file layout differs slightly from the desktop's folder — the encrypted contents inside do not.
 
 Two behaviours follow from running in a browser:
 
@@ -77,7 +81,7 @@ Your notes are encrypted in the browser exactly as they are on the desktop — t
 
 The desktop app is downloaded once as a file you keep, with a published hash you can check before you ever run it, and the copy on your machine stays there for you to inspect. The browser client is different: the page re-delivers it from the server on every visit, you retain no artifact to check, and your browser verifies no signature on it. Whoever operates the address serving the client can, in principle, send a modified version to one specific account and the normal version to everyone else — and because that code runs in the same page you type your master password into, that would be a full compromise of that session. This is a real and weaker trust boundary than the desktop app has (`docs/threat-model.md` A15 / TB11), and the browser cannot close it from inside the page.
 
-What Myne does about it is detection and containment, not prevention, and one half of that is not yet something you can use yourself. Every released bundle's hash is recorded, append-only, before it is deployed, and the browser shows you the hash of the bundle you are actually running: **Settings → About**, under **Build**, beneath the commit. The same value is served at `app.example.com/version.json`. **That record is not public today.** It lives in a repository that is not open, so you cannot look your hash up in it, and this page said you could until 2026-08-25. What the hash on your screen is still good for is reporting it: quoting it lets someone with access settle the question, so a substitution can be found later rather than never. Publishing the record is something Myne owes this page and intends to do; Myne is in beta, and this is one of the pieces still to come rather than one that was dropped. It is not something you can work around in the meantime. Either way, this catches a substitution afterwards. It does not stop one from reaching you, and the app does not warn you in the moment.
+What the client does about it is detection and containment, not prevention, and one half of that is not yet something you can use yourself. Every bundle Myne released was recorded, append-only, before it was deployed, and the browser shows you the hash of the bundle you are actually running: **Settings → About**, under **Build**, beneath the commit. The same value is served at `<your address>/version.json`. **That record is not public today.** It lives in a repository that is not open, so you cannot look your hash up in it, and this page said you could until 2026-08-25. What the hash on your screen is still good for is reporting it: quoting it lets someone with access settle the question, so a substitution can be found later rather than never. Publishing the record is something Myne owes this page and intends to do. Either way, this catches a substitution afterwards. It does not stop one from reaching you, and the client does not warn you in the moment.
 
 The bundle does rebuild byte for byte, but only inside a fixed reference build environment: the build host's architecture reaches the compiled WebAssembly, so a rebuild made anywhere else differs for reasons that are not evidence of anything. Rebuilding it also needs the source, and Myne's source is not published today. The client is licensed AGPL, so an instance you run is yours to serve, and self-hosting removes the outside operator from the path for your own use, though not for anyone else using an instance you run. Running your own does not need the source — the built client ships as a public container image — so that route is open in practice, and [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/) is how. Rebuilding it yourself does need the source, and the hash record that would tell you whether a rebuild matched is not public either, so what you can do there is prepare the comparison rather than complete it.
 

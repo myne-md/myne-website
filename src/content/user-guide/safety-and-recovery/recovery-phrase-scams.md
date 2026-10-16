@@ -34,7 +34,7 @@ If you have already typed your phrase into a page you are not sure about, treat 
 
 ## Before you type the words
 
-1. **Check the address bar**, character by character, before the first word goes in. The hosted client is at `app.example.com`, or at your own address if you serve the client yourself. A lookalike address is the entire attack.
+1. **Check the address bar**, character by character, before the first word goes in. There is no Myne-run address to memorise any more: the browser client is one you or somebody you know runs, so the address is one you were told out of band. A lookalike address is the entire attack.
 2. **Distrust the way you arrived.** If a link in a message, an email, a chat, or a search result put you on that page, do not type the phrase there. Close it, type the address yourself, or use a bookmark you made.
 3. **Ask who started this.** A recovery is something you begin, from the unlock screen, by choosing **Forgot your password? Unlock with recovery phrase**. A page that offers to recover your account before you asked is answering a question you did not ask.
 4. **When in doubt, use an app instead.** Do the recovery in the desktop or mobile app, where no web address can impersonate the app. The flow is the same and ends the same way. See [If you forget your password](/user-guide/safety-and-recovery/if-you-forget-your-password/).

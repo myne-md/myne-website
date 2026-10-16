@@ -40,7 +40,15 @@ const forbidden = [
 ];
 ---
 
-<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage} notice="draft" noticeLang="de">
+<LandingLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+  notice="draft"
+  noticeLang="de"
+  robots="noindex,nofollow"
+>
   <div
     style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#e6e6e4;background:#0a0a0a;min-height:100vh;"
   >
@@ -55,9 +63,13 @@ const forbidden = [
           Nutzungsbedingungen der Beta
         </h1>
         <p style={body}>
-          Gültig ab {effective}. Diese Bedingungen gelten für die kostenlose Myne-Beta — den
-          gehosteten Synchronisationsdienst unter sync.myne.md, die Web-App unter app.example.com sowie
-          die Desktop- und Mobil-Anwendungen, die sie nutzen.
+          Gültig ab {effective}. Diese Bedingungen galten für die kostenlose Myne-Beta: den gehosteten
+          Synchronisationsdienst unter sync.myne.md und die Web-App unter app.example.com sowie die
+          Desktop- und Mobil-Anwendungen, die sie nutzten. <strong
+            style="color:#e6e6e4;">Myne hat diese Beta am 16. Oktober 2026 geschlossen</strong> und
+          betreibt keinen eigenen Synchronisationsdienst mehr; zwischen Ihnen und Myne gibt es daher
+          nichts mehr, was diese Bedingungen regeln könnten. Die Seite bleibt als Nachweis der
+          Bedingungen veröffentlicht, die während der Beta galten, und wird nicht mehr verlinkt.
         </p>
 
         <div style={cardStyle}>
@@ -221,15 +233,15 @@ const forbidden = [
 
         <h2 style={h2}>Spenden</h2>
         <p style={body}>
-          Spenden sind willkommen und erkaufen nichts. Spendende erhalten kein Abzeichen, keinen
-          Vorabzugang, keinen bevorzugten Support, keinen zusätzlichen Speicherplatz und keinen
-          Einfluss darauf, was gebaut wird. Der Dienst ist für alle identisch, ob gespendet wurde
-          oder nicht.
-        </p>
-        <p style={body}>
-          Das ist Absicht und es ist die Grenze, die eine Spende eine Spende bleiben lässt. In dem
-          Augenblick, in dem ein Beitrag eine Gegenleistung erkaufte, wäre er keine Zuwendung mehr,
-          sondern ein Kauf — mit allem, was daraus folgt.
+          <strong style="color:#e6e6e4;">Myne nimmt seit dem 16. Oktober 2026 keine Spenden mehr
+          an</strong>, die Sammlung über Open Collective wurde geschlossen; es gibt daher keinen
+          Spendenweg mehr zu beschreiben. Solange es ihn gab, galt: Spenden erkauften nichts.
+          Spendende erhielten kein Abzeichen, keinen Vorabzugang, keinen bevorzugten Support, keinen
+          zusätzlichen Speicherplatz und keinen Einfluss darauf, was gebaut wird, und der Dienst war
+          für alle identisch, ob gespendet wurde oder nicht. Diese Regel steht hier, weil sie die
+          Grenze war, die eine Spende eine Spende bleiben ließ. In dem Augenblick, in dem ein Beitrag
+          eine Gegenleistung erkaufte, wäre er keine Zuwendung mehr, sondern ein Kauf — mit allem, was
+          daraus folgt.
         </p>
 
         <h2 style={h2}>Haftung</h2>

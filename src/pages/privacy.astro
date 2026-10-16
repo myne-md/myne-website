@@ -54,7 +54,7 @@ const network = [
   {
     feature: "Sync",
     goes: "Yes",
-    where: "The sync server you configured — sync.myne.md, or your own",
+    where: "The sync server you configured. Myne runs none of its own",
     when: "While sync is switched on. This is the only feature that sends your notes anywhere, and they leave encrypted.",
   },
   {
@@ -176,8 +176,11 @@ const notStored = [
           Privacy Policy
         </h1>
         <p style={body}>
-          Effective {effective}. It covers myne.md, app.example.com, sync.myne.md and the desktop and
-          mobile apps.
+          Effective {effective}. It covers myne.md, the model-download origin and the desktop, mobile
+          and browser clients. <strong style="color:#e6e6e4;">Myne runs no sync service of its own</strong>,
+          so if you use sync, the server holding your ciphertext is one you run or one somebody else
+          runs; that operator is the controller for what it holds, not us. The section below is
+          written to be read either way.
         </p>
 
         <!-- ── The summary. Cryptee's shape: the plain reading first, the -->
@@ -309,6 +312,12 @@ const notStored = [
           bytes. It never decrypts, merges or interprets anything, because it holds nothing that
           could.
         </p>
+        <p style={body}>
+          This list describes the software, not an address. If you point Myne at a server you run, the
+          rows below are what <em>your</em> server holds and you are the controller for them. Myne
+          operates no server it offers to the public, so the only instance it holds anything on is
+          one for a closed group of people who asked for it, and the same rows apply there.
+        </p>
 
         <div style={tableWrap}>
           <table style={table}>
@@ -376,9 +385,12 @@ const notStored = [
 
         <h2 style={h2}>The web app, and what it stores in your browser</h2>
         <p style={body}>
-          The web app at app.example.com keeps your encrypted vault in your browser's own storage
-          (OPFS), so it can work without re-downloading everything and so your notes survive a
-          reload. This is storage on your device, not on ours, and it holds the same ciphertext.
+          The browser client keeps your encrypted vault in your browser's own storage (OPFS), so it
+          can work without re-downloading everything and so your notes survive a reload. This is
+          storage on your device, not on ours, and it holds the same ciphertext. Which address it
+          lives under is the address serving the client, which is one you or somebody else runs; the
+          storage is scoped to that origin, so a vault in one client's storage is not reachable from
+          another.
         </p>
         <p style={body}>
           Under § 25 TDDDG this needs no consent banner: it is strictly necessary for the service
@@ -390,10 +402,13 @@ const notStored = [
 
         <h2 style={h2}>Donations</h2>
         <p style={body}>
-          If you donate, it goes through Open Collective and their fiscal host. Payment details
-          reach them, never us; we see the amount and whatever name the donor chooses to show. Your
-          Myne account and a donation are not linked, and cannot be — there is nothing on the
-          account to link to.
+          <strong style="color:#e6e6e4;">Myne takes no donations, as of 16 October 2026.</strong> The
+          Open Collective collection was closed, so there is no payment path to describe and no
+          payment processor in the chain. The section below about processors therefore lists none.
+          This is recorded rather than deleted because a donor whose data reached the fiscal host
+          before that date is owed the sentence: payment details reached them and never us, we saw
+          the amount and whatever name the donor chose to show, and a Myne account was never linked
+          to a donation because there was nothing on the account to link to.
         </p>
 
         <h2 style={h2}>Your rights</h2>
@@ -427,19 +442,20 @@ const notStored = [
             <a href="mailto:privacy@myne.md" style="color:#8aa4d0;">privacy@myne.md</a>
           </p>
           <p style="margin:14px 0 0;font-size:14px;line-height:1.65;color:#6f6f6c;">
-            The full postal address is published in the Impressum when the public beta opens; until
-            then it is available on request at the address above. There is no data protection
-            officer: the thresholds of § 38 BDSG are not met — there are no employees.
+            A full postal address is available on request at the address above. There is no public
+            beta any more, so there is no hostname announcement that would carry it; the Impressum
+            page is withheld until that address is settled. There is no data protection officer: the
+            thresholds of § 38 BDSG are not met, there are no employees.
           </p>
         </div>
 
         <h3 style={h3}>Processors</h3>
         <p style={body}>
           <strong style="color:#e6e6e4;">Hetzner Online GmbH</strong>, Industriestr. 25, 91710
-          Gunzenhausen, runs the machines. myne.md, app.example.com and sync.myne.md all live in
-          Hetzner's Falkenstein data centre in Germany, under an Art. 28 processing agreement. There
-          is no other processor: no CDN, no analytics vendor, no crash reporting service, no email
-          delivery service, no payment processor.
+          Gunzenhausen, runs the machines. myne.md and the model-download origin live in Hetzner's
+          Falkenstein data centre in Germany, under an Art. 28 processing agreement. There is no
+          payment processor any more, because donations stopped. There is no other processor: no CDN,
+          no analytics vendor, no crash reporting service, no email delivery service.
         </p>
         <p style={body}>
           Nothing is transferred outside the EU. All processing happens in Germany, and access to
@@ -449,10 +465,9 @@ const notStored = [
         <h2 style={h2}>Abuse reports and legal requests</h2>
         <p style={body}>
           Reports go to <a href="mailto:abuse@myne.md" style="color:#8aa4d0;">abuse@myne.md</a>. We
-          cannot read what people store, so we cannot screen it, and we do not pretend otherwise —
-          what we can do on a valid report is act on the account. What a valid report contains, and
-          what happens after one arrives, is on the
-          <a href="/notice/" style="color:#8aa4d0;">reporting page</a>.
+          cannot read what people store, so we cannot screen it, and we do not pretend otherwise. On
+          a valid report what we can do is act on the account, because that is the only instrument an
+          operator of a blind store has.
         </p>
         <p style={body}>
           Requests from authorities go to <a href="mailto:legal@myne.md" style="color:#8aa4d0;"
@@ -460,9 +475,9 @@ const notStored = [
           > and are answered against the list above and no further: we can only hand over what we have,
           and what we have is a hash, a verifier, some counters and ciphertext we cannot open. There is
           no key in our possession, no German law obliges a provider to break its own encryption, and
-          encrypted data is handed over encrypted. The long form — which legal basis reaches what, and
-          why § 22 TDDDG cannot reach data that was never collected — is on the
-          <a href="/law-enforcement/" style="color:#8aa4d0;">law enforcement page</a>.
+          encrypted data is handed over encrypted. This paragraph is the whole of it, which is a
+          change: it used to point at a longer page about the legal basis, and that page describes an
+          offering Myne no longer makes.
         </p>
 
         <h2 style={h2}>Changes</h2>

@@ -1,12 +1,12 @@
 ---
 title: "Run your own browser client"
 category: "getting-started"
-updated: 2026-09-28
+updated: 2026-10-16
 summary: "Serve the Myne browser client from an address you control: a published container image, a domain, and a TLS terminator. Covers the required sync origin, what changes about the code-delivery trust boundary when you operate it, and why there is nothing to back up."
 tags: ["basics", "sync", "privacy", "security"]
 ---
 
-The browser client at `app.example.com` is published as a container image, so you can serve the same client from your own address. The one thing that changes is who hands the page its code on every visit, and that is worth being precise about before you point anyone else's notes at it. This page covers running one, the one setting it cannot start without, and the obligation you take on if anyone else uses it.
+The browser client is published as a container image, so you serve it from an address you control. Myne offers no hosted client of its own, so this is the only way to run one. The one thing that changes from a client somebody else serves is who hands the page its code on every visit, and that is worth being precise about before you point anyone else's notes at it. This page covers running one, the one setting it cannot start without, and the obligation you take on if anyone else uses it.
 
 ## Before you start
 
@@ -144,6 +144,40 @@ curl -s https://notes.your.domain/version.json
 The commit and hash in that response have to match what you just deployed. If they do not, the container did not replace — every other check passes against the old build, which is the only reason the field exists.
 
 A browser that has already opened your instance may keep serving an older build for a while, because the page pins what it is running and updates it on its own schedule. Rolling back does not reach back and withdraw it. Publishing a replacement is a forward release, not an erasure.
+
+## If you would rather run on Kubernetes
+
+The same image installs from a Helm chart instead of a compose file: `myne-web` on `oci://ghcr.io/myne-md/charts/myne-web`, and its one required setting is the sync server's origin. Everything else about this page still holds, including the two settings that have to agree.
+
+```sh
+helm install myne-web oci://ghcr.io/myne-md/charts/myne-web \
+  --version 0.8.1 \
+  --namespace myne \
+  --set syncOrigin=https://sync.your.domain \
+  --set ingress.enabled=true \
+  --set ingress.host=notes.your.domain \
+  --set 'ingress.tls[0].secretName=myne-notes-tls' \
+  --set 'ingress.tls[0].hosts[0]=notes.your.domain'
+```
+
+The chart refuses a value that is not an origin and refuses plain `http` for anything but a loopback host, because neither of those would work rather than being merely weaker. Then set the other half of the pair on the sync server, in its own `config`:
+
+```sh
+helm upgrade myne-server oci://ghcr.io/myne-md/charts/myne-server -n myne \
+  --set config.MYNE_ALLOWED_ORIGINS=https://notes.your.domain
+```
+
+Check what it is serving, from inside the cluster:
+
+```sh
+kubectl -n myne port-forward svc/myne-web-myne-web 8080:8080
+curl http://127.0.0.1:8080/healthz        # ok
+curl http://127.0.0.1:8080/version.json   # the build being served
+```
+
+Three notes that come with the move. **The published web images are `amd64` only** (the sync server's chart pins a multi-architecture digest; this one does not yet), so on an `arm64` node the container needs emulation or will not start. **The chart leaves the root filesystem writable, on purpose**: the container generates its security headers and its `config.json` at start-up inside its own image, so a read-only filesystem would break it rather than harden it, and the chart's own documentation says so rather than setting a value that looks stricter than it is. And serving this from a cluster changes who owns the ingress access log, which is the same obligation [Run your own sync server](/user-guide/sync-and-devices/run-your-own-sync-server/) states for the sync edge.
+
+There is still nothing to back up: the bundle is baked into the image, the pod writes nothing to persistent storage, and the only copy of a user's notes is the one in their browser.
 
 ## There is nothing to back up
 

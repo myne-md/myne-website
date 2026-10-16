@@ -36,7 +36,7 @@ The phrase is worth more in a shared vault than in your own. In your own vault i
 
 ## Recovering in a browser
 
-You can do the same thing at `app.example.com`. The **Forgot your password? Unlock with recovery phrase** link is on the browser's unlock screen too, it leads to the same 24-word grid, and it ends the same way, with a required new password. Two things are worth knowing before you type those words into a web page.
+You can do the same thing in a browser client you run yourself. The **Forgot your password? Unlock with recovery phrase** link is on the browser's unlock screen too, it leads to the same 24-word grid, and it ends the same way, with a required new password. Two things are worth knowing before you type those words into a web page.
 
 Myne asks for your recovery phrase in a browser in exactly one place: a recovery you started yourself, after forgetting your password. It never asks for the phrase to sign you in, and it never asks for it to add a device: adding a device in a browser takes your account number and master password, and nothing else. So a page asking for your 24 words in any other situation is not Myne. Check the address before you type them, and if the page reached you as a link in a message or an email, do not type them at all. Anyone who has your phrase and your account number can open your vault from anywhere and keep opening it: the phrase does not change when you change your password, and there is no way to revoke it.
 

@@ -352,7 +352,7 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
     kicker: "Impressum",
     title: "Anbieterkennzeichnung.",
     description:
-      "Angaben nach § 5 DDG für myne.md, app.example.com und sync.myne.md. Kein Unternehmen, keine Umsatzsteuer-Identifikationsnummer, keine Zahlungen.",
+      "Angaben nach § 5 DDG für myne.md und den Modelldownload-Ursprung. Kein Unternehmen, keine Umsatzsteuer-Identifikationsnummer, keine Zahlungen.",
     note: "§ 5 DDG",
     path: "impressum",
   },

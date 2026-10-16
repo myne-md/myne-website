@@ -23,7 +23,7 @@ AI is the one other door out, and it is off until you turn it on. Myne never sen
 ## What this section covers
 
 1. [Install Myne](/user-guide/getting-started/install/): how the app is distributed and verified.
-2. [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/): running Myne in a desktop browser at app.example.com, and the trust boundary that differs from the desktop app.
+2. [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/): running Myne in a desktop browser you serve yourself, and the trust boundary that differs from the desktop app.
 3. [Create your vault](/user-guide/getting-started/create-your-vault/): the four-step setup wizard, opened by a short safety briefing you acknowledge before setting a password.
 4. [Your recovery phrase](/user-guide/getting-started/your-recovery-phrase/): the 24-word backstop that can unlock your vault.
 5. [Unlocking your vault](/user-guide/getting-started/unlocking-your-vault/): what you see each time you open Myne.

@@ -32,6 +32,21 @@
  * satisfy § 5 DDG — reachability is not the element that is missing — it only
  * enlarges the surface of the gap.
  *
+ * THE OTHER THREE LEGAL LINKS ARE GONE TOO, as of 2026-10-16, and they use the
+ * same mechanism for the same reason: kept, reachable by URL, not advertised.
+ * /terms/ and /nutzungsbedingungen/ are the hosted-sync beta terms, and the
+ * offering they are the terms of is closed; /law-enforcement/,
+ * /behoerdenanfragen/, /notice/ and /meldung/ describe what a server Myne
+ * operates holds and how to notify it about content, and Myne operates no such
+ * server (the 0696 decision entry in the main repo). The privacy policy DOES
+ * stay linked: it is still a live document (the app stores require one), it
+ * still covers the app and the download origin, and it is the page a reader is
+ * likeliest to want. All six unlinked pages still build and still carry their
+ * own notices;
+ * they are `robots="noindex,nofollow"` and excluded in the astro.config sitemap
+ * filter. This is deliberately reversible in three edits, because the legal
+ * read that would confirm it has not happened yet.
+ *
  * Coverage, stated honestly because "six pages still lack it" understates it:
  * 133 of 143 built pages have no legal row at all, including the whole
  * /user-guide/ subtree and /ledger/. Two shared layouts would cover most of
@@ -134,21 +149,9 @@ import VersionBadge from "./VersionBadge.astro";
     >
       <span
         >© 2026 · AGPL-3.0 · CC-BY-4.0 docs · <a
-          href="/terms/"
-          style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
-          >Terms</a
-        > · <a
           href="/privacy/"
           style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
           >Privacy</a
-        > · <a
-          href="/law-enforcement/"
-          style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
-          >Law enforcement</a
-        > · <a
-          href="/notice/"
-          style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);"
-          >Report content</a
         ></span
       ><StatusBadge /><VersionBadge />
     </div>

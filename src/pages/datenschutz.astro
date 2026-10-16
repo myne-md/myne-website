@@ -45,7 +45,7 @@ const network = [
   {
     feature: "Synchronisation",
     goes: "Ja",
-    where: "Der von Ihnen eingerichtete Sync-Server — sync.myne.md oder Ihr eigener",
+    where: "Der von Ihnen eingerichtete Sync-Server. Myne betreibt keinen eigenen",
     when: "Solange die Synchronisation eingeschaltet ist. Dies ist die einzige Funktion, die Ihre Notizen irgendwohin sendet — und sie verlassen das Gerät verschlüsselt.",
   },
   {
@@ -144,7 +144,7 @@ const stored = [
 
 const notStored = [
   "E-Mail-Adresse, Name, Anschrift, Telefonnummer",
-  "Zahlungsdaten — die Beta ist kostenlos und erhebt keine",
+  "Zahlungsdaten — es werden keine erhoben",
   "IP-Adressen in irgendeiner dauerhaften Form, Verbindungsprotokolle, Zugriffszeitpunkte",
   "Lesbare Inhalte, Notiztitel, Ordnernamen, Schlagwörter",
   "Zeitangaben, die für Sie eine Bedeutung haben — diese liegen im Chiffrat",
@@ -167,8 +167,12 @@ const notStored = [
           Datenschutzerklärung
         </h1>
         <p style={body}>
-          Gültig ab {effective}. Sie gilt für myne.md, app.example.com, sync.myne.md sowie die Desktop-
-          und Mobil-Anwendungen.
+          Gültig ab {effective}. Sie gilt für myne.md, den Modell-Download-Ursprung sowie die
+          Desktop-, Mobil- und Browser-Clients. <strong style="color:#e6e6e4;">Myne betreibt keinen
+          eigenen Synchronisationsdienst</strong>: Wenn Sie Sync nutzen, liegt Ihr Chiffrat auf einem
+          Server, den Sie oder eine andere Person betreiben, und für das, was dort liegt, ist diese
+          Person verantwortlich, nicht wir. Der folgende Abschnitt ist so geschrieben, dass er in
+          beiden Fällen gilt.
         </p>
 
         <div style={cardStyle}>
@@ -368,10 +372,12 @@ const notStored = [
 
         <h2 style={h2}>Die Web-App und was sie in Ihrem Browser ablegt</h2>
         <p style={body}>
-          Die Web-App unter app.example.com legt Ihren verschlüsselten Vault im Speicher Ihres eigenen
-          Browsers ab (OPFS), damit sie ohne vollständigen Neu-Abruf arbeiten kann und Ihre Notizen
-          ein Neuladen überstehen. Das ist Speicher auf Ihrem Gerät, nicht auf unserem, und er
-          enthält dasselbe Chiffrat.
+          Der Browser-Client legt Ihren verschlüsselten Vault im Speicher Ihres eigenen Browsers ab
+          (OPFS), damit er ohne vollständigen Neu-Abruf arbeiten kann und Ihre Notizen ein Neuladen
+          überstehen. Das ist Speicher auf Ihrem Gerät, nicht auf unserem, und er enthält dasselbe
+          Chiffrat. Unter welcher Adresse er liegt, hängt davon ab, wer den Client bereitstellt: Sie
+          selbst oder eine andere Person. Der Speicher ist auf diesen Ursprung beschränkt, ein Vault
+          im Speicher eines Clients ist also vom anderen aus nicht erreichbar.
         </p>
         <p style={body}>
           Nach § 25 Abs. 2 Nr. 2 TDDDG bedarf dies keiner Einwilligung: Es ist unbedingt
@@ -384,10 +390,14 @@ const notStored = [
 
         <h2 style={h2}>Spenden</h2>
         <p style={body}>
-          Spenden laufen über Open Collective und dessen Trägerorganisation. Zahlungsdaten gelangen
-          dorthin, nicht zu uns; wir sehen den Betrag und den Namen, den die spendende Person
-          anzeigen lässt. Ihr Myne-Konto und eine Spende sind nicht verknüpft und können es nicht
-          sein — am Konto ist nichts, womit sich verknüpfen ließe.
+          <strong style="color:#e6e6e4;">Myne nimmt seit dem 16. Oktober 2026 keine Spenden mehr
+          an.</strong> Die Sammlung über Open Collective wurde geschlossen; es gibt daher keinen
+          Zahlungsweg und keinen Zahlungsdienstleister mehr zu beschreiben, weshalb der Abschnitt zu
+          den Auftragsverarbeitern keinen nennt. Der Satz bleibt hier stehen, weil eine Person, deren
+          Daten vor diesem Datum die Trägerorganisation erreicht haben, ihn braucht: Zahlungsdaten
+          gelangten dorthin, nicht zu uns; wir sahen den Betrag und den Namen, den die spendende
+          Person anzeigen ließ. Ein Myne-Konto und eine Spende waren nie verknüpft und konnten es
+          nicht sein — am Konto ist nichts, womit sich verknüpfen ließe.
         </p>
 
         <h2 style={h2}>Ihre Rechte</h2>
@@ -423,21 +433,22 @@ const notStored = [
             <a href="mailto:privacy@myne.md" style="color:#8aa4d0;">privacy@myne.md</a>
           </p>
           <p style="margin:14px 0 0;font-size:14px;line-height:1.65;color:#6f6f6c;">
-            Die vollständige Anschrift wird mit dem Impressum zum öffentlichen Start der Beta
-            veröffentlicht; bis dahin ist sie unter der genannten Adresse auf Anfrage erhältlich.
-            Ein Datenschutzbeauftragter ist nicht bestellt: Die Schwellen des § 38 BDSG sind nicht
-            erreicht — es gibt keine Beschäftigten.
+            Eine vollständige Postanschrift ist unter der genannten Adresse auf Anfrage erhältlich.
+            Eine öffentliche Beta gibt es nicht mehr, es gibt also auch keine Hostname-Ankündigung,
+            die sie tragen würde; die Impressum-Seite bleibt zurückgehalten, bis die Anschrift
+            geklärt ist. Ein Datenschutzbeauftragter ist nicht bestellt: Die Schwellen des § 38 BDSG
+            sind nicht erreicht, es gibt keine Beschäftigten.
           </p>
         </div>
 
         <h3 style={h3}>Auftragsverarbeiter</h3>
         <p style={body}>
           <strong style="color:#e6e6e4;">Hetzner Online GmbH</strong>, Industriestr. 25, 91710
-          Gunzenhausen, betreibt die Maschinen. myne.md, app.example.com und sync.myne.md laufen
-          sämtlich im Rechenzentrum Falkenstein in Deutschland, auf Grundlage eines Vertrags zur
-          Auftragsverarbeitung nach Art. 28 DSGVO. Weitere Auftragsverarbeiter gibt es nicht: kein
-          CDN, kein Analysedienst, keine Absturzberichterstattung, kein E-Mail-Versanddienst, kein
-          Zahlungsdienstleister.
+          Gunzenhausen, betreibt die Maschinen. myne.md und der Modell-Download-Ursprung laufen im
+          Rechenzentrum Falkenstein in Deutschland, auf Grundlage eines Vertrags zur
+          Auftragsverarbeitung nach Art. 28 DSGVO. Ein Zahlungsdienstleister besteht nicht mehr, da
+          die Spenden eingestellt wurden. Weitere Auftragsverarbeiter gibt es nicht: kein CDN, kein
+          Analysedienst, keine Absturzberichterstattung, kein E-Mail-Versanddienst.
         </p>
         <p style={body}>
           Es findet keine Übermittlung außerhalb der EU statt. Die gesamte Verarbeitung erfolgt in
@@ -449,9 +460,8 @@ const notStored = [
           Meldungen richten Sie bitte an
           <a href="mailto:abuse@myne.md" style="color:#8aa4d0;">abuse@myne.md</a>. Wir können nicht
           lesen, was Menschen speichern, also können wir es nicht vorab prüfen, und wir behaupten
-          nichts anderes — was wir auf eine begründete Meldung hin tun können, betrifft das Konto.
-          Was eine wirksame Meldung enthält und wie es danach weitergeht, steht auf der Seite
-          <a href="/meldung/" style="color:#8aa4d0;">Rechtswidrige Inhalte melden</a>.
+          nichts anderes. Auf eine begründete Meldung hin können wir das Konto betreffen, denn das
+          ist das einzige Mittel, das einem Betreiber eines blinden Speichers bleibt.
         </p>
         <p style={body}>
           Behördliche Anfragen richten Sie bitte an <a
@@ -461,10 +471,9 @@ const notStored = [
           herausgeben, was wir haben, und das ist ein Hash, ein Verifier, einige Zähler und
           Chiffrat, das wir nicht öffnen können. Ein Schlüssel liegt uns nicht vor, keine deutsche
           Rechtsgrundlage verpflichtet einen Anbieter, die eigene Verschlüsselung zu brechen, und
-          verschlüsselte Daten werden verschlüsselt herausgegeben. Die ausführliche Fassung — welche
-          Rechtsgrundlage was erreicht und warum § 22 TDDDG keine Daten erreichen kann, die nie
-          erhoben wurden — steht auf der Seite
-          <a href="/behoerdenanfragen/" style="color:#8aa4d0;">Behördenanfragen</a>.
+          verschlüsselte Daten werden verschlüsselt herausgegeben. Dieser Absatz ist die ganze
+          Antwort, und das ist eine Änderung: Er verwies früher auf eine ausführlichere Seite zur
+          Rechtsgrundlage, und jene Seite beschreibt ein Angebot, das Myne nicht mehr macht.
         </p>
 
         <h2 style={h2}>Änderungen</h2>

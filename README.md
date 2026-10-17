@@ -1,4 +1,4 @@
-<p align="center"><img src=".github/banner.png" alt="Myne website" width="100%"></p>
+<p align="center"><img src=".github/banner.gif" alt="Myne website" width="100%"></p>
 
 # Myne website
 

@@ -18,7 +18,7 @@
 ## 1. Voice rules (PRODUCT.md projection)
 
 Anchored to the main-repo `PRODUCT.md` "careful engineer to careful engineer"
-voice (per `myne-website/CLAUDE.md`). Do not paraphrase `PRODUCT.md` here —
+voice (per `myne-website/AGENTS.md`). Do not paraphrase `PRODUCT.md` here —
 follow it. The load-bearing rules for guide copy:
 
 - **Sentence case** for headings and UI references.

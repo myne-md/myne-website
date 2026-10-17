@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Injection tests for scripts/validate-draft-notice.mjs.
 //
-// The parent repo's CLAUDE.md is explicit that a guard nobody has broken is a
+// The parent repo's AGENTS.md is explicit that a guard nobody has broken is a
 // guard nobody has tested, and that "the tree is still green" is not evidence
 // after a guard is edited, because a guard that has stopped checking is green
 // by definition. The guard's own header used to carry those instructions as

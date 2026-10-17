@@ -1,6 +1,6 @@
 # myne-website — Marketing site (Astro)
 
-> Companion repository to [`myne`](https://github.com/myne-md/myne). License: user's call (recommended: MIT or CC-BY for content). The repo currently has a `LICENSE` file — check it.
+> Companion repository to [`myne`](https://github.com/myne-md/myne). License: **MIT** for code, see `LICENSE`; the two bundled webfonts are SIL OFL-1.1 and keep their own notice at `public/fonts/OFL.txt`.
 
 ## Stack
 

@@ -65,7 +65,7 @@ myne-website/
 ├── astro.config.mjs   ← site/env wiring, sitemap filters
 ├── Dockerfile · nginx.conf
 ├── package.json · pnpm-lock.yaml
-└── CLAUDE.md          ← marketing-copy discipline + content rules
+└── AGENTS.md          ← marketing-copy discipline + content rules
 ```
 
 ## Development
@@ -82,7 +82,7 @@ Node is pinned via `engines` (≥ 22.12) to match the main repo. Git hooks run t
 
 ## Discipline
 
-Marketing copy may **not** exceed the guarantees in the main repo's [`docs/threat-model.md`](https://github.com/myne-md/myne/blob/develop/docs/threat-model.md) (normative) — this rule extends to every `/user-guide` article. Brand voice and the "Myne is / Myne is not" lists live in [`docs/vision.md`](https://github.com/myne-md/myne/blob/develop/docs/vision.md). When a claim is in doubt, downgrade it. Adding a tracker or analytics requires a corresponding `design-notes.md` entry. See [`CLAUDE.md`](./CLAUDE.md) for the full content discipline.
+Marketing copy may **not** exceed the guarantees in the main repo's [`docs/threat-model.md`](https://github.com/myne-md/myne/blob/develop/docs/threat-model.md) (normative) — this rule extends to every `/user-guide` article. Brand voice and the "Myne is / Myne is not" lists live in [`docs/vision.md`](https://github.com/myne-md/myne/blob/develop/docs/vision.md). When a claim is in doubt, downgrade it. Adding a tracker or analytics requires a corresponding `design-notes.md` entry. See [`AGENTS.md`](./AGENTS.md) for the full content discipline.
 
 ## Related repos
 

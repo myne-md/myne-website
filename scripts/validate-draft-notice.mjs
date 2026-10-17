@@ -41,7 +41,7 @@
 // the opposite: the variant is an authoring decision, so it is read from the
 // page source, where the author sees the failure at the file they edited.
 //
-// Verify it by breaking it, per the parent repo's CLAUDE.md. The executable
+// Verify it by breaking it, per the parent repo's AGENTS.md. The executable
 // form of that is scripts/validate-draft-notice.test.mjs, which injects every
 // class above and asserts this script names it.
 //

@@ -49,38 +49,26 @@
  * control the threat model leans on, printed over the hash list it applies to.
  * The scope was never meant to be the site; it was meant to be the roadmap.
  *
- * `draft` goes on terms, nutzungsbedingungen, law-enforcement,
- * behoerdenanfragen, notice and meldung, and says one thing: the document has
- * not been through legal review and may change.
+ * `draft` goes on terms and nutzungsbedingungen and says one thing: the
+ * document has not been through legal review and may change.
  *
  * It said more than that until review, and what came off is the point. The
  * earlier wording added "is not binding. It describes an intention, not an
- * agreement in force", which presupposes the document is an agreement. These
- * six are four different kinds of thing and only two of them are.
- *
- * notice and meldung are the published Art. 16 DSA notice-and-action
- * mechanism and the Art. 11 and 12 contact points; a regulatory duty is not
- * disclaimable, so the sentence bought nothing there and read as the provider
- * saying it does not regard its own designation as in force, on the page
- * impressum.astro routes readers to for exactly that procedure.
- *
- * law-enforcement and behoerdenanfragen are a factual inventory of what the
- * server never has (no email, no persisted IP addresses at any layer, no
- * connection logs, no readable content). That is threat-model A2 restated for
- * a different reader, rated Strong because "the server cannot disclose what it
- * does not possess", and it is not the kind of statement an intention-versus-
- * agreement distinction can describe at all. privacy.astro carries the same
- * list, so the site was asserting one inventory under two statuses.
+ * agreement in force", which presupposes the document is an agreement. Both of
+ * the pages it covers now ARE agreements; the four that were not — notice,
+ * meldung, law-enforcement and behoerdenanfragen — were DELETED on 2026-10-17
+ * rather than keep a review-status caveat over a statutory designation or a
+ * factual inventory. Where that inventory went, and why Myne publishes no DSA
+ * designation at all, is `design-notes/sync/0696` and
+ * `docs/self-host-policy.md`.
  *
  * terms and nutzungsbedingungen ARE agreements, and there the withdrawal was
  * real rather than a category error, which is why it needed a decision rather
- * than a fix: a contract binds on acceptance, BetaTermsConsent.tsx opens
- * /terms/ as "the full text" behind the Accept button, and the clauses that
- * would have gone are the end-of-beta guarantee, the 90-day shutdown notice,
- * and the contractual basis for freezing an account for misuse, which is the
- * only remedy /notice/ and /meldung/ offer a substantiated Art. 16 notice.
- * terms.astro's own header records why that guarantee exists: "Skiff shut down
- * and its users discovered the terms had promised them nothing."
+ * than a fix: a contract binds on acceptance, and the clauses that would have
+ * gone are the end-of-beta guarantee, the 90-day shutdown notice, and the
+ * contractual basis for freezing an account for misuse. terms.astro's own
+ * header records why that guarantee exists: "Skiff shut down and its users
+ * discovered the terms had promised them nothing."
  *
  * `updating` goes on privacy and datenschutz and deliberately does NOT say
  * "not binding". Accounts still exist on instances Myne runs and on instances
@@ -136,15 +124,14 @@
  * STATUS, never its force and never its accuracy. That entry, not this
  * comment, is what a later editor rewording the variants has to read first.
  *
- * One question it leaves open, deliberately and on the record in
- * example-org/operations#26: /impressum/ delegates the Art. 11 and 12 DSA contact
+ * The question example-org/operations#26 left open is closed by deletion rather than
+ * by an answer: /impressum/ used to delegate the Art. 11 and 12 DSA contact
  * points and the Art. 16 notice-and-action mechanism to /meldung/, and the
- * carve-out does not travel with the delegation, so those designations are
- * published under a review-status qualifier while the page pointing at them
- * is not. The four pages keep `draft` until that issue is answered, because
- * the surviving sentence claims only that the text has not been through legal
- * review, which is true of all four and is a statement about the text rather
- * than about the duty.
+ * carve-out did not travel with the delegation, so those designations were
+ * published under a review-status qualifier while the page pointing at them was
+ * not. Both pages are gone as of 2026-10-17. There is no designation to publish
+ * for a service Myne does not offer, so there is nothing left for the caveat to
+ * qualify.
  *
  * `draft` and `updating` share the label ("Draft" / "Entwurf") by intent: what
  * differs between them is the claim in the sentence, not the chip. The label

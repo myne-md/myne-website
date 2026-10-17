@@ -46,7 +46,19 @@ const network = [
     feature: "Synchronisation",
     goes: "Ja",
     where: "Der von Ihnen eingerichtete Sync-Server. Myne betreibt keinen eigenen",
-    when: "Solange die Synchronisation eingeschaltet ist. Dies ist die einzige Funktion, die Ihre Notizen irgendwohin sendet — und sie verlassen das Gerät verschlüsselt.",
+    when: "Solange die Synchronisation eingeschaltet ist. Ihre Notizen verlassen das Gerät verschlüsselt, und der Server kann sie nicht lesen.",
+  },
+  {
+    feature: "Live-Zusammenarbeit",
+    goes: "Ja, versiegelt — niemals Klartext",
+    where: "Derselbe Sync-Server, über dessen Awareness-Relais",
+    when: "Solange eine Notiz, die Sie gemeinsam bearbeiten, geöffnet und Ihr Vault entsperrt ist. Der Server sieht einen undurchsichtigen Raum je Notiz und wie aktiv er ist, niemals welche Notiz es ist und niemals, was Sie getippt haben. Einen eigenen Schalter gibt es nicht: Synchronisation einzuschalten schaltet auch dies ein.",
+  },
+  {
+    feature: "Entfernen eines Mitglieds (geteilte Vaults)",
+    goes: "Ja, versiegelt für jedes verbleibende Mitglied",
+    where: "Derselbe Sync-Server",
+    when: "Nur wenn ein Eigentümer ein Mitglied aus einem geteilten Vault entfernt: der rotierte Gruppenschlüssel wird einmal je verbleibendem Mitglied hinterlegt, damit diese umschlüsseln können. Bis jedes von ihnen ihn abholt, bleiben diese Pakete auf dem Server.",
   },
   {
     feature: "Rechtschreibprüfung",
@@ -74,9 +86,9 @@ const network = [
   },
   {
     feature: "KI über einen entfernten Anbieter",
-    goes: "Ja: Notiztext verlässt Ihr Gerät. Ein Agentenlauf sendet zusätzlich die Titel, Kennungen und Ordnerpfade der Notizen, die er lesen darf, bevor er auch nur eine davon gelesen hat. Sofern Sie ihn nicht einschränken, ist das Ihr gesamter Vault abzüglich der von Ihnen von der KI ausgeschlossenen Ordner. Er überträgt außerdem, woran er sich über Sie erinnert: destillierte Fakten aus früheren Läufen (höchstens 100 Einträge) sowie Ihre Stimmanweisungen, jeder Eintrag mit einer stabilen Kennung.",
+    goes: "Ja: Notiztext verlässt Ihr Gerät. Ein Agentenlauf sendet zusätzlich die Titel, Kennungen und Ordnerpfade der Notizen, die er lesen darf, bevor er auch nur eine davon gelesen hat. Sofern Sie ihn nicht einschränken, ist das Ihr gesamter Vault abzüglich der von Ihnen von der KI ausgeschlossenen Ordner. Er überträgt außerdem, woran er sich über Sie erinnert: destillierte Fakten aus früheren Läufen (höchstens 100 Einträge) sowie Ihre Stimmanweisungen, jeder Eintrag mit einer stabilen Kennung. Er überträgt zudem das Gespräch, das Sie bis dahin sehen — die letzten Beiträge, und die Einstellung zur Gesprächslänge im KI-Panel erhöht deren Zahl bis zu einer festen Obergrenze. Er überträgt die Liste der Einstellungen, die der Agent zur Änderung anbieten darf: nur Kennungen, keine Werte und nichts über Sie. Ist der Anbieter OpenRouter, bittet Myne ihn außerdem, diesen Teil der Anfrage so lange zu behalten, wie er Eingabeaufforderungen zwischenspeichert, und um die schnellste Upstream-Route — eine Aussage über Geschwindigkeit, nicht darüber, wie diese Route mit Daten umgeht. Ein Besprechungsnotiz-Lauf sendet das Transkript der Aufnahme: fremde Rede ebenso wie Ihre eigene.",
     where: "Der von Ihnen benannte Anbieter",
-    when: "Nur wenn alle Bedingungen gleichzeitig erfüllt sind, und die Menge unterscheidet sich je nach Plattform. Am Computer sind es fünf: Sie haben einen Anbieter benannt, diesem konkreten Anbieter zugestimmt, seinen Schlüssel hinterlegt, die KI aktiviert und den Entwicklermodus eingeschaltet. Auf dem Telefon gelten die ersten vier; einen Entwicklermodus gibt es dort nicht, also sind es vier. Jede einzelne ist standardmäßig aus; ohne benannten Anbieter ist der Pfad nicht erreichbar, nicht bloß abgeschaltet. Eine Anfrage je Aufgabe, die Sie stellen — außer beim Agentenlauf, der eine begrenzte Folge davon auslöst: wie viele, entscheidet das Modell, nicht wir.",
+    when: "Nur wenn alle Bedingungen gleichzeitig erfüllt sind, und die Menge unterscheidet sich je nach Plattform. Am Computer sind es fünf: Sie haben einen Anbieter benannt, diesem konkreten Anbieter zugestimmt, seinen Schlüssel hinterlegt, die KI aktiviert und den Entwicklermodus eingeschaltet. Auf dem Telefon gelten die ersten vier; einen Entwicklermodus gibt es dort nicht, also sind es vier. Jede einzelne ist standardmäßig aus; ohne benannten Anbieter ist der Pfad nicht erreichbar, nicht bloß abgeschaltet. Eine Anfrage je Aufgabe, die Sie stellen — außer beim Agentenlauf und beim Besprechungsnotiz-Lauf, die jeweils eine begrenzte Folge davon auslösen: wie viele, entscheidet das Modell, nicht wir.",
   },
   {
     feature: "Web-Clipper",
@@ -86,9 +98,9 @@ const network = [
   },
   {
     feature: "Tor-Weiterleitung",
-    goes: "Leitet Synchronisation und, auf dem Desktop, KI-Anbieter-Anfragen über Tor",
+    goes: "Leitet auf dem Desktop Synchronisation und KI-Anbieter-Anfragen über Tor",
     where: "Das Tor-Netzwerk, dann Ihr Sync-Server oder der KI-Anbieter",
-    when: "Nur wenn Sie sie einschalten.",
+    when: "Nur wenn Sie sie einschalten. Auf iOS und Android gibt es keine Tor-Option; solange die Synchronisation läuft, lässt sich dort weder Ihre Verbindung noch das Anwesenheitssignal der Live-Zusammenarbeit verbergen.",
   },
   {
     feature: "Update-Prüfung",
@@ -139,6 +151,30 @@ const stored = [
   [
     "Kontorichtlinie",
     "Ob das Konto gesperrt ist, sowie eigens für dieses Konto gesetzte Grenzen für Speicherplatz oder Gerätezahl. Eine Sperre verhindert das Schreiben, nie das Lesen des bereits Vorhandenen. Dies ist der einzige Posten dieser Liste, den der Server im Klartext führt — er muss lesbar sein, um durchgesetzt werden zu können, und er sagt über Sie nichts aus außer einer Grenze und einem Kennzeichen.",
+  ],
+  [
+    "Agentengedächtnis",
+    "Kurze Fakten, die ein Agentenlauf über Sie destilliert hat: höchstens ein Eintrag je Lauf und höchstens 100 lebende Einträge, jeweils ein kurzer Text mit einer stabilen Kennung. Geschrieben ohne eigene Freigabe — die Kontrolle ist, dass Sie die ganze Liste sehen und bearbeiten können, dass ein Lauf, der einen Eintrag geschrieben hat, das in seinem Zug sagt, und dass alles zu löschen eine Aktion ist.",
+  ],
+  [
+    "Agenten-Persönlichkeit",
+    "Die Stimmanweisung, die Sie für den Agenten geschrieben haben. Ein Wert, ersetzt statt versioniert.",
+  ],
+  [
+    "Anzeigenamen der Mitglieder",
+    "In einem geteilten Vault: der Name, den jedes Mitglied gewählt hat, eine Zeile je Person, signiert von der Person, die sie nennt. In der Mitgliederliste sichtbar; die Zeile eines entfernten Mitglieds wird geleert statt bearbeitet.",
+  ],
+  [
+    "Gerätebindungen",
+    "In einem geteilten Vault: welche Person zu welchem registrierten Gerät gehört. Eine Zeile je Gerät, signiert von der Person, die sie beansprucht, sodass ein Mitglied kein fremdes Gerät beanspruchen kann.",
+  ],
+  [
+    "Stillgelegte Gruppenschlüssel",
+    "In einem geteilten Vault: entfernt ein Eigentümer ein Mitglied, wird der rotierte Schlüssel einmal je verbleibendem Mitglied hinterlegt, damit diese umschlüsseln können. Diese Pakete werden stillgelegt statt aufbewahrt, und der Server hält keinen Schlüssel, der eines davon öffnet.",
+  ],
+  [
+    "Personenprofil",
+    "Das Profil je Person, das Ihr eigenes Gerät auf dem Server ablegt, versiegelt mit Ihrer Wiederherstellungsphrase statt mit dem Vault-Schlüssel. Der Server kann es nicht lesen, und es ist der einzige Speicher, der Ihnen zwischen Vaults folgt.",
   ],
 ];
 
@@ -349,10 +385,11 @@ const notStored = [
           Geräteregister, den Anmelde-Verifier und die Zähler.
         </p>
         <p style={body}>
-          Sie löschen selbst, aus der App heraus. Das ist Absicht: Da wir keine E-Mail-Adresse
-          besitzen, wäre ein per E-Mail gestelltes Löschverlangen für uns nicht überprüfbar — wer
-          Ihre Kontonummer erführe, könnte sonst Ihren Vault vernichten lassen. In der App sind Sie
-          bereits authentifiziert, womit sich die Frage nicht stellt.
+          Gelöscht wird auf dem Server, und das tut, wer ihn betreibt: Sie selbst, wenn Sie ihn
+          betreiben; sonst die Person, die es tut. Da wir keine E-Mail-Adresse besitzen, wäre ein per
+          E-Mail gestelltes Löschverlangen für niemanden überprüfbar — wer Ihre Kontonummer erführe,
+          könnte sonst Ihren Vault vernichten lassen. Eine Löschschaltfläche in der App gibt es heute
+          nicht.
         </p>
 
         <h3 style={h3}>Sicherungen</h3>

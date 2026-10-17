@@ -37,21 +37,22 @@ export default defineConfig({
     // Drop this filter and the page's `robots` prop together when the
     // address lands (example-org/operations#9).
     //
-    // The rest of the legal roster joined it on 2026-10-16, for the same
-    // mechanism and a different reason: those pages are kept and still build,
-    // but they describe a service Myne no longer offers (the hosted-sync beta
-    // terms, and the pages that say what a Myne-run server holds and how to
-    // report content on it). Footer link, sitemap entry and `robots` prop move
-    // together, exactly as with /impressum/. /privacy/ is deliberately NOT in
-    // this list: it is still live and still linked. SiteFooter.astro's header
-    // carries the full reasoning; the decision entry is
-    // `design-notes/sync/0696` in the main repo.
+    // The rest of the legal roster joined it on 2026-10-16, and four of those
+    // pages were DELETED on 2026-10-17 rather than merely unlisted. /terms/ and
+    // /nutzungsbedingungen/ are the hosted-sync beta terms, and the offering
+    // they are the terms of is closed; /law-enforcement/, /behoerdenanfragen/,
+    // /notice/ and /meldung/ said what a Myne-run server holds and how to
+    // notify it about content, and Myne operates no such server
+    // (`design-notes/sync/0696`). A page about a mechanism that does not
+    // exist is not a quieter version of the page — it is a claim, so those four
+    // are gone, and the "never have" inventory the law-enforcement page carried
+    // moved to `docs/self-host-policy.md`. /privacy/ is deliberately NOT in this
+    // list: it is still live and still linked. SiteFooter.astro's header carries
+    // the full reasoning.
     sitemap({
       filter: (page) =>
         !/\/ledger\/(shipped|thinking|milestones)\/?$/.test(page) &&
-        !/\/(impressum|terms|nutzungsbedingungen|law-enforcement|behoerdenanfragen|notice|meldung)\/?$/.test(
-          page,
-        ),
+        !/\/(impressum|terms|nutzungsbedingungen)\/?$/.test(page),
     }),
   ],
 });

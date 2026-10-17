@@ -55,7 +55,19 @@ const network = [
     feature: "Sync",
     goes: "Yes",
     where: "The sync server you configured. Myne runs none of its own",
-    when: "While sync is switched on. This is the only feature that sends your notes anywhere, and they leave encrypted.",
+    when: "While sync is switched on. Your notes leave encrypted, and the server cannot read them.",
+  },
+  {
+    feature: "Live collaboration",
+    goes: "Yes, sealed — never plaintext",
+    where: "The same sync server, over its awareness relay",
+    when: "While a note you are co-editing is open and your vault is unlocked. The server sees an opaque per-note room and how active it is, never which note it is, and never what you typed. There is no separate switch: turning sync on turns this on.",
+  },
+  {
+    feature: "Member removal (shared vaults)",
+    goes: "Yes, sealed to each remaining member",
+    where: "The same sync server",
+    when: "Only when an owner removes a member from a shared vault: the rotated group key is posted once for each remaining member, so they can re-key. Until each of them fetches it, those packages stay on the server.",
   },
   {
     feature: "Spell check",
@@ -83,9 +95,9 @@ const network = [
   },
   {
     feature: "AI via a remote provider",
-    goes: "Yes: note text leaves your device. An agent run also sends the titles, identifiers and folder paths of the notes it may read, before it has read a single one of them. Unless you narrow it, that set is your whole vault minus the folders you excluded from AI. It also carries what it remembers about you: distilled facts from earlier runs (at most 100 entries) and your voice preferences, each entry with a stable identifier.",
+    goes: "Yes: note text leaves your device. An agent run also sends the titles, identifiers and folder paths of the notes it may read, before it has read a single one of them. Unless you narrow it, that set is your whole vault minus the folders you excluded from AI. It also carries what it remembers about you: distilled facts from earlier runs (at most 100 entries) and your voice preferences, each entry with a stable identifier. It carries the conversation you can see up to that point as well — the last few turns, and the conversation setting in the AI panel raises how many, up to a fixed ceiling. It carries the list of settings the agent may offer to change: identifiers only, no values and nothing about you. When the provider is OpenRouter, Myne also asks it to keep that part of the request for as long as it caches prompts, and asks for the fastest upstream route — a statement about speed, not about how that route handles data. A meeting-notes run sends the transcript of the recording: other people's speech as well as your own.",
     where: "The provider you named",
-    when: "Only when every condition is true, and the set differs by platform. On a computer there are five: you named a provider, you consented to that specific provider, you supplied its key, AI is enabled, and developer mode is on. On a phone the first four apply and there is no developer mode, so there are four. Every one of them is off by default, and with none named the code path is unreachable rather than merely disabled. One request per thing you ask for, except an agent run, which makes a bounded series of them: how many is decided by the model, not by us.",
+    when: "Only when every condition is true, and the set differs by platform. On a computer there are five: you named a provider, you consented to that specific provider, you supplied its key, AI is enabled, and developer mode is on. On a phone the first four apply and there is no developer mode, so there are four. Every one of them is off by default, and with none named the code path is unreachable rather than merely disabled. One request per thing you ask for, except an agent run and a meeting-notes run, which each make a bounded series of them: how many is decided by the model, not by us.",
   },
   {
     feature: "Web clipper",
@@ -95,9 +107,9 @@ const network = [
   },
   {
     feature: "Tor routing",
-    goes: "Routes sync, and on desktop AI provider requests, through Tor",
+    goes: "On desktop, routes sync and AI provider requests through Tor",
     where: "The Tor network, then your sync server or the AI provider",
-    when: "Only if you switch it on.",
+    when: "Only if you switch it on. On iOS and Android there is no Tor option, so while sync is on there neither your connection nor the live-collaboration presence signal can be hidden.",
   },
   {
     feature: "Update check",
@@ -148,6 +160,30 @@ const stored = [
   [
     "Account policy",
     "Whether the account is frozen, and any storage or device limit set specifically for it. A freeze blocks writing; it never blocks reading what is already there. This is the one thing on this list the server keeps in plain text — it has to be readable to be enforced, and it says nothing about you beyond a limit and a flag.",
+  ],
+  [
+    "Agent memory",
+    "Short facts an agent run distilled about you, at most one entry per run and at most 100 live entries, each a short piece of text with a stable id. Written without a separate approval — the control is that you can see and edit the whole list, that a run which wrote one says so on its turn, and that clearing all of it is one action.",
+  ],
+  [
+    "Agent personality",
+    "The voice directive you wrote for the agent. One value, replaced rather than versioned.",
+  ],
+  [
+    "Member display names",
+    "On a shared vault: the name each member chose, one row per person, signed by the person it names. Visible in the member list, and a removed member's row is cleared rather than edited.",
+  ],
+  [
+    "Device bindings",
+    "On a shared vault: which person each enrolled device belongs to. One row per device, signed by the person it claims, so a member cannot claim somebody else's device.",
+  ],
+  [
+    "Retired group keys",
+    "On a shared vault: when an owner removes a member, the rotated key is posted once for each remaining member so they can re-key. Those packages are retired rather than kept, and the server holds no key that opens any of them.",
+  ],
+  [
+    "Person profile",
+    "The per-person profile your own device keeps on the server, sealed with your recovery phrase rather than with the vault key. The server cannot read it, and it is the one store that follows you between vaults.",
   ],
 ];
 
@@ -363,10 +399,10 @@ const notStored = [
           the login verifier and the counters.
         </p>
         <p style={body}>
-          You delete it yourself, from inside the app. That is deliberate: because we hold no email
-          address, an emailed deletion request is one we could not verify — anyone who learned your
-          account number could otherwise have your vault destroyed. Inside the app you are already
-          authenticated, so the question does not arise.
+          Deletion happens on the server, and whoever operates it performs it: you, if you run it;
+          the person who does, if you do not. Myne holds no email address, so a deletion request by
+          email is one nobody could verify — anyone who learned your account number could otherwise
+          have your vault destroyed. There is no in-app deletion button today.
         </p>
 
         <h3 style={h3}>Backups</h3>

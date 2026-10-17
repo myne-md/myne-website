@@ -31,7 +31,7 @@ A shared vault has exactly one owner, the person who created it, and zero or mor
 ## Accept an invite
 
 1. Open Myne. At zero vaults, an identity-only home shows the invites addressed to you.
-2. Paste the owner's identity code and check the fingerprint it produces against the one the owner reads you. Confirm it explicitly.
+2. Paste the owner's identity code. Their name appears beside it once the relay answers; nothing else is checked, and there is no fingerprint to compare.
 3. Enter your own recovery phrase.
 4. Choose a password for this vault **on this device**. It is separate from the owner's password and from your recovery phrase: it opens this shared vault here, and your phrase stays the portable way back in.
 5. Choose a display name. This is what the other members see beside your fingerprint in the member list.

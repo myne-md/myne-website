@@ -155,16 +155,21 @@ const forbidden = [
 
         <h2 style={h2}>When the AI changes your notes</h2>
         <p style={body}>
-          Myne&rsquo;s AI can propose changes to your own notes, and create new ones. Nothing is written
-          without you approving it: you see each change as a diff and approve it, either on its own or
-          as a batch you chose. A change that would take a note out of your note list always needs its
-          own separate approval and can never ride along inside &ldquo;approve all&rdquo;.
+          Myne&rsquo;s AI can propose changes to your own notes, create new ones, and change a closed
+          set of twelve vault settings — the list is shown to you in the prompt before anything is
+          sent. Nothing is written without you approving it: a note change is shown to you before it
+          is applied, as a diff, or for the settings surface as a preview block with its own apply
+          action. Either way you approve it, on its own or as a batch you chose. A change that would
+          take a note out of your note list always needs its own separate approval and can never ride
+          along inside &ldquo;approve all&rdquo;.
         </p>
         <p style={body}>
           Before applying anything, an agent run records a restore point for every note it is about to
           change, and if that record cannot be taken the run does not apply at all. One press then
           reverts the whole run. Notes the run <em>created</em> are the exception: there is no earlier
-          version to return to, so removing one is something you do yourself.
+          version to return to, so removing one is something you do yourself. A settings change is the
+          other exception: its undo record is separate from the note restore point and is held in
+          memory only, so a setting the agent changed stays changed after a restart.
         </p>
         <p style={body}>
           Within that, the no-warranty section above applies here too, and the same advice with it:
@@ -199,8 +204,11 @@ const forbidden = [
         <p style={body}>
           When a substantiated report reaches us, what we can do is act at the account level:
           freeze the account, or delete it. We cannot remove one note and leave the rest, because we
-          cannot tell them apart. The reporting procedure is on the
-          <a href="/notice/" style="color:var(--accent);">notice page</a>.
+          cannot tell them apart.
+          {/* The pointer to /notice/ left with the page on 2026-10-17: Myne operates no offered
+              service, so there is no Art. 16 notice-and-action route to describe
+              (`design-notes/sync/0696`). This paragraph is kept as the *record* of what the
+              closed beta's moderation clause said. */}
         </p>
         <p style={body}>
           We may freeze or delete an account that is being used for something in the list above, or
@@ -261,9 +269,10 @@ const forbidden = [
 
         <h2 style={h2}>Ending it</h2>
         <p style={body}>
-          You can delete your account at any time, from inside the app. It removes your vault,
-          attachments, device registry and login verifier; backups follow within 14 days. There is
-          nothing to cancel and nothing to pay.
+          Your account lives on the server the app points at, and removing it is done there — by
+          you if you run that server, by whoever does otherwise. It removes your vault, attachments,
+          device registry and login verifier; backups follow within the window that operator sets.
+          There is nothing to cancel and nothing to pay.
         </p>
 
         <h2 style={h2}>Changes to these terms</h2>

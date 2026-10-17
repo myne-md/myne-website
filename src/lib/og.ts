@@ -211,10 +211,6 @@ export type OgKey =
   | "guide"
   | "privacy"
   | "datenschutz"
-  | "law-enforcement"
-  | "behoerdenanfragen"
-  | "notice"
-  | "meldung"
   | "terms"
   | "nutzungsbedingungen"
   | "impressum";
@@ -288,44 +284,6 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
       "Keine E-Mail bei der Anmeldung, keine IP-Protokolle, keine Analyse, keine Drittanbieter — und eine Tabelle jeder einzelnen Netzverbindung. Gelöschte Konten verschwinden binnen 14 Tagen aus der letzten Sicherung.",
     note: "vollständig benannt",
     path: "datenschutz",
-  },
-  // The law-enforcement card leads with the absence, because that is the
-  // finding a requesting authority most needs before drafting: the data is
-  // not withheld, it does not exist.
-  "law-enforcement": {
-    kicker: "Law enforcement",
-    title: "We cannot decrypt it.",
-    description:
-      "What an official request can produce: an account hash, a login verifier, counters and ciphertext. No email, no name, no IP address, no readable content — not withheld, absent.",
-    note: "§ 22 · § 23 TDDDG",
-    path: "law-enforcement",
-  },
-  behoerdenanfragen: {
-    kicker: "Behördenanfragen",
-    title: "Wir können nicht entschlüsseln.",
-    description:
-      "Was eine behördliche Anfrage erbringen kann: ein Konto-Hash, ein Anmelde-Verifier, Zähler und Chiffrat. Keine E-Mail, kein Name, keine IP-Adresse, keine lesbaren Inhalte — nicht zurückgehalten, sondern nicht vorhanden.",
-    note: "§ 22 · § 23 TDDDG",
-    path: "behoerdenanfragen",
-  },
-  // The notice card leads with the limitation rather than the mechanism,
-  // because a reporter who expects us to look at the content needs to know
-  // first that we cannot.
-  notice: {
-    kicker: "Report content",
-    title: "We cannot see it. Tell us.",
-    description:
-      "Notice and action under Art. 16 DSA. We cannot read what people store, so we cannot screen it — a substantiated notice is the only way anything reaches us. Nothing here is shared or published.",
-    note: "abuse@myne.md",
-    path: "notice",
-  },
-  meldung: {
-    kicker: "Inhalte melden",
-    title: "Wir sehen es nicht. Sagen Sie es uns.",
-    description:
-      "Melde- und Abhilfeverfahren nach Art. 16 DSA. Wir können nicht lesen, was Menschen speichern, und daher nicht prüfen — eine begründete Meldung ist der einzige Weg zu uns. Nichts hier wird geteilt oder veröffentlicht.",
-    note: "abuse@myne.md",
-    path: "meldung",
   },
   // The terms card leads with the end-of-beta guarantee rather than the
   // disclaimers, because that is the clause a reader has been burned by

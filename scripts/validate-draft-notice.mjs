@@ -122,13 +122,19 @@ const carriesScreenRule = (css) => {
 
 // Floors, so a loop that stops seeing anything fails instead of passing.
 // MIN_LEGAL_PAGES is the exact current count, because that roster is a fixed
-// set of documents and one leaving it is an event. MIN_COVERED_PAGES carries
+// set of documents and one leaving it is an event. It was 9 until 2026-10-17,
+// when four pages were deleted rather than merely unlisted: /notice/ and
+// /meldung/ (the DSA Art. 16 mechanism and the Art. 11/12 contact points) and
+// /law-enforcement/ and /behoerdenanfragen/ (the "what the server never has"
+// inventory) all described a service Myne was offering, and Myne offers none
+// (`design-notes/sync/0696`). What is left is privacy/datenschutz,
+// terms/nutzungsbedingungen and the Impressum. MIN_COVERED_PAGES carries
 // deliberate slack under the measured 140: the guide and ledger subtrees are
 // content-driven, so pages legitimately come and go there, and a floor pinned
 // to the exact count would fail on every article added or removed. The slack
 // is what the per-page checks above cover; this floor only catches the whole
 // mechanism falling out.
-const MIN_LEGAL_PAGES = 9;
+const MIN_LEGAL_PAGES = 5;
 const MIN_COVERED_PAGES = 130;
 
 // Legal routes whose prose is German, so their notice must be too. A roster
@@ -145,7 +151,7 @@ const MIN_COVERED_PAGES = 130;
 //
 // The completeness half is derived instead of listed. Every legal document
 // here is a bilingual pair and each side links the other in its last section
-// ("Deutsche Fassung: <a href="/meldung/">"), so an English legal page NAMES
+// ("Deutsche Fassung: <a href="/datenschutz/">"), so an English legal page NAMES
 // its German twin and the roster has a second witness. Compared both ways: a
 // twin nobody listed fails, and a listed page nothing links to fails too,
 // since losing the link is losing the witness.
@@ -156,9 +162,7 @@ const MIN_COVERED_PAGES = 130;
 // be added here by hand and will be named until it is.
 const GERMAN_TWIN_LINK = /Deutsche Fassung:[\s\S]{0,120}?href="\/([a-z0-9-]+)\//g;
 const GERMAN_LEGAL_PAGES = [
-  "behoerdenanfragen.astro",
   "datenschutz.astro",
-  "meldung.astro",
   "nutzungsbedingungen.astro",
 ];
 

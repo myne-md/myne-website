@@ -33,8 +33,6 @@ const NOTICE = notice();
 const TWINS = {
   terms: "nutzungsbedingungen",
   privacy: "datenschutz",
-  "law-enforcement": "behoerdenanfragen",
-  notice: "meldung",
 };
 const GERMAN = Object.values(TWINS).slice().sort();
 const ENGLISH_LEGAL = Object.keys(TWINS);
@@ -126,7 +124,7 @@ test("clean fixture passes", () => {
   withFixture((root) => {
     const { code, out } = run(root);
     assert.equal(code, 0, out);
-    assert.match(out, /9 legal pages declare a variant \(4 German, 4 verified in dist\)/);
+    assert.match(out, /5 legal pages declare a variant \(2 German, 2 verified in dist\)/);
   });
 });
 
@@ -235,10 +233,10 @@ test("an EXCLUDED page that regained the notice is named", () => {
 
 test("a stale GERMAN_LEGAL_PAGES entry is named", () => {
   withFixture((root) => {
-    rmSync(join(root, "src/pages/meldung.astro"));
+    rmSync(join(root, "src/pages/datenschutz.astro"));
     const { code, out } = run(root);
     assert.equal(code, 1);
-    assert.match(out, /GERMAN_LEGAL_PAGES names meldung\.astro/);
+    assert.match(out, /GERMAN_LEGAL_PAGES names datenschutz\.astro/);
   });
 });
 
@@ -383,15 +381,15 @@ test("a German twin nobody listed is named", () => {
 test("a roster entry whose twin link was dropped is named", () => {
   withFixture((root) => {
     // The English page loses its "Deutsche Fassung" link, so the roster becomes
-    // the only witness that meldung.astro is German.
+    // the only witness that datenschutz.astro is German.
     write(
       root,
-      "src/pages/notice.astro",
+      "src/pages/privacy.astro",
       '<LandingLayout notice="draft">\n<GlassNav active="legal" />\n</LandingLayout>',
     );
     const { code, out } = run(root);
     assert.equal(code, 1);
-    assert.match(out, /GERMAN_LEGAL_PAGES names meldung\.astro, but no English legal page/);
+    assert.match(out, /GERMAN_LEGAL_PAGES names datenschutz\.astro, but no English legal page/);
   });
 });
 
@@ -404,6 +402,6 @@ test("check 5 fails vacuously-empty instead of reporting OK", () => {
     for (const n of GERMAN) rmSync(join(root, `dist/${n}`), { recursive: true, force: true });
     const { code, out } = run(root);
     assert.equal(code, 1, "every other check passes here");
-    assert.match(out, /check 5 inspected only 0 of 4 German built pages/);
+    assert.match(out, /check 5 inspected only 0 of 2 German built pages/);
   });
 });

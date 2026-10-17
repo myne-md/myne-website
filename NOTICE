@@ -1,0 +1,69 @@
+Third-party notices — myne-website
+=================================
+
+The shipped artefact is the static site in `dist/` (`pnpm build`), deployed to
+`myne.md`. Three things about it are worth stating precisely, because the
+obvious sentence ("the site bundles its dependencies") is false in both
+directions: it would over-claim on the build tools and under-claim on the fonts.
+
+
+No framework runtime ships
+--------------------------
+
+`client:*` appears nowhere under `src/`. Astro only emits its hydration runtime
+for a component that asks for it, so the scripts the built site serves are the
+ones this repository authors — there is no React/Vue/Svelte runtime, and no
+Astro client runtime, in any page.
+
+That is a fact about today and not a promise, so it is checked rather than
+believed: `scripts/notice.test.mjs` fails if a `client:*` directive appears,
+which is the same moment this file stops being complete.
+
+Verify:
+
+  grep -rn 'client:' src/
+
+
+Bundled webfonts — SIL Open Font License 1.1
+--------------------------------------------
+
+  Inter            ·  The Inter Project Authors  (https://github.com/rsms/inter)
+  JetBrains Mono   ·  The JetBrains Mono Project Authors  (https://github.com/JetBrains/JetBrainsMono)
+
+Both are licensed under the SIL Open Font License 1.1 and are served from this
+origin rather than from a font CDN, which is a privacy decision and a licence one
+at the same time: a `fonts.gstatic.com` request would leak every visitor's IP on
+first paint. OFL-1.1 §2 requires the copyright notice and the licence to travel
+with each copy, so they ship as:
+
+  public/fonts/OFL.txt    →  /fonts/OFL.txt in the built site
+
+It is the same file the application commits at `public/fonts/LICENSE.txt`, byte
+for byte, so the two copies cannot drift apart.
+
+
+Build-time only, not redistributed
+----------------------------------
+
+  astro, @astrojs/rss, @astrojs/sitemap, markdown-it
+        Site generation. `markdown-it` renders the ledger RSS feed at build
+        time; none of these reaches the browser.
+  sharp, satori, @resvg/resvg-js, @fontsource/inter
+        Open Graph image generation, at build time.
+  @fontsource/jetbrains-mono
+        A DEPENDENCY, not a devDependency, but what it contributes to the site
+        is the JetBrains Mono font files, whose licence is the OFL text above.
+        Its CSS is inlined by the bundler and is generated, not authored
+        third-party code.
+  @astrojs/check, @types/markdown-it, typescript
+        Type-checking, at author time.
+
+
+Trademarks
+----------
+
+"Inter" and "JetBrains Mono" are the names of their respective typefaces. They
+are used here to identify the font being served. This site and the Myne project
+are not affiliated with, endorsed by, or sponsored by either project. The Myne
+Mark itself is covered separately by `TRADEMARK.md` in the application
+repository, and is not under the MIT licence this repository's code carries.

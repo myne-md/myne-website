@@ -1,7 +1,7 @@
 ---
 title: "Quick unlock with a PIN or Touch ID"
 category: "settings-and-privacy"
-updated: 2026-10-12
+updated: 2026-10-18
 summary: "Opt in to re-entering a vault after auto-lock with a PIN or macOS Touch ID instead of the full master password. Device-local and off by default; a PIN still needs the master password after a restart. A vault shared with you instead uses the password you set on this device when you accept."
 tags: ["security", "privacy", "settings"]
 ---
@@ -25,7 +25,7 @@ A note next to those buttons is honest about which path is which: "Touch ID is m
 
 Touch ID is offered only where it can actually work. On Windows and Linux the button is not shown at all. On a Mac, if setting it up fails Myne says why, and the two failures behave differently. The message "Touch ID isn't available in this build. It needs a signed macOS build with Touch ID enrolled." means the build itself cannot use Touch ID (see the limits below); the button is then hidden for the rest of the session, because retrying cannot succeed until the build is signed, and you should use a PIN. A different message, "Touch ID couldn't be set up. Make sure a fingerprint is enrolled in System Settings, or use a PIN instead.", means no fingerprint is enrolled (or Touch ID is otherwise unavailable right now); the button stays, so you can enroll a fingerprint in System Settings and try again.
 
-Once it is configured, the row's own toggle is the off switch. Flip it back off and Myne wipes the quick-unlock credential from this device; you then unlock with your master password as before.
+Once it is configured, the row's own toggle is the off switch. Flip it back off and Myne wipes the quick-unlock credential from this device; you then unlock with your master password as before. If that wipe cannot complete — the credential file could not be removed — Myne leaves quick unlock **on** and reports **Couldn't turn off quick unlock**, rather than claiming it is off while a credential that still opens the vault remains on disk. Retry the toggle, or check that the vault folder is writable.
 
 Each device opts in separately, and so does each vault — setting up quick unlock for one vault leaves your other vaults on the same computer untouched. The credential never syncs, and the Touch ID variant is bound to that one machine's hardware; it does not travel to another computer even if you later sync your vault.
 

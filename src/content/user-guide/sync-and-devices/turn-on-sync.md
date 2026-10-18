@@ -1,7 +1,7 @@
 ---
 title: "Turn on sync"
 category: "sync-and-devices"
-updated: 2026-09-29
+updated: 2026-10-18
 summary: "Choose a sync server, understand the account number that identifies you instead of an email, accept the beta terms on this device, and connect your first device. Covers how Myne checks the server's certificate automatically, the browser client's fixed server, and the first-device self-approval."
 tags: ["sync", "settings", "devices"]
 ---
@@ -47,7 +47,14 @@ There is no fingerprint to compare there either, and Myne does not do the certif
 
 ## Accept the beta terms
 
-Setting a server does not start any syncing. Under **Add a device**, Myne puts a **Review the beta terms** button where the enrolment form would be, and does not render the form until you accept. Pressing it opens a dialog headed **Before you turn on sync**, which states that sync is a free beta with no warranty and no uptime promise, that your notes cannot be recovered if you lose both your master password and your recovery phrase, what happens when the beta ends, and what the operator can and cannot see. **Read the full terms** opens the published text on myne.md.
+Setting a server does not start any syncing. Under **Add a device**, Myne puts a **Review what sync means** button where the enrolment form would be, and does not render the form until you accept. Pressing it opens a dialog headed **Before you turn on sync**, which states four things:
+
+- **What this is.** Sync stores your notes on a server you choose. They leave this device encrypted and stay that way there: the server holds ciphertext and no key, so it cannot read them, and neither can Myne, which runs no server for you. Software this young still breaks, and a bug can lose data.
+- **If you lose both secrets.** If you lose your master password and your recovery phrase, your notes cannot be recovered — not by you and not by us. There is no reset, because a reset would mean Myne held a key to your notes.
+- **If the server goes away.** Your notes live on your devices, so a server going away is not data loss: each device holds a complete vault on its own. You lose sync until you point it at another server and push again, and the only copy that goes is the one on the server.
+- **What the server's operator can see.** Whoever runs that server can refuse to serve you, keep a copy of something you deleted until their own retention window passes, and see that an account synced, when, and roughly how much. None of that lets them read a note, because to them a note is ciphertext.
+
+The dialog carries all four clauses itself. There is no separate terms page behind a link; the privacy policy stays one link away in **Settings → About**.
 
 Choose **I understand, turn on sync** to accept, or **Cancel** to close the dialog and leave the gate standing. Every device you add later is asked the same thing on its own screen: the acceptance is recorded on the device in front of you and is never carried across by sync.
 

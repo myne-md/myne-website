@@ -1,7 +1,7 @@
 ---
 title: "Where your AI runs"
 category: "ai"
-updated: 2026-10-11
+updated: 2026-10-18
 summary: "Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin. This page covers the three things you can name (a model file here, a runtime here, or a remote provider), what each means for where your notes go, and the consent screen and API key a provider adds."
 tags: ["ai", "privacy", "security", "settings"]
 ---
@@ -69,7 +69,6 @@ Some AI work is refused a remote provider in the code rather than by a setting, 
 
 - **Inline ghost-text completions.** They appear because you typed, not because you asked.
 - **Automatic tag suggestions.** Same reason, and they run on a model on this device, either fetched on demand from Myne's own origin or side-loaded by you. If no tag model is installed, Myne offers the download in Settings → AI before the switch can turn on.
-- **The semantic index behind [asking your notes](/user-guide/ai/ask-your-notes/).** It runs on your device or not at all, so the notes behind an answer are always found here, even when the answer itself is written elsewhere.
 - **Speech-to-text.** [Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note) uses a model that ships with Myne, and no provider you name takes audio.
 
 If one of those is somehow asked to go to a provider, Myne refuses in the same words: "This kind of request never goes to a provider: it runs on this device or not at all." What a remote provider serves is the work you asked for: chat, summarize, rewrite, edit selection, [summarize a meeting](/user-guide/ai/meeting-summaries/), or [an agent run](/user-guide/ai/agent-runs/). A meeting summary is a bounded series of requests rather than one: the transcript is read in parts, so a long meeting sends several.

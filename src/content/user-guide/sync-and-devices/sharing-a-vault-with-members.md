@@ -1,7 +1,7 @@
 ---
 title: "Sharing a vault with members"
 category: "sync-and-devices"
-updated: 2026-10-12
+updated: 2026-10-18
 summary: "Invite other people into one shared vault. Each member joins with their own identity, sets a password for their own device and picks the name the others see; your master password and recovery phrase never leave your control. Covers roles, inviting and accepting, names in the member list, and what removal does and does not do."
 tags: ["devices", "sync", "security"]
 ---
@@ -21,20 +21,20 @@ A shared vault has exactly one owner, the person who created it, and zero or mor
 
 ## Invite someone
 
-1. Open **Settings → Sync**. At the top, under **Identity**, choose **Enter recovery phrase** and enter your recovery phrase if the identity is locked. Once unlocked on a device, the vault remembers the identity there (sealed with the vault's own key), so a later unlock of that vault installs it automatically and you are not asked for the phrase again. **Lock member identity**, in the **Vault members** panel below, stands it down until you unlock it again.
+1. Open **Settings → Sync**. At the top, under **Identity**, choose **Unlock** and enter your recovery phrase if the identity is locked. Once unlocked on a device, the vault remembers the identity there (sealed with the vault's own key), so a later unlock of that vault installs it automatically and you are not asked for the phrase again. **Lock member identity**, in the **Vault members** panel below, stands it down until you unlock it again.
 2. Share your own **identity code**, shown in the **Vault members** panel, with the person you are inviting. It contains only public information, never your phrase.
 3. Ask them for their identity code and paste it into the invite field. Nothing leaves your device yet.
-4. Check the fingerprint the code produces against the one the other person reads you. Confirm it explicitly before continuing.
-5. Confirm. Your device seals the invite and posts it to the relay; the recipient is told when an invite is waiting.
-6. The member list shows each invitation you sent as accepted or not accepted yet. A member rotates from "not accepted yet" to "accepted" once that person takes the invite.
+4. Choose **Invite member**. On a vault that is not shared yet, Myne first states that sharing it is permanent and asks you to confirm; then your device seals the invite and posts it to the relay, and the recipient is told when an invite is waiting. There is no fingerprint to compare before sending.
+5. Once the invite is sent, the panel shows the invited member's fingerprint, which you can read to them to confirm the invite went to the right person.
+6. The **Invitations you sent** list shows each invitation as accepted or not accepted yet. A member moves from "not accepted yet" to "accepted" once that person takes the invite.
 
 ## Accept an invite
 
-1. Open Myne. At zero vaults, an identity-only home shows the invites addressed to you.
-2. Paste the owner's identity code. Their name appears beside it once the relay answers; nothing else is checked, and there is no fingerprint to compare.
-3. Enter your own recovery phrase.
-4. Choose a password for this vault **on this device**. It is separate from the owner's password and from your recovery phrase: it opens this shared vault here, and your phrase stays the portable way back in.
-5. Choose a display name. This is what the other members see beside your fingerprint in the member list.
+1. Open Myne. At zero vaults, an identity-only home shows the invites addressed to you, each named by the vault's account hash.
+2. Open the invite. Myne asks for the owner's identity code, so paste the code they shared with you. It is checked against the invite when you accept, and a code that does not match is refused. There is no out-of-band fingerprint comparison in this flow, and no owner name to confirm.
+3. Enter your own recovery phrase. This is your phrase, not the vault owner's.
+4. Choose a password for this vault **on this device**. It is separate from the owner's password and from your recovery phrase: it opens this shared vault here, and your phrase stays the portable way back in. Myne checks it against its minimum strength as you type, and on the desktop the field labels how strong it is, from **Too weak** to **Strong**.
+5. Choose a display name. This is what the other members see beside your fingerprint in the member list. Myne asks for it before the accepted vault reaches the editor, and skips the question when the vault's list already holds a verified name for you, as it does if you were invited to a vault you are already named in.
 
 The shared vault then unlocks as a member. You keep your own credentials, and you are never shown an owner-only control.
 

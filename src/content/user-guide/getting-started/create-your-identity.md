@@ -1,7 +1,7 @@
 ---
 title: "Create your identity"
 category: "getting-started"
-updated: 2026-09-26
+updated: 2026-10-18
 summary: "What a Myne identity is, why creating one needs a sync server, how the identity phrase differs from a vault recovery phrase, and how to add an identity later if you skipped it."
 tags: ["recovery", "security", "sync"]
 ---
@@ -27,14 +27,14 @@ Creating an identity shows you a 24-word **identity phrase**. It is not the same
 
 Keep both, and do not confuse them. Losing the identity phrase means losing the identity and every invitation addressed to it; it does not mean losing a vault, which still opens with its own password or its own phrase.
 
-The identity phrase is shown once. Myne hides it until you reveal it and hides it again if you switch away from the window, and it deliberately does not ask you to type the words back, because this screen is about keeping the words safe rather than testing that you memorised them.
+The identity phrase is shown once. Myne hides it until you reveal it and hides it again if you switch away from the window. Before it will close, it asks you to type four of the words back, naming each by its position in the phrase. A wrong word says which position it is, and the final **Done** stays disabled until all four match, so the step cannot be dismissed early. The point is to confirm the words left the screen into your hands, not to test your memory: the phrase is never shown again, and an identity whose phrase was never saved cannot be recovered.
 
 ## After you create your identity
 
 Myne lands you on your **identity home**. It shows your identity code (the public string you hand someone so they can invite you), and it lists any invitations addressed to you. From here you can:
 
 - **Create a vault** bound to this identity.
-- **Accept an invitation** to someone else's vault. You paste their identity code, compare a fingerprint with them out of band, and enter your own identity phrase to unlock the shared vault as a member.
+- **Accept an invitation** to someone else's vault. You paste their identity code, enter your own identity phrase, and choose a password for this device. There is no fingerprint to compare out of band: the owner's code you were given is checked against the invite when you accept, and a code that does not match is refused.
 
 A shared vault you join is unlocked with your **identity phrase**, never with a vault phrase you were never given.
 

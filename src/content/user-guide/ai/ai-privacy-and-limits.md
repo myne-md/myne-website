@@ -1,8 +1,8 @@
 ---
 title: "AI privacy and limits"
 category: "ai"
-updated: 2026-10-11
-summary: "The honest boundary of Myne's AI: nothing is sent until you name a provider, what leaves your device when you do, a model runtime that runs in-process and is not sandboxed from your notes, the encrypted embedding index at rest, what an agent run learns about notes it cannot read, and what AI does not do."
+updated: 2026-10-18
+summary: "The honest boundary of Myne's AI: nothing is sent until you name a provider, what leaves your device when you do, a model runtime that runs in-process and is not sandboxed from your notes, what an agent run learns about notes it cannot read, and what AI does not do."
 tags: ["ai", "privacy", "security"]
 ---
 
@@ -68,18 +68,6 @@ Transcribing a voice note works the same way: the recording is decrypted in memo
 
 As with the rest of Myne, none of this protects against malware already running on your device. Such software can read app memory whether or not AI is on; enabling AI does not create that exposure, but it does add a model runtime inside the same trust boundary.
 
-## The embedding index at rest
-
-So that [asking your notes](/user-guide/ai/ask-your-notes/) can find relevant passages, Myne builds a semantic index of your notes when you unlock with AI on. Like the ordinary search index, this embedding index is:
-
-- Encrypted at rest under your vault key, using the same encryption as the rest of your vault.
-- A rebuildable cache. It can be regenerated from your notes at any time, so losing it costs only re-indexing time.
-- Never synced to any server and never included in a backup.
-
-It is held in memory while the vault is unlocked and wiped when the vault locks, on manual lock, auto-lock, or vault delete. The only new signal the encrypted index adds at rest is a coarse sense of how much content has been embedded, the same size-shaped metadata that already applies to your other encrypted blobs. One honest nuance: a dense embedding is a more complete reconstruction of note content than a keyword index, so anyone who could already read your decrypted notes (through device RAM access or key compromise) could also learn more from the index, but it grants no capability an attacker in that position does not already have against the notes themselves.
-
-The index records which model built it, so choosing a different search model rebuilds it rather than serving answers from vectors the new model cannot compare against. Building and querying that index is also the one piece of AI that never goes to a provider, on this computer or elsewhere: it runs on this device or not at all, which is why the passages behind an answer are always found here even when the answer itself is written somewhere else.
-
 Assembled prompts and ghost-text previews are never persisted at all; they live only in memory and are dropped on lock. Chat transcripts are the exception: settled turns persist as vault content (see [Chat history](/user-guide/ai/ai-chat-history/)).
 
 ## What a run discloses beyond the text you asked about
@@ -94,11 +82,11 @@ What does not reach a provider on any path: your vault's contents beyond the abo
 
 ## What the agent learns about notes it cannot read
 
-An [agent run](/user-guide/ai/agent-runs/) can search your whole vault, not only the notes you put in its scope, and what comes back is split in two. A match inside the scope comes back as a note the model may then read, which it always could. A match outside it is reduced to a folder name and a number, never a title and never an identifier, so the model can tell you which folder to widen to, and reaching that note still goes through the approval you answer.
+An [agent run](/user-guide/ai/agent-runs/) works from the notes in the scope you set, and reaching anything outside that scope goes through the approval you answer. A search a run makes can rank the whole vault rather than only that scope, and what comes back is split in two. A match inside the scope comes back as a note the model may then read, which it always could. A match outside it is reduced to a folder name and a number, never a title and never an identifier, so the model can tell you which folder to widen to.
 
-The widening is real and worth stating: the model learns the folder names of matches it cannot read, and how many of the ranked matches fell in each. Those numbers describe the matches the search ranked, not how many notes a folder holds.
+The widening is real and worth stating: the model can learn the folder names of matches it cannot read, and how many of the ranked matches fell in each. Those numbers describe the matches the search ranked, not how many notes a folder holds.
 
-Notes in [excluded folders](/user-guide/ai/turning-on-ai/#excluding-folders) are not counted at all, not even as a number, because the exclusion hides that they exist. The search itself runs on this device and needs a search model here; a provider is refused it outright, the same as the index behind it.
+Notes in [excluded folders](/user-guide/ai/turning-on-ai/#excluding-folders) are not counted at all, not even as a number, because the exclusion hides that they exist. The search itself runs on this device; a remote provider is never asked to do it.
 
 ## The setup travels; the agreement does not
 
@@ -118,14 +106,14 @@ The requests are TLS, and the certificate is checked against a bundle compiled i
 
 ## Where models come from
 
-Myne fetches a model only when you ask it to, and only from its own origin (`downloads.myne.md`). The speech-to-text model and the image-text (OCR) model ship inside Myne, part of the same build as the rest of the app. The tag-suggestion model (about 337 MB) and the semantic-search model (about 449 MB) are fetched on demand: you click Download in Settings → AI, the bytes come from Myne's own origin, and each file is checked against a fingerprint built into the app before the model is registered, so a download that was tampered with or truncated is rejected rather than used. The request carries no note content; it reveals your IP address to Myne's own origin and nothing else, and that origin keeps no IP logs and no analytics. The text models for chat, summaries and writing you supply yourself: the AI settings panel links to recommended starting points that open in your own browser as an operating-system handoff, you download the files there and point Myne at them. A model file you pick is referenced from a location on your device outside your vault and is never copied into the vault. Because you chose it, its provenance and trustworthiness are yours to judge. See [In-process, not sandboxed](#in-process-not-sandboxed) above for why that judgement matters. A model that shipped with Myne narrows that particular question and nothing else: it still runs in the same process as your notes.
+Myne fetches a model only when you ask it to, and only from its own origin (`downloads.myne.md`). The speech-to-text model and the image-text (OCR) model ship inside Myne, part of the same build as the rest of the app. The tag-suggestion model (about 337 MB) is fetched on demand: you click Download in Settings → AI, the bytes come from Myne's own origin, and each file is checked against a fingerprint built into the app before the model is registered, so a download that was tampered with or truncated is rejected rather than used. The request carries no note content; it reveals your IP address to Myne's own origin and nothing else, and that origin keeps no IP logs and no analytics. The text models for chat, summaries and writing you supply yourself: the AI settings panel links to recommended starting points that open in your own browser as an operating-system handoff, you download the files there and point Myne at them. A model file you pick is referenced from a location on your device outside your vault and is never copied into the vault. Because you chose it, its provenance and trustworthiness are yours to judge. See [In-process, not sandboxed](#in-process-not-sandboxed) above for why that judgement matters. A model that shipped with Myne narrows that particular question and nothing else: it still runs in the same process as your notes.
 
 ## What AI does not do
 
 - It contacts no service until you name one. With no provider named there is no account, no key, and no network request.
-- It never sends a surface you did not ask for to a remote provider. Inline ghost-text completions, automatic tag suggestions, the semantic index and speech-to-text are refused a remote provider in the code rather than by a setting, so nothing is sent as you type and nothing is sent in the background.
+- It never sends a surface you did not ask for to a remote provider. Inline ghost-text completions, automatic tag suggestions and speech-to-text are refused a remote provider in the code rather than by a setting, so nothing is sent as you type and nothing is sent in the background.
 - It does not learn from, train on, or upload your notes.
-- It does not read notes in [excluded folders](/user-guide/ai/turning-on-ai/#excluding-folders), at index time or query time.
+- It does not read notes in [excluded folders](/user-guide/ai/turning-on-ai/#excluding-folders), whenever a note is read or a search is run.
 - It does not change a note without an explicit action from you (inserting a summary, accepting a completion, running a command, clicking a tag, or starting an agent run with **Apply automatically** on).
 - It does not guarantee correct answers or accurate transcripts. The models are small and outputs can be wrong. Nothing in the AI Chat tab names the notes an answer was drawn from, so checking one means opening those notes yourself; what you have to work from is the scope you set and the run's own count of how many notes it read. A voice-note transcript is a best-effort reading you can check against the original recording.
 
@@ -133,6 +121,6 @@ Myne fetches a model only when you ask it to, and only from its own origin (`dow
 
 **On a phone, no on-device model answers you.** With AI on and a provider named, every chat, summary, tag suggestion and agent run goes out, and the text of the notes involved leaves the device. There is no phone equivalent of choosing a model file or a runtime on your own machine.
 
-**The in-process paragraph below still applies to a phone, and for a reason worth stating plainly.** Two models DO run on your phone: the transcription model that turns a voice note into text, and the one that reads text out of images. Both ship inside Myne and both run inside the same app that holds your decrypted notes and keys, which is exactly the arrangement described below. So a phone is not outside that discussion, it is inside it with a smaller set of models. What is true is narrower: nothing on the phone generates an ANSWER or indexes your notes for AI, so those roles are the ones that always mean sending text to the service you named.
+**The in-process paragraph below still applies to a phone, and for a reason worth stating plainly.** Two models DO run on your phone: the transcription model that turns a voice note into text, and the one that reads text out of images. Both ship inside Myne and both run inside the same app that holds your decrypted notes and keys, which is exactly the arrangement described below. So a phone is not outside that discussion, it is inside it with a smaller set of models. What is true is narrower: nothing on the phone generates an ANSWER or reads your notes for AI, so those roles are the ones that always mean sending text to the service you named.
 
 Enabling AI adds a model runtime inside Myne's existing trust boundary. It does not weaken your vault's encryption and does not change where your notes are stored, but it is not isolated from your decrypted notes and keys, and a model file you supply is untrusted input you accept responsibility for. Naming a provider adds a network path that did not exist before: a runtime on your own machine keeps the text on the device, a remote provider does not. Because the model reads the text of your own notes, a note that came from somewhere you do not control can steer the wording of an answer. With no provider named there is nowhere for that text to be sent, so the worst case is a misleading answer. With a remote provider named, the defence against a note's text posing as an instruction is weaker, because the far side does the tokenizing and Myne cannot control it there. The model never writes to a note without an explicit action from you, and in [agent runs](/user-guide/ai/agent-runs/) that action takes one of two forms: approving each change on the review screen, which is the default, or choosing **Apply automatically** before you start the run, which lets that one run write inside the scope you approved without a second act. A change that would take a note out of your note list is refused either way and still needs its own act, the mode lasts for that session only, and every change still takes a snapshot first. The AI still makes no requests of its own beyond the provider you named. And, as everywhere in Myne, none of this defends against malware already present on your device. For how this maps to Myne's broader model, see [Where your AI runs](/user-guide/ai/where-your-ai-runs/), the [privacy model](/user-guide/settings-and-privacy/privacy-model/) and [what Myne doesn't do](/user-guide/settings-and-privacy/what-myne-doesnt-do/).

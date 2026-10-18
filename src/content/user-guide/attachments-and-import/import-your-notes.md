@@ -1,7 +1,7 @@
 ---
 title: "Import your notes"
 category: "attachments-and-import"
-updated: 2026-10-15
+updated: 2026-10-18
 summary: "How to import notes into Myne from another Myne vault's backup, Obsidian, Notion, Evernote, HTML, and CSV: one flow, six sources. How notes, links, and attachments map, and the edge cases to check in the import summary and report."
 tags: ["import", "attachments"]
 ---
@@ -80,6 +80,8 @@ MOV files and anything over the 64 MiB attachment cap are not brought in as play
 Images are re-encoded on the way in when **Compress images on import** is on (it is on by default, in Settings → Files). The original bytes are not kept, and the summary reports how much was saved on an "Images compressed" row. Turn the setting off before you import if you need your images kept byte-for-byte.
 
 Your wikilinks are preserved byte-for-byte; imported links stay as you wrote them and resolve by title. When you want to rewrite the title-links in a note into Myne's own path form, run **Convert imported wikilinks in this note…** from the command palette while that note is open. It acts on the note in front of you and shows a diff preview before changing anything; if nothing resolves, it tells you so and leaves the note untouched.
+
+Imported attachments get the same treatment. A note that still shows a filename-only image reference such as `![[photo.png]]` can be finished with **Convert imported attachments…** from the command palette, with the note open: Myne imports the referenced file as an attachment and rewrites the reference to a real embed, showing the same diff preview before it writes anything. See [Attachments](/user-guide/attachments-and-import/attachments/).
 
 ## Limits & edge cases
 

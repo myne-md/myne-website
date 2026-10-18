@@ -1,7 +1,7 @@
 ---
 title: "Turning on AI"
 category: "ai"
-updated: 2026-10-03
+updated: 2026-10-18
 summary: "Enable the AI beta opt-in in Settings, give Myne something to run (model files you downloaded yourself, a runtime on this computer, or a provider you name), understand what 'ready' means, and exclude folders you never want AI to read or index. On a phone there is no on-device option and the approval is per device."
 tags: ["ai", "settings"]
 ---
@@ -19,16 +19,16 @@ These steps are the computer's. **A phone has no Developer mode and no Developer
 
 1. Open Settings from the gear in the bottom bar or with `⌘,`.
 2. Open the **About** panel and turn on **Developer mode**. The AI features live in a **Developer** group that stays hidden until you do this.
-3. In the panel rail, open **AI** under the **Developer** group that now appears.
-4. Turn on **Enable local AI**. The helper text says what the toggle does and does not settle: it runs a model you provide, whether your notes leave this device depends on the provider you name below, and the feature is experimental and off by default.
+3. In the panel rail, open **AI** under the **Developer** group that now appears. The panel is organised into four topics: **General** (the master switch and what answers), **Models** (the tag switch, which file each role uses, and a table of the models Myne can fetch), **Limits** (the folders AI must leave alone, and how much of a conversation each request carries), and **Advanced** (the meeting-summary prompt, the voice preferences, and what the assistant remembers).
+4. Turn on **Enable AI features**. The helper text says what the toggle does and does not settle: it runs a model you provide, whether your notes leave this device depends on the provider you name below, and the feature is experimental and off by default.
 
 Below the toggle, one sentence never changes (Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin, which keeps no IP logs and no analytics) followed by a headline stating the configuration you are actually in: a model on your device, a program on your computer, or a provider you named. Under those, a line reads **Answering now:** with a name, or **Nothing is set up to answer yet.** The **How does this work?** disclosure expands the honest detail, including the part Myne does not protect against. That copy is worth reading once; it is the same boundary described in [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/).
 
 ## Enabling AI on a phone
 
 The steps above are the computer's. A phone has no Developer group and no model
-files to choose, because no model on a phone answers questions or indexes your
-notes. (Transcription and image text do run on the phone, on models that ship
+files to choose, because no model on a phone answers questions or reads your
+notes for AI. (Transcription and image text do run on the phone, on models that ship
 with Myne; they are not part of this switch.)
 
 1. Open Settings and tap **AI**. It is a top-level entry, not nested under
@@ -58,29 +58,28 @@ network, and the screen that says what leaves it should be read on it.
 
 ## Suggesting tags automatically
 
-Under the toggle sits a second switch, **Suggest tags automatically**, off by default. There is no model file to choose here: tag suggestion runs on a model Myne fetches on demand from its own origin. If it is not installed yet, the switch is off and Myne says so, pointing you at **Download models**; once the download finishes the switch turns on by itself. You can also side-load your own with Developer mode. See [Suggest tags](/user-guide/ai/suggest-tags/).
+Under the toggle sits a second switch, **Suggest tags automatically**, off by default. Tag suggestion runs on a tag model: Myne fetches one on demand from its own origin, or you point Myne at one of your own in the **Models** topic (see [Choosing model files](#choosing-model-files)). If no tag model is installed yet, the switch is off and Myne says so; once the download finishes the switch turns on by itself. See [Suggest tags](/user-guide/ai/suggest-tags/).
 
 ## Downloading a model from Myne
 
-Two model roles can be fetched for you, both from Myne's own origin (`downloads.myne.md`) and only when you click **Download** under **Download models** in Settings → AI:
+One model role can be fetched for you, from Myne's own origin (`downloads.myne.md`) and only when you click **Download** in the model catalogue, under **Models** in Settings → AI:
 
 - **Tag model** (about 337 MB) for automatic tag suggestions.
-- **Semantic-search model** (about 449 MB) so [Ask your notes](/user-guide/ai/ask-your-notes/) can search by meaning, not only by words.
 
 Each download is a single explicit action, and nothing is fetched unless you click. The bytes are checked against a fingerprint built into the app before the model is registered, so a download that was tampered with or truncated is rejected rather than used. The request carries no note content: it reveals your IP address to Myne's own origin and nothing else, and that origin keeps no IP logs and no analytics. If you would rather fetch nothing, Developer mode also lets you point Myne at a model file you got yourself with **Choose file…**; a file from elsewhere is not checked by Myne, so only use one you trust.
 
 ## Choosing model files
 
-Myne lists three model roles under **Models** in the same panel. You bring the first two; the third is an override.
+Myne lists one row per model role under **Models** in the same panel. You bring the text model; the speech-to-text model ships with Myne and the tag model can be fetched from Myne's own origin, so those two rows are only for replacing them with a file of your own.
 
 - **Text model: chat, summaries, writing.** Used for chat answers, summaries and writing help. The recommended starting point is Qwen2.5-1.5B-Instruct (GGUF). This role needs the `.gguf` file plus `tokenizer.json` in the same folder.
-- **Search model: semantic search & Q&A.** Used to index your notes so questions can find the right passages. The recommended starting point is all-MiniLM-L6-v2. This role needs `model.safetensors`, `config.json`, and `tokenizer.json` in one folder.
-- **Speech-to-text model (transcription).** Optional. Myne already ships a speech-to-text model, so this picker is only for replacing it with one of your own. The recommended starting point is whisper-base (multilingual), and the role loads GGUF files. Speech-to-text has its own switch in Settings → Transcription, is on by default, and is not part of the AI beta. See [Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note).
+- **Speech-to-text model (transcription).** Optional. Myne already ships a speech-to-text model, so this picker is only for replacing it with one of your own. The recommended starting point is whisper-base (multilingual), and the role needs the Whisper `.gguf` file plus `config.json` and `tokenizer.json` in the same folder. Speech-to-text has its own switch in Settings → Transcription, is on by default, and is not part of the AI beta. See [Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note).
+- **Tag model: automatic tag suggestions.** Used by **Suggest tags automatically**. You can fetch this one from Myne's own origin (see above) or point Myne at one of your own. It needs the `.gguf` file plus `tokenizer.json` in the same folder. See [Suggest tags](/user-guide/ai/suggest-tags/).
 
 Each role shows a recommended-model name as a link. Clicking it opens the page in your own browser as an operating-system handoff; Myne does not fetch anything. Download the files there, then:
 
 1. Next to a role, click **Choose file…**.
-2. Pick the file in the picker (the `.gguf` for the text model, the `.safetensors` for the search model).
+2. Pick the file in the picker (a `.gguf` for the text, speech-to-text and tag roles).
 
 The chosen path is stored on your device only and the file is never copied into your vault. The path must be outside your vault folder; if you pick a file inside the vault tree, Myne refuses it and tells you it must be outside your vault.
 
@@ -93,19 +92,15 @@ Enabling the toggle is not enough on its own. AI is ready only once something is
 - **No provider**: AI is on, but nothing is set up to answer. Choose a model file or name a provider in Settings.
 - **Not answering**: what you set up is not responding. Check that it is running, then try again.
 - **Unavailable**: this build of Myne was compiled without local AI, so nothing here can run.
-- **No search model**: something can answer, but no model on this device can search your notes. You can still send a message and a run still starts against the notes you gave it; what stops working is the run's ability to look beyond that scope. Choose a search model in Settings → Developer → AI.
-- **Preparing…**: indexing your notes for the first time in this session (see below).
 - **Ready**, or the provider's name: set up and working. With a provider named, the header shows its name instead of "Ready", so you can see at a glance where your questions are going.
 
 With AI off there is no header to read: the AI Chat tab is not shown at all.
-
-When you unlock the vault with AI on, Myne builds a search index of your notes on this device so that [Ask your notes](/user-guide/ai/ask-your-notes/) can find relevant passages. That index is encrypted at rest and reused across sessions, so after the first build it only reconciles what changed. It is never synced and never backed up, and it is never built by a provider.
 
 ## Excluding folders
 
 The **Excluded folders** box lets you name folders that AI must never read or index. Enter one folder path per line. A note is excluded when its folder is one you listed or is nested inside one, so excluding `Private/` also excludes everything under it. The match ignores case, so a folder stays excluded regardless of how you capitalized the path.
 
-Exclusion is enforced both when notes are indexed and when they are queried, and every AI surface checks it before the model is ever called. A note in an excluded folder is never embedded, never summarized, never used to ground a chat answer, and never offered tag suggestions or writing help.
+Exclusion is enforced on every AI path, and every AI surface checks it before the model is ever called. A note in an excluded folder is never read, never summarized, never used to ground a chat answer, and never offered tag suggestions or writing help.
 
 **Excluding a folder travels to your other devices, and un-excluding one does not travel at all.** The exclusion list only ever grows when devices sync: a folder you exclude here shows up as excluded everywhere, which is what stops a second device from indexing something the first was told to leave alone. The same rule makes a removal hard to keep. On a vault that syncs, taking a folder off the list is undone by the next sync round, because the other side still carries the entry and the two lists are combined rather than compared. Doing it on every device does not help either: whichever device syncs first brings the entry back. So treat an exclusion as permanent for as long as the vault syncs, and if you need one undone, say so on the issue tracker rather than working around it. On a vault that has never been synced, a removal simply holds. The CLI exclusion list works the same way, for the same reason.
 
@@ -127,7 +122,7 @@ the notes involved in each request leaves the device. Turning the switch off, or
 setting the provider back to none, stops that; the second also removes the key
 and this phone's approval.
 
-Turning on AI adds a model runtime to the Myne process. That process holds your decrypted notes and keys, and the model is not isolated from them; a model file you download is untrusted input that Myne does not vouch for. Turning the toggle on does not by itself send anything anywhere: that depends on what you name, and [Where your AI runs](/user-guide/ai/where-your-ai-runs/) is where that choice is made and explained. Excluding a folder keeps its notes out of AI reading and indexing, but it is a Myne-level control rather than an operating-system boundary, and it does not protect the folder against malware already running on your device, which can read app memory regardless. The encrypted index Myne builds for search is a rebuildable local cache; it is never uploaded. Full detail is in [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/).
+Turning on AI adds a model runtime to the Myne process. That process holds your decrypted notes and keys, and the model is not isolated from them; a model file you download is untrusted input that Myne does not vouch for. Turning the toggle on does not by itself send anything anywhere: that depends on what you name, and [Where your AI runs](/user-guide/ai/where-your-ai-runs/) is where that choice is made and explained. Excluding a folder keeps its notes out of AI reading, but it is a Myne-level control rather than an operating-system boundary, and it does not protect the folder against malware already running on your device, which can read app memory regardless. The encrypted search index Myne builds for finding your notes is a rebuildable local cache; it is never uploaded. Full detail is in [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/).
 
 ## Shortcuts
 

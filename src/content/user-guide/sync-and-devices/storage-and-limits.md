@@ -1,7 +1,7 @@
 ---
 title: "Storage and account limits"
 category: "sync-and-devices"
-updated: 2026-08-24
+updated: 2026-10-18
 summary: "The Storage and devices block in Sync settings shows encrypted data stored against a ceiling, your signed-in device count against a cap, and a frozen badge when uploads are paused. It also covers the refusal states — over your limit, an oversize file, a frozen account — where your device keeps downloading but uploads are held, so nothing is lost."
 tags: ["sync", "devices", "settings", "security"]
 ---
@@ -28,7 +28,7 @@ The **Devices** row shows the devices signed in to your account against the cap 
 
 An operator can freeze an account. While it is frozen, the block shows a badge that reads: "This account is frozen. New changes can't be uploaded; your notes still download." A freeze pauses uploads and blocks enrolling a new device; it never blocks downloads, and it does not let the server read or forge your notes. The notes already on this device are unaffected.
 
-A freeze is one of two things an operator can do to a hosted account on a substantiated report; the other is to delete the account. Neither can reach a single note — the server cannot tell your notes apart, so it acts on the whole account or not at all. The beta terms state both, and each device accepts them before it first syncs (see [Add a device](/user-guide/sync-and-devices/add-a-device/)).
+A freeze is one of two things an operator can do to a hosted account on a substantiated report; the other is to delete the account. Neither can reach a single note — the server cannot tell your notes apart, so it acts on the whole account or not at all. The beta terms say what the server's operator can see and do, and each device accepts them before it first syncs (see [Add a device](/user-guide/sync-and-devices/add-a-device/)).
 
 ## When sync refuses to upload
 

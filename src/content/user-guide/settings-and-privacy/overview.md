@@ -1,7 +1,7 @@
 ---
 title: "Settings & privacy"
 category: "settings-and-privacy"
-updated: 2026-10-15
+updated: 2026-10-18
 summary: "An overview of Myne's settings panels and the privacy model behind them: the account and vault panels, privacy controls, sync, editor and files behaviour, transcription, appearance and language, hotkeys, storage, the AI beta and where its work runs, Tor routing, the CLI, and what Myne deliberately does not do."
 tags: ["settings", "privacy"]
 ---
@@ -24,9 +24,11 @@ With a vault open, open Settings from the gear in the bottom bar or with `⌘,`.
 - **Storage** shows where your vault folder lives, with a button to open it, and covers backing up, restoring, and importing, plus automatic backups — a device-local recurring encrypted backup with an enable toggle, a cadence (every unlock, daily, or weekly), a target folder, how many to keep, and a last-run status line. It also holds Export vault as Markdown, which writes a plain, unencrypted copy. Import brings notes in from a Myne backup, Obsidian, Notion, Evernote, HTML files or a CSV. The manual flows live in [Back up your vault](/user-guide/safety-and-recovery/back-up-your-vault/), [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/), and [Import your notes](/user-guide/attachments-and-import/import-your-notes/).
 - **About** holds the version, the build channel (Stable or Development build) and the commit this copy was built from, a link to Myne's public threat model, a link to the published privacy policy (which opens in your browser), the licence, and the **Developer mode** toggle. In a browser the Build row describes the bundle the server sent you rather than an installer, and prints that bundle's hash under the commit. It also has a Changelog button, which does nothing today.
 
+Panels with more than one concern add a second level of navigation: a strip of topic tabs across the top of the panel's content, level with the **Search settings…** row, so a long panel is not one scroll. **Editor** splits into Text & display, Editing, Writing, Tasks, Periodic notes and Features; **Privacy** into Access and Locking; **Vault** into Vault and Danger zone; **Appearance** into Display, Note list and Interface; **Sync** into Connection, Devices and members, and Conflicts; and **AI** into General, Models, Limits and Advanced. A panel with a single concern — Storage, Files, Transcription, Hotkeys, About, Network — shows no strip. Left and Right move between a panel's topics; Up and Down still cycle the panels in the rail.
+
 Below these sits a **Developer** section, which appears only once you have turned on Developer mode in the About panel. It groups the settings where you leave the path Myne vouches for:
 
-- **AI** holds Myne's experimental AI features. AI is off until you opt in, and nothing is sent anywhere until you name a provider. With no provider named, the model runs on your device. You can also name a model runtime on your own machine, or a remote service — the panel says which one is answering, and asks before anything leaves. See [Where your AI runs](/user-guide/ai/where-your-ai-runs/).
+- **AI** holds Myne's experimental AI features, switched on with its **Enable AI features** toggle. AI is off until you opt in, and nothing is sent anywhere until you name a provider. With no provider named, the model runs on your device. You can also name a model runtime on your own machine, or a remote service — the panel says which one is answering, and asks before anything leaves. See [Where your AI runs](/user-guide/ai/where-your-ai-runs/).
 - **Network** holds the option to route Myne's sync traffic through Tor. It is off by default, and it changes where your connection comes from — not what the server can see. See [Routing sync through Tor](/user-guide/settings-and-privacy/route-sync-through-tor/).
 - **CLI** holds terminal access, which opens your unlocked vault to the `myne` command on this machine, together with the folders the terminal never sees and its rate limit. See [The myne CLI](/user-guide/command-line/the-myne-cli/).
 

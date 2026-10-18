@@ -1,7 +1,7 @@
 ---
 title: "Unlocking your vault"
 category: "getting-started"
-updated: 2026-08-24
+updated: 2026-10-18
 summary: "How to unlock an existing vault with your master password each time you open Myne, what the unlock screen shows, and what it means for a vault to be locked."
 tags: ["vault", "security"]
 ---
@@ -12,7 +12,7 @@ Once a vault exists, Myne keeps it locked until you enter your master password. 
 
 Myne checks your device on launch and opens the right screen for what it finds:
 
-- **No vault yet** → the Welcome screen, with three doors: create a vault, restore one from a backup, or add this device to an account you already sync.
+- **No vault yet** → the Welcome screen, with four doors: create an identity, create a local vault, restore one from a backup, or add this device to an account you already sync.
 - **One vault** → the Unlock screen for that vault.
 - **Two or more vaults** → the vault picker, where you choose which one to open.
 
@@ -42,7 +42,7 @@ The message is intentionally ambiguous, and the ambiguity is a privacy property,
 
 The Welcome screen also carries a **Restore from backup** door. If you are setting up on a new machine, or your vault file is damaged, you restore from a `.myne-backup` file rather than unlocking an existing vault. The how and the caveats live in [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/).
 
-The third door, **Add this device to an account**, is for a vault that already exists on another device and syncs. You give the sync server, your account number and your master password — no recovery phrase — and this device waits until a device already signed in approves it; the vault then arrives over sync rather than from a file. Before a device syncs for the first time, Myne shows you the beta terms and waits for you to accept them. [Add a device](/user-guide/sync-and-devices/add-a-device/) covers that flow. The same door is reachable later from the vault picker and the vault switcher.
+The third door, **Add this device to an account**, is for a vault that already exists on another device and syncs. You give the sync server, your account number and your master password — no recovery phrase — and this device waits until a device already signed in approves it; the vault then arrives over sync rather than from a file. Before a device syncs for the first time, Myne shows you the beta terms and waits for you to accept them. They state what sync sends to the server you choose, what happens if you lose both your master password and your recovery phrase, what happens if that server goes away, and what its operator can see and do. Each device is asked separately, because the acceptance is not carried across by sync. [Add a device](/user-guide/sync-and-devices/add-a-device/) covers that flow. The same door is reachable later from the vault picker and the vault switcher.
 
 ## Locking the vault
 

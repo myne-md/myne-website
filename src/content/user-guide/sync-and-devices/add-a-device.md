@@ -1,7 +1,7 @@
 ---
 title: "Add a device"
 category: "sync-and-devices"
-updated: 2026-10-13
+updated: 2026-10-18
 summary: "Connect another device to your account and approve it. Covers the beta terms, joining from a fresh device or one that already holds the vault, naming the device, pairing by a QR code, comparing a verification code, what Myne says when the server refuses an enrolment, and a member's second device joining from the recovery phrase alone."
 tags: ["devices", "sync", "recovery"]
 ---
@@ -19,7 +19,7 @@ Adding a device connects it to your account so it syncs the same notes. A device
 
 ## Accept the beta terms
 
-Before a device syncs for the first time, Myne holds the join behind the beta terms. From the welcome screen the dialog opens straight away; from **Settings → Sync** the enrolment form is replaced by a **Review the beta terms** button that opens the same dialog. It is headed **Before you turn on sync** and states four things: what this is (sync is a free beta, with no warranty and no uptime promise); what happens if you lose both your master password and your recovery phrase (your notes cannot be recovered, by you or by us, because there is no reset); what happens when the beta ends; and what the operator can and cannot see. **Read the full terms** opens the published text on myne.md.
+Before a device syncs for the first time, Myne holds the join behind the sync consent. From the welcome screen the dialog opens straight away; from **Settings → Sync** the enrolment form is replaced by a **Review what sync means** button that opens the same dialog. It is headed **Before you turn on sync** and states four things: what this is (sync stores your notes on a server you choose, and they leave the device encrypted, so the server holds ciphertext and no key and neither it nor Myne can read them); what happens if you lose both your master password and your recovery phrase (your notes cannot be recovered, by you or by us, because there is no reset); what happens if that server goes away (your notes live on your devices, so you lose sync rather than your notes until you point it at another server); and what the server's operator can see (they can refuse to serve you, keep a copy of something you deleted until their retention window passes, and see that an account synced, when, and roughly how much, none of which lets them read a note). The dialog carries all four clauses itself; there is no separate terms page behind a link, and the privacy policy stays one link away in **Settings → About**.
 
 Choose **I understand, turn on sync** to continue, or **Cancel** to leave it for now. Every device is asked separately. The acceptance is recorded on the device in front of you and is never carried across by sync, because what it records is that the person holding that device read the text. If the terms are rewritten, the gate appears again.
 
@@ -79,12 +79,14 @@ A device you joined from the welcome screen shows the same **verification code**
 
 If you have already joined someone else's vault as a member, you bring a second device into it yourself. The flow is yours alone: it needs no owner, no owner action and no fresh invite, because the membership is already in your name and the vault is already addressed to you. Recovering your identity from your recovery phrase is the whole of what the new device needs from you, and it is the same phrase you use on any device you join.
 
+A device that is already in the vault can also hand the target over with an **Add your own device** code: open **Settings → Sync**, and choose the **+** beside **Devices**. The code carries your sync server's address and the vault's id, never your recovery phrase or your password. It is short-lived and refreshes while the dialog is open, so it has to be scanned off the screen while both devices are in front of you. Scan it with Myne on the new device to fill in the server and go straight to that vault instead of finding it among your invitations. On a device that has no identity yet, Myne asks for your recovery phrase first, exactly as the steps below do.
+
 On the new device:
 
 1. Enter your recovery phrase. That recovers your identity, and it is the only secret this flow asks for.
 2. Myne finds the shared vaults that are already addressed to you. You are not asked to paste the owner's identity code again: your first device saved it for you when it joined, because the server is not allowed to hand it out.
 3. Choose the vault, and type your recovery phrase again when Myne asks for it. The phrase is what your own copy of the vault's keys is sealed to, so it is asked here as well as at the start. Myne then fetches your place in the vault from the server and checks the result against the owner it recorded before it installs anything. A device that cannot confirm the owner is the one you expect refuses rather than proceeding; a vault whose key material cannot be reached right now answers a plain "not reachable" you can retry, not a lockout.
-4. Set a password for this device. It is the same kind of device-local password the first join asks for: it opens this shared vault here, it is not the owner's password, and your recovery phrase stays the portable way back in on any device. You can change it later under **Settings → Privacy → Shared vault unlock**.
+4. Set a password for this device. It is the same kind of device-local password the first join asks for: it opens this shared vault here, it is not the owner's password, and your recovery phrase stays the portable way back in on any device. On the desktop, the field labels how strong the password is, from **Too weak** to **Strong**, as you type. You can change it later under **Settings → Privacy → Shared vault unlock**.
 
 There is no display-name step, and none is needed. The name you chose for that vault is already yours and travels with your membership, so the second device shows it from the moment it opens, the same as the first. The second device is not a second-class copy: it opens the same vault, the same notes and the same membership, and the revisions you make from it are attributed to you the same way your first device's are.
 

@@ -1,7 +1,7 @@
 ---
 title: "Attachments"
 category: "attachments-and-import"
-updated: 2026-08-29
+updated: 2026-10-18
 summary: "How to attach files to your notes, which file types render in place and which are kept as an export-only card, the size limits, and how attachments are stored inside the encrypted vault."
 tags: ["attachments", "notes"]
 ---
@@ -18,6 +18,8 @@ You add attachments from the editor, in any of these ways:
 - Pick a file through the attachment picker.
 
 Insertion always happens in the editor. That is where an attachment becomes part of a note.
+
+If you open a note that arrived from another app and it still carries a filename-only image reference — `![[photo.png]]` or `![alt](photo.png)` — run **Convert imported attachments…** from the command palette, under **Editor**, with that note open. Myne imports each referenced file as an attachment and rewrites the reference to a real embed. It shows a diff preview of every change before writing anything, and where a reference's file is not at the path it names, Myne asks you to point at it; a reference you skip is reported rather than guessed at. The command acts on the open note only.
 
 ## File types and sizes
 

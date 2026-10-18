@@ -1,7 +1,7 @@
 ---
 title: "Slash commands"
 category: "editor-and-writing"
-updated: 2026-10-16
+updated: 2026-10-18
 summary: "Type / in the editor to open a menu of inserts and actions, including date and time inserts, tables, callouts, voice notes, and file attachments. Date and time inserts are frozen plain text, not live tokens."
 tags: ["editor", "markdown"]
 ---
@@ -40,7 +40,7 @@ The menu also runs inserts and actions documented in their own articles:
 - `/table` inserts an empty table and lands the cursor in the first cell.
 - `/callout` starts a callout block you can title and re-type.
 - `/wiki` opens the [wiki-link](/user-guide/find-and-connect/wikilinks/) picker to link to another note.
-- `/attach` (**Attach file**) opens the file picker to bring in an [attachment](/user-guide/attachments-and-import/attachments/).
+- `/attach` (**Attach file**) opens the file picker to bring in an [attachment](/user-guide/attachments-and-import/attachments/). The command palette carries the same action as **Attach file…**, under **Editor**.
 - `/record` (**Voice note**) arms the microphone to record a [voice note](/user-guide/attachments-and-import/voice-notes/) inline.
 - `/drawing` (**Drawing**) creates a [drawing](/user-guide/notes-and-organization/drawings/) beside this note and embeds it inline, where it opens into a canvas you can edit in place.
 - `/due`, `/remind`, `/repeat`, and `/priority` add a field to the task on the current line. Each opens the same picker the task chip opens, and a line that is not yet a task is turned into one first. On a phone these four open the field editor as a bottom sheet, entered on the field the command named, with the list of the four fields one step back; on desktop and in the browser they open the panel beside the line.

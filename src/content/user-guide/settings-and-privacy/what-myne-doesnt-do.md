@@ -1,7 +1,7 @@
 ---
 title: "What Myne doesn't do"
 category: "settings-and-privacy"
-updated: 2026-10-08
+updated: 2026-10-18
 summary: "The things Myne deliberately does not do (no plaintext mode for your vault, no email recovery, no telemetry, no request for your recovery phrase to sign you in, no egress until you name where it goes) and why each omission is a commitment rather than a missing feature."
 tags: ["privacy", "security"]
 ---
@@ -29,7 +29,7 @@ Two opt-ins move data off this device, and both are off until you turn them on: 
 
 ## On AI
 
-Myne fetches a model only when you ask it to, from its own origin, and that fetch carries no note content. The speech-to-text and image-text models ship inside the app; the tag and semantic-search models are downloaded on your click and checked against a fingerprint built into the app before use; the text models for chat, summaries and writing are files you fetch yourself and point Myne at. Myne never sends your notes anywhere you have not named, and every provider setting starts unset — unset means the path is unreachable, not merely switched off.
+Myne fetches a model only when you ask it to, from its own origin, and that fetch carries no note content. The speech-to-text and image-text models ship inside the app; the tag model is downloaded on your click and checked against a fingerprint built into the app before use; the text models for chat, summaries and writing are files you fetch yourself and point Myne at. Myne never sends your notes anywhere you have not named, and every provider setting starts unset — unset means the path is unreachable, not merely switched off.
 
 The features that fire without you asking — inline suggestions as you type, automatic tag suggestions, and the search index — can never reach a remote provider at all. That is a rule in the code rather than a setting you could flip. A remote provider serves only work you ask for.
 

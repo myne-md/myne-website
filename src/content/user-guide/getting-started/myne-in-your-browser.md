@@ -1,7 +1,7 @@
 ---
 title: "Myne in your browser"
 category: "getting-started"
-updated: 2026-10-16
+updated: 2026-10-18
 summary: "Myne also runs in a desktop browser: the same app compiled for the browser, a second client holding an encrypted copy of a synced vault. You serve it yourself, because Myne offers no hosted browser client, and how its code reaches you differs from the desktop app."
 tags: ["basics", "sync", "devices", "privacy", "security"]
 ---
@@ -34,7 +34,7 @@ The browser does show you the phrase once, when you create a vault here. That is
 ## Signing in from a browser
 
 1. Open your own address for the client (see [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/)) in a desktop browser. There is nothing to download.
-2. Read the beta terms and accept them. Myne shows them before anything else here, because sync is how this client reaches your vault at all. In short: sync is a free beta with no warranty and no uptime promise; if you lose your password and your recovery phrase your notes cannot be recovered; your account keeps working when the beta ends; and Myne cannot read what you store, so it cannot screen it. The acceptance is recorded on this browser only — it is not carried across by sync, so each new device is asked once — and Myne asks again if the terms change.
+2. Read the beta terms and accept them. Myne shows them before anything else here, because sync is how this client reaches your vault at all. In short: your notes go to the server you name, encrypted, and the server holds ciphertext and no key, so it cannot read them and neither can Myne, which runs no server for you; if you lose your password and your recovery phrase your notes cannot be recovered; your notes live on your devices, so a server going away costs you sync until you point it at another server rather than your notes; and whoever runs that server can refuse to serve you, keep a copy of something you deleted until their retention window passes, and see that an account synced, when, and roughly how much, none of which lets them read a note. The acceptance is recorded on this browser only — it is not carried across by sync, so each new device is asked once — and Myne asks again if the terms change.
 3. Enter your account number. The field formats it into its grouped display form as you type, and Myne checks it on your device before sending anything — a mistyped number is caught locally, not by asking the server.
 4. Enter your master password. Myne derives your keys from it in the browser; the raw account number and the password are handled on your device, not sent as-is to the server.
 5. The browser enrolls as a new device and waits. This pending state is the normal outcome, not an error: a new browser cannot sync until another device approves it.

@@ -1,7 +1,7 @@
 ---
 title: "Sharing a vault with members"
 category: "sync-and-devices"
-updated: 2026-10-18
+updated: 2026-10-19
 summary: "Invite other people into one shared vault. Each member joins with their own identity, sets a password for their own device and picks the name the others see; your master password and recovery phrase never leave your control. Covers roles, inviting and accepting, names in the member list, and what removal does and does not do."
 tags: ["devices", "sync", "security"]
 ---
@@ -71,6 +71,10 @@ Myne does not yet show a key-change or owner-confirmed-relink state on the membe
 ## Removing a member
 
 Only the owner can remove a member. Removing someone rotates the vault's keys, so they no longer receive future changes, and the server stops accepting their access.
+
+The remaining members pick up the new key on their next sync or unlock. If a member's device was offline through the removal, it keeps working from the key it had and catches up the first time it reaches the server; nothing has to be re-invited or re-enrolled. A member's stored shared-vault password, PIN or biometric still unlocks after a rotation, so they are not sent back to the recovery phrase.
+
+Notes and attachments a member wrote while offline are moved to the new key on that same catch-up, before the new key is installed, so content that never reached the server also survives the removal. That step is what makes removal safe for a member who was working offline; it is not a way to keep access, because the old key no longer opens anything the owner writes afterwards.
 
 ## Limits
 

@@ -1,7 +1,7 @@
 ---
 title: "Add a device"
 category: "sync-and-devices"
-updated: 2026-10-18
+updated: 2026-10-19
 summary: "Connect another device to your account and approve it. Covers the beta terms, joining from a fresh device or one that already holds the vault, naming the device, pairing by a QR code, comparing a verification code, what Myne says when the server refuses an enrolment, and a member's second device joining from the recovery phrase alone."
 tags: ["devices", "sync", "recovery"]
 ---
@@ -27,7 +27,7 @@ Choose **I understand, turn on sync** to continue, or **Cancel** to leave it for
 
 There are two starting points, depending on whether the device already has your vault:
 
-- **A fresh device with no vault.** On the welcome screen, choose **Add this device to an account**. Enter the sync server URL, your account number, and your password. **Name this device** comes filled in with a suggestion based on the kind of machine you are on — edit it or leave it; it is the name your other devices show in their device list, and you can rename it later. Myne fetches your encrypted vault from the server, unlocks it, and connects the device. This path does not need your recovery phrase.
+- **A fresh device with no vault.** On the welcome screen, choose **Add this device to an account**. Enter the sync server URL and your account number, then sign in with either your **password** or your **recovery phrase** (a 24-cell grid; you can paste all 24 words at once to distribute them). **Name this device** comes filled in with a suggestion based on the kind of machine you are on. Edit it or leave it; it is the name your other devices show in their device list, and you can rename it later. Myne fetches your encrypted vault from the server and connects the device. The password path then waits for a device that already has access to approve it. The recovery phrase is the door for when there is no such device left: it adds this device without approval and then asks you to set a new password, because the phrase is the key you use when you may not know the old one.
 - **A device that already has the vault.** Open **Settings → Sync**. If the device is not yet a member of the account, an **Add a device** section appears. Enter your account number, then sign in with either your **password** or your **recovery phrase** (a 24-cell grid — you can paste all 24 words at once to distribute them). This form carries the same **Name this device** field, with the same suggestion and the same note that you can change it later.
 
 As you type your account number, Myne formats it for you (grouping and the `MY-` prefix), so you can type or paste it in whatever form you have it.
@@ -65,6 +65,8 @@ On a device that already has access:
 4. If the codes match, choose **They match**. If they do not, choose **They don't match**. That does not remove the device on the spot: it opens the same confirmation every removal on this panel goes through, headed "Remove this device from sync?" and restating what removal does and does not do. Confirm there to remove it. A mismatch can mean the server tried to seat a device you did not add, so do not leave one unresolved.
 
 You do not have to do the comparison in the moment. Every device in the list other than the one you are using carries a **Compare code** action that brings the same verification screen back, so a comparison you postponed is still available later. If the code is not ready yet — the new device has not finished its first exchange with the server — the screen says so and fills in as soon as it is.
+
+If the device that would approve this one is gone, you are not stuck on the wait. The waiting screen offers **Use my recovery phrase**: confirm with the phrase there and this device completes the same join without approval from anyone else, keeping the password you typed a moment earlier. Use it when the approval is not coming; the phrase is full access to the account, so treat that prompt the way you treat the phrase itself.
 
 While a verification screen is open, Myne holds this device's pushes so the value both screens read stands still. If it moves anyway, because another device pushed or because the screen was left open too long, the screen says so rather than swapping the code under you: "The code changed while you were looking. Compare both screens again. If it keeps changing, stop and do not continue." The same line appears on both ends of the compare. Looking until two screens happen to agree is not a comparison, so start again from the code each screen shows now.
 

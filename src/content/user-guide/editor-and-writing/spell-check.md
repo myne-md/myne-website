@@ -1,7 +1,7 @@
 ---
 title: "Spell check"
 category: "editor-and-writing"
-updated: 2026-10-18
+updated: 2026-10-19
 summary: "Misspelled words are underlined as you type by a fully offline checker that never sends your notes anywhere. Right-click a word for suggestions, add words to a personal dictionary, and choose from 22 bundled languages."
 tags: ["editor", "settings", "privacy"]
 ---
@@ -22,7 +22,7 @@ A word is treated as correct if it is valid in **any** of the languages you have
 
 To act on a flagged word, right-click it, or place your cursor inside it and press `⌘.` (or `Ctrl .`). A small menu opens next to the word with up to five ranked suggestions at the top, followed by three actions that are always present:
 
-- **Add to dictionary** adds the word to your personal dictionary so it is never flagged again in this vault. The personal dictionary is stored encrypted inside the vault.
+- **Add to dictionary** adds the word to your personal dictionary so it is never flagged again in this vault. The personal dictionary is stored encrypted inside the vault, and it follows the vault: with sync on, a word you add here is added on your other devices too (see [Where the dictionary lives](#where-the-dictionary-lives)).
 - **Ignore in this vault** silences the squiggle on that word and remembers the choice, without asserting that the word is spelled correctly. Use it for a name or term you do not want in your dictionary but do not want underlined either.
 - **Ignore this session** silences the word only until you close the app. It is held in memory and never written anywhere.
 
@@ -36,9 +36,17 @@ Below it, a searchable **Languages** picker lets you select one or more of the 2
 
 Dictionaries are loaded only when a language is active, and they are bundled with the app — there is no language pack to download at any point. Adding more languages widens what counts as correct rather than narrowing it, because the languages are pooled.
 
+## Where the dictionary lives
+
+The personal dictionary and the vault-wide ignore set are stored inside the vault, encrypted, in `vault.dictionary`. That means they travel with it: with sync turned on, a word you add on one device arrives on the others, and a removal propagates the same way, usually within one sync round. A word you removed is remembered as removed even when no device still holds it, so it cannot creep back from a device that was offline when you deleted it.
+
+On a **shared vault** there is one dictionary for everyone: a word you add or ignore applies to every member, and a word another member adds is correct on your device too. The words stay inside the encrypted vault, so the sync server only ever holds ciphertext, but the other members can read them, the same as they can read the notes.
+
+If you reinstall an older build that predates dictionary sync, it will not read the newer dictionary: it leaves the file alone and treats the dictionary as unavailable until you update again. Nothing is deleted.
+
 ## Limits
 
-The checker is fully local. There is no network call, and the operating system's own speller and any cloud speller are never used — the decrypted text of your note stays inside the Rust core, which is the same posture as full-text search. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
+The checker is fully local. There is no network call, and the operating system's own speller and any cloud speller are never used — the decrypted text of your note stays inside the Rust core, which is the same posture as full-text search. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it. With sync on, the encrypted dictionary is part of what syncs.
 
 Words you add to your personal dictionary and words you ignore for the whole vault are stored encrypted at rest, inside the vault, and are held in memory only while the vault is unlocked; they are cleared from memory when you lock. A word you ignore for the session only is kept in memory and is never written to disk. Because dictionaries ship inside the app and are never fetched at runtime, the language you write in is not revealed by a download. None of this is a security feature of the note itself — it is about keeping the speller from leaking your text. How the note is protected is covered in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/).
 

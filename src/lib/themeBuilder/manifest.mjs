@@ -116,11 +116,19 @@ export const GROUPS = [
       { token: "--highlight-blue", label: "Blue" },
       { token: "--highlight-pink", label: "Pink" },
       { token: "--highlight-purple", label: "Purple" },
+      { token: "--highlight-orange", label: "Orange" },
+      { token: "--highlight-red", label: "Red" },
+      { token: "--highlight-teal", label: "Teal" },
+      { token: "--highlight-cyan", label: "Cyan" },
+      { token: "--highlight-lime", label: "Lime" },
+      { token: "--highlight-brown", label: "Brown" },
+      { token: "--highlight-grey", label: "Grey" },
+      { token: "--highlight-indigo", label: "Indigo" },
     ],
   },
 ];
 
-/** Flat list of every token the manifest exposes (all 44, in display order). */
+/** Flat list of every token the manifest exposes (all 52, in display order). */
 export const MANIFEST_TOKENS = GROUPS.flatMap((g) => g.tokens.map((t) => t.token));
 
 /** Tokens that are auto-derived from a base color (shown under "fine-tune"). */

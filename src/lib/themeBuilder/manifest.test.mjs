@@ -8,9 +8,9 @@ const ALIAS_TOKENS = [
   "--bg-1", "--bg-2", "--bg-3", "--fg-1", "--fg-2", "--fg-3", "--fg-display", "--info", "--info-soft",
 ];
 
-test("manifest covers all 44 canonical tokens, each exactly once", () => {
-  assert.equal(MANIFEST_TOKENS.length, 44);
-  assert.equal(new Set(MANIFEST_TOKENS).size, 44);
+test("manifest covers all 52 canonical tokens, each exactly once", () => {
+  assert.equal(MANIFEST_TOKENS.length, 52);
+  assert.equal(new Set(MANIFEST_TOKENS).size, 52);
   assert.deepEqual(new Set(MANIFEST_TOKENS), new Set(ALL_TOKENS));
 });
 

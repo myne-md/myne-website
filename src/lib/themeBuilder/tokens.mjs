@@ -43,15 +43,17 @@ export const LABEL_TOKENS = [
   "--label-clay", "--label-ochre", "--label-moss", "--label-slate", "--label-plum", "--label-stone",
 ];
 
-/** The 5 optional highlight-wash tokens. */
+/** The 13 optional highlight-wash tokens (`--highlight` + 12 siblings; MYND-632). */
 export const HIGHLIGHT_TOKENS = [
   "--highlight", "--highlight-green", "--highlight-blue", "--highlight-pink", "--highlight-purple",
+  "--highlight-orange", "--highlight-red", "--highlight-teal", "--highlight-cyan",
+  "--highlight-lime", "--highlight-brown", "--highlight-grey", "--highlight-indigo",
 ];
 
-/** All 23 optional tokens (author may omit; a dark theme should set them — SYNC-6). */
+/** All 31 optional tokens (author may omit; a dark theme should set them — SYNC-6). */
 export const OPTIONAL_TOKENS = [...SYNTAX_TOKENS, ...LABEL_TOKENS, ...HIGHLIGHT_TOKENS];
 
-/** All 44 authorable tokens (required + optional). Never includes derived aliases. */
+/** All 52 authorable tokens (required + optional). Never includes derived aliases. */
 export const ALL_TOKENS = [...REQUIRED_TOKENS, ...OPTIONAL_TOKENS];
 
 /**
@@ -78,11 +80,14 @@ export const LIGHT_DEFAULTS = {
   "--label-slate": "#46688a", "--label-plum": "#7e4d76", "--label-stone": "#6f6d64",
   "--highlight": "#f3e7c4", "--highlight-green": "#d8e9cf", "--highlight-blue": "#d3e2ee",
   "--highlight-pink": "#efd8e2", "--highlight-purple": "#e2d8ee",
+  "--highlight-orange": "#f2ddc6", "--highlight-red": "#efd3d3", "--highlight-teal": "#cfe6e2",
+  "--highlight-cyan": "#cfe4ea", "--highlight-lime": "#e0ecc4", "--highlight-brown": "#e3d9cd",
+  "--highlight-grey": "#dedcd8", "--highlight-indigo": "#d6d8ee",
 };
 
 /**
  * Canonical DARK palette — the `--_*-dark` source values from
- * colors_and_type.css. Covers all 44 tokens: a dark base MUST set the optionals
+ * colors_and_type.css. Covers all 52 tokens: a dark base MUST set the optionals
  * (they otherwise fall back to LIGHT), so this is the dark-seed source (SYNC-6).
  * @type {Record<string, string>}
  */
@@ -101,6 +106,9 @@ export const DARK_DEFAULTS = {
   "--syntax-tag": "#d99086", "--syntax-meta": "#a59fc4", "--syntax-invalid": "#e88b80",
   "--label-clay": "#d99683", "--label-ochre": "#d4b46a", "--label-moss": "#8cc1a4",
   "--label-slate": "#93b4d6", "--label-plum": "#c79cc0", "--label-stone": "#a8a69d",
-  "--highlight": "#4a3f1e", "--highlight-green": "#2c3d28", "--highlight-blue": "#24384a",
+  "--highlight": "#4f4422", "--highlight-green": "#2c3d28", "--highlight-blue": "#24384a",
   "--highlight-pink": "#46283a", "--highlight-purple": "#392a4c",
+  "--highlight-orange": "#4a3722", "--highlight-red": "#4a2a2a", "--highlight-teal": "#23403c",
+  "--highlight-cyan": "#223a42", "--highlight-lime": "#37411f", "--highlight-brown": "#3d352b",
+  "--highlight-grey": "#37363a", "--highlight-indigo": "#2b2e4d",
 };

@@ -67,4 +67,4 @@ export function helpersForBase(baseToken, baseValue, isDark) {
 
 // Note: dark-theme optional completion (SYNC-6) is handled directly by the
 // preset base-merge in builder.astro (`{ ...DARK_DEFAULTS, ...palette }`), which
-// already sets all 44 tokens — no separate seeding helper is needed.
+// already sets all 52 tokens — no separate seeding helper is needed.

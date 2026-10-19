@@ -5,7 +5,7 @@
  * `meta.json` (name/author/description/license[+appearance] — gallery/share only,
  * never consumed by import). `license` is fixed `CC-BY-4.0` (a no-code user
  * authors an original theme). Values are already hex (native pickers), but
- * theme.json is restricted to the 44 canonical tokens + key-sorted for a
+ * theme.json is restricted to the 52 canonical tokens + key-sorted for a
  * deterministic, diff-friendly artefact.
  *
  * @typedef {import("./tokens.mjs").Palette} Palette

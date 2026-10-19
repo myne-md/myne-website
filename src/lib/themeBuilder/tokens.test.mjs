@@ -21,14 +21,16 @@ const EXPECTED_REQUIRED = [
   "--danger", "--danger-soft", "--warning", "--warning-soft", "--success", "--success-soft",
 ];
 
-// The 23 optional tokens, transcribed from docs/design/colors_and_type.css
-// (:141-152 syntax, :129-134 labels, :116-120 highlights).
+// The 31 optional tokens, transcribed from docs/design/colors_and_type.css
+// (syntax, labels, and the 13-token highlight family grown by MYND-632).
 const EXPECTED_OPTIONAL = [
   "--syntax-keyword", "--syntax-string", "--syntax-comment", "--syntax-number",
   "--syntax-variable", "--syntax-property", "--syntax-function", "--syntax-type",
   "--syntax-operator", "--syntax-tag", "--syntax-meta", "--syntax-invalid",
   "--label-clay", "--label-ochre", "--label-moss", "--label-slate", "--label-plum", "--label-stone",
   "--highlight", "--highlight-green", "--highlight-blue", "--highlight-pink", "--highlight-purple",
+  "--highlight-orange", "--highlight-red", "--highlight-teal", "--highlight-cyan",
+  "--highlight-lime", "--highlight-brown", "--highlight-grey", "--highlight-indigo",
 ];
 
 // The 9 derived semantic aliases that MUST NOT appear in either list — they
@@ -53,8 +55,8 @@ test("REQUIRED_TOKENS is exactly schema.rs REQUIRED_KEYS (21, set-equal)", () =>
   );
 });
 
-test("OPTIONAL_TOKENS is exactly the 23 canonical optional tokens (set-equal)", () => {
-  assert.equal(OPTIONAL_TOKENS.length, 23);
+test("OPTIONAL_TOKENS is exactly the 31 canonical optional tokens (set-equal)", () => {
+  assert.equal(OPTIONAL_TOKENS.length, 31);
   assert.ok(setEqual(asSet(OPTIONAL_TOKENS), asSet(EXPECTED_OPTIONAL)));
 });
 
@@ -67,8 +69,8 @@ test("no derived alias leaks into the authorable token lists", () => {
 });
 
 test("ALL_TOKENS is required + optional, no duplicates", () => {
-  assert.equal(ALL_TOKENS.length, 44);
-  assert.equal(new Set(ALL_TOKENS).size, 44);
+  assert.equal(ALL_TOKENS.length, 52);
+  assert.equal(new Set(ALL_TOKENS).size, 52);
 });
 
 test("LIGHT_DEFAULTS covers every required token with a 6-digit hex", () => {

@@ -1,7 +1,7 @@
 ---
 title: "Run your own sync server"
 category: "sync-and-devices"
-updated: 2026-10-16
+updated: 2026-10-19
 summary: "Bring up the Myne sync server on a machine you control: a pinned container image, a compose file, and a domain. Covers the TLS edge, the policy knobs, the operator panel, sizing, backup, and what operating the server makes you responsible for."
 tags: ["sync", "security", "privacy"]
 ---
@@ -16,44 +16,64 @@ Myne's sync server is open source and ships as a container image, so you can run
 
 ## Bring the server up
 
-The server image is pinned by digest rather than by tag, so the file below resolves to the same bytes on every machine, and this digest is a **multi-architecture manifest list** — it carries a build for `amd64` and one for `arm64`, so the same file works on an ordinary server, a Raspberry Pi and an arm64 cloud instance. **Replace `your.domain` with your own before starting it** — it is the one value there has no default worth having. Save it as `docker-compose.yml`:
+The server image is pinned by digest rather than by tag, so the file below resolves to the same bytes on every machine, and this digest is a **multi-architecture manifest list** — it carries a build for `amd64` and one for `arm64`, so the same file works on an ordinary server, a Raspberry Pi and an arm64 cloud instance. It is the bundle's own `docker-compose.yml`, reproduced here so that this page and the file you actually run cannot drift apart: every tunable is read from the environment with the shipped default beside it, which is why the rest of this page tells you to edit `.env` rather than the file. Save it as `docker-compose.yml`, and copy the annotated `bundle.env.example` beside it as `.env`:
 
 ```yaml
 name: myne-server
 
 services:
   server:
-    image: ghcr.io/myne-md/myne-server@sha256:32991521946c9c29c8c5c4e2ea452729d9eb299cca87be07fe22f83fc3a3a4ce
+    image: ${MYNE_SERVER_IMAGE:-ghcr.io/myne-md/myne-server@sha256:32991521946c9c29c8c5c4e2ea452729d9eb299cca87be07fe22f83fc3a3a4ce}
     restart: unless-stopped
     environment:
       MYNE_SERVER_ADDR: ":8080"
       MYNE_STORAGE_BACKEND: "fs"
       MYNE_STORAGE_PATH: "/data"
-      MYNE_ALLOWED_ORIGINS: ""
-      MYNE_MAX_ACCOUNTS: "1000000"
-      MYNE_QUOTA_CEILING_BYTES: "0"
-      MYNE_RATELIMIT_BURST: "256"
-      MYNE_RATELIMIT_REFILL: "16"
-      MYNE_HORIZON_MARKERS: "120"
-      MYNE_ADMIN_SOCKET: "/tmp/myne-admin.sock"
+      MYNE_MAX_ACCOUNTS: "${MYNE_MAX_ACCOUNTS:-1000000}"
+      MYNE_QUOTA_CEILING_BYTES: "${MYNE_QUOTA_CEILING_BYTES:-0}"
+      MYNE_RATELIMIT_BURST: "${MYNE_RATELIMIT_BURST:-256}"
+      MYNE_RATELIMIT_REFILL: "${MYNE_RATELIMIT_REFILL:-16}"
+      MYNE_HORIZON_MARKERS: "${MYNE_HORIZON_MARKERS:-120}"
+      MYNE_INVITE_CODE: "${MYNE_INVITE_CODE:-}"
+      MYNE_EXTENDED_RETENTION: "${MYNE_EXTENDED_RETENTION:-false}"
+      MYNE_MAX_DEVICES_PER_ACCOUNT: "${MYNE_MAX_DEVICES_PER_ACCOUNT:-0}"
+      MYNE_PREAUTH_RATELIMIT_BURST: "${MYNE_PREAUTH_RATELIMIT_BURST:-64}"
+      MYNE_PREAUTH_RATELIMIT_REFILL: "${MYNE_PREAUTH_RATELIMIT_REFILL:-8}"
+      MYNE_MAX_HANDSHAKES: "${MYNE_MAX_HANDSHAKES:-16384}"
+      MYNE_HANDSHAKE_TTL_SECONDS: "${MYNE_HANDSHAKE_TTL_SECONDS:-60}"
+      MYNE_MAX_ATTACHMENTS_PER_VAULT: "${MYNE_MAX_ATTACHMENTS_PER_VAULT:-100000}"
+      MYNE_AWARENESS_RATELIMIT_BURST: "${MYNE_AWARENESS_RATELIMIT_BURST:-64}"
+      MYNE_AWARENESS_RATELIMIT_REFILL: "${MYNE_AWARENESS_RATELIMIT_REFILL:-16}"
+      MYNE_AWARENESS_MAX_SUBSCRIBERS: "${MYNE_AWARENESS_MAX_SUBSCRIBERS:-64}"
+      MYNE_ADMIN_PANEL_ADDR: "${MYNE_ADMIN_PANEL_ADDR:-}"
+      MYNE_ADMIN_PANEL_HOSTS: "${MYNE_ADMIN_PANEL_HOSTS:-}"
+      MYNE_METRICS_ADDR: "${MYNE_METRICS_ADDR:-}"
+      MYNE_ALLOWED_ORIGINS: "${MYNE_ALLOWED_ORIGINS:-}"
+      MYNE_BACKUP_ENABLED: "${MYNE_BACKUP_ENABLED:-false}"
+      MYNE_BACKUP_REPOSITORY: "${MYNE_BACKUP_REPOSITORY:-}"
+      MYNE_BACKUP_PASSWORD_FILE: "${MYNE_BACKUP_PASSWORD_FILE:-/run/secrets/restic-pass}"
+      MYNE_BACKUP_INTERVAL_SECONDS: "${MYNE_BACKUP_INTERVAL_SECONDS:-86400}"
+      MYNE_BACKUP_RETENTION_DAYS: "${MYNE_BACKUP_RETENTION_DAYS:-14}"
+      MYNE_BACKUP_RCLONE_CONFIG: "${MYNE_BACKUP_RCLONE_CONFIG:-}"
+      MYNE_ADMIN_SOCKET: "${MYNE_ADMIN_SOCKET:-/tmp/myne-admin.sock}"
     volumes:
       - myne-data:/data
     expose:
       - "8080"
 
-  edge:
-    image: caddy:2.8-alpine@sha256:77c07d5ebfa5be9fd6c820d2094ae662c9e7eeb9bf98346b7f639900263ee2a2
+  caddy:
+    image: caddy:2-alpine@sha256:77c07d5ebfa5be9fd6c820d2094ae662c9e7eeb9bf98346b7f639900263ee2a2
     restart: unless-stopped
     depends_on:
       - server
     environment:
-      MYNE_SITE_ADDRESS: "your.domain"
+      MYNE_SITE_ADDRESS: "${MYNE_SITE_ADDRESS:-localhost}"
       MYNE_UPSTREAM: "server:8080"
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${MYNE_CADDYFILE:-./Caddyfile}:/etc/caddy/Caddyfile:ro
       - caddy-data:/data
       - caddy-config:/config
 
@@ -63,7 +83,7 @@ volumes:
   caddy-config:
 ```
 
-The `edge` service is a reverse proxy that terminates TLS, and it is where the domain lives. It publishes both web ports; the server publishes none of its own, so the only way in is through the edge. The two volumes it keeps are Caddy's certificates and its own configuration, and losing them means the next start re-requests a certificate.
+The `caddy` service is a reverse proxy that terminates TLS, and it is where the domain lives: it reads `MYNE_SITE_ADDRESS` from `.env`, so that is the one value worth setting before the first start (`localhost` is only the default for a local experiment). It publishes both web ports; the server publishes none of its own, so the only way in is through the proxy. The two volumes it keeps are Caddy's certificates and its own configuration, and losing them means the next start re-requests a certificate.
 
 Save this as `Caddyfile` beside the compose file:
 
@@ -127,7 +147,7 @@ Whatever you use, TLS still has to be a certificate a public authority issued fo
 
 ### Without a public domain
 
-If you have no domain to point here, add one line inside the site block, directly under the opening brace:
+If you have no domain to point here, the bundle ships a second profile for exactly this: set `MYNE_CADDYFILE=./Caddyfile.internal` in `.env` and the proxy issues a certificate from its own local authority instead of asking a public one, so nothing has to reach the internet. Save `bundle/Caddyfile.internal` beside the compose file as `Caddyfile.internal` when you do. The same change by hand is one line inside the site block, directly under the opening brace:
 
 ```caddyfile
 {$MYNE_SITE_ADDRESS:localhost} {
@@ -136,7 +156,7 @@ If you have no domain to point here, add one line inside the site block, directl
 }
 ```
 
-`tls internal` makes the edge issue a certificate from its own local authority instead of asking a public one, so nothing has to reach the internet. The cost is that Myne's desktop and mobile clients will not accept that certificate: it does not chain to a public authority, so the connection is refused. Use the internal profile only behind a proxy that terminates TLS with a public certificate, or for a browser you have told to trust the local authority. The native clients cannot use it.
+The cost is the same either way: Myne's desktop and mobile clients will not accept that certificate, because it does not chain to a public authority, so the connection is refused. Use the internal profile only behind a proxy that terminates TLS with a public certificate, or for a browser you have told to trust the local authority. The native clients cannot use it.
 
 ### Then start it
 

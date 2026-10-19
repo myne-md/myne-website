@@ -23,9 +23,14 @@ name: myne-web
 
 services:
   app:
-    image: ghcr.io/myne-md/myne-web:0.8.0
-    # Only needed on an ARM host. The published images are linux/amd64.
+    image: ghcr.io/myne-md/myne-web:v0.8.1
+    # The same release the Helm chart below installs (its `--version` and this tag
+    # move together; both are published tags, and the chart's `values.yaml` is what
+    # says which one is current). A stale tag here is the quiet kind of drift: the
+    # compose path and the Kubernetes path would be serving different builds of the
+    # same product, and nothing on either path would say so.
     platform: linux/amd64
+    # Only needed on an ARM host. The published images are linux/amd64.
     restart: unless-stopped
     environment:
       MYNE_SYNC_ORIGIN: "https://sync.your.domain"

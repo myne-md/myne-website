@@ -1,7 +1,7 @@
 ---
 title: "Managing devices"
 category: "sync-and-devices"
-updated: 2026-10-13
+updated: 2026-10-16
 summary: "View the devices on your account, rename one, and remove one. Covers the device list, the Vault members panel and what each shows, what removal really does (it revokes sync access, never a remote wipe), how removing a device differs from removing a member, resetting sync locally, and the recovered notes kept when a deletion arrives by sync."
 tags: ["devices", "sync", "security"]
 ---
@@ -12,7 +12,7 @@ tags: ["devices", "sync", "security"]
 
 ## The device list
 
-Under **Settings → Sync → Devices**, you see:
+Under **Settings → Sync → Devices and members**, in the **Devices** section, you see:
 
 - **Your devices**: the approved devices on the account. The one you are using is marked **This device**. Each shows an editable name, which it was given when it was added; a device enrolled before names existed falls back to a short name derived from its identifier. The **Rename** action on a row turns the name into an editable field in place: Enter saves it, Esc cancels. A device's name is also what labels its revisions in a note's [version history](/user-guide/safety-and-recovery/note-snapshots/), where a device you have not named shows a short code instead.
 - **Awaiting approval**: devices that have connected with a password and are waiting for an existing device to approve them. Approving one starts the verification-code compare described in [Add a device](/user-guide/sync-and-devices/add-a-device/).
@@ -52,7 +52,7 @@ If this device was removed from your account on another device, its sync will st
 
 ## Recovered notes
 
-When a note you deleted on another device is removed here to match, Myne keeps this device's encrypted copy under **Settings → Sync → Recovered notes** instead of discarding it, so a deletion that reached you by sync is not the last word. Each entry offers **Preview** to read it, **Restore** to bring it back as a new note, and **Delete** to remove it for good.
+When a note you deleted on another device is removed here to match, Myne keeps this device's encrypted copy under **Settings → Sync → Conflicts**, in **Recovered notes**, instead of discarding it, so a deletion that reached you by sync is not the last word. Each entry offers **Preview** to read it, **Restore** to bring it back as a new note, and **Delete** to remove it for good.
 
 Deleting a recovered note is permanent. It is the only copy kept on this device, it does not go to Trash, and it cannot be undone — Myne says so in the confirmation before you commit.
 

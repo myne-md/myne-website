@@ -1,7 +1,7 @@
 ---
 title: "Files"
 category: "settings-and-privacy"
-updated: 2026-10-15
+updated: 2026-10-16
 summary: "The Files panel sets which file opens when Myne starts, where new notes are placed, whether folder notes are on, whether imported images are compressed, and whether text is read out of image and scanned-PDF attachments for search. A startup file other than the last-opened one never overwrites your saved workspace layout."
 tags: ["settings", "notes", "folders", "attachments"]
 ---
@@ -51,6 +51,8 @@ The **Compress images on import** control decides whether an image you paste or 
 ## Search inside images and scanned documents
 
 The **Search inside images and scanned documents** control decides whether Myne reads text out of image attachments and scanned PDFs so search can find them by their contents. It is on by default and runs on your device — nothing is uploaded. This is a device-local choice: turning it off here stops the background extraction and the extraction that runs when you import a file, but does not change the setting on your other devices. Text already extracted is kept, so turning it back on resumes rather than starts over. See [Search](/user-guide/find-and-connect/search/) for how attachment text is folded into search results.
+
+On a phone, the same control sits in **Settings → Data**, beside the export action, because the phone app has no Files panel. It is device-local there too: the device that does the reading is the one that owns the switch, so turning it off on a phone stops that phone's extraction and leaves your computer's choice alone.
 
 ## Limits
 

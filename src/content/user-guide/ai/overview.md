@@ -25,7 +25,7 @@ AI ships in the standard build but stays off until you enable it. The **AI** pan
 Three things are true at the same time, and each one matters:
 
 - Nothing is sent anywhere until you name a provider, and the default is none. Myne fetches a model only when you ask it to, from its own origin, and the fetch carries no note content.
-- Where a request runs is the choice you made: a model file on this computer, a runtime program on this computer, or a remote provider. Myne states which one is in effect in the AI settings panel, and the AI Chat tab's header carries the provider's name whenever a provider is answering. Individual answers are not labelled. The surfaces that fire without you asking never reach a remote provider at all.
+- Where a request runs is the choice you made: a model file on this computer, a runtime program on this computer, or a remote provider. Myne states which one is in effect in the AI settings panel, and the AI Chat tab's header carries the provider's name whenever a provider is answering. Each answer in the transcript also carries its own line naming the backend that produced it, written when that answer was produced. The surfaces that fire without you asking never reach a remote provider at all.
 - The model Myne runs itself runs inside the Myne app process, which holds your decrypted notes and keys. It is not sandboxed from them. A model file you download is untrusted input, and Myne does not vouch for it.
 
 That third point is the boundary of the guarantee. It is covered plainly in [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/), and it does not exceed what the rest of Myne already tells you in the [privacy model](/user-guide/settings-and-privacy/privacy-model/).

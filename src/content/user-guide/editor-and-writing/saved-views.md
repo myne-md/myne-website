@@ -1,8 +1,8 @@
 ---
 title: "Saved views"
 category: "editor-and-writing"
-updated: 2026-08-24
-summary: "Views are off by default; turn them on in Settings → Editor, then save a filtered, projected slice of your notes behind the sidebar's Views entry: build a condition filter, render matching notes as cards, a table, or a list, set a cover image, and import Obsidian Bases views. A view is a read-only projection, not a database."
+updated: 2026-10-16
+summary: "Views are off by default; turn them on in Settings → Editor → Features, then save a filtered, projected slice of your notes behind the sidebar's Views entry: build a condition filter, render matching notes as cards, a table, or a list, set a cover image, and import Obsidian Bases views. A view is a read-only projection, not a database."
 tags: ["notes", "search", "folders"]
 ---
 
@@ -12,7 +12,7 @@ A saved view is a filtered, projected slice of your notes that you can return to
 
 ## Turning views on
 
-Views are off by default. Open **Settings → Editor** and turn on **Views** — the helper line reads "Show the Views entry in the sidebar for saving filtered note lists. Off by default; on if you already have views." If your vault already has saved views, the entry shows without you turning anything on. The setting is stored on this device only, so each device decides for itself.
+Views are off by default. Open **Settings → Editor → Features** and turn on **Views**. The helper line reads "Show the Views entry in the sidebar for saving filtered note lists. Off by default; on if you already have views." If your vault already has saved views, the entry shows without you turning anything on. The setting is stored on this device only, so each device decides for itself.
 
 ## The Views entry and its flyout
 

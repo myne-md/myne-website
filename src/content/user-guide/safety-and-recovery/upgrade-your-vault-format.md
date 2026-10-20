@@ -1,7 +1,7 @@
 ---
 title: "Upgrade your vault format"
 category: "safety-and-recovery"
-updated: 2026-08-24
+updated: 2026-10-16
 summary: "How the one-time upgrade to Myne's new vault format works, who still has a vault to upgrade, why it asks for your recovery phrase as well as your password, how to finish it or put the old vault back, and what changes about snapshots, backups and sync afterwards."
 tags: ["vault", "recovery", "backup", "sync"]
 ---
@@ -36,7 +36,7 @@ A wrong phrase is a refusal, not a half-done upgrade: **That recovery phrase did
 ## Running the upgrade
 
 1. Make a backup, if you have not already.
-2. Open **Settings → Sync** and find the **Migrate** block. If there is no such block, this vault is already on the newer format and there is nothing to do here.
+2. Open **Settings → Sync → Connection** and find the **Migrate** block. If there is no such block, this vault is already on the newer format and there is nothing to do here.
 3. Enter your **Master password** and your **Recovery phrase**. Both are required before the button becomes available.
 4. Choose **Migrate**. While it runs, a counter beside the button reports how many items of the total have been re-encrypted. Leave the app open.
 5. When it finishes, the counter stops and Myne returns you to the unlock screen, closing Settings with it. There is no completion message to read. That is expected: the keys the vault was open under no longer exist. Unlock again with the same password, or the same recovery phrase — neither credential changed.
@@ -45,7 +45,7 @@ If it cannot run, Myne says which of four things happened, and in each case the 
 
 ## Finishing it, or putting the old vault back
 
-After you unlock again, **Settings → Sync** shows a block that was not there before:
+After you unlock again, **Settings → Sync → Connection** shows a block that was not there before:
 
 > Your vault was upgraded. The old copy is still on this device until you finish up. Until then, changing your password won't lock it away.
 
@@ -64,7 +64,7 @@ Until you pick one, nothing is lost either way — the upgrade is simply unsettl
 - **Backups carry more than they used to.** Because a note's history lives inside the note, a backup of an upgraded vault contains every past revision of every note, not only the note as it stands. See [Back up your vault](/user-guide/safety-and-recovery/back-up-your-vault/).
 - **Conflicts become merges.** A note edited on two devices merges by itself and raises a quiet **Updated from another device** notice, instead of appearing in the Conflicts list. See [Resolving conflicts](/user-guide/sync-and-devices/resolving-conflicts/).
 - **Your other devices re-derive their keys.** Each one shows **This vault was upgraded to the new format on another device. Unlock again to continue. Nothing was lost.** and unlocks normally afterwards.
-- **Quick unlock is switched off on this device.** The PIN or Touch ID credential wrapped the old key, so the upgrade removes it. Set it up again from **Settings → Privacy** if you want it. See [Quick unlock with a PIN or Touch ID](/user-guide/settings-and-privacy/quick-unlock/).
+- **Quick unlock is switched off on this device.** The PIN or Touch ID credential wrapped the old key, so the upgrade removes it. Set it up again from **Settings → Privacy → Locking** if you want it. See [Quick unlock with a PIN or Touch ID](/user-guide/settings-and-privacy/quick-unlock/).
 - **Rebuilt things rebuild.** The search index and the other on-device caches are rebuilt after the upgrade, so the first unlock does some extra work.
 - **Your attachments keep their identity.** Links to attachments in your notes are not rewritten and do not break.
 

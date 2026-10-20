@@ -1,7 +1,7 @@
 ---
 title: "View modes"
 category: "editor-and-writing"
-updated: 2026-08-24
+updated: 2026-10-16
 summary: "Switch a note tab between Live preview, Reading, and Source over the same bytes, set the default new-tab mode, and open a side-by-side read-only preview beside Source."
 tags: ["editor", "workspace"]
 ---
@@ -30,11 +30,11 @@ Each tab remembers its own mode, so two tabs of different notes can sit in diffe
 
 ## Setting the default view mode
 
-To choose which mode new tabs open in, go to **Settings → Editor → Default view mode** and pick one of the segmented options: **Live preview**, **Reading**, or **Source**. The helper text reads: "How a note opens: Live preview (default), read-only Reading, or raw Source. Toggle a note with ⇧⌘E." The command palette reaches the same preference: **Cycle default view mode**, in the **Editor** category, steps it through Live preview, Reading, and Source without opening Settings.
+To choose which mode new tabs open in, go to **Default view mode** under **Settings → Editor → Editing** and pick one of the segmented options: **Live preview**, **Reading**, or **Source**. The helper text reads: "How a note opens: Live preview (default), read-only Reading, or raw Source. Toggle a note with ⇧⌘E." The command palette reaches the same preference: **Cycle default view mode**, in the **Editor** category, steps it through Live preview, Reading, and Source without opening Settings.
 
 This sets the starting mode for tabs you open from now on. Tabs that are already open keep whatever mode they are in: changing the default does not reach back and re-mode them.
 
-One setting elsewhere changes the starting mode without you picking it here. While **Vim keyboard mode** is on (it lives in **Settings → Editor** and appears once Developer mode is on), a note opens in Source unless you have chosen a **Default view mode** yourself. Live preview hides the markdown characters vim's motions still count, so raw source is the honest surface to move around in. The setting says so itself: "Notes open in source view while this is on." An explicit **Default view mode** wins in either direction, and a tab's own mode wins over both.
+One setting elsewhere changes the starting mode without you picking it here. While **Vim keyboard mode** is on (it lives in **Settings → Editor → Editing** and appears once Developer mode is on), a note opens in Source unless you have chosen a **Default view mode** yourself. Live preview hides the markdown characters vim's motions still count, so raw source is the honest surface to move around in. The setting says so itself: "Notes open in source view while this is on." An explicit **Default view mode** wins in either direction, and a tab's own mode wins over both.
 
 ## Side-by-side preview while editing source
 

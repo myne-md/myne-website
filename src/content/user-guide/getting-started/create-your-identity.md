@@ -16,7 +16,7 @@ Myne has no email and no account sign-up. The way someone reaches you is not an 
 
 Set the address and press **Connect**. If the server uses `https`, Myne checks its certificate against the public certificate authorities and checks the server name, automatically and on every connection; there is no fingerprint to compare. A self-hosted server and a hosted one are the same trust boundary to Myne, and your notes are encrypted on your device before they leave it either way. The server stores ciphertext.
 
-If you would rather not use a server at all, choose **Create a local vault instead** on the first screen. You get a normal vault with no identity, and nothing leaves your device. You can add an identity whenever you want later, from **Settings → Sync**.
+If you would rather not use a server at all, choose **Create a local vault instead** on the first screen. You get a normal vault with no identity, and nothing leaves your device. You can add an identity whenever you want later, from **Settings → Sync → Connection**.
 
 ## The identity phrase
 
@@ -40,7 +40,7 @@ A shared vault you join is unlocked with your **identity phrase**, never with a 
 
 ## Adding an identity later
 
-If you started with a local vault and no identity, open **Settings → Sync**. An **Identity** block offers **Add an identity**; it runs the same setup described above, including the server step. Existing vaults you already have are not disturbed, and Myne never prompts you to add an identity to a vault you did not ask it to.
+If you started with a local vault and no identity, open **Settings → Sync → Connection**. An **Identity** block offers **Add an identity**; it runs the same setup described above, including the server step. Existing vaults you already have are not disturbed, and Myne never prompts you to add an identity to a vault you did not ask it to.
 
 ## In a browser
 

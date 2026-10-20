@@ -24,7 +24,7 @@ Type your master password and confirm. Myne derives your keys from the password 
 
 ### Quick unlock after auto-lock
 
-If you turn on quick unlock, the Unlock screen leads with a faster re-entry option after the vault auto-locks: a PIN, or Touch ID on macOS. It shows one credential at a time — a **Use password instead** link switches to the master-password form, and a matching link switches back, so you can still type your password instead. Quick unlock is off until you enable it from Settings → Privacy. With a PIN, the master password is required again after you restart the app; a configured Touch ID credential can be used on a cold start, because macOS's own biometric prompt guards it. Touch ID is macOS-only and the app marks it experimental. See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/) for how to set it up and what it does and does not protect.
+If you turn on quick unlock, the Unlock screen leads with a faster re-entry option after the vault auto-locks: a PIN, or Touch ID on macOS. It shows one credential at a time: a **Use password instead** link switches to the master-password form, and a matching link switches back, so you can still type your password instead. Quick unlock is off until you enable it from Settings → Privacy → Locking. With a PIN, the master password is required again after you restart the app; a configured Touch ID credential can be used on a cold start, because macOS's own biometric prompt guards it. Touch ID is macOS-only and the app marks it experimental. See [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/) for how to set it up and what it does and does not protect.
 
 ### The links under the password field
 

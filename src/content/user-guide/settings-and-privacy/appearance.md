@@ -1,7 +1,7 @@
 ---
 title: "Appearance"
 category: "settings-and-privacy"
-updated: 2026-08-30
+updated: 2026-10-16
 summary: "How to switch between the light, dark, AMOLED and system themes, set a custom accent color, import and export custom themes, install a theme from the Themes page, and how the app's appearance behaves while the vault is locked."
 tags: ["settings"]
 ---
@@ -22,7 +22,7 @@ This one is stored on this device rather than in the vault, so it does not follo
 
 ### Custom themes
 
-A **Custom theme** lets you use your own color palette instead of the built-in Light or Dark. Open **Settings → Appearance → Custom themes**:
+A **Custom theme** lets you use your own color palette instead of the built-in Light or Dark. Open **Settings → Appearance → Display** and find **Custom themes**:
 
 - **Import theme…** picks a `.json` theme file and adds it to the list after checking it.
 - **Browse themes** opens Myne's themes page in your browser.
@@ -50,8 +50,8 @@ A few things worth knowing:
 
 Appearance now holds purely-visual controls. Note-authoring settings that used to live here have moved to the new **Editor** panel:
 
-- **Periodic notes** setup, meaning the folder each period's notes go in, the format for their titles and their templates, is now under **Settings → Editor**. What periodic notes are and how to open the current one is covered in [Periodic notes](/user-guide/notes-and-organization/periodic-notes/).
-- **Spell check** — the toggle and language picker — is also under **Settings → Editor**, described in [Spell check](/user-guide/editor-and-writing/spell-check/).
+- **Periodic notes** setup, meaning the folder each period's notes go in, the format for their titles and their templates, is now under **Settings → Editor → Periodic notes**. What periodic notes are and how to open the current one is covered in [Periodic notes](/user-guide/notes-and-organization/periodic-notes/).
+- **Spell check** (the toggle and language picker) is also under **Settings → Editor → Writing**, described in [Spell check](/user-guide/editor-and-writing/spell-check/).
 
 The Editor panel is also where the editor's typography presets live — text size, line spacing, content width, and the editor font. Those are covered in [Editor display](/user-guide/editor-and-writing/editor-display/).
 

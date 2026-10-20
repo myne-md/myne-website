@@ -1,7 +1,7 @@
 ---
 title: "Focus mode"
 category: "editor-and-writing"
-updated: 2026-08-24
+updated: 2026-10-16
 summary: "Fade the chrome and center the writing column for distraction-free writing, with optional typewriter scroll and dimmed inactive lines. Focus mode is an in-app fade, never OS fullscreen."
 tags: ["editor", "settings"]
 ---
@@ -27,13 +27,13 @@ The command palette and Settings open over focus mode and return to it when you 
 
 Typewriter scroll keeps the line you are editing vertically centered in the window as you type, so your eyes stay in one place instead of drifting toward the bottom of the screen. It is active only while focus mode is on, and it follows the keyboard caret: typing or moving the cursor with the arrow keys re-centers the view, while a mouse click places the cursor where you aimed without moving the viewport.
 
-Typewriter scroll is on by default. To change it, open **Settings → Editor** and toggle **Focus mode · typewriter scroll**. The setting's helper line reads: "In focus mode (⇧⌘F), keep the active line vertically centered as you type." If your system is set to reduce motion, Myne honors that.
+Typewriter scroll is on by default. To change it, open **Settings → Editor → Editing** and toggle **Focus mode · typewriter scroll**. The setting's helper line reads: "In focus mode (⇧⌘F), keep the active line vertically centered as you type." If your system is set to reduce motion, Myne honors that.
 
 ## Dimming inactive lines
 
 Dimming fades every line except the one your cursor is on, so the line you are working on stands out. Like typewriter scroll, it applies only while focus mode is active. It is a single static change in how dim the other lines look — never an animated pulse — and it respects a reduce-motion system setting.
 
-Dimming inactive lines is on by default. To change it, open **Settings → Editor** and toggle **Focus mode · dim inactive lines**. The setting's helper line reads: "In focus mode (⇧⌘F), dim every line except the one you're editing." Either aid can also be flipped from the command palette without leaving focus mode: **Toggle typewriter scrolling** and **Toggle dim inactive lines**, both in the **Editor** category.
+Dimming inactive lines is on by default. To change it, open **Settings → Editor → Editing** and toggle **Focus mode · dim inactive lines**. The setting's helper line reads: "In focus mode (⇧⌘F), dim every line except the one you're editing." Either aid can also be flipped from the command palette without leaving focus mode: **Toggle typewriter scrolling** and **Toggle dim inactive lines**, both in the **Editor** category.
 
 ## Limits
 

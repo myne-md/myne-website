@@ -40,7 +40,7 @@ The shared vault then unlocks as a member. You keep your own credentials, and yo
 
 ## Your name in the member list
 
-Every row of the **Vault members** panel (Settings → Sync) follows one rule: the name when that member has one, the short fingerprint when they do not, and the role badge either way. A row with no name is still identified, just less usefully, which is why the name step is part of accepting.
+Every row of the **Vault members** panel (Settings → Sync → Devices and members) follows one rule: the name when that member has one, the short fingerprint when they do not, and the role badge either way. A row with no name is still identified, just less usefully, which is why the name step is part of accepting.
 
 A name is **per vault**, not per person. The same person can be called one thing in your vault and something else in another they belong to, and nothing about it follows them between vaults. Your own name syncs to the other members, so they see it without you telling them.
 
@@ -54,7 +54,7 @@ When you and another member have the same note open at the same time, you see ea
 
 The password you chose when you accepted is stored on this device only, and it is not the owner's password. On a later start the Unlock screen says the vault is shared with you and asks for the password you set here. Your recovery phrase still opens the vault anywhere, and on a new device the password has to be set again.
 
-To change that password, replace it with a PIN or a device biometric, or remove it and go back to the phrase, use **Settings → Privacy → Shared vault unlock**. If you accepted an invite before that step existed, the vault asks for your recovery phrase every time until you set one, and the row says so. The stored copy also carries your identity, so a leaked shared-vault password would open your identity in your other vaults too; leave it off if a stolen device is part of your threat model.
+To change that password, replace it with a PIN or a device biometric, or remove it and go back to the phrase, use **Settings → Privacy → Locking → Shared vault unlock**. If you accepted an invite before that step existed, the vault asks for your recovery phrase every time until you set one, and the row says so. The stored copy also carries your identity, so a leaked shared-vault password would open your identity in your other vaults too; leave it off if a stolen device is part of your threat model.
 
 ## Unlocking your identity on a device
 

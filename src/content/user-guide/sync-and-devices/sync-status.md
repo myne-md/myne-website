@@ -1,7 +1,7 @@
 ---
 title: "Reading sync status"
 category: "sync-and-devices"
-updated: 2026-09-29
+updated: 2026-10-16
 summary: "How to read the sync status indicator and the banners: the coloured status dot, the named failure states including a certificate that could not be verified, the manual sync-now action, the first-sync download count, the banner that appears once sync has been failing for days, and the honest integrity alert when Myne rejects out-of-date or altered data."
 tags: ["sync", "security"]
 ---
@@ -12,7 +12,7 @@ Sync surfaces its state in one place and a few banners. The status indicator in 
 
 ## The status indicator
 
-Under **Settings → Sync → Sync status**, a coloured dot and a short label show the current state:
+Under **Settings → Sync → Connection**, in **Sync status**, a coloured dot and a short label show the current state:
 
 - **Sync off** — no server is configured. Nothing syncs.
 - **Not enrolled** — a server is set, but this device is not yet a member of the account. Add it (see [Add a device](/user-guide/sync-and-devices/add-a-device/)).

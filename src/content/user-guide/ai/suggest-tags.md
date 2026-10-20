@@ -12,15 +12,15 @@ With AI on and the tag switch turned on, Myne can suggest topical [tags](/user-g
 
 - An unlocked vault, and a note open in the editor.
 - AI enabled — see [Turning on AI](/user-guide/ai/turning-on-ai/).
-- **Suggest tags automatically** turned on in Settings → Developer → AI.
+- **Suggest tags automatically** turned on in Settings → Developer → AI → Models.
 
 Tag suggestion uses its own small model, separate from the text model you use for chat and writing. By default Myne fetches it once from its own origin; under **Models** you can also point the tag row at a file you already have, with Developer mode on.
 
 ## Turning it on
 
-Open Settings → Developer → AI and turn on **Suggest tags automatically**. It is off by default, and it sits under **Enable AI features**, so it does nothing while AI is off.
+Open Settings → Developer → AI → Models and turn on **Suggest tags automatically**. It is off by default, and it sits under **Enable AI features**, so it does nothing while AI is off.
 
-If the tag model is not installed yet, the switch is off and the panel says so: no tag model is installed yet, download it once from Settings → Developer → AI, and the switch turns on by itself once it is installed.
+If the tag model is not installed yet, the switch is off and Myne tells you so in the panel. The model has a row of its own under **Outsourced models** on the **Models** tab, and Myne's copy is fetched from **Verified downloadable models** on the same tab; either way the switch turns on by itself once a model is there, without a restart.
 
 ## Getting suggestions
 

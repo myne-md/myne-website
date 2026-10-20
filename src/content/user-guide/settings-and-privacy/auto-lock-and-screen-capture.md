@@ -1,12 +1,12 @@
 ---
 title: "Auto-lock and screen-capture protection"
 category: "settings-and-privacy"
-updated: 2026-08-24
+updated: 2026-10-16
 summary: "How auto-lock closes your vault after a period of inactivity, the durations you can choose, and what screen-capture protection actually reaches: it is effective on recent Windows, and nothing is claimed for it on macOS, on Linux, or in a browser."
 tags: ["security", "privacy", "settings"]
 ---
 
-The Privacy panel has two controls that protect an open vault: auto-lock, which closes it after you step away, and screen-capture protection, which keeps other apps from recording the Myne window.
+The Privacy panel has two controls that protect an open vault: auto-lock, which closes it after you step away, and screen-capture protection, which keeps other apps from recording the Myne window. On a computer the two sit on different tabs of the panel: screen-capture protection on **Access**, auto-lock on **Locking**.
 
 ![The Privacy settings panel showing the auto-lock duration and screen-capture protection toggle.](./auto-lock-and-screen-capture.png)
 

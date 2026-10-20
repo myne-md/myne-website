@@ -60,7 +60,7 @@ enforce it, so it is a g2-review item.
 |---|---|---|
 | `.myne-backup` export/restore | **backup**, **restore** (restore = from a backup, only) | "archive", "snapshot" for a backup; "restore" for the phrase flow |
 | Per-note version history | **snapshot** — and wherever an upgraded vault is in scope, say it is the *older* format's version history | "backup", "version backup" |
-| Remote AI service the user names | **provider** (UI label: **Remote provider**) | "cloud AI", "the AI backend", "the API" |
+| Remote AI service the user names | **provider** (UI label on a computer: **Choose provider**, a dropdown whose first option is **On this device**; a phone still labels its section **Remote provider**, with **None** as the default) | "cloud AI", "the AI backend", "the API" |
 | Model runtime on the same machine | **local model runtime** (UI label: **Local model runtime**) | "local server", bare "local provider", "localhost AI" |
 | Advanced-settings reveal | **Developer mode** (UI: Settings → About → Developer mode) | "advanced mode"; and never describe it as a security boundary — it hides settings, it does not disable anything |
 | Terminal client access toggle | **Terminal access** (the shipped label; the client itself stays the **`myne` CLI**) | "CLI access" as a UI label — the setting is not called that |

@@ -1,7 +1,7 @@
 ---
 title: "Customizing keyboard shortcuts"
 category: "settings-and-privacy"
-updated: 2026-10-15
+updated: 2026-10-16
 summary: "View, search, and rebind keyboard shortcuts in the Hotkeys settings panel. Add or remove shortcuts per command, restore defaults, and resolve conflicts, which are warning-only and never blocking. Every shortcut is rebindable except the tab-cycle chord, and in a browser the combinations the browser keeps for itself."
 tags: ["settings", "editor"]
 ---
@@ -10,11 +10,11 @@ The Hotkeys panel lists every keyboard shortcut in Myne and lets you search them
 
 ## The Hotkeys panel
 
-Open **Settings → Hotkeys** (the rail runs Account → Vault → Privacy → Sync → Editor → Files → Transcription → Hotkeys → Appearance → Storage → About, with a Developer section — AI, Network and CLI — below it when [Developer mode](/user-guide/settings-and-privacy/developer-mode/) is on). The panel opens with a short reminder at the top: "View and change keyboard shortcuts. Only the tab-cycle shortcut (Ctrl+Tab) is fixed."
+Open **Settings → Hotkeys** (the rail runs Account → Vault → Privacy → Sync → Editor → Files → Transcription → Hotkeys → Appearance → Storage → About, with a Developer section holding AI, Network and CLI below it when [Developer mode](/user-guide/settings-and-privacy/developer-mode/) is on). The panel opens with the **Search shortcuts…** box at the top and a square **Reset all hotkeys…** button beside it. Under them sits a short reminder: "View and change keyboard shortcuts. Only the tab-cycle shortcut (Ctrl+Tab) is fixed."
 
 Shortcuts are listed in groups: **General**, **Notes**, **Panes & Tabs**, **Navigation**, **View**, and **Editor formatting**. Each row names a command and shows its current shortcut as a small key chip. A command can have no shortcut, one, or several.
 
-To find a command quickly, type into the **Search shortcuts…** box at the top. The list filters as you type, matching against the command name and its group.
+To find a command quickly, type into the **Search shortcuts…** box. The list filters as you type, matching against the command name and its group.
 
 ## Adding and removing a shortcut
 
@@ -24,7 +24,7 @@ A combination has to include at least one modifier (**Cmd**, **Ctrl**, or **Alt*
 
 To remove a shortcut, click the **×** on its key chip. Removing a command's only shortcut leaves it with none until you add one back.
 
-If you have changed a command, a **↺** appears on its row; click it to restore that one command to its default shortcut. To undo every change at once, click **Reset all hotkeys…** at the top. That asks first — "Reset every custom shortcut to its default?" — so a stray click won't wipe your shortcuts.
+If you have changed a command, a **↺** appears on its row; click it to restore that one command to its default shortcut. To undo every change at once, click the **Reset all hotkeys…** button beside the search box (a circular arrow; hover it to see its name). It asks first, "Reset every custom shortcut to its default?", with **Reset all** and **Cancel**, so a stray click won't wipe your shortcuts.
 
 Your custom shortcuts are saved in the vault's encrypted preferences, so they stay set across restarts. Like the rest of your preferences, they live on your device.
 

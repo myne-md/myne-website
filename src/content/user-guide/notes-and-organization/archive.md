@@ -1,7 +1,7 @@
 ---
 title: "Archive"
 category: "notes-and-organization"
-updated: 2026-10-15
+updated: 2026-10-16
 summary: "Set a note or a whole folder aside without deleting it. Archived items leave the sidebar but stay searchable and linkable, are kept indefinitely with no auto-purge, and are separate from Trash. Archiving can be turned off entirely in settings."
 tags: ["notes", "folders", "sidebar"]
 ---
@@ -42,7 +42,7 @@ There is no "empty archive" action. The Archive is meant to be kept, not cleared
 
 ## Turning archiving off
 
-If you do not want the archive feature at all, you can disable it. Open **Settings → Editor** and turn **Archiving** off. This hides the archive entry points: the ribbon **Archive** button and the **Archive** / **Archive folder** context-menu actions.
+If you do not want the archive feature at all, you can disable it. Open **Settings → Editor → Features** and turn **Archiving** off. This hides the archive entry points: the ribbon **Archive** button and the **Archive** / **Archive folder** context-menu actions.
 
 Turning archiving off first restores every archived note to its folder, so no note is left set aside with no way to reach it, and clears any archived folders too. Because that restore runs before the setting is saved, a note can never end up archived while the controls that would surface it are hidden.
 

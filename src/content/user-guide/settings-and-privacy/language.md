@@ -1,7 +1,7 @@
 ---
 title: "Language"
 category: "settings-and-privacy"
-updated: 2026-08-24
+updated: 2026-10-16
 summary: "Myne's interface is available in 32 bundled languages. The language selector lives in the Appearance panel, changes the app's own labels and menus, and does not translate the text inside your notes."
 tags: ["settings"]
 ---
@@ -13,7 +13,7 @@ Myne's interface is available in 32 languages. The language selector lets you pi
 ## Changing the interface language
 
 1. Open Settings from the gear in the bottom bar or with `⌘,`.
-2. Choose **Appearance** in the left rail. The **Language** selector is at the top of the panel.
+2. Choose **Appearance** in the left rail. The **Language** selector is at the top of its **Display** tab.
 3. Pick a language. The interface relabels immediately.
 
 The translation catalogs ship with the app rather than arriving from a translation service, so no outside service ever sees your text or learns which language you read in. On the desktop app they are read from disk. In a browser, the catalog for the language you pick is loaded from the same address that served Myne, and from nowhere else. The choice is stored on this device and applies before you unlock a vault, so the Welcome and unlock screens are localized too.

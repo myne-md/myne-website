@@ -16,7 +16,7 @@ Move the caret into the checkbox, or select across it, and the checkbox turns ba
 
 A line-task can carry four inline fields — a due date, a reminder, a priority, and a repeat rule — which render as small chips at the end of the line while you write. Click a chip to open its editor:
 
-- **Due date** opens Myne's own calendar. Pick a day from the month grid, and the day you chose is shown in the **Date format** you set under **Settings → Editor**. The time is optional: choose **Add time** for an hour and minute in your **Time format**, or leave it off for a date-only task. Arrow keys move the focused day, PageUp and PageDown move a month, and Enter saves.
+- **Due date** opens Myne's own calendar. Pick a day from the month grid, and the day you chose is shown in the **Date format** you set under **Settings → Editor → Editing**. The time is optional: choose **Add time** for an hour and minute in your **Time format**, or leave it off for a date-only task. Arrow keys move the focused day, PageUp and PageDown move a month, and Enter saves.
 - **Reminder** opens the same calendar and time control. This is the field the reminder scheduler reads.
 - **Priority** opens a menu of five levels: highest, high, medium, low, lowest.
 - **Repeat** opens the recurrence control described below.
@@ -60,7 +60,7 @@ To move a recurring task on without marking it done, open the line's **+** menu 
 
 A whole note can be a task, not just a line inside one. A note-task is an ordinary note whose frontmatter carries `kind: task`; when you complete it, Myne records the completion time in a managed `done:` field. Its body is plain markdown like any other note.
 
-Notes you have declared as tasks can show a small **task marker** in the sidebar and on their tab. The marker is a display preference — turn it on or off under **Settings → Appearance → Show task marker**.
+Notes you have declared as tasks can show a small **task marker** in the sidebar and on their tab. The marker is a display preference. Turn it on or off with **Show task marker** under **Settings → Appearance → Note list**.
 
 ## The Tasks panel
 
@@ -89,7 +89,7 @@ Myne's reminders are **local**: while the app is open and your vault unlocked, a
 
 The toast says a reminder is due and nothing more. It never quotes the task, its note, or its title. That is deliberate: a reminder can surface over a shared screen, so the notice stays content-free, and the task surfaces are where you go to see which one it was.
 
-Reminders are on to begin with. Turn them off under **Settings → Editor → Task reminders**; existing reminders stay written in your notes and simply stop being announced.
+Reminders are on to begin with. Turn them off with **Task reminders** under **Settings → Editor → Writing**; existing reminders stay written in your notes and simply stop being announced.
 
 ### How far ahead Myne looks
 

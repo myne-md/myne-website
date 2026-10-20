@@ -1,7 +1,7 @@
 ---
 title: "The left ribbon"
 category: "getting-started"
-updated: 2026-10-15
+updated: 2026-10-16
 summary: "The left ribbon is a thin column of icon buttons at the window's far-left edge. Pin the commands you use most, reorder them, hide the ribbon, or turn it off for a vault."
 tags: ["basics", "sidebar", "workspace"]
 ---
@@ -28,13 +28,13 @@ The command appears on the ribbon. Only commands that can live on a ribbon offer
 
 - **Remove a button:** right-click it and choose **Unpin from ribbon**.
 - **Reorder:** drag a button up or down the ribbon. With the keyboard, focus a button and press `Alt + Up` or `Alt + Down`.
-- **From Settings:** open **Settings → Appearance → Left ribbon** for the full list. Each command has a checkbox to show or hide it and arrows to move it.
+- **From Settings:** open **Left ribbon** under **Settings → Appearance → Interface** for the full list. Each command has a checkbox to show or hide it and arrows to move it.
 
 The order you set is saved with the vault.
 
 ## Hiding and showing the ribbon
 
-Turn on **Show left ribbon** in **Settings → Appearance** to show the ribbon on this device, or turn it off to reclaim the edge. The ribbon also hides on its own in focus mode and when the window is too narrow, and collapsing the note sidebar does not hide it.
+Turn on **Show left ribbon** in **Settings → Appearance → Interface** to show the ribbon on this device, or turn it off to reclaim the edge. The ribbon also hides on its own in focus mode and when the window is too narrow, and collapsing the note sidebar does not hide it.
 
 ## Limits
 

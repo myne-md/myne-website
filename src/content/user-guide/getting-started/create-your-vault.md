@@ -1,7 +1,7 @@
 ---
 title: "Create your vault"
 category: "getting-started"
-updated: 2026-09-26
+updated: 2026-10-16
 summary: "The vault-creation wizard — a short safety briefing, then set a master password, save your recovery phrase, confirm a few words, and save your account number — and the one consequence to understand before you start."
 tags: ["vault", "basics"]
 ---
@@ -12,7 +12,7 @@ Creating your first vault opens with a short safety briefing, then runs a four-s
 
 ## Getting here
 
-Myne now organises a first run around your **identity** rather than around a single vault. When you open Myne with no vault and no identity, you are offered two doors: **Create an identity** and **Create a local vault instead**. This article covers the second, which is also what you reach after creating an identity. If you are deciding between them, read [Create your identity](/user-guide/getting-started/create-your-identity/) first: an identity is what lets people invite you to their vaults and what lets one identity own several vaults, while a local vault with no identity is a perfectly good offline setup you can bind to an identity later from **Settings → Sync**.
+Myne now organises a first run around your **identity** rather than around a single vault. When you open Myne with no vault and no identity, you are offered two doors: **Create an identity** and **Create a local vault instead**. This article covers the second, which is also what you reach after creating an identity. If you are deciding between them, read [Create your identity](/user-guide/getting-started/create-your-identity/) first: an identity is what lets people invite you to their vaults and what lets one identity own several vaults, while a local vault with no identity is a perfectly good offline setup you can bind to an identity later from **Settings → Sync → Connection**.
 
 ## Before you begin: the safety briefing
 

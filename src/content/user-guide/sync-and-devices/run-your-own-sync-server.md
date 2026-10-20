@@ -175,7 +175,7 @@ curl https://your.domain/readyz     # {"status":"ready"} once migrations finish
 
 ## Connect a device
 
-Open **Settings → Sync** on a desktop client, enter `https://your.domain` under **Sync server**, and choose **Connect**. Myne checks the server's certificate against the public authorities and checks the server name, automatically, on the first connection and every one after it. There is nothing to compare or paste. [Server certificates](/user-guide/sync-and-devices/server-certificates/) covers what the check does and does not prove.
+Open **Settings → Sync → Connection** on a desktop client, enter `https://your.domain` under **Sync server**, and choose **Connect**. Myne checks the server's certificate against the public authorities and checks the server name, automatically, on the first connection and every one after it. There is nothing to compare or paste. [Server certificates](/user-guide/sync-and-devices/server-certificates/) covers what the check does and does not prove.
 
 The first device on an account approves itself, and it also has to accept the beta terms before it will sync. Every device added after that waits for approval. [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/) walks the whole flow.
 

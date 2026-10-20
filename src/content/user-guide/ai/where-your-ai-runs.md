@@ -11,7 +11,7 @@ Myne never sends your notes anywhere you have not named, and it downloads a mode
 ## Prerequisites
 
 - An unlocked vault.
-- AI turned on in Settings → Developer → AI. See [Turning on AI](/user-guide/ai/turning-on-ai/).
+- AI turned on in Settings → Developer → AI → General. See [Turning on AI](/user-guide/ai/turning-on-ai/).
 
 ## The three states
 
@@ -23,11 +23,11 @@ One sentence never changes, whatever you have named: **Myne never sends your not
 
 Two readouts tell you which one is live. In the AI panel, a line reads **Answering now:** followed by the name, or **Nothing is set up to answer yet.** In the AI Chat tab, the status chip in the tab header carries the same fact: it shows the provider's name whenever a provider is answering, and **Ready** when the answer is coming from this computer, whether from a model file or from a runtime here.
 
-Individual answers in the transcript carry no such label. Read the chip before you send rather than the turn afterwards, and remember that the chip describes the setting as it is now, not the setting an older answer was produced under.
+Each answer also carries its own line in the transcript, directly under it, naming the backend that produced that answer: *"Answered on this device."* for a model file, *"Answered by …, on this computer."* for a runtime on this machine, and *"Answered by …. Your notes were sent there."* for a remote provider. The line is written when the answer is finished and is not rewritten afterwards, so an answer keeps the label it was given even after you change what answers. That makes the two readouts do different jobs: the chip describes the setting as it is now, and the line under an answer describes where that answer came from.
 
 ## Pointing Myne at a runtime on this computer
 
-Under **Local model runtime** you can point Myne at a model runtime you already run on this machine, instead of picking model files. The panel says so directly: "If you already run a model runtime on this computer, point Myne at it instead of picking model files. Leave this empty to use the files above."
+Under **Local model runtime** you can point Myne at a model runtime you already run on this machine, instead of picking model files. On a computer these fields show on the AI panel's **General** tab while **Choose provider** is set to **On this device**. The panel says so directly: "If you already run a model runtime on this computer, point Myne at it instead of picking model files. Leave this empty to use the model files set in Models."
 
 1. Enter the runtime's address. The field ships empty; the address shown in grey is a hint, not a stored value.
 2. Enter the model name in **Model to use there**. There is no default, and Myne will not choose one for you: "Until you name one, the address above is saved but unused."
@@ -44,7 +44,7 @@ That second step never reaches a provider, in any configuration, even when a pro
 
 ## Naming a remote provider
 
-Under **Remote provider** you can name a service to send requests to instead. The choices are **None**, Ollama Cloud and OpenRouter, a closed list rather than a free-form address, because a destination you type is one the consent screen cannot name. **None** is the default and means no service is contacted at all.
+On a computer, the **Choose provider** dropdown on the **General** tab is where you name a service to send requests to instead. The choices are **On this device**, Ollama Cloud and OpenRouter, a closed list rather than a free-form address, because a destination you type is one the consent screen cannot name. **On this device** is the default and means no service off this computer is contacted at all. A phone lays this out differently (see [On a phone](#on-a-phone) below): its provider section lists the services, and its default is **None**.
 
 Choosing a provider for the first time shows a consent screen before anything is stored or sent. It is headed "Before Myne sends anything to …" and answers seven questions in labelled sections:
 
@@ -58,10 +58,10 @@ Choosing a provider for the first time shows a consent screen before anything is
 
 The accepting button names the provider rather than saying "OK". Cancelling leaves the state you were in.
 
-After you accept, two more controls appear.
+After you accept, the local runtime fields give way to the two rows the service needs.
 
-- **API key.** Paste the key the provider issued you. Myne never shows a stored key back. The field reads "A key is stored. Myne never shows it back to you. Paste a new one to replace it." Until a key is stored, nothing can be sent. **Remove this key** clears it. A key that contains a line break or a control character is refused, and the reason is worth knowing because the usual cause is a paste rather than a typing mistake: text copied out of a terminal, a shell history file or a chat window often carries a trailing newline, and a key carrying one cannot be used. Myne reports it the same way it reports no key at all, so if a key you just pasted stops working, paste it again from the provider's own page rather than adding or removing spaces. That refusal is on the sending side: a key in that state never becomes a request, so nothing carrying it reaches the provider. It is refused, not repaired, and the stored copy is not corrected for you.
-- **Model.** Myne ships no default model, so nothing is chosen for you. **Load models** asks the provider what it publishes and fills the list; that request carries no note text. The panel says why the list is fetched rather than pinned: "The list comes from the provider, so it stays current and you are never billed for a model you did not choose."
+- **API key.** Paste the key the provider issued you, then press Enter or the save button beside the field (**Save this key**). Myne never shows a stored key back. The field reads "A key is stored. Myne never shows it back to you. Paste a new one to replace it." Until a key is stored, nothing can be sent. The button beside it, **Remove this key**, clears it. A key that contains a line break or a control character is refused, and the reason is worth knowing because the usual cause is a paste rather than a typing mistake: text copied out of a terminal, a shell history file or a chat window often carries a trailing newline, and a key carrying one cannot be used. Myne reports it the same way it reports no key at all, so if a key you just pasted stops working, paste it again from the provider's own page rather than adding or removing spaces. That refusal is on the sending side: a key in that state never becomes a request, so nothing carrying it reaches the provider. It is refused, not repaired, and the stored copy is not corrected for you.
+- **Model.** Myne ships no default model, so nothing is chosen for you. The dropdown shows the model you chose, and it stays locked until you press the square refresh button beside it, **Load models**, which asks the provider what it publishes and fills the list; that request carries no note text. Once the list is loaded the dropdown is selectable. The panel says why the list is fetched rather than pinned: "The list comes from the provider, so it stays current and you are never billed for a model you did not choose."
 
 ## What never goes to a remote provider
 
@@ -97,7 +97,7 @@ this device."
 
 ## Turning it off
 
-Removing the API key stops Myne sending anything. Setting **Remote provider** back to **None** removes the key and this device's recorded approval with it, which leaves the state you were in before you turned it on. The key is vault content, so removing it reaches your other devices; the approval was only ever on this one. Clearing the **Local model runtime** address returns answering to a model file on this computer.
+Removing the API key stops Myne sending anything. Choosing **On this device** under **Choose provider** (on a phone, setting the provider back to **None**) removes the key and this device's recorded approval with it, which leaves the state you were in before you turned it on. The key is vault content, so removing it reaches your other devices; the approval was only ever on this one. Clearing the **Local model runtime** address returns answering to a model file on this computer.
 
 Revoking the key itself is done at the provider, and it applies to the key rather than to this device.
 

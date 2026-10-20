@@ -1,8 +1,8 @@
 ---
 title: "Vim mode"
 category: "editor-and-writing"
-updated: 2026-08-24
-summary: "Vim mode is an optional modal-editing keymap for the note editor: normal, insert, and visual modes with the usual motions and operators. It is off by default and sits behind Developer mode — turn that on in Settings → About, then turn on Vim keyboard mode in Settings → Editor, after which notes open in Source view."
+updated: 2026-10-16
+summary: "Vim mode is an optional modal-editing keymap for the note editor: normal, insert, and visual modes with the usual motions and operators. It is off by default and sits behind Developer mode: turn that on in Settings → About, then turn on Vim keyboard mode in Settings → Editor → Editing, after which notes open in Source view."
 tags: ["editor", "settings"]
 ---
 
@@ -13,7 +13,7 @@ Myne's editor can run an optional vim keymap. When it is on, the editor uses vim
 Vim mode sits behind Developer mode, so there are two steps.
 
 1. Open **Settings → About** and turn on **Developer mode**. It is a device-local switch that reveals the advanced settings Myne keeps out of the way by default. Until it is on, Settings → Editor shows no vim row at all.
-2. Open **Settings → Editor**. Under **Editing**, turn on **Vim keyboard mode**. The helper text reads: "Use vim keys in the editor: normal, insert and visual modes, with the usual motions and operators. Off by default. Notes open in source view while this is on."
+2. Open **Settings → Editor** and go to the **Editing** tab. Turn on **Vim keyboard mode**. The helper text reads: "Use vim keys in the editor: normal, insert and visual modes, with the usual motions and operators. Off by default. Notes open in source view while this is on."
 
 The change applies to the note you are editing right away, with no restart. The vim engine loads the first time you switch the toggle on and not before; on the desktop app it ships inside the bundle, so nothing is fetched over the network to enable it.
 

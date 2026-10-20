@@ -40,9 +40,13 @@ Each message is its own run. Earlier turns stay on screen so you can read back w
 
 ## Checking an answer
 
-Myne shows no citation chips. Nothing in the transcript names the notes an answer was drawn from, and there is nothing to click through to. The reminder under the tab header asks you to check the notes it cites; the checking is yours to do by hand.
+Myne shows no citation chips. Nothing in the transcript lists the notes an answer was drawn from, and the model is not asked to cite them. The reminder under the tab header asks you to check the notes it cites; which ones those are is yours to work out.
 
-What you have to work with is the scope you set, which is the whole of what the run was allowed to read, and the run's own count of how many notes it read. Read an answer as a claim about your notes rather than as a report from them, and open the notes yourself before you act on it. The models are small, and a wrong answer looks exactly like a right one.
+If nothing in your vault could ground the question, the assistant is asked to say so instead of inventing an answer.
+
+What the transcript does give you is the note itself. When an answer names a note your vault holds (the note's path, or its title written out), that name is a link, and pressing it opens the note in a new tab so the conversation stays where it was. Only a whole name becomes a link. A name one word short of a real title, or a title that appears inside a longer one, stays plain text, so a link never opens a note the answer did not name. Everything else in an answer stays as it came: the rest of the formatting the model wrote is not rendered.
+
+What you also have to work with is the scope you set, which is the whole of what the run was allowed to read, and the run's own count of how many notes it read. Read an answer as a claim about your notes rather than as a report from them, and open the notes yourself before you act on it. The models are small, and a wrong answer looks exactly like a right one.
 
 ## Where the transcript lives
 

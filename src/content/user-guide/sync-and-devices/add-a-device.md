@@ -42,7 +42,7 @@ Instead of typing your account number on the new device, a device that is alread
 
 On a device that already has access:
 
-1. Open **Settings → Sync**, then choose the **+** next to **Devices** to open **Add a device with a QR**.
+1. Open **Settings → Sync → Devices and members**, then choose the **+** next to **Devices** to open **Add a device with a QR**.
 2. Paste your account number into the **Account number** field. Myne does not store your account number, so you supply it here from your own saved copy.
 3. Choose **Make QR**. A QR code appears, labelled **Scan with the iOS app**. The code carries the Myne mark in its centre, so the person scanning can see at a glance that it is a Myne code and not some other QR on the screen.
 4. On the new device, open the Myne app and scan the code. The sync server address and account number are filled in for you; enter that device's password to continue.
@@ -59,7 +59,7 @@ Once the new device signs in, it shows as awaiting approval, and the rest of the
 
 On a device that already has access:
 
-1. Open **Settings → Sync** and find the new device under **Devices**, listed as awaiting approval.
+1. Open **Settings → Sync → Devices and members** and find the new device under **Devices**, listed as awaiting approval.
 2. Choose **Approve**.
 3. Myne then shows a **verification code** for the new device. This is the out-of-band check: compare it against the code shown on the new device.
 4. If the codes match, choose **They match**. If they do not, choose **They don't match**. That does not remove the device on the spot: it opens the same confirmation every removal on this panel goes through, headed "Remove this device from sync?" and restating what removal does and does not do. Confirm there to remove it. A mismatch can mean the server tried to seat a device you did not add, so do not leave one unresolved.

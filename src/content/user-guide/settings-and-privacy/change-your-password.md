@@ -1,7 +1,7 @@
 ---
 title: "Change your password"
 category: "settings-and-privacy"
-updated: 2026-10-15
+updated: 2026-10-16
 summary: "How to change your master password, what the change does and does not re-encrypt, how it reaches your other devices once it reaches the sync server, and how it affects backups you made with the old password."
 tags: ["security", "settings"]
 ---
@@ -22,7 +22,7 @@ If the current password you entered is wrong, you get a single message that does
 
 Changing your password rotates **only the password's wrap** of the vault key. It does **not** re-encrypt your notes, change the vault's internal key, alter your recovery phrase, or change your account number; all of those keep working exactly as before. The change is fast because that is all it touches.
 
-One thing it does clear: if you had set up [quick unlock](/user-guide/settings-and-privacy/quick-unlock/) on this device, the password change wipes that stored credential. Quick unlock stores a separate device-local credential unlocked by your PIN or Touch ID; changing your master password deliberately wipes it, so you re-enroll your PIN or Touch ID from Settings → Privacy afterward.
+One thing it does clear: if you had set up [quick unlock](/user-guide/settings-and-privacy/quick-unlock/) on this device, the password change wipes that stored credential. Quick unlock stores a separate device-local credential unlocked by your PIN or Touch ID; changing your master password deliberately wipes it, so you re-enroll your PIN or Touch ID from Settings → Privacy → Locking afterward.
 
 ## If you sync
 
@@ -38,4 +38,4 @@ Changing your password does **not** lock anyone out of backups you already made.
 
 A password change protects your *live* vault going forward; it cannot reach back into copies you have already exported. Pair a password change with a new backup, and retire the old ones if the reason for the change was a possible compromise.
 
-There is one more copy it does not reach. If you have upgraded your vault to the new format and not finished the upgrade yet, Myne is still keeping the old vault on this device, and that copy opens with your old password and your recovery phrase. The app says so at the time: "Your vault was upgraded. The old copy is still on this device until you finish up. Until then, changing your password won't lock it away." Finish the upgrade in Settings → Sync before you rely on a password change.
+There is one more copy it does not reach. If you have upgraded your vault to the new format and not finished the upgrade yet, Myne is still keeping the old vault on this device, and that copy opens with your old password and your recovery phrase. The app says so at the time: "Your vault was upgraded. The old copy is still on this device until you finish up. Until then, changing your password won't lock it away." Finish the upgrade in Settings → Sync → Connection before you rely on a password change.

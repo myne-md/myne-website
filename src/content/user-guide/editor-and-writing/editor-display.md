@@ -1,7 +1,7 @@
 ---
 title: "Editor display and typography"
 category: "editor-and-writing"
-updated: 2026-09-01
+updated: 2026-10-16
 summary: "Tune the editor's reading surface: text size, line spacing, content width, font, and an optional line-number gutter, plus how dates and times are printed. All controls live in Settings, apply live, and store in your encrypted vault prefs. Mixed-direction text needs no setting at all."
 tags: ["editor", "settings"]
 ---
@@ -12,7 +12,7 @@ The editor's reading surface is yours to tune. You can set the text size, the li
 
 ## Text size, line spacing, content width, and font
 
-Open **Settings → Editor**. Four segmented controls sit at the top, each a row of presets you click between:
+Open **Settings → Editor → Text & display**. Four segmented controls sit at the top, each a row of presets you click between:
 
 - **Text size** — **Small**, **Default**, **Large**, or **Extra large** (13, 14, 16, or 18 px). The default is **Default**. Helper text: "Base size of the editor text. Headings scale with it." Headings are sized relative to the base, so raising the text size scales the whole document, not just body text.
 - **Line spacing** — **Tight**, **Normal**, or **Relaxed** (1.45, 1.7, or 1.95). The default is **Normal**. Helper text: "Vertical space between lines."
@@ -23,13 +23,13 @@ Each change applies to the open editor immediately, with no reload of the note �
 
 ## Line numbers
 
-To show line numbers down the left side of the editor, open **Settings → Editor → Line numbers** and switch it **On**. It is **Off** by default. Helper text: "Show a line-number gutter in the editor. One number per line; off by default."
+To show line numbers down the left side of the editor, open **Line numbers** under **Settings → Editor → Text & display** and switch it **On**. It is **Off** by default. Helper text: "Show a line-number gutter in the editor. One number per line; off by default."
 
 The gutter numbers one logical line per row. When a long line soft-wraps onto more than one row, the continuation rows stay blank — only the start of each logical line gets a number. Like the typography controls, the toggle applies to the open editor live, with no reload; your cursor, scroll position, and undo history are preserved.
 
 ## Date and time formatting
 
-Further down the **Editor** panel, under **Editing**, three controls decide how Myne prints dates and times.
+On the **Editor** panel's **Editing** tab, three controls decide how Myne prints dates and times.
 
 - **Date format** — helper text: "How a date is written wherever Myne shows one." The options are **Match language**, which follows the interface language you chose, plus one option per layout, each labelled with the same worked example date so you can see what you are picking.
 - **Time format** — **Match language**, **24-hour**, or **12-hour**. Helper text: "Whether times are shown on a 24-hour or 12-hour clock."

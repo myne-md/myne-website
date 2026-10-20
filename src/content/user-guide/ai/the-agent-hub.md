@@ -1,7 +1,7 @@
 ---
 title: "The agent hub"
 category: "ai"
-updated: 2026-10-11
+updated: 2026-10-16
 summary: "Every conversation you have had with the AI, in one place you can open as a tab. Search it, open one beside the note it was about, and watch a run without losing the note you were writing."
 tags: ["ai", "notes"]
 ---
@@ -21,7 +21,7 @@ There are three ways in, and they all open the same tab. Opening it a second tim
 2. From the command palette, **Agent: open on note** lands on the conversation for the note you have open, creating one if there is none.
 3. From the AI panel's header, the expand control does the same as **open on note**.
 
-You can also put it on the left ribbon. It is not there by default — add it from **Settings → Appearance → Left ribbon**, and it reopens the tab on whichever conversation it was last showing.
+You can also put it on the left ribbon. It is not there by default. Add it from **Left ribbon** under **Settings → Appearance → Interface**, and it reopens the tab on whichever conversation it was last showing.
 
 ## The list
 

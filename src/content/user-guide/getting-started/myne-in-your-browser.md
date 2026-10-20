@@ -62,7 +62,7 @@ Closing the tab ends the session on purpose. Your encrypted vault stays in the b
 
 That is the whole of it. You are **not** asked to approve the browser a second time, and no other device has to do anything: the browser is already a known device on your account, and the password is what it needs to start using it again.
 
-If you are asked to approve it again, this browser is enrolling from scratch rather than returning. That happens whenever the stored copy is not there to be found: you cleared the site's data, the browser reclaimed the space, or you are in a different browser, a different browser profile, or a private window. Approving it is safe in each of those cases. It enrols as a new device on the account, and **Settings → Sync** lists what is enrolled.
+If you are asked to approve it again, this browser is enrolling from scratch rather than returning. That happens whenever the stored copy is not there to be found: you cleared the site's data, the browser reclaimed the space, or you are in a different browser, a different browser profile, or a private window. Approving it is safe in each of those cases. It enrols as a new device on the account, and **Settings → Sync → Devices and members** lists what is enrolled.
 
 ## What runs in the browser
 

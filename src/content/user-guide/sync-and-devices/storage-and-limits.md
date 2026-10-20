@@ -6,7 +6,7 @@ summary: "The Storage and devices block in Sync settings shows encrypted data st
 tags: ["sync", "devices", "settings", "security"]
 ---
 
-The **Storage and devices** block in **Settings → Sync** shows how much encrypted data your account stores on its server, how many devices are signed in, and whether an operator has frozen the account. This page explains how to read those figures and the sync-refusal states you can reach — being over your storage limit, trying to sync a file the server will not accept, or a frozen account — each of which pauses uploads while your device keeps downloading, so nothing you have written is silently lost.
+The **Storage and devices** block in **Settings → Sync → Connection** shows how much encrypted data your account stores on its server, how many devices are signed in, and whether an operator has frozen the account. This page explains how to read those figures and the sync-refusal states you can reach (being over your storage limit, trying to sync a file the server will not accept, or a frozen account), each of which pauses uploads while your device keeps downloading, so nothing you have written is silently lost.
 
 ## When the block appears
 

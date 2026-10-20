@@ -12,7 +12,7 @@ Quick unlock lets you re-enter a vault after it auto-locks with a short PIN, or 
 
 ## Turning on quick unlock
 
-Quick unlock is opt-in and off by default. You set it up per device, while the vault is unlocked, from **Settings → Privacy → Quick unlock**, the control below **Screen-capture protection** and **Auto-lock**.
+Quick unlock is opt-in and off by default. You set it up per device, while the vault is unlocked, from **Settings → Privacy → Locking → Quick unlock**, the control below **Auto-lock**.
 
 The helper text under the toggle states the trade plainly, and it distinguishes the two paths: "Re-enter after auto-lock with a PIN or Touch ID instead of the full master password. A convenience over the encrypted vault: with a PIN the master password is required again after a restart; Touch ID covers a restart too, until the fingerprints enrolled on this device change."
 
@@ -55,7 +55,7 @@ After any of these, quick unlock is simply gone until you set it up again from S
 
 A vault someone invited you into has no password of its own and no master password to fall back on. Your portable credential there is your own recovery phrase, the same phrase as your identity.
 
-When you accept an invite you choose a password for that vault on this device. The Unlock screen asks for it on later starts, the row that manages it is **Settings → Privacy → Shared vault unlock**, and it is not the owner's password. That credential is device-local like the one above: it never syncs, and on a new device you set it again. You can replace it with a PIN or a device biometric from the same row, or remove it and go back to typing the phrase.
+When you accept an invite you choose a password for that vault on this device. The Unlock screen asks for it on later starts, the row that manages it is **Settings → Privacy → Locking → Shared vault unlock**, and it is not the owner's password. That credential is device-local like the one above: it never syncs, and on a new device you set it again. You can replace it with a PIN or a device biometric from the same row, or remove it and go back to typing the phrase.
 
 Two differences from the quick unlock above are worth knowing. The member credential is not gated behind a full password unlock after a restart, because for a shared vault it is the primary path rather than a convenience layered on one. And if you accepted the invite before this step existed, no credential is set: the row offers **Set**, and the vault asks for your recovery phrase every time until you use it.
 

@@ -1,7 +1,7 @@
 ---
 title: "Account"
 category: "settings-and-privacy"
-updated: 2026-10-15
+updated: 2026-10-16
 summary: "The Account panel names the account that groups the vaults on this device, lists those vaults, and holds the browser-extension pairing controls. This page also explains your account number, the identity you use to add another device."
 tags: ["settings", "devices", "security"]
 ---
@@ -13,6 +13,8 @@ The **Account** panel is the account-level surface: it names the account this de
 - A vault open. Settings is only available once a vault is unlocked.
 
 Open Settings from the gear in the bottom bar or with `⌘,`, then choose **Account** in the left rail. It is the first panel and the one selected by default.
+
+On a phone, the vault-scoped controls live in a **Vault** category of their own rather than in Account: the vault's name and icon, **Change password**, and quick unlock. Account keeps the **Delete vault…** action, so the irreversible erase stays separate from the controls you open this panel to change. The names are the same on both, so **Vault** and **Account** mean the same two groups whichever device you are on.
 
 ## What's in the panel
 

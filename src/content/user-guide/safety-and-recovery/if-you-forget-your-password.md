@@ -1,7 +1,7 @@
 ---
 title: "If you forget your password"
 category: "safety-and-recovery"
-updated: 2026-10-12
+updated: 2026-10-16
 summary: "What you can and cannot do if you forget your master password, how the 24-word recovery phrase lets you set a new one, why a vault shared with you is different, what to check before you type the phrase into a browser, and what happens if both are lost."
 tags: ["recovery", "security"]
 ---
@@ -24,13 +24,13 @@ That's it. You're back in, with a new password and the same recovery phrase as b
 
 If the vault you recovered belongs to an account that holds other vaults, Myne tells you how many more there are and offers a **Recover another vault** path, so you do not silently leave a sibling unrecovered. The count is a number only; it never shows anything about the other vaults beyond what the picker already shows.
 
-If you have turned it on, the Unlock screen also offers a faster way back after the vault auto-locks: a short PIN, or macOS Touch ID, instead of the full password. It is opt-in from Settings → Privacy and does not replace the password — with a PIN, your master password is still required after the app restarts (a configured Touch ID credential can be used on a cold start). See [Quick unlock with a PIN or Touch ID](/user-guide/settings-and-privacy/quick-unlock/) for what it does and does not cover. Quick unlock is a convenience, not a recovery path: if you have forgotten the password, use the recovery phrase as above.
+If you have turned it on, the Unlock screen also offers a faster way back after the vault auto-locks: a short PIN, or macOS Touch ID, instead of the full password. It is opt-in from Settings → Privacy → Locking and does not replace the password. With a PIN, your master password is still required after the app restarts (a configured Touch ID credential can be used on a cold start). See [Quick unlock with a PIN or Touch ID](/user-guide/settings-and-privacy/quick-unlock/) for what it does and does not cover. Quick unlock is a convenience, not a recovery path: if you have forgotten the password, use the recovery phrase as above.
 
-Setting a new password through recovery also turns quick unlock off on this device. The PIN or Touch ID credential you had is deleted as part of the reset, without a prompt, so that anyone who knew the old PIN loses access along with the old password. Set it up again from **Settings → Privacy** when you want it back.
+Setting a new password through recovery also turns quick unlock off on this device. The PIN or Touch ID credential you had is deleted as part of the reset, without a prompt, so that anyone who knew the old PIN loses access along with the old password. Set it up again from **Settings → Privacy → Locking** when you want it back.
 
 ## If you forget the password on a shared vault
 
-A vault someone invited you into does not ask for the owner's password, and the owner cannot reset yours. The password there is the one you chose when you accepted the invite, stored on that device only. Forgetting it costs you nothing: the Unlock screen offers your recovery phrase as the way in, and once the vault is open you set a new password for this device from **Settings → Privacy → Shared vault unlock**. The owner does not need to do anything and cannot do it for you.
+A vault someone invited you into does not ask for the owner's password, and the owner cannot reset yours. The password there is the one you chose when you accepted the invite, stored on that device only. Forgetting it costs you nothing: the Unlock screen offers your recovery phrase as the way in, and once the vault is open you set a new password for this device from **Settings → Privacy → Locking → Shared vault unlock**. The owner does not need to do anything and cannot do it for you.
 
 The phrase is worth more in a shared vault than in your own. In your own vault it is a second key to the same vault. In a shared one it is also your identity, the thing that makes you the same member to everyone else, so losing it costs more than losing the password does. Devices where the vault is still open keep working, and a device with a password set keeps working. What you cannot do is appear as yourself anywhere new: the owner cannot reissue your identity, and inviting you again with a fresh phrase makes you a new member with a new fingerprint. Your notes in that vault and the other members are unaffected either way. See [Sharing a vault with members](/user-guide/sync-and-devices/sharing-a-vault-with-members/) for what a member's credentials are.
 

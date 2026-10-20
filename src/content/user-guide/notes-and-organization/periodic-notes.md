@@ -1,7 +1,7 @@
 ---
 title: "Periodic notes"
 category: "notes-and-organization"
-updated: 2026-10-15
+updated: 2026-10-16
 summary: "How daily, weekly and monthly notes give you one note per period, how to open the current one, and how to pair each period with its own folder, title format and template."
 tags: ["notes", "templates"]
 ---
@@ -18,7 +18,9 @@ Earlier periods are reached by browsing the folder they are filed in. There is n
 
 ## Settings
 
-Each period has its own folder, title format and template, in Settings → **Editor**, under **Periodic notes**. A **Daily / Weekly / Monthly** switcher at the top of the block picks which period you are editing, and only that period's three controls are shown: the same three rows serve all three periods, one at a time, so the block stays short. Daily is the one it opens on.
+Each period has its own folder, title format and template, in Settings → **Editor**, on the **Periodic notes** tab. A **Daily / Weekly / Monthly** switcher at the top of the block picks which period you are editing, and only that period's three controls are shown: the same three rows serve all three periods, one at a time, so the block stays short. Daily is the one it opens on.
+
+These three controls are editable on a phone too, in **Settings → Editor** under **Periodic notes**, and they are shared preferences: a value you set on your phone reaches your computer and the other way round.
 
 Once your vault has folders, the folder control is a picker over the ones you already have rather than a path you type, so filing weekly notes somewhere new means creating that folder in the sidebar first. In a brand-new vault with no folders yet it is a plain text field instead, since a picker with nothing in it would be worse. A folder you choose here stays visible in the sidebar even before its first note exists.
 

@@ -1,7 +1,7 @@
 ---
 title: "Summarize a meeting"
 category: "ai"
-updated: 2026-10-07
+updated: 2026-10-16
 summary: "After a meeting session writes its note, ask Myne's AI to add a summary, action items, decisions and open questions beneath the transcript. The transcript stays exactly as it is; the sections are added only when you choose."
 tags: ["ai", "notes"]
 ---
@@ -32,7 +32,7 @@ Running the pass again replaces the previous AI sections in place; it does not a
 
 ## Your own prompt
 
-The pass uses a built-in instruction by default. In Settings, AI, a **Meeting summary prompt** field lets you replace that instruction with your own; leave it empty to use the default. It replaces the default output format, so if you set it you should ask for the sections you want yourself. The prompt is stored with your vault and reaches your other devices.
+The pass uses a built-in instruction by default. A **Meeting summary prompt** field lets you replace that instruction with your own; leave it empty to use the default. On a computer it is in Settings, AI, on the **Advanced** tab under **Preferences**, and the reset button on its row puts the built-in instruction back; on a phone it is in Settings, AI, below the excluded folders. It replaces the default output format, so if you set it you should ask for the sections you want yourself. The prompt is stored with your vault and reaches your other devices.
 
 ## Limits
 

@@ -49,7 +49,7 @@ and that has not changed.
 
 ## Folders you exclude
 
-Excluding a folder from AI is the control that keeps notes out of every AI path: nothing in that folder is read, indexed, or sent, and the exclusion survives across the whole feature rather than applying to one surface. The list is in **Settings → Developer → AI**, under **Excluded folders**, and you can either pick a folder from the control above the box or type a path on its own line; the box is the authority, and it is the same list the command-line client honors.
+Excluding a folder from AI is the control that keeps notes out of every AI path: nothing in that folder is read, indexed, or sent, and the exclusion survives across the whole feature rather than applying to one surface. The list is in **Settings → Developer → AI → Limits**, under **Excluded folders**, and you can either pick a folder from the control above the box or type a path on its own line; the box is the authority, and it is the same list the command-line client honors.
 
 The guarantee covers writes as well as reads, and it covers a folder **move** as well as an edit. A note in an excluded folder cannot be moved out of it by a run, and no note can be moved into one, whatever the run asks for: the destination is checked before the move is applied, exactly as the note's current folder is. A refused move appears on the review screen above the run's own summary, so the summary does not describe work that was not done.
 
@@ -113,7 +113,7 @@ Myne fetches a model only when you ask it to, and only from its own origin (`dow
 - It contacts no service until you name one. With no provider named there is no account, no key, and no network request.
 - It never sends a surface you did not ask for to a remote provider. Inline ghost-text completions, automatic tag suggestions and speech-to-text are refused a remote provider in the code rather than by a setting, so nothing is sent as you type and nothing is sent in the background.
 - It does not learn from, train on, or upload your notes.
-- It does not read notes in [excluded folders](/user-guide/ai/turning-on-ai/#excluding-folders), whenever a note is read or a search is run.
+- It does not read notes in [excluded folders](/user-guide/ai/turning-on-ai/#excluding-folders), whenever a note is read or a search is run. That list is editable on a phone as well as on a computer, and the same list is honoured whichever device you set it from.
 - It does not change a note without an explicit action from you (inserting a summary, accepting a completion, running a command, clicking a tag, or starting an agent run with **Apply automatically** on).
 - It does not guarantee correct answers or accurate transcripts. The models are small and outputs can be wrong. Nothing in the AI Chat tab names the notes an answer was drawn from, so checking one means opening those notes yourself; what you have to work from is the scope you set and the run's own count of how many notes it read. A voice-note transcript is a best-effort reading you can check against the original recording.
 

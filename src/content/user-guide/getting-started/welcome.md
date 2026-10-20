@@ -1,7 +1,7 @@
 ---
 title: "Welcome to Myne"
 category: "getting-started"
-updated: 2026-10-03
+updated: 2026-10-16
 summary: "An orientation to Myne, the local-first encrypted markdown notebook, and a map of the Getting started section: installing the app, creating a vault, saving your recovery phrase, and finding your way around the editor."
 tags: ["basics", "vault"]
 ---
@@ -18,7 +18,7 @@ Myne is a local-first, encrypted markdown notebook. You write in plain markdown,
 
 Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
-AI is the one other door out, and it is off until you turn it on. Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin — but if the provider you name runs somewhere other than this computer, what you send it leaves this device. [Turning on AI](/user-guide/ai/turning-on-ai/) covers what each option means.
+AI is the one other door out, and it is off until you turn it on. Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin. If the provider you name runs somewhere other than this computer, what you send it leaves this device. [Turning on AI](/user-guide/ai/turning-on-ai/) covers what each option means.
 
 ## What this section covers
 

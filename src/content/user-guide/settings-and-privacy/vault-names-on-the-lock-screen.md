@@ -1,7 +1,7 @@
 ---
 title: "Vault names on the lock screen"
 category: "settings-and-privacy"
-updated: 2026-08-24
+updated: 2026-10-16
 summary: "The vault picker shows a vault's real name once this device has unlocked it at least once, on macOS and iOS, and a neutral placeholder everywhere else. A Privacy setting keeps names off that screen and destroys the copies stored here. It cannot reach a disk image taken earlier, and the setting itself is a plain file on this disk."
 tags: ["vault", "privacy", "settings"]
 ---
@@ -31,7 +31,7 @@ Three things follow from storing it that way:
 Names are shown by default. To keep them off:
 
 1. Unlock any vault and open settings from the gear in the bottom bar, or with `⌘,`.
-2. Choose **Privacy** in the left rail.
+2. Choose **Privacy** in the left rail, then the **Access** tab.
 3. Turn on **Hide vault names on the lock screen**.
 
 The setting applies to this device rather than to one vault, and it is visible to everyone: you do not need [Developer mode](/user-guide/settings-and-privacy/developer-mode/) to find it. Turning it on does two things at once. Every name already stored on this device becomes unreadable, because Myne destroys the per-vault keys that open those files and then removes the files themselves; and no further name is written while the setting stays on. The picker falls back to placeholders on every row.

@@ -1,12 +1,12 @@
 ---
 title: "Custom theme reference"
 category: "settings-and-privacy"
-updated: 2026-08-24
+updated: 2026-10-16
 summary: "The complete reference for writing a custom theme: the JSON file format, every required color key, the ornament, tint and measure tokens a theme may also set, which value formats are accepted, what gets rejected and why, and how you import, export, and store them."
 tags: ["settings"]
 ---
 
-A **custom theme** is a small JSON file of color values you import into Myne. Myne validates it, and if it is well formed it appears in Settings → Appearance → Custom themes, ready to apply. Once imported, the palette is stored as encrypted content inside your vault — protected at rest, included in a [vault backup](/user-guide/safety-and-recovery/back-up-your-vault/), and, with [sync](/user-guide/sync-and-devices/) on, carried to your other devices. This page is the full reference; for a quick walkthrough see [Appearance](/user-guide/settings-and-privacy/appearance/).
+A **custom theme** is a small JSON file of color values you import into Myne. Myne validates it, and if it is well formed it appears in Settings → Appearance → Display, under Custom themes, ready to apply. Once imported, the palette is stored as encrypted content inside your vault: protected at rest, included in a [vault backup](/user-guide/safety-and-recovery/back-up-your-vault/), and, with [sync](/user-guide/sync-and-devices/) on, carried to your other devices. This page is the full reference; for a quick walkthrough see [Appearance](/user-guide/settings-and-privacy/appearance/).
 
 A custom theme is validated locally before it is used. Validation is not a sandbox and does not make a theme file from an untrusted source safe to trust — it is a strict check that the values are plain colors and nothing else (see [What gets rejected](#what-gets-rejected) below).
 
@@ -28,7 +28,7 @@ The file name, minus the `.json`, becomes the theme's name in the picker. Spaces
 
 ## Importing and exporting
 
-Themes live inside your vault, not as loose files on disk. In **Settings → Appearance → Custom themes**, use **Import theme…** to pick a `.json` file — Myne validates it and, if it is well formed, adds it to the list. To get a copy back out — to share it or edit it in an external editor — use **Export** on a theme and Myne writes it as plain `.json`. That export is your own local action, so the palette leaves the encrypted vault only because you asked; the server never sees it.
+Themes live inside your vault, not as loose files on disk. In **Settings → Appearance → Display**, under **Custom themes**, use **Import theme…** to pick a `.json` file. Myne validates it and, if it is well formed, adds it to the list. To get a copy back out, to share it or edit it in an external editor, use **Export** on a theme and Myne writes it as plain `.json`. That export is your own local action, so the palette leaves the encrypted vault only because you asked; the server never sees it.
 
 The easiest way to start is to export an existing theme, edit the values, and import it back under a new name.
 

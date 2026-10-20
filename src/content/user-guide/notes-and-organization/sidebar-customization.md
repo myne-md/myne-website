@@ -1,7 +1,7 @@
 ---
 title: "Customizing the sidebar"
 category: "notes-and-organization"
-updated: 2026-10-15
+updated: 2026-10-16
 summary: "How to customize the sidebar and the bottom bar: reordering and re-nesting notes and folders by drag or from the folder menu, which sections are visible, reordering the bottom-bar items, and how to adjust the layout to match the way you navigate your vault."
 tags: ["sidebar", "workspace"]
 ---
@@ -38,7 +38,7 @@ Collapse a folder to tuck its contents away while you work elsewhere; expand it 
 
 **Views**, **Attachments**, **Trash** and **Archive** used to sit in the sidebar's footer. They live on the [left ribbon](/user-guide/getting-started/left-ribbon/) now, which is the only place they are, and the ribbon highlights whichever of them is the surface you are looking at. Trash and Archive each show a count when they hold anything.
 
-**Views** opens a searchable, scrollable panel listing your saved views, with the one currently open marked by a checkmark. Opening a view puts its filtered set in a tab. See [Saved views](/user-guide/editor-and-writing/saved-views/). The Views entry is off for a new vault — turn it on under **Settings → Editor → Views**. A vault that already has saved views keeps the entry without your changing the setting.
+**Views** opens a searchable, scrollable panel listing your saved views, with the one currently open marked by a checkmark. Opening a view puts its filtered set in a tab. See [Saved views](/user-guide/editor-and-writing/saved-views/). The Views entry is off for a new vault; turn it on with **Views** under **Settings → Editor → Features**. A vault that already has saved views keeps the entry without your changing the setting.
 
 **Archive** is for notes you want out of the tree but not deleted; open the panel to see what is archived and restore a note from it. See [Archiving notes](/user-guide/notes-and-organization/archive/).
 

@@ -1,7 +1,7 @@
 ---
 title: "Plain files"
 category: "editor-and-writing"
-updated: 2026-10-01
+updated: 2026-10-16
 summary: "Open and edit your own .md and .markdown files from disk in a desktop surface that never touches your vault: how a file gets in, how autosave and conflicts work, and what it deliberately leaves out."
 tags: ["editor", "privacy"]
 ---
@@ -10,7 +10,7 @@ The plain-file editor is a desktop surface for opening and editing your own `.md
 
 ## Turning the plain-file editor on or off
 
-It is on by default, so there is nothing to enable. To turn it off, open **Settings → Editor** and turn off **Plain-file editor**. The helper text under the switch states the terms plainly: "Open and edit the .md files you already have on disk, in place, without adding them to a vault. These files are plaintext: Myne does not encrypt them, and changes to them are not synced or backed up. On by default; turn it off here."
+It is on by default, so there is nothing to enable. To turn it off, open **Settings → Editor → Editing** and turn off **Plain-file editor**. The helper text under the switch states the terms plainly: "Open and edit the .md files you already have on disk, in place, without adding them to a vault. These files are plaintext: Myne does not encrypt them, and changes to them are not synced or backed up. On by default; turn it off here."
 
 Turning the switch off closes whatever the surface has open, after it writes the edits it still holds. A file whose changes could not be written to disk stays open and the switch reports it, rather than dropping your text on the way out.
 

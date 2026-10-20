@@ -6,7 +6,7 @@ summary: "Misspelled words are underlined as you type by a fully offline checker
 tags: ["editor", "settings", "privacy"]
 ---
 
-As you type, Myne underlines words it does not recognise with a wavy red line. The check runs entirely offline against dictionaries bundled with the app, so your note text never leaves your device — no operating-system speller and no cloud service is involved. Right-click a flagged word for up to five spelling suggestions, add a word to a personal dictionary so it stops being flagged, or ignore it. The picker in settings lets you choose from 22 bundled languages, and a word counts as correct if it is valid in any of the languages you have turned on.
+As you type, Myne underlines words it does not recognize with a wavy red line. The check runs entirely offline against dictionaries bundled with the app, so your note text never leaves your device: no operating-system speller and no cloud service is involved. Right-click a flagged word for up to five spelling suggestions, add a word to a personal dictionary so it stops being flagged, or ignore it. The picker in settings lets you choose from 22 bundled languages, and a word counts as correct if it is valid in any of the languages you have turned on. On a phone, spell check is not available in this version: the row in settings says so instead of appearing to work, and the details are under [Turning it on or off](#turning-it-on-or-off-and-choosing-languages) below.
 
 ![A note with a misspelled word underlined by the spell checker.](./spell-check.png)
 
@@ -30,7 +30,9 @@ Choosing a suggestion replaces exactly the flagged word with a precise edit and 
 
 ## Turning it on or off and choosing languages
 
-Spell check lives in **Settings → Editor**. A **Spell check** toggle (**On** by default) turns the underlines on or off, with the helper line "Underline misspelled words as you type. Fully offline: your notes never leave the device." The command palette carries the same switch as **Toggle spell check**, under **Editor**, if you would rather not open Settings for it.
+Spell check lives in **Settings → Editor → Writing**. A **Spell check** toggle (**On** by default) turns the underlines on or off, with the helper line "Underline misspelled words as you type. Fully offline: your notes never leave the device." The command palette carries the same switch as **Toggle spell check**, under **Editor**, if you would rather not open Settings for it.
+
+On a phone, the same row is shown but cannot be switched on. The mobile app has no spell-check backend, so its editor cannot underline anything, and the row's helper line states that rather than leaving a toggle that appears to work. The language picker and the correction menu are desktop features in this version, and turning the setting on happens on your computer. The preference is per device, so a phone is unaffected by what your computer has chosen.
 
 Below it, a searchable **Languages** picker lets you select one or more of the 22 bundled languages. Its helper line reads "A word is correct if it’s valid in any selected language. Handy for mixing English terms into other-language notes." Each language is listed under its own name rather than an English one, and the list is sorted by that name, so you search for `Deutsch`, not German, and `Русский`, not Russian. The bundled set is English (US), English (UK), Български, Català, Deutsch, Español, فارسی, Français, עברית, Magyar, Italiano, 한국어, Lietuvių, Latviešu, Nederlands, Polski, Português, Română, Русский, Slovenčina, Slovenščina, and Svenska. Turkish is not yet available.
 

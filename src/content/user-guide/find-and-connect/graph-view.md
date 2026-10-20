@@ -1,7 +1,7 @@
 ---
 title: "Graph view"
 category: "find-and-connect"
-updated: 2026-09-21
+updated: 2026-10-16
 summary: "How the graph view shows your notes and the links between them, the filters that focus it, the color groups that tint nodes by tag or folder, the settings panel that tunes the layout, the list view that makes the graph usable without a mouse, and where the arrangement you leave behind is saved."
 tags: ["links", "search", "tags"]
 ---
@@ -77,6 +77,8 @@ Open the **Graph settings** panel from the gear in the graph's floating control 
 Color groups apply the same way in every view: the whole vault, a tag filter, and **Around this note**. Changing a rule's COLOR recolors the graph in place and does not re-run the layout, so you keep the arrangement you were looking at. Adding, removing or disabling a rule that groups by a tag is the one exception: it adds or removes a tag node, so the graph settles once into the new shape (keeping every note where it was).
 
 Color-group rules are stored as encrypted content in your vault, alongside your other preferences. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it. With sync on, your rules travel to your other devices with the rest of your vault, and the server sees only that a preferences blob changed, never the rule names or the tags and folders they reference. The default by-tag coloring is NOT stored: it is derived as you look at it, and it becomes stored rules only when you press **Make these editable**.
+
+On a phone, the same rules are editable from **Settings → Appearance**, under **Color groups**, without opening the graph. Each existing rule's name, color and on/off switch can be changed, and the graph catches up at once. Creating, deleting or reordering a rule, and changing the tag or folder a rule matches, stay on the computer, because a rule's filter is built in the graph's own filter builder; a phone edits the rules that already exist, and says so when the vault has none.
 
 ## Tuning the layout and appearance
 

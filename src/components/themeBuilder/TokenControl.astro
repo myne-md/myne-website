@@ -1,30 +1,103 @@
 ---
 /*
- * One Theme Builder control row: a plain-word label + a swatch button that opens
- * the custom color picker. Rendered for every token (base + fine-tune helpers);
- * the builder page's `<script>` wires clicks by the `.tb-ctl` / `.tb-ctl-swatch`
- * classes. `value` seeds the swatch for the pre-hydration render; the script
- * repaints it from live state on load.
+ * One Theme Builder control row: a plain-word label + a swatch button that
+ * opens the custom color picker, and: for a derived shade: the link control
+ * that decides whether it follows its anchor.
+ *
+ * The row owns two affordances beyond the swatch, and both exist because the
+ * panel now groups colors into tone FAMILIES (see `manifest.mjs`):
+ *
+ *  - `link` (only on a derived shade): pressed means "unlinked": the author
+ *    overrode this shade and it no longer follows its anchor. Unpressed means
+ *    it is computed. The button is the only way to get back to computed, since
+ *    editing a shade pins it.
+ *  - `dice`: randomise this one colour. On a derived shade it also pins, for the
+ *    same reason an edit does.
+ *
+ * The value seeds the swatch for the pre-hydration render; the page's script
+ * repaints from live state on load.
  */
 interface Props {
   token: string;
   label: string;
   value: string;
+  /** The anchor token this row follows, when it is a derived shade. */
+  derivesFrom?: string;
+  /** The anchor's human label, for the link control's title/aria text. */
+  anchorLabel?: string;
 }
-const { token, label, value } = Astro.props;
+import { familyOf } from "../../lib/themeBuilder/randomize.mjs";
+
+const { token, label, value, derivesFrom, anchorLabel } = Astro.props;
+// `familyOf` answers "other" for a token no envelope covers, which today means
+// the tint wash (and any future ornament token). Rolling one of those produced a
+// solid grey wash that is not a value any family intends, and that the author
+// could not undo by re-linking, because a wash has no anchor.
+const diceable = familyOf(token) !== "other";
+const linkedTitle = derivesFrom
+  ? `Linked to ${anchorLabel ?? "its anchor"}. Click to override this shade.`
+  : "";
 ---
 
-<button type="button" class="tb-ctl" data-token={token} aria-label={label}>
-  <span class="tb-ctl-swatch" style={`background:${value}`}></span>
-  <span class="tb-ctl-label">{label}</span>
-</button>
+<div class="tb-row" data-row={token} data-search={`${label.toLowerCase()} ${token.toLowerCase()}`}>
+  <button type="button" class="tb-ctl" data-token={token} aria-label={label}>
+    <span class="tb-ctl-swatch" style={`background:${value}`}></span>
+    <span class="tb-ctl-label">{label}</span>
+  </button>
+  <div class="tb-row-actions">
+    {
+      derivesFrom && (
+        <button
+          type="button"
+          class="tb-link"
+          data-link={token}
+          data-anchor={derivesFrom}
+          aria-pressed="false"
+          aria-label={`Unlink ${label} from ${anchorLabel ?? "its anchor"}`}
+          title={linkedTitle}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </button>
+      )
+    }
+    {diceable && (
+      <button
+        type="button"
+        class="tb-dice"
+        data-dice={token}
+        aria-label={`Randomise ${label}`}
+        title={`Randomise ${label}`}
+      >
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="3.5" y="3.5" width="17" height="17" rx="4" stroke="currentColor" stroke-width="1.7" />
+        <circle cx="8.5" cy="8.5" r="1.4" fill="currentColor" />
+        <circle cx="15.5" cy="15.5" r="1.4" fill="currentColor" />
+        <circle cx="12" cy="12" r="1.4" fill="currentColor" />
+        </svg>
+      </button>
+    )}
+  </div>
+</div>
 
 <style>
+  .tb-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .tb-row[hidden] {
+    display: none;
+  }
   .tb-ctl {
     display: flex;
     align-items: center;
     gap: 12px;
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
     padding: 5px 0;
     background: none;
     border: 0;
@@ -49,5 +122,58 @@ const { token, label, value } = Astro.props;
   .tb-ctl-label {
     font-size: 13px;
     color: var(--ink-1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* The row's secondary affordances are quiet until the row is hovered or
+     focused, so the panel still reads as a list of colours. */
+  .tb-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 0 0 auto;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+  }
+  .tb-row:hover .tb-row-actions,
+  .tb-row:focus-within .tb-row-actions {
+    opacity: 1;
+  }
+  .tb-row-actions:has(.tb-link[aria-pressed="true"]) {
+    opacity: 1;
+  }
+  .tb-link,
+  .tb-dice {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    color: var(--ink-3);
+    background: transparent;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .tb-link:hover,
+  .tb-dice:hover {
+    color: var(--ink-1);
+    background: rgb(var(--ink-rgb) / 0.06);
+  }
+  .tb-link:focus-visible,
+  .tb-dice:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  /* Unlinked: the shade is an override, so the control stays lit and the icon
+     slants away from its twin. */
+  .tb-link[aria-pressed="true"] {
+    color: var(--accent);
+  }
+  .tb-link[aria-pressed="true"] svg {
+    transform: rotate(-12deg);
   }
 </style>

@@ -281,3 +281,22 @@ describe("base64UrlEncode", () => {
     assert.equal(decoded, text);
   });
 });
+
+it("runs without Buffer, over a payload long enough to chunk", () => {
+  const saved = globalThis.Buffer;
+  // The browser branch is the one the builder actually uses (the toolbar's
+  // "Open in Myne"), and under `node --test` the Buffer branch always wins, so
+  // deleting the global is the only way to execute it here.
+  delete globalThis.Buffer;
+  try {
+    // > 32 KiB so the chunking loop runs: `String.fromCharCode(...bytes)` throws
+    // on an array this long, which is why the loop exists.
+    const text = "ünïcödé ✓ ".repeat(4000);
+    assert.ok(text.length > 32 * 1024, "the fixture has to be big enough to chunk");
+    const encoded = base64UrlEncode(text);
+    assert.match(encoded, /^[A-Za-z0-9_-]+$/, "url-safe alphabet, no padding");
+    assert.equal(saved.from(encoded, "base64url").toString("utf8"), text, "round-trips");
+  } finally {
+    globalThis.Buffer = saved;
+  }
+});

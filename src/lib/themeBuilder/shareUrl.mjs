@@ -1,10 +1,19 @@
 /**
- * Theme Builder — "Share to the gallery" deep-link (SYNC-2, no phone-home).
+ * Theme Builder: "Share to the gallery" deep-links (SYNC-2, no phone-home).
  *
- * A pure client-side navigation: opens a PREFILLED, labeled myne-themes issue
- * carrying both files in the body (a maintainer turns it into the canonical
- * `themes/<slug>/{theme.json,meta.json}` PR). No API, no token, no tracker.
- * Honest framing: it "starts a gallery submission", not a one-click PR.
+ * Two destinations, one job, and the caller picks which fits:
+ *
+ *  - {@link buildSubmissionUrl} opens GitHub's NEW-FILE page with
+ *    `themes/<slug>/theme.json` already written. "Propose new file" turns that
+ *    into a pull request (forking first for anyone without write access), which
+ *    is what "share it" should mean: a diff someone can review, not an issue
+ *    asking a maintainer to copy-paste. meta.json rides in the PR description,
+ *    because a URL can prefill one file.
+ *  - {@link buildShareUrl} is the issue-form fallback, unchanged, and it is what
+ *    a very large palette falls back to when the encoded URL would be truncated
+ *    by GitHub.
+ *
+ * Both are pure client-side navigation: no API, no token, no tracker.
  *
  * A theme.json is ~1–2 KB, so the prefilled body fits GitHub's URL budget with
  * room to spare; the guard drops the JSON blocks (with instructions) only in the
@@ -71,4 +80,46 @@ export function buildShareUrl(input) {
 
   const full = make(withFiles);
   return full.length <= MAX_URL_LEN ? full : make(fallback);
+}
+
+/**
+ * The pull-request destination: GitHub's new-file page, prefilled.
+ *
+ * @param {{ slug: string, name: string, author?: string, description?: string,
+ *   appearance: "light" | "dark", themeJson: string, metaJson: string }} input
+ * @returns {{ kind: "pr" | "issue", url: string }}
+ */
+export function buildSubmission({ slug, name, author, description, appearance, themeJson, metaJson }) {
+  const path = `themes/${slug}/theme.json`;
+  const message = `theme(${slug}): add ${name}`;
+  const body = [
+    `**Theme:** ${name}`,
+    author ? `**Author:** ${author}` : null,
+    description ? `**Description:** ${description}` : null,
+    `**Appearance:** ${appearance}`,
+    "",
+    "Built with the [Theme Builder](https://myne.md/themes/builder).",
+    "",
+    "This pull request adds `theme.json`. The matching `meta.json` for the folder is:",
+    "",
+    "```json",
+    metaJson,
+    "```",
+  ]
+    .filter((l) => l !== null)
+    .join("\n");
+
+  const params = new URLSearchParams({
+    filename: path,
+    value: themeJson,
+    message,
+    description: body,
+  });
+  const url = `https://github.com/${REPO}/new/main?${params.toString()}`;
+  if (url.length <= MAX_URL_LEN) return { kind: "pr", url };
+  // Too large to prefill: the issue form is shorter and still works.
+  return {
+    kind: "issue",
+    url: buildShareUrl({ slug, name, author, description, appearance, themeJson, metaJson }),
+  };
 }

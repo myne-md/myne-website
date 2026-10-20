@@ -1,22 +1,22 @@
 ---
 /*
- * Theme Builder — the no-code custom-theme authoring tool (MYND-346).
+ * Theme Builder: the no-code custom-theme authoring tool (MYND-346).
  *
- * Slice 1 (builder-shell-entry): the page frame only — dark LandingLayout+GlassNav
+ * Slice 1 (builder-shell-entry): the page frame only: dark LandingLayout+GlassNav
  * chrome, a builder toolbar with the Export affordance, and a full-page no-scroll
  * two-pane layout with empty named slots the sibling slices fill:
  *   - #tb-config-slot  ← builder-controls (left)
  *   - #tb-preview-slot ← builder-preview (right)
  *   - #tb-export-btn   ← builder-export (opens the submit modal; no-op for now)
  *
- * No new nav entry — reached only from the /themes gallery "Build your own" CTA.
+ * No new nav entry: reached only from the /themes gallery "Build your own" CTA.
  * The page-scoped overflow lock keeps other dark pages (min-height:100vh) intact.
  */
 import LandingLayout from "../../layouts/LandingLayout.astro";
 import GlassNav from "../../components/GlassNav.astro";
 import TokenControl from "../../components/themeBuilder/TokenControl.astro";
 import MeasureControl from "../../components/themeBuilder/MeasureControl.astro";
-import { GROUPS } from "../../lib/themeBuilder/manifest.mjs";
+import { GROUPS, labelFor } from "../../lib/themeBuilder/manifest.mjs";
 import {
   PRESETS,
   ROLES,
@@ -28,6 +28,14 @@ import { MEASURE_GROUPS } from "../../lib/themeBuilder/measure.mjs";
 import { LIGHT_DEFAULTS } from "../../lib/themeBuilder/tokens.mjs";
 import themesIndex from "../../data/themes-index.json";
 import themesFull from "../../data/themes-full.json";
+import previewMeta from "../../data/preview/meta.json";
+
+// The captured snapshot's identity, used to version its URL. The endpoint caches
+// (it is ~190 KB, and a deploy is what changes it), so without this a browser
+// that had already loaded the PREVIOUS capture kept serving it from cache after
+// a re-capture: which is what a "the preview is still the old app" report was.
+const previewVersion =
+  (previewMeta as { surfaceHash?: string }).surfaceHash?.slice(0, 12) ?? "0";
 
 const val = (token: string): string => LIGHT_DEFAULTS[token] ?? "#000000";
 
@@ -73,187 +81,379 @@ const galleryThemes = (themesIndex.themes ?? [])
         </div>
       </div>
       <div class="tb-bar-actions">
-        <button type="button" id="tb-export-btn" class="tb-export mono up">Export</button>
+        {/* Two shortcuts beside Export, in the order a theme author uses them:
+            try it in the real app, then share it. Both are wired in the export
+            block below, which already owns the metadata fields the share link
+            needs; neither is a second code path to the app or to GitHub. */}
+        <button
+          type="button"
+          id="tb-open-in-myne"
+          class="tb-bar-btn mono up"
+          title="Hand this theme to the desktop app without downloading anything"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M14 4h6v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M20 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>Open in Myne</span>
+        </button>
+        <button
+          type="button"
+          id="tb-share-btn"
+          class="tb-bar-btn mono up"
+          title="Open a prefilled gallery submission. A maintainer turns it into a pull request."
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="6" cy="6" r="2.5" stroke="currentColor" stroke-width="1.7" />
+            <circle cx="6" cy="18" r="2.5" stroke="currentColor" stroke-width="1.7" />
+            <circle cx="18" cy="12" r="2.5" stroke="currentColor" stroke-width="1.7" />
+            <path d="M8.4 7.3L15.7 10.8M8.4 16.7L15.7 13.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          </svg>
+          <span>Share</span>
+        </button>
+        <button type="button" id="tb-export-btn" class="tb-export mono up">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <path d="M7.5 10.5L12 15l4.5-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+          <span>Export</span>
+        </button>
       </div>
     </div>
 
     <div class="tb-panes" data-mobile-pane="config">
       <section class="tb-pane tb-pane--config" aria-label="Theme controls">
         <div id="tb-config-slot" class="tb-slot tb-controls">
+          {/* Quick actions. Forty-four colours need a way to FIND one, and a
+              panel that only scrolls is a panel people stop reading. Search
+              filters the rows; "Modified" narrows to what changed since the
+              starting point; "Surprise me" rolls a complete palette. */}
+          <div class="tb-quick">
+            <input
+              type="search"
+              id="tb-filter"
+              class="tb-search"
+              placeholder="Search colours and settings"
+              aria-label="Search the theme controls"
+              autocomplete="off"
+            />
+            <button
+              type="button"
+              id="tb-randomize-all"
+              class="tb-qbtn tb-qbtn--icon"
+              aria-label="Surprise me: roll a complete palette"
+              title="Surprise me. Roll a complete palette from one random hue."
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" stroke="currentColor" stroke-width="1.7" />
+                <circle cx="8.7" cy="8.7" r="1.5" fill="currentColor" />
+                <circle cx="15.3" cy="15.3" r="1.5" fill="currentColor" />
+                <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              id="tb-modified-toggle"
+              class="tb-qbtn tb-qbtn--icon"
+              aria-pressed="false"
+              aria-label="Show only the colours you have changed"
+              title="Show only the colours you have changed"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M3 5h18l-7 8.5V20l-4-2v-4.5L3 5z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+
           <div class="tb-preset">
-            <label class="tb-preset-label mono up" for="tb-preset-select">Start from</label>
+            <span id="tb-preset-label" class="tb-preset-label mono up">Start from</span>
             <div class="tb-preset-row">
-              <select id="tb-preset-select" class="tb-preset-select">
-                <option value="light">Blank — light</option>
-                <option value="dark">Blank — dark</option>
-                {galleryThemes.length > 0 && (
-                  <optgroup label="Gallery themes">
-                    {galleryThemes.map((t) => (
-                      <option value={`theme:${t.slug}`} data-dark={t.dark ? "true" : "false"}>
-                        {t.name}
-                      </option>
-                    ))}
-                  </optgroup>
-                )}
-              </select>
-              <button type="button" id="tb-reset" class="tb-reset mono up">Reset</button>
+              {/* A real dropdown rather than a <select>. The native control's
+                  caret is drawn by the OS a couple of pixels from the border and
+                  its popup cannot be styled at all, so it was the one place in
+                  the panel that did not look like Myne. This keeps the native
+                  listbox semantics (aria-haspopup, arrow keys, Escape) and
+                  replaces only the skin. */}
+              <div class="tb-dd">
+                <button
+                  type="button"
+                  id="tb-preset-trigger"
+                  class="tb-dd-trigger"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-labelledby="tb-preset-label tb-preset-value"
+                >
+                  <span id="tb-preset-value" class="tb-dd-value">Blank (light)</span>
+                  <svg class="tb-dd-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <div
+                  id="tb-preset-menu"
+                  class="tb-dd-menu"
+                  role="listbox"
+                  aria-labelledby="tb-preset-label"
+                  hidden
+                >
+                  <button type="button" class="tb-dd-option" role="option" data-value="light" aria-selected="true">
+                    Blank: light
+                  </button>
+                  <button type="button" class="tb-dd-option" role="option" data-value="dark" data-dark="true" aria-selected="false">
+                    Blank: dark
+                  </button>
+                  {galleryThemes.length > 0 && (
+                    <>
+                      <div class="tb-dd-group mono up" role="presentation">Gallery themes</div>
+                      {galleryThemes.map((t) => (
+                        <button
+                          type="button"
+                          class="tb-dd-option"
+                          role="option"
+                          data-value={`theme:${t.slug}`}
+                          data-dark={t.dark ? "true" : "false"}
+                          aria-selected="false"
+                        >
+                          {t.name}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                </div>
+              </div>
+              <button
+                type="button"
+                id="tb-reset"
+                class="tb-reset tb-qbtn--icon"
+                aria-label="Reset to this starting point"
+                title="Reset to this starting point"
+              >
+                {/* Lucide `refresh-cw`, AS DRAWN. Two things were wrong before
+                    this: the button was 58px wide because `.tb-reset`'s
+                    horizontal padding outranked the square variant, and the
+                    glyph was a hand-rolled near-circle with its arrow corner at
+                    the top-left, so the INK sat left of centre inside a centred
+                    SVG box and read as crooked. This one is symmetric under
+                    180 degrees, so it cannot read as off-centre. */}
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M3 3v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M16 16h5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
             </div>
             <p id="tb-dark-note" class="tb-dark-note" hidden>
               Dark theme — the optional colors are pre-filled from Myne's dark palette. Adjust them
               under Code highlighting, Color labels and Text highlights.
             </p>
           </div>
+
+          {/* One group per TONE FAMILY: the anchor colour, then the shades that
+              follow from it. The relationship is the control: the link button
+              on a derived row is what lets an author break it: so the panel no
+              longer explains derivation in a paragraph under each heading. The
+              paragraph is now the `?` tooltip, where it can be asked for. */}
           {
-            GROUPS.map((g) =>
-              g.disclosure ? (
-                <details class="tb-group tb-group--collapsible">
-                  <summary class="tb-group-head mono up">{g.label}</summary>
-                  <div class="tb-group-body">
+            GROUPS.map((g) => (
+              <section class="tb-group" data-group={g.id} data-filter="rows" data-label={g.label.toLowerCase()}>
+                <div class="tb-group-head">
+                  {g.disclosure ? (
+                    <button
+                      type="button"
+                      class="tb-group-title tb-fold mono up"
+                      data-fold={`tb-fold-${g.id}`}
+                      aria-expanded="false"
+                      aria-controls={`tb-fold-${g.id}`}
+                    >
+                      {g.label}
+                    </button>
+                  ) : (
+                    <h3 class="tb-group-title mono up">{g.label}</h3>
+                  )}
+                </div>
+                {g.hint && <p class="tb-group-hint">{g.hint}</p>}
+                <div
+                  class="tb-group-body"
+                  id={`tb-fold-${g.id}`}
+                  data-folded={g.disclosure ? "true" : "false"}
+                >
+                  <div class="tb-group-inner">
                     {g.tokens.map((t) => (
-                      <TokenControl token={t.token} label={t.label} value={val(t.token)} />
+                      <TokenControl
+                        token={t.token}
+                        label={t.label}
+                        value={val(t.token)}
+                        derivesFrom={t.derivesFrom}
+                        anchorLabel={t.derivesFrom ? labelFor(t.derivesFrom) : undefined}
+                      />
                     ))}
                   </div>
-                </details>
-              ) : (
-                <section class="tb-group">
-                  <div class="tb-group-head mono up">{g.label}</div>
-                  {g.hint && <p class="tb-group-hint">{g.hint}</p>}
-                  <div class="tb-group-body">
-                    {g.tokens
-                      .filter((t) => !t.helper)
-                      .map((t) => (
-                        <TokenControl token={t.token} label={t.label} value={val(t.token)} />
-                      ))}
-                    {g.tokens.some((t) => t.helper) && (
-                      <details class="tb-finetune">
-                        <summary class="tb-finetune-head mono up">Fine-tune</summary>
-                        {g.tokens
-                          .filter((t) => t.helper)
-                          .map((t) => (
-                            <TokenControl token={t.token} label={t.label} value={val(t.token)} />
-                          ))}
-                      </details>
-                    )}
-                  </div>
-                </section>
-              ),
-            )
+                </div>
+              </section>
+            ))
           }
 
           {/* Ornament (myne#394). Chosen per ROLE rather than per element, which
               is what keeps a complete theme ~30 settings instead of several
               hundred. Every control is optional: a colour-only theme is still a
-              complete theme, and the presets below only fill these same selects. */}
-          <details class="tb-group tb-group--collapsible" id="tb-ornament">
-            <summary class="tb-group-head mono up">Ornament</summary>
-            <div class="tb-group-body">
-              <p class="tb-group-hint">
-                Decoration Myne draws for you — pick the parts, not a finished look. Ornament never
-                moves anything, and anything drawn behind text is capped so the words stay readable.
-              </p>
+              complete theme, and the presets below only fill these same selects.
 
-              <div class="tb-presets" role="group" aria-label="Ornament starting points">
-                {PRESETS.map((preset) => (
-                  <button
-                    type="button"
-                    class="tb-preset"
-                    data-preset={preset.id}
-                    data-preset-role={preset.role}
-                    data-preset-set={JSON.stringify(preset.set)}
-                  >
-                    {preset.label}
-                  </button>
-                ))}
-              </div>
-
-              {ROLES.map((role) => (
-                <section class="tb-orn-role">
-                  <div class="tb-orn-role-head mono up">{role.label}</div>
-                  <p class="tb-group-hint">{role.hint}</p>
-                  {primitivesForRole(role.id).map((primitive) => (
-                    <label class="tb-orn-ctl">
-                      <span class="tb-orn-label">
-                        {primitive.label}
-                        <span class="tb-orn-hint">{primitive.hint}</span>
-                      </span>
-                      <select
-                        class="tb-orn-select"
-                        data-ornament-token={ornamentToken(role.id, primitive.id)}
-                        data-ornament-role={role.id}
-                        data-ornament-primitive={primitive.id}
-                      >
-                        {primitive.values.map((v) => (
-                          <option value={v.value}>{v.label}</option>
-                        ))}
-                      </select>
-                    </label>
-                  ))}
-                </section>
-              ))}
-
-              {/* The tint wash: one colour and one strength for the whole
-                  interface, not per role — that is what the ornament layer
-                  composes, and offering it per role would store keys nothing
-                  ever draws. The strength stops at the app's own ceiling; a
-                  slider that ran past it would show the user a wash the app
-                  clamps back down. */}
-              <section class="tb-orn-role">
-                <div class="tb-orn-role-head mono up">Tint wash</div>
-                <p class="tb-group-hint">
-                  A colour laid over everything. Capped so it can never bury the text.
-                </p>
-                <button type="button" class="tb-ctl" data-token="--tint" aria-label="Tint colour">
-                  <span class="tb-ctl-swatch" style="background:transparent;border:1px solid #3a3a36"
-                  ></span>
-                  <span class="tb-ctl-label">Tint colour</span>
-                </button>
-                <label class="tb-mc" data-tint-strength>
-                  <span class="tb-mc-head">
-                    <span class="tb-mc-label">Strength</span>
-                    <output class="tb-mc-value mono"></output>
-                  </span>
-                  <input
-                    type="range"
-                    class="tb-mc-range"
-                    min="0"
-                    max={TINT_CEILING}
-                    step="0.01"
-                    value="0"
-                  />
-                </label>
-              </section>
+              A section, not a <details>: two shapes of the same idea meant the
+              hint lived in two places and only one of them animated. Every
+              group folds the same way now. */}
+          <section
+            class="tb-group"
+            data-group="ornament"
+            data-filter="group"
+            data-label="ornament decoration frames shadows textures folds tint wash"
+          >
+            <div class="tb-group-head">
+              <button
+                type="button"
+                class="tb-group-title tb-fold mono up"
+                data-fold="tb-fold-ornament"
+                aria-expanded="false"
+                aria-controls="tb-fold-ornament">Ornament</button
+              >
             </div>
-          </details>
+            <p class="tb-group-hint">
+              Decoration Myne draws for you: pick the parts, not a finished look. Ornament never
+              moves anything, and anything drawn behind text is capped so the words stay readable.
+            </p>
+            <div class="tb-group-body" id="tb-fold-ornament" data-folded="true">
+              <div class="tb-group-inner">
+                <div class="tb-orn-presets" role="group" aria-label="Ornament starting points">
+                  {PRESETS.map((preset) => (
+                    <button
+                      type="button"
+                      class="tb-orn-preset"
+                      data-preset={preset.id}
+                      data-preset-role={preset.role}
+                      data-preset-set={JSON.stringify(preset.set)}
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
+
+                {ROLES.map((role) => (
+                  <section class="tb-orn-role">
+                    <div class="tb-orn-role-head mono up">{role.label}</div>
+                    <p class="tb-group-hint">{role.hint}</p>
+                    {primitivesForRole(role.id).map((primitive) => (
+                      <label class="tb-orn-ctl">
+                        <span class="tb-orn-label">
+                          {primitive.label}
+                          <span class="tb-orn-hint">{primitive.hint}</span>
+                        </span>
+                        <select
+                          class="tb-orn-select"
+                          data-ornament-token={ornamentToken(role.id, primitive.id)}
+                          data-ornament-role={role.id}
+                          data-ornament-primitive={primitive.id}
+                        >
+                          {primitive.values.map((v) => (
+                            <option value={v.value}>{v.label}</option>
+                          ))}
+                        </select>
+                      </label>
+                    ))}
+                  </section>
+                ))}
+
+                {/* The tint wash: one colour and one strength for the whole
+                    interface, not per role: that is what the ornament layer
+                    composes, and offering it per role would store keys nothing
+                    ever draws. The strength stops at the app's own ceiling; a
+                    slider that ran past it would show the user a wash the app
+                    clamps back down. */}
+                <section class="tb-orn-role">
+                  <div class="tb-orn-role-head mono up">Tint wash</div>
+                  <p class="tb-group-hint">
+                    A colour laid over everything. Capped so it can never bury the text.
+                  </p>
+                  {/* Rendered through the SAME component as every other colour
+                      row. The hand-written copy here is what left this one
+                      control unstyled: `.tb-ctl` lives in TokenControl's scoped
+                      stylesheet, which cannot reach markup the page writes. */}
+                  <TokenControl token="--tint" label="Tint colour" value="transparent" />
+                  <label class="tb-mc" data-tint-strength>
+                    <span class="tb-mc-head">
+                      <span class="tb-mc-label">Strength</span>
+                      <output class="tb-mc-value mono"></output>
+                    </span>
+                    <input
+                      type="range"
+                      class="tb-mc-range"
+                      min="0"
+                      max={TINT_CEILING}
+                      step="0.01"
+                      value="0"
+                    />
+                  </label>
+                </section>
+              </div>
+            </div>
+          </section>
 
           {/* Measure tokens (myne#394). Density, corners, type scale, weight and
               letter spacing — every one bounded to 0.5×–2× of its built-in
               default, which is the same envelope the app clamps to. The bounds
               are established on hydration from the preview's own token sheet,
               never from a table in this repo. */}
-          <details class="tb-group tb-group--collapsible" id="tb-measure">
-            <summary class="tb-group-head mono up">Shape &amp; size</summary>
-            <div class="tb-group-body">
-              <p class="tb-group-hint">
-                How dense, how round and how large the interface is. Each control moves within half
-                to double Myne's own value — enough to reshape it, not enough to make it unusable.
-              </p>
-              {MEASURE_GROUPS.map((g) => (
-                <section class="tb-orn-role">
-                  <div class="tb-orn-role-head mono up">{g.label}</div>
-                  <p class="tb-group-hint">{g.hint}</p>
-                  {g.tokens.map((t) => (
-                    <MeasureControl token={t.token} label={t.label} unit={g.unit} step={g.step} />
-                  ))}
-                </section>
-              ))}
+          <section
+            class="tb-group"
+            data-group="measure"
+            data-filter="group"
+            data-label="shape size density corners type scale spacing letter spacing weight"
+          >
+            <div class="tb-group-head">
+              <button
+                type="button"
+                class="tb-group-title tb-fold mono up"
+                data-fold="tb-fold-measure"
+                aria-expanded="false"
+                aria-controls="tb-fold-measure">Shape &amp; size</button
+              >
             </div>
-          </details>
+            <p class="tb-group-hint">
+              How dense, how round and how large the interface is. Each control moves within half to
+              double Myne's own value: enough to reshape it, not enough to make it unusable.
+            </p>
+            <div class="tb-group-body" id="tb-fold-measure" data-folded="true">
+              <div class="tb-group-inner">
+                {MEASURE_GROUPS.map((g) => (
+                  <section class="tb-orn-role">
+                    <div class="tb-orn-role-head mono up">{g.label}</div>
+                    <p class="tb-group-hint">{g.hint}</p>
+                    {g.tokens.map((t) => (
+                      <MeasureControl token={t.token} label={t.label} unit={g.unit} step={g.step} />
+                    ))}
+                  </section>
+                ))}
+              </div>
+            </div>
+          </section>
         </div>
       </section>
       <section class="tb-pane tb-pane--preview" aria-label="Live preview">
         <div id="tb-preview-slot" class="tb-slot tb-preview-slot">
-          {/* Readability hints — populated from the 5 shared CONTRAST_RULES. */}
-          <div id="tb-readability" class="tb-readability" hidden></div>
+          {/* Contrast findings, from the 5 shared CONTRAST_RULES. One banner,
+              one paragraph: a chip per finding read as a row of unrelated
+              labels, and loose chips cannot say WHY a pair fails. */}
+          <div id="tb-readability" class="tb-banner" hidden>
+            <svg class="tb-banner-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3.5l9 16H3l9-16z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+              <path d="M12 10v4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+              <circle cx="12" cy="17.2" r="1" fill="currentColor" />
+            </svg>
+            <div class="tb-banner-body">
+              <div class="tb-banner-title mono up">Issues found</div>
+              <p class="tb-banner-text" id="tb-readability-text"></p>
+            </div>
+          </div>
           {/* The REAL Myne interface (myne#394): the editor's own DOM and its own
               stylesheet, captured from the running desktop app and served by
               `preview-frame.html.ts`. It is an iframe rather than inlined markup
@@ -277,10 +477,20 @@ const galleryThemes = (themesIndex.themes ?? [])
               here would terminate THIS comment early and leak the rest of the
               sentence into the page as text.) */}
           <div id="tb-pv-stage" class="tb-pv-stage">
+            {/* No `src`: the snapshot is fetched and written into `srcdoc` by
+                the preview block below. A framed HTTP RESPONSE is subject to
+                the origin's own `X-Frame-Options`, and myne.md sends DENY
+                (clickjacking cover for the whole site): which blocks a
+                SAME-ORIGIN frame just as flatly as a third-party one, so the
+                built site showed a browser error where the preview belongs
+                while localhost, which sends no such header, worked. An
+                `about:srcdoc` document has no response and therefore no
+                header to honour; same-origin is inherited, so the apply engine
+                still reaches `contentDocument`. */}
             <iframe
               id="tb-pv-frame"
               class="tb-pv-frame"
-              src="/themes/preview-frame.html"
+              data-preview-version={previewVersion}
               title="Live preview of the Myne interface with your theme applied"
               loading="eager"
               sandbox="allow-same-origin"></iframe>
@@ -294,10 +504,13 @@ const galleryThemes = (themesIndex.themes ?? [])
     {/* Export modal — single primary action (Download) + one supporting affordance
         (Share), per the myne-website modal carve-out (decisions.md 2026-05-03).
         Sits OUTSIDE .tb so its top-layer centering isn't affected by the fixed pane. */}
-    <dialog id="tb-export-modal" class="tb-modal" aria-labelledby="tb-modal-title">
+    <dialog id="tb-export-modal" class="tb-modal" data-mode="export" aria-labelledby="tb-modal-title">
       <div class="tb-modal-card">
         <div class="tb-modal-head">
-          <h2 id="tb-modal-title" class="tb-modal-title">Export your theme</h2>
+          <div class="tb-modal-headtext">
+            <h2 id="tb-modal-title" class="tb-modal-title">Export your theme</h2>
+            <p id="tb-modal-blurb" class="tb-modal-blurb"></p>
+          </div>
           <button type="button" class="tb-modal-x" data-tb-close aria-label="Close">×</button>
         </div>
         <div class="tb-modal-body">
@@ -316,9 +529,20 @@ const galleryThemes = (themesIndex.themes ?? [])
           <div id="tb-export-status" class="tb-export-status" hidden></div>
         </div>
         <div class="tb-modal-foot">
-          <button type="button" id="tb-download" class="tb-modal-primary mono up">Download theme</button>
-          <a id="tb-share" class="tb-modal-secondary" href="#" target="_blank" rel="noopener">Share to the gallery →</a>
+          <div class="tb-modal-primary-slot">
+            <button type="button" id="tb-download" class="tb-modal-primary mono up">Download both files</button>
+            <a id="tb-open-pr" class="tb-modal-primary mono up" href="#" target="_blank" rel="noopener" hidden>Open a pull request</a>
+          </div>
+          <div class="tb-modal-alt">
+            <button type="button" id="tb-mode-share" class="tb-modal-secondary">
+              Also submit it to the gallery →
+            </button>
+            <button type="button" id="tb-mode-export" class="tb-modal-secondary" hidden>
+              Export only instead
+            </button>
+          </div>
         </div>
+        <p id="tb-modal-note" class="tb-modal-note"></p>
       </div>
     </dialog>
   </div>
@@ -334,7 +558,7 @@ const galleryThemes = (themesIndex.themes ?? [])
     overflow: hidden;
   }
 
-  /* Custom color picker — appended to <body>, so styled globally (scoped styles
+  /* Custom color picker: appended to <body>, so styled globally (scoped styles
      wouldn't reach a JS-created element). Dark, on-register, Inter. */
   .tb-cp {
     position: fixed;
@@ -420,13 +644,53 @@ const galleryThemes = (themesIndex.themes ?? [])
     outline: 2px solid #8aa4d0;
     outline-offset: 1px;
   }
+
+  /* Measure controls (the shared slider skin). GLOBAL on purpose: the tint
+     strength slider is written by THIS page and the Shape & size sliders are
+     rendered by `MeasureControl.astro`, and a page-scoped rule carries this
+     page's cid, which the component's own markup does not have. Scoped, the
+     skin reached exactly one of the two mount points; `is:global` reaches both,
+     which is what "one skin, one place" has to mean in Astro. */
+  .tb-mc {
+    display: block;
+    padding: 6px 0;
+  }
+  .tb-mc[hidden] {
+    display: none;
+  }
+  .tb-mc-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .tb-mc-label {
+    font-size: 13px;
+    color: #e6e6e4;
+  }
+  .tb-mc-value {
+    font-size: 11px;
+    color: #8a8a86;
+    font-variant-numeric: tabular-nums;
+  }
+  .tb-mc-range {
+    width: 100%;
+    margin: 4px 0 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .tb-mc-range:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
 </style>
 
 <style>
   /* Pane region fixed below the ~56px GlassNav → the no-scroll math needs no
      margin bookkeeping and the panes always fill exactly the space beneath the
      bar. */
-  /* Inter font context for the whole page (incl. GlassNav) — matches the gallery.
+  /* Inter font context for the whole page (incl. GlassNav): matches the gallery.
      Without this the un-wrapped nav falls back to the serif default. */
   .tb-page {
     --tb-nav-h: 56px; /* GlassNav height — single source for the pane's top offset */
@@ -438,9 +702,12 @@ const galleryThemes = (themesIndex.themes ?? [])
     inset: var(--tb-nav-h) 0 0 0;
     padding: 0 28px; /* match the GlassNav gutter */
     display: flex;
-    justify-content: center; /* centre the content column */
+    justify-content: center;
   }
-  /* The content column — same max-width + centring as the navbar's inner box. */
+  /* The content column: same max-width and centring as the navbar's inner box,
+     so the toolbar sits on the same edges as the brand above it. Full-bleed was
+     tried and rejected: the preview gained width and the page lost its
+     relationship to every other page on the site. */
   .tb-inner {
     width: 100%;
     max-width: 1280px;
@@ -461,17 +728,20 @@ const galleryThemes = (themesIndex.themes ?? [])
   }
   .tb-bar-title {
     font-size: 11px;
-    color: #8a8a86;
+    color: var(--accent);
   }
   .tb-bar-mid {
     flex: 1 1 auto;
+    min-width: 0; /* a flex item floors at min-content; the segment is wide */
     display: flex;
     justify-content: center;
   }
   .tb-bar-actions {
     flex: 0 0 auto;
     display: flex;
+    flex-wrap: wrap; /* three actions must never push Export off a phone */
     align-items: center;
+    justify-content: flex-end;
     gap: 12px;
   }
   .tb-export {
@@ -491,6 +761,38 @@ const galleryThemes = (themesIndex.themes ?? [])
     outline: 2px solid #8aa4d0;
     outline-offset: 2px;
   }
+  /* Secondary toolbar actions (Share, Open in Myne). Quiet next to Export: the
+     primary path out of the builder is still the file, and these two are the
+     shortcuts a theme author reaches for mid-iteration. */
+  .tb-bar-btn,
+  .tb-export {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .tb-bar-btn {
+    font-size: 10.5px;
+    color: #b8b8b4;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 7px;
+    padding: 8px 13px;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .tb-bar-btn:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.34);
+  }
+  .tb-bar-btn:focus-visible {
+    outline: 2px solid #8aa4d0;
+    outline-offset: 2px;
+  }
+  .tb-bar-btn[aria-disabled="true"] {
+    color: #54544f;
+    border-color: rgba(255, 255, 255, 0.08);
+    cursor: not-allowed;
+  }
 
   /* Two panes fill the remaining height; each scrolls INTERNALLY so the page
      frame itself never scrolls. */
@@ -498,7 +800,12 @@ const galleryThemes = (themesIndex.themes ?? [])
     flex: 1 1 auto;
     min-height: 0;
     display: grid;
+    /* A real gap between the controls and the canvas, rather than a hairline
+       border butted against the text: the two panes are different materials
+       (dark controls vs the captured light interface) and the space between
+       them is what says so. */
     grid-template-columns: minmax(320px, 400px) 1fr;
+    column-gap: 28px;
   }
   .tb-pane {
     min-height: 0;
@@ -506,20 +813,84 @@ const galleryThemes = (themesIndex.themes ?? [])
     overflow-x: hidden;
     background: #0a0a0a; /* same as the page bg — no contrast step (user) */
   }
-  .tb-pane--config {
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-  }
   .tb-slot {
     min-height: 100%;
-    padding: 20px;
+    padding: 0;
   }
 
   /* ── Controls (builder-controls) ──────────────────────────────────────── */
+  /* Flush to the left edge of the column: every group, label and swatch starts
+     on the same x, so the sidebar reads as one column of colour rather than a
+     stack of indented cards. */
   .tb-controls {
-    padding: 6px 0 48px;
+    padding: 0 0 48px;
+  }
+
+  /* ── Quick actions (search / narrow / roll) ───────────────────────────── */
+  .tb-quick {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .tb-search {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-family: inherit;
+    font-size: 13px;
+    color: #e6e6e4;
+    background: #0c0c0c;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 7px;
+    padding: 8px 10px;
+  }
+  .tb-search::placeholder {
+    color: #6a6a66;
+  }
+  .tb-search:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  /* Icon-only quick actions: square, same height as the search field beside
+     them, with the label left to aria-label + title. */
+  .tb-qbtn.tb-qbtn--icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+  }
+  .tb-qbtn--icon svg {
+    display: block;
+  }
+  .tb-qbtn {
+    flex: 0 0 auto;
+    font-size: 10px;
+    color: #b8b8b4;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 7px;
+    padding: 7px 11px;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .tb-qbtn:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.34);
+  }
+  .tb-qbtn[aria-pressed="true"] {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .tb-qbtn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
   .tb-preset {
-    padding: 16px 20px;
+    padding: 16px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
   .tb-preset-label {
@@ -530,23 +901,96 @@ const galleryThemes = (themesIndex.themes ?? [])
   }
   .tb-preset-row {
     display: flex;
+    /* stretch, not the default: the reset button must be exactly as tall as the
+       field beside it. A fixed height on the button plus a taller trigger is
+       what made it look shifted: stretch had nothing to stretch. */
+    align-items: stretch;
     gap: 8px;
   }
-  .tb-preset-select {
+  /* Start-from dropdown: the trigger IS the field, the caret is ours, and the
+     menu is positioned against the field so it never drifts from it. */
+  .tb-dd {
+    position: relative;
     flex: 1 1 auto;
     min-width: 0;
+  }
+  .tb-dd-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
     font-family: inherit;
     font-size: 13px;
     color: #e6e6e4;
     background: #0c0c0c;
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 7px;
-    padding: 8px 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    text-align: left;
+  }
+  .tb-dd-trigger:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .tb-dd-value {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tb-dd-caret {
+    flex: 0 0 auto;
+    color: #8a8a86;
+    transition: transform 0.15s ease;
+  }
+  .tb-dd-trigger[aria-expanded="true"] .tb-dd-caret {
+    transform: rotate(180deg);
+  }
+  .tb-dd-menu {
+    position: absolute;
+    z-index: 40;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 6px;
+    background: #0c0c0c;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 9px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
+  }
+  .tb-dd-menu[hidden] {
+    display: none;
+  }
+  .tb-dd-option {
+    display: block;
+    width: 100%;
+    font: inherit;
+    font-size: 13px;
+    text-align: left;
+    color: #c9c9c5;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    padding: 7px 9px;
     cursor: pointer;
   }
-  .tb-preset-select:focus-visible {
-    outline: 2px solid #8aa4d0;
-    outline-offset: 1px;
+  .tb-dd-option:hover,
+  .tb-dd-option:focus-visible {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.07);
+    outline: none;
+  }
+  .tb-dd-option[aria-selected="true"] {
+    color: var(--accent);
+  }
+  .tb-dd-group {
+    padding: 10px 9px 4px;
+    font-size: 9px;
+    color: #6a6a66;
   }
   .tb-reset {
     flex: 0 0 auto;
@@ -557,6 +1001,32 @@ const galleryThemes = (themesIndex.themes ?? [])
     border-radius: 7px;
     padding: 8px 12px;
     cursor: pointer;
+  }
+  /* Reset carries an icon instead of the word: at 34px square it lines up with
+     the select beside it rather than shrinking it. */
+  /* NOTE the missing `.tb-qbtn` in this element's class list: the reset button
+     is `tb-reset tb-qbtn--icon`, so the square-button rule above (which is
+     `.tb-qbtn.tb-qbtn--icon`) does not match it. Without `display: inline-flex`
+     here the button was a plain inline-block with the SVG sitting at its left
+     edge, which is the "padding on the right, none on the left" that read as a
+     crooked icon. */
+  .tb-reset.tb-qbtn--icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 34px;
+    /* Height comes from the row, so the two boxes cannot disagree. */
+    height: auto;
+    align-self: stretch;
+    padding: 0;
+    color: #8a8a86;
+    border-color: rgba(255, 255, 255, 0.14);
+    border-radius: 7px;
+  }
+  .tb-reset.tb-qbtn--icon:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.34);
   }
   .tb-reset:hover {
     color: #e6e6e4;
@@ -572,61 +1042,81 @@ const galleryThemes = (themesIndex.themes ?? [])
     display: none;
   }
 
-  /* ── Live preview (builder-preview) — descendants read raw var(--token), set
+  /* ── Live preview (builder-preview): descendants read raw var(--token), set
      on .tb-pv via CSSOM by the apply engine. ─────────────────────────────── */
   .tb-preview-slot {
     padding: 0;
     display: flex;
     flex-direction: column;
   }
-  .tb-readability {
+  .tb-banner {
     flex: 0 0 auto;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 24px 0;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 10px 12px;
+    border: 1px solid rgb(var(--warning-rgb) / 0.4);
+    border-radius: 8px;
+    background: rgb(var(--warning-rgb) / 0.1);
+    color: var(--warning);
   }
-  .tb-readability[hidden] {
+  .tb-banner[hidden] {
     display: none;
   }
-  .tb-readability-label {
-    font-size: 11px;
-    color: #d8b76a;
+  .tb-banner-icon {
+    flex: 0 0 auto;
+    margin-top: 1px;
   }
-  .tb-readability-chip {
-    font-size: 11px;
-    color: #d8b76a;
-    border: 1px solid rgba(216, 183, 106, 0.4);
-    border-radius: 999px;
-    padding: 3px 10px;
+  .tb-banner-body {
+    min-width: 0;
+  }
+  .tb-banner-title {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+  .tb-banner-text {
+    margin: 4px 0 0;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--ink-1);
   }
   /* The captured-interface frame. It owns its own document, so nothing here
      styles its CONTENTS — this is the window, not the room. The ~200 lines of
      `.tb-pv-*` rules that used to live here styled a hand-written imitation of
      Myne; the imitation and its stylesheet went together (myne#394). */
   .tb-pv-stage {
+    position: relative;
     flex: 1 1 auto;
     min-height: 0;
+    /* The pane's own box: it clips the scaled frame, owns the rounded corners,
+       and leaves the breathing room under the toolbar. The height comes from
+       flex, NOT from the script: writing it from the measured scale made the
+         stage taller than the pane whenever the window was short, which is why
+         the preview's bottom corners were square: they were below the fold. */
+    margin-top: 14px;
     overflow: hidden;
-    border-radius: 10px;
-    /* Sized by the script from the measured pane width — the frame is scaled,
-       so the stage has to be the scaled height or it leaves a gap below. */
+    border-radius: 12px;
   }
   .tb-pv-frame {
     /* The capture's own geometry, held fixed. The scale that fits it into the
        pane is a transform, applied by the script, so the app inside never
        reflows — a theme author is dressing the desktop window, and a preview
        that silently switched to the phone layout would be showing them a screen
-       they are not authoring. */
+       they are not authoring. Absolute so its 1280px box cannot push the stage
+       taller than the pane it lives in. */
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 1280px;
     height: 800px;
     border: 0;
     background: #fbfbfa;
     display: block;
+    /* The frame IS the window: the stage is transparent, so the app's own
+       rounded corners are what shows. The radius is divided by the fit scale
+       because the transform scales the corner too. */
+    border-radius: calc(10px / var(--pv-scale, 1));
     transform-origin: top left;
-  }
-    border-radius: 50%;
   }
 
   /* ── Export modal (builder-export) ────────────────────────────────────── */
@@ -649,7 +1139,7 @@ const galleryThemes = (themesIndex.themes ?? [])
   .tb-modal::backdrop {
     background: rgba(0, 0, 0, 0.6);
   }
-  /* Open animation — card lifts + fades, backdrop fades. Global reduced-motion
+  /* Open animation: card lifts + fades, backdrop fades. Global reduced-motion
      rule in LandingLayout disables it. */
   .tb-modal[open] .tb-modal-card {
     animation: tb-modal-in 200ms cubic-bezier(0.2, 0, 0, 1) both;
@@ -757,6 +1247,35 @@ const galleryThemes = (themesIndex.themes ?? [])
     align-items: center;
     gap: 14px;
     margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .tb-modal-primary-slot {
+    display: flex;
+    gap: 10px;
+  }
+  .tb-modal-alt {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .tb-modal-headtext {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .tb-modal-blurb {
+    margin: 8px 0 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #8a8a86;
+    max-width: 58ch;
+  }
+  .tb-modal-note {
+    margin: 14px 0 0;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #6a6a66;
   }
   .tb-modal-primary {
     font-size: 11px;
@@ -767,6 +1286,11 @@ const galleryThemes = (themesIndex.themes ?? [])
     padding: 11px 18px;
     cursor: pointer;
   }
+  .tb-modal-primary {
+    display: inline-block;
+    text-decoration: none;
+    line-height: 1.2;
+  }
   .tb-modal-primary:hover {
     background: #ffffff;
   }
@@ -775,10 +1299,14 @@ const galleryThemes = (themesIndex.themes ?? [])
     cursor: not-allowed;
   }
   .tb-modal-secondary {
-    margin-left: auto;
+    font: inherit;
     font-size: 12px;
     color: #8aa4d0;
+    background: none;
+    border: 0;
+    padding: 0;
     text-decoration: none;
+    cursor: pointer;
   }
   .tb-modal-secondary:hover {
     text-decoration: underline;
@@ -794,59 +1322,86 @@ const galleryThemes = (themesIndex.themes ?? [])
     display: none;
   }
   .tb-group {
-    padding: 14px 20px;
+    padding: 14px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
-  .tb-group--collapsible {
-    padding: 0;
-  }
-  .tb-group--collapsible > .tb-group-head {
+  .tb-group-head {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 14px 20px;
-    margin: 0;
-    cursor: pointer;
+    gap: 8px;
+    margin: 0 0 4px;
   }
-  .tb-group--collapsible > .tb-group-head::after {
+  .tb-group-title {
+    margin: 0;
+    font-size: 10.5px;
+    font-weight: 400;
+    color: #8a8a86;
+    background: none;
+    border: 0;
+    padding: 0;
+    font-family: inherit;
+    letter-spacing: inherit;
+  }
+  button.tb-group-title {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  button.tb-group-title::after {
     content: "+";
     color: #6a6a66;
-    font-size: 13px;
+    font-size: 12px;
   }
-  .tb-group--collapsible[open] > .tb-group-head::after {
+  button.tb-group-title[aria-expanded="true"]::after {
     content: "–";
   }
-  .tb-group--collapsible > .tb-group-body {
-    padding: 0 20px 16px;
+  button.tb-group-title:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 3px;
   }
-  .tb-group-head {
-    font-size: 10.5px;
-    color: #8a8a86;
-    margin: 0 0 6px;
-  }
+
   .tb-group-hint {
     font-size: 11px;
     color: #6a6a66;
     line-height: 1.5;
     margin: 0 0 10px;
   }
+  /* Folding is a grid-row transition rather than `display: none`, so the panel
+     opens and closes instead of jumping. The inner wrapper is what clips: a
+     1fr row is as tall as its content, a 0fr row is zero, and the rows inside
+     stay in the DOM either way. */
   .tb-group-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .tb-group-body[data-folded="true"] {
+    grid-template-rows: 0fr;
+  }
+  .tb-group-inner {
+    overflow: hidden;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
-  /* .tb-ctl / .tb-ctl-swatch / .tb-ctl-label live in TokenControl.astro. */
-  .tb-finetune {
-    margin: 8px 0 2px;
+  /* `[hidden]` is a UA rule and loses to any author `display:`: which is how a
+     "hidden" modal button kept showing. */
+  .tb-modal-primary[hidden],
+  .tb-modal-secondary[hidden] {
+    display: none;
   }
+  /* .tb-ctl / .tb-ctl-swatch / .tb-ctl-label live in TokenControl.astro. */
   /* ── Ornament controls (myne#394) ─────────────────────────────────── */
-  .tb-presets {
+  .tb-orn-presets {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     margin: 10px 0 16px;
   }
-  .tb-preset {
+  .tb-orn-preset {
     font: inherit;
     font-size: 12px;
     padding: 4px 10px;
@@ -856,7 +1411,7 @@ const galleryThemes = (themesIndex.themes ?? [])
     color: var(--fg-1);
     cursor: pointer;
   }
-  .tb-preset:hover {
+  .tb-orn-preset:hover {
     background: var(--paper-3);
   }
   .tb-orn-role {
@@ -897,32 +1452,20 @@ const galleryThemes = (themesIndex.themes ?? [])
     flex-shrink: 0;
   }
 
-  .tb-finetune-head {
-    font-size: 9.5px;
-    color: #6a6a66;
-    cursor: pointer;
-    padding: 4px 0;
-  }
-  .tb-finetune-head::before {
-    content: "⋯ ";
-  }
 
-  /* Custom scrollbars matched to the dark register (mirrors LandingLayout). */
+  /* No scrollbar chrome in the panes. The controls column is a long list and the
+     bar competed with the fold markers for the same right gutter; wheel,
+     trackpad and keyboard scrolling all still work, and the preview pane does
+     not scroll at all (its stage is sized to fit). */
+  .tb-pane {
+    scrollbar-width: none;
+  }
   .tb-pane::-webkit-scrollbar {
-    width: 10px;
-  }
-  .tb-pane::-webkit-scrollbar-thumb {
-    background: #2a2a2a;
-    border: 3px solid transparent;
-    background-clip: padding-box;
-    border-radius: 8px;
-  }
-  .tb-pane::-webkit-scrollbar-thumb:hover {
-    background: #383838;
-    background-clip: padding-box;
+    width: 0;
+    height: 0;
   }
 
-  /* Segmented Edit/Preview toggle — desktop-hidden, shown on mobile. */
+  /* Segmented Edit/Preview toggle: desktop-hidden, shown on mobile. */
   .tb-seg {
     display: none;
     align-items: center;
@@ -951,12 +1494,16 @@ const galleryThemes = (themesIndex.themes ?? [])
     outline-offset: 1px;
   }
 
-  /* Mobile: height-locked single pane switched by the toggle — the page never
+  /* Mobile: height-locked single pane switched by the toggle: the page never
      scrolls; the visible pane scrolls internally. */
   @media (max-width: 920px) {
     .tb {
       --tb-nav-h: 71px; /* taller mobile nav (63px) + an 8px breathing gap */
-      padding: 0; /* full-bleed on phones — no wasted column gutter */
+      /* A gutter, NOT full-bleed. Full-bleed was here first and it put the
+         start-from row hard against both screen edges: the reset button lost its
+         right border to the viewport, which reads as a control that is cut off.
+         The bar above already insets by 20px, so this also makes the two agree. */
+      padding: 0 20px;
     }
     .tb-bar-title {
       display: none;
@@ -972,6 +1519,15 @@ const galleryThemes = (themesIndex.themes ?? [])
     }
     .tb-seg {
       display: inline-flex;
+    }
+    /* Below the breakpoint the two shortcuts keep their icons and drop their
+       words: Export is the primary exit from the builder and it is the one
+       control that must stay on screen at 375px. */
+    .tb-bar-actions .tb-bar-btn span {
+      display: none;
+    }
+    .tb-bar-actions .tb-bar-btn {
+      padding: 8px 10px;
     }
     .tb-panes {
       grid-template-columns: 1fr;
@@ -1002,8 +1558,6 @@ const galleryThemes = (themesIndex.themes ?? [])
     }
   }
 
-    }
-  }
 </style>
 
 <script>
@@ -1029,45 +1583,141 @@ const galleryThemes = (themesIndex.themes ?? [])
 </script>
 
 <script>
-  // Controls (builder-controls): wire native color pickers ↔ the shared singleton
-  // state, and the "Start from" preset picker + reset. Every edit and preset load
-  // flows through appState so preview (slice 3) and export (slice 4) see it live.
+  // Controls (builder-controls): the colour panel.
+  //
+  // Four things share this block because they are four views of one state: the
+  // picker writes a colour, the link control decides whether a derived shade
+  // follows its anchor, the dice roll a new value, and the filter decides which
+  // rows are on screen. Grouping colours into tone families (`manifest.mjs`) is
+  // what makes the anchor/link pair mean anything; before it, a derived shade
+  // sat under a "Fine-tune" disclosure and could not be unlinked at all.
   import { appState } from "../../scripts/themeBuilderApp";
   import { LIGHT_DEFAULTS, DARK_DEFAULTS } from "../../lib/themeBuilder/tokens.mjs";
   import { helpersForBase } from "../../lib/themeBuilder/derive.mjs";
   import { createColorPicker } from "../../lib/themeBuilder/colorPicker.mjs";
+  import { randomValueFor, randomizePalette } from "../../lib/themeBuilder/randomize.mjs";
+  import { clearHighlight, highlightToken } from "../../lib/themeBuilder/highlight.mjs";
+  import { anchorFor } from "../../lib/themeBuilder/manifest.mjs";
+  import { computeVisibility, normaliseQuery } from "../../lib/themeBuilder/filters.mjs";
   import themesFull from "../../data/themes-full.json";
 
   const palettes = themesFull as Record<string, Record<string, string>>;
   const swatches = Array.from(document.querySelectorAll<HTMLButtonElement>(".tb-ctl"));
   const darkNote = document.getElementById("tb-dark-note");
 
-  // Editing a base color also auto-fills its helper shades (overridable — a manual
-  // fine-tune edit sticks until the base changes again).
+  // ── Editing ────────────────────────────────────────────────────────────────
+  // Editing an anchor re-derives the shades that follow it, except the ones the
+  // author has unlinked. Editing a SHADE is itself an override, so it pins: the
+  // alternative is a shade that silently snaps back the next time its anchor
+  // moves, which is the behaviour this whole model exists to remove.
   function applyColor(token: string, hex: string): void {
-    const helpers = helpersForBase(token, hex, appState.isDark());
-    if (Object.keys(helpers).length) appState.patch({ [token]: hex, ...helpers });
+    if (anchorFor(token)) {
+      appState.pin(token);
+      appState.set(token, hex);
+      return;
+    }
+    const helpers = helpersForBase(token, hex, appState.isDark(), appState.getPalette());
+    const usable = Object.entries(helpers).filter(([t]) => !appState.isPinned(t));
+    if (usable.length) appState.patch({ [token]: hex, ...Object.fromEntries(usable) });
     else appState.set(token, hex);
   }
 
-  // Custom on-register color picker (replaces the native OS dialog). Clicking a
-  // swatch opens it anchored to that swatch; every drag/type flows into state live.
+  // ── "What does this colour drive?" ─────────────────────────────────────────
+  // The capture carries the real stylesheet, so the answer is read from the
+  // frame's own CSSOM (`highlight.mjs`) rather than from a second, hand-kept map,
+  // and it is answered by OUTLINING the regions in the preview: no caption
+  // counting them, which was a sentence repeating what the eye can already see.
+  const frameEl = document.getElementById("tb-pv-frame") as HTMLIFrameElement | null;
+  function previewDoc(): Document | null {
+    try {
+      return frameEl?.contentDocument ?? null;
+    } catch {
+      return null;
+    }
+  }
+  function showHighlight(token: string | null): void {
+    const doc = previewDoc();
+    if (!doc) return;
+    if (!token) clearHighlight(doc);
+    else highlightToken(doc, token);
+  }
+
+  // ── The picker ─────────────────────────────────────────────────────────────
   let activeToken: string | null = null;
   const picker = createColorPicker({
     onChange: (hex) => {
       if (activeToken) applyColor(activeToken, hex);
     },
+    onClose: () => {
+      activeToken = null;
+      showHighlight(null);
+    },
   });
+
   for (const sw of swatches) {
+    const token = sw.dataset.token;
+    if (!token) continue;
     sw.addEventListener("click", () => {
-      const token = sw.dataset.token;
-      if (!token) return;
+      // Pressing the same row again closes it: the picker is a toggle, not a mode.
+      if (activeToken === token && picker.isOpen()) {
+        picker.close();
+        return;
+      }
       activeToken = token;
       picker.open(sw, appState.get(token) ?? "#000000");
+      showHighlight(token);
+    });
+    // Deliberately NOT on hover: a highlight that follows the pointer turns the
+    // preview into a light show while you are reading the panel. It answers a
+    // question you asked by pressing a row, and clears when you dismiss it.
+  }
+
+  // ── Unlink / re-link a derived shade ───────────────────────────────────────
+  const linkButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".tb-link"));
+  function paintLinks(): void {
+    for (const b of linkButtons) {
+      b.setAttribute("aria-pressed", appState.isPinned(b.dataset.link ?? "") ? "true" : "false");
+    }
+  }
+  for (const b of linkButtons) {
+    b.addEventListener("click", () => {
+      const token = b.dataset.link ?? "";
+      const anchor = b.dataset.anchor ?? "";
+      if (appState.isPinned(token)) {
+        // Re-link is a real undo: unpin AND snap to what the anchor says now,
+        // rather than a flag that only takes effect at the next anchor edit.
+        appState.unpin(token);
+        const base = appState.get(anchor);
+        if (base) {
+          const derived = helpersForBase(anchor, base, appState.isDark(), appState.getPalette())[token];
+          if (derived) appState.set(token, derived);
+        }
+      } else {
+        appState.pin(token);
+      }
+      paintLinks();
     });
   }
 
-  // state → swatch backgrounds (preset loads, live edits) + dark-note visibility.
+  // ── Dice ───────────────────────────────────────────────────────────────────
+  for (const b of Array.from(document.querySelectorAll<HTMLButtonElement>("[data-dice]"))) {
+    b.addEventListener("click", () => {
+      const token = b.dataset.dice ?? "";
+      if (!token) return;
+      const value = randomValueFor(token, {
+        isDark: appState.isDark(),
+        palette: appState.getPalette(),
+      });
+      if (anchorFor(token)) {
+        appState.pin(token);
+        appState.set(token, value);
+      } else {
+        applyColor(token, value);
+      }
+    });
+  }
+
+  // ── Swatch painting + the state-driven UI ──────────────────────────────────
   // Cache each swatch dot once so repaints don't re-query the DOM per change.
   const swatchDots = swatches.map((sw) => ({
     token: sw.dataset.token,
@@ -1078,39 +1728,188 @@ const galleryThemes = (themesIndex.themes ?? [])
       if (token && dot && palette[token]) dot.style.background = palette[token];
     }
   }
-  appState.subscribe((snap) => {
-    paintSwatches(snap.palette);
-    if (darkNote) darkNote.hidden = !snap.isDark;
-  });
-  paintSwatches(appState.getPalette());
 
-  // presets
-  const select = document.getElementById("tb-preset-select") as HTMLSelectElement | null;
-  const resetBtn = document.getElementById("tb-reset");
+  // "Modified" compares against the palette this session STARTED from: the
+  // preset that was loaded: not against LIGHT_DEFAULTS, or loading a gallery
+  // theme would open with every row already marked as changed.
+  let basePalette: Record<string, string> = appState.getPalette();
 
-  const isDarkFor = (value: string): boolean =>
-    value === "dark" ||
-    (select?.selectedOptions[0]?.dataset.dark === "true");
+  const filterInput = document.getElementById("tb-filter") as HTMLInputElement | null;
+  const modifiedBtn = document.getElementById("tb-modified-toggle");
 
-  function loadPreset(value: string): void {
-    picker.close();
-    const dark = isDarkFor(value);
-    if (value === "light") appState.replace({ ...LIGHT_DEFAULTS }, false);
-    else if (value === "dark") appState.replace({ ...DARK_DEFAULTS }, true);
-    else if (value.startsWith("theme:")) {
-      const palette = palettes[value.slice("theme:".length)];
-      if (palette) {
-        // Merge over the appearance-correct base (LIGHT/DARK_DEFAULTS each carry all
-        // 44 tokens) so every token — including optionals — is set; a dark theme's
-        // optionals come from the dark canon, never a LIGHT fallback (SYNC-6).
-        const base = dark ? DARK_DEFAULTS : LIGHT_DEFAULTS;
-        appState.replace({ ...base, ...palette }, dark);
+  function applyFilters(): void {
+    const query = filterInput?.value ?? "";
+    const modifiedOnly = modifiedBtn?.getAttribute("aria-pressed") === "true";
+    const palette = appState.getPalette();
+    const searching = normaliseQuery(query) !== "";
+    for (const group of Array.from(document.querySelectorAll<HTMLElement>(".tb-group[data-group]"))) {
+      const rowEls = Array.from(group.querySelectorAll<HTMLElement>(".tb-row"));
+      // The DECISION lives in `filters.mjs` so it can be tested; this loop only
+      // writes what it returns.
+      const verdict = computeVisibility({
+        filterKind: group.dataset.filter === "group" ? "group" : "rows",
+        label: group.dataset.label ?? "",
+        query,
+        modifiedOnly,
+        palette,
+        basePalette,
+        rows: rowEls.map((el) => ({
+          token: el.dataset.row ?? "",
+          hay: el.dataset.search ?? "",
+        })),
+      });
+      group.hidden = verdict.hidden;
+      rowEls.forEach((el, i) => {
+        el.hidden = verdict.rows[i]?.show !== true;
+      });
+      // Searching OPENS a folded group: a match behind a closed disclosure reads
+      // as no match at all.
+      if (searching && !verdict.hidden) {
+        setFolded(group.querySelector<HTMLElement>(".tb-group-body"), false);
+        group.querySelector<HTMLElement>("[data-fold]")?.setAttribute("aria-expanded", "true");
       }
     }
   }
 
-  select?.addEventListener("change", () => loadPreset(select.value));
-  resetBtn?.addEventListener("click", () => loadPreset(select?.value ?? "light"));
+  filterInput?.addEventListener("input", applyFilters);
+  modifiedBtn?.addEventListener("click", () => {
+    const on = modifiedBtn.getAttribute("aria-pressed") === "true";
+    modifiedBtn.setAttribute("aria-pressed", on ? "false" : "true");
+    applyFilters();
+  });
+
+  // Folded groups. The animation is a grid-row transition (see the CSS), and the
+  // inner wrapper goes `inert` while folded so its sliders and selects leave the
+  // tab order instead of being focusable at zero height.
+  function setFolded(body: HTMLElement | null, folded: boolean): void {
+    if (!body) return;
+    body.dataset.folded = folded ? "true" : "false";
+    const inner = body.querySelector<HTMLElement>(".tb-group-inner");
+    if (inner) inner.inert = folded;
+  }
+  for (const b of Array.from(document.querySelectorAll<HTMLElement>("[data-fold]"))) {
+    const body = document.getElementById(b.dataset.fold ?? "");
+    setFolded(body, b.getAttribute("aria-expanded") !== "true");
+    b.addEventListener("click", () => {
+      const open = b.getAttribute("aria-expanded") === "true";
+      b.setAttribute("aria-expanded", open ? "false" : "true");
+      setFolded(body, open);
+    });
+  }
+
+  appState.subscribe((snap) => {
+    paintSwatches(snap.palette);
+    paintLinks();
+    if (darkNote) darkNote.hidden = !snap.isDark;
+    applyFilters();
+  });
+
+  paintSwatches(appState.getPalette());
+  paintLinks();
+  applyFilters();
+
+  // ── Start-from dropdown + reset ────────────────────────────────────────────
+  // The dropdown keeps listbox semantics (arrow keys, Home/End, Escape, focus
+  // returns to the trigger) and only the SKIN is ours; the native <select> it
+  // replaces drew an OS caret a couple of pixels off the border and could not be
+  // styled at all.
+  const presetTrigger = document.getElementById("tb-preset-trigger") as HTMLButtonElement | null;
+  const presetMenu = document.getElementById("tb-preset-menu");
+  const presetValueEl = document.getElementById("tb-preset-value");
+  const resetBtn = document.getElementById("tb-reset");
+  const presetOptions = Array.from(document.querySelectorAll<HTMLButtonElement>(".tb-dd-option"));
+  let presetValue = "light";
+
+  function setPresetLabel(value: string): void {
+    presetValue = value;
+    for (const opt of presetOptions) {
+      const selected = opt.dataset.value === value;
+      opt.setAttribute("aria-selected", selected ? "true" : "false");
+      if (selected && presetValueEl) presetValueEl.textContent = (opt.textContent ?? "").trim();
+    }
+  }
+
+  function setPresetMenuOpen(open: boolean, focusOption = false): void {
+    if (!presetMenu || !presetTrigger) return;
+    presetMenu.hidden = !open;
+    presetTrigger.setAttribute("aria-expanded", open ? "true" : "false");
+    if (!open || !focusOption) return;
+    const current = presetOptions.find((o) => o.getAttribute("aria-selected") === "true");
+    (current ?? presetOptions[0])?.focus();
+  }
+
+  presetTrigger?.addEventListener("click", () => setPresetMenuOpen(presetMenu?.hidden !== false));
+  presetTrigger?.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      setPresetMenuOpen(true, true);
+    }
+  });
+
+  for (const opt of presetOptions) {
+    opt.addEventListener("click", () => {
+      const value = opt.dataset.value ?? "light";
+      setPresetLabel(value);
+      setPresetMenuOpen(false);
+      presetTrigger?.focus();
+      loadPreset(value);
+    });
+    opt.addEventListener("keydown", (e) => {
+      const i = presetOptions.indexOf(opt);
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        const step = e.key === "ArrowDown" ? 1 : presetOptions.length - 1;
+        presetOptions[(i + step) % presetOptions.length]?.focus();
+      } else if (e.key === "Home" || e.key === "End") {
+        e.preventDefault();
+        (e.key === "Home" ? presetOptions[0] : presetOptions[presetOptions.length - 1])?.focus();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        setPresetMenuOpen(false);
+        presetTrigger?.focus();
+      }
+    });
+  }
+
+  // Clicking anywhere else closes the menu, the same way the colour picker does.
+  document.addEventListener("pointerdown", (e) => {
+    if (presetMenu?.hidden !== false) return;
+    const target = e.target;
+    if (!(target instanceof Element) || target.closest(".tb-dd")) return;
+    setPresetMenuOpen(false);
+  });
+
+  function loadPreset(value: string): void {
+    picker.close();
+    const dark = value === "dark" || presetOptions.find((o) => o.dataset.value === value)?.dataset.dark === "true";
+    if (value === "light") appState.replace({ ...LIGHT_DEFAULTS }, false);
+    else if (value === "dark") appState.replace({ ...DARK_DEFAULTS }, true);
+    else if (value.startsWith("theme:")) {
+      const palette = palettes[value.slice("theme:".length)];
+      if (!palette) return;
+      // Merge over the appearance-correct base (LIGHT/DARK_DEFAULTS each carry all
+      // 44 tokens) so every token: including optionals: is set; a dark theme's
+      // optionals come from the dark canon, never a LIGHT fallback (SYNC-6).
+      const base = dark ? DARK_DEFAULTS : LIGHT_DEFAULTS;
+      appState.replace({ ...base, ...palette }, dark);
+    }
+    basePalette = appState.getPalette();
+    if (darkNote) darkNote.hidden = !appState.isDark();
+    applyFilters();
+  }
+
+  resetBtn?.addEventListener("click", () => loadPreset(presetValue));
+  // The markup already renders "Blank (light)" selected; this makes the
+  // aria-selected state agree with it without a second source of truth.
+  setPresetLabel(presetValue);
+
+  // ── Surprise me ────────────────────────────────────────────────────────────
+  document.getElementById("tb-randomize-all")?.addEventListener("click", () => {
+    picker.close();
+    appState.replace(randomizePalette({ isDark: appState.isDark() }), appState.isDark());
+    basePalette = appState.getPalette();
+    applyFilters();
+  });
 </script>
 
 <script>
@@ -1121,7 +1920,7 @@ const galleryThemes = (themesIndex.themes ?? [])
   // The preview applies ornament by REFLECTING each selection onto the preview
   // wrapper as `data-o-<role>-<primitive>`, exactly as the app reflects it onto
   // `:root`. CSS cannot branch on a custom property's value, so this attribute
-  // bridge is what makes the rules selectable — and mirroring it here is what
+  // bridge is what makes the rules selectable: and mirroring it here is what
   // makes "what you see is what installs" true rather than approximately true.
   import { appState } from "../../scripts/themeBuilderApp";
 
@@ -1132,7 +1931,7 @@ const galleryThemes = (themesIndex.themes ?? [])
   // Selecting an ornament is a state write, and nothing more: the preview's own
   // subscriber reflects the whole palette onto the frame whenever state changes.
   // The reflect used to happen HERE, per control, which is how the `data-o-on`
-  // flag — the attribute every ornament rule is scoped under — ended up written
+  // flag: the attribute every ornament rule is scoped under: ended up written
   // by nobody, and how a tint-only theme had no way to turn the layer on at all.
   for (const select of ornSelects) {
     const token = select.dataset.ornamentToken;
@@ -1155,7 +1954,7 @@ const galleryThemes = (themesIndex.themes ?? [])
   // `min(var(--tint-strength, 0.08), var(--_o-ceiling))`, so an absent key means
   // **8%**, not off. Combined with `serialize.mjs` dropping empty values, a user
   // who set a tint colour and slid the strength to a control labelled "off"
-  // shipped an 8% wash — in the preview and in the app — with no affordance
+  // shipped an 8% wash: in the preview and in the app: with no affordance
   // anywhere to turn it off.
   const tintStrength = document.querySelector<HTMLInputElement>("[data-tint-strength] input");
   const tintOut = document.querySelector<HTMLOutputElement>("[data-tint-strength] output");
@@ -1171,11 +1970,11 @@ const galleryThemes = (themesIndex.themes ?? [])
     tintStrength.addEventListener("input", paint);
   }
 
-  // Presets fill the selects above and nothing else — they expand to ordinary
+  // Presets fill the selects above and nothing else: they expand to ordinary
   // settings, so no preset name is ever stored in the theme (decisions.md
   // 2026-08-06). Anything the preset does not mention is reset to its no-op, so
   // clicking two presets in a row does not leave the first one's leftovers.
-  for (const button of Array.from(document.querySelectorAll<HTMLButtonElement>(".tb-preset"))) {
+  for (const button of Array.from(document.querySelectorAll<HTMLButtonElement>(".tb-orn-preset"))) {
     button.addEventListener("click", () => {
       const role = button.dataset.presetRole;
       const set = JSON.parse(button.dataset.presetSet ?? "{}") as Record<string, string>;
@@ -1194,8 +1993,8 @@ const galleryThemes = (themesIndex.themes ?? [])
 
 <script>
   // Live preview (builder-preview): apply the shared palette to the CAPTURED
-  // interface — the real app's DOM and stylesheet, in a same-origin iframe
-  // (myne#394) — via gated CSSOM setProperty (SYNC-4 — the ONLY browser
+  // interface: the real app's DOM and stylesheet, in a same-origin iframe
+  // (myne#394): via gated CSSOM setProperty (SYNC-4: the ONLY browser
   // injection gate; the site has no CSP). Never string-concat into a <style>.
   //
   // Applying to the frame's `documentElement` rather than to a wrapper div is
@@ -1215,7 +2014,10 @@ const galleryThemes = (themesIndex.themes ?? [])
 
   const readability = document.getElementById("tb-readability");
 
-  // Plain-word names for the 5 canonical CONTRAST_RULES pairs.
+  // Plain-word names for the 5 canonical CONTRAST_RULES pairs, and for the
+  // surface each one is read against. A finding has to be able to say WHAT is
+  // wrong ("Secondary text is too faint against the page background, 3.42:1,
+  // needs 4.5:1"), which a chip holding two words cannot.
   const REGION_NAMES: Record<string, string> = {
     "--ink-0|--paper": "Headings",
     "--ink-1|--paper": "Body text",
@@ -1223,26 +2025,33 @@ const galleryThemes = (themesIndex.themes ?? [])
     "--ink-2|--paper": "Secondary text",
     "--accent|--paper": "Accent",
   };
+  const SURFACE_NAMES: Record<string, string> = {
+    "--paper": "the page background",
+    "--paper-2": "panel backgrounds",
+    "--paper-3": "hover surfaces",
+  };
+  /** Past this many findings the tail is summarised, so the banner stays readable. */
+  const MAX_LISTED_FINDINGS = 4;
 
   function updateReadability(palette: Record<string, string>): void {
-    if (!readability) return;
+    const text = document.getElementById("tb-readability-text");
+    if (!readability || !text) return;
     const report = contrastReport(palette);
-    readability.replaceChildren();
     if (report.failures.length === 0) {
       readability.hidden = true;
       return;
     }
     readability.hidden = false;
-    const label = document.createElement("span");
-    label.className = "tb-readability-label";
-    label.textContent = "Low contrast:";
-    readability.append(label);
-    for (const f of report.failures) {
-      const chip = document.createElement("span");
-      chip.className = "tb-readability-chip";
-      chip.textContent = REGION_NAMES[`${f.fg}|${f.bg}`] ?? f.label;
-      readability.append(chip);
-    }
+    const sentences = report.failures.map((f) => {
+      const who = REGION_NAMES[`${f.fg}|${f.bg}`] ?? f.label;
+      const where = SURFACE_NAMES[f.bg] ?? "its background";
+      return `${who} is too faint against ${where} (${f.ratio.toFixed(2)}:1, needs ${f.min}:1)`;
+    });
+    // One running paragraph, not one line per finding: and `textContent`, so a
+    // palette value can never inject anything here.
+    const shown = sentences.slice(0, MAX_LISTED_FINDINGS);
+    const rest = sentences.length - shown.length;
+    text.textContent = `${shown.join("; ")}${rest > 0 ? `; and ${rest} more` : ""}.`;
   }
 
   // Fit the captured 1280×800 window into whatever width the pane has, by
@@ -1253,15 +2062,52 @@ const galleryThemes = (themesIndex.themes ?? [])
   const frame = document.getElementById("tb-pv-frame");
   const CAPTURE_W = 1280;
   const CAPTURE_H = 800;
+
+  // Hand the captured interface to the frame as `srcdoc` instead of a `src`.
+  // The snapshot has to be a document of its own (its rules are written against
+  // `:root`, and this page's stylesheet must not leak into it), but a framed
+  // HTTP response inherits the origin's `X-Frame-Options`: and myne.md ships
+  // `DENY` site-wide, which blocks even a same-origin frame. The production
+  // builder therefore showed Firefox's "will not allow ... to display the page
+  // if another site has embedded it" where the preview belongs, while the same
+  // page on localhost worked, because the dev server sends no such header.
+  // `about:srcdoc` is not a response, so there is no header to refuse it, and
+  // `sandbox="allow-same-origin"` keeps the frame on this origin so the apply
+  // engine can still reach into it.
+  if (frame instanceof HTMLIFrameElement) {
+    // Versioned by the snapshot's own hash: the endpoint caches for an hour (it
+    // is ~190 KB), so without this a browser that had already loaded the
+    // PREVIOUS capture kept serving it after a re-capture, which reads as "the
+    // preview is still the old app".
+    const version = frame.dataset.previewVersion ?? "0";
+    void fetch(`/themes/preview-frame.html?v=${encodeURIComponent(version)}`, {
+      credentials: "same-origin",
+    })
+      .then((res) => (res.ok ? res.text() : Promise.reject(new Error(String(res.status)))))
+      .then((html) => {
+        frame.srcdoc = html;
+      })
+      .catch(() => {
+        // A missing snapshot degrades to an empty stage: the same posture the
+        // measure controls take below, rather than a spinner nobody can clear.
+      });
+  }
   if (stage && frame) {
     const fit = () => {
       const width = stage.clientWidth;
-      if (width <= 0) return;
-      // Never scale UP: past 1:1 the preview is showing a magnified screenshot
-      // and every hairline in the theme reads a pixel thicker than it ships.
-      const scale = Math.min(width / CAPTURE_W, 1);
-      frame.style.transform = `scale(${scale})`;
-      stage.style.height = `${Math.round(CAPTURE_H * scale)}px`;
+      const height = stage.clientHeight;
+      if (width <= 0 || height <= 0) return;
+      // Fit BOTH axes and never scale UP: past 1:1 the preview is showing a
+      // magnified screenshot, and every hairline in the theme reads a pixel
+      // thicker than it ships. The frame's layout box is fixed, so the stage's
+      // flex height is stable and this cannot feed back into itself.
+      const scale = Math.min(width / CAPTURE_W, height / CAPTURE_H, 1);
+      const dx = Math.max(0, Math.round((width - CAPTURE_W * scale) / 2));
+      const dy = Math.max(0, Math.round((height - CAPTURE_H * scale) / 2));
+      frame.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+      // The frame's corner radius is divided by this (see the CSS): the transform
+      // scales the corner along with everything else.
+      stage.style.setProperty("--pv-scale", String(scale));
     };
     fit();
     new ResizeObserver(fit).observe(stage);
@@ -1270,13 +2116,13 @@ const galleryThemes = (themesIndex.themes ?? [])
   withPreviewRoot((pvRoot: HTMLElement) => {
     // What the loaded stylesheet can actually draw, read off its own rules. A
     // selection absent from this set is never written, so the preview cannot
-    // hold an attribute nothing matches — the shape that made every ornament
+    // hold an attribute nothing matches: the shape that made every ornament
     // control here a no-op before the snapshot arrived.
     const drawable = drawableOrnaments(pvRoot);
 
     // ── Measure controls ─────────────────────────────────────────────────────
-    // Bands come from the preview's OWN token sheet — the real `tokens.css`,
-    // captured with the snapshot — read here, before any palette is applied, so
+    // Bands come from the preview's OWN token sheet: the real `tokens.css`,
+    // captured with the snapshot: read here, before any palette is applied, so
     // what is measured is the built-in default rather than a previous theme's.
     // A token whose band cannot be established (a zero default, an unreadable
     // value) has its control REMOVED: `--space-0` and `--tracking-normal` both
@@ -1317,13 +2163,13 @@ const galleryThemes = (themesIndex.themes ?? [])
 
     const apply = (snap: { palette: Record<string, string> }) => {
       // A custom palette replaces the built-in wholesale, exactly as the app
-      // does — otherwise the captured `data-theme` keeps supplying values the
+      // does: otherwise the captured `data-theme` keeps supplying values the
       // theme meant to override.
       pvRoot.removeAttribute("data-theme");
       applyTheme(pvRoot.style, snap.palette);
       reflectOrnament(pvRoot, snap.palette, drawable);
       updateReadability(snap.palette);
-      // Expose the preview's effective appearance (SYNC-8 — export reads it).
+      // Expose the preview's effective appearance (SYNC-8: export reads it).
       // On the builder page's own element, not the frame's: the export block
       // reads it from this document.
       document.body.dataset.previewAppearance = isDarkBackground(snap.palette["--paper"])
@@ -1336,22 +2182,35 @@ const galleryThemes = (themesIndex.themes ?? [])
 </script>
 
 <script>
-  // Export (builder-export): the submit modal. Single primary action (Download) +
-  // one supporting affordance (Share) — fits the 2026-05-03 website modal carve-out.
+  // Export / Share (builder-export): ONE dialog, two modes.
+  //
+  // Both need the same three fields and the same completeness gate, so a second
+  // dialog would be the same markup twice with two sets of ids. What actually
+  // differs is the sentence and the destination: Export writes two files to
+  // Downloads; Share opens a PULL REQUEST on the gallery with the palette
+  // already written into `themes/<slug>/theme.json` (GitHub's new-file page,
+  // which forks for anyone without write access), and keeps the issue form as
+  // the fallback when the encoded URL would be too long.
   import { appState } from "../../scripts/themeBuilderApp";
   import { canExport, buildThemeJson, buildMetaJson } from "../../lib/themeBuilder/serialize.mjs";
   import { contrastReport } from "../../lib/themeBuilder/validator.mjs";
   import { downloadFile } from "../../lib/themeBuilder/download.mjs";
   import { slugify, slugCollides, isShareableSlug } from "../../lib/themeBuilder/slug.mjs";
-  import { buildShareUrl } from "../../lib/themeBuilder/shareUrl.mjs";
+  import { buildSubmission } from "../../lib/themeBuilder/shareUrl.mjs";
+  import { buildThemeInstallUrl } from "../../lib/themeInstallLink.mjs";
   import themesIndex from "../../data/themes-index.json";
 
   const existingSlugs = (themesIndex.themes ?? []).map((t) => t.slug);
 
   const modal = document.getElementById("tb-export-modal") as HTMLDialogElement | null;
+  const titleEl = document.getElementById("tb-modal-title");
+  const blurbEl = document.getElementById("tb-modal-blurb");
+  const noteEl = document.getElementById("tb-modal-note");
   const openBtn = document.getElementById("tb-export-btn");
   const downloadBtn = document.getElementById("tb-download") as HTMLButtonElement | null;
-  const shareLink = document.getElementById("tb-share");
+  const openPrLink = document.getElementById("tb-open-pr") as HTMLAnchorElement | null;
+  const modeShareBtn = document.getElementById("tb-mode-share");
+  const modeExportBtn = document.getElementById("tb-mode-export");
   const statusEl = document.getElementById("tb-export-status");
   const nameInput = document.getElementById("tb-meta-name") as HTMLInputElement | null;
   const authorInput = document.getElementById("tb-meta-author") as HTMLInputElement | null;
@@ -1362,25 +2221,37 @@ const galleryThemes = (themesIndex.themes ?? [])
     author: authorInput?.value ?? "",
     description: descInput?.value ?? "",
   });
-  // The preview block publishes the effective appearance here (SYNC-8). It used
-  // to hang off the preview wrapper, which now lives inside the frame's own
-  // document — reachable, but a cross-document read for a value this page can
-  // simply be told.
+
+  // The preview block publishes the effective appearance here (SYNC-8).
   const currentAppearance = (): "light" | "dark" =>
     document.body.dataset.previewAppearance === "dark" ? "dark" : "light";
 
-  function refreshExportState(): boolean {
+  /** Everything both destinations need, built once per refresh. */
+  function outputs() {
     const palette = appState.getPalette();
     const meta = readMeta();
-    const gate = canExport(palette);
-    const named = meta.name.trim() !== "";
+    const appearance = currentAppearance();
     const slug = slugify(meta.name);
-    const contrast = contrastReport(palette);
+    return {
+      palette,
+      meta,
+      appearance,
+      slug,
+      themeJson: JSON.stringify(buildThemeJson(palette), null, 2),
+      metaJson: JSON.stringify(buildMetaJson(meta, appearance), null, 2),
+    };
+  }
+
+  function refreshExportState(): boolean {
+    const out = outputs();
+    const gate = canExport(out.palette);
+    const named = out.meta.name.trim() !== "";
+    const contrast = contrastReport(out.palette);
     const ready = gate.ok && named;
     // Sharing needs an ascii slug; a non-Latin/emoji name folds to "" (which would
     // yield a `themes//` folder and slip past the collision guard). Download is not
-    // gated on the slug — theme.json is palette-only and its filename is fixed.
-    const shareReady = ready && isShareableSlug(slug);
+    // gated on the slug: theme.json is palette-only and its filename is fixed.
+    const shareReady = ready && isShareableSlug(out.slug);
 
     if (statusEl) {
       if (!gate.ok) {
@@ -1391,11 +2262,12 @@ const galleryThemes = (themesIndex.themes ?? [])
         statusEl.hidden = false;
         statusEl.className = "tb-export-status is-warn";
         statusEl.textContent = "Give your theme a name to download or share it.";
-      } else if (!isShareableSlug(slug)) {
+      } else if (!isShareableSlug(out.slug)) {
         statusEl.hidden = false;
         statusEl.className = "tb-export-status is-warn";
-        statusEl.textContent = "Add Latin letters or numbers to the name to share to the gallery — you can still download.";
-      } else if (slugCollides(slug, existingSlugs)) {
+        statusEl.textContent =
+          "Add Latin letters or numbers to the name to share to the gallery. You can still download.";
+      } else if (slugCollides(out.slug, existingSlugs)) {
         statusEl.hidden = false;
         statusEl.className = "tb-export-status is-warn";
         statusEl.textContent = "A gallery theme with this name already exists — rename it before sharing.";
@@ -1409,32 +2281,126 @@ const galleryThemes = (themesIndex.themes ?? [])
     }
 
     if (downloadBtn) downloadBtn.disabled = !ready;
-    if (shareLink) {
-      shareLink.setAttribute("aria-disabled", shareReady ? "false" : "true");
+
+    if (openPrLink) {
+      openPrLink.setAttribute("aria-disabled", shareReady ? "false" : "true");
       if (shareReady) {
-        const appearance = currentAppearance();
-        (shareLink as HTMLAnchorElement).href = buildShareUrl({
-          slug,
-          name: meta.name.trim(),
-          author: meta.author.trim(),
-          description: meta.description.trim(),
-          appearance,
-          themeJson: JSON.stringify(buildThemeJson(palette), null, 2),
-          metaJson: JSON.stringify(buildMetaJson(meta, appearance), null, 2),
+        const submission = buildSubmission({
+          slug: out.slug,
+          name: out.meta.name.trim(),
+          author: out.meta.author.trim(),
+          description: out.meta.description.trim(),
+          appearance: out.appearance,
+          themeJson: out.themeJson,
+          metaJson: out.metaJson,
         });
+        openPrLink.href = submission.url;
+        // A palette too large to encode falls back to the issue form; say so
+        // rather than promising a diff the link cannot carry.
+        openPrLink.textContent =
+          submission.kind === "pr" ? "Open a pull request" : "Open a submission issue";
       } else {
-        (shareLink as HTMLAnchorElement).href = "#";
+        openPrLink.href = "#";
       }
     }
+
     return ready;
   }
 
-  openBtn?.addEventListener("click", () => {
+  const COPY = {
+    export: {
+      title: "Export your theme",
+      blurb:
+        "Two files go into your Downloads folder. theme.json is what you import from Settings → Appearance; meta.json carries your name, a description and the appearance so a gallery submission can be filed without asking again. Nothing leaves this page.",
+      note: "The palette is validated on your device when you import it.",
+    },
+    share: {
+      title: "Share your theme",
+      blurb:
+        "Opens a pull request on the myne-themes gallery with your palette already written into themes/<slug>/theme.json. Nothing is uploaded from this page: GitHub shows you the diff first, and a maintainer reviews it with the same validator the app runs.",
+      note: "No GitHub account? Use Export instead and attach the files to an issue.",
+    },
+  };
+
+  type Mode = "export" | "share";
+
+  function setMode(next: Mode): void {
+    modal?.setAttribute("data-mode", next);
+    const copy = COPY[next];
+    if (titleEl) titleEl.textContent = copy.title;
+    if (blurbEl) blurbEl.textContent = copy.blurb;
+    if (noteEl) noteEl.textContent = copy.note;
+    const sharing = next === "share";
+    if (downloadBtn) downloadBtn.hidden = sharing;
+    if (openPrLink) openPrLink.hidden = !sharing;
+    if (modeShareBtn) modeShareBtn.hidden = sharing;
+    if (modeExportBtn) modeExportBtn.hidden = !sharing;
     refreshExportState();
+  }
+
+  function openModal(next: Mode): void {
+    setMode(next);
     modal?.showModal();
+    if (next === "share" && (nameInput?.value ?? "").trim() === "") nameInput?.focus();
+  }
+
+  openBtn?.addEventListener("click", () => openModal("export"));
+
+  modeShareBtn?.addEventListener("click", () => setMode("share"));
+  modeExportBtn?.addEventListener("click", () => setMode("export"));
+
+  // ── Toolbar shortcuts ─────────────────────────────────────────────────────
+  const shareBtn = document.getElementById("tb-share-btn");
+  const openInMyneBtn = document.getElementById("tb-open-in-myne");
+
+  shareBtn?.addEventListener("click", () => openModal("share"));
+
+  // Open in Myne hands the LIVE palette to the desktop app through the same
+  // `myne://theme/install` link the gallery cards use: no file, no round trip
+  // through the export modal. That is the iteration loop a theme author
+  // actually wants: press it, the app asks to apply, look at the real window.
+  const refreshOpenInMyne = () => {
+    if (!openInMyneBtn) return;
+    const url = buildThemeInstallUrl({
+      name: (nameInput?.value ?? "").trim() || "Untitled theme",
+      palette: appState.getPalette(),
+      author: (authorInput?.value ?? "").trim(),
+      source: "https://myne.md/themes/builder",
+    });
+    // `null` means the link cannot be built: an incomplete palette, or one
+    // whose encoded form exceeds the OS command-line budget the app documents.
+    // Either way the honest answer is "use Export", so the button says that
+    // rather than emitting a link that fails in the app's dialog.
+    openInMyneBtn.setAttribute("aria-disabled", url ? "false" : "true");
+    openInMyneBtn.title = url
+      ? "Hand this theme to the desktop app without downloading anything"
+      : "This theme is too large to hand off in a link. Use Export.";
+  };
+
+  openInMyneBtn?.addEventListener("click", () => {
+    if (openInMyneBtn.getAttribute("aria-disabled") === "true") {
+      openModal("export");
+      if (statusEl) {
+        statusEl.hidden = false;
+        statusEl.className = "tb-export-status is-warn";
+        statusEl.textContent =
+          "Too large to hand off in a link. Use Download, then import it from Settings → Appearance.";
+      }
+      return;
+    }
+    const url = buildThemeInstallUrl({
+      name: (nameInput?.value ?? "").trim() || "Untitled theme",
+      palette: appState.getPalette(),
+      author: (authorInput?.value ?? "").trim(),
+      source: "https://myne.md/themes/builder",
+    });
+    if (url) window.location.href = url;
   });
 
-  // dismiss — × button, backdrop click (Esc is native to <dialog>).
+  appState.subscribe(refreshOpenInMyne);
+  refreshOpenInMyne();
+
+  // dismiss: × button, backdrop click (Esc is native to <dialog>).
   modal?.querySelector("[data-tb-close]")?.addEventListener("click", () => modal.close());
   modal?.addEventListener("click", (e) => {
     if (e.target === modal) modal.close();
@@ -1442,7 +2408,7 @@ const galleryThemes = (themesIndex.themes ?? [])
 
   // Re-gate as the user types the metadata. No palette subscription: the color
   // controls sit behind the modal's backdrop while it's open, so the palette
-  // can't change here — the open-click + these input handlers cover every case.
+  // can't change here: the open-click + these input handlers cover every case.
   for (const el of [nameInput, authorInput, descInput]) {
     el?.addEventListener("input", refreshExportState);
   }
@@ -1450,9 +2416,8 @@ const galleryThemes = (themesIndex.themes ?? [])
   // Download: two import-ready files (theme.json + meta.json), no zip.
   downloadBtn?.addEventListener("click", () => {
     if (!refreshExportState()) return;
-    const palette = appState.getPalette();
-    const appearance = currentAppearance();
-    downloadFile("theme.json", JSON.stringify(buildThemeJson(palette), null, 2));
-    downloadFile("meta.json", JSON.stringify(buildMetaJson(readMeta(), appearance), null, 2));
+    const out = outputs();
+    downloadFile("theme.json", out.themeJson);
+    downloadFile("meta.json", out.metaJson);
   });
 </script>

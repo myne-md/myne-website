@@ -1,11 +1,11 @@
 /**
- * Theme Builder — a custom, on-register color picker (zero-dep, vanilla).
+ * Theme Builder: a custom, on-register color picker (zero-dep, vanilla).
  *
  * Replaces the browser's native `<input type=color>` OS dialog with a styled
  * HSV popover (saturation/value square + hue slider + hex field). The pure
  * conversions are exported + unit-tested; the DOM controller is built lazily by
  * `createColorPicker` (no top-level `document`, so this module imports safely in
- * node tests). Emits `#rrggbb` — always allowlist-valid.
+ * node tests). Emits `#rrggbb`: always allowlist-valid.
  */
 import { hexToRgb } from "./contrast.mjs";
 
@@ -76,11 +76,14 @@ const clamp01 = (n) => Math.max(0, Math.min(1, n));
 // ── DOM controller ───────────────────────────────────────────────────────────
 
 /**
- * Create the singleton picker popover. Returns `{ open(anchor, hex), close(), el }`.
- * `onChange(hex)` fires live as the user drags/types.
- * @param {{ onChange: (hex: string) => void }} opts
+ * Create the singleton picker popover. Returns
+ * `{ open(anchor, hex), close(), isOpen(), el }`.
+ * `onChange(hex)` fires live as the user drags/types; `onClose()` fires on
+ * every dismissal so the page can drop the "what does this colour drive"
+ * highlight it raised when the picker opened.
+ * @param {{ onChange: (hex: string) => void, onClose?: () => void }} opts
  */
-export function createColorPicker({ onChange }) {
+export function createColorPicker({ onChange, onClose }) {
   let h = 0;
   let s = 0;
   let v = 0;
@@ -164,7 +167,7 @@ export function createColorPicker({ onChange }) {
     onChange(norm);
   });
 
-  // dismiss on outside pointerdown (ignore clicks on a swatch trigger — those
+  // dismiss on outside pointerdown (ignore clicks on a swatch trigger: those
   // re-open the picker) and Escape.
   function onDocDown(e) {
     if (root.contains(e.target)) return;
@@ -174,17 +177,33 @@ export function createColorPicker({ onChange }) {
   function onKey(e) {
     if (e.key === "Escape") close();
   }
+  // Scrolling dismisses the popover. It is `position: fixed`, so a scroll under
+  // it slides the row it was anchored to out from under the popover, leaving a
+  // panel pointing at nothing; closing is the honest answer, and it is cheaper
+  // than chasing the anchor on every scroll frame.
+  function onScroll() {
+    close();
+  }
 
   function position(anchor) {
     const a = anchor.getBoundingClientRect();
     const w = root.offsetWidth || 224;
     const ht = root.offsetHeight || 220;
-    // prefer to the right of the swatch; flip left if it would overflow
-    let left = a.right + 10;
-    if (left + w > window.innerWidth - 8) left = a.left - w - 10;
-    left = Math.max(8, Math.min(left, window.innerWidth - w - 8));
-    let top = a.top - 8;
-    top = Math.max(8, Math.min(top, window.innerHeight - ht - 8));
+    const GAP = 8;
+    // Open at the control the user pressed: directly under the swatch, aligned
+    // to its left edge: rather than in whatever free space happens to sit
+    // beside the panel. The picker is a popover: it is SUPPOSED to cover part
+    // of the sidebar, and a user who clicked a swatch mid-list should not have
+    // to find the popover at the far edge of the window. The only moves are the
+    // ones that keep it on screen: nudge left, then flip above the control.
+    let left = a.left;
+    if (left + w > window.innerWidth - GAP) left = window.innerWidth - w - GAP;
+    left = Math.max(GAP, left);
+    let top = a.bottom + GAP;
+    if (top + ht > window.innerHeight - GAP) {
+      const above = a.top - ht - GAP;
+      top = above >= GAP ? above : Math.max(GAP, window.innerHeight - ht - GAP);
+    }
     root.style.left = `${left}px`;
     root.style.top = `${top}px`;
   }
@@ -201,6 +220,9 @@ export function createColorPicker({ onChange }) {
       setTimeout(() => {
         document.addEventListener("pointerdown", onDocDown, true);
         document.addEventListener("keydown", onKey);
+        // Capture phase: a scroll INSIDE the controls pane does not bubble to the
+        // document, and that is the scroll that matters here.
+        document.addEventListener("scroll", onScroll, true);
       }, 0);
     }
   }
@@ -211,7 +233,9 @@ export function createColorPicker({ onChange }) {
     root.hidden = true;
     document.removeEventListener("pointerdown", onDocDown, true);
     document.removeEventListener("keydown", onKey);
+    document.removeEventListener("scroll", onScroll, true);
+    onClose?.();
   }
 
-  return { el: root, open, close };
+  return { el: root, open, close, isOpen: () => isOpen };
 }

@@ -1,9 +1,9 @@
 /**
- * Theme Builder — the in-memory theme state (SYNC-1).
+ * Theme Builder: the in-memory theme state (SYNC-1).
  *
  * One flat `{token → "#rrggbb"}` map plus a builder-only `isDark` flag. Controls
  * write it; preview and export read it. The `isDark` flag is builder-only state
- * (it is NOT written into theme.json — it maps to meta.appearance at export,
+ * (it is NOT written into theme.json: it maps to meta.appearance at export,
  * SYNC-8). Zero-dep, framework-free: a tiny observable so the .astro page can
  * wire controls → preview without a UI library.
  *
@@ -19,6 +19,14 @@ export function createThemeState(initial = {}) {
   /** @type {Palette} */
   let palette = { ...(initial.palette ?? {}) };
   let dark = Boolean(initial.isDark);
+  /**
+   * Tokens the author has deliberately UNLINKED from their anchor. Builder-only
+   * state, like `isDark`: it is not written into theme.json (a theme stores raw
+   * values either way), it exists so re-deriving a family does not stamp on an
+   * override the author made on purpose.
+   * @type {Set<string>}
+   */
+  const pinned = new Set();
   /** @type {Set<(snap: ThemeSnapshot) => void>} */
   const subs = new Set();
 
@@ -50,12 +58,29 @@ export function createThemeState(initial = {}) {
     },
     /**
      * Replace the whole palette (e.g. loading a preset). Optionally set isDark.
+     * The pinned set is CLEARED: a preset defines its own anchors, and carrying
+     * "unlinked" markers across a preset load would silently refuse to
+     * re-derive against the new base: the opposite of what the marker means.
      * @param {Palette} next @param {boolean} [nextDark]
      */
     replace: (next, nextDark) => {
       palette = { ...next };
+      pinned.clear();
       if (nextDark !== undefined) dark = Boolean(nextDark);
       notify();
+    },
+    /** Is this token unlinked from its anchor (an author override)? */
+    isPinned: (token) => pinned.has(token),
+    /** Unlink a derived shade from its anchor: the value stops following. */
+    pin: (token) => {
+      if (!pinned.has(token)) {
+        pinned.add(token);
+        notify();
+      }
+    },
+    /** Re-link a derived shade: it snaps back to its anchor's derivation. */
+    unpin: (token) => {
+      if (pinned.delete(token)) notify();
     },
     isDark: () => dark,
     /** @param {boolean} v */

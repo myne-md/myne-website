@@ -20,7 +20,6 @@ const themes = (themesData.themes ?? []) as Array<{
   license: string;
   appearance?: "light" | "dark";
   github: string;
-  download: string;
   preview: string | null;
   swatches: {
     background: string;
@@ -39,11 +38,11 @@ const REPO = "https://github.com/myne-md/myne-themes";
 // user then has to find and import by hand.
 //
 // The palette rides inside the URL because the app has no network egress path
-// and so cannot fetch a `src` — see `src/lib/themeInstallLink.mjs`. Built once
+// and so cannot fetch a `src`: see `src/lib/themeInstallLink.mjs`. Built once
 // here at BUILD time: no runtime fetch, no client JS, no tracker.
 //
 // `installUrl` is null when a theme has no palette in `themes-full.json` or
-// would exceed the URL budget. That is a graceful degrade, not an error — the
+// would exceed the URL budget. That is a graceful degrade, not an error: the
 // card then shows the plain `.json` download as the only path.
 const palettes = themePalettes as Record<string, Record<string, string>>;
 const cards = themes.map((t) => ({
@@ -58,330 +57,828 @@ const cards = themes.map((t) => ({
 ---
 
 <LandingLayout title={title} description={description} canonical={canonical}>
-  <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
-  >
+  <div class="themes-page">
     <GlassNav />
 
-    <section style="padding:128px 28px 40px;">
-      <div style="max-width:1280px;margin:0 auto;">
-        <div class="mono up" style="font-size:11px;color:var(--accent);margin-bottom:18px;">
-          Themes
-        </div>
-        <h1
-          style="font-size:clamp(34px,5vw,60px);line-height:1.0;font-weight:700;letter-spacing:-0.035em;"
-        >
-          Make it yours.
-        </h1>
-        <p style="margin-top:22px;max-width:64ch;font-size:16px;line-height:1.65;color:var(--ink-3);">
-          Community themes for Myne. Pick one and it
-          <span style="color:var(--ink-1);">opens in the app</span>, which shows you what
-          it is and asks before applying it — or download the
-          <span style="color:var(--ink-1);">.json</span> and import it yourself from
-          Settings → Appearance. A theme is a small, validated palette — not code —
-          and Myne <span style="color:var(--ink-1);">validates it on your device</span>.
-          We don't sandbox themes and we don't call this "safe"; the theme travels
-          inside the link, so the app never phones this page, and there are no
-          trackers or download counters here. Themes you keep are stored as
-          encrypted vault content, so they sync to your other devices and travel
-          in your backups.
+    {/* ── Hero ────────────────────────────────────────────────────────────
+        The page used to open on the gallery's mechanics ("pick one and it
+        opens in the app, or download the .json and import it yourself…") with
+        no sentence saying what Myne IS. A reader arriving from a theme link
+        was told how to install a thing without being told what they were
+        installing it into, which is why the page read as a different site. */}
+    <section class="themes-hero">
+      <div class="themes-col themes-hero-grid">
+        <div class="themes-hero-text">
+        <div class="mono up themes-eyebrow">Themes</div>
+        <h1 class="themes-h1">Make it yours.</h1>
+        <p class="themes-lede">
+          Myne is a markdown notes app where the vault is encrypted on your device, so the server
+          cannot read your notes. A theme is a small palette of colours, not code: one palette
+          dresses the editor, the sidebar and every surface. A theme you keep lives inside the vault
+          as encrypted content, so it travels to your other devices and into your backups, while
+          which one is active stays each device's own choice.
         </p>
-        <a
-          href="/themes/builder"
-          class="tbuild-cta"
-          style="display:inline-flex;align-items:center;gap:8px;margin-top:30px;background:var(--ink-1);color:var(--paper);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;transition:background 0.15s ease;"
-          >Build your own →</a
-        >
+        <div class="themes-ctas">
+          <a href="/themes/builder" class="up themes-cta themes-cta--primary">Build your own</a>
+          <a href="#gallery" class="up themes-cta themes-cta--ghost">Browse the gallery</a>
+        </div>
+        <p class="mono themes-spec">
+          {themes.length} themes · validated on your device, not sandboxed · CC-BY-4.0
+        </p>
+        </div>
+
+        {/* The app itself, changing its own accent: eight REAL captures of one
+            run, not a mock. A carousel rather than a video because a step can
+            then say what it is doing (the line above the frame) and a progress
+            segment can show how long each step holds. The frames are built by
+            the app repo's `scripts/capture-theme-demo.sh`. */}
+        <figure class="themes-demo" data-demo>
+          <p class="themes-demo-caption mono up" data-demo-caption aria-live="polite">Start with your vault</p>
+          <div class="themes-demo-frame">
+            <img
+              class="themes-demo-slide is-active"
+              data-step="Start with your vault"
+              src="/themes/demo/01.jpg"
+              alt="The Myne editor with a note open"
+              width="1040"
+              height="658"
+              loading="eager"
+              decoding="async"
+            />
+            <img
+              class="themes-demo-slide"
+              data-step="Open Settings → Appearance"
+              src="/themes/demo/02.jpg"
+              alt="The Appearance settings panel"
+              width="1040"
+              height="658"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="themes-demo-slide"
+              data-step="Select a colour"
+              src="/themes/demo/03.jpg"
+              alt="The accent colour picker open"
+              width="1040"
+              height="658"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="themes-demo-slide"
+              data-step="Preview it live"
+              src="/themes/demo/04.jpg"
+              alt="A new accent previewed in the picker"
+              width="1040"
+              height="658"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="themes-demo-slide"
+              data-step="Every surface follows"
+              src="/themes/demo/05.jpg"
+              alt="The editor repainted in the new accent"
+              width="1040"
+              height="658"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="themes-demo-slide"
+              data-step="Try another"
+              src="/themes/demo/06.jpg"
+              alt="The editor with a second accent colour"
+              width="1040"
+              height="658"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="themes-demo-slide"
+              data-step="Switch to dark"
+              src="/themes/demo/07.jpg"
+              alt="The dark appearance selected"
+              width="1040"
+              height="658"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="themes-demo-slide"
+              data-step="The same accent, carried over"
+              src="/themes/demo/08.jpg"
+              alt="The editor in dark mode keeping the accent"
+              width="1040"
+              height="658"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="themes-demo-steps" aria-label="Theme demo steps">
+            <button
+              type="button"
+              class="themes-demo-step is-active"
+              aria-label="Step 1: Start with your vault"
+              aria-current="true"
+              data-index="0"
+            >
+              <span></span>
+            </button>
+            <button
+              type="button"
+              class="themes-demo-step"
+              aria-label="Step 2: Open Settings → Appearance"
+              aria-current="false"
+              data-index="1"
+            >
+              <span></span>
+            </button>
+            <button
+              type="button"
+              class="themes-demo-step"
+              aria-label="Step 3: Select a colour"
+              aria-current="false"
+              data-index="2"
+            >
+              <span></span>
+            </button>
+            <button
+              type="button"
+              class="themes-demo-step"
+              aria-label="Step 4: Preview it live"
+              aria-current="false"
+              data-index="3"
+            >
+              <span></span>
+            </button>
+            <button
+              type="button"
+              class="themes-demo-step"
+              aria-label="Step 5: Every surface follows"
+              aria-current="false"
+              data-index="4"
+            >
+              <span></span>
+            </button>
+            <button
+              type="button"
+              class="themes-demo-step"
+              aria-label="Step 6: Try another"
+              aria-current="false"
+              data-index="5"
+            >
+              <span></span>
+            </button>
+            <button
+              type="button"
+              class="themes-demo-step"
+              aria-label="Step 7: Switch to dark"
+              aria-current="false"
+              data-index="6"
+            >
+              <span></span>
+            </button>
+            <button
+              type="button"
+              class="themes-demo-step"
+              aria-label="Step 8: The same accent, carried over"
+              aria-current="false"
+              data-index="7"
+            >
+              <span></span>
+            </button>
+          </div>
+        </figure>
       </div>
     </section>
 
-    <section style="padding:8px 28px 100px;">
-      <div style="max-width:1280px;margin:0 auto;">
+    {/* ── Gallery ─────────────────────────────────────────────────────────
+        De-boxed on purpose. The old grid was a wall of bordered cards with a
+        filled button in each one, which read as a marketplace rather than as
+        Myne's own page; a preview and a name carry the same information with
+        less furniture. */}
+    <section id="gallery" class="themes-gallery">
+      <div class="themes-col">
+        <div class="themes-gallery-head">
+          <h2 class="themes-h2">Gallery</h2>
+          {cards.some((c) => c.installUrl) && (
+            <p class="themes-legend">
+              <strong>Open in Myne</strong> hands the theme to the app, which shows what it is and asks
+              before applying it. No app yet, or on a phone? Use <strong>.json</strong> and import it
+              from Settings → Appearance.
+            </p>
+          )}
+        </div>
+
         {
           themes.length === 0 ? (
-            <p class="mono" style="color:var(--ink-3);font-size:13px;">
+            <p class="mono themes-empty">
               No themes published yet.{" "}
-              <a href={`${REPO}/blob/main/CONTRIBUTING.md`} style="color:var(--accent);text-decoration:none;">
-                Contribute the first one →
-              </a>
+              <a href={`${REPO}/blob/main/CONTRIBUTING.md`}>Contribute the first one →</a>
             </p>
           ) : (
-            <>
-            {cards.some((c) => c.installUrl) && (
-              <p class="tgrid-hint">
-                <strong>Open in Myne</strong> hands the theme to the desktop app, which
-                shows you what it is and asks before applying it — nothing lands in your
-                Downloads folder. No Myne yet? Use
-                <strong>Download .json</strong> and import it from Settings → Appearance.
-                On a phone, use the download — the hand-off is desktop-only.
-              </p>
-            )}
-            <div class="tgrid">
+            <div class="themes-grid">
               {cards.map((t) => (
-                <article class="tcard">
-                  <div class="tcard-preview" style={`background:${t.swatches.background};`}>
+                <article class="themes-card">
+                  <div class="themes-shot" style={`background:${t.swatches.background};`}>
                     {t.preview ? (
-                      <img src={t.preview} alt={`${t.name} preview`} loading="lazy" width="1200" height="760" />
+                      <img
+                        src={t.preview}
+                        alt={`${t.name} preview`}
+                        loading="lazy"
+                        width="1200"
+                        height="760"
+                      />
                     ) : (
-                      <div class="tcard-swatchfill">
+                      <div class="themes-shot-fill">
                         {Object.values(t.swatches).map((c) => (
                           <span style={`background:${c};`} />
                         ))}
                       </div>
                     )}
                   </div>
-                  <div class="tcard-body">
-                    <div class="tcard-titlerow">
-                      <h2 class="tcard-name">{t.name}</h2>
-                      {t.appearance && (
-                        <span class="tcard-chip mono up">{t.appearance}</span>
-                      )}
-                    </div>
-                    <div class="tcard-author mono">by {t.author}</div>
-                    <p class="tcard-desc">{t.description}</p>
-                    <div class="tcard-swatches" aria-hidden="true">
+                  <div class="themes-card-head">
+                    <h3 class="themes-card-name">{t.name}</h3>
+                    {t.appearance && <span class="mono up themes-card-chip">{t.appearance}</span>}
+                  </div>
+                  <div class="mono themes-card-author">by {t.author}</div>
+                  <p class="themes-card-desc">{t.description}</p>
+                  <div class="themes-card-meta">
+                    <div class="themes-card-swatches" aria-hidden="true">
                       {Object.values(t.swatches).map((c) => (
                         <span style={`background:${c};`} />
                       ))}
                     </div>
-                    <div class="tcard-actions mono up">
-                      {
-                        t.installUrl && (
-                          <a
-                            class="tbtn tbtn-primary tbtn-open"
-                            href={t.installUrl}
-                            aria-label={`Open ${t.name} in Myne`}
-                          >
-                            Open in Myne
-                          </a>
-                        )
-                      }
+                    <div class="mono up themes-card-actions">
+                      {t.installUrl && (
+                        <a class="themes-act themes-act--primary" href={t.installUrl}>
+                          Open in Myne
+                        </a>
+                      )}
                       <a
-                        class:list={["tbtn", t.installUrl ? "tbtn-ghost tbtn-file" : "tbtn-primary"]}
-                        href={t.download}
+                        class="themes-act themes-act--icon themes-act--file"
+                        href={`/themes/${t.slug}.json`}
                         download={`${t.slug}.json`}
                         aria-label={`Download ${t.name} as JSON`}
+                        title="Download .json"
                       >
-                        Download .json
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M12 3v11" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" />
+                          <path d="M7.5 10L12 14.5 16.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" />
+                        </svg>
                       </a>
                       <a
-                        class="tbtn tbtn-ghost"
+                        class="themes-act themes-act--icon"
                         href={t.github}
                         target="_blank"
                         rel="noopener"
                         aria-label={`${t.name} on GitHub`}
+                        title="GitHub"
                       >
-                        GitHub
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+                        </svg>
                       </a>
                     </div>
                   </div>
                 </article>
               ))}
             </div>
-            </>
           )
         }
+      </div>
+    </section>
 
-        <div
-          class="mono"
-          style="margin-top:44px;border-top:1px solid rgb(var(--line-rgb) / 0.1);padding:30px 0 0;font-size:12.5px;line-height:1.8;color:var(--ink-3);max-width:70ch;"
-        >
-          Want to share your own? Themes live in the{" "}
-          <a href={REPO} style="color:var(--accent);text-decoration:none;">myne-themes</a>{" "}
-          repository — one folder, one pull request. Every submission is checked by
-          the <em>same validator the app runs</em> plus a contrast check, then reviewed
-          by a maintainer. Contributed themes are{" "}
-          <a href={`${REPO}/blob/main/LICENSING.md`} style="color:var(--accent);text-decoration:none;">CC-BY-4.0</a>.
+    {/* ── Add yours ───────────────────────────────────────────────────────
+        Two paths, stated once: the builder opens a pull request for you, and
+        the repository takes a hand-written theme. Both go through the same
+        validator the app runs. */}
+    <section class="themes-contribute">
+      <div class="themes-col">
+        <h2 class="themes-h2">Add yours</h2>
+        <div class="themes-grid2">
+          <div class="themes-path">
+            <div class="mono up themes-feature-kicker">From the builder</div>
+            <p class="themes-path-body">
+              Build it, press <strong>Share</strong>, and the builder opens a pull request with your
+              palette already written into <span class="mono">themes/&lt;name&gt;/theme.json</span>.
+              Nothing is uploaded from this site: GitHub shows the diff first.
+            </p>
+            <a class="mono up themes-act themes-act--primary" href="/themes/builder">Open the builder →</a>
+          </div>
+          <div class="themes-path">
+            <div class="mono up themes-feature-kicker">By hand</div>
+            <p class="themes-path-body">
+              One folder, two files, one pull request. Every submission is checked by the
+              <em>same validator the app runs</em> plus a contrast check, then reviewed by a
+              maintainer. Contributed themes are{" "}
+              <a href={`${REPO}/blob/main/LICENSING.md`}>CC-BY-4.0</a>.
+            </p>
+            <a class="mono up themes-act" href={`${REPO}/blob/main/CONTRIBUTING.md`}>
+              Read the submission guide →
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
-    <footer style="border-top:1px solid rgb(var(--line-rgb) / 0.1);padding:36px 28px;">
-      <div
-        class="mono up"
-        style="max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:10px;color:var(--ink-4);"
-      >
+    <footer class="themes-footer">
+      <div class="mono up themes-col themes-footer-inner">
         <span>© 2026 Myne · AGPL-3.0 · CC-BY-4.0 docs</span><StatusBadge /><VersionBadge />
       </div>
     </footer>
   </div>
 
   <style>
-    .tbuild-cta:hover {
-      background: var(--ink-0);
+    .themes-page {
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      color: var(--ink-1);
+      background: var(--paper);
+      min-height: 100vh;
     }
-    .tgrid {
+    /* The gutter lives on the OUTER box, exactly as the navbar does it: the nav
+       applies `padding: 0 28px` to `.gnav` and `max-width: 1280px` to
+       `.gnav-inner`. Putting both on one element made this column 56px narrower
+       than the brand above it, which is visible at every width. The max-width is
+       therefore the nav's 1280 PLUS the two gutters. */
+    .themes-col {
+      max-width: calc(1280px + 56px);
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* Hero */
+    .themes-hero {
+      padding: 128px 0 24px;
+    }
+    .themes-hero-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 22px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+      gap: 56px;
+      align-items: center;
     }
-    .tcard {
-      border: 1px solid rgb(var(--line-rgb) / 0.1);
-      border-radius: 14px;
+    @media (max-width: 980px) {
+      .themes-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+    }
+    .themes-demo {
+      margin: 0;
+    }
+    /* The step's sentence sits ABOVE the frame: it says what the picture is
+       doing, so it is read before the picture rather than captioned under it. */
+    .themes-demo-caption {
+      margin: 0 0 10px;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      min-height: 1.4em;
+    }
+    .themes-demo-frame {
+      position: relative;
+      aspect-ratio: 1040 / 658;
+      border: 1px solid rgb(var(--line-rgb) / 0.16);
+      border-radius: 12px;
       overflow: hidden;
       background: var(--paper-2);
+    }
+    .themes-demo-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+    .themes-demo-slide.is-active {
+      opacity: 1;
+    }
+    /* The steps are the scrubber: one segment per frame, the active one filling
+       over the hold time, so the loop's timing is visible rather than guessed. */
+    .themes-demo-steps {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .themes-demo-step {
+      position: relative;
+      flex: 1 1 0;
+      height: 14px;
+      padding: 6px 0;
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+    .themes-demo-step::before {
+      content: "";
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: rgb(var(--line-rgb) / 0.18);
+    }
+    .themes-demo-step span {
+      position: absolute;
+      left: 0;
+      top: 6px;
+      height: 2px;
+      width: 100%;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+    /* Steps already passed stay FILLED, so the row reads as progress through a
+       sequence rather than a single bar moving. They empty again only when the
+       loop wraps back to the first step. */
+    .themes-demo-step.is-past span {
+      transform: scaleX(1);
+    }
+    .themes-demo-step.is-active span {
+      animation: themes-demo-progress var(--demo-hold, 2800ms) linear forwards;
+    }
+    .themes-demo-step:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    @keyframes themes-demo-progress {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .themes-demo-step.is-active span {
+        animation: none;
+        transform: scaleX(1);
+      }
+    }
+    .themes-eyebrow {
+      font-size: 11px;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .themes-h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 60px);
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+    }
+    .themes-lede {
+      margin: 22px 0 0;
+      max-width: 62ch;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-3);
+    }
+    .themes-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .themes-cta {
+      text-decoration: none;
+      padding: 13px 22px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+    .themes-cta--primary {
+      background: var(--ink-1);
+      color: var(--paper);
+    }
+    .themes-cta--primary:hover {
+      background: var(--ink-0);
+    }
+    .themes-cta--ghost {
+      color: var(--ink-1);
+      border: 1px solid rgb(var(--line-rgb) / 0.2);
+    }
+    .themes-cta--ghost:hover {
+      border-color: rgb(var(--line-rgb) / 0.4);
+    }
+    .themes-spec {
+      margin: 18px 0 0;
+      font-size: 10.5px;
+      letter-spacing: 0.04em;
+      color: var(--ink-4);
+    }
+
+    /* Gallery */
+    .themes-gallery {
+      padding: 64px 0 8px;
+    }
+    .themes-h2 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+    .themes-gallery-head {
       display: flex;
       flex-direction: column;
-      transition: border-color 0.18s ease, transform 0.18s ease;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 30px;
     }
-    .tcard:hover {
-      border-color: rgb(var(--line-rgb) / 0.22);
-      transform: translateY(-2px);
+    .themes-legend {
+      margin: 0;
+      max-width: 68ch;
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: var(--ink-3);
     }
-    .tcard-preview {
+    .themes-legend strong {
+      color: var(--ink-1);
+      font-weight: 600;
+    }
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 34px 26px;
+    }
+    .themes-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .themes-shot {
       aspect-ratio: 1200 / 760;
-      border-bottom: 1px solid rgb(var(--line-rgb) / 0.08);
       overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid rgb(var(--line-rgb) / 0.12);
+      transition: border-color 0.18s ease;
     }
-    .tcard-preview img {
+    .themes-card:hover .themes-shot {
+      border-color: rgb(var(--line-rgb) / 0.3);
+    }
+    .themes-shot img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-    .tcard-swatchfill {
+    .themes-shot-fill {
       display: flex;
       width: 100%;
       height: 100%;
     }
-    .tcard-swatchfill span {
+    .themes-shot-fill span {
       flex: 1;
     }
-    .tcard-body {
-      padding: 20px 20px 22px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-    .tcard-titlerow {
+    .themes-card-head {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      margin-top: 14px;
     }
-    .tcard-name {
+    .themes-card-name {
       margin: 0;
-      font-size: 19px;
+      font-size: 15px;
       font-weight: 600;
-      letter-spacing: -0.015em;
+      letter-spacing: -0.01em;
       color: var(--ink-1);
     }
-    .tcard-chip {
+    .themes-card-chip {
       margin-left: auto;
       font-size: 9px;
-      color: var(--accent);
-      border: 1px solid rgb(var(--accent-rgb) / 0.35);
-      border-radius: 999px;
-      padding: 3px 9px;
-    }
-    .tcard-author {
-      margin-top: 5px;
-      font-size: 11px;
       color: var(--ink-3);
+      border: 1px solid rgb(var(--line-rgb) / 0.2);
+      border-radius: 999px;
+      padding: 2px 8px;
     }
-    .tcard-desc {
-      margin: 13px 0 0;
-      font-size: 14px;
-      line-height: 1.55;
-      color: var(--ink-2);
+    .themes-card-author {
+      margin-top: 3px;
+      font-size: 10.5px;
+      color: var(--ink-4);
+    }
+    .themes-card-desc {
+      margin: 10px 0 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ink-3);
       flex: 1;
     }
-    .tcard-swatches {
+    .themes-card-meta {
       display: flex;
-      gap: 6px;
-      margin-top: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      margin-top: 14px;
     }
-    .tcard-swatches span {
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
+    .themes-card-swatches {
+      display: flex;
+      gap: 5px;
+      flex: 0 1 auto;
+      min-width: 0;
+    }
+    .themes-card-swatches span {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
       border: 1px solid rgb(var(--line-rgb) / 0.12);
     }
-    .tcard-actions {
+    .themes-card-actions {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
+      align-items: center;
+      gap: 14px;
+      margin-left: auto;
+      font-size: 10px;
     }
-    /* MYND-568: the two-path explainer under the actions. A browser cannot
-       reliably report whether a `myne://` link resolved, so the fallback is a
-       PERMANENTLY VISIBLE second path rather than a timeout guess or UA
-       sniffing — the user is told what each button does and picks. */
-    /* One explainer above the grid, not one per card: the per-card affordance
-       is the Download .json button itself, and repeating the prose would put N
-       identical sentences in the screen-reader flow and N duplicate "Get the
-       app" links in the tab order. */
-    .tgrid-hint {
-      margin: 0 0 26px;
-      max-width: 78ch;
+    .themes-act--icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-3);
+    }
+    .themes-act--icon:hover {
+      color: var(--ink-0);
+      text-decoration: none;
+    }
+    .themes-act {
+      color: var(--ink-2);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+    }
+    .themes-act:hover {
+      color: var(--ink-0);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .themes-act--primary {
+      color: var(--accent);
+    }
+    .themes-empty {
+      font-size: 13px;
+      color: var(--ink-3);
+    }
+    .themes-empty a {
+      color: var(--accent);
+    }
+
+    /* Add yours */
+    .themes-contribute {
+      padding: 72px 0 40px;
+    }
+    .themes-grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      margin-top: 22px;
+    }
+    .themes-feature-kicker {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+    }
+    .themes-path {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 24px 26px 26px;
+      border: 1px dashed rgb(var(--line-rgb) / 0.22);
+    }
+    .themes-path-body {
+      margin: 0;
       font-size: 13px;
       line-height: 1.7;
       color: var(--ink-3);
+      flex: 1;
     }
-    .tgrid-hint strong {
+    .themes-path-body strong {
       color: var(--ink-1);
       font-weight: 600;
     }
-    .tgrid-hint a {
+    .themes-path-body a {
       color: var(--accent);
       text-decoration: none;
     }
-    .tgrid-hint a:hover {
+    .themes-path-body a:hover {
       text-decoration: underline;
     }
-    .tbtn {
+
+    .themes-footer {
+      border-top: 1px solid rgb(var(--line-rgb) / 0.12);
+    }
+    .themes-footer-inner {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      /* Vertical only: the column already carries the 28px gutter, and adding it
+         twice inset the footer 56px from the cards above it. */
+      padding: 32px 0;
       font-size: 10px;
-      text-decoration: none;
-      border-radius: 7px;
-      padding: 9px 16px;
-      border: 1px solid transparent;
+      color: var(--ink-4);
     }
-    .tbtn-primary {
-      background: var(--ink-1);
-      color: var(--paper);
-      font-weight: 600;
-    }
-    .tbtn-primary:hover {
-      background: var(--ink-0);
-    }
-    .tbtn-ghost {
-      color: var(--ink-1);
-      border-color: rgb(var(--line-rgb) / 0.2);
-    }
-    .tbtn-ghost:hover {
-      border-color: rgb(var(--line-rgb) / 0.4);
+
+    @media (max-width: 900px) {
+      .themes-grid2 {
+        grid-template-columns: 1fr;
+      }
+      .themes-hero {
+        padding-top: 104px;
+      }
     }
     @media (max-width: 600px) {
-      .tgrid {
+      .themes-grid {
         grid-template-columns: 1fr;
       }
     }
-    /* Mobile degrade (MYND-568): "Open in Myne" is a DESKTOP hand-off. On a
-       phone the tap either does nothing or — since the mobile client registers
-       the same `myne://` scheme for its widgets — launches the mobile app,
-       which ignores the `theme` action. Either way the file download is the
-       useful path there, so on coarse-pointer devices the two swap visual
-       weight.
-
-       Weight only, deliberately NOT `order`: reordering with flex `order` would
-       leave the third button (GitHub, unstyled by this block) at the default
-       `order: 0` and hoist it to the front, and would desync visual order from
-       DOM/tab order (WCAG 2.4.3 Focus Order, 1.3.2 Meaningful Sequence). Both
-       links stay present and functional either way — a touchscreen laptop
-       classed as "coarse" loses only button prominence, never a path. A media
-       feature, not UA sniffing. */
+    /* On a coarse pointer the `myne://` hand-off is the weaker path: the mobile
+       client registers the scheme and ignores the theme action, so the tap either
+       does nothing or opens the wrong surface. The download therefore takes the
+       emphasis, and the icon-only link grows the label it needs to be
+       understood without a hover. Weight and a label only: both paths stay in the
+       DOM in the same order, so focus order is unchanged (WCAG 2.4.3). */
     @media (pointer: coarse) {
-      .tcard-actions .tbtn-open {
-        background: transparent;
-        color: var(--ink-1);
-        font-weight: 400;
-        border-color: rgb(var(--line-rgb) / 0.2);
+      .themes-card-actions .themes-act--primary {
+        color: var(--ink-2);
       }
-      .tcard-actions .tbtn-file {
-        background: var(--ink-1);
-        color: var(--paper);
-        font-weight: 600;
-        border-color: transparent;
+      .themes-card-actions .themes-act--file {
+        color: var(--accent);
+      }
+      .themes-card-actions .themes-act--file::after {
+        content: " .json";
+        margin-left: 6px;
       }
     }
   </style>
+
+  <script>
+    // The hero carousel. Steps advance on their own and pressing one jumps to it.
+    // Two deliberate choices: the hold lives in ONE constant that also feeds the
+    // CSS (`--demo-hold`), so a bar and the advance cannot disagree; and nothing
+    // advances while the pointer is over the figure, because hovering a picture
+    // is asking to look at it rather than to skip it.
+    const demo = document.querySelector<HTMLElement>("[data-demo]");
+    if (demo) {
+      const slides = Array.from(demo.querySelectorAll<HTMLElement>(".themes-demo-slide"));
+      const steps = Array.from(demo.querySelectorAll<HTMLButtonElement>(".themes-demo-step"));
+      const caption = demo.querySelector<HTMLElement>("[data-demo-caption]");
+      const HOLD = 2800;
+      demo.style.setProperty("--demo-hold", `${HOLD}ms`);
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let index = 0;
+      let timer = 0;
+      let paused = false;
+
+      const show = (next: number): void => {
+        index = next;
+        slides.forEach((el, i) => el.classList.toggle("is-active", i === next));
+        steps.forEach((el, i) => {
+          const active = i === next;
+          el.setAttribute("aria-current", active ? "true" : "false");
+          // Everything to the LEFT of the active step stays filled; wrapping to
+          // the first step empties the whole row again.
+          el.classList.toggle("is-past", i < next);
+          el.classList.remove("is-active");
+          if (active) {
+            // Restart the bar even when the SAME step is pressed again: without
+            // the reflow, re-adding the class is a no-op and the bar sits full.
+            void el.offsetWidth;
+            el.classList.add("is-active");
+          }
+        });
+        if (caption) caption.textContent = slides[next]?.dataset.step ?? "";
+        window.clearTimeout(timer);
+        if (!reduce && !paused) {
+          timer = window.setTimeout(() => show((next + 1) % slides.length), HOLD);
+        }
+      };
+
+      steps.forEach((el, i) => el.addEventListener("click", () => show(i)));
+      demo.addEventListener("pointerenter", () => {
+        paused = true;
+        window.clearTimeout(timer);
+      });
+      demo.addEventListener("pointerleave", () => {
+        paused = false;
+        show(index);
+      });
+      // …and the same for a keyboard, which is the half a hover-only pause was
+      // missing: an automatically updating carousel needs a way to stop it that
+      // does not require a pointer (WCAG 2.2.2).
+      demo.addEventListener("focusin", () => {
+        paused = true;
+        window.clearTimeout(timer);
+      });
+      demo.addEventListener("focusout", () => {
+        window.setTimeout(() => {
+          if (!demo.contains(document.activeElement)) {
+            paused = false;
+            show(index);
+          }
+        }, 0);
+      });
+      show(0);
+    }
+  </script>
 </LandingLayout>

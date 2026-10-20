@@ -30,39 +30,10 @@ const { token, label, unit, step } = Astro.props;
   <input type="range" class="tb-mc-range" step={step} />
 </label>
 
-<style>
-  /* Hidden until hydration establishes a band — see the component comment. */
-  .tb-mc[hidden] {
-    display: none;
-  }
-  .tb-mc {
-    display: block;
-    padding: 6px 0;
-  }
-  .tb-mc-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .tb-mc-label {
-    font-size: 13px;
-    color: var(--ink-1);
-  }
-  .tb-mc-value {
-    font-size: 11px;
-    color: var(--ink-3);
-    font-variant-numeric: tabular-nums;
-  }
-  .tb-mc-range {
-    width: 100%;
-    margin: 4px 0 0;
-    accent-color: var(--accent);
-    cursor: pointer;
-  }
-  .tb-mc-range:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 4px;
-    border-radius: 4px;
-  }
-</style>
+<!--
+  No <style> here on purpose. The slider skin lives in the builder page's own
+  stylesheet, because the tint-strength slider is the ONE measure control the page
+  writes by hand, and a component's scoped rules cannot reach markup a page
+  mounts itself: this file's `.tb-mc*` rules styled every slider EXCEPT that one,
+  which rendered as the browser default. One skin, one place, whoever mounts it.
+-->

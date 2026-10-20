@@ -28,3 +28,4 @@ pnpm-debug.log*
 # working directory, never content: committing one would put a second copy of the
 # site inside the site.
 /.claude/
+/.opencode/worktrees/

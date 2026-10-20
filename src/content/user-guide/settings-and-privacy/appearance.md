@@ -40,7 +40,7 @@ You don't have to download and import by hand. On the [Themes page](/themes/), *
 A few things worth knowing:
 
 - The theme travels **inside the link**. Myne doesn't fetch the theme from anywhere — the colors are in the link itself — so the Themes page never learns which theme you picked, and there is no download counter.
-- **Download .json** goes to GitHub, where the theme files live. That's an ordinary download from a third party, so unlike the link hand-off it isn't private to you.
+- **Download .json** comes from this site. The palette is served from the same origin as this page, so the download is one request to myne.md and nothing else; GitHub is only where the theme's source files are kept, and the download no longer sends you there.
 - If your vault is locked, Myne holds the request and asks you once you've unlocked. Close the app without unlocking and the request is simply forgotten.
 - If you already have a theme with the same name, Myne asks whether to replace it or keep both.
 - The theme is checked by the same validator as a hand-imported file. A damaged or malformed link is refused with a visible message, and nothing is written.

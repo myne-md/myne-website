@@ -16,7 +16,8 @@
  * @typedef {{ setProperty: (name: string, value: string) => void }} CssTarget
  */
 import { isAllowedKey, isAllowedValue, isReservedKey } from "./validator.mjs";
-import { deriveSyntaxTokensForTheme } from "./syntaxTheme.mjs";
+import { isDarkBackground } from "./syntaxTheme.mjs";
+import { DARK_DEFAULTS, LIGHT_DEFAULTS } from "./tokens.mjs";
 
 /**
  * Apply a palette to a scoped CSS target, gating each value through the
@@ -65,21 +66,34 @@ export function applyPalette(target, palette) {
 }
 
 /**
- * Apply a full theme authentically: the raw palette, then the dark-syntax
- * derivation the desktop app applies (`deriveSyntaxTokensForTheme`) — so the
- * preview's code sample matches what the app renders. Both passes are gated.
+ * Apply a full theme authentically: the built-in canon for the appearance the
+ * palette declares, then the palette itself, so every token a theme omits shows
+ * the value the app would show for it (myne#900).
+ *
+ * A theme is a PARTIAL palette, and `applyPalette` drops `data-theme`, so before
+ * this the omitted families resolved to the built-in LIGHT values: a dark theme
+ * previewed with light label chips, light highlight washes and light graph group
+ * colours. `tokens.mjs` is the canon, held to the captured sheet name by name and
+ * value by value by `canonParity.test.mjs`.
+ *
+ * One call, not two: `applyPalette` removes what the previous palette wrote, so a
+ * second call would take the first call's tokens straight back out.
+ *
+ * The canon goes through the same value gate as a palette, which is why the three
+ * `--shadow-*` entries are the one family that does not land: a shadow is a
+ * multi-part value the allowlist has no grammar for. A shadow difference is not
+ * worth widening a security gate, and the alternative (a second ungated write
+ * path for values the repo itself supplies) is worse than the gap. Pinned by a
+ * test so the limit is measured rather than assumed.
+ *
  * @param {CssTarget | null | undefined} target
  * @param {Palette | null | undefined} palette
  */
 export function applyTheme(target, palette) {
-  // ONE call, not two. `applyPalette` now removes what the previous palette
-  // wrote and this one does not — so a second call would take the first call's
-  // tokens straight back out again. Merging with the derived tokens last keeps
-  // the precedence the two-call version had (derived wins) while leaving the
-  // removal set correct.
   if (!palette) {
     applyPalette(target, palette);
     return;
   }
-  applyPalette(target, { ...palette, ...deriveSyntaxTokensForTheme(palette) });
+  const canon = isDarkBackground(palette["--paper"] ?? "") ? DARK_DEFAULTS : LIGHT_DEFAULTS;
+  applyPalette(target, { ...canon, ...palette });
 }

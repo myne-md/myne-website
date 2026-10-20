@@ -50,7 +50,7 @@ If any required key is missing, the theme is rejected and the picker tells you w
 
 ## Optional keys
 
-You may also set the editor's syntax-highlighting, color-label, and highlight colors (`--syntax-*`, `--label-*`, `--highlight-*`). These are optional. If you leave them out, they fall back to the built-in **light** values — so if you are making a **dark** theme, set them too, or your code highlighting and labels will look wrong against a dark background.
+You may also set the editor's syntax-highlighting, color-label, and highlight colors (`--syntax-*`, `--label-*`, `--highlight-*`). These are optional. If you leave them out, they fall back to Myne's built-in values **for the appearance your theme declares**: a dark theme inherits the dark code highlighting, label colors and highlight washes, a light one inherits the light set. Myne decides which by measuring your theme's own background, so a dark theme no longer needs to set them to stay readable.
 
 ## Ornaments
 

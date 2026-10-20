@@ -43,14 +43,14 @@ export const LABEL_TOKENS = [
   "--label-clay", "--label-ochre", "--label-moss", "--label-slate", "--label-plum", "--label-stone",
 ];
 
-/** The 13 optional highlight-wash tokens (`--highlight` + 12 siblings; MYND-632). */
+/** The 5 optional highlight-wash tokens. */
 export const HIGHLIGHT_TOKENS = [
   "--highlight", "--highlight-green", "--highlight-blue", "--highlight-pink", "--highlight-purple",
   "--highlight-orange", "--highlight-red", "--highlight-teal", "--highlight-cyan",
   "--highlight-lime", "--highlight-brown", "--highlight-grey", "--highlight-indigo",
 ];
 
-/** All 31 optional tokens (author may omit; a dark theme should set them — SYNC-6). */
+/** All 31 optional tokens (author may omit; a dark theme should set them, SYNC-6). */
 export const OPTIONAL_TOKENS = [...SYNTAX_TOKENS, ...LABEL_TOKENS, ...HIGHLIGHT_TOKENS];
 
 /** All 52 authorable tokens (required + optional). Never includes derived aliases. */
@@ -80,14 +80,26 @@ export const LIGHT_DEFAULTS = {
   "--label-slate": "#46688a", "--label-plum": "#7e4d76", "--label-stone": "#6f6d64",
   "--highlight": "#f3e7c4", "--highlight-green": "#d8e9cf", "--highlight-blue": "#d3e2ee",
   "--highlight-pink": "#efd8e2", "--highlight-purple": "#e2d8ee",
+  // Appearance-varying families the preview must seed too (myne#900). The
+  // parity test holds this block, names and values, against the captured sheet.
+  // `--info` is deliberately absent: its dark declaration is an alias of `--accent`,
+  // and the value gate takes concrete values only.
+  "--danger-solid": "#a8322a", "--group-olive": "#5d7b32", "--group-fern": "#549f41",
+  "--group-teal": "#32647b", "--group-denim": "#415c9f", "--group-indigo": "#3b327b",
+  "--group-violet": "#72419f", "--group-orchid": "#75327b", "--group-rose": "#9f4182",
   "--highlight-orange": "#f2ddc6", "--highlight-red": "#efd3d3", "--highlight-teal": "#cfe6e2",
   "--highlight-cyan": "#cfe4ea", "--highlight-lime": "#e0ecc4", "--highlight-brown": "#e3d9cd",
   "--highlight-grey": "#dedcd8", "--highlight-indigo": "#d6d8ee",
+  "--selection-bg": "#2c4a7a38",
+  "--shadow-1": "0 1px 0 #0b0b090a, 0 1px 2px #0b0b090f",
+  "--shadow-2": "0 2px 4px #0b0b090f, 0 4px 12px #0b0b0914",
+  "--shadow-3": "0 8px 16px #0b0b0914, 0 16px 40px #0b0b091f",
+  "--scrim": "#0b0b0966",
 };
 
 /**
  * Canonical DARK palette — the `--_*-dark` source values from
- * colors_and_type.css. Covers all 52 tokens: a dark base MUST set the optionals
+ * colors_and_type.css. Covers all 44 tokens: a dark base MUST set the optionals
  * (they otherwise fall back to LIGHT), so this is the dark-seed source (SYNC-6).
  * @type {Record<string, string>}
  */
@@ -108,7 +120,19 @@ export const DARK_DEFAULTS = {
   "--label-slate": "#93b4d6", "--label-plum": "#c79cc0", "--label-stone": "#a8a69d",
   "--highlight": "#4f4422", "--highlight-green": "#2c3d28", "--highlight-blue": "#24384a",
   "--highlight-pink": "#46283a", "--highlight-purple": "#392a4c",
+  // Appearance-varying families the preview must seed too (myne#900). The
+  // parity test holds this block, names and values, against the captured sheet.
+  // `--info` is deliberately absent: its dark declaration is an alias of `--accent`,
+  // and the value gate takes concrete values only.
+  "--danger-solid": "#c0392b", "--group-olive": "#cce3ab", "--group-fern": "#9cd98c",
+  "--group-teal": "#abd1e3", "--group-denim": "#8ca2d9", "--group-indigo": "#b1abe3",
+  "--group-violet": "#b48cd9", "--group-orchid": "#deabe3", "--group-rose": "#d98cc1",
   "--highlight-orange": "#4a3722", "--highlight-red": "#4a2a2a", "--highlight-teal": "#23403c",
   "--highlight-cyan": "#223a42", "--highlight-lime": "#37411f", "--highlight-brown": "#3d352b",
   "--highlight-grey": "#37363a", "--highlight-indigo": "#2b2e4d",
+  "--selection-bg": "#8aa4d04d",
+  "--shadow-1": "0 1px 0 #0006, 0 1px 2px #00000080",
+  "--shadow-2": "0 2px 4px #0006, 0 4px 12px #00000080",
+  "--shadow-3": "0 8px 16px #00000080, 0 16px 40px #0009",
+  "--scrim": "#0009",
 };

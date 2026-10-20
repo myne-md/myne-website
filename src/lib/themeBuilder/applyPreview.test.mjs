@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 
 import { applyPalette, applyTheme } from "./applyPreview.mjs";
+import { DARK_DEFAULTS, LIGHT_DEFAULTS } from "./tokens.mjs";
 
 /** A CSSStyleDeclaration-shaped stub that records setProperty calls. */
 function stubTarget() {
@@ -86,4 +87,46 @@ test("applyTheme keeps the tokens it applied, despite the two-pass derivation", 
   assert.equal(t.props["--accent"], "#123456");
   assert.equal(t.props["--paper"], "#ffffff");
   assert.deepEqual(t.removed, []);
+});
+
+// ── The canon seed (myne#900) ────────────────────────────────────────────────
+//
+// A theme is a partial palette and `applyPalette` drops `data-theme`, so the
+// omitted families used to resolve to the built-in LIGHT values: a dark theme
+// previewed with light label chips, light highlight washes and light graph group
+// colours. The preview now merges the canon for the appearance the palette
+// declares, which is what the app does.
+
+test("applyTheme seeds a DARK palette's omitted families from the dark canon", () => {
+  const t = stubTargetWithRemoval();
+  applyTheme(t, { "--paper": "#1e1e2e", "--accent": "#7aa2f7" });
+  assert.equal(t.props["--accent"], "#7aa2f7", "the palette's own value is kept");
+  assert.equal(t.props["--label-clay"], DARK_DEFAULTS["--label-clay"]);
+  assert.equal(t.props["--highlight-teal"], DARK_DEFAULTS["--highlight-teal"]);
+  assert.equal(t.props["--group-teal"], DARK_DEFAULTS["--group-teal"]);
+  assert.notEqual(DARK_DEFAULTS["--label-clay"], LIGHT_DEFAULTS["--label-clay"]);
+});
+
+test("applyTheme seeds a LIGHT palette from the light canon", () => {
+  const t = stubTargetWithRemoval();
+  applyTheme(t, { "--paper": "#fdfcf9" });
+  assert.equal(t.props["--label-clay"], LIGHT_DEFAULTS["--label-clay"]);
+  assert.equal(t.props["--highlight-teal"], LIGHT_DEFAULTS["--highlight-teal"]);
+});
+
+test("applyTheme never overrides a family the palette sets itself", () => {
+  const t = stubTargetWithRemoval();
+  applyTheme(t, { "--paper": "#1e1e2e", "--label-clay": "#123456", "--highlight-teal": "#654321" });
+  assert.equal(t.props["--label-clay"], "#123456");
+  assert.equal(t.props["--highlight-teal"], "#654321");
+});
+
+test("the value gate skips the shadow family, and that is the whole gap", () => {
+  // Pinned rather than assumed: a shadow is a multi-part value the allowlist has
+  // no grammar for, so the canon's three `--shadow-*` entries do not land. Every
+  // other canon token must, or the preview is half-painted again.
+  const t = stubTargetWithRemoval();
+  applyTheme(t, { "--paper": "#1e1e2e" });
+  const skipped = Object.keys(DARK_DEFAULTS).filter((key) => t.props[key] === undefined);
+  assert.deepEqual(skipped.sort(), ["--shadow-1", "--shadow-2", "--shadow-3"]);
 });

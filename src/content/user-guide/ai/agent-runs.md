@@ -35,9 +35,9 @@ what came before.
 
 Notes at the top level of your vault are not offered as a folder. With no note open and no folder attached there is nothing for a run to work on, so **Send** stays greyed out and nothing on screen says why.
 
-The run appears in the same conversation as your questions. When it stops, its turn stays there with a summary of what it proposed and three figures about the run itself: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider. The turn also carries a diff icon that opens exactly what the run proposed, read-only, so you can look back at it once the review screen has gone.
+The run appears in the same conversation as your questions. When it stops, its turn stays there with a summary of what it proposed and three figures about the run itself: how many requests it made, how many notes it read, and roughly how many characters of your notes were sent to the provider. The turn also carries a diff icon that opens exactly what the run proposed, read-only, so you can look back at it once the card has gone.
 
-A run stops for one of five reasons, and its turn says which: it finished, you stopped it, it is waiting for you to widen its scope, it made too many steps, or it stopped making progress. That last one means the model stopped producing changes Myne could use, three replies in a row that proposed nothing new. It is a statement about the model rather than about your notes, and the fix is a different model rather than a different request. Anything it had already proposed before that point still goes to the review screen.
+A run stops for one of five reasons, and its turn says which: it finished, you stopped it, it is waiting for you to widen its scope, it made too many steps, or it stopped making progress. That last one means the model stopped producing changes Myne could use, three replies in a row that proposed nothing new. It is a statement about the model rather than about your notes, and the fix is a different model rather than a different request. Anything it had already proposed before that point still goes to the review card.
 
 When a run ends having proposed nothing, its turn says which kind of nothing it was. A run that finished, or that you stopped, reads **The agent proposed no changes.**, because both describe something real: it looked and decided there was nothing to do. A run that ran out of steps or stopped making progress reads **The agent stopped without an answer. Try asking again, or rephrase it.** instead, because that run never did its work and your note is not the fault. When the agent answered your question, neither line appears; the answer stands on its own.
 
@@ -47,15 +47,17 @@ A run that never started says so on the same turn. If the provider would not tak
 
 The composer carries a choice for what happens when a run finishes, under the label **When the run finishes**: **Review first**, or **Apply automatically**. Review first is the default and is what the rest of this section describes.
 
-When it finishes, a review screen opens with everything it proposes, grouped by note.
+On a computer, when it finishes, the agent's reply carries a review card with everything it proposes, grouped by note. The card appears in the conversation you started the run from, under the message it belongs to, so there is nowhere to go to read it and nothing to click to make it appear. On a phone the same decision opens as its own screen, covered under [Reviewing on a phone](#reviewing-on-a-phone).
 
-1. Read each diff, shown side by side: the note as it is now is on the left and the change it proposes is on the right. Removed text is struck through; added text is highlighted.
-2. **Reject** any change you do not want. Rejecting one leaves the rest alone.
-3. **Approve** the rest in one action, or approve a single change on its own.
+Each change is one line under its note's name, saying what the change does: a replacement with the line count, an addition to the end, or a move. Open that line's chevron to read the change itself: a diff, with removals struck through and additions highlighted, or a move's current and destination folders.
 
-Nothing reaches your notes before this step. If you close the review without approving, nothing was written.
+1. **Reject** any change you do not want. Rejecting one leaves the rest alone.
+2. **Approve** the rest in one action, or approve a single change on its own.
+3. **Reject all** refuses every change in the card and closes it. Nothing is written.
 
-**The review closes itself when there is nothing left to decide.** Once you have approved, if nothing was refused and no row is still waiting on you, the screen goes and you are back in your editor. It stays open otherwise, and each reason is one you need to see: a change that could not be placed, a row you have neither approved nor rejected, a note the run created, or an apply that failed outright. A review still on screen after you approved is telling you something rather than waiting for a click.
+Nothing reaches your notes before this step. The card has two ways out, and both are decisions: approve the rest, or **Reject all**, which writes nothing.
+
+**The card closes itself when there is nothing left to decide.** Once you have approved, if nothing was refused and no row is still waiting on you, the card goes and the conversation is yours again. It stays open otherwise, and each reason is one you need to see: a change that could not be placed, a row you have neither approved nor rejected, a note the run created, or an apply that failed outright. A review still on screen after you approved is telling you something rather than waiting for a click.
 
 What you see after it closes is the run's own turn in the conversation, carrying a **revert** control: the whole run can be undone as one action from there, and a confirmation step shows before anything is reverted.
 
@@ -71,15 +73,15 @@ Every change still takes a snapshot before it is written, and the run's turn car
 
 One thing this mode does not do: it does not read your notes any differently, and it does not send more of them anywhere. It changes when a proposal is written, not what the AI is allowed to see.
 
-The review screen does not open when the apply succeeds. Nothing is held for your approval, so there is nothing to review; what tells you what happened is the run's own turn in the conversation and the **revert** control on it.
+The review card does not open when the apply succeeds. Nothing is held for your approval, so there is nothing to review; what tells you what happened is the run's own turn in the conversation and the **revert** control on it.
 
-If the automatic apply fails outright, nothing is written and the composer says so: **The changes could not be applied automatically. Nothing was written; open the review to apply them yourself.** The proposal survives, so the review screen opens with everything the run proposed still on it: a failed automatic apply costs you the convenience rather than the proposal.
+If the automatic apply fails outright, nothing is written and the composer says so: **The changes could not be applied automatically. Nothing was written; open the review to apply them yourself.** The proposal survives, so the review card opens with everything the run proposed still on it: a failed automatic apply costs you the convenience rather than the proposal.
 
 ## Changing settings
 
-Some requests are about your settings rather than your notes. "Change my weekly notes folder to Journals/Weekly" is one of those: the AI proposes the change, and the review screen shows the setting as it is now and what it would become.
+Some requests are about your settings rather than your notes. "Change my weekly notes folder to Journals/Weekly" is one of those: the AI proposes the change, and the review card shows the setting as it is now and what it would become.
 
-A setting change is always its own decision. The **Approve** action that applies several note changes at once never carries one, and **Apply automatically** never writes one either, because a setting is not inside the folder you gave the run. Approve it on its own, or reject it and change it yourself in Settings. "Remove my weekly notes folder setting" is a request of its own too, and the review screen shows it as a removal rather than as an empty value.
+A setting change is always its own decision. The **Approve** action that applies several note changes at once never carries one, and **Apply automatically** never writes one either, because a setting is not inside the folder you gave the run. Approve it on its own, or reject it and change it yourself in Settings. "Remove my weekly notes folder setting" is a request of its own too, and the review card shows it as a removal rather than as an empty value.
 
 These are the settings the AI can change:
 
@@ -123,12 +125,12 @@ Two things are worth knowing about that screen.
 
 The set is fixed when you approve it. If you allow a folder and a note is added to that folder a minute later, that new note is not included; you approved the notes that were there.
 
-There is no limit on how many times it can ask, or on how large the scope can become. The running total is shown while the run works and on the review screen, and that number is the thing to watch. If it is climbing past what you expected, stop the run.
+There is no limit on how many times it can ask, or on how large the scope can become. The running total is shown while the run works and on the review card, and that number is the thing to watch. If it is climbing past what you expected, stop the run.
 
 ## Adding to a note
 
 Not every change replaces something. When you ask the AI to add material rather
-than rewrite it, it appends to the end of the note, and the review screen shows
+than rewrite it, it appends to the end of the note, and the review card shows
 the new text as an addition with nothing removed.
 
 This is the only way it can write into a note that is **empty**. A change that
@@ -151,7 +153,7 @@ Two things it will not do while adding:
 
 ## New notes
 
-The AI can also propose new notes. Those appear on the review screen as their own group, with the title, the folder and the whole body, and you can reject any of them the same way you reject a change. Only the ones you keep are created.
+The AI can also propose new notes. Those appear on the review card as their own group, with the title, the folder and the whole body, and you can reject any of them the same way you reject a change. Only the ones you keep are created.
 
 Read the body rather than skimming the title. A new note is the one thing a run does that the undo cannot reverse for you.
 
@@ -167,7 +169,7 @@ The reason all five need their own click is the same: at the diff level, each of
 
 Approving takes a snapshot of every note the run is about to **change**, so those changes can be undone as one action. If Myne cannot take those snapshots, it refuses to write at all rather than making a change you could not reverse.
 
-The review screen carries its own **Undo** once something has been applied, and the run's turn carries a **revert** control as well, so the offer outlives the screen: whether you closed the review or it closed itself, the turn stays in the conversation with the revert control on it. Using either asks you to confirm first, and the confirmation states the limit in the same breath as the remedy: the offer lasts until you lock the vault or close the app, and after that the same snapshots are still there, in each note's own **Snapshots** history, one note at a time.
+The review card carries its own **Undo** once something has been applied, and the run's turn carries a **revert** control as well, so the offer outlives the card: whether you closed the card or it closed itself, the turn stays in the conversation with the revert control on it. Using either asks you to confirm first, and the confirmation states the limit in the same breath as the remedy: the offer lasts until you lock the vault or close the app, and after that the same snapshots are still there, in each note's own **Snapshots** history, one note at a time.
 
 The offer is tied to the run, not to a screen. If the run's turn is not in the conversation on screen, which after **New chat** or after switching to another conversation it is not, the revert control appears in the panel's own controls instead, so a run that wrote your notes is still one action from being undone.
 
@@ -199,7 +201,7 @@ In both cases **Send** stays blocked and what you typed is kept, so changing mod
 - **Nothing survives locking your vault.** If the vault locks while a run is working, or while its changes are waiting for you, the run is cancelled and the proposal is gone. Nothing was written. Myne gives you no warning about this before a long run, so check your auto-lock setting yourself first: a run over a folder can take minutes, and an idle lock in the middle of one throws the work away.
 - **New chat does the same thing, on purpose.** Starting a new conversation stops a run that is working and discards a proposal that was waiting for you, for the same reason: the proposal belongs to the conversation you are clearing. Nothing was written, and the offer to undo an earlier run that *did* write is kept: with the turn cleared, the revert control appears in the panel's own controls.
 - **On a remote provider, the notes leave your device.** A run opens by sending the title and identifier of every note in its scope, before it has read any of them, and when the scope is exactly one note it sends that note's text as well. Every further note the run reads goes too, and so does the recent part of your conversation with the panel, since that is what lets a follow-up refer to the answer before it. Myne cannot see or control what that provider keeps. There is no limit on how many requests one run makes, so the cost is yours and it is not capped; when the run stops, its turn reports how many requests it made, how many notes it read, and roughly how many characters of your notes were sent. A run that stayed on this device says **nothing left this device** in the same place.
-- **Your excluded folders stay excluded, and they stay excluded during the run.** Notes in a folder you have excluded from AI are removed from the scope, and the approval screen tells you how many were removed. Excluding a folder while a run is working takes effect at once: from that moment its notes stop being listed, searched and read, and on a remote provider stop being sent. A change that can no longer be applied says so on the review screen rather than being written: **Could not be applied: that note's folder is now excluded from AI.** A refused change is not marked applied, so you can approve it again once the cause is gone.
+- **Your excluded folders stay excluded, and they stay excluded during the run.** Notes in a folder you have excluded from AI are removed from the scope, and the card tells you how many were removed. Excluding a folder while a run is working takes effect at once: from that moment its notes stop being listed, searched and read, and on a remote provider stop being sent. A change that can no longer be applied says so on the review card rather than being written: **Could not be applied: that note's folder is now excluded from AI.** A refused change is not marked applied, so you can approve it again once the cause is gone.
 - **On a phone, a run ends when the app does.** Locking the vault, switching vault and putting the app in the background all cancel the run and clear the proposal. The first two match the computer; the third does not, and it is the one that will bite: on a phone, taking a call or checking a message is how most long runs will end. Myne tells you the run was cancelled rather than leaving a screen that looks like it is still working, and nothing was written.
 
 ## Shortcuts

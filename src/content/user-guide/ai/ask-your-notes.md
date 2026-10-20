@@ -32,11 +32,11 @@ The header shows a status: **No provider**, **Not answering**, **Unavailable**, 
 
 When there is genuinely nothing to work on (the vault is empty, or every note in it sits in an excluded folder) the box refuses what you type and the scope control is outlined, so the block is on screen before you have written a paragraph. Notes at the top level of your vault are not offered as a folder: the list holds the folders your notes are actually in.
 
-A run that proposes changes opens a review screen when it stops. A run that only answered you does not: the answer stays in the transcript. See [Let the AI change your notes](/user-guide/ai/agent-runs/).
+A run that proposes changes opens a review card when it stops. A run that only answered you does not: the answer stays in the transcript. See [Let the AI change your notes](/user-guide/ai/agent-runs/).
 
 Each message is its own run. Earlier turns stay on screen so you can read back what you asked, but they are not sent to the model, so a follow-up like "shorter" has nothing to shorten. Say the whole thing again in each message.
 
-**New chat** in the tab header clears the transcript and stops a run that is still working. If a run had finished and its changes were waiting on the review screen, that proposal goes with the conversation and nothing is written, the same outcome as locking your vault mid-run. What it does not clear is the offer to undo the last run that *did* write, because that run already changed your notes; with the turn cleared, that revert control appears in the panel's own controls.
+**New chat** in the tab header clears the transcript and stops a run that is still working. If a run had finished and its changes were waiting on the review card, that proposal goes with the conversation and nothing is written, the same outcome as locking your vault mid-run. What it does not clear is the offer to undo the last run that *did* write, because that run already changed your notes; with the turn cleared, that revert control appears in the panel's own controls.
 
 ## Checking an answer
 

@@ -44,13 +44,13 @@ Opening a row, or using **Agent: open on note**, switches the tab to a single co
 
 Each run leaves one line in the conversation at the point where it happened: what it did, how long it took, and a control to open the numbers behind it. Nothing is pinned to the bottom of the panel, so the line scrolls away with the messages around it and scrolling back through a conversation finds every run's own record.
 
-Open the line and it shows three figures: how many requests the run made, how many notes it read, and roughly how many characters of your notes were sent to the provider, or **nothing left this device** when it stayed here. Those are the same figures the review screen reports, and they are the disclosure for a run that used a remote provider. If the run wrote something to your AI memory, that appears there too, as one chip per entry written.
+Open the line and it shows three figures: how many requests the run made, how many notes it read, and roughly how many characters of your notes were sent to the provider, or **nothing left this device** when it stayed here. Those are the same figures the run's own line in the transcript reports, and they are the disclosure for a run that used a remote provider. If the run wrote something to your AI memory, that appears there too, as one chip per entry written.
 
 A run that stopped, failed or was cancelled says so on its own line, with the reason.
 
 ## Moving a note
 
-A run can propose that a note move to another folder. It is a request like any other: it appears on the review screen, one row per move, showing the note and the folder it is in now beside the folder it would land in. Nothing moves until you approve that row.
+A run can propose that a note move to another folder. It is a request like any other: it appears on the review card, one line per move; open that line's chevron to see the folder the note is in now beside the folder it would land in. Nothing moves until you approve that row.
 
 Two things are refused rather than proposed away. A note in a folder you excluded from AI cannot be moved out of it, and no note can be moved into one: a folder you excluded is a boundary a run does not cross, and the refusal appears above the run's own summary so you read what did not happen before you read what did.
 

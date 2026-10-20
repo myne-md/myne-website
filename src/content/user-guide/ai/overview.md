@@ -38,7 +38,7 @@ That third point is the boundary of the guarantee. It is covered plainly in [AI 
 - **[Summarize a note](/user-guide/ai/summarize-a-note/)** covers summarizing the current note or a selection.
 - **[Suggest tags](/user-guide/ai/suggest-tags/)** covers the tag suggestions that appear at the top of a note as you write.
 - **[Writing assistant](/user-guide/ai/writing-assistant/)** covers inline completions and the AI slash commands.
-- **[Agent runs](/user-guide/ai/agent-runs/)** covers asking the AI to change notes: how you set what it may touch, the review screen where you approve or reject each change, and what the undo does and does not cover.
+- **[Agent runs](/user-guide/ai/agent-runs/)** covers asking the AI to change notes: how you set what it may touch, the review card, under the reply, where you approve or reject each change, and what the undo does and does not cover.
 - **[Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note)** covers turning a recorded or imported audio clip into searchable, insertable text on your device.
 - **[The agent hub](/user-guide/ai/the-agent-hub/)** covers the list of every conversation, what a run's own line in the transcript reports, and moving a note between folders.
 - **[Chat history](/user-guide/ai/ai-chat-history/)** covers finding an older conversation and what deleting one does on your other devices.

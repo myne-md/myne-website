@@ -84,4 +84,4 @@ A periodic note is matched by its folder and its title together. If you rename t
 
 For the same reason, pointing two periods at the same folder **and** the same title format makes both commands open the same note. Settings warns you when you do, and does not stop you; the warning also offers to jump to the other period's rows, since only one period is on screen at a time.
 
-These are settings the AI can change for you as well: the folder, the template and the date format for each period. Ask in the AI Chat tab, as [Let the AI change your notes](/user-guide/ai/agent-runs/#changing-settings) describes, and approve the change on the review screen.
+These are settings the AI can change for you as well: the folder, the template and the date format for each period. Ask in the AI Chat tab, as [Let the AI change your notes](/user-guide/ai/agent-runs/#changing-settings) describes, and approve the change on the review card.

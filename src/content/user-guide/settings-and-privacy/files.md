@@ -60,4 +60,4 @@ All five settings are stored inside your vault's encrypted preferences. The star
 
 **Compress images on import** changes an attachment's size and fidelity, not its protection — the file is encrypted either way. The compression happens once, at import, and cannot be undone: Myne does not keep the original bytes.
 
-Where new notes are created is one of the settings the AI can change for you. Ask in the AI Chat tab, as [Let the AI change your notes](/user-guide/ai/agent-runs/#changing-settings) describes, and approve the change on the review screen.
+Where new notes are created is one of the settings the AI can change for you. Ask in the AI Chat tab, as [Let the AI change your notes](/user-guide/ai/agent-runs/#changing-settings) describes, and approve the change on the review card.

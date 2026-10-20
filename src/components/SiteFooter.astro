@@ -56,12 +56,13 @@ import StatusBadge from "./StatusBadge.astro";
 import VersionBadge from "./VersionBadge.astro";
 ---
 
-<footer style="padding:60px 28px 30px;">
-  <div style="max-width:1280px;margin:0 auto;">
+<footer style="padding:60px var(--gutter) 30px;">
+  <div style="max-width:var(--content-max);margin:0 auto;">
     <div
       class="mono up foot-nav"
-      style="display:grid;grid-template-columns:repeat(7,1fr);gap:20px;font-size:11px;color:var(--ink-3);border-top:1px solid rgb(var(--line-rgb) / 0.1);border-bottom:1px solid rgb(var(--line-rgb) / 0.1);padding:22px 0;"
+      style="display:grid;grid-template-columns:repeat(8,1fr);gap:18px;font-size:11px;color:var(--ink-3);border-top:1px solid rgb(var(--line-rgb) / 0.1);border-bottom:1px solid rgb(var(--line-rgb) / 0.1);padding:22px 0;"
     >
+      <a href="/features/" style="color:inherit;text-decoration:none;">Features</a>
       <a href="/#work" style="color:inherit;text-decoration:none;">How it works</a>
       <a href="/#capab" style="color:inherit;text-decoration:none;">Compare</a>
       <a href="/#commit" style="color:inherit;text-decoration:none;">FAQ</a>

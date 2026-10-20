@@ -1,6 +1,9 @@
 ---
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
+import AppShowcase from "../components/AppShowcase.astro";
+import FeaturesBento from "../components/FeaturesBento.astro";
+import VaultListing from "../components/VaultListing.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
 
@@ -8,6 +11,7 @@ const title = "Myne — Your notes. Sealed.";
 const description =
   "Myne is a privacy-first markdown notes app that encrypts every byte before it leaves your device, asks for no email, and stores only ciphertext at rest — quietly, by default.";
 const ogImage = absoluteOg("home", Astro.site!);
+
 ---
 
 <LandingLayout title={title} description={description} ogImage={ogImage}>
@@ -25,46 +29,64 @@ const ogImage = absoluteOg("home", Astro.site!);
     <GlassNav active="home" spy />
 
     <!-- ===================== HERO ===================== -->
+    <!-- The copy keeps its column and the empty right half now carries the
+         product: the desktop app in a window with the phone beside it, both
+         frames captured from the running clients (AppShowcase.astro says where).
+         The section's own height is left to its content — it used to be a fixed
+         100vh on the inner box, which cannot hold the shot once the grid stacks
+         on a phone. -->
     <section
       id="top"
-      style="position:relative;min-height:100vh;overflow:hidden;padding:0 28px;"
+      style="position:relative;min-height:100vh;overflow:hidden;padding:0 var(--gutter);"
     >
       <canvas
         data-noise
         style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;opacity:0.9;-webkit-mask-image:linear-gradient(to bottom,#000 52%,transparent 100%);mask-image:linear-gradient(to bottom,#000 52%,transparent 100%);"
       ></canvas>
-      <div
-        style="position:relative;z-index:2;max-width:1280px;margin:0 auto;height:100vh;min-height:680px;display:flex;flex-direction:column;justify-content:center;"
-      >
-        <div class="hero-copy" style="max-width:620px;position:relative;">
-          <h1
-            class="up"
-            style="font-size:clamp(40px,5.6vw,82px);line-height:0.96;font-weight:800;letter-spacing:-0.01em;"
-          >
-            Your notes.<br /><span class="mono" data-sealed>Sealed</span>.
-          </h1>
-          <p
-            class="mono"
-            style="margin-top:22px;max-width:46ch;font-size:13px;line-height:1.7;color:var(--ink-3);"
-          >
-            Myne is a privacy-first markdown notes app that encrypts every byte
-            before it leaves your device, asks for no email, and stores only
-            ciphertext at rest — quietly, by default.
-          </p>
-          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;">
-            <a
-              href="/spec/"
+      <div class="hero-inner">
+        <div class="hero-grid">
+          <div class="hero-copy" style="position:relative;">
+            <h1
               class="up"
-              style="background:var(--ink-1);color:var(--paper);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;"
-              >Read the spec</a
+              style="font-size:clamp(40px,5.6vw,82px);line-height:0.96;font-weight:800;letter-spacing:-0.01em;"
             >
-            <a
-              href="#work"
-              class="up"
-              style="background:transparent;color:var(--ink-1);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px solid rgb(var(--line-rgb) / 0.2);"
-              >Learn how it works</a
+              Your notes.<br /><span class="mono" data-sealed>Sealed</span>.
+            </h1>
+            <p
+              class="mono"
+              style="margin-top:22px;max-width:46ch;font-size:13px;line-height:1.7;color:var(--ink-3);"
             >
+              Myne is a privacy-first markdown notes app that encrypts every byte
+              before it leaves your device, asks for no email, and stores only
+              ciphertext at rest — quietly, by default.
+            </p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;">
+              <a
+                href="/spec/"
+                class="up"
+                style="background:var(--ink-1);color:var(--paper);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;"
+                >Read the spec</a
+              >
+              <a
+                href="#work"
+                class="up"
+                style="background:transparent;color:var(--ink-1);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px solid rgb(var(--line-rgb) / 0.2);"
+                >Learn how it works</a
+              >
+            </div>
           </div>
+
+          <AppShowcase
+            dark="/app/desktop.webp"
+            light="/app/desktop-light.webp"
+            eager
+            alt="The Myne desktop app with a note open in the editor, the note list and folders beside it on the left, and the note's links and backlinks on the right."
+            phone={{
+              dark: "/app/phone.webp",
+              light: "/app/phone-light.webp",
+              alt: "Myne on a phone: a note with tags and a to-do list.",
+            }}
+          />
         </div>
       </div>
     </section>
@@ -85,104 +107,96 @@ const ogImage = absoluteOg("home", Astro.site!);
       </div>
     </section>
 
+    <!-- ===================== FEATURES (bento) ===================== -->
+    <!-- Sits directly above the security-model section, so the reader meets
+         what the app does before how it keeps its promises. It carries its own
+         responsive rules; the page's mobile block below leaves it alone. -->
+    <FeaturesBento />
+
     <!-- ===================== GLOBE + PROCESS ===================== -->
-    <section id="work" style="padding:90px 28px 110px;">
-      <div style="max-width:1280px;margin:0 auto;">
-        <h2
-          data-reveal
-          class="up"
-          style="font-size:clamp(22px,3vw,40px);font-weight:600;letter-spacing:0.01em;max-width:22ch;"
-        >
-          Sealed by math. Portable by design.
-        </h2>
-        <div
-          class="work-grid"
-          style="display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:50px;align-items:center;"
-        >
-          <div
-            data-globe
-            style="position:relative;height:420px;display:flex;align-items:center;justify-content:center;"
-          >
+    <!-- Two rows, and the split is the point. The first is the claim: the
+         wireframe globe beside the heading, one composition, both starting on
+         the same line. The second is the evidence: the four steps that make the
+         claim true, side by side in one band rather than stacked down a column.
+         Before this the heading sat alone in the top-left corner above a
+         two-column grid it was not part of, which left it anchored to nothing,
+         and the steps ran down a single tall column beside the globe. -->
+    <section id="work" style="padding:96px var(--gutter) 110px;">
+      <div style="max-width:var(--content-max);margin:0 auto;">
+        <div class="work-top">
+          <div data-globe class="work-globe">
             <canvas
               data-globecv
               style="width:100%;height:100%;display:block;cursor:grab;touch-action:none;"
             ></canvas>
           </div>
-          <div data-process>
-            <div style="border-top:1px solid rgb(var(--line-rgb) / 0.14);padding:22px 0;">
-              <div class="mono" style="font-size:12px;color:var(--ink-4);">01</div>
-              <div
-                class="mono up"
-                style="margin-top:8px;font-size:13px;color:var(--ink-1);"
-              >
-                Key derivation
-              </div>
-              <p
-                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:var(--ink-3);"
-              >
-                Your password is stretched with Argon2id (m=256 MiB, t=3, p=2)
-                into a key that never leaves the device. Parameters are bound
-                into the ciphertext to defeat downgrade attacks.
-              </p>
-            </div>
-            <div style="border-top:1px solid rgb(var(--line-rgb) / 0.14);padding:22px 0;">
-              <div class="mono" style="font-size:12px;color:var(--ink-4);">02</div>
-              <div
-                class="mono up"
-                style="margin-top:8px;font-size:13px;color:var(--ink-1);"
-              >
-                Local encryption
-              </div>
-              <p
-                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:var(--ink-3);"
-              >
-                Every note is sealed with XChaCha20-Poly1305 plus a key
-                commitment before it touches disk. Content, titles, folders,
-                timestamps — all of it.
-              </p>
-            </div>
-            <div style="border-top:1px solid rgb(var(--line-rgb) / 0.14);padding:22px 0;">
-              <div class="mono" style="font-size:12px;color:var(--ink-4);">03</div>
-              <div
-                class="mono up"
-                style="margin-top:8px;font-size:13px;color:var(--ink-1);"
-              >
-                Ciphertext at rest
-              </div>
-              <p
-                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:var(--ink-3);"
-              >
-                Your notes' contents are unreadable on disk without your
-                password. There is no plaintext mode for your notes to forget
-                to enable, and no opt-out toggle to misconfigure.
-              </p>
-            </div>
-            <div
-              style="border-top:1px solid rgb(var(--line-rgb) / 0.14);border-bottom:1px solid rgb(var(--line-rgb) / 0.14);padding:22px 0;"
+
+          <div class="work-head">
+            <span class="mono up" style="font-size:11px;color:var(--ink-3);"
+              >How it works</span
             >
-              <div class="mono" style="font-size:12px;color:var(--ink-4);">04</div>
-              <div
-                class="mono up"
-                style="margin-top:8px;font-size:13px;color:var(--ink-1);"
-              >
-                Sync or self-host
-              </div>
-              <p
-                style="margin-top:8px;max-width:50ch;font-size:12px;line-height:1.7;color:var(--ink-3);"
-              >
-                The same zero-knowledge server — self-hostable, or hosted by us —
-                stores and routes ciphertext, never holding a key. (Sync is in
-                pre-alpha hardening.)
-              </p>
-            </div>
+            <h2
+              data-reveal
+              class="up"
+              style="margin-top:14px;font-size:clamp(24px,3.4vw,46px);font-weight:600;letter-spacing:0.005em;max-width:20ch;line-height:1.04;"
+            >
+              Sealed by math. Portable by design.
+            </h2>
+            <p
+              class="mono"
+              style="margin-top:20px;max-width:46ch;font-size:12.5px;line-height:1.75;color:var(--ink-3);"
+            >
+              Four steps decide whether a note is readable by anyone but you.
+              None of them asks you to trust an operator, and none of them has
+              an off switch.
+            </p>
+          </div>
+        </div>
+
+        <div class="work-specs" data-process>
+          <div class="work-spec">
+            <div class="mono" style="font-size:12px;color:var(--ink-4);">01</div>
+            <div class="mono up work-spec__name">Key derivation</div>
+            <p class="work-spec__body">
+              Your password is stretched with Argon2id (m=256 MiB, t=3, p=2) into
+              a key that never leaves the device. Parameters are bound into the
+              ciphertext to defeat downgrade attacks.
+            </p>
+          </div>
+          <div class="work-spec">
+            <div class="mono" style="font-size:12px;color:var(--ink-4);">02</div>
+            <div class="mono up work-spec__name">Local encryption</div>
+            <p class="work-spec__body">
+              Every note is sealed with XChaCha20-Poly1305 plus a key commitment
+              before it touches disk. Content, titles, folders and tags, all of
+              it.
+            </p>
+          </div>
+          <div class="work-spec">
+            <div class="mono" style="font-size:12px;color:var(--ink-4);">03</div>
+            <div class="mono up work-spec__name">Ciphertext at rest</div>
+            <p class="work-spec__body">
+              Your notes' contents are unreadable on disk without your password.
+              There is no plaintext mode for your notes to forget to enable, and
+              no opt-out toggle to misconfigure.
+            </p>
+          </div>
+          <div class="work-spec">
+            <div class="mono" style="font-size:12px;color:var(--ink-4);">04</div>
+            <div class="mono up work-spec__name">Sync or self-host</div>
+            <p class="work-spec__body">
+              The same zero-knowledge server stores and routes ciphertext and
+              never holds a key. It is a server you set up yourself, and it is
+              available to run today.
+            </p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ===================== COMPARISON ===================== -->
-    <section id="capab" style="padding:100px 28px;">
-      <div style="max-width:1280px;margin:0 auto;">
+    <section id="capab" style="padding:100px var(--gutter);">
+      <div style="max-width:var(--content-max);margin:0 auto;">
         <div data-reveal style="max-width:620px;margin-bottom:40px;">
           <span class="mono up" style="font-size:11px;color:var(--ink-3);"
             >Why not the workarounds</span
@@ -236,28 +250,31 @@ const ogImage = absoluteOg("home", Astro.site!);
         </div>
         <p class="mono" style="margin-top:14px;font-size:11.5px;line-height:1.7;color:var(--ink-4);max-width:90ch;">
           Comparison reflects each tool's default configuration. Myne is
-          pre-alpha, with no published signed release yet — cells marked
+          pre-alpha and in private testing: the release is team-only, so the site
+          hands out no installers yet. Cells marked
           <span style="color:var(--warning);">partial</span> on the Myne column
-          (zero-knowledge sync, self-hostable sync) are implemented in code and
-          ship in v1.0 (Phase 1); signed reproducible builds are a committed v1.0
-          deliverable, not yet produced. Only the managed hosted-sync tier is
-          Phase 2. Obsidian's own at-rest encryption and self-hosted sync need
-          add-ons (e.g. Cryptomator, Syncthing) it doesn't ship.
+          are the ones that work today and are still hardening: zero-knowledge
+          sync, which runs on a server you set up yourself rather than one Myne
+          operates, and the same server shipped open source for anyone to run. A
+          reproducible build, signed for every platform, is still owed.
+          Obsidian's own at-rest
+          encryption and self-hosted sync need add-ons (e.g. Cryptomator,
+          Syncthing) it doesn't ship.
         </p>
       </div>
     </section>
 
     <!-- ===================== FAQ ===================== -->
-    <section id="commit" style="padding:96px 28px;">
+    <section id="commit" style="padding:96px var(--gutter);">
       <div
         class="faq-grid"
-        style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:50px;align-items:start;"
+        style="max-width:var(--content-max);margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:50px;align-items:start;"
       >
         <div data-reveal>
           <h2
             style="font-size:clamp(30px,4vw,56px);font-weight:700;letter-spacing:-0.03em;line-height:1.02;"
           >
-            Frequently<br />asked<br /><span style="color:rgb(var(--line-rgb) / 0.4);"
+            Frequently<br />asked<br /><span style="color:var(--ink-4);"
               >questions</span
             >
           </h2>
@@ -284,11 +301,11 @@ const ogImage = absoluteOg("home", Astro.site!);
     </section>
 
     <!-- ===================== CTA ===================== -->
-    <section id="contact" style="padding:90px 28px 60px;">
+    <section id="contact" style="padding:90px var(--gutter) 60px;">
       <div
         data-reveal
         class="cta-grid"
-        style="max-width:1280px;margin:0 auto;border:1px dashed rgb(var(--line-rgb) / 0.2);padding:56px 48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;"
+        style="max-width:var(--content-max);margin:0 auto;border:1px dashed rgb(var(--line-rgb) / 0.2);padding:56px 48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;"
       >
         <div>
           <h2
@@ -300,8 +317,8 @@ const ogImage = absoluteOg("home", Astro.site!);
           <p
             style="margin-top:16px;max-width:46ch;font-size:12.5px;line-height:1.7;color:var(--ink-3);"
           >
-            Your notes deserve more than a privacy policy. Step into a tool where
-            encryption is effortless, invisible, and always on.
+            Your notes deserve more than a privacy policy. In Myne the
+            encryption is always on, and it never asks you to do anything.
           </p>
           <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;">
             <a
@@ -318,27 +335,7 @@ const ogImage = absoluteOg("home", Astro.site!);
             >
           </div>
         </div>
-        <div
-          data-encpanel
-          style="display:flex;flex-direction:column;justify-content:center;height:230px;width:100%;max-width:380px;margin:0 auto;"
-        >
-          <div
-            class="mono"
-            data-enclabel
-            style="font-size:10.5px;letter-spacing:0.04em;color:var(--ink-4);margin-bottom:12px;transition:color .45s ease;"
-          >
-            note.md · in memory
-          </div>
-          <div
-            style="border:1px solid rgb(var(--line-rgb) / 0.12);border-radius:8px;background:rgb(var(--line-rgb) / 0.025);padding:16px 18px;overflow:hidden;"
-          >
-            <div
-              data-enclines
-              class="mono"
-              style="font-size:12px;line-height:1.95;color:var(--ink-2);white-space:nowrap;"
-            ></div>
-          </div>
-        </div>
+        <VaultListing />
       </div>
     </section>
 
@@ -355,9 +352,73 @@ const ogImage = absoluteOg("home", Astro.site!);
       letter-spacing: 0.01em;
     }
 
+    /* Hero shell: the copy column keeps its measure and the product shot takes
+       the space beside it. `min-height` with its own padding rather than a fixed
+       `height: 100vh`, the fixed height cannot hold the shot once the grid
+       stacks on a phone, and it clipped rather than scrolling. */
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: var(--content-max);
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--page-top) 0 64px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 600px) minmax(0, 1fr);
+      gap: 48px;
+      align-items: center;
+    }
+
+    /* "Sealed by math": row one is the claim, row two the evidence. */
+    .work-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 48px;
+      align-items: center;
+    }
+    .work-globe {
+      position: relative;
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .work-head {
+      max-width: 33rem;
+    }
+    /* The four steps are one band, so they carry a top hairline each rather than
+       the stacked rules the column layout used, closing them with a bottom one
+       as well would make four cards out of one row. */
+    .work-specs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 26px;
+      margin-top: 64px;
+    }
+    .work-spec {
+      padding-top: 20px;
+      border-top: 1px solid rgb(var(--line-rgb) / 0.14);
+    }
+    .work-spec__name {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--ink-1);
+    }
+    .work-spec__body {
+      margin-top: 10px;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--ink-3);
+    }
+
     /* A diffuse dark cloud behind the hero copy: it locally suppresses the 01
        field so the text stays legible, then dissolves smoothly back into the
-       binary on every side — soft radial falloff, no box edge. Same colour as
+       binary on every side, soft radial falloff, no box edge. Same colour as
        the page (#0a0a0a), so it never reads as a visible blob, only as the
        binary fading out behind the words. */
     .hero-copy::before {
@@ -389,14 +450,47 @@ const ogImage = absoluteOg("home", Astro.site!);
       }
     }
 
-    @media (max-width: 760px) {
-      /* Globe + process steps stack into one column. */
-      .work-grid {
-        grid-template-columns: 1fr !important;
-        gap: 36px !important;
+    @media (max-width: 1079px) {
+      /* The hero stacks: copy first, then the shot full width beneath it. The
+         shot needs about 300px of column to stay legible, and at this width a
+         side-by-side split would leave it less than that. */
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 40px;
       }
-      .work-grid [data-globe] {
-        height: 300px !important;
+      .hero-inner {
+        padding: 92px 0 48px;
+      }
+    }
+
+    /* "Sealed by math" keeps its two columns further down than the hero does:
+       the globe only needs a square, so the row reads as a row until a tablet's
+       width makes each column narrower than the heading wants. */
+    @media (max-width: 900px) {
+      .work-top {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 32px;
+      }
+      .work-globe {
+        height: 300px;
+      }
+    }
+
+    @media (max-width: 1079px) {
+      .work-specs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+        margin-top: 48px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      /* The four steps go to one column on a phone: at 390px a two-up band
+         leaves each body about fourteen characters a line, which is a column of
+         hyphens rather than a paragraph. */
+      .work-specs {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
       }
 
       /* Wide comparison table scrolls horizontally instead of crushing
@@ -425,7 +519,7 @@ const ogImage = absoluteOg("home", Astro.site!);
 
 <script>
   // Ported from the Claude Design v13 prototype (DCLogic.componentDidMount).
-  // Plain DOM + canvas — no framework. Module scope keeps locals off window.
+  // Plain DOM + canvas, no framework. Module scope keeps locals off window.
   const $ = (s: string) => document.querySelector(s);
   const $$ = (s: string) => Array.from(document.querySelectorAll(s));
   const reduce =
@@ -458,7 +552,6 @@ const ogImage = absoluteOg("home", Astro.site!);
   let manCheck: (() => void) | null = null;
   let nRaf = 0;
   let gRaf = 0;
-  let aRaf = 0;
 
   // ---------- reveals ----------
   const reveals = $$("[data-reveal]") as HTMLElement[];
@@ -506,7 +599,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       s.textContent = w + " ";
       s.style.opacity = "0.16";
       // The highlight is scroll-driven (user-controlled), not an autonomous
-      // animation, so it stays under reduce-motion — but drop the easing so
+      // animation, so it stays under reduce-motion, but drop the easing so
       // opacity snaps instead of animating.
       s.style.transition = reduce ? "none" : "opacity .3s ease";
       wordsEl.appendChild(s);
@@ -522,7 +615,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       });
     };
     // revealCheck is a no-op under reduce-motion, so drive manCheck from its
-    // own listeners too — otherwise the highlight never updates on the many
+    // own listeners too, otherwise the highlight never updates on the many
     // phones that ship with Reduce Motion enabled.
     window.addEventListener("scroll", manCheck, { passive: true });
     window.addEventListener("resize", manCheck, { passive: true });
@@ -603,7 +696,7 @@ const ogImage = absoluteOg("home", Astro.site!);
     // floating in the gaps: latitude ∈ {0, ±30, ±60} (the drawn parallels) and
     // longitude on a 30° meridian. Authored in degrees, converted to radians.
     const D2R = Math.PI / 180;
-    // Kept off antipodal pairs on connected edges — a node exactly opposite a
+    // Kept off antipodal pairs on connected edges, a node exactly opposite a
     // neighbour makes the great-circle slerp divide by zero (lines to infinity).
     const nodes = (
       [
@@ -615,7 +708,7 @@ const ogImage = absoluteOg("home", Astro.site!);
         [-30, -90],
       ] as [number, number][]
     ).map(([la, lo]) => [la * D2R, lo * D2R] as [number, number]);
-    // Unit-sphere vector for each node (pre-rotation) — needed for the
+    // Unit-sphere vector for each node (pre-rotation), needed for the
     // great-circle arcs and the pulses that ride them.
     const nodeVec = nodes.map(([la, lo]) => ({
       x: Math.cos(la) * Math.cos(lo),
@@ -660,7 +753,7 @@ const ogImage = absoluteOg("home", Astro.site!);
     const draw = () => {
       time += 1;
       // Integrate inertia + a slow idle auto-spin only when not actively
-      // dragging — while dragging, the view is updated straight from pointer
+      // dragging, while dragging, the view is updated straight from pointer
       // deltas. After release the flick decays and the auto-spin resumes.
       if (!dragging) {
         view.ry += vRy + AUTO;
@@ -675,7 +768,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       ctx.clearRect(0, 0, W, H);
       const cx = W / 2,
         cy = H / 2;
-      // Sealed-orb body fill only — a faint inner shade that gives the
+      // Sealed-orb body fill only, a faint inner shade that gives the
       // wireframe depth. The outer atmosphere halo was removed per design.
       const body = ctx.createRadialGradient(
         cx - R * 0.32,
@@ -765,7 +858,7 @@ const ogImage = absoluteOg("home", Astro.site!);
         }
       });
 
-      // Sync pulses riding each arc — ciphertext in transit. Accent glow,
+      // Sync pulses riding each arc, ciphertext in transit. Accent glow,
       // hidden once they round the far side of the globe.
       ctx.globalCompositeOperation = "lighter";
       edges.forEach(([a, b], i) => {
@@ -791,7 +884,7 @@ const ogImage = absoluteOg("home", Astro.site!);
         ctx.fill();
       });
 
-      // Node glows — soft accent halo with a gentle breathing pulse; the hub
+      // Node glows, soft accent halo with a gentle breathing pulse; the hub
       // (node 1) reads a touch larger. Drawn additively over the wireframe.
       pts.forEach((p, i) => {
         if (p.z <= -0.15) return;
@@ -998,7 +1091,7 @@ const ogImage = absoluteOg("home", Astro.site!);
 
   // ---------- page-wide cursor glow ----------
   // A soft light that eases toward the pointer across the whole page. The
-  // hero is excluded — its 01 field already carries the cursor glow — so the
+  // hero is excluded, its 01 field already carries the cursor glow, so the
   // binary characters stay hero-only while the glow follows everywhere else.
   const glow = $("[data-cursorglow]") as HTMLElement | null;
   if (glow && !reduce) {
@@ -1068,7 +1161,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       ],
       [
         "Is it ready to use?",
-        "Not yet. It’s pre-alpha: the v0.1 spec and threat model are public (still in draft); the desktop client is in progress.",
+        "It works, and it is not ready for you. Myne is pre-alpha and in private testing: the spec and the threat model are public and still in draft, the desktop app is being tested with a small group, and there is no public download.",
       ],
     ];
     // Accordion: only one panel stays open at a time. Each entry registers a
@@ -1118,7 +1211,7 @@ const ogImage = absoluteOg("home", Astro.site!);
 
   // ---------- hero "Sealed" wordmark: decrypt reveal ----------
   // Plays once on load (scrambled -> resolved, left to right) and replays on
-  // hover. Deliberately one-shot — no idle loop — so it never nags the reader.
+  // hover. Deliberately one-shot, no idle loop, so it never nags the reader.
   // Mono glyphs (set in CSS) keep the line from reflowing as chars churn.
   const sealed = $("[data-sealed]") as HTMLElement | null;
   if (sealed && !reduce) {
@@ -1159,82 +1252,4 @@ const ogImage = absoluteOg("home", Astro.site!);
     sealed.addEventListener("mouseenter", play);
   }
 
-  // ---------- encryption morph (CTA): plaintext note -> ciphertext ----------
-  // On theme with the heading ("no one else can read a word"): a private note
-  // scrambles character-by-character into ciphertext and back, looping, while
-  // the file label flips note.md (in memory) -> note.myn (ciphertext).
-  const enclines = $("[data-enclines]") as HTMLElement | null;
-  const enclabel = $("[data-enclabel]") as HTMLElement | null;
-  if (enclines) {
-    const plain = [
-      "# Q3 launch - ship slow",
-      "- call mom, buy milk",
-      "- the idea i can't say",
-      "todo: trust math, not us",
-      "draft: things left unsaid",
-    ];
-    const charset =
-      "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz0123456789+/$#%@&?";
-    const rnd = () => charset[(Math.random() * charset.length) | 0];
-    const rows = plain.map((txt) => {
-      const d = document.createElement("div");
-      d.textContent = txt;
-      enclines.appendChild(d);
-      return { el: d, txt };
-    });
-    const setLabel = (cipher: boolean) => {
-      if (!enclabel) return;
-      enclabel.textContent = cipher
-        ? "note.myn · ciphertext"
-        : "note.md · in memory";
-      enclabel.style.color = cipher ? "var(--accent)" : "var(--ink-4)";
-    };
-    if (reduce) {
-      // Static ciphertext conveys the point without motion.
-      rows.forEach((r) => {
-        r.el.textContent = r.txt.replace(/[^ ]/g, () => rnd());
-      });
-      setLabel(true);
-      cancelAnimationFrame(aRaf);
-    } else {
-      let p = 0,
-        dir = 1,
-        hold = 34,
-        last = 0;
-      const step = (now: number) => {
-        if (now - last > 45) {
-          last = now;
-          if (hold > 0) {
-            hold--;
-          } else {
-            p += dir * 0.02;
-            if (p >= 1) {
-              p = 1;
-              hold = 46;
-              dir = -1;
-              setLabel(true);
-            } else if (p <= 0) {
-              p = 0;
-              hold = 40;
-              dir = 1;
-              setLabel(false);
-            }
-          }
-          rows.forEach((r) => {
-            const L = r.txt.length;
-            const cut = p * L; // characters encrypted from the left
-            let out = "";
-            for (let i = 0; i < L; i++) {
-              const ch = r.txt[i];
-              // Re-randomize ciphered chars each frame so they shimmer.
-              out += ch === " " ? " " : i < cut ? rnd() : ch;
-            }
-            r.el.textContent = out;
-          });
-        }
-        aRaf = requestAnimationFrame(step);
-      };
-      aRaf = requestAnimationFrame(step);
-    }
-  }
 </script>

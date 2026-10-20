@@ -1,0 +1,240 @@
+---
+/*
+ * The vault as it exists on disk, a listing, not a capture.
+ *
+ * ── Why this one is drawn ─────────────────────────────────────────────────
+ *
+ * Every other surface on the marketing pages is a screenshot of the app. This
+ * one is not, and cannot be: no guide frame photographs the vault directory, and
+ * the point of the panel is the shape of that directory rather than of a window
+ *, a locked vault has no window on it at all.
+ *
+ * What it shows is the tree `docs/spec/protocol.md` §9.1 specifies, verbatim:
+ * `vault.meta`, `vault.prefs` and the flat `notes/` of `<uuid>.myn` blobs, with
+ * each entry's first four bytes being a format magic rather than a header a
+ * reader could learn anything from. Two things in it are the whole argument:
+ * every note is a UUID and an extension, so no title and no folder name is on
+ * disk to leak (folders are virtual, and the tree lives inside the encrypted
+ * frontmatter), and the sizes say nothing.
+ *
+ * ── The hover ─────────────────────────────────────────────────────────────
+ *
+ * Each row answers when pointed at: the line under the listing swaps to that
+ * entry's own sentence, and the row's UUID characters churn for a beat. The
+ * churn is reflow-free for the same reason the hero's wordmark is, the listing
+ * is monospace, so a substituted glyph has the same advance as the one it
+ * replaced. Only the hex body churns; the leading path and the extension hold,
+ * so the row goes on saying which file it is.
+ *
+ * Used once, on the landing page's closing CTA.
+ */
+const rows: [string, string, string, string][] = [
+  [
+    "vault.meta",
+    "NTV5",
+    "318 B",
+    "the wrapped items key, the Argon2id salt and a hash of the account number",
+  ],
+  [
+    "vault.prefs",
+    "MYP5",
+    "264 B",
+    "settings, the vault's name, and the folders you made on purpose",
+  ],
+  [
+    "notes/0184a2b3-…",
+    "NC05",
+    "1.4 kB",
+    "XChaCha20-Poly1305 · the title, the tags and the folder are inside it",
+  ],
+  [
+    "notes/0184a2b4-…",
+    "NC05",
+    "962 B",
+    "another note, indistinguishable from the one above to this listing",
+  ],
+  [
+    "attachments/a71b4e…",
+    "MYA5",
+    "2.6 MB",
+    "a file, sealed the same way; the catalogue beside it is vault.attachments",
+  ],
+];
+---
+
+<div class="vl" data-vault>
+  <div class="mono up vl__head">
+    <span>vault · on disk</span>
+    <span class="vl__state">sealed</span>
+  </div>
+  <ul class="mono vl__rows">
+    {
+      rows.map(([name, magic, size, note]) => (
+        <li class="vl__row" data-vault-row data-vault-note={note}>
+          <span class="vl__tick" aria-hidden="true">
+            ├
+          </span>
+          <span class="vl__name" data-vault-name data-vault-label={name}>
+            {name}
+          </span>
+          <span class="vl__magic">{magic}</span>
+          <span class="vl__size">{size}</span>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="mono vl__note" data-vault-note-out>
+    notes/ is flat · no titles, no folder names, no text
+  </p>
+</div>
+
+<style>
+  /* Deliberately NOT a box. It began as a bordered card with a header strip and
+     a footer strip, which read as a widget sitting in the section rather than as
+     the vault itself; a listing bounded top and bottom by a hairline reads as a
+     `tree` a reader could scroll. */
+  .vl {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    font-size: 11.5px;
+  }
+  .vl__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgb(var(--line-rgb) / 0.12);
+    font-size: 9.5px;
+    color: var(--ink-4);
+  }
+  .vl__state {
+    color: var(--accent);
+  }
+  .vl__rows {
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+  }
+  .vl__row {
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1fr) auto 54px;
+    gap: 10px;
+    align-items: baseline;
+    padding: 5px 8px 5px 0;
+    border-left: 2px solid transparent;
+    cursor: default;
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard);
+  }
+  .vl__row:hover {
+    border-left-color: var(--accent);
+    background: rgb(var(--line-rgb) / 0.03);
+  }
+  .vl__tick {
+    color: var(--ink-4);
+    opacity: 0.7;
+  }
+  .vl__name {
+    color: var(--ink-2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .vl__row:hover .vl__name {
+    color: var(--ink-0);
+  }
+  .vl__magic,
+  .vl__size {
+    color: var(--ink-4);
+  }
+  .vl__row:hover .vl__magic {
+    color: var(--accent);
+  }
+  .vl__size {
+    text-align: right;
+  }
+  /* The answer line. Reserved height so a hover never moves the section. */
+  .vl__note {
+    min-height: 3.4em;
+    margin: 0;
+    padding-top: 12px;
+    border-top: 1px solid rgb(var(--line-rgb) / 0.12);
+    font-size: 10.5px;
+    line-height: 1.7;
+    color: var(--ink-4);
+    transition: color var(--duration-base) var(--ease-standard);
+  }
+  .vl[data-hover] .vl__note {
+    color: var(--ink-2);
+  }
+</style>
+
+<script>
+  // Every listing on the page, not just the first: the landing's closing CTA and
+  // the encryption block on /features each render one, and a `querySelector`
+  // here would have left the second one inert with nothing to say so.
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll<HTMLElement>("[data-vault]").forEach((vault) => {
+    const out = vault.querySelector<HTMLElement>("[data-vault-note-out]");
+    const rows = Array.from(vault.querySelectorAll<HTMLElement>("[data-vault-row]"));
+    const DEFAULT_NOTE = out ? out.textContent || "" : "";
+    const CH = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789";
+    // One handle per element. A single shared handle meant entering a second row
+    // cancelled the first row's pending frame, so the first filename kept
+    // whatever hex was last painted into it until it was hovered again.
+    const handles = new Map<HTMLElement, number>();
+
+    const scramble = (el: HTMLElement, label: string) => {
+      let start = -1;
+      const tick = (now: number) => {
+        if (start < 0) start = now;
+        const t = now - start;
+        let done = true;
+        let next = "";
+        for (let i = 0; i < label.length; i++) {
+          const ch = label[i];
+          const churnable = i > 5 && i < label.length - 3 && /[0-9a-fA-F]/.test(ch);
+          if (!churnable || t > 240 + i * 5) next += ch;
+          else {
+            done = false;
+            next += CH[(Math.random() * CH.length) | 0];
+          }
+        }
+        el.textContent = next;
+        if (done) {
+          el.textContent = label;
+          handles.delete(el);
+          return;
+        }
+        handles.set(el, requestAnimationFrame(tick));
+      };
+      const live = handles.get(el);
+      if (live) cancelAnimationFrame(live);
+      handles.set(el, requestAnimationFrame(tick));
+    };
+
+    rows.forEach((row) => {
+      const name = row.querySelector<HTMLElement>("[data-vault-name]");
+      const label = name?.dataset.vaultLabel ?? "";
+      // The same reveal for a pointer and for the keyboard. The sentence each
+      // row carries exists nowhere else, so a hover-only handler makes the
+      // panel's whole argument unreachable without a mouse.
+      const reveal = () => {
+        vault.dataset.hover = "";
+        if (out && row.dataset.vaultNote) out.textContent = row.dataset.vaultNote;
+        if (name && !reduce) scramble(name, label);
+      };
+      row.addEventListener("pointerenter", reveal);
+      row.addEventListener("focus", reveal);
+    });
+    vault.addEventListener("pointerleave", () => {
+      delete vault.dataset.hover;
+      if (out) out.textContent = DEFAULT_NOTE;
+    });
+  });
+</script>

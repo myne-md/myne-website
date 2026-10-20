@@ -13,9 +13,10 @@
     "sync-themes": "node scripts/sync-themes.mjs",
     "sync-preview": "node scripts/sync-preview.mjs",
     "validate-sidebar": "node scripts/validate-sidebar.mjs",
-    "build": "node scripts/validate-sidebar.mjs && node scripts/validate-release.mjs && astro build && node scripts/validate-draft-notice.mjs && node scripts/ship-notice.mjs",
+    "build": "node scripts/validate-sidebar.mjs && node scripts/validate-release.mjs && astro build && node scripts/validate-app-shots.mjs && node scripts/validate-draft-notice.mjs && node scripts/ship-notice.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prep-shots": "node scripts/prep-marketing-shots.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",

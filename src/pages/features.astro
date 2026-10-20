@@ -1,0 +1,1066 @@
+---
+/*
+ * /features, the page the landing page's feature grid is the signpost for.
+ *
+ * ── Why this page exists ───────────────────────────────────────────────────
+ *
+ * The landing page answers "should I care?" and the user guide answers "how do
+ * I do this?". Neither answered "what is actually in it?", which is the question
+ * a reader arrives with. The seven sections here are the seven cells of the
+ * landing grid, in the same order and under the same anchors.
+ *
+ * ── The shape of the page ─────────────────────────────────────────────────
+ *
+ * It is a landing page rather than a document. The hero is split: the claim and
+ * the section chips on the left, one frame of the app on the right, and the
+ * chips switch what that frame shows (it also advances on its own until a reader
+ * takes over, an unmoving screenshot beside a row of controls reads as
+ * decoration). Below it, each section is a two-column block that alternates
+ * side, with the app showing the surface the section is about. The first version
+ * of this page was seven text sections in one column, which is a manual's shape
+ * and made the reader scroll past everything to learn anything.
+ *
+ * ── The house rule this page is written under ──────────────────────────────
+ *
+ * AGENTS.md: marketing copy may not exceed `docs/threat-model.md`, and the same
+ * rule governs every user-guide article. So this page is a restatement of the
+ * guide, and every block carries its own LIMITS row rather than leaving the
+ * caveats to a footnote. Where the guide states a boundary, presence is
+ * ephemeral, a name label is not proof of authorship, the in-process model is
+ * not sandboxed, attachments do not come out of the vault by opening it, this
+ * page states it in the same words.
+ *
+ * ── What is photographed and what is drawn ────────────────────────────────
+ *
+ * Six of the eight frames are captures of the running desktop app, taken
+ * through the e2e capture harness: a note with an inline comment, the rendered
+ * markdown, the links panel, the find bar, the export menu, the graph. Two are
+ * drawn, and each says so in its own component: the assistant's chat panel (no
+ * frame of a conversation can exist, the harness cannot run a model) and the
+ * vault listing (the tree on disk is not a window).
+ *
+ * Every capture here comes from a single-tab session. The app's split-view
+ * frames were deliberately passed over: at the width a block gives a frame, two
+ * editor panes read as a cramped application rather than as a capable one.
+ *
+ * ── Dark and light ────────────────────────────────────────────────────────
+ *
+ * Each capture ships in both palettes and the theme picks one (tokens.css), so a
+ * light-theme reader gets the app in light. The two drawn panels follow the
+ * theme the ordinary way, because they are built from tokens.
+ */
+import LandingLayout from "../layouts/LandingLayout.astro";
+import AppShowcase from "../components/AppShowcase.astro";
+import GlassNav from "../components/GlassNav.astro";
+import Icon from "../components/Icon.astro";
+import ShotFrame from "../components/ShotFrame.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { absoluteOg } from "../lib/og";
+
+const title = "Features — Myne";
+const description =
+  "What is actually in Myne: live collaboration on a shared vault, an agent that runs where you point it, markdown at the centre, the graph of your own links, and encryption under all of it. Each section states its limits as well as its claims.";
+const canonical = new URL("/features/", Astro.site!).toString();
+const ogImage = absoluteOg("features", Astro.site!);
+
+type IconName =
+  | "users"
+  | "bot"
+  | "file-text"
+  | "shield-check"
+  | "search"
+  | "graph"
+  | "hard-drive";
+
+interface Point {
+  /** The lead-in, read as a label rather than as a sentence. */
+  t: string;
+  d: string;
+}
+
+interface Section {
+  id: string;
+  index: string;
+  kicker: string;
+  title: string;
+  lede: string;
+  points: Point[];
+  /** The guide's own boundary statements, kept in the guide's words. */
+  limits: string;
+  /** Where this is explained in full. */
+  guide: { href: string; label: string };
+  icon: IconName;
+  /** The capture that illustrates this section, and what it shows. */
+  shot: { alt: string };
+}
+
+/* The order is the landing grid's order, and the anchors are the grid's hrefs. */
+const sections: Section[] = [
+  {
+    id: "collaboration",
+    index: "01",
+    kicker: "Collaboration",
+    title: "Two people, one note, two cursors",
+    lede: "A vault can be shared with the people you work with. Each member joins with their own identity and sets their own password, and your recovery phrase is never part of it.",
+    points: [
+      {
+        t: "Cursors with names",
+        d: "You see their cursor, their selection and their name while you both write. The label always sits beside the colour, so a colour is never the only thing telling you who is where.",
+      },
+      {
+        t: "One owner, many members",
+        d: "The vault's content key is wrapped to each member separately, so adding or removing someone does not touch anyone else's password.",
+      },
+      {
+        t: "Comments where the text is",
+        d: "An inline comment stays attached to the sentence it is about. It renders in the editor, not in print, and a byte-verbatim markdown export keeps it exactly as you typed it.",
+      },
+    ],
+    limits:
+      "Presence needs sync and the note open, and the browser client does not show live cursors yet. A colour is a recognition aid rather than a security identity, and a name label resolves a device to the member it is claimed by: a well-founded hint about who is here, not evidence of who typed a change.",
+    guide: {
+      href: "/user-guide/sync-and-devices/live-collaboration/",
+      label: "Live collaboration",
+    },
+    icon: "users",
+    shot: {
+      alt: "A note open in the Myne editor with an inline comment dimmed beside the sentence it sits in, and the note list down the left side.",
+    },
+  },
+  {
+    id: "agents",
+    index: "02",
+    kicker: "Agents",
+    title: "A model that works where you point it",
+    lede: "Myne's AI is a set of features you turn on, not a service that is already reading. Out of the box you have named nothing, so no AI request leaves your device.",
+    points: [
+      {
+        t: "A question over the whole vault",
+        d: "Ask once and the answer is written from your notes, by a model running where you chose to run it. The transcript keeps the question and the answer.",
+      },
+      {
+        t: "Changes you approve",
+        d: "The composer proposes edits. They arrive as changes to review; nothing is written until you accept them.",
+      },
+      {
+        t: "Three places to run it",
+        d: "A model file on your own computer, a runtime you already run on the same machine, or a remote provider you name.",
+      },
+    ],
+    limits:
+      "It is labelled experimental and the models small enough to run on a laptop are limited: answers can be wrong, and the surfaces are built so that is easy to check. The in-process model is not sandboxed. Naming a remote provider sends the text of each request to that provider. This is Beta, and it is off until you turn it on.",
+    guide: { href: "/user-guide/ai/overview/", label: "AI (Beta)" },
+    icon: "bot",
+    shot: {
+      alt: "The assistant working inside a vault: a question about sync, its answer, then a request to move two notes answered with a proposed change waiting for approval.",
+    },
+  },
+  {
+    id: "markdown",
+    index: "03",
+    kicker: "Markdown",
+    title: "Markdown, and the things around it",
+    lede: "What you write is markdown, and the app renders it rather than reinventing it. The vault is a folder of files, not a database with an export button.",
+    points: [
+      {
+        t: "The dialect, not a subset",
+        d: "Tables, footnotes, reference links, callouts, KaTeX math and Mermaid diagrams all render where you wrote them.",
+      },
+      {
+        t: "Properties as fields",
+        d: "Frontmatter becomes something you can filter and search on, instead of text you have to read twice.",
+      },
+      {
+        t: "Wikilinks and tasks",
+        d: "Links resolve across the vault, and a checklist carries its due date, priority and repeat rule inline.",
+      },
+    ],
+    limits:
+      "The walk-away promise is about your notes. Attachments are encrypted files inside the vault, so they leave through a deliberate export rather than by opening the folder, and an attachment no note references is not carried out by either export.",
+    guide: {
+      href: "/user-guide/markdown/overview/",
+      label: "The markdown reference",
+    },
+    icon: "file-text",
+    shot: {
+      alt: "A note in the Myne editor with a rendered Mermaid flowchart, its source visible in the same pane.",
+    },
+  },
+  {
+    id: "encryption",
+    index: "04",
+    kicker: "Encryption",
+    title: "Sealed on the device, with no way to turn it off",
+    lede: "Encryption is not a setting here. There is one mode, it is on before the first note exists, and no part of the app exists to switch it off.",
+    points: [
+      {
+        t: "Argon2id, bound to the file",
+        d: "Your password is stretched at m=256 MiB, t=3, p=2 into a key that never leaves your device.",
+      },
+      {
+        t: "XChaCha20-Poly1305",
+        d: "Every note is sealed with a key commitment before it touches disk: content, titles, folders and tags alike.",
+      },
+      {
+        t: "No off switch",
+        d: "Auto-lock is always on and quick unlock reverses it rather than disabling it. There is no reset link, because a reset link is a backdoor.",
+      },
+    ],
+    limits:
+      "This does not defend a machine that is already compromised or a vault someone is using while it is unlocked, and it has not had an independent audit. Losing both your password and your recovery phrase means the data is gone. Quick unlock is opt-in, and its PIN form stores a third encrypted copy of the key on this device, where a copied disk can be attacked offline at PIN strength.",
+    guide: {
+      href: "/user-guide/settings-and-privacy/privacy-model/",
+      label: "The privacy model",
+    },
+    icon: "shield-check",
+    shot: {
+      alt: "The Myne unlock screen: a sealed vault on the device, asking for the password that derives its key, in front of the app's own window.",
+    },
+  },
+  {
+    id: "graph",
+    index: "05",
+    kicker: "Graph",
+    title: "Your notes, and the shape they make",
+    lede: "A note is a node, not a page. Myne shows what points at it, what it points at, and the shape all of it makes in the graph.",
+    points: [
+      {
+        t: "Backlinks, in place",
+        d: "Every note that points at this one, listed with the sentence it does it in, plus the mentions you never turned into links.",
+      },
+      {
+        t: "The whole vault as a map",
+        d: "Every note a dot, every resolved wikilink a line: filter to what is isolated, to one tag, or to the neighbourhood of the note you have open.",
+      },
+      {
+        t: "Readable without a mouse",
+        d: "The same view is available as a list: one row per note, most connected first, with what it links to and what links back.",
+      },
+    ],
+    limits:
+      "The graph draws resolved wikilinks only, while Isolated counts links as you wrote them — so a note whose only links point at notes that do not exist yet draws no lines and is still not listed as isolated. Folders and attachments are not nodes, and a note outside the vault is not part of either surface. The saved arrangement is a convenience rather than a stored document: losing it costs a fresh layout and none of your content.",
+    guide: {
+      href: "/user-guide/find-and-connect/overview/",
+      label: "Find and connect",
+    },
+    icon: "graph",
+    shot: {
+      alt: "The graph view open as its own tab in the Myne desktop app, drawing the notes of a vault as labelled nodes joined by their links.",
+    },
+  },
+  {
+    id: "search",
+    index: "06",
+    kicker: "Search",
+    title: "Search that never leaves the machine",
+    lede: "The index that answers you is built and read on your own device. Nothing about a search is sent anywhere, because there is nowhere for it to go.",
+    points: [
+      {
+        t: "Find, and replace",
+        d: "The find bar works on the note in front of you, with case and whole-word options and a replace that can be stepped through.",
+      },
+      {
+        t: "Across the whole vault",
+        d: "The command palette searches every note in the open vault as you type, and by tag or property as well as by word.",
+      },
+      {
+        t: "Saved views",
+        d: "A query kept as a place you can come back to, instead of something you retype.",
+      },
+    ],
+    limits:
+      "The index covers the vault that is open and is rebuilt from it, so a locked vault has nothing to search. Attachments are searched through text Myne extracts on your device, and only for the attachment types it can read.",
+    guide: { href: "/user-guide/find-and-connect/search/", label: "Search" },
+    icon: "search",
+    shot: {
+      alt: "The find bar open over a note in the Myne editor, with the match counted and the find and replace fields side by side.",
+    },
+  },
+  {
+    id: "portable",
+    index: "07",
+    kicker: "Portability",
+    title: "Yours to run, yours to leave with",
+    lede: "The vault is a folder on your disk and the server is a program you can run. Neither of those is a promise about the other.",
+    points: [
+      {
+        t: "Back up and restore",
+        d: "The whole vault as one encrypted file, restorable anywhere you have the password or the recovery phrase.",
+      },
+      {
+        t: "Export to markdown",
+        d: "A note, or everything, with its attachments written out as ordinary files beside it.",
+      },
+      {
+        t: "A server you can run",
+        d: "Sync moves ciphertext the server has no key for, and that server is open source.",
+      },
+    ],
+    limits:
+      "Sync is not a backup: it propagates a deletion to your other devices, where a backup does not. Sync runs on a server you set up yourself, and that server is available to run today.",
+    guide: {
+      href: "/user-guide/sync-and-devices/run-your-own-sync-server/",
+      label: "Run your own server",
+    },
+    icon: "hard-drive",
+    shot: {
+      alt: "A note's action menu in the Myne desktop app, with the export submenu open on Markdown, PDF, HTML and plain text.",
+    },
+  },
+];
+
+---
+
+<LandingLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+>
+  <div class="feat-root">
+    <GlassNav active="features" />
+
+    <!-- ===================== HERO ===================== -->
+    <section class="feat-hero">
+      <div class="feat-inner feat-hero__grid">
+        <div class="feat-hero__copy">
+          <span class="mono up feat-eyebrow">Features</span>
+          <h1 class="feat-h1">What is actually in it.</h1>
+          <p class="feat-lede">
+            Myne is a markdown notebook with encryption underneath it, not a
+            note-taking app with a privacy badge added later. Seven surfaces,
+            and each one states where it stops as well as what it does.
+          </p>
+
+          <div class="feat-chips" role="group" aria-label="Feature sections">
+            {
+              sections.map((s, i) => (
+                <button
+                  type="button"
+                  class:list={["feat-chip", { "is-on": i === 0 }]}
+                  aria-current={i === 0 ? "true" : undefined}
+                  data-feat-chip={s.id}
+                >
+                  <span class="feat-chip__icon">
+                    <Icon name={s.icon} size={15} />
+                  </span>
+                  <span class="feat-chip__text">
+                    <i class="mono">{s.index}</i>
+                    <b class="mono up">{s.kicker}</b>
+                  </span>
+                </button>
+              ))
+            }
+            {/* The eighth cell. Seven sections over two columns leaves a gap,
+                and a gap reads as something missing; this closes the grid with
+                the one thing the grid itself cannot do, which is scroll. */}
+            <a class="feat-chip feat-chip--link" href="#collaboration">
+              <span class="feat-chip__icon">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 5v14" />
+                  <path d="m19 12-7 7-7-7" />
+                </svg>
+              </span>
+              <span class="feat-chip__text">
+                <i class="mono">↓</i>
+                <b class="mono up">Read on</b>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="feat-hero__window" data-feat-deck>
+          <ShotFrame ratio="1400 / 885">            <div class="feat-stage">
+              {
+                sections.map((s, i) => (
+                  <div
+                    class:list={["feat-slide", { "is-on": i === 0 }]}
+                    data-shot-slide={s.id}
+                  >
+                    {/* The unlock screen is the one slide with no pair: the
+                        theme is a vault preference, and a locked vault has
+                        none, so the app draws it in its own default palette in
+                        both themes. Shipping it as two files would have been
+                        two copies of the same bytes pretending to be a light
+                        and a dark capture. */}
+                    {s.id === "encryption" ? (
+                      <img
+                        class="shot__img"
+                        src="/app/p-encryption.webp"
+                        width="1400"
+                        height="885"
+                        loading="lazy"
+                        decoding="async"
+                        alt={s.shot.alt}
+                      />
+                    ) : (
+                      <>
+                        <img
+                          class="shot__img"
+                          src={`/app/p-${s.id}.webp`}
+                          data-shot="dark"
+                          width="1400"
+                          height="885"
+                          loading={i === 0 ? "eager" : "lazy"}
+                          fetchpriority={i === 0 ? "high" : undefined}
+                          decoding="async"
+                          alt={s.shot.alt}
+                        />
+                        <img
+                          class="shot__img"
+                          src={`/app/p-${s.id}-light.webp`}
+                          data-shot="light"
+                          width="1400"
+                          height="885"
+                          loading={i === 0 ? "eager" : "lazy"}
+                          fetchpriority={i === 0 ? "high" : undefined}
+                          decoding="async"
+                          alt={s.shot.alt}
+                        />
+                      </>
+                    )}
+                  </div>
+                ))
+              }
+            </div>
+          </ShotFrame>
+          {/* The deck's own clock. One bar rather than one per section: the
+              chips already say which slide is showing, so what a reader cannot
+              tell from them is WHEN it will move on. Hidden while the deck is
+              in the reader's hands, because then nothing is coming. */}
+          <div class="feat-progress" data-feat-progress aria-hidden="true">
+            <span class="feat-progress__fill" data-feat-progress-fill></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== THE SECTIONS ===================== -->
+    <div class="feat-blocks">
+      {
+        sections.map((s, i) => (
+          <article
+            id={s.id}
+            class:list={["feat-block", { "feat-block--flip": i % 2 === 1 }]}
+          >
+            <div class="feat-inner feat-block__grid">
+              <div class="feat-block__copy">
+                <span class="feat-block__head">
+                  <span class="feat-block__icon">
+                    <Icon name={s.icon} size={18} />
+                  </span>
+                  <span class="mono up feat-block__index">{s.index}</span>
+                  <span class="mono up feat-block__kicker">{s.kicker}</span>
+                </span>
+                <h2 class="feat-block__title">{s.title}</h2>
+                <p class="feat-block__lede">{s.lede}</p>
+
+                <ul class="feat-points">
+                  {s.points.map((p) => (
+                    <li>
+                      <span class="feat-points__mark" aria-hidden="true" />
+                      <b>{p.t}.</b> <span>{p.d}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <p class="feat-limits">
+                  <span class="mono up">Limits</span>
+                  <span>{s.limits}</span>
+                </p>
+                <a class="feat-guide" href={s.guide.href}>
+                  {s.guide.label}
+                  <i aria-hidden="true">→</i>
+                </a>
+              </div>
+
+              <div class="feat-block__visual">
+                <AppShowcase
+                  dark={`/app/p-${s.id}.webp`}
+                  light={s.id === "encryption" ? undefined : `/app/p-${s.id}-light.webp`}
+                  alt={s.shot.alt}
+                  w={1400}
+                  h={885}
+                />
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- ===================== CLOSING ===================== -->
+    <section class="feat-close">
+      <div class="feat-inner feat-close__inner">
+        <h2>The claims are checkable. Start there.</h2>
+        <p>
+          The protocol, the key derivation and the account-number scheme are
+          public, and the app is open source under AGPL-3.0. If a sentence on
+          this page is not something you can verify, that is a bug, not a
+          footnote.
+        </p>
+        <div class="feat-close__cta">
+          <a href="/spec/" class="up feat-btn feat-btn--solid">Read the spec</a>
+          <a
+            href="/user-guide/getting-started/welcome/"
+            class="up feat-btn feat-btn--ghost">Open the guide</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <SiteFooter />
+  </div>
+</LandingLayout>
+
+<style>
+  .feat-root {
+    font-family: var(--font-sans);
+    color: var(--ink-1);
+    background: var(--paper);
+    overflow-x: clip;
+  }
+  .feat-inner {
+    width: 100%;
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  /* ---- hero ------------------------------------------------------------ */
+  .feat-hero {
+    padding: var(--page-top) var(--gutter) 0;
+  }
+  /* The hero is two columns from the start, and it is the frame on the right
+     that decides the height: the copy column stretches to meet it so the chips
+     land at the bottom of that column rather than floating mid-air. */
+  .feat-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+  }
+  /* The frame is capped rather than filling its column. At 1280 the column is
+     ~690px, which made the app's own sidebar and right panel large enough to be
+     read as text and pull attention off the claim beside them. */
+  .feat-hero__window {
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+  }
+  .feat-hero__copy {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  .feat-eyebrow {
+    display: block;
+    font-size: 11px;
+    color: var(--accent);
+  }
+  .feat-h1 {
+    margin-top: 18px;
+    font-size: clamp(36px, 4.6vw, 62px);
+    line-height: 0.98;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+  }
+  .feat-lede {
+    margin-top: 20px;
+    max-width: 46ch;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--ink-3);
+  }
+
+  /* ---- the chips ------------------------------------------------------
+     Square rather than pill: each one is a control that swaps the frame beside
+     it, and a pill reads as a filter for a list. */
+  .feat-chips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 36px;
+  }
+  .feat-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 12px;
+    border: 1px solid rgb(var(--line-rgb) / 0.14);
+    border-radius: var(--radius-2);
+    background: transparent;
+    color: var(--ink-3);
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
+  }
+  .feat-chip:hover {
+    border-color: rgb(var(--accent-rgb) / 0.4);
+    color: var(--ink-1);
+  }
+  .feat-chip:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+  }
+  .feat-chip.is-on {
+    border-color: rgb(var(--accent-rgb) / 0.5);
+    background: var(--accent-soft);
+    color: var(--ink-0);
+  }
+  .feat-chip__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    border: 1px solid rgb(var(--line-rgb) / 0.12);
+    border-radius: var(--radius-1);
+    color: var(--ink-4);
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+  .feat-chip.is-on .feat-chip__icon,
+  .feat-chip:hover .feat-chip__icon {
+    color: var(--accent);
+  }
+  .feat-chip__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .feat-chip__text i {
+    font-style: normal;
+    font-size: 9px;
+    color: var(--ink-4);
+  }
+  .feat-chip--link {
+    color: var(--ink-4);
+  }
+  .feat-chip__text b {
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ---- the deck --------------------------------------------------------
+     Only the selected slide is a box at all, so the other seven are neither
+     painted nor fetched, and every slide occupies the SAME box: an image pair
+     fills it with `cover`, a drawn panel is laid out to fill it. A slide that
+     sized itself would re-lay-out the page on every switch. */
+  .feat-stage {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .feat-slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+  }
+  .feat-slide.is-on {
+    display: block;
+    animation: feat-slide-in 380ms var(--ease-out) both;
+  }
+  /* The deck's own images carry this, because `AppShowcase`'s scoped
+     `.shot__img` rule does NOT reach into this page: a scoped style is only
+     applied inside its own component. Without it the image kept its natural
+     1400px width inside a 598px frame and `overflow: hidden` cropped the right
+     half of the app away, measured as a rendered box of 1400×885 against a
+     598×378 surface, with `object-fit` still at its default `fill`. */
+  .feat-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @keyframes feat-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---- the deck's progress bar -----------------------------------------
+     2px of accent on a hairline track, filling linearly over one interval so
+     the reader can see the switch coming instead of being surprised by it. It
+     is a single bar: one segmented bar per section was the thing that made the
+     reference's row read as a pagination control rather than a clock. */
+  .feat-progress {
+    height: 2px;
+    margin-top: 16px;
+    border-radius: var(--radius-pill);
+    background: rgb(var(--line-rgb) / 0.1);
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity var(--duration-base) var(--ease-standard);
+  }
+  .feat-progress[data-on] {
+    opacity: 1;
+  }
+  .feat-progress__fill {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  /* ---- blocks ---------------------------------------------------------- */
+  .feat-blocks {
+    padding: 0 var(--gutter);
+  }
+  .feat-block {
+    /* The fixed bar is 60px; a link that lands a heading under it is a link that
+       appears to have done nothing. */
+    scroll-margin-top: calc(var(--nav-h) + 24px);
+    padding: 88px 0 0;
+  }
+  .feat-block__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+    padding-top: 34px;
+    border-top: 1px solid rgb(var(--line-rgb) / 0.12);
+  }
+  /* Odd blocks put the frame on the left. The order is set on the children
+     rather than by the source order, so the reading order of the DOM stays
+     claim-then-evidence on every block. */
+  .feat-block--flip .feat-block__copy {
+    order: 2;
+  }
+  .feat-block--flip .feat-block__visual {
+    order: 1;
+  }
+
+  .feat-block__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .feat-block__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgb(var(--line-rgb) / 0.14);
+    border-radius: var(--radius-2);
+    color: var(--accent);
+  }
+  .feat-block__index {
+    font-size: 11px;
+    color: var(--ink-4);
+  }
+  .feat-block__kicker {
+    font-size: 11px;
+    color: var(--ink-2);
+  }
+  .feat-block__title {
+    margin-top: 18px;
+    max-width: 24ch;
+    font-size: clamp(24px, 2.8vw, 34px);
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  .feat-block__lede {
+    margin-top: 16px;
+    max-width: 56ch;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink-3);
+  }
+  .feat-points {
+    margin: 26px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 58ch;
+  }
+  .feat-points li {
+    position: relative;
+    padding-left: 24px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-3);
+  }
+  .feat-points b {
+    color: var(--ink-1);
+    font-weight: 600;
+  }
+  .feat-points__mark {
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 10px;
+    height: 1px;
+    background: var(--accent);
+  }
+  /* The limits row is deliberately not a smaller grey line at the bottom of a
+     wall of text. It carries a mono label and its own surface, because it is the
+     half of the page the copy discipline is about.
+
+     The label sits ABOVE the sentence and the sentence starts on the box's own
+     left edge. It began as a two-column row, which indented the paragraph to the
+     right of a nine-pixel label, the reader's eye had to step over the label to
+     find the first word, and every wrapped line started seven characters in from
+     the box that contains it. */
+  .feat-limits {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 26px;
+    max-width: 58ch;
+    padding: 16px 18px;
+    border: 1px solid rgb(var(--line-rgb) / 0.1);
+    border-left: 2px solid rgb(var(--warning-rgb) / 0.5);
+    border-radius: var(--radius-2);
+    background: rgb(var(--line-rgb) / 0.02);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--ink-3);
+  }
+  .feat-limits span:first-child {
+    font-size: 9.5px;
+    color: var(--warning);
+  }
+  .feat-guide {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 26px;
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgb(var(--accent-rgb) / 0.3);
+    padding-bottom: 3px;
+    align-self: flex-start;
+  }
+  .feat-guide i {
+    font-style: normal;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .feat-guide:hover {
+    border-bottom-color: var(--accent);
+  }
+  .feat-guide:hover i {
+    transform: translateX(3px);
+  }
+
+  /* ---- closing --------------------------------------------------------- */
+  .feat-close {
+    padding: var(--page-top) var(--gutter) 40px;
+  }
+  .feat-close__inner {
+    padding: 48px;
+    border: 1px dashed rgb(var(--line-rgb) / 0.2);
+  }
+  .feat-close__inner h2 {
+    max-width: 26ch;
+    font-size: clamp(24px, 3.2vw, 40px);
+    line-height: 1.08;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+  .feat-close__inner p {
+    margin-top: 16px;
+    max-width: 58ch;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--ink-3);
+  }
+  .feat-close__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .feat-btn {
+    padding: 13px 22px;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .feat-btn--solid {
+    background: var(--ink-1);
+    color: var(--paper);
+  }
+  .feat-btn--ghost {
+    color: var(--ink-1);
+    border: 1px solid rgb(var(--line-rgb) / 0.2);
+  }
+
+  /* ---- narrow ----------------------------------------------------------
+     The hero stacks at 1080 (where the frame stops being a column and starts
+     being a picture), and the blocks stack at 940, which is where a claim and
+     its evidence stop fitting side by side. */
+  @media (max-width: 1079px) {
+    .feat-hero__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+    }
+    .feat-hero__copy {
+      min-height: 0;
+    }
+    .feat-chips {
+      margin-top: 0;
+    }
+    .feat-hero__window {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+  }
+  @media (max-width: 940px) {
+    .feat-block__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+    }
+    .feat-block--flip .feat-block__copy,
+    .feat-block--flip .feat-block__visual {
+      order: 0;
+    }
+    .feat-block {
+      padding-top: 64px;
+    }
+    .feat-close__inner {
+      padding: 28px 22px;
+    }
+  }
+  @media (max-width: 560px) {
+    /* Two columns, not one. One column of eight chips is 640px of navigation
+       before the reader meets the frame those chips control; two columns of four
+       still reads as a grid of controls. The index line goes, because at this
+       size it is the part nothing depends on. */
+    .feat-chip {
+      padding: 9px 10px;
+      gap: 8px;
+    }
+    .feat-chip__text i {
+      display: none;
+    }
+    .feat-chip__text b {
+      font-size: 9px;
+    }
+    .feat-lede,
+    .feat-block__lede {
+      font-size: 14px;
+    }
+    .feat-points li {
+      font-size: 13px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .feat-slide.is-on {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // ---------- the hero deck ----------
+  //
+  // Eight chips, eight slides in one frame. Clicking a chip selects its slide
+  // (and keeps the chip's own state in step); left alone, the deck advances
+  // every few seconds, because a still frame beside a row of controls reads as
+  // decoration rather than as something the controls do. The first click stops
+  // the timer for good: a reader who has taken over should not have it taken
+  // back from them mid-read.
+  const INTERVAL = 5200;
+
+  const chips = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-feat-chip]"),
+  );
+  const deck = document.querySelector("[data-feat-deck]");
+  const progress = document.querySelector<HTMLElement>("[data-feat-progress]");
+  const fill = document.querySelector<HTMLElement>("[data-feat-progress-fill]");
+
+  if (chips.length && deck) {
+    const slides = Array.from(
+      deck.querySelectorAll<HTMLElement>("[data-shot-slide]"),
+    );
+    let auto: number | undefined;
+    let bar: Animation | undefined;
+
+    const select = (id: string) => {
+      slides.forEach((s) =>
+        s.classList.toggle("is-on", s.dataset.shotSlide === id),
+      );
+      chips.forEach((c) => {
+        const on = c.dataset.featChip === id;
+        c.classList.toggle("is-on", on);
+        if (on) c.setAttribute("aria-current", "true");
+        else c.removeAttribute("aria-current");
+      });
+    };
+
+    // Restarting a WAAPI animation is what makes the bar honest: `cancel` then
+    // `play` on a fresh one restarts from zero on every switch, where a CSS
+    // animation would need a forced reflow to do the same thing.
+    const armBar = () => {
+      if (!progress || !fill || typeof fill.animate !== "function") return;
+      progress.dataset.on = "";
+      bar?.cancel();
+      bar = fill.animate(
+        [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }],
+        { duration: INTERVAL, easing: "linear", fill: "forwards" },
+      );
+    };
+
+    // The reader has the deck: no more advancing, so no more clock.
+    const disarmBar = () => {
+      bar?.cancel();
+      if (progress) delete progress.dataset.on;
+      if (fill) fill.style.transform = "scaleX(0)";
+    };
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const id = chip.dataset.featChip;
+        if (!id) return;
+        window.clearInterval(auto);
+        auto = undefined;
+        select(id);
+        disarmBar();
+      });
+    });
+
+    if (!reduce) {
+      armBar();
+      auto = window.setInterval(() => {
+        const current = chips.findIndex((c) => c.classList.contains("is-on"));
+        const next = chips[(current + 1) % chips.length];
+        if (next?.dataset.featChip) select(next.dataset.featChip);
+        armBar();
+      }, INTERVAL);
+    } else {
+      disarmBar();
+    }
+  }
+</script>

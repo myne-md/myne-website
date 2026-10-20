@@ -25,7 +25,7 @@ The walk-away promise (that your notes are plain markdown once decrypted) is abo
 
 ## On sync
 
-Two opt-ins move data off this device, and both are off until you turn them on: sync, and naming a remote AI provider. Sync is **off by default**. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it. When you do turn sync on, it is zero-knowledge: only encrypted blobs move between your devices, and the server — whether Myne's hosted one or [a server you run yourself](/user-guide/sync-and-devices/) — never holds a key and can never read your notes. The hosted service is currently a free, invite-only beta; self-hosting is available now. See [Sync and devices](/user-guide/sync-and-devices/).
+Two opt-ins move data off this device, and both are off until you turn them on: sync, and naming a remote AI provider. Sync is **off by default**. Until you turn on sync or name a remote AI provider, Myne runs on your device alone. It makes one request you did not ask for: the desktop update check, on by default since 2026-10-07, which sends your version and platform to Myne's own origin (which keeps no IP logs) and can be turned off under Settings → About. When you do turn sync on, it is zero-knowledge: only encrypted blobs move between your devices, and the server, whichever one you point the app at, never holds a key and can never read your notes. Myne operates no sync service of its own: sync runs on [a server you set up yourself](/user-guide/sync-and-devices/), and that server is available to run today. See [Sync and devices](/user-guide/sync-and-devices/).
 
 ## On AI
 

@@ -2,7 +2,7 @@
 title: "Resolving conflicts"
 category: "sync-and-devices"
 updated: 2026-08-13
-summary: "On the original vault format, a note edited on two devices at once keeps both copies and lists them for you to reconcile. Covers comparing the two side by side, keeping a copy as separate, discarding one, and using a version — which moves the other to Trash — plus what changes once the vault is upgraded and notes merge on their own."
+summary: "On the original vault format, a note edited on two devices at once keeps both copies and lists them for you to reconcile. Covers comparing the two side by side, keeping a copy as separate, discarding one, and using a version (which moves the other to Trash), plus what changes once the vault is upgraded and notes merge on their own."
 tags: ["sync", "notes", "devices"]
 ---
 

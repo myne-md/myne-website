@@ -118,7 +118,7 @@ const phaseView = phases.map((p) => {
   >
     <GlassNav active="roadmap" />
 
-    <section id="top" style="padding:128px 28px 90px;">
+    <section id="top" style="padding:var(--page-top) var(--gutter) 90px;">
       <div style="max-width:1280px;margin:0 auto;">
         <div class="mono up" style="font-size:11px;color:var(--accent);margin-bottom:18px;">
           Roadmap
@@ -278,7 +278,7 @@ const phaseView = phases.map((p) => {
     }
     .rm-head {
       position: sticky;
-      top: 96px;
+      top: var(--page-top);
       align-self: start;
     }
 

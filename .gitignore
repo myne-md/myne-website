@@ -26,6 +26,8 @@ pnpm-debug.log*
 
 # Session worktrees (agent-tooling/reference/worktrees.md). A worktree here is a
 # working directory, never content: committing one would put a second copy of the
-# site inside the site.
+# site inside the site. Both names are ignored because this repo is worked from
+# either harness, and the directory a worktree lives in is not content under
+# either one.
 /.claude/
 /.opencode/worktrees/

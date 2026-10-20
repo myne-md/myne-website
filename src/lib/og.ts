@@ -203,6 +203,7 @@ export async function renderOgPng(o: OgOpts): Promise<Buffer> {
 
 export type OgKey =
   | "home"
+  | "features"
   | "download"
   | "roadmap"
   | "spec"
@@ -233,12 +234,20 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
     note: "Sealed by math.",
     path: "",
   },
+  features: {
+    kicker: "Features",
+    title: "What is actually in it.",
+    description:
+      "Live collaboration on a shared vault, an agent that runs where you point it, markdown at the centre, and encryption under all of it, with each section's limits stated beside its claims.",
+    note: "claims, with limits",
+    path: "features",
+  },
   download: {
     kicker: "Download",
     title: "Run it on your own machine.",
     description:
-      "One desktop app, installed once, running entirely on your device. Code-signed and reproducible — verify the binary matches the public source.",
-    note: "signed · reproducible · open",
+      "A desktop app that installs once and runs entirely on your device. Myne is pre-alpha and in private testing, so there is no public download yet.",
+    note: "private testing",
     path: "download",
   },
   roadmap: {

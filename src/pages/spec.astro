@@ -98,9 +98,9 @@ const leadStyle =
     <!-- HERO -->
     <section
       id="top"
-      style="padding:128px 28px 56px;border-bottom:1px solid rgb(var(--line-rgb) / 0.08);"
+      style="padding:var(--page-top) var(--gutter) 56px;border-bottom:1px solid rgb(var(--line-rgb) / 0.08);"
     >
-      <div style="max-width:1280px;margin:0 auto;">
+      <div style="max-width:var(--content-max);margin:0 auto;">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
           <span class="mono up" style="font-size:11px;color:var(--accent);"
             >Protocol specification</span
@@ -141,7 +141,7 @@ const leadStyle =
     </section>
 
     <!-- BODY -->
-    <div style="max-width:calc(1280px + 56px);margin:0 auto;padding:56px 28px 100px;">
+    <div style="max-width:calc(var(--content-max) + 2 * var(--gutter));margin:0 auto;padding:56px var(--gutter) 100px;">
       <div
         class="spec-body"
         style="display:grid;grid-template-columns:188px minmax(0,1fr);gap:56px;align-items:start;"
@@ -149,7 +149,7 @@ const leadStyle =
         <!-- SECTION NAV -->
         <aside
           data-secnav
-          style="position:sticky;top:90px;display:flex;flex-direction:column;gap:2px;"
+          style="position:sticky;top:var(--page-top);display:flex;flex-direction:column;gap:2px;"
         >
           <div class="mono up" style="font-size:10px;color:var(--ink-4);margin-bottom:8px;">
             Contents
@@ -168,7 +168,7 @@ const leadStyle =
 
         <main style="min-width:0;display:flex;flex-direction:column;gap:72px;">
           <!-- PRIMITIVES -->
-          <section id="primitives" style="scroll-margin-top:96px;">
+          <section id="primitives" style="scroll-margin-top:calc(var(--nav-h) + 36px);">
             <div class="mono up" style={eyebrowStyle}>§2 · Cryptographic primitives</div>
             <h2 style={h2Style}>Boring, well-vetted, no custom crypto.</h2>
             <p style={leadStyle}>
@@ -239,7 +239,7 @@ const leadStyle =
           </section>
 
           <!-- KEY HIERARCHY -->
-          <section id="hierarchy" style="scroll-margin-top:96px;">
+          <section id="hierarchy" style="scroll-margin-top:calc(var(--nav-h) + 36px);">
             <div class="mono up" style={eyebrowStyle}>§3 · Key hierarchy</div>
             <h2 style={h2Style}>A random root key, wrapped two ways.</h2>
             <p style={leadStyle}>
@@ -318,7 +318,7 @@ const leadStyle =
           </section>
 
           <!-- NOTE FORMAT -->
-          <section id="blob" style="scroll-margin-top:96px;">
+          <section id="blob" style="scroll-margin-top:calc(var(--nav-h) + 36px);">
             <div class="mono up" style={eyebrowStyle}>§6 · §9 · Per-note encryption</div>
             <h2 style={h2Style}>What lands on disk is noise.</h2>
             <p style={leadStyle}>
@@ -371,7 +371,7 @@ const leadStyle =
           </section>
 
           <!-- ACCOUNT NUMBER -->
-          <section id="account" style="scroll-margin-top:96px;">
+          <section id="account" style="scroll-margin-top:calc(var(--nav-h) + 36px);">
             <div class="mono up" style={eyebrowStyle}>§8 · Account number</div>
             <h2 style={h2Style}>An identifier, not a key.</h2>
             <p style={leadStyle}>
@@ -414,7 +414,7 @@ const leadStyle =
           </section>
 
           <!-- RECOVERY -->
-          <section id="recovery" style="scroll-margin-top:96px;">
+          <section id="recovery" style="scroll-margin-top:calc(var(--nav-h) + 36px);">
             <div class="mono up" style={eyebrowStyle}>§7 · Recovery</div>
             <h2 style={h2Style}>Two ways in. No third.</h2>
             <p style={leadStyle}>
@@ -437,7 +437,7 @@ const leadStyle =
           </section>
 
           <!-- THREAT MODEL -->
-          <section id="threats" style="scroll-margin-top:96px;">
+          <section id="threats" style="scroll-margin-top:calc(var(--nav-h) + 36px);">
             <div class="mono up" style={eyebrowStyle}>Threat model v0.1</div>
             <h2 style={h2Style}>What we defend — and what we don't.</h2>
             <p style={leadStyle}>
@@ -515,7 +515,7 @@ const leadStyle =
           </section>
 
           <!-- DOCUMENTS -->
-          <section id="documents" style="scroll-margin-top:96px;">
+          <section id="documents" style="scroll-margin-top:calc(var(--nav-h) + 36px);">
             <div class="mono up" style={eyebrowStyle}>The spec layer</div>
             <h2 style={h2Style}>Read the documents.</h2>
             <p style={leadStyle}>

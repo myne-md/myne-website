@@ -1,0 +1,80 @@
+---
+/*
+ * The bare app frame: a hairline, a radius and a shadow, with anything inside.
+ *
+ * It exists so the three things that go in a frame share one definition: a
+ * capture (`AppShowcase.astro`), the app's chat panel and the vault listing on
+ * /features (both drawn, because neither can be captured, see their own
+ * headers). Every one of them is "a surface of the app, presented", and the
+ * frame is the site's, not the app's.
+ *
+ * ── No title bar ─────────────────────────────────────────────────────────
+ *
+ * The first version drew a macOS strip with three traffic lights above the
+ * capture. A capture is not a window, and the strip made every shot read as a
+ * mock-up of an app rather than as the app: the drawn chrome and the app's own
+ * toolbar directly beneath it looked like two rows of controls, and the
+ * traffic-light colours had to be carried as tokens that existed for nothing
+ * else. The frame that remains is what the site gives any other surface.
+ *
+ * ── Why the ratio is a prop ──────────────────────────────────────────────
+ *
+ * A deck whose slides are different heights re-lays-out the page on every
+ * switch, which is the same defect the landing page's agent card had when its
+ * chat was content-sized. Every slide in a deck therefore declares the SAME
+ * `ratio`, and a drawn mock is laid out to fill it rather than to its own
+ * content.
+ */
+interface Props {
+  /** `width / height`, e.g. "1400 / 885". Applied to the inner surface so the
+   *  frame reserves the shape before anything inside it has a size. */
+  ratio?: string;
+}
+
+const { ratio } = Astro.props;
+---
+
+<div class="shot">
+  <div class="shot__glow" aria-hidden="true"></div>
+  <div class="shot__window">
+    <div class="shot__surface" style={ratio ? `aspect-ratio: ${ratio};` : undefined}>
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .shot {
+    position: relative;
+    width: 100%;
+  }
+  /* The accent wash behind the frame: the same token the hero's cursor glow
+     uses, so the two read as one light source rather than two. */
+  .shot__glow {
+    position: absolute;
+    inset: -8% -14% 6% -12%;
+    pointer-events: none;
+    background: radial-gradient(
+      58% 52% at 42% 44%,
+      rgb(var(--accent-rgb) / 0.12),
+      rgb(var(--accent-rgb) / 0.04) 52%,
+      transparent 76%
+    );
+  }
+  .shot__window {
+    position: relative;
+    border: 1px solid rgb(var(--line-rgb) / 0.16);
+    border-radius: var(--radius-3);
+    background: var(--paper-2);
+    overflow: hidden;
+    box-shadow: var(--shadow-3);
+  }
+  /* The capture's own top edge is the app's toolbar, so the surface starts at
+     the frame's inner edge with nothing drawn above it. */
+  .shot__surface {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+</style>

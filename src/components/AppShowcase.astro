@@ -1,0 +1,188 @@
+---
+/*
+ * The app in a frame, and the phone beside it.
+ *
+ * ── Where the pixels come from ─────────────────────────────────────────────
+ *
+ * Both frames are captures of the running apps, not drawings:
+ *
+ *   public/app/desktop.webp, the desktop app driven through its own UI by the
+ *     e2e capture harness (main repo `e2e/capture/userguide.capture.ts`, the
+ *     Linux/webkit2gtk seat, because tauri-driver has no macOS support). It
+ *     boots the production build, builds a mundane vault through the UI and
+ *     screenshots it at @2x.
+ *   public/app/phone.webp, the mobile client's real React tree, in Chromium
+ *     at a 390×844 phone viewport, through the mobile flow-logic lane's mock
+ *     IPC. Same source as the desktop shell, different host.
+ *
+ * Two surfaces on /features are drawn instead of captured (the app's chat panel
+ * and the vault listing). Neither is photographed there, the capture harness
+ * cannot run a model, and no guide frame shows the on-disk tree. Their own
+ * components say so.
+ *
+ * ── Dark and light, with no script ────────────────────────────────────────
+ *
+ * Every shot ships as a pair: the app in its own light palette and in its own
+ * dark one, captured from the same build. Which one paints is decided by a CSS
+ * rule on `html[data-theme]` (styles/tokens.css), so the choice is made during
+ * the pre-paint pass and nothing flashes, a script that swapped `src` would
+ * show the other theme for a frame on every load.
+ *
+ * The hidden copy is also `display: none`, which matters more than it looks: a
+ * lazy image with no box is never fetched, so a page ships one theme's bytes and
+ * fetches the other only if the reader asks for it.
+ */
+import ShotFrame from "./ShotFrame.astro";
+
+interface Props {
+  /** The app's own dark palette. */
+  dark: string;
+  /** …and its light one: the same build, the same vault, the other theme.
+   *
+   *  OPTIONAL, and absent means "this capture has no pair rather than a
+   *  missing file". The encryption slide is the case: its plate is authored
+   *  artwork with no light backplate, so the deck renders one image there and
+   *  so does this component. A caller that always builds `-light` from the id
+   *  shipped a 404 in the light theme, on the one block where the dark half is
+   *  hidden; `scripts/validate-app-shots.mjs` now fails the build for that. */
+  light?: string;
+  alt: string;
+  /** Phone overlay, with its own pair. */
+  phone?: { dark: string; light: string; alt: string };
+  /** First paint priority: the hero wants it, everything below the fold does
+   *  not. */
+  eager?: boolean;
+  /** Reserved intrinsic size, so the frame holds its shape before the bytes
+   *  arrive. The hero's captures are 2200×1390; a guide panel's are 1400×885. */
+  w?: number;
+  h?: number;
+}
+
+const { dark, light, alt, phone, eager = false, w = 2200, h = 1390 } = Astro.props;
+---
+
+<div class="shot-wrap">
+  <ShotFrame ratio={`${w} / ${h}`}>
+    <img
+      class="shot__img"
+      src={dark}
+      data-shot={light ? "dark" : undefined}
+      width={w}
+      height={h}
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      fetchpriority={eager ? "high" : undefined}
+      alt={alt}
+    />
+    {light && (
+      <img
+        class="shot__img"
+        src={light}
+        data-shot="light"
+        width={w}
+        height={h}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        fetchpriority={eager ? "high" : undefined}
+        alt={alt}
+      />
+    )}
+  </ShotFrame>
+
+  {
+    phone && (
+      <div class="shot__phone">
+        <span class="shot__notch" aria-hidden="true" />
+        <img
+          class="shot__img"
+          src={phone.dark}
+          data-shot="dark"
+          width="780"
+          height="1688"
+          loading="lazy"
+          decoding="async"
+          alt={phone.alt}
+        />
+        <img
+          class="shot__img"
+          src={phone.light}
+          data-shot="light"
+          width="780"
+          height="1688"
+          loading="lazy"
+          decoding="async"
+          alt={phone.alt}
+        />
+      </div>
+    )
+  }
+</div>
+
+<style>
+  /* The phone hangs past the frame's bottom-right corner, so the stage needs
+     room for it without pushing the frame smaller. */
+  .shot-wrap {
+    position: relative;
+    width: 100%;
+    padding: 0 0 46px 0;
+  }
+  .shot__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* The surface is already the capture's own ratio, so `cover` fills it
+       exactly rather than letterboxing a rounding difference. */
+    object-fit: cover;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  /* ---- phone ----------------------------------------------------------- */
+  /* Body-drawn rather than baked into the frame: a device outline, an inner
+     bezel and a notch, all tokens, so the phone is the site's own furniture and
+     not a picture of somebody's device. */
+  .shot__phone {
+    position: absolute;
+    right: -18px;
+    bottom: 0;
+    width: 25%;
+    min-width: 148px;
+    max-width: 214px;
+    padding: 7px;
+    border: 1px solid var(--phone-line);
+    border-radius: 26px;
+    background: var(--phone-bg);
+    box-shadow: var(--shadow-3);
+  }
+  .shot__phone .shot__img {
+    border-radius: 19px;
+    aspect-ratio: 780 / 1688;
+  }
+  .shot__notch {
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 34%;
+    height: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--phone-line);
+    z-index: 1;
+  }
+
+  /* ---- narrow ----------------------------------------------------------
+     Under 1080px the hero stacks and the shot goes full width beneath the copy.
+     The phone is dropped rather than shrunk: at these widths the frame is
+     already below the size where the phone reads as a phone, and a second
+     unreadable rectangle costs the reader attention and the page bytes. */
+  @media (max-width: 1079px) {
+    .shot-wrap {
+      padding-bottom: 0;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .shot__phone {
+      display: none;
+    }
+  }
+</style>

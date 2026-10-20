@@ -21,7 +21,7 @@ const lead =
 const inScope = [
   "The desktop client (editor, vault, key handling)",
   "The protocol spec and the cryptographic implementation",
-  "The sync server — self-hostable, open source (Phase 1, in production hardening)",
+  "The sync server, which is open source and available to run today on a machine you control",
   "The web client and its bundle delivery channel (the weaker A15/TB11 served-bundle surface), in whatever instance you run or use",
   "The build & release pipeline and the release-hash signing key",
   "This website and the /.well-known/security.txt it serves",
@@ -39,7 +39,7 @@ const outScope = [
   >
     <GlassNav active="security" />
 
-    <section id="top" style="padding:128px 28px 70px;">
+    <section id="top" style="padding:var(--page-top) var(--gutter) 70px;">
       <div style="max-width:820px;margin:0 auto;">
         <div class="mono up" style={eyebrow}>Security</div>
         <h1
@@ -130,9 +130,9 @@ const outScope = [
             We acknowledge reports as fast as a two-person team can, work a fix
             under coordinated disclosure, and credit you in the release notes
             unless you'd rather stay anonymous. Where the threat model already
-            says we don't defend something — active malware, a nation-state
-            adversary, coercion — we'll say so plainly rather than pretend
-            otherwise. The
+            says we do not defend something, whether that is active malware, a
+            nation-state adversary or coercion, we will say so plainly rather
+            than pretend otherwise. The
             <a href="/spec/" style="color:var(--accent);text-decoration:none;">protocol spec</a>
             and
             <a href="/spec/#threats" style="color:var(--accent);text-decoration:none;"

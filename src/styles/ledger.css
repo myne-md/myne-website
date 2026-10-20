@@ -11,8 +11,8 @@
    the 28px gutter each side, so its edges line up with the nav brand. The
    permalink reader keeps its own narrow .ledger-reader column for prose. */
 .ledger-root .container {
-  max-width: calc(1280px + 56px);
-  padding: 0 28px;
+  max-width: calc(var(--content-max) + 2 * var(--gutter));
+  padding: 0 var(--gutter);
 }
 
 .ledger-filter-row {
@@ -189,7 +189,7 @@
    the v13 page: clear the fixed header and drop the divider. */
 .ledger-root section {
   border-bottom: 0;
-  padding: 116px 0 64px;
+  padding: var(--page-top) 0 64px;
 }
 
 /* v13 eyebrow: mono, dimmer, to match the other pages. */

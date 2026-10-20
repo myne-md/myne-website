@@ -2,7 +2,7 @@
 title: "How sync works"
 category: "sync-and-devices"
 updated: 2026-08-13
-summary: "The zero-knowledge model behind sync in plain language: your keys come from your password, the server holds only ciphertext, and hosted and self-hosted servers get the exact same access. This page states what the server sees, what it cannot, and where the guarantees stop."
+summary: "The zero-knowledge model behind sync in plain language: your keys come from your password, the server holds only ciphertext, and any server you point the app at gets the exact same access. This page states what the server sees, what it cannot, and where the guarantees stop."
 tags: ["sync", "privacy", "security"]
 ---
 
@@ -18,9 +18,9 @@ This is what "zero-knowledge" means here: the server can hold your data and hand
 
 A large vault does not travel in one go. Myne sends and fetches in bounded batches and records what has landed before sending the next, so a first sync of thousands of notes progresses over several passes rather than restarting from the beginning each time. Progress is shown as a count of notes, not an estimate — see [Reading sync status](/user-guide/sync-and-devices/sync-status/).
 
-## Hosted and self-hosted are the same trust model
+## Any server you point at is in the same trust model
 
-Myne's hosted server and a server you run yourself sit in the *same* position: outside the trust boundary. Self-hosting changes who operates the server, not what the protocol lets the server do. Either way, Myne assumes the server could be curious or compelled, and encrypts accordingly. Running your own server is a fine choice for control and availability, but it is not what protects your note content — the client-side encryption is.
+Any server you point the app at sits in the *same* position: outside the trust boundary. Who operates it changes nothing about what the protocol lets it do. Either way, Myne assumes the server could be curious or compelled, and encrypts accordingly. Running your own server is a fine choice for control and availability, but it is not what protects your note content — the client-side encryption is.
 
 ## What the server sees, and cannot
 

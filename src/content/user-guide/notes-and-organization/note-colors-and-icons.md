@@ -2,7 +2,7 @@
 title: "Note colors and folder icons"
 category: "notes-and-organization"
 updated: 2026-08-13
-summary: "Give a note or folder a color, and a folder a custom icon from a curated glyph set. The color paints a folder's own icon, washes a note's sidebar row, and tints its open tab — all stored as encrypted vault content, not a device-local setting."
+summary: "Give a note or folder a color, and a folder a custom icon from the glyph set the app ships. The color paints a folder's own icon, washes a note's sidebar row, and tints its open tab — all stored as encrypted vault content, not a device-local setting."
 tags: ["notes", "folders", "sidebar", "workspace"]
 ---
 

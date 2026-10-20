@@ -55,8 +55,8 @@
  * It said more than that until review, and what came off is the point. The
  * earlier wording added "is not binding. It describes an intention, not an
  * agreement in force", which presupposes the document is an agreement. Both of
- * the pages it covers now ARE agreements; the four that were not — notice,
- * meldung, law-enforcement and behoerdenanfragen — were DELETED on 2026-10-17
+ * the pages it covers now ARE agreements; the four that were not, notice,
+ * meldung, law-enforcement and behoerdenanfragen, were DELETED on 2026-10-17
  * rather than keep a review-status caveat over a statutory designation or a
  * factual inventory. Where that inventory went, and why Myne publishes no DSA
  * designation at all, is `design-notes/sync/0696` and
@@ -213,9 +213,29 @@ const COPY = {
 const copy = COPY[variant][lang];
 ---
 
-<aside class="draft-notice mono" role="note" lang={lang}>
+<aside class="draft-notice mono" role="note" lang={lang} data-draft-notice>
+  {/* On a phone the strip used to be the full sentence, wrapped: five or six
+      lines of a 390px viewport, permanently, over a page a reader is trying to
+      read. It is now one line with the full sentence a tap away. The
+      disclosure is not weakened, the label and the fact it qualifies are still
+      always on screen, and the sentence is in the DOM, so a search engine, a
+      screen reader and a print-out all still get it in full. What changed is
+      only what a phone shows BEFORE it is asked. On a wide screen the strip is
+      unchanged: it fits on one or two lines there and there is no reason to
+      hide any of it. */}
   <span class="draft-notice-label up">{copy.label}</span>
-  <span>{copy.text}</span>
+  <button
+    type="button"
+    class="draft-notice__toggle up"
+    data-draft-notice-toggle
+    aria-expanded="false"
+    aria-controls="draft-notice-text"
+  >
+    <span class="draft-notice__more" aria-hidden="true">Why</span>
+  </button>
+  <span class="draft-notice__text" id="draft-notice-text">
+    <span class="draft-notice__inner">{copy.text}</span>
+  </span>
 </aside>
 
 <style is:global>
@@ -313,6 +333,103 @@ const copy = COPY[variant][lang];
     font-weight: 700;
   }
 
+  /* ---- the phone form: one line, expandable ---------------------------- */
+  /* The toggle is a plain strip row, not a button with a skin: the whole line
+     is the target, which is what a thumb wants and what an announcement bar
+     is. It carries no border or background of its own; the strip's own
+     surface shows through. */
+  .draft-notice__toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .draft-notice__more {
+    margin-left: auto;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--ink-4);
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+  .draft-notice__toggle::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex: none;
+    border-right: 1.4px solid var(--ink-4);
+    border-bottom: 1.4px solid var(--ink-4);
+    transform: rotate(-135deg);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .draft-notice[data-open] .draft-notice__toggle::after {
+    transform: rotate(45deg);
+  }
+  .draft-notice__toggle:hover .draft-notice__more {
+    color: var(--ink-2);
+  }
+  .draft-notice__toggle:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+  }
+  /* Collapsed on a phone: `grid-template-rows: 0fr` rather than `max-height`,
+     so the sentence can be any length without a constant to keep in sync (the
+     same class of bug the sticky-at-the-bottom comment records). */
+  .draft-notice__text {
+    display: grid;
+    grid-template-rows: 1fr;
+    flex: 1;
+  }
+  @media (max-width: 759px) {
+    .draft-notice {
+      display: block;
+      padding: 0;
+    }
+    .draft-notice__toggle {
+      padding: 11px 14px;
+    }
+    .draft-notice__text {
+      grid-template-rows: 0fr;
+      transition: grid-template-rows var(--duration-slow) var(--ease-standard);
+    }
+    .draft-notice[data-open] .draft-notice__text {
+      grid-template-rows: 1fr;
+    }
+    /* The inner wrapper is what actually clips; `min-height: 0` is required or
+       a grid item refuses to shrink below its content. */
+    .draft-notice__inner {
+      display: block;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .draft-notice__text {
+      padding: 0 14px;
+    }
+    .draft-notice[data-open] .draft-notice__text {
+      padding-bottom: 11px;
+    }
+  }
+  /* On a wide screen the sentence is simply present: the toggle's caret and its
+     "Why" affordance are for the phone form only, and there is nothing to
+     expand because nothing is hidden. */
+  @media (min-width: 760px) {
+    .draft-notice__toggle {
+      flex: none;
+      pointer-events: none;
+    }
+    .draft-notice__more,
+    .draft-notice__toggle::after {
+      display: none;
+    }
+  }
+
   /* Printing a legal page is exactly when the draft status has to travel with
      it. Sticky already prints in place at the end of the document; only the
      dark palette has to go. */
@@ -328,3 +445,55 @@ const copy = COPY[variant][lang];
     }
   }
 </style>
+
+<script>
+  // The phone form's one interaction: the strip opens and closes. Delegated on
+  // document, like the theme switch's listener, because Astro's client router
+  // replaces the node on a guide-to-guide swap.
+  const WIDE = "(min-width: 760px)";
+  const isWide = () => window.matchMedia(WIDE).matches;
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as Element | null;
+    if (!target || typeof target.closest !== "function") return;
+    const toggle = target.closest<HTMLElement>("[data-draft-notice-toggle]");
+    if (!toggle || isWide()) return;
+    const strip = toggle.closest<HTMLElement>("[data-draft-notice]");
+    if (!strip) return;
+    const open = strip.hasAttribute("data-open");
+    strip.toggleAttribute("data-open", !open);
+    toggle.setAttribute("aria-expanded", open ? "false" : "true");
+  });
+
+  // On a wide screen there is nothing to expand, so the control must not be a
+  // tab stop either: it is kept in the markup (one notice, one shape) and
+  // switched off here rather than hidden behind a second media-query copy of
+  // the component. Resizing across the breakpoint collapses it, so a strip left
+  // open on a phone does not arrive on the desktop with a stale `aria-expanded`.
+  const syncToggles = () => {
+    const wide = isWide();
+    document
+      .querySelectorAll<HTMLElement>("[data-draft-notice-toggle]")
+      .forEach((toggle) => {
+        if (wide) {
+          // Off the tab order AND out of the accessibility tree: on a wide
+          // screen the paragraph is fully painted, so a control announcing a
+          // collapsed disclosure would be describing a state that is not true.
+          toggle.setAttribute("tabindex", "-1");
+          toggle.setAttribute("aria-hidden", "true");
+          toggle.closest("[data-draft-notice]")?.removeAttribute("data-open");
+        } else {
+          toggle.removeAttribute("tabindex");
+          toggle.removeAttribute("aria-hidden");
+          toggle.setAttribute(
+            "aria-expanded",
+            toggle.closest("[data-draft-notice]")?.hasAttribute("data-open")
+              ? "true"
+              : "false",
+          );
+        }
+      });
+  };
+  syncToggles();
+  window.addEventListener("resize", syncToggles, { passive: true });
+</script>

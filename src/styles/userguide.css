@@ -46,7 +46,7 @@
   flex-shrink: 0;
   width: 240px;
   position: sticky;
-  top: 56px;
+  top: var(--page-top);
   align-self: flex-start;
   padding: 24px 36px 0 0;
 }
@@ -355,9 +355,9 @@
   border-right: 1px solid var(--line-1);
   padding: 24px 16px;
   position: sticky;
-  top: 56px; /* below nav, edge-flush left */
+  top: var(--page-top); /* below nav, edge-flush left */
   align-self: flex-start;
-  height: calc(100vh - 56px);
+  height: calc(100vh - var(--page-top));
   overflow-y: auto;
   overscroll-behavior: contain;
 }
@@ -641,9 +641,9 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
    gutter on each side (so max-width = 1280 + 2*28). This lands the guide
    content edges on the same line as the nav brand and the footer. */
 .ug-page {
-  max-width: calc(1280px + 56px);
+  max-width: calc(var(--content-max) + 2 * var(--gutter));
   margin: 0 auto;
-  padding: 96px 28px 90px;
+  padding: var(--page-top) var(--gutter) 90px;
 }
 .ug-footer {
   border-top: 1px solid rgb(var(--line-rgb) / 0.1);
@@ -690,9 +690,14 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
   background: transparent;
   border: 0;
   position: sticky;
-  top: 84px;
+  /* Pinned at the page's own top offset, so the tree is in the same place on
+     the first scroll as it is at rest. At `top: 84px` against a page whose
+     top offset was 96px, the sidebar slid 12px up as soon as the reader began
+     to scroll: the natural position outranked the sticky one until the two
+     met, which reads as the tree flinching rather than as the tree sticking. */
+  top: var(--page-top);
   height: auto;
-  max-height: calc(100vh - 110px);
+  max-height: calc(100vh - var(--page-top) - 26px);
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -779,7 +784,7 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
 .ug-root .ug-rightrail {
   width: auto;
   position: sticky;
-  top: 96px;
+  top: var(--page-top);
   padding: 0;
 }
 .ug-root .ug-eyebrow {
@@ -1021,7 +1026,7 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
   .ug-page {
     /* More top room so the "Back to user guide" / breadcrumb clears the fixed
        navbar comfortably. */
-    padding: 92px 16px 64px;
+    padding: var(--page-top) 16px 64px;
   }
   /* Guide pages keep a 16px content gutter on mobile (more room for docs), so
      pull the shared navbar in to the same edge — guide-only, scoped to

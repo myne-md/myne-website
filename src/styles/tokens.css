@@ -21,7 +21,7 @@
    brighter, which the theme switch is not allowed to do.
    ========================================================================= */
 
-/* @font-face rules live in ../styles/fonts.css — self-hosted Inter +
+/* @font-face rules live in ./styles/fonts.css, self-hosted Inter +
    JetBrains Mono (latin subset) bundled from @fontsource, no Google Fonts CDN.
    That file is imported by LandingLayout, which every live page renders
    through, so the families named below always resolve to the bundled webfonts
@@ -165,6 +165,44 @@
   --duration-fast: 120ms;
   --duration-base: 180ms;
   --duration-slow: 260ms;
+
+  /* -- Chrome metrics (theme-independent) -----------------------------
+     One number per chrome dimension. They are tokens rather than literals
+     because they have to AGREE: the fixed bar's height, the distance from
+     the top of the document to a page's first line, and the sticky offset
+     the guide's sidebar and rail use are three spellings of the same
+     measurement.
+
+     The failure when they disagree is measured, not theoretical. The bar
+     was 55px on the landing and 68px on the guide (its search button is 32px
+     where ThemeToggle's own negative margin pulled the other routes' row
+     back to 19px), so the gap under the bar changed on every navigation. And
+     the guide pinned its sidebar at `top: 84px` while the page's own top
+     offset was 96px, so the sidebar slid up 12px the moment the reader began
+     to scroll, before its sticky behaviour had anything to do.
+
+     `--gutter` and `--content-max` are here for the same reason: the bar,
+     the footer and every section have to land their edges on one line. */
+  --nav-h:       60px;
+  /* Derived, not restated: the comment above names this pair as the failure when
+     they disagree, and two independent literals is how they disagree. */
+  --page-top:    calc(var(--nav-h) + 44px);
+  --gutter:      28px;
+  --content-max: 1280px;
+
+  /* -- Device-frame colours (theme-independent, deliberately) ----------
+     The marketing frames in `AppShowcase.astro` draw a phone around a CAPTURE
+     of the app, and every capture is the app's dark palette. So this group is
+     fixed in both themes on purpose: a frame that followed the page would draw
+     a light bezel around a dark screen the moment a reader chose the light
+     theme.
+
+     The three macOS traffic-light colours were here too, for the window strip
+     the hero used to draw above the capture. That strip is gone (a capture is
+     not a window), and the colours went with it rather than sitting here
+     waiting for a caller. */
+  --phone-bg:   #181816;
+  --phone-line: #262624;
 }
 
 /* =========================================================================
@@ -181,13 +219,24 @@
   --ink-1:    #1a1a17;
   --ink-2:    #3a3934;
   --ink-3:    #6b6a64;
-  --ink-4:    #6f6e68;
+  --ink-4:    #5f5e58;
   /* --ink-4 is the muted step and carries real text (footer links, guide
      breadcrumb and updated line, small captions), so the light value is tuned
-     to clear WCAG AA on --paper (#fbfbfa) at ~4.9:1 rather than taking the
-     canon's --line-3 (#a3a29c), which is a hairline value and fails at ~2.5:1.
-     The dark value stays the shipped #54544f: the dark look is not allowed to
-     move, and that contrast is pre-existing rather than new. */
+     to clear WCAG AA on --paper (#fbfbfa) AND on the tinted surfaces those
+     labels actually sit on. --paper-2, --paper-3 and the accent wash a chip
+     takes when it is selected. The first value here, #6f6e68, was measured
+     against --paper alone and landed at 4.35:1 on the selected chip's
+     --accent-soft and 4.46:1 on a card's --paper-2, both under AA. The dark
+     value stays the shipped #54544f: the dark look is not allowed to move, and
+     that contrast is pre-existing rather than new.
+
+     DIVERGENCE, stated rather than silent: `--warning-rgb` below is darker than
+     the main repo's `docs/design/colors_and_type.css`, which still declares the
+     old one. The screen side is right on the merits (it cleared AA only after
+     the change), and the canon owes that value in the main repo, which this
+     branch cannot edit. `--ink-4` itself has NO canon counterpart: the canon's
+     ink ramp ends at ink-3, and this fourth step is website-local, so there is
+     nothing there for the light value to diverge from. */
 
   --line-rgb:  11 11 9;
   --ink-rgb:   26 26 23;
@@ -212,7 +261,11 @@
   --danger-rgb:    138 42 35;
   --danger:        rgb(var(--danger-rgb));
   --danger-soft:   #f5e7e5;
-  --warning-rgb:   138 106 31;
+  /* Darker than the canon's #8a6a1f, which was measured on --paper only: the
+     comparison table's `partial` cell sits on a tinted row and read 4.04:1 at
+     12px. Same treatment as --ink-4 above, and it is the one colour of the
+     three state steps that carries small text on a tinted ground. */
+  --warning-rgb:   116 87 20;
   --warning:       rgb(var(--warning-rgb));
   --warning-soft:  #f5efde;
   --success-rgb:   47 96 72;
@@ -243,6 +296,27 @@
 /* =========================================================================
    Semantic type styles
    ========================================================================= */
+
+/* =========================================================================
+   Marketing shots: one capture per theme, one painted.
+   `AppShowcase.astro` renders each app screenshot twice, the app's own light
+   palette and its own dark one, captured from the same build, and this pair of
+   rules decides which one is a box at all. Two reasons it is here rather than in
+   that component's scoped style: the theme is an attribute on `html`, which a
+   scoped selector can only reach through `:global(...)` and the client-side CSS
+   pipeline DROPPED that form (served HTML carried both rules, the running
+   document carried neither, and a dark and a light capture painted on top of
+   each other); and `display: none` rather than a script that swaps `src`, so the
+   choice is made during the pre-paint pass and the wrong theme never flashes.
+   A hidden lazy image is also never fetched, so a dark reader pays for one set
+   of bytes and only fetches the other if they switch.
+   ========================================================================= */
+html[data-theme="light"] [data-shot="dark"] {
+  display: none;
+}
+html:not([data-theme="light"]) [data-shot="light"] {
+  display: none;
+}
 
 .t-display {
   font-family: var(--font-display);

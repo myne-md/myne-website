@@ -48,7 +48,7 @@ The panel keeps this list behind a **What this doesn't hide** disclosure, and it
 
 - The last relay in a Tor circuit, the exit node, sees which sync server you connect to, and on desktop with this on, which AI provider you reach. It cannot read what you sync; that stays encrypted end to end.
 - The sync server still sees when you sync, how many blobs you push and how large they are, and how many devices you have. Tor does not change that.
-- If you pay for hosted sync, the payment and your account can still be linked to you. Tor changes where the connection comes from, not the billing trail.
+- If a server you use charges for storage, the payment and your account can still be linked to you. Tor changes where the connection comes from, not the billing trail.
 - On desktop this covers your AI provider requests too, not only sync: with the option on, a request to a remote AI provider goes through the same Tor proxy, so the provider sees the exit node rather than this device, and when the proxy is not ready the request is refused rather than sent directly. Mobile has no Tor routing yet, so its provider requests go direct. Nothing else on this device is affected.
 
 ## Limits

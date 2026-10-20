@@ -1,0 +1,901 @@
+---
+/*
+ * The landing page's feature grid, and the four things it has to say without a
+ * screenshot.
+ *
+ * Every card is an icon, a claim and a link into /features/, and two of them
+ * carry their own behaviour: the collaboration card has three people writing a
+ * shared note while the reader watches, and the agent card has an exchange with
+ * a working agent. Hover is a border colour and nothing else. An earlier version
+ * also tinted the whole card and churned its kicker into cipher, and both were
+ * removed: at seven cards the wash read as "everything is selected" and the
+ * churn competed with the two cards that are actually moving.
+ *
+ * ── Why icons and not the app screenshots ─────────────────────────────────
+ *
+ * The imagery on this page is real, it is captured from the running app rather
+ * than drawn, and it is spent where it earns its bytes: the hero, and the
+ * /features page. A seven-cell grid of screenshots would make each of them too
+ * small to read and too heavy to ship, and the feature this grid exists to sell
+ * ("an agent works here, people edit together") is a behaviour rather than a
+ * still. So the grid is icons and motion, and the reader who wants the pixels
+ * gets them one click away.
+ *
+ * ── Both behaviours are real interactions, not skeleton shimmers ───────────
+ *
+ * The collaboration card types and deletes an actual line of text per person,
+ * with the caret and the name label where the app puts them. The agent card
+ * runs the app's own exchange shape: a `You` turn, then an `Assistant` turn
+ * that shows a working state before it resolves to an answer, twice, on a loop.
+ * A row of grey placeholder bars would have been less code and would have said
+ * nothing about either feature.
+ *
+ */
+import Icon from "./Icon.astro";
+
+interface Cell {
+  /** Anchor into /features/, the section this card is the signpost for. */
+  id: string;
+  /** Mono kicker: the index and the noun. */
+  kicker: string;
+  title: string;
+  body: string;
+  icon:
+    | "users"
+    | "bot"
+    | "file-text"
+    | "shield-check"
+    | "search"
+    | "graph"
+    | "hard-drive";
+  /** Which piece of motion lives in the card, if any. */
+  art?: "collab" | "chat";
+  /** Grid placement. `wide` spans two columns, `tall` two rows. */
+  size?: "wide" | "tall";
+}
+
+/*
+ * Seven cells over a 3×3 grid: 01 spans two columns, 02 spans two rows down the
+ * right-hand side, and the remaining five tile the space that is left.
+ *
+ * Every claim here is a restatement of the user guide's own wording, which is
+ * the site's only writing that is held to the threat model line by line
+ * (AGENTS.md, "Marketing copy discipline"). Two are hedged on purpose: the agent
+ * surface is labelled Beta and says it is off until you turn it on, because the
+ * guide puts it behind Developer mode and turning AI on; and the portability
+ * card names self-hosting rather than sync, because Myne operates no sync service of its
+ * own while a server you run yourself is available.
+ */
+const cells: Cell[] = [
+  {
+    id: "collaboration",
+    kicker: "01 · Collaboration",
+    title: "Live cursors in a shared vault",
+    body: "Invite someone into one vault. You see their cursor, their selection and their name while you both write; the frames are sealed end to end and are never stored.",
+    icon: "users",
+    art: "collab",
+    size: "wide",
+  },
+  {
+    id: "agents",
+    kicker: "02 · Agents",
+    title: "A model that works inside the vault",
+    body: "Ask across everything you have written, or have it propose a change you approve before any note moves. Beta, and off until you turn it on.",
+    icon: "bot",
+    art: "chat",
+    size: "tall",
+  },
+  {
+    id: "markdown",
+    kicker: "03 · Markdown",
+    title: "Plain files, no lock-in",
+    body: "Notes are markdown, sealed in the vault. Export writes ordinary .md files, wikilinks, tasks, callouts, math and diagrams included.",
+    icon: "file-text",
+  },
+  {
+    id: "encryption",
+    kicker: "04 · Encryption",
+    title: "Sealed on your device",
+    body: "Argon2id turns your password into a key that never leaves the machine, and XChaCha20-Poly1305 seals every byte before it touches disk.",
+    icon: "shield-check",
+  },
+  {
+    id: "graph",
+    kicker: "05 · Graph",
+    title: "Links, and the shape they make",
+    body: "Backlinks and unlinked mentions on the note, and the whole vault as a map: every note a dot, every resolved link a line.",
+    icon: "graph",
+  },
+  {
+    id: "search",
+    kicker: "06 · Search",
+    title: "Search that stays local",
+    body: "Full text, tags, properties and saved views, answered from an index on your own machine.",
+    icon: "search",
+  },
+  {
+    id: "portable",
+    kicker: "07 · Portability",
+    title: "Yours to take",
+    body: "Back it up, keep it on your own disk, or export every note to plain markdown. The sync server is open source, so you can run that yourself.",
+    icon: "hard-drive",
+  },
+];
+
+/* The three lines the collaboration card types, one per person. Each is a claim
+   the rest of the site already makes, short enough to read in a 40-character
+   column, and the note deliberately mixes them so the card reads as one shared
+   note rather than as three slogans.
+
+   Each line carries its own text into a `data-collab-text-src` attribute, which
+   is the one the script reads back. The first version kept the same three
+   strings twice, here and again in the script, and only the second copy was
+   ever read: two places to edit one sentence. */
+const COLLAB_LINES = [
+  { who: "user-1", text: "Every note is sealed before it is saved." },
+  { who: "user-2", text: "The server never holds a key." },
+  { who: "user-3", text: "No email, no reset link, no backdoor." },
+];
+---
+
+<section
+  id="features"
+  class="fb"
+  style="padding:96px var(--gutter) 0;"
+  aria-labelledby="fb-heading"
+>
+  <div class="fb-inner">
+    <header class="fb-head" data-reveal>
+      <span class="mono up fb-eyebrow">Features</span>
+      <h2 id="fb-heading" class="fb-head__title">
+        Read it, link it, share it. Sealed underneath.
+      </h2>
+      <p class="fb-head__lede">
+        The parts a folder of markdown files cannot do on its own, and the
+        encryption that covers all of them.
+      </p>
+    </header>
+
+    <div class="fb-grid" data-reveal>
+      {
+        cells.map((c) => (
+          <a
+            href={`/features/#${c.id}`}
+            class:list={[
+              "fb-card",
+              c.size === "wide" && "fb-card--wide",
+              c.size === "tall" && "fb-card--tall",
+            ]}
+          >
+            <span class="fb-card__head">
+              <span class="fb-card__icon">
+                <Icon name={c.icon} size={17} />
+              </span>
+              <span
+                class="mono up fb-card__kicker"
+              >
+                {c.kicker}
+              </span>
+            </span>
+
+            {c.art === "collab" && (
+              <span class="fb-art fb-art--collab fb-card__art" aria-hidden="true">
+                <span class="fb-note mono">
+                  {COLLAB_LINES.map((l, i) => (
+                    <span
+                      class="fb-note__line"
+                      data-collab-line={i}
+                      data-collab-text-src={l.text}
+                    >
+                      <span class="fb-note__text" data-collab-text />
+                      <span class="fb-note__caret" data-collab-caret>
+                        <i />
+                        <b class="fb-note__who">{l.who}</b>
+                      </span>
+                    </span>
+                  ))}
+                </span>
+                <span class="fb-note__hint mono">shared note · live</span>
+              </span>
+            )}
+
+            {c.art === "chat" && (
+              <span class="fb-art fb-art--chat fb-card__art" aria-hidden="true">
+                <span class="fb-chat" data-chat>
+                  <span class="fb-turn fb-turn--you" data-at="1">
+                    <span class="fb-turn__head">
+                      <Icon name="user" size={11} />
+                      <b>You</b>
+                      <i>All notes</i>
+                    </span>
+                    <span class="fb-turn__body">Summarise my Q3 notes</span>
+                  </span>
+
+                  <span class="fb-turn fb-turn--bot" data-at="2" data-state-at="4">
+                    <span class="fb-turn__head">
+                      <Icon name="bot" size={11} />
+                      <b>Assistant</b>
+                      <i class="fb-turn__state">
+                        <em class="fb-turn__writing">Writing</em>
+                        <em class="fb-turn__done">Done · 2s</em>
+                      </i>
+                    </span>
+                    <span class="fb-turn__body fb-turn__body--writing">
+                      <i /><i /><i />
+                    </span>
+                    <span class="fb-turn__body fb-turn__body--done">
+                      6 notes, 2 links, 1 open task
+                    </span>
+                  </span>
+
+                  <span class="fb-turn fb-turn--you" data-at="5">
+                    <span class="fb-turn__head">
+                      <Icon name="user" size={11} />
+                      <b>You</b>
+                      <i>All notes</i>
+                    </span>
+                    <span class="fb-turn__body">Draft a summary note</span>
+                  </span>
+
+                  <span class="fb-turn fb-turn--bot" data-at="6" data-state-at="8">
+                    <span class="fb-turn__head">
+                      <Icon name="bot" size={11} />
+                      <b>Assistant</b>
+                      <i class="fb-turn__state">
+                        <em class="fb-turn__writing">Writing</em>
+                        <em class="fb-turn__done">Done · 4s</em>
+                      </i>
+                    </span>
+                    <span class="fb-turn__body fb-turn__body--writing">
+                      <i /><i /><i />
+                    </span>
+                    <span class="fb-turn__body fb-turn__body--done">
+                      Draft ready · 4 points · review it
+                    </span>
+                  </span>
+                </span>
+              </span>
+            )}
+
+            <span class="fb-card__title">{c.title}</span>
+            <span class="fb-card__body">{c.body}</span>
+            <span class="mono up fb-card__go">
+              Read more <i class="fb-arrow" aria-hidden="true">→</i>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="fb-foot">
+      <a href="/features/" class="mono up fb-all">
+        Every feature <i class="fb-arrow" aria-hidden="true">→</i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fb-inner {
+    /* NOT `calc(var(--content-max) + 2 * var(--gutter))`. The section already
+       carries the gutter as its own padding, so adding it to the cap here
+       counted it twice and landed this grid 28px left of the navbar's content
+       column on every width where the grid was capped: the heading started at
+       88px while the nav brand started at 116px. */
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  /* ---- head ------------------------------------------------------------ */
+  .fb-head {
+    max-width: 62ch;
+  }
+  .fb-eyebrow {
+    display: block;
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  .fb-head__title {
+    margin-top: 14px;
+    font-size: clamp(26px, 3.4vw, 44px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.06;
+    color: var(--ink-1);
+  }
+  .fb-head__lede {
+    margin-top: 16px;
+    max-width: 52ch;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-3);
+  }
+
+  /* ---- grid ------------------------------------------------------------ */
+  .fb-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 44px;
+  }
+
+  /* ---- card ------------------------------------------------------------ */
+  .fb-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 176px;
+    padding: 20px;
+    overflow: hidden;
+    text-decoration: none;
+    border: 1px solid rgb(var(--line-rgb) / 0.12);
+    border-radius: var(--radius-3);
+    background: var(--paper-2);
+    transition:
+      border-color var(--duration-base) var(--ease-standard),
+      transform var(--duration-base) var(--ease-out);
+  }
+  /* Hover is a border and nothing else. An earlier version tinted the whole
+     card with an accent wash and churned its kicker into cipher; at seven cards
+     the wash read as "everything is selected" and the churn competed with the
+     two cards that are actually moving. The two live cards carry the motion
+     now, and the rest answer with an edge. */
+  .fb-card:hover,
+  .fb-card:focus-visible {
+    border-color: rgb(var(--accent-rgb) / 0.45);
+  }
+  .fb-card:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+  }
+  .fb-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .fb-card--wide {
+    grid-column: span 2;
+  }
+  .fb-card--tall {
+    grid-row: span 2;
+  }
+
+  /* ---- the wide card is two columns -----------------------------------
+     Text on the left, the shared note on the right, so the three lines of
+     writing sit beside the sentence that explains them rather than under it.
+     Placed by grid line rather than by DOM order, because the DOM order the
+     other cards need (head, art, title, body, link) is the wrong order here. */
+  .fb-card--wide {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 26px;
+    row-gap: 9px;
+    align-items: start;
+  }
+  .fb-card--wide > * {
+    order: 0;
+  }
+  .fb-card--wide .fb-card__head {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  .fb-card--wide .fb-card__art {
+    grid-area: 1 / 2 / 5 / 3;
+    align-self: stretch;
+  }
+  .fb-card--wide .fb-card__title {
+    grid-area: 2 / 1 / 3 / 2;
+  }
+  .fb-card--wide .fb-card__body {
+    grid-area: 3 / 1 / 4 / 2;
+  }
+  .fb-card--wide .fb-card__go {
+    grid-area: 4 / 1 / 5 / 2;
+    align-self: end;
+    margin-top: 12px;
+  }
+  .fb-card__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .fb-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border: 1px solid rgb(var(--line-rgb) / 0.14);
+    border-radius: var(--radius-2);
+    color: var(--ink-2);
+    transition:
+      color var(--duration-base) var(--ease-standard),
+      border-color var(--duration-base) var(--ease-standard);
+  }
+  .fb-card:hover .fb-card__icon {
+    color: var(--accent);
+    border-color: rgb(var(--accent-rgb) / 0.4);
+  }
+  .fb-card__kicker {
+    font-size: 10px;
+    color: var(--ink-4);
+    white-space: nowrap;
+  }
+
+  /* Every one of these is a colour on a child of an <a>. Without them the
+     anchor's own colour wins and the card renders in the browser's link blue
+     and visited purple, which is what happened when a delete of the
+     `--full` band took this block with it, and why each rule stays here
+     rather than being folded into `.fb-card { color: … }`: a card contains
+     text at five different weights of emphasis, and none of them is "the
+     link colour". */
+  .fb-card__title {
+    display: block;
+    order: 1;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    color: var(--ink-1);
+  }
+  .fb-card__body {
+    display: block;
+    order: 2;
+    max-width: 46ch;
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--ink-3);
+  }
+  .fb-card__go {
+    order: 3;
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9.5px;
+    color: var(--ink-4);
+    transition: color var(--duration-base) var(--ease-standard);
+  }
+  .fb-card:hover .fb-card__go,
+  .fb-card:focus-visible .fb-card__go {
+    color: var(--accent);
+  }
+  .fb-arrow {
+    font-style: normal;
+    display: inline-block;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .fb-card:hover .fb-arrow,
+  .fb-all:hover .fb-arrow {
+    transform: translateX(3px);
+  }
+
+  /* ---- art: shared frame ---------------------------------------------- */
+  .fb-art {
+    order: 0;
+    position: relative;
+    display: block;
+    width: 100%;
+    border: 1px solid rgb(var(--line-rgb) / 0.1);
+    border-radius: var(--radius-2);
+    background: rgb(var(--line-rgb) / 0.02);
+    overflow: hidden;
+  }
+
+  /* ---- art: the shared note ------------------------------------------- */
+  .fb-art--collab {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 26px 16px 12px;
+  }
+  .fb-note {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    margin: auto 0;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  /* One line per person. The caret and its label ride the END of the text, the
+     way the app puts them, so the label slides along as the words arrive. */
+  .fb-note__line {
+    display: flex;
+    align-items: center;
+    min-height: 16px;
+    opacity: 0;
+    transition: opacity 220ms var(--ease-standard);
+  }
+  .fb-note__line.is-on {
+    opacity: 1;
+  }
+  .fb-note__text {
+    color: var(--ink-2);
+    white-space: pre;
+  }
+  .fb-note__caret {
+    position: relative;
+    display: block;
+    width: 1.5px;
+    height: 13px;
+    margin-left: 1px;
+    background: currentColor;
+  }
+  .fb-note__line[data-collab-line="0"] .fb-note__caret {
+    color: var(--accent);
+  }
+  .fb-note__line[data-collab-line="1"] .fb-note__caret {
+    color: var(--success);
+  }
+  .fb-note__line[data-collab-line="2"] .fb-note__caret {
+    color: var(--warning);
+  }
+  .fb-note__who {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 3px);
+    padding: 1px 5px;
+    border: 1px solid rgb(var(--line-rgb) / 0.12);
+    border-radius: var(--radius-pill);
+    background: var(--paper-2);
+    font-size: 8px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    color: currentColor;
+    white-space: nowrap;
+  }
+  /* The person who is not typing blinks; the one who is, does not, the same
+     distinction the app draws between a still cursor and a live one. */
+  .fb-note__line:not(.is-active) .fb-note__caret {
+    animation: fb-blink 1.1s steps(1, end) infinite;
+  }
+  @keyframes fb-blink {
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+  .fb-note__hint {
+    font-size: 8.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+
+  /* ---- art: the agent exchange ----------------------------------------
+     The frame's height is FIXED and its turns are anchored to the bottom, so a
+     turn arriving fills the box upward instead of growing it. Content-driven
+     height here resized the card, the row, and every card sharing the row on
+     each step of the loop, the whole grid breathed once a second. */
+  .fb-art--chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 268px;
+    overflow: hidden;
+    padding: 14px;
+  }
+  .fb-chat {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-height: 0;
+  }
+  .fb-turn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px 10px;
+    border-radius: var(--radius-2);
+    font-size: 10.5px;
+    line-height: 1.45;
+  }
+  .fb-turn.is-on {
+    display: flex;
+    animation: fb-turn-in 460ms var(--ease-out) both;
+  }
+  .fb-turn--you {
+    align-self: flex-end;
+    max-width: 88%;
+    background: rgb(var(--accent-rgb) / 0.16);
+  }
+  .fb-turn--bot {
+    align-self: stretch;
+    border: 1px solid rgb(var(--line-rgb) / 0.1);
+    background: rgb(var(--line-rgb) / 0.03);
+  }
+  .fb-turn__head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    color: var(--ink-4);
+  }
+  .fb-turn__head b {
+    font-weight: 600;
+    color: var(--ink-3);
+  }
+  .fb-turn__head i {
+    font-style: normal;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+  .fb-turn__body {
+    color: var(--ink-2);
+  }
+  /* The working state and the answer are the same bubble in two states, so the
+     bubble does not move when the work finishes, only its contents change. */
+  .fb-turn__body--writing {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 0;
+  }
+  .fb-turn__body--writing i {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--ink-4);
+    animation: fb-dot 1.6s ease-in-out infinite;
+  }
+  .fb-turn__body--writing i:nth-child(2) {
+    animation-delay: 180ms;
+  }
+  .fb-turn__body--writing i:nth-child(3) {
+    animation-delay: 360ms;
+  }
+  .fb-turn__body--done,
+  .fb-turn__done {
+    display: none;
+  }
+  .fb-turn.is-done .fb-turn__body--writing,
+  .fb-turn.is-done .fb-turn__writing {
+    display: none;
+  }
+  .fb-turn.is-done .fb-turn__body--done {
+    display: block;
+  }
+  .fb-turn.is-done .fb-turn__done {
+    display: inline;
+    color: var(--success);
+  }
+
+  @keyframes fb-turn-in {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fb-dot {
+    0%,
+    60%,
+    100% {
+      opacity: 0.35;
+      transform: translateY(0);
+    }
+    30% {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+  }
+
+  /* ---- footer link -----------------------------------------------------
+     Right-aligned, on its own row: it is the "there is more" affordance after a
+     grid that runs to the section's right edge, so it belongs on that edge
+     rather than under the first column. */
+  .fb-foot {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 22px;
+  }
+  .fb-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgb(var(--accent-rgb) / 0.3);
+    padding-bottom: 3px;
+  }
+  .fb-all:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  /* ---- narrow ---------------------------------------------------------- */
+  /* Two columns at tablet, one at phone. The two spanning cards collapse first:
+     a 2-wide card on a 2-column grid is still a full row, which is fine, but a
+     2-row-tall agent card beside one short card leaves a hole, so it stops
+     spanning where its column stops existing. */
+  @media (max-width: 1000px) {
+    .fb-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .fb-card--tall {
+      grid-row: span 1;
+    }
+    .fb-card--tall .fb-art--chat {
+      height: 200px;
+    }
+  }
+  @media (max-width: 820px) {
+    /* The wide card's two columns stop fitting: the note column falls under the
+       text rather than beside it, which is the shape it had before. */
+    .fb-card--wide {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto;
+    }
+    .fb-card--wide .fb-card__head {
+      grid-area: auto;
+    }
+    .fb-card--wide .fb-card__art {
+      grid-area: auto;
+      order: -1;
+      margin-bottom: 4px;
+    }
+    .fb-card--wide .fb-card__title,
+    .fb-card--wide .fb-card__body,
+    .fb-card--wide .fb-card__go {
+      grid-area: auto;
+    }
+  }
+  @media (max-width: 700px) {
+    .fb-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+    .fb-card--wide {
+      grid-column: span 1;
+    }
+    .fb-card {
+      min-height: 0;
+      padding: 18px;
+    }
+  }
+
+  /* ---- reduced motion -------------------------------------------------
+     Everything that moves on its own stops, and stops in a state that still
+     says what the card is: the shared note is fully written, the exchange is
+     fully present, and the working dots hold still. The scripts check the same
+     query before they start, so nothing is left half-played. */
+  @media (prefers-reduced-motion: reduce) {
+    /* The exchange is shown whole and still, which is taller than the frame the
+       loop animates inside; a fixed 268px with `overflow: hidden` clipped the
+       first turn's top edge, against this block's own promise that the
+       exchange is fully present. */
+    .fb-art--chat {
+      height: auto;
+    }
+    .fb-note__caret,
+    .fb-turn__body--writing i {
+      animation: none !important;
+    }
+    .fb-turn {
+      animation: none !important;
+    }
+    .fb-card,
+    .fb-card__icon,
+    .fb-card__go,
+    .fb-arrow,
+    .fb-note__line {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Read once, at module scope: both behaviours below ask the same question,
+  // and a media query re-read per frame would be a layout read in a loop.
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---------- collaboration: three people writing one note ----------
+  //
+  // Real characters, arriving one at a time and leaving the same way, rather
+  // than a shimmer over grey bars. Each line belongs to one person, the caret
+  // and its label ride the end of that person's text (which is where the app
+  // draws them), and the note is cleared in reverse before it starts again , 
+  // so a reader who watches for a few seconds sees somebody write something and
+  // somebody take it away, which is the whole claim of the card.
+  const collab = document.querySelector<HTMLElement>("[data-collab-line]")?.closest(".fb-note");
+  if (collab) {
+    const lines = Array.from(collab.querySelectorAll<HTMLElement>("[data-collab-line]"));
+    const TEXTS = lines.map((l) => l.dataset.collabTextSrc ?? "");
+    const paint = (i: number, n: number) => {
+      const line = lines[i];
+      const text = line.querySelector<HTMLElement>("[data-collab-text]");
+      if (text) text.textContent = TEXTS[i].slice(0, n);
+      line.classList.toggle("is-on", n > 0);
+      // Only the person typing holds a steady caret.
+      lines.forEach((l, j) => l.classList.toggle("is-active", j === i && n > 0));
+    };
+
+    if (reduce) {
+      TEXTS.forEach((t, i) => {
+        const text = lines[i].querySelector<HTMLElement>("[data-collab-text]");
+        if (text) text.textContent = t;
+        lines[i].classList.add("is-on");
+      });
+    } else {
+      const typeIn = (i: number, done: () => void) => {
+        let n = 0;
+        const step = () => {
+          n++;
+          paint(i, n);
+          if (n < TEXTS[i].length) window.setTimeout(step, 24 + Math.random() * 52);
+          else window.setTimeout(done, 1000);
+        };
+        step();
+      };
+      const erase = (i: number, done: () => void) => {
+        let n = TEXTS[i].length;
+        const step = () => {
+          n--;
+          paint(i, n);
+          if (n > 0) window.setTimeout(step, 16);
+          else window.setTimeout(done, 160);
+        };
+        step();
+      };
+      const cycle = () => {
+        typeIn(0, () =>
+          typeIn(1, () =>
+            typeIn(2, () => {
+              window.setTimeout(() => {
+                erase(2, () => erase(1, () => erase(0, () => window.setTimeout(cycle, 700))));
+              }, 2600);
+            }),
+          ),
+        );
+      };
+      cycle();
+    }
+  }
+
+  // ---------- the agent's exchange ----------
+  //
+  // One `You` turn, one `Assistant` turn that works and then answers, twice, on
+  // a loop. The steps are a single integer on the container and the turns read
+  // it, so the whole sequence is one timer rather than one per element, and the
+  // writing-to-done flip is a class rather than a rebuilt DOM.
+  document.querySelectorAll<HTMLElement>("[data-chat]").forEach((chat) => {
+    const turns = Array.from(chat.querySelectorAll<HTMLElement>("[data-at]"));
+    const steps = turns.reduce((m, t) => Math.max(m, Number(t.dataset.at) || 0), 0) + 1;
+    const apply = (step: number) => {
+      turns.forEach((t) => {
+        t.classList.toggle("is-on", step >= Number(t.dataset.at || 0));
+        if (t.dataset.stateAt) {
+          t.classList.toggle("is-done", step >= Number(t.dataset.stateAt));
+        }
+      });
+    };
+
+    if (reduce) {
+      // Rest in the finished state: both turns visible, both answers resolved.
+      apply(steps);
+    } else {
+      let step = 0;
+      const advance = () => {
+        step = step >= steps ? 0 : step + 1;
+        apply(step);
+        // A longer beat on the finished exchange, so the reader has time to read
+        // it before it clears.
+        window.setTimeout(advance, step === steps ? 3000 : step === 0 ? 900 : 1300);
+      };
+      advance();
+    }
+  });
+</script>

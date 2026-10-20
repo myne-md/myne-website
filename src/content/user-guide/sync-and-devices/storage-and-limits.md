@@ -2,7 +2,7 @@
 title: "Storage and account limits"
 category: "sync-and-devices"
 updated: 2026-10-18
-summary: "The Storage and devices block in Sync settings shows encrypted data stored against a ceiling, your signed-in device count against a cap, and a frozen badge when uploads are paused. It also covers the refusal states — over your limit, an oversize file, a frozen account — where your device keeps downloading but uploads are held, so nothing is lost."
+summary: "The Storage and devices block in Sync settings shows encrypted data stored against a ceiling, your signed-in device count against a cap, and a frozen badge when uploads are paused. It also covers the refusal states (over your limit, an oversize file, a frozen account), where your device keeps downloading but uploads are held, so nothing is lost."
 tags: ["sync", "devices", "settings", "security"]
 ---
 

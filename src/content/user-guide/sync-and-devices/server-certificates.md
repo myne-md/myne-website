@@ -14,7 +14,7 @@ This replaces an earlier design that pinned a server's certificate the first tim
 
 On desktop and mobile, Myne verifies two things on each connection: that the server's certificate chains to a certificate authority it trusts, and that the certificate is issued for the name you entered. The trusted authorities are the public Mozilla root set, which ships inside the app rather than being read from your operating system's certificate store. That is what keeps the check a property of the Myne client on every machine, instead of depending on what has been installed on that particular computer.
 
-This applies to every `https` server. Myne's own hosted server and a server you run yourself are checked the same way. A loopback `http://` address has no TLS and so no certificate, and the panel says that rather than implying a check that did not happen: "Connected (local, no TLS)."
+This applies to every `https` server. Every `https` server is checked the same way. A loopback `http://` address has no TLS and so no certificate, and the panel says that rather than implying a check that did not happen: "Connected (local, no TLS)."
 
 When the check passes, the panel reports it plainly: "Connected over TLS. The certificate and server name were verified." If it fails, the failure is separate from "could not reach the server": "Couldn't verify the server's HTTPS certificate. Check the server address, certificate and its validity."
 

@@ -6,7 +6,7 @@
  * .up / .mono helper classes provided by LandingLayout, which wraps both.
  *
  * Responsive: on narrow viewports the centre links collapse behind a hamburger
- * that toggles a drop-down panel. The toggle is a pure-CSS checkbox hack — no
+ * that toggles a drop-down panel. The toggle is a pure-CSS checkbox hack, no
  * island, no JS runtime (AGENTS.md: keep the bundle small).
  */
 import GuideSearchDialog from "./userguide/GuideSearchDialog.astro";
@@ -16,6 +16,7 @@ interface Props {
   /** Highlighted nav entry. */
   active?:
     | "home"
+    | "features"
     | "work"
     | "method"
     | "commit"
@@ -25,7 +26,7 @@ interface Props {
     | "download"
     | "spec"
     | "security"
-    /** Legal pages live in the footer, not the nav — they pass this so no
+    /** Legal pages live in the footer, not the nav, they pass this so no
      *  unrelated nav entry lights up (the default `"home"` would). */
     | "legal";
   /** Enable scroll-spy: the landing page passes this so the in-page section
@@ -43,6 +44,10 @@ const links = [
   { key: "home", label: "Home", href: "/#top", spy: "top" },
   { key: "work", label: "How it works", href: "/#work", spy: "work" },
   { key: "method", label: "Compare", href: "/#capab", spy: "capab" },
+  /* Between Compare and Guide, where a reader who has just been told what the
+     app is unlike now wants to know what it does. It carries no scroll-spy, so
+     the landing keeps lighting Home as it scrolls past the grid. */
+  { key: "features", label: "Features", href: "/features/" },
   { key: "guide", label: "Guide", href: "/user-guide/getting-started/welcome/" },
   { key: "security", label: "Security", href: "/security/" },
   { key: "ledger", label: "Ledger", href: "/ledger/" },
@@ -103,30 +108,37 @@ const links = [
     </nav>
 
     <div class="gnav-actions mono">
-      {guide && (
-        <button
-          type="button"
-          class="gnav-search"
-          data-guide-search-open
-          aria-label="Search the guide"
-          title="Search the guide (⌘K)"
+      {/* Rendered on EVERY route, and only made invisible where it does not
+          apply. It used to be conditional, which shifted every centre link left
+          by 46px (the button plus its gap) the moment a reader stepped from the
+          landing into the guide: the bar's own contents moved, on a page they
+          had just navigated to. `visibility: hidden` rather than
+          `display: none`, because the space is the whole point, and it also
+          takes the button out of the tab order. */}
+      <button
+        type="button"
+        class:list={["gnav-search", { "gnav-search--off": !guide }]}
+        data-guide-search-open={guide ? "" : undefined}
+        aria-label="Search the guide"
+        aria-hidden={guide ? undefined : "true"}
+        tabindex={guide ? undefined : -1}
+        title={guide ? "Search the guide (⌘K)" : undefined}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.34-4.34"></path>
-          </svg>
-        </button>
-      )}
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.34-4.34"></path>
+        </svg>
+      </button>
       <ThemeToggle />
     </div>
 
@@ -137,7 +149,7 @@ const links = [
       <ThemeToggle />
     </span>
 
-    {guide && (
+    {guide ? (
       <button
         type="button"
         class="gnav-search gnav-search--mobile"
@@ -159,6 +171,11 @@ const links = [
           <path d="m21 21-4.34-4.34"></path>
         </svg>
       </button>
+    ) : (
+      /* Same reservation as the desktop copy, for the same reason: on a phone
+         the search icon appearing in the cluster slides the switch and the
+         burger, which is the same movement at a smaller size. */
+      <span class="gnav-search gnav-search--mobile gnav-search--reserve" aria-hidden="true"></span>
     )}
 
     <label for="gnav-toggle" class="gnav-burger" aria-label="Toggle navigation menu">
@@ -176,25 +193,34 @@ const links = [
     left: 0;
     right: 0;
     z-index: 80;
-    /* The 28px gutter lives on the full-width bar (not the inner box) so the
-       inner column mirrors the page sections exactly: outer padding + a pure
-       max-width:1280 centred inner. That lands the brand on the same edge as
+    /* The gutter lives on the full-width bar (not the inner box) so the inner
+       column mirrors the page sections exactly: outer padding + a pure
+       max-width token-centred inner. That lands the brand on the same edge as
        the hero/section content at every width. */
-    padding: 0 28px;
+    padding: 0 var(--gutter);
     background: rgb(var(--paper-rgb) / 0.18);
     backdrop-filter: blur(16px) saturate(140%);
     -webkit-backdrop-filter: blur(16px) saturate(140%);
   }
 
+  /* ONE height for the bar, on every route. It used to be whatever the
+     tallest child happened to be: 55px wherever ThemeToggle's row-height
+     margin won and 68px on the guide, where the 32px search button set the
+     row outright. The bar is fixed-position, so that difference moved the
+     page under it on every navigation. `min-height` rather than `height`
+     because this file is also the mobile bar, where the burger and the switch
+     have to keep their own hit areas on a small screen without pushing the
+     bar past the token. */
   .gnav-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
     width: 100%;
-    max-width: 1280px;
+    max-width: var(--content-max);
+    min-height: var(--nav-h);
     margin: 0 auto;
-    padding: 18px 0;
+    padding: 0;
   }
 
   .gnav-brand {
@@ -246,7 +272,7 @@ const links = [
     color: var(--ink-3);
     flex-shrink: 0;
   }
-  /* Primary CTA — styled identically to the Download pill. Retained after the
+  /* Primary CTA, styled identically to the Download pill. Retained after the
      hosted web client closed (2026-10-16): nothing renders it today, and the
      class is kept rather than deleted because the CTA is the shape a future
      "run the browser client" entry point would use. It previously routed to
@@ -259,7 +285,7 @@ const links = [
     padding: 7px 13px;
     font-size: 10px;
   }
-  /* Icon-only search trigger — guide pages only (opens the full-content
+  /* Icon-only search trigger, guide pages only (opens the full-content
      search palette). The desktop copy lives inside .gnav-actions; a mobile
      twin sits in the bar next to the burger. */
   .gnav-search {
@@ -283,6 +309,13 @@ const links = [
   }
   .gnav-search--mobile {
     display: none;
+  }
+  /* Reserved on routes with no guide to search. Invisible and out of the tab
+     order, but still occupying its own width, which is what keeps the centre
+     links from moving between routes. */
+  .gnav-search--off {
+    visibility: hidden;
+    pointer-events: none;
   }
   /* Mobile-only switch slot; the desktop copy lives in .gnav-actions. */
   .gnav-thememobile {
@@ -327,7 +360,7 @@ const links = [
   }
 
   @media (max-width: 920px) {
-    /* The mobile bar is fully opaque — no see-through over the page beneath.
+    /* The mobile bar is fully opaque, no see-through over the page beneath.
        Drop the bar's gutter so the drop-down panel spans edge to edge; the
        inner row carries the inset instead. */
     .gnav {
@@ -337,10 +370,12 @@ const links = [
       -webkit-backdrop-filter: none;
       border-bottom: 1px solid rgb(var(--line-rgb) / 0.08);
     }
-    /* 28px gutter matches the page sections so the brand/burger line up with
-       the mobile content edges. */
+    /* The mobile gutter matches the page sections so the brand/burger line up
+       with the mobile content edges. The bar keeps the token's height rather
+       than adding padding, so the fixed offset the pages below it reserve is
+       the same on a phone as on a desktop. */
     .gnav-inner {
-      padding: 16px 28px;
+      padding: 0 var(--gutter);
     }
 
     /* Centre links become a full-height drop-down panel anchored under the bar. */
@@ -351,7 +386,7 @@ const links = [
       right: 0;
       flex-direction: column;
       gap: 0;
-      padding: 0 28px;
+      padding: 0 var(--gutter);
       background: var(--paper);
       border-bottom: 1px solid rgb(var(--line-rgb) / 0.08);
       font-size: 12px;
@@ -424,7 +459,7 @@ const links = [
       cursor: pointer;
       white-space: nowrap;
     }
-    /* Guide-pane head: just the "← Menu" back control — search is reached from
+    /* Guide-pane head: just the "← Menu" back control, search is reached from
        the icon button in the bar, not from inside the drop-down. */
     .gnav-guidepane {
       padding-bottom: 24px;
@@ -453,10 +488,10 @@ const links = [
       background: rgb(var(--line-rgb) / 0.04);
     }
 
-    /* Open state — a near-full-height sheet below the bar. */
+    /* Open state, a near-full-height sheet below the bar. */
     .gnav-toggle:checked ~ .gnav-links {
-      max-height: calc(100vh - 56px);
-      max-height: calc(100dvh - 56px);
+      max-height: calc(100vh - var(--nav-h));
+      max-height: calc(100dvh - var(--nav-h));
       overflow-y: auto;
     }
 
@@ -493,6 +528,9 @@ const links = [
     .gnav-search--mobile {
       display: inline-flex;
     }
+    .gnav-search--reserve {
+      visibility: hidden;
+    }
     .gnav-burger {
       display: flex;
     }
@@ -517,7 +555,7 @@ const links = [
 </style>
 
 <script>
-  // Scroll-spy for the landing page — only runs where the bar opted in via
+  // Scroll-spy for the landing page, only runs where the bar opted in via
   // [data-gnav-spy] (the landing). Each in-page section link carries a
   // data-spy="<section-id>"; on scroll the link whose section the reader is
   // currently in gets .is-active. Pages without the opt-in keep their

@@ -6,14 +6,14 @@ summary: "An overview of Myne's multi-device sync: it keeps your encrypted notes
 tags: ["sync", "devices", "privacy"]
 ---
 
-Sync keeps your notes in step across the devices you own. Each device encrypts its notes before anything leaves it, so the server only ever holds ciphertext it cannot read. There is no email and no separate login: you connect a device with your account number and either your password or your recovery phrase. Sync stays off until you set a server and add a second device, and you can run it on Myne's hosted server or one you host yourself. Self-hosting is available now; Myne's hosted server is currently a free, invite-only beta.
+Sync keeps your notes in step across the devices you own. Each device encrypts its notes before anything leaves it, so the server only ever holds ciphertext it cannot read. There is no email and no separate login: you connect a device with your account number and either your password or your recovery phrase. Sync stays off until you set a server and add a second device. It runs on a server you set up yourself: Myne operates no sync service of its own, and the server it ships is open source and available to run today.
 
 ## What sync is
 
 - **Zero-knowledge by construction.** Your keys are derived from your password (or recovery phrase). The server stores encrypted blobs and cannot decrypt your notes, titles, folders, or tags. See [How sync works](/user-guide/sync-and-devices/how-sync-works/).
 - **No email, no account login.** A device joins your account with your account number plus a credential you already have. Nothing new to remember, nothing to reset by email.
 - **Conflict detection without reading content.** The server tracks changes with an opaque per-note version counter — a number, not your text. When two devices edit the same note, the copies are reconciled on your device after decryption: on the original vault format Myne keeps both copies for you to choose between, and on the upgraded format it merges the two sets of edits into one note.
-- **Hosted or self-hosted, same model.** Whether you use Myne's server or your own, the server sits outside the trust boundary and gets the same access — which is to say, none to your content.
+- **Any server sits outside the trust boundary.** Whoever operates it, the server gets the same access, which is to say none to your content. the server sits outside the trust boundary and gets the same access — which is to say, none to your content.
 
 ## What sync is not
 

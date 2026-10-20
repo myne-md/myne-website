@@ -2,7 +2,7 @@
 title: "Create your vault"
 category: "getting-started"
 updated: 2026-10-16
-summary: "The vault-creation wizard — a short safety briefing, then set a master password, save your recovery phrase, confirm a few words, and save your account number — and the one consequence to understand before you start."
+summary: "The vault-creation wizard: a short safety briefing, then a master password, a recovery phrase you save, a few words to confirm, and an account number. Plus the one consequence to understand before you start."
 tags: ["vault", "basics"]
 ---
 

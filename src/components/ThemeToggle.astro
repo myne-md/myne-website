@@ -59,14 +59,11 @@
     width: 32px;
     height: 32px;
     padding: 0;
-    /* The bar's row is 19px tall (the brand glyph) and the switch is 32px, so
-       its margin is pulled in to the row height and the extra 6.5px bleeds
-       symmetrically into the bar's 18px vertical padding, inside the bar, not
-       past it. Without this the bar would grow 55px → 68px on every non-guide
-       route, a visible move to the shipped dark chrome on the majority of
-       pages. Guide routes already set the row to 32px (the search button), so
-       they are untouched either way. */
-    margin: calc((19px - 32px) / 2) 0;
+    /* No margin. The bar is a fixed `--nav-h` tall and centres its children,
+       so the switch no longer has to pretend to be a 19px row: its own
+       negative margin is what made the bar 55px on most routes and 68px on
+       the guide, which moved the page under it on every navigation. */
+    margin: 0;
     background: transparent;
     border: 1px solid rgb(var(--line-rgb) / 0.16);
     border-radius: 6px;

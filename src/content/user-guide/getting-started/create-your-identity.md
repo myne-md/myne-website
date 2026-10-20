@@ -14,7 +14,7 @@ An **identity** is your person in Myne: the thing other people invite to a vault
 
 Myne has no email and no account sign-up. The way someone reaches you is not an address in a company's directory; it is a person account you register on a sync server, addressed by an identifier derived from your identity phrase. So creating an identity is the one first-run step that needs a server: Myne asks you for a sync server address before it can register you.
 
-Set the address and press **Connect**. If the server uses `https`, Myne checks its certificate against the public certificate authorities and checks the server name, automatically and on every connection; there is no fingerprint to compare. A self-hosted server and a hosted one are the same trust boundary to Myne, and your notes are encrypted on your device before they leave it either way. The server stores ciphertext.
+Set the address and press **Connect**. If the server uses `https`, Myne checks its certificate against the public certificate authorities and checks the server name, automatically and on every connection; there is no fingerprint to compare. Any server is the same trust boundary to Myne, and your notes are encrypted on your device before they leave it either way. The server stores ciphertext.
 
 If you would rather not use a server at all, choose **Create a local vault instead** on the first screen. You get a normal vault with no identity, and nothing leaves your device. You can add an identity whenever you want later, from **Settings → Sync → Connection**.
 

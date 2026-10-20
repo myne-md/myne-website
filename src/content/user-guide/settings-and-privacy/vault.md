@@ -8,6 +8,8 @@ tags: ["vault", "settings", "security"]
 
 The **Vault** panel holds everything that acts on this vault as a container: the name and icon you give it, the password that opens it, and its deletion. It sits in the settings rail between **Account** and **Privacy**.
 
+![The Vault settings panel showing the vault label and icon, and the change-password and delete-vault actions.](./vault.png)
+
 ## Prerequisites
 
 - A vault open. Settings is only available once a vault is unlocked.

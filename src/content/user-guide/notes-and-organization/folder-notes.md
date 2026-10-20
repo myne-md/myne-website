@@ -8,6 +8,8 @@ tags: ["notes", "folders", "links"]
 
 A folder can have one note that stands in as its index — its "folder note". A folder note is not stored anywhere special; it is an ordinary note whose content you read as the folder's overview. What is different is that it does not get its own row in the sidebar tree. Instead you reach it from the folder itself: double-click the folder row to open it. A folder has at most one folder note, and it stays findable in search and resolvable as a link the same way any other note is.
 
+![A folder row in the sidebar with its Open folder note button, which opens the folder's hidden index note.](./folder-notes.png)
+
 ## Turning it on
 
 Folder notes are **off by default**, so the controls below are hidden until you switch them on. Open **Settings → Files** and turn on **Folder notes**. The switch is a presentation gate, not a migration: turning it off and on again changes nothing on disk.

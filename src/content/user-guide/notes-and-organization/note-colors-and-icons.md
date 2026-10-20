@@ -8,6 +8,8 @@ tags: ["notes", "folders", "sidebar", "workspace"]
 
 You can mark a note or a folder with a color, and give a folder a custom icon, to make the sidebar easier to scan. The color paints the thing it belongs to: a folder tints its own icon, a note gets a faint wash across its row, and an open note carries the same color onto its tab. Folders can also swap their default glyph for one of a curated icon set.
 
+![The colour picker opened from a note's context menu, showing the palette of colour swatches.](./note-colors-and-icons.png)
+
 ## Coloring a note
 
 Right-click a note in the sidebar and choose **Color…**. A small picker opens with six named color swatches — Clay, Ochre, Moss, Slate, Plum, and Stone — plus a **None** option. Click a swatch to apply it; the picker closes right away, with no separate confirm step.

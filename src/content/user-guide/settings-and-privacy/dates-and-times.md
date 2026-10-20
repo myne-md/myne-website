@@ -8,6 +8,8 @@ tags: ["settings"]
 
 Myne shows dates in a lot of places, and three settings decide how they are written. They live in Settings, under Editor.
 
+![The Editor settings panel showing the date format, time format and time zone rows.](./dates-and-times.png)
+
 ## Prerequisites
 
 You need an unlocked vault. These settings are stored in the vault's encrypted preferences, so they are not available on the lock screen.

@@ -8,6 +8,8 @@ tags: ["notes", "templates"]
 
 A periodic note is one note per stretch of time: a day, a week or a month. A journal, a weekly review, a monthly plan. Myne's periodic notes are deliberately plain. Each is an ordinary note, and one command opens the current one, creating it the first time and reopening it after.
 
+![Today's dated note, opened from the command palette and filed in the Daily folder.](./periodic-notes.png)
+
 ![Today's dated note, opened from the command palette and filed in the Daily folder.](./daily-notes.png)
 
 ## Opening the current note

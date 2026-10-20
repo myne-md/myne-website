@@ -8,6 +8,8 @@ tags: ["notes", "folders", "sidebar"]
 
 Archiving sets a note aside without deleting it. The note leaves the sidebar, the folder tree, and the Favorites list, but it is kept indefinitely — there is no auto-purge and no way to empty the Archive. Unlike a trashed note, an archived note stays findable in search and still resolves as a link target. A note can be live, archived, or trashed, but never two of those at once. You can also archive a whole folder as a unit, and you can turn the archive feature off entirely.
 
+![The Archive panel listing a note kept out of the working set, with restore and delete actions.](./archive.png)
+
 ## Archiving a note
 
 To archive a single note, right-click its row in the sidebar and choose **Archive**. The note leaves the working set straight away: it disappears from the sidebar tree, from the folder tree, and from the Favorites display. It does not go to the Trash, and nothing about its content changes. If the note is open, its tabs close in every pane — an archived note is not something you keep editing, and leaving the tab open would let the next autosave write the note back out of the Archive. To archive several notes at once, build a selection set first and use the bulk **Archive** action — see [Acting on several notes at once](/user-guide/notes-and-organization/bulk-note-actions/).

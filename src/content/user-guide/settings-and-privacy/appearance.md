@@ -8,6 +8,8 @@ tags: ["settings"]
 
 The Appearance panel controls how Myne looks. The main choice is the theme.
 
+![The Appearance settings panel with the theme options.](./appearance.png)
+
 ## Theme
 
 Choose **Light**, **Dark**, **AMOLED** (a true-black variant for OLED screens) or **System**, which follows your operating system's light/dark setting. Each option is shown as a small preview of the app painted in that theme's own colors, so you can compare them without switching. Your choice is saved inside the vault's encrypted preferences, and it is settled per device: another computer signed in to the same vault keeps the theme you picked there, and your choice here never overwrites it. With sync on, the encrypted preferences file travels to the server like the rest of your vault, and what is inside it, this setting included, stays unreadable there.

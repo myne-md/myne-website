@@ -8,6 +8,8 @@ tags: ["ai", "settings"]
 
 AI is off until you turn it on and give Myne something to run. This page walks through enabling the beta opt-in, choosing model files, what "ready" means, and how to keep chosen folders out of AI entirely.
 
+![The AI (Beta) settings panel with the enable-local-AI toggle, the model pickers, and the on-device trust disclosure.](./turning-on-ai.png)
+
 ## Prerequisites
 
 - An unlocked vault.

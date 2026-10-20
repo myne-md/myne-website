@@ -8,6 +8,8 @@ tags: ["notes", "recovery"]
 
 Deleting a note in Myne is a two-stage process: first it goes to the Trash, where you can get it back, and only emptying the Trash removes it for good. This article covers both stages and what "for good" actually means.
 
+![The Trash panel listing a soft-deleted note with its restore and delete-forever actions.](./trash.png)
+
 ## Deleting a note
 
 When you delete a note, it moves to the **Trash** and disappears from the sidebar. An **undo** toast appears immediately so you can put it straight back if you didn't mean it. The toast clears itself after a few seconds — it pauses while your pointer is over it, and it has a dismiss × — and once it is gone the note is still in the Trash, so **Restore** there does the same job.

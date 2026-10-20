@@ -8,6 +8,8 @@ tags: ["sync", "privacy", "security", "settings"]
 
 Myne can send its sync traffic through Tor, and on desktop it routes remote AI provider requests the same way. The destination then sees a Tor exit rather than your own address, and your network and your internet provider see you connecting to Tor rather than to a particular server. It is off by default, it is a desktop setting behind [Developer mode](/user-guide/settings-and-privacy/developer-mode/), and it changes where your connection comes from — not what the destination can see about your syncing.
 
+![The Network settings panel with the Tor routing toggle, which sends sync traffic through Tor when it is on.](./route-sync-through-tor.png)
+
 ## Prerequisites
 
 - A vault open, and [sync set up](/user-guide/sync-and-devices/turn-on-sync/). Routing applies to sync traffic and, on desktop, to AI provider requests, so there is nothing to route until one of those is configured.

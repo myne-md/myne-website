@@ -8,6 +8,8 @@ tags: ["notes", "markdown", "attachments"]
 
 Exporting writes your notes out to ordinary files you can open anywhere. A single note can leave as Markdown, PDF, HTML, or plain text; the whole unlocked vault can leave as a plain Markdown folder tree shaped like your folders. Every one of these files is unencrypted plaintext — the moment it is written, it is outside Myne's protection. An export is never a backup file and never a snapshot, and there is no plaintext mode that mirrors your notes automatically: you choose the destination, every time.
 
+![The note context menu with the Export as Markdown option, which saves a note as a Markdown file.](./export-notes.png)
+
 ## Exporting a single note
 
 Single-note export has three surfaces, and they run the exact same flow:

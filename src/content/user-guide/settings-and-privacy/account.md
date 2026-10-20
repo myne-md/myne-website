@@ -8,6 +8,8 @@ tags: ["settings", "devices", "security"]
 
 The **Account** panel is the account-level surface: it names the account this device groups vaults under, lists the vaults in that group, and holds the browser-extension pairing controls. It sits first in the settings rail. Your account number is not shown here, but it is the identity you use to add another device.
 
+![The Account settings panel showing the account name, the vaults grouped under it, and the browser-extension pairing controls.](./account.png)
+
 ## Prerequisites
 
 - A vault open. Settings is only available once a vault is unlocked.

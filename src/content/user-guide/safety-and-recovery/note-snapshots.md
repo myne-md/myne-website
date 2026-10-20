@@ -8,6 +8,8 @@ tags: ["snapshots", "notes", "vault"]
 
 Snapshots are the original vault format's version history. In a vault on that format, Myne quietly keeps earlier versions of each note as you edit, so you can look back or roll back without thinking about it. A vault you create on a current version of Myne is already on the newer format and takes no snapshots at all (each note carries its own edit history inside itself instead), so its snapshots panel stays empty from the first note onward.
 
+![The note snapshots panel listing earlier saved versions of a note, with a preview of the selected one.](./note-snapshots.png)
+
 ## Which vaults have snapshots
 
 Snapshots belong to the original vault format. Two vaults never have them: one you create on a current version of Myne, which is born on the newer format, and one whose [format you have upgraded](/user-guide/safety-and-recovery/upgrade-your-vault-format/). In both, the snapshots panel shows its empty state and nothing is wrong. The rest of this article describes a vault still on the original format.

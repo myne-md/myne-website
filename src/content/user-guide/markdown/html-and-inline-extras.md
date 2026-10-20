@@ -8,6 +8,8 @@ tags: ["markdown", "tags"]
 
 Beyond the core syntax, Myne adds a few inline extras: highlights, subscript and superscript, emoji, a small set of inline HTML tags, inline tags, and inline comments. This article covers each.
 
+![A note showing a highlight, subscript and superscript, a coloured mark, an abbreviation and a keyboard key, all rendered inline.](./html-and-inline-extras.png)
+
 ## Highlights, subscript, superscript
 
 - `==highlight==` renders as a highlighted span in the default yellow.

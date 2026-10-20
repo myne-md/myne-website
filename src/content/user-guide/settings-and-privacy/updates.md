@@ -8,6 +8,8 @@ tags: ["settings", "security", "privacy"]
 
 Updates are a desktop feature. Myne checks whether a newer release exists, and when one does it offers the update, installs it once you confirm, and restarts on its own. The controls live in **Settings → About**, and every update is verified against an offline release key before it is installed.
 
+![The About settings panel scrolled to the update channel, the manual check button and the automatic update check.](./updates.png)
+
 ## Prerequisites
 
 - The desktop app. The web client and the mobile app do not update themselves this way.

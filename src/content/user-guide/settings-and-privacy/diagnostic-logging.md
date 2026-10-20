@@ -8,6 +8,8 @@ tags: ["settings", "privacy", "security"]
 
 Myne can keep a diagnostic log on this computer, and a place to turn it into a report you can send. The log is off until you switch it on, it stays on this device, and nothing is ever sent anywhere: you copy the details or save a file, and you decide who gets it.
 
+![The About settings panel scrolled to the diagnostic log switch and the copyable diagnostics report.](./diagnostic-logging.png)
+
 ## Turn diagnostic logging on
 
 1. Open **Settings**, then **About**.

@@ -8,6 +8,8 @@ tags: ["notes", "editor", "markdown", "import"]
 
 A task in Myne is a line, or a whole note, that you have marked as a unit of work — there is no separate task database. A checkbox line is a task; a note can be declared one; and the metadata that says when a task is due, whether it repeats, and how urgent it is lives in the line itself, as plain markdown. Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
 
+![A note with checkbox tasks carrying due, priority, and repeat chips shown inline.](./tasks.png)
+
 ## Line-tasks and their fields
 
 A **line-task** is a checkbox list item: `- [ ]` for an open item and `- [x]` for a done one. The checkbox is clickable in Live preview and in Source, and toggling it marks the task done in place. In **Reading** view, and in the reading pane beside the editor, the checkbox is shown but does nothing: those surfaces never change the note, so the box is drawn dimmed and does not take focus rather than looking live and quietly discarding the tick. Markdown checkboxes are also covered in [Markdown basics](/user-guide/markdown/markdown-basics/).

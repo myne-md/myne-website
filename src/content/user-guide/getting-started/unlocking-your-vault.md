@@ -8,6 +8,8 @@ tags: ["vault", "security"]
 
 Once a vault exists, Myne keeps it locked until you enter your master password. This article covers what you see when you open the app, the message you get when a password doesn't work and why it is deliberately vague, and how to lock the vault yourself when you step away.
 
+![The unlock screen: the vault's name, the master-password field, and the recovery-phrase and delete-vault links below it.](./unlocking-your-vault.png)
+
 ## What you see when you open Myne
 
 Myne checks your device on launch and opens the right screen for what it finds:

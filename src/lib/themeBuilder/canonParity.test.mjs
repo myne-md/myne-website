@@ -97,8 +97,14 @@ test("the vendored canon is exactly the sheet's appearance-varying set", () => {
  * `rgba(44,74,122,0.22)` shortened to 8-digit hex), while the table is written in
  * the source notation, so a literal string compare would report a drift for every
  * colour whose spelling differs and never for a colour that actually moved. Both
- * sides are reduced to 8-digit lowercase hex, and anything that is not a colour
- * (the shadow lists) compares literally.
+ * sides are reduced to 8-digit lowercase hex.
+ *
+ * That reduction applies INSIDE a multi-part value too (the shadow lists), which
+ * this file used to compare literally. It reported the three `--shadow-*` tokens
+ * as drifted the moment the app sheet moved to `rgba()` notation while the table
+ * still carried the minified sheet's `#0b0b090a`: `0x0a` is `10/255`, so the two
+ * strings are the same colour and the same shadow. A comparison that fails on a
+ * notation change is a comparison that trains its reader to ignore it.
  */
 function normalize(value) {
   const text = String(value).trim().toLowerCase();
@@ -119,7 +125,27 @@ function normalize(value) {
       .map((n) => Number(n).toString(16).padStart(2, "0"))
       .join("")}`;
   }
-  return text;
+  // A quiet value with colours in it (the shadow lists, and anything else with
+  // several parts): each colour is canonicalised, then whitespace is dropped so
+  // `0 1px 0 #0006` and `0 1px 0 rgba(0,0,0,0.4)` compare equal.
+  return text
+    .replace(/#([0-9a-f]{3,8})\b|rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+)\s*)?\)/g,
+      (whole, hexOnly, r, g, b, a) => {
+        if (hexOnly !== undefined) {
+          const h = hexOnly;
+          const full =
+            h.length === 3 ? [...h].map((c) => c + c).join("") + "ff"
+            : h.length === 4 ? [...h].map((c) => c + c).join("")
+            : h.length === 6 ? h + "ff"
+            : h;
+          return `#${full}`;
+        }
+        const alpha = Math.round(Number(a ?? 1) * 255);
+        return `#${[r, g, b, alpha]
+          .map((n) => Number(n).toString(16).padStart(2, "0"))
+          .join("")}`;
+      })
+    .replace(/\s+/g, "");
 }
 
 test("every vendored value matches the sheet, in both appearances", () => {

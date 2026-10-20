@@ -90,11 +90,11 @@ export const LIGHT_DEFAULTS = {
   "--highlight-orange": "#f2ddc6", "--highlight-red": "#efd3d3", "--highlight-teal": "#cfe6e2",
   "--highlight-cyan": "#cfe4ea", "--highlight-lime": "#e0ecc4", "--highlight-brown": "#e3d9cd",
   "--highlight-grey": "#dedcd8", "--highlight-indigo": "#d6d8ee",
-  "--selection-bg": "#2c4a7a38",
-  "--shadow-1": "0 1px 0 #0b0b090a, 0 1px 2px #0b0b090f",
-  "--shadow-2": "0 2px 4px #0b0b090f, 0 4px 12px #0b0b0914",
-  "--shadow-3": "0 8px 16px #0b0b0914, 0 16px 40px #0b0b091f",
-  "--scrim": "#0b0b0966",
+  "--selection-bg": "rgba(44, 74, 122, 0.22)",
+  "--shadow-1": "0 1px 0 rgba(11,11,9,0.04), 0 1px 2px rgba(11,11,9,0.06)",
+  "--shadow-2": "0 2px 4px rgba(11,11,9,0.06), 0 4px 12px rgba(11,11,9,0.08)",
+  "--shadow-3": "0 8px 16px rgba(11,11,9,0.08), 0 16px 40px rgba(11,11,9,0.12)",
+  "--scrim": "rgba(11, 11, 9, 0.4)",
 };
 
 /**
@@ -130,9 +130,9 @@ export const DARK_DEFAULTS = {
   "--highlight-orange": "#4a3722", "--highlight-red": "#4a2a2a", "--highlight-teal": "#23403c",
   "--highlight-cyan": "#223a42", "--highlight-lime": "#37411f", "--highlight-brown": "#3d352b",
   "--highlight-grey": "#37363a", "--highlight-indigo": "#2b2e4d",
-  "--selection-bg": "#8aa4d04d",
-  "--shadow-1": "0 1px 0 #0006, 0 1px 2px #00000080",
-  "--shadow-2": "0 2px 4px #0006, 0 4px 12px #00000080",
-  "--shadow-3": "0 8px 16px #00000080, 0 16px 40px #0009",
-  "--scrim": "#0009",
+  "--selection-bg": "rgba(138, 164, 208, 0.30)",
+  "--shadow-1": "0 1px 0 rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.5)",
+  "--shadow-2": "0 2px 4px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.5)",
+  "--shadow-3": "0 8px 16px rgba(0,0,0,0.5), 0 16px 40px rgba(0,0,0,0.6)",
+  "--scrim": "rgba(0, 0, 0, 0.6)",
 };

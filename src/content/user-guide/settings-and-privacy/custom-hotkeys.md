@@ -8,6 +8,8 @@ tags: ["settings", "editor"]
 
 The Hotkeys panel lists every keyboard shortcut in Myne and lets you search them by name. You can add or remove a shortcut for most commands, restore a command's default, or reset every custom shortcut at once. If a key combination is already used by another command, Myne warns you and names the commands it collides with, but it never blocks you: the new shortcut is assigned anyway.
 
+![The Hotkeys settings panel listing commands and their keyboard shortcuts.](./custom-hotkeys.png)
+
 ## The Hotkeys panel
 
 Open **Settings → Hotkeys** (the rail runs Account → Vault → Privacy → Sync → Editor → Files → Transcription → Hotkeys → Appearance → Storage → About, with a Developer section holding AI, Network and CLI below it when [Developer mode](/user-guide/settings-and-privacy/developer-mode/) is on). The panel opens with the **Search shortcuts…** box at the top and a square **Reset all hotkeys…** button beside it. Under them sits a short reminder: "View and change keyboard shortcuts. Only the tab-cycle shortcut (Ctrl+Tab) is fixed."

@@ -8,6 +8,8 @@ tags: ["editor", "settings"]
 
 Myne's editor can run an optional vim keymap. When it is on, the editor uses vim's modal editing — normal, insert, and visual modes, with the usual motions and operators — in place of the standard keybindings. It is powered by the third-party `@replit/codemirror-vim` engine, it is off by default, and the control that turns it on is kept behind Developer mode. It changes how the keyboard drives the editor, and nothing about how your notes are stored.
 
+![The Editor settings panel scrolled to the Vim mode toggle, which is off by default and appears once Developer mode is on.](./vim-mode.png)
+
 ## Turning vim mode on
 
 Vim mode sits behind Developer mode, so there are two steps.

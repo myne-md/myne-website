@@ -8,6 +8,8 @@ tags: ["notes", "search", "settings", "privacy"]
 
 The `myne` command reads, searches, and creates notes from a terminal by talking to the running, unlocked app over a local socket on your device. This article covers turning on terminal access, the commands it offers, the stable `--json` output for scripts, and what each refusal means.
 
+![The CLI settings panel, where terminal access to the unlocked vault is switched on and its scope is limited.](./the-myne-cli.png)
+
 ## Prerequisites
 
 - The Myne app open and unlocked. The command line drives the running app; it cannot open a locked vault.

@@ -8,6 +8,8 @@ tags: ["settings", "security", "privacy"]
 
 Developer mode reveals the settings Myne keeps out of the way by default: the ones where you leave the path Myne vouches for, and the power-user tools most people never need. It is a switch in the About panel, it is set per vault on the device you set it on, and turning it back off hides those settings again without turning any of them off.
 
+![The About settings panel scrolled to the Developer mode switch, which reveals the AI, Network and CLI panels.](./developer-mode.png)
+
 ## Prerequisites
 
 - A vault open. Settings is only available once a vault is unlocked.

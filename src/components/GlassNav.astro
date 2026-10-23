@@ -17,10 +17,13 @@ interface Props {
   active?:
     | "home"
     | "features"
-    | "work"
     | "method"
     | "commit"
     | "guide"
+    /* Kept in the union although no link renders them: /roadmap/ and /ledger/
+       are parked behind a leading underscore in src/pages (see astro.config.mjs),
+       and their sources still pass these keys. Dropping the members would be a
+       type error in a file nothing builds any more. */
     | "roadmap"
     | "ledger"
     | "download"
@@ -42,7 +45,6 @@ const { active = "home", spy = false, guide = false } = Astro.props;
 
 const links = [
   { key: "home", label: "Home", href: "/#top", spy: "top" },
-  { key: "work", label: "How it works", href: "/#work", spy: "work" },
   { key: "method", label: "Compare", href: "/#capab", spy: "capab" },
   /* Between Compare and Guide, where a reader who has just been told what the
      app is unlike now wants to know what it does. It carries no scroll-spy, so
@@ -50,7 +52,7 @@ const links = [
   { key: "features", label: "Features", href: "/features/" },
   { key: "guide", label: "Guide", href: "/user-guide/getting-started/welcome/" },
   { key: "security", label: "Security", href: "/security/" },
-  { key: "ledger", label: "Ledger", href: "/ledger/" },
+  { key: "download", label: "Download", href: "/download/" },
 ] as const;
 ---
 
@@ -495,27 +497,10 @@ const links = [
       overflow-y: auto;
     }
 
-    /* While that sheet is open it reaches the viewport bottom, and the site's
-       draft notice is `position: sticky; bottom: 0; z-index: 100` with an
-       opaque background (components/DraftNotice.astro). The bar is z-index 80
-       and `position: fixed`, so it opens a stacking context its children
-       cannot escape: the strip painted over the panel's last entries, the
-       download and open-app CTAs among them, and being a painted element with
-       default pointer events it took the taps there too.
-
-       Raising the BAR is the fix rather than reserving space inside the
-       panel, because a padded sheet shorter than its max-height shows the
-       reserve as dead space above its own border, and the overlap only exists
-       at all when the sheet is at max-height. An open menu is a transient
-       overlay the reader asked for, which is the same treatment the guide
-       lightbox and the theme builder's colour picker already get at z-index
-       200; the strip stays above everything else and is one tap away again.
-
-       Scoped to the checked state, so the closed bar keeps its 80 and the
-       strip stays above it on every route. */
-    .gnav:has(.gnav-toggle:checked) {
-      z-index: 110;
-    }
+    /* While that sheet is open it reaches the viewport bottom. The z-index
+       raise that used to be here existed only to clear the site-wide strip
+       (a sticky, opaque, z-index 100 notice) that has since been removed, so
+       the bar keeps its own 80 in both states. */
 
     /* The mobile switch leads the right cluster and carries the auto margin
        that pushes it (and the search icon / burger behind it) to the edge. */

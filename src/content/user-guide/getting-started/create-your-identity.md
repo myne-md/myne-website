@@ -1,7 +1,7 @@
 ---
 title: "Create your identity"
 category: "getting-started"
-updated: 2026-10-22
+updated: 2026-10-23
 summary: "What a Myne identity is, why creating one needs no server, how its 24-word phrase recovers every vault you own, how the ceremony works, and what registering the identity with a sync server adds."
 tags: ["recovery", "security", "sync"]
 ---
@@ -16,7 +16,7 @@ There is no email, no sign-up form and no server address on this screen. Myne de
 
 That leaves the account in a state Myne calls **reserved**: the identity exists here, with no server account behind it yet. It is a complete, usable identity. You can create vaults, write notes and stay offline for as long as you like.
 
-**Registering** is a separate action you take when you want it, from your identity home. It sends the minimum a server needs to recognise the account, and it asks for your 24 words as proof that the identity is yours. A registration that cannot reach the server leaves the identity reserved and says so; it never removes it. What registration adds is reachability: another person can address an invitation to your identity, and your own second device can find your vaults. **Settings → Sync → Connection** is where an identity is added, recovered or unlocked on a device, not where it is registered.
+**Registering** is a separate action you take when you want it, from your identity home or, once you hold a vault, from **Settings → Sync**. It sends the minimum a server needs to recognise the account, and it asks for your 24 words as proof that the identity is yours. A registration that cannot reach the server leaves the identity reserved and says so; it never removes it. What registration adds is reachability: another person can address an invitation to your identity, and your own second device can find your vaults. **Settings → Sync** is where an identity is added, recovered or unlocked on a device, and its **Identity** block is also where you can register an identity on a device that already holds a vault. If the device has no sync server yet, the register form asks for the address.
 
 ## The identity phrase
 
@@ -38,7 +38,7 @@ Myne lands you on your **identity home**. It shows your identity code, the publi
 
 - **Create a vault** bound to this identity.
 - **Accept an invitation** to someone else's vault. You paste their identity code, enter your own identity phrase, and choose a password for this device. There is no fingerprint to compare out of band: the owner's code you were given is checked against the invite when you accept, and a code that does not match is refused.
-- **Register this identity**, once you have a sync server to register it with. The state line above the button says which of three states the identity is in: on this device only, registered and waiting for approval, or registered and signed in.
+- **Register this identity**, once you have a sync server to register it with. The state line above the button says which of three states the identity is in: on this device only, registered and waiting for approval, or registered and signed in. The same form is available from **Settings → Sync** once you have a vault.
 - **Forget this identity on this device** if you are moving to another one. The warning says what that does and does not remove: the identity leaves this device, while the server account and any vault it owns or joined are untouched. Recovering it elsewhere needs the same 24 words.
 
 A shared vault you join is unlocked with your **identity phrase**, never with a vault phrase you were never given.

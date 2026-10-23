@@ -707,17 +707,6 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
   overflow-y: auto;
   min-height: 0;
   padding-right: 8px;
-  /* The sidebar is sticky at top:84px with max-height:calc(100vh - 110px), so
-     its bottom edge sits 26px above the viewport bottom, and the site's draft
-     notice is a sticky strip roughly 40px tall on one line and 56px on two
-     (components/DraftNotice.astro). The bottom entries of a scrolled nav were
-     under it. Reserved INSIDE the scroller rather than by shrinking the
-     sidebar's max-height: this way a nav short enough not to scroll is not
-     visibly shortened, and on a scrolled one the reserve is scroll extent
-     nobody sees. The variable is published by the notice itself and is
-     undefined on the two pages that render none, so this is 0 there. */
-  padding-bottom: var(--draft-notice-reserve, 0px);
-  scroll-padding-bottom: var(--draft-notice-reserve, 0px);
   gap: 24px;
   /* Firefox: a thin thumb on a transparent track. */
   scrollbar-width: thin;

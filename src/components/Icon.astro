@@ -29,6 +29,12 @@ interface Props {
     | "shield-check"
     | "graph"
     | "hard-drive"
+    /* Added when the landing grid swapped its Markdown and Portability cards
+       for meeting notes and the sync server. "mic" is the capture surface, the
+       same glyph the app's recording bar draws; "server" is the rack the reader
+       runs themselves, which is the whole claim on that card. */
+    | "mic"
+    | "server"
     | "user";
   size?: number;
   class?: string;
@@ -169,6 +175,21 @@ const { name, size = 24, class: extraClass } = Astro.props;
       <path d="M8.2 8.4 15.8 9" />
       <path d="m14.7 11.8-2.5 3.6" />
       <path d="M7.4 9.5 10 15.6" />
+    </>
+  )}
+  {name === "mic" && (
+    <>
+      <path d="M12 19v3" />
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+      <rect x="9" y="2" width="6" height="13" rx="3" />
+    </>
+  )}
+  {name === "server" && (
+    <>
+      <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+      <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+      <path d="M6 6h.01" />
+      <path d="M6 18h.01" />
     </>
   )}
 </svg>

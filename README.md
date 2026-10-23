@@ -10,15 +10,15 @@ This repo is one of several under [`myne-md`](https://github.com/myne-md). It ho
 
 ## Status
 
-Pre-alpha, like the rest of the project — but this site is functional and deployed, not a scaffold.
+Alpha, like the rest of the project: this site is functional and deployed, not a scaffold.
 
 What exists today:
 
 - **Landing page** (`/`): single-page landing with how-it-works, comparison, and roadmap sections, in dark or light (see Themes below).
-- **Ledger** (`/ledger`) — changelog/notes collection with `shipped` / `thinking` / `milestone` entries, filter views, per-entry OG images, and an RSS feed (`/ledger/rss.xml`).
+- **Parked routes** — `/roadmap` and `/ledger` are **built nowhere on purpose**: their sources sit under a leading underscore (`src/pages/_roadmap.astro`, `src/pages/_ledger/`), which Astro excludes from routing, so a direct URL answers 404 and no link points at them. Nothing is deleted; reviving one is a rename back plus the inbound links listed in `astro.config.mjs`. `/ledger` was the changelog/notes collection with `shipped` / `thinking` / `milestone` entries, filter views, per-entry OG images and an RSS feed.
 - **User guide** (`/user-guide`) — the article collection under `src/content/user-guide/`, served from a Markdown content collection with a validated sidebar. It is **live with real content**: the per-page `noindex`, the draft banner and the sitemap exclusion were dropped together at go-live, so the sitemap filter in `astro.config.mjs` no longer names it.
 - **Theme gallery and builder** (`/themes`, `/themes/builder`) — the community gallery, plus a theme builder kept pinned dark.
-- **Static surfaces** — `/download`, `/roadmap`, `/security`, `/spec`, a `404`, plus build-time `robots.txt`, `llms.txt`, and a sitemap.
+- **Static surfaces** — `/download` (stable + beta channels and the full release archive), `/security`, `/spec`, a `404`, plus build-time `robots.txt`, `llms.txt`, and a sitemap.
 - **Legal pages** — `/privacy` is live and linked. `/impressum`, `/terms`, `/nutzungsbedingungen`, `/law-enforcement`, `/behoerdenanfragen`, `/notice` and `/meldung` are kept and build, but are deliberately delisted from the sitemap, the footer and their own `robots` prop together: `/impressum` until its address is real, and the rest because they describe a service Myne no longer offers (`design-notes/sync/0696`). Several carry a German version that is the same document rather than a shortened rendering.
 - **`/.well-known/security.txt`** — RFC 9116 disclosure, served from the apex (`public/.well-known/security.txt`).
 - **OG image generation** — built at compile time with `satori` + `@resvg/resvg-js` (no headless browser).
@@ -43,10 +43,11 @@ With JS off the site stays dark and the switch does nothing. That is the accepte
 ```
 myne-website/
 ├── src/
-│   ├── pages/         ← Astro routes: index, download, roadmap, security, spec,
-│   │   │                themes/ (gallery + builder), 404, ledger/, user-guide/,
-│   │   │                and the legal roster (privacy, impressum, terms, …)
-│   │   ├── ledger/    ← feed (index, [filter], [slug]), OG endpoint, rss.xml
+│   ├── pages/         ← Astro routes: index, download, security, spec,
+│   │   │                themes/ (gallery + builder), 404, user-guide/,
+│   │   │                and the legal roster (privacy, impressum, terms, …).
+│   │   │                `_roadmap.astro` and `_ledger/` are parked (see above)
+│   │   ├── _ledger/   ← PARKED: feed (index, [filter], [slug]), OG endpoint, rss.xml
 │   │   ├── themes/    ← gallery index, builder, preview-frame
 │   │   ├── og/        ← build-time OG image endpoint
 │   │   ├── robots.txt.ts · llms.txt.ts
@@ -55,12 +56,12 @@ myne-website/
 │   ├── content/       ← ledger/ + user-guide/ Markdown collections
 │   ├── content.config.ts  ← collection schemas (Zod)
 │   ├── lib/           ← ledger.ts, og.ts, userGuide.ts, themeBuilder/, theme.mjs
-│   ├── data/          ← people.ts, platformIcons.ts, release.ts, notice.ts, the theme index
+│   ├── data/          ← people.ts, platformIcons.ts, release.ts, the theme index
 │   └── styles/        ← global, tokens, ledger, user-guide CSS
 ├── public/
 │   └── .well-known/security.txt   ← RFC 9116, served from /
 ├── scripts/           ← validate-sidebar.mjs, wire-screenshots.mjs, the theme/token
-│                        guards and sync tools, casts, validate-release/-draft-notice
+│                        guards and sync tools, casts, sync-releases, validate-release
 ├── .github/workflows/triage.yml   ← issue triage only; there is no deploy pipeline
 ├── astro.config.mjs   ← site/env wiring, sitemap filters
 ├── Dockerfile · nginx.conf
@@ -73,7 +74,7 @@ myne-website/
 ```bash
 pnpm install
 pnpm dev               # Astro dev server
-pnpm build             # validate sidebar + release + draft-notice, then build → dist/
+pnpm build             # validate sidebar + release, then build → dist/
 pnpm preview           # serve dist/ locally
 pnpm validate-sidebar  # check the user-guide sidebar against content
 ```

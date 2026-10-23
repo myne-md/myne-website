@@ -17,12 +17,23 @@ export default defineConfig({
   // chrome on guide screenshots is baked into the PNG upstream by
   // `scripts/frame-screenshots.mjs`, not drawn by the image pipeline here.
   integrations: [
-    // Filter views (/ledger/shipped, /ledger/thinking, /ledger/milestones)
-    // canonicalize to /ledger/ — exclude them so the sitemap lists the
-    // canonical feed only. (The /user-guide/ subtree went live with real
-    // content — its per-page noindex, the TodoBanner, and its sitemap
-    // exclusion were dropped together at go-live, per design-notes.md.)
+    // Two routes are PARKED, not sitemap-filtered: /roadmap/ and /ledger/.
+    // Both source trees live under a leading underscore in src/pages
+    // (`_roadmap.astro`, `_ledger/`), which Astro excludes from routing, so no
+    // page is emitted at all and a direct URL answers 404. That is deliberate
+    // and it is temporary: a public launch is coming and neither surface is
+    // ready to be read, but nothing is deleted, so reviving one is a rename
+    // back (and restoring its inbound links: the nav entry in GlassNav, the
+    // footer entry here in SiteFooter, the ledger RSS <link> in
+    // LandingLayout's head, the llms.txt entries, and the § 18 MStV sentence on
+    // /impressum/). The OG routes and the ledger content collection are left
+    // in place, inert, for the same reason.
     //
+    // The filter below therefore covers only the legal roster.
+    //
+    // Filter views (/ledger/shipped, /ledger/thinking, /ledger/milestones)
+    // canonicalize to /ledger/ — that filter is gone with the routes; the
+    // reasoning stays in `src/lib/ledger.ts` for whenever they come back.
     // /impressum/ is excluded for a different reason, and only until its
     // address is real. The page carries a placeholder where the ladungsfähige
     // Anschrift belongs, and an *incomplete* Impressum is a worse position
@@ -51,7 +62,6 @@ export default defineConfig({
     // the full reasoning.
     sitemap({
       filter: (page) =>
-        !/\/ledger\/(shipped|thinking|milestones)\/?$/.test(page) &&
         !/\/(impressum|terms|nutzungsbedingungen)\/?$/.test(page),
     }),
   ],

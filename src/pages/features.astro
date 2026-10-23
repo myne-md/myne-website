@@ -24,20 +24,32 @@
  *
  * AGENTS.md: marketing copy may not exceed `docs/threat-model.md`, and the same
  * rule governs every user-guide article. So this page is a restatement of the
- * guide, and every block carries its own LIMITS row rather than leaving the
- * caveats to a footnote. Where the guide states a boundary, presence is
- * ephemeral, a name label is not proof of authorship, the in-process model is
- * not sandboxed, attachments do not come out of the vault by opening it, this
- * page states it in the same words.
+ * guide, and where the guide states a boundary this page states it in the same
+ * words: presence is ephemeral, a name label is not proof of authorship, the
+ * in-process model is not sandboxed, a remote provider receives the request,
+ * losing both secrets loses the data, sync is not a backup.
+ *
+ * The LIMITS row carries the boundaries that change what a reader can safely
+ * assume, and nothing else. An earlier pass listed every ordinary capability
+ * gap in it (which client shows cursors yet, that a locked vault has nothing to
+ * search, that the saved graph layout is only a convenience), which buried the
+ * security and data-loss sentences among trivia and made the page read as a
+ * list of apologies. The trivia is still in the guide; this page keeps the rows
+ * that matter and two sections (Meeting notes, Sync server) carry their
+ * consequential limits only.
  *
  * ── What is photographed and what is drawn ────────────────────────────────
  *
- * Six of the eight frames are captures of the running desktop app, taken
- * through the e2e capture harness: a note with an inline comment, the rendered
- * markdown, the links panel, the find bar, the export menu, the graph. Two are
- * drawn, and each says so in its own component: the assistant's chat panel (no
- * frame of a conversation can exist, the harness cannot run a model) and the
- * vault listing (the tree on disk is not a window).
+ * Five of the seven sections carry a capture of the running desktop app, taken
+ * through the e2e capture harness: a note with an inline comment, the links
+ * panel, the find bar, the render, the assistant's chat panel. Two carry no
+ * picture at all, and that is deliberate rather than pending: Meeting notes and
+ * Sync server replaced Markdown and Portability, and nothing on disk photographs
+ * either subject in BOTH themes, while the deck draws a light and a dark file
+ * side by side. A single-theme capture is exactly the defect the landing hero
+ * shipped with, so the section states its claim and the deck draws a text slide
+ * instead. `shot` on the Section type records this, and adding a pair later is
+ * one FRAMES row plus two capture runs.
  *
  * Every capture here comes from a single-tab session. The app's split-view
  * frames were deliberately passed over: at the width a block gives a frame, two
@@ -59,7 +71,7 @@ import { absoluteOg } from "../lib/og";
 
 const title = "Features — Myne";
 const description =
-  "What is actually in Myne: live collaboration on a shared vault, an agent that runs where you point it, markdown at the centre, the graph of your own links, and encryption under all of it. Each section states its limits as well as its claims.";
+  "What is actually in Myne: live collaboration on a shared vault, an agent that runs where you point it, meeting notes transcribed on the device, the graph of your own links, a sync server you can run yourself, and encryption under all of it. The limits that matter are stated in the sections that have them.";
 const canonical = new URL("/features/", Astro.site!).toString();
 const ogImage = absoluteOg("features", Astro.site!);
 
@@ -70,7 +82,9 @@ type IconName =
   | "shield-check"
   | "search"
   | "graph"
-  | "hard-drive";
+  | "hard-drive"
+  | "mic"
+  | "server";
 
 interface Point {
   /** The lead-in, read as a label rather than as a sentence. */
@@ -90,8 +104,18 @@ interface Section {
   /** Where this is explained in full. */
   guide: { href: string; label: string };
   icon: IconName;
-  /** The capture that illustrates this section, and what it shows. */
-  shot: { alt: string };
+  /** The capture that illustrates this section, and what it shows.
+   *
+   *  Optional, and two sections have none: Meeting notes and Sync server
+   *  replaced Markdown and Portability, and no capture of either new subject
+   *  exists in the pair the deck needs. A light capture alone would recreate
+   *  the exact defect the hero shipped with (a "light" file that was really a
+   *  dark one), because the guide artifacts on disk are a light run only, and a
+   *  dark one needs the Linux capture. So the section states its claim without
+   *  a picture, the deck draws a text slide for it, and the blocks lay the copy
+   *  out full width. Adding the pair later is `prep-marketing-shots.mjs` plus a
+   *  FRAMES row per theme. */
+  shot?: { alt: string };
 }
 
 /* The order is the landing grid's order, and the anchors are the grid's hrefs. */
@@ -117,7 +141,7 @@ const sections: Section[] = [
       },
     ],
     limits:
-      "Presence needs sync and the note open, and the browser client does not show live cursors yet. A colour is a recognition aid rather than a security identity, and a name label resolves a device to the member it is claimed by: a well-founded hint about who is here, not evidence of who typed a change.",
+      "A colour is a recognition aid rather than a security identity, and a name label resolves a device to the member it is claimed by: a well-founded hint about who is here, not evidence of who typed a change.",
     guide: {
       href: "/user-guide/sync-and-devices/live-collaboration/",
       label: "Live collaboration",
@@ -148,7 +172,7 @@ const sections: Section[] = [
       },
     ],
     limits:
-      "It is labelled experimental and the models small enough to run on a laptop are limited: answers can be wrong, and the surfaces are built so that is easy to check. The in-process model is not sandboxed. Naming a remote provider sends the text of each request to that provider. This is Beta, and it is off until you turn it on.",
+      "An answer can be wrong, and the surfaces are built so a wrong one is easy to check. The in-process model is not sandboxed. Naming a remote provider sends the text of each request to that provider. This is Beta, and it is off until you turn it on.",
     guide: { href: "/user-guide/ai/overview/", label: "AI (Beta)" },
     icon: "bot",
     shot: {
@@ -156,35 +180,34 @@ const sections: Section[] = [
     },
   },
   {
-    id: "markdown",
+    id: "meeting-notes",
     index: "03",
-    kicker: "Markdown",
-    title: "Markdown, and the things around it",
-    lede: "What you write is markdown, and the app renders it rather than reinventing it. The vault is a folder of files, not a database with an export button.",
+    kicker: "Meeting notes",
+    title: "Record the room, transcribe it here",
+    lede: "A meeting can be recorded as one session and comes back as a note: the audio attached, and a transcript written on your device rather than somewhere else.",
     points: [
       {
-        t: "The dialect, not a subset",
-        d: "Tables, footnotes, reference links, callouts, KaTeX math and Mermaid diagrams all render where you wrote them.",
+        t: "One session, two sources",
+        d: "Your microphone on every platform, plus a system-audio tap on macOS 14.2 and later, resampled to a common rate and mixed into one mono recording.",
       },
       {
-        t: "Properties as fields",
-        d: "Frontmatter becomes something you can filter and search on, instead of text you have to read twice.",
+        t: "The transcript is written here",
+        d: "A small model on this device turns the recording into text. The note says it is a machine reading, and the audio stays beside it to check against.",
       },
       {
-        t: "Wikilinks and tasks",
-        d: "Links resolve across the vault, and a checklist carries its due date, priority and repeat rule inline.",
+        t: "Behind Developer mode",
+        d: "The recording path is still being verified on real hardware, so the command sits behind Developer mode until it is.",
       },
     ],
     limits:
-      "The walk-away promise is about your notes. Attachments are encrypted files inside the vault, so they leave through a deliberate export rather than by opening the folder, and an attachment no note references is not carried out by either export.",
+      "Windows system audio is not captured yet, so a session there records the microphone alone, and a system-audio permission that was refused delivers silence rather than an error. Recording captures other people's speech: make sure you are allowed to before you start.",
     guide: {
-      href: "/user-guide/markdown/overview/",
-      label: "The markdown reference",
+      href: "/user-guide/attachments-and-import/meeting-notes/",
+      label: "Meeting notes",
     },
-    icon: "file-text",
-    shot: {
-      alt: "A note in the Myne editor with a rendered Mermaid flowchart, its source visible in the same pane.",
-    },
+    icon: "mic",
+    /* No capture of this surface exists in either theme yet, and inventing one
+       is worse than the gap: see the note on `shot` below. */
   },
   {
     id: "encryption",
@@ -238,7 +261,7 @@ const sections: Section[] = [
       },
     ],
     limits:
-      "The graph draws resolved wikilinks only, while Isolated counts links as you wrote them — so a note whose only links point at notes that do not exist yet draws no lines and is still not listed as isolated. Folders and attachments are not nodes, and a note outside the vault is not part of either surface. The saved arrangement is a convenience rather than a stored document: losing it costs a fresh layout and none of your content.",
+      "Folders and attachments are not nodes, and a note outside the vault is not part of either surface.",
     guide: {
       href: "/user-guide/find-and-connect/overview/",
       label: "Find and connect",
@@ -269,7 +292,7 @@ const sections: Section[] = [
       },
     ],
     limits:
-      "The index covers the vault that is open and is rebuilt from it, so a locked vault has nothing to search. Attachments are searched through text Myne extracts on your device, and only for the attachment types it can read.",
+      "Attachments are searched only where Myne can extract their text on this device, and only for the attachment types it can read.",
     guide: { href: "/user-guide/find-and-connect/search/", label: "Search" },
     icon: "search",
     shot: {
@@ -277,35 +300,33 @@ const sections: Section[] = [
     },
   },
   {
-    id: "portable",
+    id: "sync-server",
     index: "07",
-    kicker: "Portability",
-    title: "Yours to run, yours to leave with",
-    lede: "The vault is a folder on your disk and the server is a program you can run. Neither of those is a promise about the other.",
+    kicker: "Sync server",
+    title: "The server is a program you run",
+    lede: "Sync moves ciphertext the server holds no key for. That server is open source and ships as a container image, so you can run it on a machine you control.",
     points: [
       {
-        t: "Back up and restore",
-        d: "The whole vault as one encrypted file, restorable anywhere you have the password or the recovery phrase.",
+        t: "The same server, from the same image",
+        d: "Pinned by image digest, so the file resolves to the same bytes on every machine, with a build for amd64 and one for arm64.",
       },
       {
-        t: "Export to markdown",
-        d: "A note, or everything, with its attachments written out as ordinary files beside it.",
+        t: "Running it changes the operator, not the trust",
+        d: "It holds encrypted blobs and no keys either way. What changes is who operates it, and what becomes yours: the TLS edge, retention, and your own backups.",
       },
       {
-        t: "A server you can run",
-        d: "Sync moves ciphertext the server has no key for, and that server is open source.",
+        t: "What the operator can see",
+        d: "That an account synced, when, and roughly how much. Never a note: to the server a note is ciphertext.",
       },
     ],
     limits:
-      "Sync is not a backup: it propagates a deletion to your other devices, where a backup does not. Sync runs on a server you set up yourself, and that server is available to run today.",
+      "Sync is not a backup, on your own server or anyone else's: it propagates a deletion to your other devices. A self-hosted server needs a public domain and a certificate a public authority issued, because the clients refuse a self-signed one.",
     guide: {
       href: "/user-guide/sync-and-devices/run-your-own-sync-server/",
       label: "Run your own server",
     },
-    icon: "hard-drive",
-    shot: {
-      alt: "A note's action menu in the Myne desktop app, with the export submenu open on Markdown, PDF, HTML and plain text.",
-    },
+    icon: "server",
+    /* No UI to photograph: this surface is a container image. See `shot`. */
   },
 ];
 
@@ -329,7 +350,7 @@ const sections: Section[] = [
           <p class="feat-lede">
             Myne is a markdown notebook with encryption underneath it, not a
             note-taking app with a privacy badge added later. Seven surfaces,
-            and each one states where it stops as well as what it does.
+            and the limits that matter are stated where they apply.
           </p>
 
           <div class="feat-chips" role="group" aria-label="Feature sections">
@@ -393,41 +414,52 @@ const sections: Section[] = [
                         both themes. Shipping it as two files would have been
                         two copies of the same bytes pretending to be a light
                         and a dark capture. */}
-                    {s.id === "encryption" ? (
-                      <img
-                        class="shot__img"
-                        src="/app/p-encryption.webp"
-                        width="1400"
-                        height="885"
-                        loading="lazy"
-                        decoding="async"
-                        alt={s.shot.alt}
-                      />
-                    ) : (
-                      <>
+                    {s.shot &&
+                      (s.id === "encryption" ? (
                         <img
                           class="shot__img"
-                          src={`/app/p-${s.id}.webp`}
-                          data-shot="dark"
+                          src="/app/p-encryption.webp"
                           width="1400"
                           height="885"
-                          loading={i === 0 ? "eager" : "lazy"}
-                          fetchpriority={i === 0 ? "high" : undefined}
+                          loading="lazy"
                           decoding="async"
                           alt={s.shot.alt}
                         />
-                        <img
-                          class="shot__img"
-                          src={`/app/p-${s.id}-light.webp`}
-                          data-shot="light"
-                          width="1400"
-                          height="885"
-                          loading={i === 0 ? "eager" : "lazy"}
-                          fetchpriority={i === 0 ? "high" : undefined}
-                          decoding="async"
-                          alt={s.shot.alt}
-                        />
-                      </>
+                      ) : (
+                        <>
+                          <img
+                            class="shot__img"
+                            src={`/app/p-${s.id}.webp`}
+                            data-shot="dark"
+                            width="1400"
+                            height="885"
+                            loading={i === 0 ? "eager" : "lazy"}
+                            fetchpriority={i === 0 ? "high" : undefined}
+                            decoding="async"
+                            alt={s.shot.alt}
+                          />
+                          <img
+                            class="shot__img"
+                            src={`/app/p-${s.id}-light.webp`}
+                            data-shot="light"
+                            width="1400"
+                            height="885"
+                            loading={i === 0 ? "eager" : "lazy"}
+                            fetchpriority={i === 0 ? "high" : undefined}
+                            decoding="async"
+                            alt={s.shot.alt}
+                          />
+                        </>
+                      ))}
+                    {/* A section with no capture gets a text slide instead of an
+                        empty frame. See the `shot` note on the Section type. */}
+                    {!s.shot && (
+                      <span class="feat-slide__card">
+                        <span class="mono up feat-slide__kicker">
+                          {s.index} · {s.kicker}
+                        </span>
+                        <span class="feat-slide__title">{s.title}</span>
+                      </span>
                     )}
                   </div>
                 ))
@@ -484,14 +516,16 @@ const sections: Section[] = [
                 </a>
               </div>
 
-              <div class="feat-block__visual">
-                <AppShowcase
-                  dark={`/app/p-${s.id}.webp`}
-                  light={s.id === "encryption" ? undefined : `/app/p-${s.id}-light.webp`}
-                  alt={s.shot.alt}
-                  w={1400}
-                  h={885}
-                />
+              <div class:list={["feat-block__visual", { "is-empty": !s.shot }]}>
+                {s.shot && (
+                  <AppShowcase
+                    dark={`/app/p-${s.id}.webp`}
+                    light={s.id === "encryption" ? undefined : `/app/p-${s.id}-light.webp`}
+                    alt={s.shot.alt}
+                    w={1400}
+                    h={885}
+                  />
+                )}
               </div>
             </div>
           </article>
@@ -691,6 +725,32 @@ const sections: Section[] = [
     height: 100%;
     object-fit: cover;
   }
+  /* The text slide: what the deck draws in a section with no capture (see the
+     `shot` note on the Section type). Anchored to the bottom of the frame, on
+     the panel ground, so it reads as a title card in the same window rather
+     than as a missing image. */
+  .feat-slide__card {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 30px;
+    background: var(--paper-2);
+  }
+  .feat-slide__kicker {
+    font-size: 10px;
+    color: var(--accent);
+  }
+  .feat-slide__title {
+    font-size: clamp(19px, 2.1vw, 27px);
+    line-height: 1.14;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    max-width: 24ch;
+    color: var(--ink-1);
+  }
   @keyframes feat-slide-in {
     from {
       opacity: 0;
@@ -744,6 +804,14 @@ const sections: Section[] = [
     align-items: center;
     padding-top: 34px;
     border-top: 1px solid rgb(var(--line-rgb) / 0.12);
+  }
+  /* A section with no capture (Meeting notes, Sync server) runs its copy
+     across the full measure instead of leaving half the row empty. */
+  .feat-block__grid:has(.feat-block__visual.is-empty) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .feat-block__grid:has(.feat-block__visual.is-empty) .feat-block__copy {
+    max-width: 74ch;
   }
   /* Odd blocks put the frame on the left. The order is set on the children
      rather than by the source order, so the reading order of the DOM stays

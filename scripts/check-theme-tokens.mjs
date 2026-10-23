@@ -127,10 +127,6 @@ export const ALLOWED_LITERALS = {
   "src/pages/index.astro": [
     { literal: "#000", count: 2, reason: "hero mask gradient (alpha, not a colour)" },
   ],
-  "src/components/DraftNotice.astro": [
-    { literal: "#000", count: 2, reason: "@media print block" },
-    { literal: "#999", count: 1, reason: "@media print block" },
-  ],
   "src/layouts/LandingLayout.astro": [
     { literal: "#0a0a0a", count: 1, reason: "<meta name=theme-color> no-JS fallback" },
   ],

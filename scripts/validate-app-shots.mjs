@@ -19,9 +19,9 @@
 //
 //   node scripts/validate-app-shots.mjs
 //
-// Runs inside `pnpm build` after `astro build`, the `validate-draft-notice.mjs`
-// slot, because it reads the built HTML rather than the source: a component that
-// composes a path is only visible once it has rendered.
+// Runs inside `pnpm build` after `astro build`, in the post-build slot, because
+// it reads the built HTML rather than the source: a component that composes a
+// path is only visible once it has rendered.
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";

@@ -47,7 +47,9 @@ interface Cell {
     | "shield-check"
     | "search"
     | "graph"
-    | "hard-drive";
+    | "hard-drive"
+    | "mic"
+    | "server";
   /** Which piece of motion lives in the card, if any. */
   art?: "collab" | "chat";
   /** Grid placement. `wide` spans two columns, `tall` two rows. */
@@ -60,11 +62,19 @@ interface Cell {
  *
  * Every claim here is a restatement of the user guide's own wording, which is
  * the site's only writing that is held to the threat model line by line
- * (AGENTS.md, "Marketing copy discipline"). Two are hedged on purpose: the agent
- * surface is labelled Beta and says it is off until you turn it on, because the
- * guide puts it behind Developer mode and turning AI on; and the portability
- * card names self-hosting rather than sync, because Myne operates no sync service of its
+ * (AGENTS.md, "Marketing copy discipline"). Three are hedged on purpose: the
+ * agent surface is labelled Beta and says it is off until you turn it on,
+ * because the guide puts it behind Developer mode and turning AI on; the
+ * meeting-notes card says Developer mode for the same reason, and stops short
+ * of promising system audio everywhere because only macOS 14.2 and later
+ * captures it; and the sync-server card names running the server yourself
+ * rather than sync as a product, because Myne operates no sync service of its
  * own while a server you run yourself is available.
+ *
+ * The Markdown and Portability cards this grid used to carry were replaced by
+ * those two, which is a selection change rather than a claim change: /features/
+ * still documents both, and the plain-markdown export claim still appears in
+ * the lede for anyone who arrives there.
  */
 const cells: Cell[] = [
   {
@@ -86,11 +96,11 @@ const cells: Cell[] = [
     size: "tall",
   },
   {
-    id: "markdown",
-    kicker: "03 · Markdown",
-    title: "Plain files, no lock-in",
-    body: "Notes are markdown, sealed in the vault. Export writes ordinary .md files, wikilinks, tasks, callouts, math and diagrams included.",
-    icon: "file-text",
+    id: "meeting-notes",
+    kicker: "03 · Meeting notes",
+    title: "Record the room, on your device",
+    body: "One session captures your microphone and, on macOS 14.2 and later, what the computer is playing, then transcribes it locally into a new note with the audio attached. Behind Developer mode while its recording path is verified.",
+    icon: "mic",
   },
   {
     id: "encryption",
@@ -114,11 +124,11 @@ const cells: Cell[] = [
     icon: "search",
   },
   {
-    id: "portable",
-    kicker: "07 · Portability",
-    title: "Yours to take",
-    body: "Back it up, keep it on your own disk, or export every note to plain markdown. The sync server is open source, so you can run that yourself.",
-    icon: "hard-drive",
+    id: "sync-server",
+    kicker: "07 · Sync server",
+    title: "Run the server yourself",
+    body: "The sync server is open source and ships as a container image, so you can run it on a machine you control. It holds ciphertext and no keys, whoever operates it.",
+    icon: "server",
   },
 ];
 

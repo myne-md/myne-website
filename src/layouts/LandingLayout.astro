@@ -12,8 +12,6 @@
  * SubscribeDialog.
  */
 import { ClientRouter } from "astro:transitions";
-import DraftNotice from "../components/DraftNotice.astro";
-import type { NoticeLang, NoticeVariant } from "../data/notice";
 import "../styles/fonts.css";
 import "../styles/tokens.css";
 
@@ -34,18 +32,6 @@ interface Props {
    *  View Transitions engage only between two pages that BOTH ship the router,
    *  so every other route keeps its plain full-load navigation untouched. */
   clientRouter?: boolean;
-  /** Which claim the site-wide draft notice makes on this page. Defaults to
-   *  the product-status one; the legal texts pass their own, and /impressum/
-   *  passes "none", which renders no notice at all. The reasoning per variant
-   *  is in DraftNotice.astro; the union is shared from data/notice so this
-   *  file and that one cannot drift apart. A legal page that FORGETS the prop
-   *  silently gets the product-status wording under a document the reader is
-   *  being asked to accept, which every presence check would pass. That is
-   *  what scripts/validate-draft-notice.mjs exists to catch. */
-  notice?: NoticeVariant;
-  /** Language of that notice, matched to the page's prose (the German legal
-   *  pages pass "de"). */
-  noticeLang?: NoticeLang;
   /** Pin this page to dark and hide the theme switch. The theme builder passes
    *  it: it is a fixed dark workspace with its own `--tb-*` palette and a
    *  live-preview iframe, so a light palette would fight its chrome. The head
@@ -61,8 +47,6 @@ const {
   robots,
   ogType = "website",
   clientRouter = false,
-  notice = "status",
-  noticeLang = "en",
   themeLock = false,
 } = Astro.props;
 
@@ -111,12 +95,6 @@ const canonicalUrl =
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalUrl} />
     {robots && <meta name="robots" content={robots} />}
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Myne ledger"
-      href="/ledger/rss.xml"
-    />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta property="og:site_name" content="Myne" />
@@ -222,33 +200,10 @@ const canonicalUrl =
         text-transform: uppercase;
         letter-spacing: 0.1em;
       }
-      /* The draft notice is sticky at the bottom edge on every route, so a
-         focused control reached by Tab scrolls flush to the bottom of the
-         scrollport, which is under the strip: WCAG 2.2 SC 2.4.11, Focus Not
-         Obscured. The mirror problem at the top edge is already solved per
-         page (spec.astro carries scroll-margin-top for the fixed nav); this
-         is the bottom half, once, for every route. It reserves no layout
-         height, so it does not reintroduce the fixed constant the notice's
-         own comment measured and rejected.
-
-         This covers the ROOT scroller only, which is every route except the
-         two nested scrollports the strip also overlaps: the open mobile nav
-         panel and the guide sidebar. Those are handled where they live
-         (GlassNav.astro raises the bar above the strip while its panel is
-         open; userguide.css reserves inside the sidebar's scroller), because
-         a root-level property does not reach into either one.
-
-         The value comes from the notice rather than from here: --draft-notice-
-         reserve is declared by DraftNotice.astro, so it is 0px on the two
-         pages that render no strip instead of reserving for one that is not
-         there. The first version was 7rem, which is 112px against the
-         component's own measured 111px worst case, in a unit that scales with
-         the root font size while the strip's font-size is a fixed 11px, so a
-         reader with a larger default font moved the reserve and the strip
-         independently. */
-      html {
-        scroll-padding-bottom: var(--draft-notice-reserve, 0px);
-      }
+      /* The mirror problem at the top edge is solved per page (spec.astro
+         carries scroll-margin-top for the fixed nav). No bottom reserve is
+         needed any more: the site-wide strip that used to cover the last rows
+         of a scrolled page is gone. */
       .tick {
         position: absolute;
         width: 8px;
@@ -281,6 +236,5 @@ const canonicalUrl =
       <div class="page-curtain" aria-hidden="true"></div>
     )}
     <slot />
-    {notice !== "none" && <DraftNotice variant={notice} lang={noticeLang} />}
   </body>
 </html>

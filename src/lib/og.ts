@@ -4,7 +4,6 @@ import { Resvg } from "@resvg/resvg-js";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { createRequire } from "node:module";
-import { RELEASE_TAG } from "../data/release";
 
 /* =========================================================================
    Unified OG-image system. One dark-brand 1200×630 template renders every
@@ -246,8 +245,8 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
     kicker: "Download",
     title: "Run it on your own machine.",
     description:
-      "A desktop app that installs once and runs entirely on your device. Myne is pre-alpha and in private testing, so there is no public download yet.",
-    note: "private testing",
+      "A desktop app that installs once and runs entirely on your device. Stable and beta channels, every file with its SHA-256 and a signed checksum list. Alpha.",
+    note: "stable and beta",
     path: "download",
   },
   roadmap: {

@@ -62,16 +62,16 @@ const ogImage = absoluteOg("home", Astro.site!);
             </p>
             <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;">
               <a
-                href="/spec/"
+                href="/download/"
                 class="up"
                 style="background:var(--ink-1);color:var(--paper);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;"
-                >Read the spec</a
+                >Download</a
               >
               <a
-                href="#work"
+                href="/spec/"
                 class="up"
                 style="background:transparent;color:var(--ink-1);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px solid rgb(var(--line-rgb) / 0.2);"
-                >Learn how it works</a
+                >Read the spec</a
               >
             </div>
           </div>
@@ -108,91 +108,16 @@ const ogImage = absoluteOg("home", Astro.site!);
     </section>
 
     <!-- ===================== FEATURES (bento) ===================== -->
-    <!-- Sits directly above the security-model section, so the reader meets
-         what the app does before how it keeps its promises. It carries its own
-         responsive rules; the page's mobile block below leaves it alone. -->
+    <!-- Sits directly below the manifesto, so the reader meets what the app
+         does before the comparison. It carries its own responsive rules; the
+         page's mobile block below leaves it alone.
+         The "How it works" section (a wireframe globe plus the four-step
+         pipeline) used to sit here and was deleted: all four steps restated
+         claims the bento's Encryption and Sync server cards already make in
+         the same words, and the page carried three copies of "the server holds
+         ciphertext". The concrete KDF parameters it was the only place to
+         state live in /spec/, which the hero links. -->
     <FeaturesBento />
-
-    <!-- ===================== GLOBE + PROCESS ===================== -->
-    <!-- Two rows, and the split is the point. The first is the claim: the
-         wireframe globe beside the heading, one composition, both starting on
-         the same line. The second is the evidence: the four steps that make the
-         claim true, side by side in one band rather than stacked down a column.
-         Before this the heading sat alone in the top-left corner above a
-         two-column grid it was not part of, which left it anchored to nothing,
-         and the steps ran down a single tall column beside the globe. -->
-    <section id="work" style="padding:96px var(--gutter) 110px;">
-      <div style="max-width:var(--content-max);margin:0 auto;">
-        <div class="work-top">
-          <div data-globe class="work-globe">
-            <canvas
-              data-globecv
-              style="width:100%;height:100%;display:block;cursor:grab;touch-action:none;"
-            ></canvas>
-          </div>
-
-          <div class="work-head">
-            <span class="mono up" style="font-size:11px;color:var(--ink-3);"
-              >How it works</span
-            >
-            <h2
-              data-reveal
-              class="up"
-              style="margin-top:14px;font-size:clamp(24px,3.4vw,46px);font-weight:600;letter-spacing:0.005em;max-width:20ch;line-height:1.04;"
-            >
-              Sealed by math. Portable by design.
-            </h2>
-            <p
-              class="mono"
-              style="margin-top:20px;max-width:46ch;font-size:12.5px;line-height:1.75;color:var(--ink-3);"
-            >
-              Four steps decide whether a note is readable by anyone but you.
-              None of them asks you to trust an operator, and none of them has
-              an off switch.
-            </p>
-          </div>
-        </div>
-
-        <div class="work-specs" data-process>
-          <div class="work-spec">
-            <div class="mono" style="font-size:12px;color:var(--ink-4);">01</div>
-            <div class="mono up work-spec__name">Key derivation</div>
-            <p class="work-spec__body">
-              Your password is stretched with Argon2id (m=256 MiB, t=3, p=2) into
-              a key that never leaves the device. Parameters are bound into the
-              ciphertext to defeat downgrade attacks.
-            </p>
-          </div>
-          <div class="work-spec">
-            <div class="mono" style="font-size:12px;color:var(--ink-4);">02</div>
-            <div class="mono up work-spec__name">Local encryption</div>
-            <p class="work-spec__body">
-              Every note is sealed with XChaCha20-Poly1305 plus a key commitment
-              before it touches disk. Content, titles, folders and tags, all of
-              it.
-            </p>
-          </div>
-          <div class="work-spec">
-            <div class="mono" style="font-size:12px;color:var(--ink-4);">03</div>
-            <div class="mono up work-spec__name">Ciphertext at rest</div>
-            <p class="work-spec__body">
-              Your notes' contents are unreadable on disk without your password.
-              There is no plaintext mode for your notes to forget to enable, and
-              no opt-out toggle to misconfigure.
-            </p>
-          </div>
-          <div class="work-spec">
-            <div class="mono" style="font-size:12px;color:var(--ink-4);">04</div>
-            <div class="mono up work-spec__name">Sync or self-host</div>
-            <p class="work-spec__body">
-              The same zero-knowledge server stores and routes ciphertext and
-              never holds a key. It is a server you set up yourself, and it is
-              available to run today.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- ===================== COMPARISON ===================== -->
     <section id="capab" style="padding:100px var(--gutter);">
@@ -207,59 +132,52 @@ const ogImage = absoluteOg("home", Astro.site!);
             The stack you're duct-taping, in one app.
           </h2>
         </div>
-        <div data-reveal class="cmp-scroll">
+        <div data-reveal class="cmp-scroll" tabindex="0" role="region" aria-label="Feature comparison, scrollable">
         <div
           class="cmp-card"
           style="border:1px solid rgb(var(--line-rgb) / 0.12);border-radius:12px;overflow:hidden;background:var(--paper-2);"
         >
-          <div
-            style="display:grid;grid-template-columns:minmax(0,2fr) repeat(5,minmax(0,1fr));"
-          >
-            <div
-              style="padding:16px 18px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);"
-            >
-            </div>
-            <div
-              style="padding:16px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);border-left:1px solid rgb(var(--line-rgb) / 0.1);background:rgb(var(--accent-rgb) / 0.14);text-align:center;font-weight:700;color:var(--accent);"
-            >
-              Myne
-            </div>
-            <div
-              style="padding:16px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;font-size:13.5px;font-weight:600;color:var(--ink-2);"
-            >
-              Obsidian
-            </div>
-            <div
-              style="padding:16px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;font-size:13.5px;font-weight:600;color:var(--ink-2);"
-            >
-              Standard Notes
-            </div>
-            <div
-              style="padding:16px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;font-size:13.5px;font-weight:600;color:var(--ink-2);"
-            >
-              Joplin
-            </div>
-            <div
-              style="padding:16px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.1);border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;font-size:13.5px;font-weight:600;color:var(--ink-2);"
-            >
-              Notesnook
-            </div>
-          </div>
-          <div data-cmp-rows></div>
+          {/* A real table, not a grid of divs. The cells are ticks, crosses and
+              "partial" with no text of their own, so a screen reader can only
+              make sense of them through row and column association; the div grid
+              this replaced announced 78 cells in one stream. `table-layout:
+              fixed` plus the colgroup is what keeps the label column at twice
+              the width of each tool column, which the old inline
+              grid-template-columns did by hand. */}
+          <table class="cmp-table">
+            <caption class="cmp-sr">
+              Feature comparison: Myne against Obsidian, Standard Notes, Joplin
+              and Notesnook, at each tool's default configuration.
+            </caption>
+            <colgroup>
+              <col style="width:33.334%" />
+              <col span="5" style="width:13.333%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col"><span class="cmp-sr">Feature</span></th>
+                <th scope="col" class="is-myne">Myne</th>
+                <th scope="col">Obsidian</th>
+                <th scope="col">Standard Notes</th>
+                <th scope="col">Joplin</th>
+                <th scope="col">Notesnook</th>
+              </tr>
+            </thead>
+            <tbody data-cmp-rows></tbody>
+          </table>
         </div>
         </div>
         <p class="mono" style="margin-top:14px;font-size:11.5px;line-height:1.7;color:var(--ink-4);max-width:90ch;">
-          Comparison reflects each tool's default configuration. Myne is
-          pre-alpha and in private testing: the release is team-only, so the site
-          hands out no installers yet. Cells marked
-          <span style="color:var(--warning);">partial</span> on the Myne column
-          are the ones that work today and are still hardening: zero-knowledge
-          sync, which runs on a server you set up yourself rather than one Myne
-          operates, and the same server shipped open source for anyone to run. A
-          reproducible build, signed for every platform, is still owed.
-          Obsidian's own at-rest
-          encryption and self-hosted sync need add-ons (e.g. Cryptomator,
-          Syncthing) it doesn't ship.
+          Each tool is judged at its <strong>default configuration</strong>, from
+          its own documentation, in October 2026.
+          <span style="color:var(--warning);">Partial</span> means a claim that
+          holds with a condition, or one Myne still owes: on the Myne column those
+          are zero-knowledge sync (in hardening, on a server you run yourself,
+          since Myne offers no hosted instance), self-hosted sync (the same
+          server, published as a container image), meeting recording (behind
+          Developer mode while its capture path is verified) and signed builds
+          (macOS notarized, Android OS-verified, Windows and Linux unsigned). No
+          vendor here publishes a reproducible build, so that is not scored.
         </p>
       </div>
     </section>
@@ -374,46 +292,69 @@ const ogImage = absoluteOg("home", Astro.site!);
       align-items: center;
     }
 
-    /* "Sealed by math": row one is the claim, row two the evidence. */
-    .work-top {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 48px;
-      align-items: center;
+
+    /* ---- feature comparison table ---------------------------------------
+       A real <table> (see the markup comment): the cell contents are a tick, a
+       cross or "partial", so row/column association is the only thing that
+       makes them readable, and `table-layout: fixed` is what holds the label
+       column at twice the tool width. The surfaces are the pages' existing
+       tokens, unchanged from the grid this replaced. */
+    .cmp-table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
     }
-    .work-globe {
-      position: relative;
-      height: 380px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .cmp-table thead th {
+      padding: 16px 14px;
+      border-bottom: 1px solid rgb(var(--line-rgb) / 0.1);
+      border-left: 1px solid rgb(var(--line-rgb) / 0.1);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink-2);
+      text-align: center;
     }
-    .work-head {
-      max-width: 33rem;
+    .cmp-table thead th:first-child {
+      padding: 16px 18px;
+      border-left: 0;
     }
-    /* The four steps are one band, so they carry a top hairline each rather than
-       the stacked rules the column layout used, closing them with a bottom one
-       as well would make four cards out of one row. */
-    .work-specs {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 26px;
-      margin-top: 64px;
+    .cmp-table thead th.is-myne {
+      background: rgb(var(--accent-rgb) / 0.14);
+      color: var(--accent);
+      font-weight: 700;
     }
-    .work-spec {
-      padding-top: 20px;
-      border-top: 1px solid rgb(var(--line-rgb) / 0.14);
+    .cmp-table tbody th,
+    .cmp-table tbody td {
+      padding: 14px;
+      border-left: 1px solid rgb(var(--line-rgb) / 0.1);
+      text-align: center;
     }
-    .work-spec__name {
-      margin-top: 8px;
-      font-size: 13px;
+    .cmp-table tbody th {
+      padding: 14px 18px;
+      border-left: 0;
+      font-size: 13.5px;
+      font-weight: 400;
       color: var(--ink-1);
+      text-align: left;
     }
-    .work-spec__body {
-      margin-top: 10px;
-      font-size: 12px;
-      line-height: 1.7;
-      color: var(--ink-3);
+    .cmp-table tbody td.is-myne {
+      background: rgb(var(--accent-rgb) / 0.08);
+    }
+    .cmp-table tbody tr:not(:last-child) > * {
+      border-bottom: 1px solid rgb(var(--line-rgb) / 0.1);
+    }
+    /* The table's own header cell and caption, said once to a screen reader and
+       never drawn: the column header row is the tool names, so the corner cell
+       needs the word the columns are a list of. */
+    .cmp-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     /* A diffuse dark cloud behind the hero copy: it locally suppresses the 01
@@ -463,35 +404,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       }
     }
 
-    /* "Sealed by math" keeps its two columns further down than the hero does:
-       the globe only needs a square, so the row reads as a row until a tablet's
-       width makes each column narrower than the heading wants. */
-    @media (max-width: 900px) {
-      .work-top {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 32px;
-      }
-      .work-globe {
-        height: 300px;
-      }
-    }
-
-    @media (max-width: 1079px) {
-      .work-specs {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 24px;
-        margin-top: 48px;
-      }
-    }
-
     @media (max-width: 760px) {
-      /* The four steps go to one column on a phone: at 390px a two-up band
-         leaves each body about fourteen characters a line, which is a column of
-         hyphens rather than a paragraph. */
-      .work-specs {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 22px;
-      }
 
       /* Wide comparison table scrolls horizontally instead of crushing
          its six columns. */
@@ -551,7 +464,6 @@ const ogImage = absoluteOg("home", Astro.site!);
 
   let manCheck: (() => void) | null = null;
   let nRaf = 0;
-  let gRaf = 0;
 
   // ---------- reveals ----------
   const reveals = $$("[data-reveal]") as HTMLElement[];
@@ -622,365 +534,71 @@ const ogImage = absoluteOg("home", Astro.site!);
     manCheck();
   }
 
-  // ---------- wireframe globe ----------
-  const gcv = $("[data-globecv]") as HTMLCanvasElement | null;
-  if (gcv) {
-    const ctx = gcv.getContext("2d")!;
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
-    const gclamp = (v: number, a: number, b: number) =>
-      Math.max(a, Math.min(b, v));
-    let W = 0,
-      H = 0,
-      R = 0;
-    const resize = () => {
-      const b = gcv.parentElement!.getBoundingClientRect();
-      W = b.width;
-      H = b.height;
-      gcv.width = W * dpr;
-      gcv.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      R = Math.min(W, H) * 0.42;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-    // Drag-to-rotate. The globe holds still until grabbed, then turns in the
-    // direction of the drag; a flick leaves a little inertia that eases out.
-    // No hover rotation, no idle auto-spin.
-    const view = { ry: 0.5, rx: 0.35 };
-    let vRy = 0,
-      vRx = 0; // angular velocity (rad/frame) for post-release inertia
-    let dragging = false;
-    let last = { x: 0, y: 0 };
-    const SENS = 0.006;
-    const AUTO = 0.0018; // slow idle yaw; suspended while dragging
-    const clampRx = (v: number) => Math.max(-1.3, Math.min(1.3, v));
-    gcv.addEventListener("pointerdown", (e: PointerEvent) => {
-      dragging = true;
-      vRy = vRx = 0;
-      last = { x: e.clientX, y: e.clientY };
-      gcv.setPointerCapture(e.pointerId);
-      gcv.style.cursor = "grabbing";
-    });
-    gcv.addEventListener("pointermove", (e: PointerEvent) => {
-      if (!dragging) return;
-      // Negated so the grabbed surface follows the cursor (drag right turns the
-      // globe right) instead of moving against it.
-      vRy = -(e.clientX - last.x) * SENS;
-      vRx = -(e.clientY - last.y) * SENS;
-      last = { x: e.clientX, y: e.clientY };
-      view.ry += vRy;
-      view.rx = clampRx(view.rx + vRx);
-    });
-    const endDrag = (e: PointerEvent) => {
-      if (!dragging) return;
-      dragging = false;
-      try {
-        gcv.releasePointerCapture(e.pointerId);
-      } catch {}
-      gcv.style.cursor = "grab";
-    };
-    gcv.addEventListener("pointerup", endDrag);
-    gcv.addEventListener("pointercancel", endDrag);
-    const project = (lat: number, lon: number, ry: number, rx: number) => {
-      const x = Math.cos(lat) * Math.cos(lon),
-        y = Math.sin(lat),
-        z = Math.cos(lat) * Math.sin(lon);
-      const x1 = x * Math.cos(ry) - z * Math.sin(ry),
-        z1 = x * Math.sin(ry) + z * Math.cos(ry);
-      const y2 = y * Math.cos(rx) - z1 * Math.sin(rx),
-        z2 = y * Math.sin(rx) + z1 * Math.cos(rx);
-      return { x: x1, y: y2, z: z2 };
-    };
-    let time = 0;
-    // Nodes sit on wireframe intersections so they ride the grid instead of
-    // floating in the gaps: latitude ∈ {0, ±30, ±60} (the drawn parallels) and
-    // longitude on a 30° meridian. Authored in degrees, converted to radians.
-    const D2R = Math.PI / 180;
-    // Kept off antipodal pairs on connected edges, a node exactly opposite a
-    // neighbour makes the great-circle slerp divide by zero (lines to infinity).
-    const nodes = (
-      [
-        [30, -120],
-        [0, 30], // hub (node 1)
-        [-30, 90],
-        [60, 150],
-        [-30, -30],
-        [-30, -90],
-      ] as [number, number][]
-    ).map(([la, lo]) => [la * D2R, lo * D2R] as [number, number]);
-    // Unit-sphere vector for each node (pre-rotation), needed for the
-    // great-circle arcs and the pulses that ride them.
-    const nodeVec = nodes.map(([la, lo]) => ({
-      x: Math.cos(la) * Math.cos(lo),
-      y: Math.sin(la),
-      z: Math.cos(la) * Math.sin(lo),
-    }));
-    // Node 1 is the hub; a couple of mesh edges keep it from reading as a star.
-    const edges = [
-      [1, 0],
-      [1, 2],
-      [1, 3],
-      [1, 4],
-      [1, 5],
-      [0, 5],
-      [2, 4],
-    ];
-    const rot = (x: number, y: number, z: number, ry: number, rx: number) => {
-      const x1 = x * Math.cos(ry) - z * Math.sin(ry),
-        z1 = x * Math.sin(ry) + z * Math.cos(ry);
-      const y2 = y * Math.cos(rx) - z1 * Math.sin(rx),
-        z2 = y * Math.sin(rx) + z1 * Math.cos(rx);
-      return { x: x1, y: y2, z: z2 };
-    };
-    const slerp = (
-      a: { x: number; y: number; z: number },
-      b: { x: number; y: number; z: number },
-      t: number,
-    ) => {
-      let d = a.x * b.x + a.y * b.y + a.z * b.z;
-      d = Math.max(-1, Math.min(1, d));
-      const om = Math.acos(d);
-      if (om < 1e-4) return { x: a.x, y: a.y, z: a.z };
-      const s = Math.sin(om),
-        w1 = Math.sin((1 - t) * om) / s,
-        w2 = Math.sin(t * om) / s;
-      return {
-        x: a.x * w1 + b.x * w2,
-        y: a.y * w1 + b.y * w2,
-        z: a.z * w1 + b.z * w2,
-      };
-    };
-    const draw = () => {
-      time += 1;
-      // Integrate inertia + a slow idle auto-spin only when not actively
-      // dragging, while dragging, the view is updated straight from pointer
-      // deltas. After release the flick decays and the auto-spin resumes.
-      if (!dragging) {
-        view.ry += vRy + AUTO;
-        view.rx = clampRx(view.rx + vRx);
-      }
-      vRy *= 0.95;
-      vRx *= 0.95;
-      if (Math.abs(vRy) < 1e-4) vRy = 0;
-      if (Math.abs(vRx) < 1e-4) vRx = 0;
-      const ry = view.ry,
-        rx = view.rx;
-      ctx.clearRect(0, 0, W, H);
-      const cx = W / 2,
-        cy = H / 2;
-      // Sealed-orb body fill only, a faint inner shade that gives the
-      // wireframe depth. The outer atmosphere halo was removed per design.
-      const body = ctx.createRadialGradient(
-        cx - R * 0.32,
-        cy - R * 0.32,
-        R * 0.05,
-        cx,
-        cy,
-        R,
-      );
-      body.addColorStop(0, "rgba(" + T.accent + ",0.06)");
-      body.addColorStop(1, "rgba(" + T.accent + ",0)");
-      ctx.fillStyle = body;
-      ctx.beginPath();
-      ctx.arc(cx, cy, R, 0, 6.2832);
-      ctx.fill();
-      ctx.lineWidth = 1;
-      for (let la = -60; la <= 60; la += 30) {
-        ctx.beginPath();
-        let started = false;
-        for (let lo = 0; lo <= 360; lo += 6) {
-          const p = project(
-            (la * Math.PI) / 180,
-            (lo * Math.PI) / 180,
-            ry,
-            rx,
-          );
-          const sx = cx + p.x * R,
-            sy = cy + p.y * R;
-          ctx.strokeStyle =
-            "rgba(" + T.particleA + "," +
-            (0.1 + gclamp((p.z + 1) / 2, 0, 1) * 0.35).toFixed(2) +
-            ")";
-          if (!started) {
-            ctx.moveTo(sx, sy);
-            started = true;
-          } else ctx.lineTo(sx, sy);
-        }
-        ctx.stroke();
-      }
-      for (let lo = 0; lo < 360; lo += 30) {
-        ctx.beginPath();
-        let started = false;
-        for (let la = -90; la <= 90; la += 6) {
-          const p = project(
-            (la * Math.PI) / 180,
-            (lo * Math.PI) / 180,
-            ry,
-            rx,
-          );
-          const sx = cx + p.x * R,
-            sy = cy + p.y * R;
-          ctx.strokeStyle =
-            "rgba(" + T.particleA + "," +
-            (0.08 + gclamp((p.z + 1) / 2, 0, 1) * 0.28).toFixed(2) +
-            ")";
-          if (!started) {
-            ctx.moveTo(sx, sy);
-            started = true;
-          } else ctx.lineTo(sx, sy);
-        }
-        ctx.stroke();
-      }
-      const pts = nodeVec.map((v) => rot(v.x, v.y, v.z, ry, rx));
-
-      // Great-circle arcs between connected nodes, sampled and stroked per
-      // segment so each line fades as it wraps to the back of the sphere.
-      const SEG = 22;
-      edges.forEach(([a, b]) => {
-        const va = nodeVec[a],
-          vb = nodeVec[b];
-        let prev: { sx: number; sy: number; z: number } | null = null;
-        for (let s = 0; s <= SEG; s++) {
-          const m = slerp(va, vb, s / SEG);
-          const p = rot(m.x, m.y, m.z, ry, rx);
-          const sx = cx + p.x * R,
-            sy = cy + p.y * R;
-          if (prev) {
-            const zf = gclamp(((p.z + prev.z) / 2) * 0.5 + 0.5, 0, 1);
-            ctx.strokeStyle =
-              "rgba(" + T.accent + "," + (0.05 + zf * 0.33).toFixed(3) + ")";
-            ctx.beginPath();
-            ctx.moveTo(prev.sx, prev.sy);
-            ctx.lineTo(sx, sy);
-            ctx.stroke();
-          }
-          prev = { sx, sy, z: p.z };
-        }
-      });
-
-      // Sync pulses riding each arc, ciphertext in transit. Accent glow,
-      // hidden once they round the far side of the globe.
-      ctx.globalCompositeOperation = "lighter";
-      edges.forEach(([a, b], i) => {
-        const va = nodeVec[a],
-          vb = nodeVec[b];
-        const t = (time * 0.0038 + i / edges.length) % 1;
-        const m = slerp(va, vb, t);
-        const p = rot(m.x, m.y, m.z, ry, rx);
-        if (p.z <= -0.05) return;
-        const sx = cx + p.x * R,
-          sy = cy + p.y * R;
-        const fade = gclamp((p.z + 0.05) / 0.6, 0, 1);
-        const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, 9);
-        g.addColorStop(0, "rgba(" + T.accent + "," + (0.85 * fade).toFixed(3) + ")");
-        g.addColorStop(1, "rgba(" + T.accent + ",0)");
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(sx, sy, 9, 0, 6.2832);
-        ctx.fill();
-        ctx.fillStyle = "rgba(" + T.particleB + "," + (0.9 * fade).toFixed(3) + ")";
-        ctx.beginPath();
-        ctx.arc(sx, sy, 1.6, 0, 6.2832);
-        ctx.fill();
-      });
-
-      // Node glows, soft accent halo with a gentle breathing pulse; the hub
-      // (node 1) reads a touch larger. Drawn additively over the wireframe.
-      pts.forEach((p, i) => {
-        if (p.z <= -0.15) return;
-        const sx = cx + p.x * R,
-          sy = cy + p.y * R;
-        const depth = (p.z + 1) / 2;
-        const hubN = i === 1;
-        const pulse = 0.5 + 0.5 * Math.sin(time * 0.045 + i * 1.7);
-        const glowR = (hubN ? 13 : 8) + pulse * (hubN ? 4 : 2.5);
-        const gg = ctx.createRadialGradient(sx, sy, 0, sx, sy, glowR);
-        gg.addColorStop(
-          0,
-          "rgba(" + T.accent + "," + (0.4 * (0.5 + depth * 0.5)).toFixed(3) + ")",
-        );
-        gg.addColorStop(1, "rgba(" + T.accent + ",0)");
-        ctx.fillStyle = gg;
-        ctx.beginPath();
-        ctx.arc(sx, sy, glowR, 0, 6.2832);
-        ctx.fill();
-      });
-      ctx.globalCompositeOperation = "source-over";
-
-      // Solid node cores on top.
-      pts.forEach((p, i) => {
-        if (p.z <= -0.1) return;
-        const sx = cx + p.x * R,
-          sy = cy + p.y * R;
-        const depth = (p.z + 1) / 2;
-        const hubN = i === 1;
-        ctx.fillStyle = hubN
-          ? "rgba(" + T.particleB + "," + (0.6 + depth * 0.4).toFixed(3) + ")"
-          : "rgba(" + T.particleA + "," + (0.4 + depth * 0.6).toFixed(3) + ")";
-        ctx.beginPath();
-        ctx.arc(sx, sy, hubN ? 3.1 : 2.3, 0, 6.2832);
-        ctx.fill();
-      });
-
-      gRaf = requestAnimationFrame(draw);
-    };
-    draw();
-    if (reduce) cancelAnimationFrame(gRaf);
-  }
-
   // ---------- comparison rows ----------
   const cmp = $("[data-cmp-rows]") as HTMLElement | null;
   if (cmp) {
     const Y = '<span style="color:var(--success);font-weight:600;">✓</span>';
     const N = '<span style="color:var(--ink-4);">—</span>';
+    // "partial" is deliberately a WORD, not a symbol: paired with the footnote
+    // it is the one cell a reader has to look up, and a half-glyph would make
+    // it a puzzle. Its definition lives in the footnote, which is also where
+    // the Myne column's three partials are named.
     const P = '<span style="color:var(--warning);font-size:12px;">partial</span>';
-    // Columns: label, Myne, Obsidian+Cryptomator+Syncthing, Standard Notes,
-    // Joplin, Notesnook. Researched + adversarially verified against each
-    // tool's default config (see /spec + the workarounds research).
+    // Columns: label, Myne, Obsidian, Standard Notes, Joplin, Notesnook.
+    //
+    // Every competitor cell was re-checked against that tool's own docs and
+    // pricing in October 2026, and three of them moved LEFT after that check:
+    // Joplin does end-to-end encrypt the sync target (opt-in, off by default),
+    // Standard Notes does encrypt titles and tags, Notesnook does require an
+    // email (it is the salt in their key derivation), and Joplin's backlinks
+    // and graph are plugins rather than built-ins. A table that flatters us by
+    // misdescribing a competitor is a legal risk for this project, not a
+    // marketing win, and the footnote says what baseline each cell assumes:
+    // DEFAULT configuration, with Obsidian's add-ons stated rather than scored.
+    //
+    // "Signed builds" is one row rather than "reproducible, signed" because
+    // those are two different claims with three different answers, and the old
+    // single cell scored Notesnook "partial" for a reproducible-build check
+    // F-Droid records as FAILED. No vendor publishes a reproducible desktop
+    // build; every vendor signs something. See the footnote.
     const rows = [
       ["Encrypted by default", Y, N, Y, N, Y],
-      ["Encrypts titles & structure too", Y, N, P, P, Y],
+      ["Encrypts titles & structure too", Y, N, Y, P, Y],
       ["Plain markdown files", Y, Y, N, N, N],
-      ["Backlinks & graph, built-in", Y, Y, P, P, P],
-      ["No email at signup", Y, Y, P, Y, P],
+      ["Backlinks & graph, built-in", Y, Y, P, N, P],
+      // Two rows that only Myne answers YES/PARTIAL. Both were verified against
+      // the four vendors' own help pages rather than their marketing (October
+      // 2026): Obsidian's Sync markets real-time updating while its help page
+      // says it "does not yet support collaborative live editing on the same
+      // file"; its shared-vault team editing merges on sync, so the "live"
+      // qualifier is what makes the cell a NO rather than a YES. Obsidian and
+      // Joplin both record audio and neither transcribes it, so the row tests
+      // the pair rather than the recorder alone.
+      ["Live co-editing, built-in", Y, N, N, N, N],
+      ["Audio recording with transcription", P, N, N, N, N],
+      ["No email at signup", Y, Y, P, Y, N],
       ["User-held recovery, no reset", Y, P, P, P, P],
-      ["Zero-knowledge sync", P, P, Y, N, Y],
+      ["Zero-knowledge sync", P, P, Y, P, Y],
       ["Self-hostable sync", P, N, Y, Y, P],
       ["Open-source full stack", Y, N, Y, Y, Y],
       ["One integrated app", Y, Y, Y, Y, Y],
       ["No plaintext mode for notes", Y, N, Y, N, Y],
-      ["Reproducible, signed builds", P, N, N, P, P],
+      ["Signed builds", P, P, P, P, P],
       ["No feature paywall", Y, Y, P, Y, P],
     ];
-    rows.forEach((r, ri) => {
-      const row = document.createElement("div");
-      row.style.cssText =
-        "display:grid;grid-template-columns:minmax(0,2fr) repeat(5,minmax(0,1fr));" +
-        (ri < rows.length - 1
-          ? "border-bottom:1px solid rgb(var(--line-rgb) / 0.1);"
-          : "");
-      const cells = [
-        '<div style="padding:14px 18px;font-size:13.5px;color:var(--ink-1);">' +
-          r[0] +
-          "</div>",
-        '<div style="padding:14px 14px;border-left:1px solid rgb(var(--line-rgb) / 0.1);background:rgb(var(--accent-rgb) / 0.08);text-align:center;">' +
-          r[1] +
-          "</div>",
-        '<div style="padding:14px 14px;border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;">' +
-          r[2] +
-          "</div>",
-        '<div style="padding:14px 14px;border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;">' +
-          r[3] +
-          "</div>",
-        '<div style="padding:14px 14px;border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;">' +
-          r[4] +
-          "</div>",
-        '<div style="padding:14px 14px;border-left:1px solid rgb(var(--line-rgb) / 0.1);text-align:center;">' +
-          r[5] +
-          "</div>",
-      ];
-      row.innerHTML = cells.join("");
-      cmp.appendChild(row);
+    rows.forEach((r) => {
+      const tr = document.createElement("tr");
+      const th = document.createElement("th");
+      th.scope = "row";
+      th.textContent = r[0];
+      tr.append(th);
+      for (let i = 1; i <= 5; i++) {
+        const td = document.createElement("td");
+        if (i === 1) td.className = "is-myne";
+        td.innerHTML = r[i];
+        tr.append(td);
+      }
+      cmp.append(tr);
     });
   }
 
@@ -1161,7 +779,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       ],
       [
         "Is it ready to use?",
-        "It works, and it is not ready for you. Myne is pre-alpha and in private testing: the spec and the threat model are public and still in draft, the desktop app is being tested with a small group, and there is no public download.",
+        "It works, and it is not ready for you. Myne is in alpha and in private testing: the spec and the threat model are public and still in draft, the desktop app is being tested with a small group, and the installers are on the download page with a signed checksum list rather than hidden.",
       ],
     ];
     // Accordion: only one panel stays open at a time. Each entry registers a

@@ -1,7 +1,7 @@
 ---
 title: "Turn on sync"
 category: "sync-and-devices"
-updated: 2026-10-22
+updated: 2026-10-23
 summary: "Choose a sync server, publish the vault you want on it, accept the beta terms on this device, and connect your first device. Covers what identifies your account instead of an email, how Myne checks the server's certificate automatically, the browser client's fixed server, and the first-device self-approval."
 tags: ["sync", "settings", "devices"]
 ---
@@ -14,7 +14,7 @@ Turning on sync has four parts: pointing Myne at a server, publishing the vault 
 
 - An unlocked vault.
 - A sync server address: the `https://` address of the server you run yourself. Myne operates no server of its own. If you do not have one yet, [Run your own sync server](/user-guide/sync-and-devices/run-your-own-sync-server/) brings one up on a machine you control.
-- The identity that owns the vault, unlocked, and registered with that server. A vault created from your identity is bound to it, and publishing needs the identity present. If the identity is not registered yet, Myne says so and points you at your identity home.
+- The identity that owns the vault, unlocked, and registered with that server. A vault created from your identity is bound to it, and publishing needs the identity present. If the identity is not registered yet, the publish row says so, and the **Identity** block above it offers **Register this identity**.
 - Your account number, only if the vault still has its own. A vault created before identities existed, and a vault created in a browser, still carries a vault account number, and Myne asked you to save it once at creation. A vault created from your identity has no number of its own.
 
 ## What identifies your account
@@ -30,14 +30,17 @@ Neither number is an encryption key, and neither decrypts anything on its own. B
 
 1. Open **Settings** (the gear in the bottom bar, or `⌘,` / `Ctrl ,`) and select the **Sync** panel. Its **Connection** tab, the first, holds the server address.
 2. Under **Sync server**, enter the server URL. Use the `https://` address for the server you run; a local server on the same machine can use its loopback `http://` address.
-3. If your server is a closed beta, it also asks for an **invite code** — the shared code the operator gave you. Enter it in the **Invite code** field under the address. An open server needs none, and the field is safe to leave empty; a server that requires a code refuses a new account without it, with a message that says so rather than a generic failure. Adding another device to an account you already have does not ask for the code again.
+3. If your server is a closed beta, it also asks for an **invite code** — the shared code the operator gave you. Enter it in the **Invite code** field under the address. An open server needs none, and the field is safe to leave empty; a server that requires a code refuses a new account without it, with a message that says so rather than a generic failure. Adding another device to an account you already have does not ask for the code again. Registering an identity does not clear a stored code, so a closed-beta server keeps its admission word.
 4. Choose **Connect**. Once connected, the button rests as a disabled **Connected**; it becomes available again as soon as you edit the address.
+5. If this device holds an identity that has never been registered, its **Identity** block above the server offers **Register this identity**. Registering asks for your 24 words, and it asks for the server address too if the device has none, so it can be done here on a device whose identity was created without one. Registering is a server-facing act, so the beta-terms consent comes first.
 
 For an `https` server, Myne checks the server's certificate against the public certificate authorities and checks the server name, on the first connection and every one after it. There is nothing for you to set up and no fingerprint to compare. Every `https` server is checked the same way. A loopback `http` server has no TLS, so there is no certificate to check. [Server certificates](/user-guide/sync-and-devices/server-certificates/) covers what the check does and does not prove.
 
 Enter the **same** server URL on every device you want to sync.
 
 ## Publish the vault
+
+Publishing binds this vault to your identity and records where it lives on the server. A refusal is reported in red on the row itself, with the reason, and the button stays available so you can retry once the cause is fixed. The commonest reason is an identity that has never been registered, and the same panel holds the fix.
 
 Setting a server does not put a vault on it. A vault you created stays device-local until you publish it, and publishing is an explicit act, so you know when a vault stops being yours alone.
 

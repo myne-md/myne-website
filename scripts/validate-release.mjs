@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Build gate for src/data/release.ts — the download page's only source of truth.
+// Build gate for src/data/releases.json — the download page's only source of truth.
 //
 // ── What it prevents ────────────────────────────────────────────────────────
 //
@@ -15,78 +15,118 @@
 //
 // It does not fetch anything from downloads.myne.md. Checking these values
 // against the origin they exist to check would be circular: a compromised
-// origin would supply both halves and they would agree. The values are copied
-// by hand from the verified staging tree (runbooks/downloads-origin.md §4b),
-// and this script only proves they are well-formed and self-consistent.
+// origin would supply both halves and they would agree. The snapshot is written
+// by scripts/sync-releases.mjs, which verifies the origin's SIGNED index before
+// writing (so the origin cannot forge it without the offline key), and this
+// script is the offline half: it proves the committed file is well-formed and
+// self-consistent, and it runs in `pnpm build` on every push.
+//
+// The thing neither half can prove is that the published bytes were built from
+// the published source. That is A9's residual and it is stated on the page.
 //
 // Run: node scripts/validate-release.mjs  (wired into `pnpm build`)
 
 import { readFileSync } from "node:fs";
 
-const SRC = "src/data/release.ts";
-const src = readFileSync(SRC, "utf8");
+const SRC = "src/data/releases.json";
 const fail = [];
 
-const str = (name) => {
-  const m = src.match(new RegExp(`export const ${name} = "([^"]*)"`));
-  if (!m) fail.push(`${name}: not found in ${SRC}`);
-  return m?.[1];
-};
+const HEX64 = /^[0-9a-f]{64}$/;
+const TAG = /^v\d+\.\d+\.\d+$/;
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+const PUBKEY = /^RW[A-Za-z0-9+/]{40,}={0,2}$/;
 
-const tag = str("RELEASE_TAG");
-const version = str("RELEASE_VERSION");
-const date = str("RELEASE_DATE");
-const pubkey = str("MINISIGN_PUBKEY");
-const origin = str("DOWNLOADS_ORIGIN");
-
-if (tag && !/^v\d+\.\d+\.\d+$/.test(tag)) fail.push(`RELEASE_TAG is not vX.Y.Z: ${tag}`);
-if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) fail.push(`RELEASE_DATE is not YYYY-MM-DD: ${date}`);
-if (tag && version && tag !== `v${version}`) {
-  fail.push(`RELEASE_TAG (${tag}) and RELEASE_VERSION (${version}) disagree`);
-}
-if (origin && !origin.startsWith("https://")) fail.push(`DOWNLOADS_ORIGIN is not https: ${origin}`);
-
-// The placeholder that shipped in this file before the key was minted. A page
-// telling people to run `minisign -P RWQ__PENDING_KEY_MINT__` is worse than one
-// that omits verification, because it reads as a verification step.
-if (pubkey === "RWQ__PENDING_KEY_MINT__" || /PENDING|TODO|XXX/i.test(pubkey ?? "")) {
-  fail.push("MINISIGN_PUBKEY is still a placeholder");
-} else if (pubkey && !/^RW[A-Za-z0-9+/]{40,}={0,2}$/.test(pubkey)) {
-  fail.push(`MINISIGN_PUBKEY is not a minisign public key: ${pubkey}`);
+let data;
+try {
+  data = JSON.parse(readFileSync(SRC, "utf8"));
+} catch (err) {
+  console.error(`validate-release: cannot read ${SRC}: ${err.message}`);
+  process.exit(1);
 }
 
-// Assets: every filename must carry the version it claims to be, or the page
-// links a real file from a DIFFERENT release with this release's hash beside
-// it — which fails verification at the user's machine and looks like tampering.
-const assets = [...src.matchAll(
-  /name:\s*"([^"]+)",\s*bytes:\s*(\d+),\s*sha256:\s*"([^"]*)"/g,
-)].map(([, name, bytes, sha256]) => ({ name, bytes: Number(bytes), sha256 }));
+const assetTotal = (data.releases ?? []).reduce(
+  (n, r) => n + (r.assets?.length ?? 0),
+  0,
+);
 
-if (assets.length === 0) fail.push("ASSETS is empty");
-const seen = new Set();
-for (const a of assets) {
-  if (seen.has(a.name)) fail.push(`duplicate asset: ${a.name}`);
-  seen.add(a.name);
-  if (!/^[0-9a-f]{64}$/.test(a.sha256)) fail.push(`${a.name}: sha256 is not 64 lowercase hex`);
-  if (!(a.bytes > 0)) fail.push(`${a.name}: bytes must be positive`);
-  // The `myne-decrypt-*` CLI binaries are named without a version by convention
-  // (they are the tool, not a release of an app) and the origin serves them that
-  // way, so the version-in-name rule is exempt for them. Everything else must
-  // carry the version, or the page links a real file from a DIFFERENT release
-  // with this release's hash beside it.
-  const isVersionless = a.name.startsWith("myne-decrypt-");
-  if (version && !isVersionless && !a.name.includes(version)) {
-    fail.push(`${a.name}: filename does not contain ${version}`);
+// The placeholder that shipped before the key was minted. A page telling people
+// to run `minisign -P RWQ__PENDING_KEY_MINT__` is worse than one that omits
+// verification, because it reads as a verification step.
+const keys = [data.pubkey, ...(data.pubkeys ?? [])].filter(Boolean);
+if (keys.length === 0) fail.push("no signing key in the snapshot");
+for (const key of keys) {
+  if (/PENDING|TODO|XXX/i.test(String(key))) {
+    fail.push(`signing key is still a placeholder: ${key}`);
+  } else if (!PUBKEY.test(String(key))) {
+    fail.push(`not a minisign public key: ${key}`);
   }
 }
-const hashes = new Set(assets.map((a) => a.sha256));
-if (hashes.size !== assets.length) fail.push("two assets share a sha256 — copy/paste error");
+
+if (data.origin !== "https://downloads.myne.md") {
+  fail.push(`origin is not the downloads origin: ${data.origin}`);
+}
+
+const releases = Array.isArray(data.releases) ? data.releases : [];
+if (releases.length === 0) fail.push("the roster is empty");
+
+const tags = new Set();
+for (const r of releases) {
+  const where = r.tag ?? "(no tag)";
+  if (!TAG.test(String(r.tag))) fail.push(`${where}: tag is not vX.Y.Z`);
+  if (tags.has(r.tag)) fail.push(`${where}: duplicate tag`);
+  tags.add(r.tag);
+  if (!DATE.test(String(r.date))) fail.push(`${where}: date is not YYYY-MM-DD`);
+  if (r.tag !== `v${r.version}`) {
+    fail.push(`${where}: tag and version disagree (${r.tag} vs ${r.version})`);
+  }
+  if (!Array.isArray(r.assets) || r.assets.length === 0) {
+    fail.push(`${where}: no assets`);
+    continue;
+  }
+  const names = new Set();
+  for (const a of r.assets) {
+    if (!a.name) fail.push(`${where}: asset with no name`);
+    if (names.has(a.name)) fail.push(`${where}: duplicate asset ${a.name}`);
+    names.add(a.name);
+    if (!HEX64.test(String(a.sha256))) {
+      fail.push(`${where}/${a.name}: sha256 is not 64 lowercase hex`);
+    }
+    if (!Number.isInteger(a.bytes) || a.bytes <= 0) {
+      fail.push(`${where}/${a.name}: size is not a positive integer`);
+    }
+  }
+}
+
+// Newest first, because the page renders the list in order and a roster that
+// sorts by accident is a roster whose next edit lands the new release at the
+// bottom. Dates are the sort key, not tags: v0.10.0 sorts before v0.9.0 as a
+// string.
+const dates = releases.map((r) => String(r.date));
+const sorted = [...dates].sort((a, b) => b.localeCompare(a));
+if (dates.join() !== sorted.join()) fail.push("releases are not newest-first by date");
+
+// Both channels must name a release in the roster, or the page throws at build
+// time with a message a reader of the output cannot act on.
+for (const channel of ["stable", "beta"]) {
+  const tag = data.channels?.[channel];
+  if (!tag) fail.push(`no ${channel} channel`);
+  else if (!releases.some((r) => r.tag === tag)) {
+    fail.push(`${channel} channel points at ${tag}, which is not in the roster`);
+  }
+}
+
+// A floor on the roster. Every check above is a loop, and a loop over an empty
+// set passes: this is what stops a bad merge that empties the file from
+// reporting green.
+if (assetTotal < 1) fail.push("the roster carries no assets at all");
 
 if (fail.length) {
-  console.error(`validate-release: FAIL (${fail.length})`);
+  console.error("validate-release: FAILED");
   for (const f of fail) console.error(`  - ${f}`);
   process.exit(1);
 }
+
 console.log(
-  `validate-release: OK — ${tag}, ${assets.length} assets, key ${pubkey.slice(0, 8)}…`,
+  `validate-release: ok — ${releases.length} releases, ${assetTotal} assets, ` +
+    `stable ${data.channels.stable}, beta ${data.channels.beta}`,
 );

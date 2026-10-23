@@ -1,23 +1,29 @@
 ---
 title: "When a page asks for your recovery phrase"
 category: "safety-and-recovery"
-updated: 2026-08-24
-summary: "Myne's browser client asks for your 24 words in exactly one situation: a recovery you started yourself after forgetting your password. It never asks for them to sign you in and never to add a device. How to apply that rule, and what Myne cannot check for you."
+updated: 2026-10-22
+summary: "Where Myne's browser client asks for your 24 words now that one phrase is the account: the deliberate identity and unlock actions it belongs to, the situations it does not belong to, what someone gains if they get the words, and what Myne cannot check for you."
 tags: ["recovery", "security", "privacy"]
 ---
 
-A page asking for your 24 recovery words is either a recovery you started yourself, or it is not Myne. That is the whole rule. This article covers where the rule applies, what someone gains if they get the words out of you, what to check before you type them, and the one thing on that page Myne cannot protect you from.
+One phrase now opens every vault you own, so there is no longer a single situation in which a browser asks for your 24 words. This article says where the words belong, where they do not, what someone gains if they get them out of you, and what Myne cannot check for you.
 
-## The rule
+## Where the words belong
 
-In a browser, Myne asks for your recovery phrase in exactly one situation: an **unlock with recovery phrase** that you started yourself, after forgetting your master password. Two things follow from that, and they are the half you can act on:
+In a browser, Myne asks for your phrase only inside an action **you** started, and only for one of these:
 
-- **Myne never asks for your phrase to sign you in.** Signing in to a browser takes your account number and your master password.
-- **Myne never asks for your phrase to add a device.** Adding a device in a browser takes your account number and your master password, and nothing else.
+- **Creating your identity**, and typing four of its words back to prove you wrote them down.
+- **Registering the identity** with a sync server, where the words prove the identity is yours.
+- **Unlocking a vault** whose recovery credential is your identity rather than a vault phrase. On such a vault the recovery link under the password field reads **Use your identity phrase**.
+- **Joining a device** to your account, where the words prove the device belongs to you.
+- **A recovery you started yourself**, after forgetting a password.
 
-The browser does show you the phrase once, when you create a vault there. That is the same rule seen from the other side: Myne shows the words in a creation you started, and asks for them in a recovery you started. There is no third occasion.
+Two situations the words do not belong to, and they are the half you can act on:
 
-That rule is worth trusting because it is a property of the code rather than a promise about intent. The phrase-as-a-credential path for joining a device is left out of the browser build entirely rather than switched off, so the 24-cell grid the desktop app uses for that is not in what your browser downloads. Outside a recovery you began, an honest Myne page has neither a reason nor a means to ask.
+- **Signing in to an existing account to reach its notes** takes the account number and a password, not the phrase.
+- **The vault of someone who invited you** opens with the password you set for this device. Your phrase is the portable way back in, not the everyday door.
+
+A page that asks outside those actions is not Myne. That inference is weaker than it used to be, because the list is longer than one line, and this article will not pretend otherwise: **read the address, and never type the words into a page a message or an email sent you to.**
 
 This rule is newer than the app. The browser client could not create an account or recover one until recently, so it had no reason to ask for the phrase at all, and for a while "a web page asking for your Myne phrase is fake" needed no thought. It can create and recover now. The rule above replaces what used to be a plain fact, which is why it is worth learning rather than assuming.
 
@@ -52,12 +58,12 @@ The remedy is to move the sensitive steps somewhere an extension is not: create 
 ## What this does not change
 
 - **The desktop and mobile apps do not have this problem.** An app installed on your machine cannot be impersonated by a web address: it is a file you downloaded once and kept, rather than code re-delivered from an address on every visit. See [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/) for how the two differ.
-- **The apps ask for the phrase in places the browser does not**, and that is expected rather than suspicious: adding a device from a device that already holds the vault, and the one-time [vault format upgrade](/user-guide/safety-and-recovery/upgrade-your-vault-format/). Both happen inside an app you installed and opened yourself.
+- **A browser asks in more places than it used to**, and that is expected rather than suspicious: the identity actions above became possible when one phrase became the account. The [vault format upgrade](/user-guide/safety-and-recovery/upgrade-your-vault-format/) is still offered only in the desktop and mobile apps.
 - **Nothing about how your notes are encrypted is affected.** This page is about a credential being talked out of you, not about the vault's protection failing.
 
 ## Limits
 
-**Myne cannot tell you that a page is fake.** There is no check in the app, no warning, and no list of bad addresses. The rule at the top of this page is one you apply; it is not one the software applies for you. What Myne can do is keep the rule true and narrow, by asking for the phrase in exactly one place and keeping the device-joining phrase grid out of the browser build rather than merely hidden inside it. That is containment, not prevention, and the difference is worth being clear about: it makes the rule learnable, and it stops nobody who types 24 words into a lookalike address.
+**Myne cannot tell you that a page is fake.** There is no check in the app, no warning, and no list of bad addresses. The rule at the top of this page is one you apply; it is not one the software applies for you. What Myne can do is state where it asks and where it does not, because the browser now asks in several deliberate situations: creating or registering an identity, joining a device, and unlocking a vault whose recovery credential is the identity. There is no longer a one-place rule to learn, and this page will not pretend there is. That is disclosure, not prevention, and the difference is worth being clear about: it stops nobody who types 24 words into a lookalike address.
 
 The protections that make the real client trustworthy do not touch this. Reproducible builds, the bundle-hash record, the strict content policy, and the certificate check against public authorities all address a Myne bundle or a Myne connection being tampered with. A phishing page is neither: it is an ordinary web page at an address that is not Myne's, and it can be served over a perfectly valid, perfectly secure connection. Likewise, the measures that bind the honest address to an encrypted connection say nothing at all about a different address that merely resembles it.
 

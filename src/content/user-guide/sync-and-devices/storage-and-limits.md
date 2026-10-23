@@ -1,7 +1,7 @@
 ---
 title: "Storage and account limits"
 category: "sync-and-devices"
-updated: 2026-10-18
+updated: 2026-10-22
 summary: "The Storage and devices block in Sync settings shows encrypted data stored against a ceiling, your signed-in device count against a cap, and a frozen badge when uploads are paused. It also covers the refusal states (over your limit, an oversize file, a frozen account), where your device keeps downloading but uploads are held, so nothing is lost."
 tags: ["sync", "devices", "settings", "security"]
 ---
@@ -19,6 +19,14 @@ The figures are read once when you open the panel; they reflect what the server 
 The **Storage** row shows the encrypted data stored for your account against its ceiling, with a small meter beneath it. The number counts ciphertext — the server stores only encrypted blobs it cannot read, so this is a measure of size, not of anything readable (see [How sync works](/user-guide/sync-and-devices/how-sync-works/)).
 
 When your account has no ceiling, the row shows the amount stored with no meter and no limit language. There is nothing to measure against, so Myne does not invent a bar.
+
+### When the account is your identity
+
+An account that came from your identity holds several vaults, so the figure is one total rather than one vault's: it adds up the encrypted bytes of **every vault you own**, and the row names how many vaults it spans. A vault you merely **joined** does not count. A member's bytes belong to the vault's owner, who is the one who can free them, and counting them here would show you a number you cannot act on while the owner's account counted them too.
+
+There is no meter on this figure, even when the server reports a ceiling for the account. The owner's ceiling is **reported, never enforced**: uploads are judged against each vault's own limit, so a bar against the account total would warn you about a limit that cannot stop a save. What you can do with the number is plan: a vault that is growing faster than the rest is visible here, and removing a device or a note frees its bytes in the vault it belongs to.
+
+A shared vault is where this matters most: your own figure stops at the vaults you own, so joining a large vault does not inflate your total and does not change what you can store.
 
 ## Devices
 
@@ -46,7 +54,7 @@ There is a fourth state that reads almost the same and is not about your account
 
 These are the server's availability limits, not properties of your encryption. Myne states what they do and do not cover, and does not claim more:
 
-- **The figures are usage metadata, not a new exposure.** Counting your stored ciphertext bytes and your device count does not require reading your notes, and both figures are the same usage metadata the operator can already see, described in [How sync works](/user-guide/sync-and-devices/how-sync-works/). The meter shows a size, never content.
+- **The figures are usage metadata, not a new exposure.** Counting your stored ciphertext bytes and your device count does not require reading your notes, and both figures are the same usage metadata the operator can already see, described in [How sync works](/user-guide/sync-and-devices/how-sync-works/). The meter shows a size, never content. On an identity's account the operator can also add those figures up per person, because the account owns several vaults; that is the same person-to-vault mapping a shared vault already exposes, described in [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/).
 - **The numbers are the server's own report.** They are the server's accounting of your account, read once when you open the panel. A server you do not run reports its own figures; treat them as its bookkeeping, not an independent guarantee, and reopen the panel to refresh them.
 - **A freeze is an availability control, not a cryptographic one.** An operator can pause what your account uploads, block a new enrolment, and — on a substantiated report — delete the account outright. None of that lets the server read or forge your notes, and none of it reaches the notes already on this device. Downloads are never blocked by a freeze, so a frozen account keeps receiving other devices' changes. Keep your own [backups](/user-guide/safety-and-recovery/back-up-your-vault/) if an account you do not run holds your only copy.
 - **Refusing an upload does not lose it.** A quota, oversize, or freeze refusal holds your change on this device; it does not delete it and does not silently drop it. This is not a durability promise for the vault as a whole — for that, keep your own [backups](/user-guide/safety-and-recovery/back-up-your-vault/).

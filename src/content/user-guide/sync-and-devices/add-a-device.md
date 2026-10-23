@@ -1,20 +1,21 @@
 ---
 title: "Add a device"
 category: "sync-and-devices"
-updated: 2026-10-19
-summary: "Connect another device to your account and approve it. Covers the beta terms, joining from a fresh device or one that already holds the vault, naming the device, pairing by a QR code, comparing a verification code, what Myne says when the server refuses an enrolment, and a member's second device joining from the recovery phrase alone."
+updated: 2026-10-22
+summary: "Connect another device to your account and approve it. Covers bringing your identity to a new device with one join code and the 24 words, joining a vault that still carries its own number, the beta terms, QR pairing, the verification code, and a member's own second device."
 tags: ["devices", "sync", "recovery"]
 ---
 
-Adding a device connects it to your account so it syncs the same notes. A device you add with your password waits until a device that already has access approves it, and both devices then compare a short verification code to confirm they are on the same account. This page covers both ends of that flow, and the shorter path a member of a shared vault takes when they bring in a second device of their own.
+Adding a device connects it to your account so it syncs the same notes. If your vault came from your identity, the shortest path is one join code from an existing device and your 24 words: the new device then sees every vault the identity owns, and you approve it once. The older path, for a vault that still has its own account number, signs in with that number and a password or the vault phrase. Either way both devices compare a short verification code to confirm they are on the same account. This page covers both paths, and the one a member of a shared vault takes for their own second device.
 
 ![The Add a device form in Sync settings, where you sign a new device in to your account.](./add-a-device.png)
 
 ## Prerequisites
 
 - Sync already turned on for the account (see [Turn on sync](/user-guide/sync-and-devices/turn-on-sync/)).
-- Your account number, and either your password or your 24-word recovery phrase.
-- The sync server URL.
+- For an identity-owned vault: a device that already holds the identity, unlocked, so it can show a join code, and the identity's 24 words for the new device. No account number is involved.
+- For a vault with its own account number: that number, and either the vault's password or its 24-word recovery phrase.
+- The sync server URL, unless the join code carries it.
 - Accepting the beta terms on the device you are adding.
 
 ## Accept the beta terms
@@ -25,7 +26,22 @@ Choose **I understand, turn on sync** to continue, or **Cancel** to leave it for
 
 ## On the new device
 
-There are two starting points, depending on whether the device already has your vault:
+### Bringing your identity to a new device
+
+This is the path for a vault that came from your identity, and it works for every vault that identity owns.
+
+1. On a device that already has the identity, open **Settings → Sync → Devices and members**, and choose the **+** next to **Devices**. If the vault came from your identity, the dialog is **Add a device to your identity** and it needs no input from you: the code names your account and your server. If it asks for an account number instead, this vault still has its own and you are on the other path below.
+2. On the new device, choose **Add this device to an account**, then **I have a join code**, and paste or scan the code. On a phone you can scan it directly.
+3. Type your **24 words** when asked. The code named the identity; the words prove it is yours. Myne says what happens next: this device will ask for each vault's own password when you open one.
+4. The new device lands on **Waiting for approval**. Keep that screen open.
+5. On the first device, find the new device under **Devices**, now awaiting approval, and choose **Approve**. Compare the short code both screens show, then confirm on each.
+6. The new device finishes on its own: it lists every vault the identity owns, and each one opens with its own master password. No vault key crosses in the clear, and no password is shared between devices.
+
+If the new device restarts before the approval arrives, it asks for the phrase once more; that is the same session-only rule that applies after a reload in a browser. Nothing else has to be redone.
+
+### Joining with an account number
+
+There are two starting points, depending on whether the device already has the vault:
 
 - **A fresh device with no vault.** On the welcome screen, choose **Add this device to an account**. Enter the sync server URL and your account number, then sign in with either your **password** or your **recovery phrase** (a 24-cell grid; you can paste all 24 words at once to distribute them). **Name this device** comes filled in with a suggestion based on the kind of machine you are on. Edit it or leave it; it is the name your other devices show in their device list, and you can rename it later. Myne fetches your encrypted vault from the server and connects the device. The password path then waits for a device that already has access to approve it. The recovery phrase is the door for when there is no such device left: it adds this device without approval and then asks you to set a new password, because the phrase is the key you use when you may not know the old one.
 - **A device that already has the vault.** Open **Settings → Sync**. If the device is not yet a member of the account, an **Add a device** section appears. Enter your account number, then sign in with either your **password** or your **recovery phrase** (a 24-cell grid — you can paste all 24 words at once to distribute them). This form carries the same **Name this device** field, with the same suggestion and the same note that you can change it later.
@@ -34,16 +50,22 @@ As you type your account number, Myne formats it for you (grouping and the `MY-`
 
 When you submit, the device connects and, for the password path, shows that it is **waiting for approval**. Keep that window open. The first device on an account, and any device added with the recovery phrase, self-approve and skip the wait.
 
-In a browser, reloading during the wait is safe: the page asks for your master password and then returns you to the same wait. It does not start the enrolment over, and nobody has to approve the browser twice.
+In a browser, reloading during the wait is safe: for a vault with its own account number the page asks for your master password and returns you to the same wait, and for an identity it asks for the 24 words again. It does not start the enrolment over, and nobody has to approve the browser twice.
 
 ## Pair with a QR code
 
-Instead of typing your account number on the new device, a device that is already signed in to the account can show a QR code the new device scans. The QR fills in the sync server address and account number for you. It never carries your master password or recovery phrase, so the new device still signs in with its own password and still goes through approval.
+Instead of typing anything on the new device, a device that is already signed in can show a QR code the new device scans. There are three kinds, and each names the right thing and carries no secret:
+
+- **Add a device to your identity** needs no input: the code names your account and server, and the new device is asked for the 24 words.
+- **Add a device with a QR** is the account-number kind. It fills in the sync server address and the vault's account number, and the new device signs in with its own password.
+- **Add your own device** is a member's, for a shared vault: it names the vault, and the new device is asked for the 24 words.
+
+In every case the code carries no password and no recovery phrase, and the new device still goes through approval.
 
 On a device that already has access:
 
 1. Open **Settings → Sync → Devices and members**, then choose the **+** next to **Devices** to open **Add a device with a QR**.
-2. Paste your account number into the **Account number** field. Myne does not store your account number, so you supply it here from your own saved copy.
+2. For the account-number kind, paste your account number into the **Account number** field: Myne does not store that number, so you supply it from your own saved copy. The identity kind has no field at all.
 3. Choose **Make QR**. A QR code appears, labelled **Scan with the iOS app**. The code carries the Myne mark in its centre, so the person scanning can see at a glance that it is a Myne code and not some other QR on the screen.
 4. On the new device, open the Myne app and scan the code. The sync server address and account number are filled in for you; enter that device's password to continue.
 
@@ -106,4 +128,4 @@ A wrong account number, a wrong password and a wrong recovery phrase all produce
 
 ## Limits
 
-The verification code is what protects a newly added device: a fresh device has no prior history to check against, so on its first sync it cannot detect a rolled-back or forked history on its own. Comparing the code out of band, reading it off both screens, is the step that closes that gap, which is why a mismatch leads to removing the device rather than continuing, through the ordinary removal confirmation, so the destructive step is one you answer for. A mismatch is the one signal that the server or the history may be wrong, so Myne never closes that screen unless the device was really disconnected. Adding a device with your recovery phrase self-approves and so skips the pending gate; that is a deliberate, accepted trade-off. Approving a device grants it ongoing sync access to your account's notes; if you later remove it, that revokes access going forward but does not reach back into what the device already holds (see [Managing devices](/user-guide/sync-and-devices/managing-devices/)). A QR code changes how the new device receives the sync server address and the account number, not what has to be verified afterwards. The code carries no password or recovery phrase, so the worst a tampered or swapped code can do is point the new device at the wrong account or server, which your password cannot unlock; a bad code fails the join rather than granting access. The reverse direction is not bounded the same way: the freshness window stops a photograph of your own code being used to join later, but the account number inside that photograph never expires. The new device still signs in with its own password, still waits for approval, and still compares the verification code. Scanning the code is done in the Myne app; today that scanner is the iOS app.
+The verification code is what protects a newly added device: a fresh device has no prior history to check against, so on its first sync it cannot detect a rolled-back or forked history on its own. Comparing the code out of band, reading it off both screens, is the step that closes that gap, which is why a mismatch leads to removing the device rather than continuing, through the ordinary removal confirmation, so the destructive step is one you answer for. A mismatch is the one signal that the server or the history may be wrong, so Myne never closes that screen unless the device was really disconnected. Adding a device with your recovery phrase self-approves and so skips the pending gate; that is a deliberate, accepted trade-off. Approving a device grants it ongoing sync access to your account's notes; if you later remove it, that revokes access going forward but does not reach back into what the device already holds (see [Managing devices](/user-guide/sync-and-devices/managing-devices/)). On an identity-owned account the approval and the removal are per device for the whole account, not per vault: a device you add sees every vault the identity owns, and one removal stops all of them. A QR code changes how the new device receives the sync server address and the account number, not what has to be verified afterwards. The code carries no password or recovery phrase, so the worst a tampered or swapped code can do is point the new device at the wrong account or server, which your password cannot unlock; a bad code fails the join rather than granting access. The reverse direction is not bounded the same way: the freshness window stops a photograph of your own code being used to join later, but the account number inside that photograph never expires. The new device still signs in with its own password, still waits for approval, and still compares the verification code. Scanning the code is done in the Myne app; today that scanner is the iOS app.

@@ -1,18 +1,22 @@
 ---
 title: "Create your vault"
 category: "getting-started"
-updated: 2026-10-16
-summary: "The vault-creation wizard: a short safety briefing, then a master password, a recovery phrase you save, a few words to confirm, and an account number. Plus the one consequence to understand before you start."
+updated: 2026-10-22
+summary: "The vault-creation flow after your identity exists: a short safety briefing, a name for the vault, a master password, and the vault opens. No vault recovery phrase and no account number, because the identity you just created is both."
 tags: ["vault", "basics"]
 ---
 
-Creating your first vault opens with a short safety briefing, then runs a four-step wizard: set a master password, save your recovery phrase, confirm a few of its words, and save your account number. At the end Myne opens the vault on a small set of example notes it seeds for you. The whole thing takes a couple of minutes, but one decision in it is permanent, so read the briefing and the password step before you rush through them.
+Creating your first vault opens with a short safety briefing, then asks for a name and a master password, and creates the vault. There is no recovery phrase to save and no account number to copy, because your identity covers both. The whole thing takes a couple of minutes, and one of the screens still asks you to understand something permanent before you start.
 
 ![A vault is a folder of encrypted files on your device: each note is its own encrypted file, and until you turn on sync, nothing leaves your device.](./create-your-vault.svg)
 
 ## Getting here
 
-Myne now organises a first run around your **identity** rather than around a single vault. When you open Myne with no vault and no identity, you are offered two doors: **Create an identity** and **Create a local vault instead**. This article covers the second, which is also what you reach after creating an identity. If you are deciding between them, read [Create your identity](/user-guide/getting-started/create-your-identity/) first: an identity is what lets people invite you to their vaults and what lets one identity own several vaults, while a local vault with no identity is a perfectly good offline setup you can bind to an identity later from **Settings → Sync → Connection**.
+There is one way in. On a fresh Myne, the welcome screen offers **Create your identity and vault**, which runs the [identity ceremony](/user-guide/getting-started/create-your-identity/) and then continues here. There is no separate door for a vault on its own, and no step to skip: the identity is what makes the vault recoverable, so it comes first.
+
+You come back here later through **Create another vault**, from the vault picker or the vault switcher. That entry skips the briefing and goes straight to the name, because you have already read it once.
+
+Creating a vault needs your identity to be unlocked. In the first run it is, because you just made it. If you are creating an additional vault in a later session and the identity is locked, Myne stops and says **Unlock your identity first**: the key it is about to seal belongs to the identity, and sealing it while the identity is locked would leave a vault nobody could recover.
 
 ## Before you begin: the safety briefing
 
@@ -22,43 +26,45 @@ The first time you create a vault, Myne opens with a short briefing — three pl
 - **Your recovery phrase is your only backup.** It is the one way back in if you forget the password. If you lose both your password and recovery phrase, your notes are unrecoverable. We cannot help.
 - **There is no email recovery, and there never will be.** Myne never asks for your email, so there is no reset link.
 
-Each fact has a **Why?** you can expand for the reasoning, and its own acknowledgement checkbox. **Continue to vault creation** stays disabled until all three are ticked; **Back** returns to the Welcome screen without creating anything. The briefing is shown only the first time, on this create flow — when you later create an additional vault from the picker, Myne goes straight to the password step.
+The phrase the second fact names is your **identity phrase**, which you saved a moment ago. Each fact has a **Why?** you can expand for the reasoning, and its own acknowledgement checkbox. **Continue to vault creation** stays disabled until all three are ticked; **Back** returns to the screen you came from without creating anything.
 
-## Step 1: Set a master password
+## Step 1: Name your vault
 
-Choose a password that protects this vault. Myne enforces a floor: at least 12 characters, and a strength the meter accepts. There is no email, no security question, and no reset link behind it. The password is one of the two things that can open the vault.
+Give the vault a name. You will see it on the lock screen and in your vault list, and you can change it later. The name is stored encrypted inside the vault, but it is shown on the startup picker before you unlock, so anyone who can see that screen can read it; the Privacy setting to hide vault names turns that off.
+
+## Step 2: Set a master password
+
+Choose a password that protects this vault. Myne enforces a floor: at least 12 characters, and a strength the meter accepts. There is no email, no security question, and no reset link behind it. This password, and your identity phrase, are the two things that can open the vault.
 
 After you continue, Myne pauses for about a second. That pause is the key derivation: Myne deliberately makes turning your password into a key slow, so that guessing passwords is expensive for anyone who copies your files.
 
-> **This is the decision to understand.** Your vault has two credentials: this password and the recovery phrase you are about to see. Either one alone unlocks the vault. But if you lose **both**, the data is permanently unrecoverable. No support channel, no email, and no server can recover it or provide a partial way back; Myne never holds a copy of your keys. Save both before you go on.
+> **This is the decision to understand.** Your vault has two credentials: this password and the identity phrase you saved a minute ago. Either one alone unlocks the vault. But if you lose **both**, the data is permanently unrecoverable. No support channel, no email, and no server can recover it or provide a partial way back.
 
-## Step 2: Save your recovery phrase
+## Step 3: Create it
 
-Myne shows you a 24-word recovery phrase. This is your second credential, an independent way to unlock the vault if you forget the password. Write it down now. The phrase screen, its protective behaviours, and where to keep the words are covered in full in [Your recovery phrase](/user-guide/getting-started/your-recovery-phrase/).
-
-## Step 3: Confirm a few words
-
-To check that you actually recorded the phrase, Myne asks you to type back four of your 24 words. This catches the most common mistake: writing down only the first few lines. The full explanation of which words it asks for, and why, is in [Your recovery phrase](/user-guide/getting-started/your-recovery-phrase/#confirming-the-phrase).
-
-## Step 4: Save your account number
-
-Last, Myne shows your **account number**. It displays as `MY-` followed by five groups of four characters (for example, `MY-XXXX-XXXX-XXXX-XXXX-XXXX`), and it is **shown only once**, here at creation — Settings does not display it again. You can copy it or use **Save as file**, and you tick a box confirming you have saved it before the vault is created. You need it to add a second device later.
-
-It is not a password, but it is not nothing either. If you use sync, anyone who has your account number can ask the sync server for your account's encrypted key file, from anywhere, with no device of yours and no login: that is how a new device of *yours* joins, and the server cannot tell the two apart. The file reveals nothing on its own; what it gives someone is the material to start guessing your master password on their own hardware, with nothing slowing them down but the strength of that password. So treat the number like cash rather than like a username — fine to type into your own devices, not something to put in a screenshot or a support thread. A vault you never sync has nothing on a server.
-
-**Copy** tells you whether it worked, so a failed copy does not look like a successful one. What happens to the clipboard afterwards depends on where you are. On the desktop, Myne clears it after 30 seconds, and that clear runs inside Myne, so quitting within those 30 seconds leaves the number on the clipboard. On Android the clear is not selective: it cannot read the clipboard to check what is on it, so anything you copy inside those 30 seconds is cleared too. **In a browser nothing is cleared at all.** A page is not allowed to read the clipboard back, so no timer is scheduled, and the account number stays there until you copy something else.
-
-**Save as file** differs in the same way, and so does what it can tell you afterwards. On the desktop it opens a save dialog and you pick the folder, and where your operating system supports it Myne writes the file readable only by your own user account, so it can say whether the write landed. In a browser it is an ordinary download, landing wherever your browser puts downloads, and there Myne can only confirm the download was sent: your browser chooses where the file goes and never tells the page whether it arrived. Either way the result is a plain text file that anyone who reaches that location can read, so move it somewhere safe and delete the local copy.
+Choose **Create vault**. Myne encrypts the vault and opens it. If creation does not finish, Myne says why and the vault is not created: a password below the floor, a session that timed out after ten minutes, or a disk that is out of space are the common cases, and each names itself.
 
 ## Your vault is ready
 
-When the wizard finishes you see **Your vault is ready.** and a **Done** button that takes you straight into the [editor](/user-guide/editor-and-writing/overview/), with no second password prompt; the Unlock screen first appears the next time you launch Myne. Rather than an empty editor, your new vault opens on **Start here**, the first of five example notes Myne seeds under a single **Getting started** folder. They are ordinary notes (edit, rename or delete any of them), and right-clicking the folder and choosing **Delete** moves the whole set to Trash together, where you can still restore it. Two more things sit on that screen, on the desktop:
+When it finishes you see **Your vault is ready.** and a **Done** button that takes you straight into the [editor](/user-guide/editor-and-writing/overview/), with no second password prompt; the Unlock screen first appears the next time you launch Myne. Rather than an empty editor, your new vault opens on **Start here**, the first of five example notes Myne seeds under a single **Getting started** folder. They are ordinary notes (edit, rename or delete any of them), and right-clicking the folder and choosing **Delete** moves the whole set to Trash together, where you can still restore it. Two more things sit on that screen, on the desktop:
 
 - **Show vault folder** opens the directory on disk where Myne keeps this vault's encrypted files.
 - **Back up this vault now** writes an encrypted backup you can keep elsewhere. It is worth taking. How backups work and the habit worth building are in [Back up your vault](/user-guide/safety-and-recovery/back-up-your-vault/).
 
 Neither appears in a browser, and neither is missing by accident: there is no folder to open and no save dialog to write a backup through, so both controls are left out of the browser build rather than shown and refused. Your notes there live in the browser's own storage for the site, and the server keeps the copy a new browser re-downloads. See [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/).
 
+## If your vault has its own recovery phrase
+
+A vault that carries its own recovery phrase still works exactly as it always did, and you will meet one if it was created before identities existed, or by an older version of Myne. A browser now creates vaults through the identity ceremony too, so a vault made there today does not take this shape. That older flow has more steps, and the middle three are the ones this article no longer has:
+
+1. After the password, Myne shows a **recovery kit**: your 24-word vault phrase and the vault's **account number**, on one sheet you save or copy. The phrase is the second way into that vault; the number is what a second device needs to find it.
+2. Next it asks you to type back four of the phrase's words, one drawn from the last third of the list, to catch a copy that stopped early.
+3. Then the vault is created, and the kit is never shown again.
+
+Keep that sheet. [Your recovery phrase](/user-guide/getting-started/your-recovery-phrase/) explains the phrase screen in full, and [Upgrade your vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/) is how such a vault moves onto one-phrase recovery later.
+
 ## Limits
 
-The wizard's protection is only as strong as the password and phrase you choose and keep. Myne enforces a password floor and shows the phrase once, but it cannot recover either for you, and it cannot stop someone who has written your phrase where others can read it. Treat both like keys to a safe. The account number is a third thing to keep to yourself for a different reason: it is what someone needs to start guessing your password offline, so on a synced vault your password's strength is the only thing standing between a leaked account number and your notes.
+The flow's protection is only as strong as the password and phrase you choose and keep. Myne enforces a password floor and shows the identity phrase once, but it cannot recover either for you, and it cannot stop someone who has written your phrase where others can read it. Treat both like keys to a safe.
+
+An identity phrase is the larger of the two: it opens every vault you own, not only this one. The password you set here opens this vault alone, which is why a different password per vault is worth the small inconvenience.

@@ -1,7 +1,7 @@
 ---
 title: "Multiple vaults"
 category: "safety-and-recovery"
-updated: 2026-09-08
+updated: 2026-10-22
 summary: "How to keep more than one vault, how to switch between them, how to give each a name and icon, what you can see before a vault is unlocked, and how vaults stay independent of one another."
 tags: ["vault", "privacy"]
 ---
@@ -20,7 +20,7 @@ There is one way Myne reads from a second vault without opening it, and it is wo
 
 When you have two or more vaults, Myne shows a **picker** at launch, and the vault-switcher chip at the top of the sidebar lets you switch while you work.
 
-**In a browser, one account per profile.** The browser client holds a single vault, so neither control exists there: no launch picker, and no switcher chip in the sidebar. To keep a second account on the same machine, use the Myne desktop app, or open Myne in a different browser profile.
+**In a browser, one account per profile, and more than one vault inside it.** A browser origin can hold several vaults side by side, each in its own container and each with its own password; from two vaults up, the launch screen is a picker. What the browser still lacks is the sidebar switcher and the account grouping, because grouping needs a key store a page does not have, so switching means locking and returning to the picker. To keep a second **account** on the same machine, use the Myne desktop app, or open Myne in a different browser profile.
 
 ## What's visible before you unlock
 
@@ -28,7 +28,9 @@ On macOS and iOS, a vault this device has unlocked before is listed by its real 
 
 ## Grouping vaults under an account
 
-When you have more than one vault, Myne groups them under an **account** so the picker reads as your vaults rather than a list of strangers. The account is a name you choose, and it lives only on this device: it is not synced, and it does not change how your vaults are encrypted or how the server sees them. Each vault keeps its own password, recovery phrase, and account number, exactly as before.
+When you have more than one vault, Myne groups them under an **account** so the picker reads as your vaults rather than a list of strangers. The account is a name you choose, and it lives only on this device: it is not synced, and it does not change how your vaults are encrypted or how the server sees them.
+
+Each vault keeps its own password and its own key. What a vault carries beyond that depends on how it was created. A vault created from your **identity** has no recovery phrase and no account number of its own, because the identity is both: that is what makes a second vault cost one password and nothing else to write down. A vault that still has its own recovery phrase and account number (created before identities existed, or created in a browser) keeps them, and its kit still has to be stored as before.
 
 The grouping is automatic. On upgrade, the vaults already on this device are placed into one account. A new vault joins the account you most recently unlocked, or a fresh account if this is your first vault. On a device with no keychain (Windows, Linux, and Android today), there is nowhere to seal the account record, so vaults stay listed individually with no grouping and no error.
 
@@ -52,7 +54,7 @@ Like the vault's contents, its name and icon live inside the vault's encrypted p
 
 ## Vaults are independent
 
-Each vault is its own world: its own notes, folders, settings, recovery phrase, and backups. A backup is of one specific vault and restores only that vault. Changing your password in one vault does nothing to another. Nothing moves between them on its own.
+Each vault is its own world: its own notes, folders, settings, key and backups. A backup is of one specific vault and restores only that vault. Changing your password in one vault does nothing to another. Nothing moves between them on its own. What they may share is a recovery credential: every vault owned by one identity opens with that identity's phrase, while each still needs its own password on each device.
 
 The one way anything crosses is if you ask for it: [importing notes from another vault](/user-guide/attachments-and-import/combine-two-vaults/) copies notes and their attachments into the vault you have open. It is one-directional, it runs once, and the vault you import from is not changed.
 

@@ -1,12 +1,12 @@
 ---
 title: "Account"
 category: "settings-and-privacy"
-updated: 2026-10-16
-summary: "The Account panel names the account that groups the vaults on this device, lists those vaults, and holds the browser-extension pairing controls. This page also explains your account number, the identity you use to add another device."
+updated: 2026-10-22
+summary: "The Account panel names the account that groups the vaults on this device, lists those vaults, and holds the browser-extension pairing controls. This page also explains the two kinds of account number, which one your vault has, and why you no longer have to save the identity's."
 tags: ["settings", "devices", "security"]
 ---
 
-The **Account** panel is the account-level surface: it names the account this device groups vaults under, lists the vaults in that group, and holds the browser-extension pairing controls. It sits first in the settings rail. Your account number is not shown here, but it is the identity you use to add another device.
+The **Account** panel is the account-level surface: it names the account this device groups vaults under, lists the vaults in that group, and holds the browser-extension pairing controls. It sits first in the settings rail. No account number is shown here, and this page explains why that is fine for a vault that came from your identity.
 
 ![The Account settings panel showing the account name, the vaults grouped under it, and the browser-extension pairing controls.](./account.png)
 
@@ -32,15 +32,17 @@ In a browser the panel is shorter: browser extensions do not pair with a browser
 
 ## Your account number
 
-Your account number is your account's primary identifier, generated when you created the vault in place of an email address. It is a `MY-` prefixed string of Crockford base32 groups.
+There are two kinds of account number in Myne, and which one you have depends on the vault.
 
-It matters in two places:
+- **A person account number** belongs to your identity and covers every vault it owns. Myne **derives it from your identity phrase** rather than generating it, so it cannot be lost: the phrase reproduces it on any device. That is also why you are not asked to write it down, and why it is not shown here. It names the account for support and for a self-host operator; it is not a credential, and knowing it grants no access.
+- **A vault account number** belongs to a single vault, and you have one if that vault was created before identities existed or created in a browser. It is a `MY-` prefixed string of Crockford base32 groups, generated when the vault was created and shown once at that moment. It is what a joining device uses to fetch that vault's encrypted key file, so it is worth keeping private, and it is not re-displayed here.
 
-- **Adding a device.** To add another device to the same account, you enter your account number together with your master password or your 24-word recovery phrase. See the [Sync and devices](/user-guide/sync-and-devices/overview/) section.
-- **Self-hosting.** It is the value a self-host operator would use to identify your account on their server.
-
-Myne shows your account number once, during vault creation, and prompts you to save it. It is not re-displayed in this panel, so keep the copy you saved when you set up the vault. See [Create your vault](/user-guide/getting-started/create-your-vault/).
+For a vault that came from your identity, **you do not need a number to add a device**: the join code names the account and your 24 words prove it. So the number you may have written down at vault creation is not part of how that vault is recovered or shared any more. See [Add a device](/user-guide/sync-and-devices/add-a-device/).
 
 ## Limits
 
-Your account name is local to this device and carries no security meaning: it is a label you chose, not an identifier anything authenticates against, and losing it costs nothing. Your account number is the identifier that matters, and it identifies your account, and, for sync, is the bearer credential the server checks; the server stores only a hash of it, never the number itself. It is not an encryption key: on its own it does not unlock or decrypt your vault — adding a device also requires your master password or your 24-word recovery phrase, and unlocking always requires one of those. Because the number carries secret entropy, treat it like your recovery phrase and keep it private. Anyone who has it can reach your account on a sync server, but they still cannot read your notes without your password or phrase. For the full model, see [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/).
+Your account name is local to this device and carries no security meaning: it is a label you chose, not an identifier anything authenticates against, and losing it costs nothing.
+
+Neither kind of account number is an encryption key, and neither authenticates a request on its own: access is a signed-in session, not a password you type, and Myne stores only a hash of the number server-side. For a **vault** number the honest caveat remains that anyone holding it can ask the server for that vault's encrypted key file and start guessing the vault's password offline, so keep it private. For a **person** number there is nothing to keep: it is derived from the phrase, it is not a secret, and knowing it opens nothing.
+
+The phrase is the credential in both models. Keep it safe, and see [How Myne protects your notes](/user-guide/settings-and-privacy/privacy-model/) for where the guarantees start and stop.

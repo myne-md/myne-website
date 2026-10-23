@@ -1,8 +1,8 @@
 ---
 title: "Welcome to Myne"
 category: "getting-started"
-updated: 2026-10-16
-summary: "An orientation to Myne, the local-first encrypted markdown notebook, and a map of the Getting started section: installing the app, creating a vault, saving your recovery phrase, and finding your way around the editor."
+updated: 2026-10-22
+summary: "An orientation to Myne, the local-first encrypted markdown notebook, and a map of the Getting started section: installing the app, creating your identity and your first vault, saving your recovery phrase, and finding your way around the editor."
 tags: ["basics", "vault"]
 ---
 
@@ -13,7 +13,7 @@ Myne is a local-first, encrypted markdown notebook. You write in plain markdown,
 ## What makes Myne different
 
 - **Encrypted by default.** Encryption is the only mode; there is no plaintext option to forget to turn on.
-- **No account, no email.** You don't sign up. A vault is created locally, protected by a password only you know.
+- **No account, no email, no server.** You don't sign up. Your identity and your vault are created on your device, protected by secrets only you hold, and nothing is transmitted while you do it.
 - **A vault is a set of encrypted files that stay where you are.** It is not a single file and not a cloud account: each note is its own encrypted file. On a computer or a phone that is a directory Myne creates and manages on your disk. In a browser it is the browser's own storage for the site, with no folder to open; see [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/).
 
 Until you turn on sync or name a remote AI provider, Myne runs entirely on your device; nothing leaves it.
@@ -24,15 +24,16 @@ AI is the one other door out, and it is off until you turn it on. Myne never sen
 
 1. [Install Myne](/user-guide/getting-started/install/): how the app is distributed and verified.
 2. [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/): running Myne in a desktop browser you serve yourself, and the trust boundary that differs from the desktop app.
-3. [Create your vault](/user-guide/getting-started/create-your-vault/): the four-step setup wizard, opened by a short safety briefing you acknowledge before setting a password.
-4. [Your recovery phrase](/user-guide/getting-started/your-recovery-phrase/): the 24-word backstop that can unlock your vault.
-5. [Unlocking your vault](/user-guide/getting-started/unlocking-your-vault/): what you see each time you open Myne.
-6. [Your first note](/user-guide/getting-started/your-first-note/): the example notes Myne seeds for you, plus writing, autosave, and where notes live.
-7. [A tour of the interface](/user-guide/getting-started/interface-tour/): every region of the window, named.
+3. [Create your identity](/user-guide/getting-started/create-your-identity/): the one thing a fresh install asks for, created offline, with one 24-word phrase that recovers every vault you own.
+4. [Create your vault](/user-guide/getting-started/create-your-vault/): a name, a master password, and the vault opens, with no second phrase to keep.
+5. [Your recovery phrase](/user-guide/getting-started/your-recovery-phrase/): the 24-word backstop, how to store it, and the screen that shows it once.
+6. [Unlocking your vault](/user-guide/getting-started/unlocking-your-vault/): what you see each time you open Myne.
+7. [Your first note](/user-guide/getting-started/your-first-note/): the example notes Myne seeds for you, plus writing, autosave, and where notes live.
+8. [A tour of the interface](/user-guide/getting-started/interface-tour/): every region of the window, named.
 
 ## Already have a vault somewhere else?
 
-If you are not starting fresh, two of the Welcome screen's three doors are for you instead of this chapter.
+If you are not starting fresh, two of the Welcome screen's three doors are for you instead of this chapter. The third, **Create your identity and vault**, is the one this chapter describes.
 
 - **Restore from backup** takes a `.myne-backup` file from another machine and rebuilds the vault from it; follow [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/).
 - **Add this device to an account** is for a vault that already exists on another device and syncs. The vault arrives over sync rather than from a file, and a device already signed in has to approve this one; follow [Add a device](/user-guide/sync-and-devices/add-a-device/).

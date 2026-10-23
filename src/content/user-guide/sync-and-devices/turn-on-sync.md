@@ -1,12 +1,12 @@
 ---
 title: "Turn on sync"
 category: "sync-and-devices"
-updated: 2026-10-18
-summary: "Choose a sync server, understand the account number that identifies you instead of an email, accept the beta terms on this device, and connect your first device. Covers how Myne checks the server's certificate automatically, the browser client's fixed server, and the first-device self-approval."
+updated: 2026-10-22
+summary: "Choose a sync server, publish the vault you want on it, accept the beta terms on this device, and connect your first device. Covers what identifies your account instead of an email, how Myne checks the server's certificate automatically, the browser client's fixed server, and the first-device self-approval."
 tags: ["sync", "settings", "devices"]
 ---
 
-Turning on sync has three parts: pointing Myne at a server, accepting the beta terms on this device, and connecting the device to your account. This page covers the first device — the one that seeds the account. Adding a second device is covered separately in [Add a device](/user-guide/sync-and-devices/add-a-device/).
+Turning on sync has four parts: pointing Myne at a server, publishing the vault you want on it, accepting the beta terms on this device, and connecting the device to your account. This page covers the first device, the one that seeds the account. Adding a second device is covered separately in [Add a device](/user-guide/sync-and-devices/add-a-device/).
 
 ![The Sync settings panel, where a sync server is configured and this device's sync is turned on.](./turn-on-sync.png)
 
@@ -14,15 +14,17 @@ Turning on sync has three parts: pointing Myne at a server, accepting the beta t
 
 - An unlocked vault.
 - A sync server address: the `https://` address of the server you run yourself. Myne operates no server of its own. If you do not have one yet, [Run your own sync server](/user-guide/sync-and-devices/run-your-own-sync-server/) brings one up on a machine you control.
-- Your account number, which Myne showed once when you [created your vault](/user-guide/getting-started/create-your-vault/). Settings does not display it again, so use the copy you saved then.
+- The identity that owns the vault, unlocked, and registered with that server. A vault created from your identity is bound to it, and publishing needs the identity present. If the identity is not registered yet, Myne says so and points you at your identity home.
+- Your account number, only if the vault still has its own. A vault created before identities existed, and a vault created in a browser, still carries a vault account number, and Myne asked you to save it once at creation. A vault created from your identity has no number of its own.
 
-## Your account number
+## What identifies your account
 
-Myne identifies you by an **account number**, not an email address. It is a self-generated value that starts with `MY-`, shown once when you [created your vault](/user-guide/getting-started/create-your-vault/), where you could copy it or save it to a file. Settings does not display it again, so keep the copy you saved. It is what you type to connect a device.
+Myne identifies you by an **account number**, not an email address. Which number, and whether you ever need to type one, depends on the vault.
 
-It is not an encryption key and it decrypts nothing on its own. It is, though, what a sync server accepts as your identity, and a joining device has to fetch your account's encrypted key file before it can authenticate, so anyone holding your account number can ask the server for that file, from anywhere, with no device of yours. The file reveals nothing by itself; what it hands someone is the material to start guessing your master password on their own hardware. Treat the number like cash: fine to type into your own devices, not something to put in a screenshot or a support thread. [Create your vault](/user-guide/getting-started/create-your-vault/) makes the same point at the moment the number is first shown.
+- **A vault created from your identity** is one binding under that identity. You do not type a number to connect a device: the joining device proves itself with the 24 words, and an existing device approves it. The server reads the person-to-vault binding when a device asks for a vault's metadata, and it authorises each request rather than handing out a standing credential.
+- **A vault that still has its own account number** (created before identities existed, or created in a browser) is addressed by that number. It was shown once when you created the vault, it starts with `MY-`, and Settings does not display it again. That vault's joining device fetches the vault's encrypted key file with the number before it can authenticate, so anyone holding the number can ask the server for that file, from anywhere, with no device of yours. The file reveals nothing by itself; what it hands someone is the material to start guessing that vault's master password. Treat that number like cash: fine to type into your own devices, not something to put in a screenshot or a support thread.
 
-Because there is no email, there is also no email-based recovery; keep your account number and [recovery phrase](/user-guide/getting-started/your-recovery-phrase/) somewhere safe.
+Neither number is an encryption key, and neither decrypts anything on its own. Because there is no email, there is also no email-based recovery; keep your [recovery phrase](/user-guide/getting-started/your-recovery-phrase/) somewhere safe.
 
 ## Set the server
 
@@ -34,6 +36,14 @@ Because there is no email, there is also no email-based recovery; keep your acco
 For an `https` server, Myne checks the server's certificate against the public certificate authorities and checks the server name, on the first connection and every one after it. There is nothing for you to set up and no fingerprint to compare. Every `https` server is checked the same way. A loopback `http` server has no TLS, so there is no certificate to check. [Server certificates](/user-guide/sync-and-devices/server-certificates/) covers what the check does and does not prove.
 
 Enter the **same** server URL on every device you want to sync.
+
+## Publish the vault
+
+Setting a server does not put a vault on it. A vault you created stays device-local until you publish it, and publishing is an explicit act, so you know when a vault stops being yours alone.
+
+Open **Settings → Sync → Devices and members**. The **Publish to your server** row says which state the vault is in: it exists only on this device, or it is published and your other devices can reach it. Choose **Publish this vault**; Myne binds the vault to your identity on the server, which is also what lets a second device find it. Publishing is idempotent, so a retry after a failure is safe, and a failure leaves the vault unchanged on this device.
+
+A vault that already belongs to a different identity is refused rather than published over, and a shared vault can only be published by its owner.
 
 ## The server's certificate is checked automatically
 
@@ -60,7 +70,7 @@ Choose **I understand, turn on sync** to accept, or **Cancel** to close the dial
 
 ## The first device
 
-The first device on an account is the one you are setting up now, so there is nothing yet to approve it against — it self-approves. From this point, sync status shows **Synced** when the device is up to date (see [Reading sync status](/user-guide/sync-and-devices/sync-status/)), and any further device you connect will wait for approval from a device that already has access.
+The first device on an account is the one you are setting up now, so there is nothing yet to approve it against: it self-approves. For a vault published from your identity, that is the device that published it, and the publishing act is what puts the vault on the server. From this point, sync status shows **Synced** when the device is up to date (see [Reading sync status](/user-guide/sync-and-devices/sync-status/)), and any further device you connect will wait for approval from a device that already has access.
 
 ## Limits
 

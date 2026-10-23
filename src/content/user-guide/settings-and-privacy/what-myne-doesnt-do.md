@@ -1,7 +1,7 @@
 ---
 title: "What Myne doesn't do"
 category: "settings-and-privacy"
-updated: 2026-10-18
+updated: 2026-10-23
 summary: "The things Myne deliberately does not do (no plaintext mode for your vault, no email recovery, no telemetry, no request for your recovery phrase to sign you in, no egress until you name where it goes) and why each omission is a commitment rather than a missing feature."
 tags: ["privacy", "security"]
 ---
@@ -34,6 +34,10 @@ Myne fetches a model only when you ask it to, from its own origin, and that fetc
 The features that fire without you asking — inline suggestions as you type, automatic tag suggestions, and the search index — can never reach a remote provider at all. That is a rule in the code rather than a setting you could flip. A remote provider serves only work you ask for.
 
 And there is still no telemetry here: naming a provider sends the work you asked for, and nothing about how you use the app. What Myne cannot see, and so does not claim, is what a provider keeps, how long it keeps it, or whether it forwards the request onward. See [Where your AI runs](/user-guide/ai/where-your-ai-runs/).
+
+## On folding the device
+
+On a device with a folding screen, Myne uses the wider layout when the device is open: the note gets the full width of the inner display, with the line length capped so it stays readable, and the list slides over the note rather than replacing it. Fold the device in the middle of a note and the note stays where you left it, with the same text, the same caret and the same scroll position. What does not survive the fold is the undo history: the text is saved as usual, but the steps you could have stepped back through start again.
 
 ## Limits
 

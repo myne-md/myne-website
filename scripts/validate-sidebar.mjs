@@ -27,7 +27,7 @@ const TAG_VOCABULARY = new Set([
   "basics", "vault", "notes", "editor", "markdown", "links", "tags", "search",
   "attachments", "import", "backup", "recovery", "snapshots", "templates",
   "folders", "sidebar", "workspace", "settings", "privacy", "security",
-  "ai", "sync", "devices",
+  "ai", "memory", "sync", "devices",
 ]);
 // ---------------------------------------------------------------------------
 

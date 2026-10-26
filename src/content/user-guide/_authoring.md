@@ -79,19 +79,20 @@ enforce it, so it is a g2-review item.
 
 ## 4. Tag vocabulary (SYNC-2)
 
-Pick article tags **only** from this pinned 23-tag vocabulary. `validate-sidebar`
+Pick article tags **only** from this pinned 24-tag vocabulary. `validate-sidebar`
 errors on any out-of-vocabulary tag.
 
 ```
 basics, vault, notes, editor, markdown, links, tags, search,
 attachments, import, backup, recovery, snapshots, templates,
 folders, sidebar, workspace, settings, privacy, security,
-ai, sync, devices
+ai, memory, sync, devices
 ```
 
 The `ai`, `sync`, and `devices` tags were added when the guide gained the AI (Beta)
-and Sync & devices categories (feature-sync, 2026-07-11) — extending the vocabulary
-in both this mirror and the `validate-sidebar` constant, per the rule below.
+and Sync & devices categories (feature-sync, 2026-07-11), and `memory` when the
+reviewed seed landed (myne-md/myne#915), each time extending the vocabulary in both
+this mirror and the `validate-sidebar` constant, per the rule below.
 
 - **Rule:** no category-spanning generic tag on more than 6 articles
   (`validate-sidebar` surfaces this as a non-blocking **warning**; membership is

@@ -1,7 +1,7 @@
 ---
 title: "Let the AI change your notes"
 category: "ai"
-updated: 2026-09-24
+updated: 2026-10-22
 summary: "Ask the AI to make changes across a set of notes you choose. In the default mode it proposes every change as a diff and nothing is written until you approve it, one note at a time or all at once."
 tags: ["ai", "notes"]
 ---
@@ -42,6 +42,55 @@ A run stops for one of five reasons, and its turn says which: it finished, you s
 When a run ends having proposed nothing, its turn says which kind of nothing it was. A run that finished, or that you stopped, reads **The agent proposed no changes.**, because both describe something real: it looked and decided there was nothing to do. A run that ran out of steps or stopped making progress reads **The agent stopped without an answer. Try asking again, or rephrase it.** instead, because that run never did its work and your note is not the fault. When the agent answered your question, neither line appears; the answer stands on its own.
 
 A run that never started says so on the same turn. If the provider would not take the request, it reads **The provider would not accept this request, so the run stopped. Nothing was written. This is a fault in what Myne sent, not in your notes or your setup.** Every other failure to start reads **The agent could not start.**
+
+## Giving the run a file to read
+
+Some requests are about a document rather than about a note: a contract you were
+sent, a report, a transcript. The composer takes files, and a run reads their
+text the same way it reads a note. It reads them; it cannot change them.
+
+1. Press **+** in the composer. The list is your attachment library, and it
+   shows what the library shows.
+2. Pick up to **four** files and confirm. Each one appears as a chip under the
+   box, with its name, and a file you picked by mistake comes off with its own
+   remove control.
+3. Send the message. The run reads each file's text when it starts, not while you
+   are still typing.
+
+You can also paste a file into the box, which is the faster route when the
+document is already on your clipboard.
+
+Two things about the text rather than the file. Each document is read up to
+**20,000 characters**; past that the run sees the beginning and the text says so
+in as many words, so it cannot answer as though it had read the end. And the
+text of a file counts towards the run's "characters sent" figure exactly like
+note text does, because that is what it is.
+
+**The file itself never leaves your device.** Myne sends the text it extracted,
+not the bytes.
+
+**A file you paste into a conversation is not added to your library.** It is
+stored, encrypted and synced like any other attachment, and it stays with that
+conversation: it does not appear in the attachment library, in the `+` list, or
+in the cleanup review. If you want it in the library, import it there.
+
+A file you pick from the library stays in the library. Picking it for a message
+does not move it.
+
+If a document cannot be read, the message is kept and the composer names the
+file that failed rather than sending a run that would answer about a file it
+never received.
+
+### A conversation belongs to its note
+
+Opening a different note starts a fresh conversation, because the conversation
+was about the note you were in. Switching back does not bring the old one back;
+use the history list to reach it. If you want one conversation to follow you
+across notes (two notes side by side, one thread through both), press **Keep
+this conversation** and it stays wherever you go.
+
+A half-typed message goes with the conversation it was written for, so switching
+notes clears the box. Send it first if you want to keep it.
 
 ## Approving changes
 

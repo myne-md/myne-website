@@ -1,7 +1,7 @@
 ---
 title: "Turning on AI"
 category: "ai"
-updated: 2026-10-18
+updated: 2026-10-22
 summary: "Enable the AI beta opt-in in Settings, give Myne something to run (model files you downloaded yourself, a runtime on this computer, or a provider you name), understand what 'ready' means, and exclude folders you never want AI to read or index. On a phone there is no on-device option and the approval is per device."
 tags: ["ai", "settings"]
 ---
@@ -60,7 +60,9 @@ network, and the screen that says what leaves it should be read on it.
 
 ## Suggesting tags automatically
 
-The **Models** tab opens with a **Tagging** section holding a second switch, **Suggest tags automatically**, off by default. Tag suggestion runs on a small model on your device. You can fetch Myne's copy of that model from **Verified downloadable models** further down the same tab, or point the tag model's row under **Outsourced models** at a file you got yourself; the panel's own sentence is where the switch says it is off because no tag model is installed yet. Installing one (either way) turns the switch on by itself, without a restart. See [Suggest tags](/user-guide/ai/suggest-tags/).
+The **Models** tab opens with a **Tagging** section holding a second switch, **Suggest tags automatically**, off by default. Tag suggestion runs on a small model on your device. You can fetch Myne's copy of that model from **Verified downloadable models** further down the same tab, or point the tag model's row under **Outsourced models** at a file you got yourself; the panel's own sentence is where the switch says it is off because no tag model is installed yet. Installing one (either way) turns the switch on by itself, without a restart.
+
+A third row under it, **Apply suggested tags automatically**, writes the tags without a click. It is off by default, disabled until suggestions are on, and set per device rather than per vault. See [Suggest tags](/user-guide/ai/suggest-tags/) for the rules and the undo.
 
 ## Downloading a model from Myne
 

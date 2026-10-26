@@ -123,7 +123,7 @@
   {
     "slug": "ai",
     "label": "AI (Beta)",
-    "description": "Turn on Myne's experimental AI, choose where it runs (a model file on your computer, a runtime you already have, or a remote provider you name), then ask questions across your notes with citations, summarize notes, suggest tags, get inline writing help, and read the honest privacy boundary.",
+    "description": "Turn on Myne's experimental AI, choose where it runs (a model file on your computer, a runtime you already have, or a remote provider you name), then ask questions across your notes with citations, summarize notes, suggest tags, get inline writing help, and read the honest privacy boundary. It can also read your vault's shape once and propose memory entries for you to review.",
     "intro": "overview",
     "articles": [
       "overview",
@@ -136,6 +136,7 @@
       "writing-assistant",
       "agent-runs",
       "the-agent-hub",
+      "teach-my-ne-your-vault",
       "ai-chat-history",
       "ai-privacy-and-limits"
     ]

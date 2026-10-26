@@ -1,7 +1,7 @@
 ---
 title: "Sharing a vault with members"
 category: "sync-and-devices"
-updated: 2026-10-19
+updated: 2026-10-25
 summary: "Invite other people into one shared vault. Each member joins with their own identity, sets a password for their own device and picks the name the others see; your master password and recovery phrase never leave your control. Covers roles, inviting and accepting, names in the member list, and what removal does and does not do."
 tags: ["devices", "sync", "security"]
 ---
@@ -26,7 +26,7 @@ A shared vault has exactly one owner, the person who created it, and zero or mor
 3. Ask them for their identity code and paste it into the invite field. Nothing leaves your device yet.
 4. Choose **Invite member**. On a vault that is not shared yet, Myne first states that sharing it is permanent and asks you to confirm; then your device seals the invite and posts it to the relay, and the recipient is told when an invite is waiting. There is no fingerprint to compare before sending.
 5. Once the invite is sent, the panel shows the invited member's fingerprint, which you can read to them to confirm the invite went to the right person.
-6. The **Invitations you sent** list shows each invitation as accepted or not accepted yet. A member moves from "not accepted yet" to "accepted" once that person takes the invite.
+6. The **Invitations you sent** list shows each invitation in one of three states: **Not accepted yet**, **Accepted**, or **Declined**. A member moves to "accepted" once that person takes the invite, and to "declined" if they refuse it, which means the invitation is gone and nobody can accept it later. Invite them again if you still want them in the vault.
 
 ## Accept an invite
 
@@ -37,6 +37,8 @@ A shared vault has exactly one owner, the person who created it, and zero or mor
 5. Choose a display name. This is what the other members see beside your fingerprint in the member list. Myne asks for it before the accepted vault reaches the editor, and skips the question when the vault's list already holds a verified name for you, as it does if you were invited to a vault you are already named in.
 
 The shared vault then unlocks as a member. You keep your own credentials, and you are never shown an owner-only control.
+
+If you do not want the invitation, choose **Decline** beside it instead. Myne asks once, because the invitation is deleted from your server when you confirm: it can never be accepted afterwards, and the person who sent it sees **Declined** rather than an invitation that was never opened. Declining tells the owner you said no, so they can invite somebody else instead of waiting. If you already accepted and want out, ask the owner to remove you from the vault; that is a different act, and it rotates the vault's keys.
 
 ## Your name in the member list
 

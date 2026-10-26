@@ -1,12 +1,12 @@
 ---
 title: "Add a device"
 category: "sync-and-devices"
-updated: 2026-10-22
+updated: 2026-10-25
 summary: "Connect another device to your account and approve it. Covers bringing your identity to a new device with one join code and the 24 words, joining a vault that still carries its own number, the beta terms, QR pairing, the verification code, and a member's own second device."
 tags: ["devices", "sync", "recovery"]
 ---
 
-Adding a device connects it to your account so it syncs the same notes. If your vault came from your identity, the shortest path is one join code from an existing device and your 24 words: the new device then sees every vault the identity owns, and you approve it once. The older path, for a vault that still has its own account number, signs in with that number and a password or the vault phrase. Either way both devices compare a short verification code to confirm they are on the same account. This page covers both paths, and the one a member of a shared vault takes for their own second device.
+Adding a device connects it to your account so it syncs the same notes. If your vault came from your identity, the shortest path is one join code from an existing device plus either your 24 words or, since October 2026, a device you are already signed in on: the new device then sees every vault the identity owns, and you approve it once. The older path, for a vault that still has its own account number, signs in with that number and a password or the vault phrase. Either way both devices compare a short verification code to confirm they are on the same account. This page covers both paths, and the one a member of a shared vault takes for their own second device.
 
 ![The Add a device form in Sync settings, where you sign a new device in to your account.](./add-a-device.png)
 
@@ -38,6 +38,18 @@ This is the path for a vault that came from your identity, and it works for ever
 6. The new device finishes on its own: it lists every vault the identity owns, and each one opens with its own master password. No vault key crosses in the clear, and no password is shared between devices.
 
 If the new device restarts before the approval arrives, it asks for the phrase once more; that is the same session-only rule that applies after a reload in a browser. Nothing else has to be redone.
+
+### Adding a device without your 24 words
+
+This is the path when you have a device that is already signed in and you would rather not type the 24 words anywhere. It replaces the phrase with the device you are already holding.
+
+1. On the **new device**, open **Settings → Sync → Devices and members**. Because this device has no account yet, the panel offers **Add this device to your account**: paste your **identity code** (the `MYNE-PERSON-1:` string from the other device's identity screen) and choose **Show this device's code**.
+2. The new device shows a long code starting with `MYNE-DEVICE-1:` and, under it, a short code of the form `1a2b-3c4d`. Leave the screen open.
+3. On the device you are already signed in on, open the same panel and use **Add a device without your recovery phrase**: paste the long code, then type the short code exactly as the other screen shows it, and choose **Add this device**.
+4. Both devices must show the **same** short code. If they differ, stop: the long code did not come from the device in your hand. That comparison is the whole security of this path, so do not skip it.
+5. The new device finishes on its own: choose **I approved it, sign in now** and it signs in with its own credential. Nothing else has to be redone, and the 24 words were never typed.
+
+What this leaves out, stated plainly: the new device can sync, unlock vaults and sign its own changes, but it does not hold your identity, so a few things that need it stay on the device that does. Adding another device, and signing a member name, are done from a device that holds the identity. On a platform with no safe store for a signing key (today, anything but Apple devices) the panel says so: the device still joins without the words, and keeps using your phrase to sign.
 
 ### Joining with an account number
 

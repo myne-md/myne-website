@@ -1,7 +1,7 @@
 ---
 title: "AI (Beta)"
 category: "ai"
-updated: 2026-10-18
+updated: 2026-10-22
 summary: "An overview of Myne's experimental AI: what it is, the runtime beta opt-in that keeps it off until you turn it on, the honest privacy posture (nothing is sent until you name a provider; the model Myne runs is in-process and not sandboxed), that it can propose changes for you to approve, and a map of the rest of this section."
 tags: ["ai", "privacy"]
 ---
@@ -16,7 +16,7 @@ The trade-off with a model small enough to run on a laptop is capability: answer
 
 ## The beta opt-in
 
-AI ships in the standard build but stays off until you enable it. The **AI** panel sits in a **Developer** group in Settings, and that group appears only once you turn on **Developer mode** in the **About** panel, so you enable Developer mode first, then open the panel. Nothing about AI runs or reads your notes until you turn on **Enable AI features**. After that, each surface still needs its own footing: chat, summaries and writing help need a model file or a provider you have named, and tag suggestion needs its own switch, **Suggest tags automatically**, which is off by default and uses a model Myne downloads on demand from its own origin. See [Turning on AI](/user-guide/ai/turning-on-ai/) for the walkthrough.
+AI ships in the standard build but stays off until you enable it. The **AI** panel sits in a **Developer** group in Settings, and that group appears only once you turn on **Developer mode** in the **About** panel, so you enable Developer mode first, then open the panel. Nothing about AI runs or reads your notes until you turn on **Enable AI features**. After that, each surface still needs its own footing: chat, summaries and writing help need a model file or a provider you have named, and tag suggestion needs its own switch, **Suggest tags automatically**, which is off by default and uses a model Myne downloads on demand from its own origin. A second row under it, **Apply suggested tags automatically**, writes the tags without a click; it is off by default and set per device. See [Turning on AI](/user-guide/ai/turning-on-ai/) for the walkthrough.
 
 **On a phone the arrangement above is different in two ways worth knowing before you look for it.** There is no Developer group and no Developer mode to turn on: **AI** is a top-level entry in Settings, where you would expect any other panel. And there is no on-device option for the AI panel, because no model on a phone answers questions, summarizes or suggests tags, so turning AI on there is a decision to send your notes to a service you name rather than a decision to spend the device's own processor. (Two models do run on the phone and are not part of that switch: the one that transcribes a voice note and the one that reads text out of an image. Both ship with Myne and both run inside the app, which is what [AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/) means when it says a model is not isolated from your notes.) The switch says so where you flip it.
 

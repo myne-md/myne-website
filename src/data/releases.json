@@ -7,10 +7,62 @@
     "RWSzhweIGbX53vxsmyZ218e3pqUU8/zKiqHMarzXv3Ddx4rcyvDQOT5k"
   ],
   "channels": {
-    "stable": "v0.10.0",
-    "beta": "v0.10.0"
+    "stable": "v0.11.0",
+    "beta": "v0.11.0"
   },
   "releases": [
+    {
+      "tag": "v0.11.0",
+      "version": "0.11.0",
+      "date": "2026-10-26",
+      "assets": [
+        {
+          "name": "Myne_0.11.0_amd64.AppImage",
+          "bytes": 235624952,
+          "sha256": "e4ed6dbdcedba402a87c9ddb5ef4e0672f0fe7097f5cf6326ca07fb865a3cccb"
+        },
+        {
+          "name": "Myne_0.11.0_amd64.deb",
+          "bytes": 162714372,
+          "sha256": "c8e0b3a7631ef5cc7149f6673a6c167fadde828201e0fade2228ad61a7073c96"
+        },
+        {
+          "name": "Myne_0.11.0_universal.aab",
+          "bytes": 205380743,
+          "sha256": "0ee41608863e7542c192f840c28769e894dc05bff4d3107c09e19277578fda9a"
+        },
+        {
+          "name": "Myne_0.11.0_universal.apk",
+          "bytes": 333291487,
+          "sha256": "fa84d9a14240afd0fcd3b504043df1f09b232fad5221ea6b3007713269cbff95"
+        },
+        {
+          "name": "Myne_0.11.0_universal.app.tar.gz",
+          "bytes": 207219574,
+          "sha256": "9e3f2d9f9ea3b8c1f02dd04d29409b11e6c0da8aa512bd073e8484076c4770e0"
+        },
+        {
+          "name": "Myne_0.11.0_universal.dmg",
+          "bytes": 207056700,
+          "sha256": "30165f072fa84bb103ff97f579a0f0f2a43732fcc520ce3405ac8e1f36409920"
+        },
+        {
+          "name": "Myne_0.11.0.ipa",
+          "bytes": 91211878,
+          "sha256": "f2642b055e554eb01a032122a7cb67ea2cf7a0b20e705948937f97b586e5bbec"
+        },
+        {
+          "name": "myne-bin-0.11.0-1-x86_64.pkg.tar.zst",
+          "bytes": 160065303,
+          "sha256": "8699be9ec147338db609af85ea96fd3dafe5b63faf0f083d3d356959904190ff"
+        },
+        {
+          "name": "myne-clipper-0.11.0.zip",
+          "bytes": 52418,
+          "sha256": "525cb5b91ced01001219473cc26e8d89c78c7f27385996236826a9e0d4b7c8d7"
+        }
+      ]
+    },
     {
       "tag": "v0.10.0",
       "version": "0.10.0",

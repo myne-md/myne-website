@@ -1,7 +1,7 @@
 ---
 title: "AI (Beta)"
 category: "ai"
-updated: 2026-10-22
+updated: 2026-10-27
 summary: "An overview of Myne's experimental AI: what it is, the runtime beta opt-in that keeps it off until you turn it on, the honest privacy posture (nothing is sent until you name a provider; the model Myne runs is in-process and not sandboxed), that it can propose changes for you to approve, and a map of the rest of this section."
 tags: ["ai", "privacy"]
 ---
@@ -42,6 +42,7 @@ That third point is the boundary of the guarantee. It is covered plainly in [AI 
 - **[Transcribing a voice note](/user-guide/attachments-and-import/voice-notes/#transcribing-a-voice-note)** covers turning a recorded or imported audio clip into searchable, insertable text on your device.
 - **[The agent hub](/user-guide/ai/the-agent-hub/)** covers the list of every conversation, what a run's own line in the transcript reports, and moving a note between folders.
 - **[Chat history](/user-guide/ai/ai-chat-history/)** covers finding an older conversation and what deleting one does on your other devices.
+- **[Let an AI tool read your vault](/user-guide/ai/external-access/)** covers External access: the separate door a program you configure (`myne-mcp`) uses to read folders you approve, what it can and cannot do, and what stays outside Myne once it has the text.
 - **[AI privacy and limits](/user-guide/ai/ai-privacy-and-limits/)** is the honesty deep-dive: what is sent and to whom, the built-in model being in-process and not sandboxed, and what AI does not do.
 
 ## Limits

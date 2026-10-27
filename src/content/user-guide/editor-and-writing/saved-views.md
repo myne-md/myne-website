@@ -1,12 +1,12 @@
 ---
 title: "Saved views"
 category: "editor-and-writing"
-updated: 2026-10-16
-summary: "Views are off by default; turn them on in Settings → Editor → Features, then save a filtered, projected slice of your notes behind the sidebar's Views entry: build a condition filter, render matching notes as cards, a table, or a list, set a cover image, and import Obsidian Bases views. A view is a read-only projection, not a database."
+updated: 2026-10-27
+summary: "Views are off by default; turn them on in Settings → Editor → Features, then save a filtered slice of your notes behind the sidebar's Views entry as cards, a table, a list or a board, pick which fields a view may change, and export or import one as a .myneview file. A view is a projection, not a database."
 tags: ["notes", "search", "folders"]
 ---
 
-A saved view is a filtered, projected slice of your notes that you can return to from the left sidebar. The feature is off by default and you turn it on in Settings. You build a view from condition filters (tag, folder, or free-text search) and Myne renders the matching notes as cards, as a table, or as a list, with optional cover images and a few display choices. You can also import view definitions from an Obsidian Bases `.base` file. A view is a read-only projection over your notes, not a database: it never changes a note, and there is no formula language behind it.
+A saved view is a filtered, projected slice of your notes that you can return to from the left sidebar. The feature is off by default and you turn it on in Settings. You build a view from condition filters (tag, folder, or free-text search) and Myne renders the matching notes as cards, as a table, as a list, or as a board with one lane per value of a property you pick. You can also import view definitions from an Obsidian Bases `.base` file, and export or import one of your own as a `.myneview` file. A view is a projection over your notes, not a database: there is no formula language behind it. It is not quite read-only either, and the two places that matters are the board, where adding and moving a card write to notes, and the short list under **Fields this view can change**. Both are covered below.
 
 ![The saved-view builder, where conditions filter and group which notes a view shows.](./saved-views.png)
 
@@ -48,7 +48,7 @@ Under the hood, the query layer is type-aware and follows a few fixed rules. Fol
 
 A cards view renders the matching notes as a calm card gallery — not a kanban board. Each card shows an optional cover image, the note's title, and any display-column values formatted by their type. Cards are grouped under section headings, each heading carrying a per-group count, and the gallery is virtualized so a large result stays smooth. A note with no value for the grouping property lands under a **No value** group; a note whose grouping property holds a list of values appears under each matching group.
 
-Cards are read-only — they only open notes, they never edit them:
+A card opens a note rather than editing it, apart from the cover control described further down:
 
 - **Single-click** opens the note in the focused tab.
 - **⌘-click** or **Ctrl-click**, or a **middle-click**, opens it in a new tab.
@@ -62,7 +62,31 @@ A view can also render as a table or as a list. You pick which in **View setting
 
 A **table** draws one row per note: a **Name** column with the note's title, then one column for each frontmatter property you added under **Columns**. A **list** draws one line per note, with those same properties as a quiet detail line under the title.
 
-Both behave like the cards gallery in every other respect. They group under the same section headings with a per-group count, they sort the same way, they open notes with the same clicks (single-click in the focused tab, ⌘-click or Ctrl-click or middle-click in a new tab, Alt-click to the side), and they offer the same four-item right-click menu. Both are read-only, like cards. When nothing matches the filter, all three read **No notes match this view**.
+Both behave like the cards gallery in every other respect. They group under the same section headings with a per-group count, they sort the same way, they open notes with the same clicks (single-click in the focused tab, ⌘-click or Ctrl-click or middle-click in a new tab, Alt-click to the side), and they offer the same four-item right-click menu. Both open notes the way cards do. When nothing matches the filter, all three read **No notes match this view**.
+
+## The board view
+
+A board arranges the same matching notes as lanes instead of sections: one lane per value of the **Group by** property, and a card in each lane is the note whose property holds that value. It is the one view type that writes to your notes, and the writing is deliberately narrow.
+
+- **A board with no lane property writes nothing.** A **Group by** of **None** renders the board's message instead: **This board has no lane property. Choose a property to group by in view settings.**
+- **Adding a card.** Each lane header carries **Add a card to <lane>** while the grouped property is on the view's **Fields this view can change** list, because placing a card means writing that field. Where the field is not declared the control is not shown at all, which is the honest version: an action the app would refuse is not an offer. Adding creates an ordinary note, then writes the lane's value into it; if the view declares a **Template**, the new note's body starts from that template's body, and the template's own frontmatter is not copied. If the note was created but could not be placed, the board says so and names the reason rather than leaving a stray note you cannot see.
+- **Moving a card.** Drag it to another lane and the grouped property is rewritten. A drop that is refused puts the card back and says why: **<reason>. The card is back in <lane>.** Selecting several cards with **Select <title>** and **Move <count>** moves them together.
+- **Renaming a lane** rewrites that property on every card in the lane, in one action you can undo as one action, and it reports any card that refused instead of pretending the lane is uniform.
+- **Lane order** is part of the view's definition, so reordering lanes is a view edit, not a note edit. A board whose lane order could not be saved says exactly that.
+
+A card that is not being dragged shows nothing extra: the lane is the shape, and the note is still an ordinary note you can open, archive, or put in the trash from the card's own menu.
+
+## Fields this view can change
+
+**View settings… → Fields this view can change** is the whole write authority a view carries. Leave it empty and the view can change nothing; add a property and the board may write that property, and only that one.
+
+There are three hard edges, and each of them is a refusal you will see rather than a silent failure.
+
+- **Archived, deleted, and trashed are never offered.** Those are how the app takes a note out of the way, so a view that could set them could hide its own notes from the vault.
+- **Every change is checked against the list before it is written**, and a change to a field that was edited somewhere else since the view last read it is refused rather than overwriting the newer value.
+- **A field that is not a property in this vault is not offered.**
+
+A view that arrived from another device or from a file starts out approved on the device that made it and not on this one. Until you approve it here, its definition is stored and it reads nothing.
 
 ## View settings and covers
 
@@ -91,9 +115,25 @@ The import is deliberately lossy, and it tells you exactly what it left behind r
 
 You can also turn a tag selection into a view without the builder. In the Tag browser, the active tag selection plus its AND/OR mode becomes a saved view through **Save as view**: each selected tag becomes a tag condition. A blank name falls back to a label derived from the tags, or **Filtered view** when there is nothing to derive from. A view made this way defaults to the cards type.
 
+## Exporting a view, and importing one
+
+**View settings… → Export saved view…** writes the view's definition as one `.myneview` file where you choose. The helper line is literal about what it leaves out: **Write the saved definition as a .myneview file somebody else can import. Changes you have not saved yet are not included.** View settings also shows the version the definition is at, and says there is nothing to edit there: the version moves forward on its own when you change the view.
+
+To bring one in, open the command palette, run **Manage views…**, and press **Import view**. The dialog reads the file first and shows you what it selects and reads before anything is stored. What happens next depends on the file:
+
+- **A view this vault does not have** is added, and it is kept at the version it arrived at.
+- **A newer version of a view you already have** replaces the definition, and the replacement does not approve itself: it arrives needing your approval on this device, because what you approved was the version you were shown.
+- **The same version, the same bytes** is a no-op that says nothing needs doing, so a file you download twice is not an error.
+- **The same version with different contents** is refused. Either a different author reused the id, or the file changed after it was signed off, and neither is something to overwrite with.
+- **An older version** is refused, with both versions named.
+
+A file that is not a view this build can represent is refused with the reason stated, and nothing in the vault changes: it is not well-formed JSON, a required field is missing, it carries no version to compare, a field holds the wrong kind of value, it is larger than a view definition may be, it names a key this version of Myne does not know, or it would let the view change `archived`, `deleted`, or `trashed`.
+
+The dialog also states the two things a view is allowed to be. A view describes what to show and **cannot run code**. A view's **Fields this view can change** list is the only thing it may write, and it is checked on every change. Read the list before you approve a file somebody sent you, exactly as you would read a filter.
+
 ## Limits
 
-A saved view is a read-only projection. It never mutates a note and never writes to disk beyond its own definition. That definition lives inside the vault's encrypted preferences; a view's name and its filter are treated as sensitive, so Myne never logs the name or the query itself — only operation counts.
+A saved view writes only inside two narrow permissions, and both are visible before they are exercised: it may change the properties listed under **Fields this view can change**, and a board may create an ordinary note and set its lane property. It never writes anything else. Its own definition lives inside the vault's encrypted preferences, and a view's name and filter are treated as sensitive: Myne never logs the name or the query itself, only operation counts.
 
 Whether the sidebar shows the **Views** entry at all is a separate, device-local display setting stored outside the vault. It holds no view content — only a yes or no — which is why it does not travel to your other devices.
 
@@ -105,6 +145,6 @@ When the vault is locked, a view has nothing to read, so it resolves to an empty
 
 | Action | macOS | Windows / Linux |
 |---|---|---|
-| Open command palette (then **Browse views…** or **Import .base view…**) | ⌘K (alias ⌘P) | Ctrl K |
+| Open command palette (then **Browse views…**, **Import .base view…**, or **Manage views…**) | ⌘K (alias ⌘P) | Ctrl K |
 | Open a card's note in a new tab | ⌘-click / middle-click | Ctrl-click / middle-click |
 | Open a card's note to the side | Alt-click | Alt-click |

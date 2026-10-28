@@ -8,7 +8,7 @@ tags: ["settings", "devices", "security"]
 
 The **Account** panel is the account-level surface: it names the account this device groups vaults under, lists the vaults in that group, and holds the browser-extension pairing controls. It sits first in the settings rail. It shows your identity's account number when this device holds an identity, and it never shows a vault's own number, which this page explains below.
 
-![The Account settings panel showing the account name, the vaults grouped under it, and the browser-extension pairing controls.](./account.png)
+![The Account settings panel, here on a vault that stands on its own rather than in a group, with the browser-extension pairing controls below it.](./account.png)
 
 ## Prerequisites
 
@@ -20,16 +20,15 @@ On a phone, the vault-scoped controls live in a **Vault** category of their own 
 
 ## What's in the panel
 
-- **Account name**: the name you gave the set of vaults this device treats as one identity, with an inline rename beside it. It is a per-device organisational choice kept in the device-local record, so it never syncs — renaming the account here does not rename it on another device, and each device can group its vaults under a different account name.
-- **Vaults**: the vaults currently grouped under this account on this device, with a count. Each row shows the vault's icon and name, a second line for its state (this vault, when it was last opened, whether it is on your sync server or device only, or that this device could not read it), and a menu that moves it. The menu offers **Move to new account**, and **Move to account…** for every other account on this device. Moving the only vault out of an account deletes that account and the name you gave it, so Myne asks before it does.
+- **Vaults**: the vaults this device groups together, with a count, under the heading **This account**. It is a read-out: each row shows the vault's icon and name and a second line for its state (this vault, when it was last opened, whether it is on your sync server or device only, or that this device could not read it), and the roster offers no actions. There is nothing here to rearrange, because Myne holds one account at a time; [Multiple vaults](/user-guide/safety-and-recovery/multiple-vaults/) explains why the move and split controls are gone rather than merely absent.
 - **Account number**: your identity's number, with a **Copy** button. It is derived from your identity phrase, so it needs no saving and cannot be lost; see the section below. On a device with no identity the row says so instead of showing a value.
 - **Open Sync**: a button to the Sync panel, where devices, the members of a shared vault and your person identity live. Before this button existed the panel only said where to go.
 - **Browser clipper**: a switch that registers the native-messaging host the Myne browser extension talks to. It is on by default; turning it off removes the host, so no extension can reach this app until you turn it back on. See [Browser clipper](/user-guide/attachments-and-import/browser-clipper/).
 - **Connected extensions**: the browser extensions currently paired with this vault, with a per-row Revoke. A revoked extension has to pair again before it can send clips.
 
-The account name and the vault's own name are two different things, and the split is deliberate: the **account** is the device-local grouping of vaults, while the **vault** is the sealed container itself, whose label and icon live in the [Vault panel](/user-guide/settings-and-privacy/vault/). A vault keeps its label wherever it goes; an account name describes this device's own arrangement of them.
+The group heading and the vault's own name are two different things, and the split is deliberate: the heading is a per-device arrangement of vaults, built from their names, while the **vault** is the sealed container itself, whose label and icon live in the [Vault panel](/user-guide/settings-and-privacy/vault/) and travel with it. A vault keeps its label wherever it goes; the grouping describes only this device's own arrangement of them.
 
-In a browser the panel is shorter: browser extensions do not pair with a browser tab, so the clipper switch and the extension list are absent there, and the account name and vault list are what remain.
+In a browser the panel is shorter: browser extensions do not pair with a browser tab, so the clipper switch and the extension list are absent there, and the vault roster is what remains.
 
 ## Your account number
 

@@ -28,21 +28,15 @@ On macOS and iOS, a vault this device has unlocked before is listed by its real 
 
 ## Grouping vaults under an account
 
-When you have more than one vault, Myne groups them under an **account** so the picker reads as your vaults rather than a list of strangers. The account is a name you choose, and it lives only on this device: it is not synced, and it does not change how your vaults are encrypted or how the server sees them.
+When you have more than one vault, Myne groups them under an **account** so the picker reads as your vaults rather than a list of strangers. The group has no name you type: its heading is built from the names of the vaults inside it, which is also what keeps two groups from carrying one invented label. The grouping lives only on this device: it is not synced, and it does not change how your vaults are encrypted or how the server sees them.
 
 Each vault keeps its own password and its own key. What a vault carries beyond that depends on how it was created. A vault created from your **identity** has no recovery phrase and no account number of its own, because the identity is both: that is what makes a second vault cost one password and nothing else to write down. A vault that still has its own recovery phrase and account number (created before identities existed, or created in a browser) keeps them, and its kit still has to be stored as before.
 
 The grouping is automatic. On upgrade, the vaults already on this device are placed into one account. A new vault joins the account you most recently unlocked, or a fresh account if this is your first vault. On a device with no keychain (Windows, Linux, and Android today), there is nowhere to seal the account record, so vaults stay listed individually with no grouping and no error.
 
-From the picker you can:
+Nothing in the picker rearranges that grouping, and the reason is structural rather than a missing button. A second account could only ever come into being by moving a vault out of the first one, and Myne holds one account at a time, so the move went with the state it would have created. The heading describes this device's arrangement; it does not control it.
 
-- **Rename the account.** Right-click a vault and choose **Rename account**, then type the name in the inline form. The header above the group updates.
-- **Move a vault to a new account.** Right-click a vault and choose **Move to new account**. It leaves its current group and starts a new one.
-- **Move a vault to another account.** Right-click a vault and choose **Move to account**, then pick the destination account from the list. You choose from your accounts; there is nothing to type.
-
-These are organisational choices on this device only. If you group differently on your laptop and your phone, each keeps its own grouping, and Myne never shows a conflict about it. If a grouping change fails, the picker says so and keeps showing the old grouping: a failed rename or move never looks like success.
-
-These actions appear only for vaults that belong to an account, and only while a vault is unlocked: rename, move and split are refused on a locked device, so the locked picker is a read surface. A vault with no account (on a device with no keychain, or while vault names are hidden) offers no rename or move, because there is nothing those actions could change. While [vault names are hidden](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/), grouping is suppressed entirely: the picker lists every vault individually with no headers, and the account actions are refused rather than applied invisibly.
+The grouping is a per-device choice in the sense that it is made here and kept here: if your laptop and your phone group differently, each keeps its own and Myne never shows a conflict. If this device's grouping cannot be read at all, the picker says so and lists the vaults it can see rather than inventing an arrangement to show you. And while [vault names are hidden](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/), grouping is withheld entirely rather than shown half-blind, because a heading is nothing but a set of names.
 
 ## Naming a vault and giving it an icon
 

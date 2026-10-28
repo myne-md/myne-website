@@ -1,7 +1,7 @@
 ---
 title: "Browser clipper"
 category: "attachments-and-import"
-updated: 2026-08-13
+updated: 2026-10-28
 summary: "Save web pages into your vault with the Myne Clipper browser extension. Turn on the Browser clipper setting, pair the extension to your open vault with a numeric challenge, clip a page or selection to the vault root as markdown with its images, and manage or unpair browsers from Connected extensions."
 tags: ["attachments", "import"]
 ---
@@ -41,6 +41,8 @@ A clip lands as an ordinary note at your vault root. It is a normal `.myn` note 
 
 - **A page or a selection** is saved as markdown. Select text first to clip just that selection; otherwise the readable article is captured. Images in the captured content are imported as [attachments](/user-guide/attachments-and-import/attachments/) and embedded in the note. When an image cannot be brought in, the note records how many were omitted, by type, so nothing is dropped silently.
 - **A bookmark** is a content-light note pointing at the page.
+
+The note takes its name from the page's title, the same way whether you clipped the page or a selection. A page that has no title lands untitled, and you rename the note like any other.
 
 A clip records where it came from as ordinary frontmatter. A page or selection clip carries a `source:` and `url:` for the page address plus a `clipped:` timestamp; a bookmark carries `source:` and `clipped:` (no `url:` field). These are plain fields you can read or edit, and editing and re-saving a clip keeps them. When a clip is saved, Myne shows a "Clipped to your vault root." notice with a **View** action that opens the new note.
 

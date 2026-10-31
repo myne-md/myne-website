@@ -1,16 +1,18 @@
 ---
 title: "Sharing a vault with members"
 category: "sync-and-devices"
-updated: 2026-10-25
-summary: "Invite other people into one shared vault. Each member joins with their own identity, sets a password for their own device and picks the name the others see; your master password and recovery phrase never leave your control. Covers roles, inviting and accepting, names in the member list, and what removal does and does not do."
+updated: 2026-10-30
+summary: "Invite other people into one shared vault. Each member joins with their own identity and sets a password for their own device; your master password stays yours, and the recovery phrase recovers your identity rather than the notes. Covers roles, inviting, names, and removal."
 tags: ["devices", "sync", "security"]
 ---
 
-A Myne vault can be shared with the people you work with. Each member joins the vault with their own identity and their own credentials. Your master password and your recovery phrase stay yours: nobody you invite ever needs either one.
+A Myne vault can be shared with the people you work with. Each member joins the vault with their own identity and sets their own password for it on their own device. Your master password stays yours: nobody you invite ever needs it, and no vault key is handed across when you invite someone.
+
+A shared vault has no vault password of its own to share. It opens, on each member's device, with the password that member set there. That is a change from earlier versions, where the recovery phrase opened a shared vault on any device; it no longer does.
 
 ## What sharing is
 
-Sharing is per person. Each member holds their own identity, a keypair derived from their own recovery phrase, so the same phrase gives the same identity on every device they own. The vault's content key is wrapped to each member separately; the vault's own recovery phrase and master password are never shared.
+Sharing is per person. Each member holds their own identity, a keypair derived from their own recovery phrase, so the same phrase gives the same identity on every device they own. The vault's content key is wrapped to each member separately; the vault's master password is never shared, and a vault created today has no recovery phrase of its own to share.
 
 A shared vault has exactly one owner, the person who created it, and zero or more members. The member list is carried inside the encrypted vault metadata: your sync server relays it but cannot read it.
 
@@ -33,7 +35,7 @@ A shared vault has exactly one owner, the person who created it, and zero or mor
 1. Open Myne. At zero vaults, an identity-only home shows the invites addressed to you, each named by the vault's account hash.
 2. Open the invite. Myne asks for the owner's identity code, so paste the code they shared with you. It is checked against the invite when you accept, and a code that does not match is refused. There is no out-of-band fingerprint comparison in this flow, and no owner name to confirm.
 3. Enter your own recovery phrase. This is your phrase, not the vault owner's.
-4. Choose a password for this vault **on this device**. It is separate from the owner's password and from your recovery phrase: it opens this shared vault here, and your phrase stays the portable way back in. Myne checks it against its minimum strength as you type, and on the desktop the field labels how strong it is, from **Too weak** to **Strong**.
+4. Choose a password for this vault **on this device**. It is separate from the owner's password and from your recovery phrase: it is what opens this shared vault here, and it is the only credential that does. Myne checks it against its minimum strength as you type, and on the desktop the field labels how strong it is, from **Too weak** to **Strong**. You can put a PIN or a device biometric in front of it later under **Settings → Privacy**, in the **Shared vault unlock** row under **Locking and unlocking**.
 5. Choose a display name. This is what the other members see beside your fingerprint in the member list. Myne asks for it before the accepted vault reaches the editor, and skips the question when the vault's list already holds a verified name for you, as it does if you were invited to a vault you are already named in.
 
 The shared vault then unlocks as a member. You keep your own credentials, and you are never shown an owner-only control.
@@ -54,9 +56,11 @@ Every member of a shared vault can read and write the vault's notes and attachme
 
 When you and another member have the same note open at the same time, you see each other's cursors, selections and names as you type. See [Live collaboration](/user-guide/sync-and-devices/live-collaboration/) for what is shown and what it does and does not prove.
 
-The password you chose when you accepted is stored on this device only, and it is not the owner's password. On a later start the Unlock screen says the vault is shared with you and asks for the password you set here. Your recovery phrase still opens the vault anywhere, and on a new device the password has to be set again.
+The password you chose when you accepted is stored on this device only, and it is not the owner's password. On a later start the Unlock screen says the vault is shared with you and asks for the password you set here.
 
-To change that password, replace it with a PIN or a device biometric, or remove it and go back to the phrase, use **Settings → Privacy → Locking → Shared vault unlock**. If you accepted an invite before that step existed, the vault asks for your recovery phrase every time until you set one, and the row says so. The stored copy also carries your identity, so a leaked shared-vault password would open your identity in your other vaults too; leave it off if a stolen device is part of your threat model.
+That password is the only way into a shared vault on this device. Your recovery phrase does not open it, and it cannot: the phrase recovers your identity and fetches the sealed package the owner addressed to you, which is what a **new** device needs to join. Once a device has joined, its own password is the door, so a device whose password is gone needs a fresh invite from the owner rather than a phrase. Myne offers no phrase arm on a shared vault's unlock screen at all, and a device with no credential says so instead of showing a grid that cannot open it.
+
+To change that password, or replace it with a PIN or a device biometric, use **Settings → Privacy → Locking and unlocking → Shared vault unlock**. Removing the credential there leaves the vault closed on this device until the owner invites it again. The stored copy also carries your identity, so a leaked shared-vault password would open your identity in your other vaults too; leave it off if a stolen device is part of your threat model.
 
 ## Unlocking your identity on a device
 
@@ -74,7 +78,7 @@ Myne does not yet show a key-change or owner-confirmed-relink state on the membe
 
 Only the owner can remove a member. Removing someone rotates the vault's keys, so they no longer receive future changes, and the server stops accepting their access.
 
-The remaining members pick up the new key on their next sync or unlock. If a member's device was offline through the removal, it keeps working from the key it had and catches up the first time it reaches the server; nothing has to be re-invited or re-enrolled. A member's stored shared-vault password, PIN or biometric still unlocks after a rotation, so they are not sent back to the recovery phrase.
+The remaining members pick up the new key on their next sync or unlock. If a member's device was offline through the removal, it keeps working from the key it had and catches up the first time it reaches the server; nothing has to be re-invited or re-enrolled. A member's stored shared-vault password, PIN or biometric still unlocks after a rotation, so they are not sent back to a fresh invite.
 
 Notes and attachments a member wrote while offline are moved to the new key on that same catch-up, before the new key is installed, so content that never reached the server also survives the removal. That step is what makes removal safe for a member who was working offline; it is not a way to keep access, because the old key no longer opens anything the owner writes afterwards.
 
@@ -86,4 +90,4 @@ Notes and attachments a member wrote while offline are moved to the new key on t
 - **AI provider settings are shared, writable, and each member's consent is their own.** A shared vault's preferences sync, so the AI provider, the provider key and the chosen model are part of the shared vault settings. Every member of the vault can read them **and change them**: there is no owner of the provider key and no per-member copy of it, so the key that sends your notes is whichever one the shared settings currently hold, and another member can replace it. Whether to send to that provider at all is a per-device consent, and each member grants it on their own device, but consent is not authorship: consenting on one device does not pin the key that device will use. Treat a shared vault's provider credential as visible to everyone in the vault and changeable by everyone in it. The practical consequence is that a provider key another member pasted badly, with a stray line break from a copy out of a terminal, leaves every member who has consented to send unable to send, until it is replaced. Myne does not repair a key on your behalf and cannot show you the stored one, so the fix is for a member to paste a fresh one from the provider's own page, and the other members see the effect of that paste the way they see any other shared setting.
 - **A removed member's private AI profile is scheduled for deletion after a retention period**, an operator policy rather than a cryptographic guarantee; anything they already copied is not recalled.
 - **The identity list and the membership graph.** Your sync server knows only the pseudonymous account-to-vault mapping, the accepted exposure described in [How sync works](/user-guide/sync-and-devices/how-sync-works/); it reads no names, no fingerprints, and no note content.
-- **Sharing is not on the web client.** Myne in a browser does not offer member sharing, because it depends on the recovery phrase as a credential, which does not belong in a served page.
+- **Sharing is not on the web client.** Myne in a browser does not offer member sharing, because it depends on your identity as a credential and on signing membership rows with it, which does not belong in a served page. The same applies to adding a device by admission: a browser can hold neither half of that ceremony, so the control is absent rather than present and failing.

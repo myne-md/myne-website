@@ -1,61 +1,71 @@
 ---
 title: "If you forget your password"
 category: "safety-and-recovery"
-updated: 2026-10-16
-summary: "What you can and cannot do if you forget your master password, how the 24-word recovery phrase lets you set a new one, why a vault shared with you is different, what to check before you type the phrase into a browser, and what happens if both are lost."
+updated: 2026-10-30
+summary: "What happens when a vault's master password is forgotten, why a current vault has no second way in, which vaults still have a recovery phrase, what a vault shared with you offers instead, and what to do before you are in that position."
 tags: ["recovery", "security"]
 ---
 
-If you forget your master password, your recovery phrase is the way back in. This article covers using it, and what happens if you have lost both.
+A vault created today opens with its master password and with nothing else. If you forget that password, the vault cannot be opened: not by you, not by Myne, not by anyone. This article says that plainly, then covers the two cases where a way back still exists, and what to do now rather than later.
 
-## If you've lost both, the data is gone
+## The short answer
 
-If you have lost **both** your password and your recovery phrase, the vault cannot be opened, by anyone, ever. There is no backdoor, no reset email, and no support request that recovers it. Myne never holds a copy of your keys, which is exactly the property that keeps your notes private. This is the one unrecoverable situation; everything else on this page is recoverable. The rest of the safety section assumes you still have at least one of the two.
+**A vault created from your identity since 2026-10-30 has no recovery credential.** Its key is wrapped once, under your master password. There is no recovery phrase for the vault, no reset email, no support request that recovers it, and no backdoor. Myne never holds a copy of your keys, which is exactly the property that keeps your notes private.
 
-## Unlocking with your recovery phrase
+Your **identity phrase** does not change this. It recovers your identity, which is a different thing: the keypair, the account number, and the list of vaults that account owns. It opens no notes. A device that still has the vault's files and a password you remember is a working vault; a forgotten password with no backup is a lost one.
 
-On the Unlock screen, below the password box, is a link: **Forgot your password? Unlock with recovery phrase**. Choose it and:
+That is why the backup is the answer, and it is worth taking seriously before you need it: [Back up your vault](/user-guide/safety-and-recovery/back-up-your-vault/).
 
-1. Pick the vault, if you have more than one. (You can jump to it by account number, but that is optional.)
-2. Enter your 24 recovery words. Each word is checked as you go, so a mistyped or misremembered word is caught immediately.
-3. **Set a new password.** This step is required: unlocking with the phrase always ends by giving the vault a fresh password, so you have a password again next time.
+## The two cases where a way back exists
 
-That's it. You're back in, with a new password and the same recovery phrase as before.
+### A vault that still carries its own recovery phrase
 
-If the vault you recovered belongs to an account that holds other vaults, Myne tells you how many more there are and offers a **Recover another vault** path, so you do not silently leave a sibling unrecovered. The count is a number only; it never shows anything about the other vaults beyond what the picker already shows.
+Myne stopped creating vault recovery phrases on 2026-10-30, but vaults made before that keep theirs until their owner runs the format upgrade. If your vault has one, the unlock screen still offers it.
 
-If you have turned it on, the Unlock screen also offers a faster way back after the vault auto-locks: a short PIN, or macOS Touch ID, instead of the full password. It is opt-in from Settings → Privacy → Locking and does not replace the password. With a PIN, your master password is still required after the app restarts (a configured Touch ID credential can be used on a cold start). See [Quick unlock with a PIN or Touch ID](/user-guide/settings-and-privacy/quick-unlock/) for what it does and does not cover. Quick unlock is a convenience, not a recovery path: if you have forgotten the password, use the recovery phrase as above.
+You can tell by opening **Settings → Vault** and looking for a **Vault format** block that offers **Retire my vault phrase**. That block means the vault still has a phrase of its own. No block means there is nothing to recover with.
 
-Setting a new password through recovery also turns quick unlock off on this device. The PIN or Touch ID credential you had is deleted as part of the reset, without a prompt, so that anyone who knew the old PIN loses access along with the old password. Set it up again from **Settings → Privacy → Locking** when you want it back.
+With such a vault:
 
-## If you forget the password on a shared vault
+1. On the Unlock screen, choose **Forgot your password? Unlock with recovery phrase**.
+2. Pick the vault, if you have more than one.
+3. Enter your 24 recovery words. Each word is checked as you go, so a mistyped word is caught immediately.
+4. **Set a new password.** This step is required: unlocking with the phrase always ends by giving the vault a fresh password.
 
-A vault someone invited you into does not ask for the owner's password, and the owner cannot reset yours. The password there is the one you chose when you accepted the invite, stored on that device only. Forgetting it costs you nothing: the Unlock screen offers your recovery phrase as the way in, and once the vault is open you set a new password for this device from **Settings → Privacy → Locking → Shared vault unlock**. The owner does not need to do anything and cannot do it for you.
+If the vault belongs to an account that holds other vaults, Myne tells you how many more there are and offers **Recover another vault**, so you do not silently leave a sibling behind. The count is a number only; it says nothing about the other vaults beyond what the picker already shows.
 
-The phrase is worth more in a shared vault than in your own. In your own vault it is a second key to the same vault. In a shared one it is also your identity, the thing that makes you the same member to everyone else, so losing it costs more than losing the password does. Devices where the vault is still open keep working, and a device with a password set keeps working. What you cannot do is appear as yourself anywhere new: the owner cannot reissue your identity, and inviting you again with a fresh phrase makes you a new member with a new fingerprint. Your notes in that vault and the other members are unaffected either way. See [Sharing a vault with members](/user-guide/sync-and-devices/sharing-a-vault-with-members/) for what a member's credentials are.
+Setting a new password this way also turns quick unlock off on that device. The PIN or Touch ID credential is deleted as part of the reset, without a prompt, so that anyone who knew the old PIN loses access along with the old password. Set it up again from **Settings → Privacy → Locking and unlocking** when you want it back.
 
-## Recovering in a browser
+### A vault someone shared with you
 
-You can do the same thing in a browser client you run yourself. The **Forgot your password? Unlock with recovery phrase** link is on the browser's unlock screen too, it leads to the same 24-word grid, and it ends the same way, with a required new password. Two things are worth knowing before you type those words into a web page.
+A vault you were invited into does not use the owner's password, and the owner cannot reset yours. The password is the one you chose when you accepted the invite, stored on that device only.
 
-Myne asks for your 24 words in a browser in more than one situation now, so the old rule ("a browser asks only in a recovery you started") no longer holds and this page does not state it. The browser asks when you create your identity, type its words back, register the identity, unlock a vault whose recovery credential is your identity, join a device, or start a recovery after forgetting a password. **The check is yours:** read the address before you type them, and if the page reached you as a link in a message or an email, do not type them at all. Anyone who has your phrase can open every vault you own from anywhere and keep opening them: the phrase does not change when you change your password, and there is no way to revoke it.
+Forgetting it is not the end of the vault, and the way back is the owner rather than a phrase. Ask for a **fresh invite**, or for the owner to admit this device again. Accepting it gives you a new password on this device and leaves the notes, the other members and your access untouched. Myne offers no recovery-phrase arm for a shared vault at all: there is no toggle and no 24-word grid, and a device with no credential shows a sentence naming the fresh invite as the only way in.
 
-A browser extension you have granted access to the site can read what is on the page, including the words as you type them. No Myne setting changes that, and the page cannot detect it. If you are not certain about every extension in that browser profile, recover in the desktop or mobile app, or use a clean profile for this step. Neither problem applies to the desktop and mobile apps: an app on your machine cannot be impersonated by a web address.
+Your identity phrase still matters here, but for a different job: it is what makes you the same member to everyone else. Losing it does not lock you out of a vault that this device already holds a credential for, and it does not cost you your notes. What it costs is appearing as yourself anywhere new: the owner cannot reissue your identity, and inviting you again with a fresh phrase makes you a new member with a new fingerprint. See [Sharing a vault with members](/user-guide/sync-and-devices/sharing-a-vault-with-members/) for what a member's credentials are.
 
-## What actually happens to your keys
+## What a phrase can still be asked for
 
-It helps to know what that new-password step does and doesn't do. Your vault is protected by a single random key that lives inside it. Two independent wraps of that key exist: one locked by your password, one locked by your recovery phrase. Unlocking with the phrase opens the phrase's wrap; setting a new password **rewrites only the password's wrap**. The vault's internal key never changes, your notes are not re-encrypted, and your recovery phrase keeps working unchanged. The phrase is not your password and does not derive it. It's a second, independent key to the same vault.
+Myne asks for your 24 words in more than one situation, and none of them is "open my notes":
 
-Two things fall outside that account, and both belong to the vault format upgrade. [Upgrading the vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/) does replace the vault's internal key and re-encrypt every note — that is the one operation that changes it. And while an upgrade is still unfinished, the pre-upgrade copy staged on this device stays readable with the old password, so changing your password does not lock that copy away until you finish the upgrade.
+- creating your identity, and typing its words back;
+- registering the identity with a sync server;
+- bringing a new device into the account;
+- unlocking the identity on a device that holds it but has it locked.
+
+**The check is yours:** read the address before you type the words, and if the page reached you as a link in a message or an email, do not type them at all. Anyone who has your identity phrase can be you on a new device. That is a different loss from losing notes, and it is worth knowing which one you are exposed to.
+
+A browser extension you have granted access to the site can read what is on the page, including the words as you type them. No Myne setting changes that, and the page cannot detect it. If you are not certain about every extension in that browser profile, do this in the desktop or mobile app, or use a clean profile.
 
 ## On a new computer
 
-The recovery phrase unlocks a vault, but it does not conjure one out of nothing. On a fresh machine with no vault yet, the phrase alone restores nothing: it unlocks a vault, it does not fetch one. You first need the vault's files on that machine — by restoring a backup (see [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/)), or, if you have turned on sync, by adding the machine as a device so it pulls your encrypted notes down (see [Add a device](/user-guide/sync-and-devices/add-a-device/)); then the phrase, or your password, unlocks them.
+A phrase unlocks things; it does not fetch them. On a fresh machine with no vault yet, the identity phrase alone restores nothing to read: it recovers the identity, and the vaults appear once this device is admitted to the account (see [Add a device](/user-guide/sync-and-devices/add-a-device/)) or once you restore a [backup](/user-guide/safety-and-recovery/restore-from-a-backup/). After that, each vault still asks for its own password.
 
 ## Starting over
 
-If both are truly lost, the only path forward is to start fresh. The Unlock screen has a last-resort link, **Lost both password and recovery phrase? Delete vault and start over**, which lets you delete the unopenable vault (you type DELETE to confirm) and create a new one. It recovers nothing; it only clears the way for a new vault.
+If the password is gone and there is no phrase and no backup, the only path forward is to start fresh. The Unlock screen has a last-resort link, **Lost both password and recovery phrase? Delete vault and start over**, which lets you delete the unopenable vault (you type DELETE to confirm) and create a new one. It recovers nothing; it only clears the way for a new vault.
 
 ## Limits
 
-The recovery phrase recovers a forgotten **password**; it does not recover lost **vault files**. In a vault shared with you it is also your identity, so it is the one credential there with no replacement at all. Keep the phrase and a recent [backup](/user-guide/safety-and-recovery/back-up-your-vault/) in separate, safe places. Together they cover both ways you could lose access.
+This page is not a recovery procedure for a current vault, because there is none. What protects you is a [backup](/user-guide/safety-and-recovery/back-up-your-vault/) kept somewhere other than the device the vault lives on, and a password you can still produce.
+
+A backup restores notes; it does not restore a forgotten password, because the backup's contents are sealed under that same password. Keep the backup and the password in separate places, and treat "I will remember it" as the weakest of the three things you are relying on.

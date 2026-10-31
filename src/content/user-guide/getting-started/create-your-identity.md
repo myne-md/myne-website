@@ -1,8 +1,8 @@
 ---
 title: "Create your identity"
 category: "getting-started"
-updated: 2026-10-23
-summary: "What a Myne identity is, why creating one needs no server, how its 24-word phrase recovers every vault you own, how the ceremony works, and what registering the identity with a sync server adds."
+updated: 2026-10-30
+summary: "What a Myne identity is, why creating one needs no server, what its 24-word phrase recovers and what it does not open, how the ceremony works, and what registering the identity with a sync server adds."
 tags: ["recovery", "security", "sync"]
 ---
 
@@ -22,15 +22,20 @@ That leaves the account in a state Myne calls **reserved**: the identity exists 
 
 Before the identity exists, Myne shows you a 24-word **identity phrase**. It is the account's only recovery credential, and it is also how you prove the identity is yours when you register it or accept an invitation.
 
-It is not a password. Myne never asks you to type it to unlock anything day to day: your vaults keep their own passwords for that. It is the phrase you reach for when a password is gone, when you bring a new device in, and when someone invites you.
+It is not a password, and it is not a way into your notes. Myne never asks you to type it to unlock a vault: your vaults keep their own passwords for that, and a vault created under your identity has no phrase of its own either. It is the phrase you reach for when you bring a new device in, when you register the identity, when you accept an invitation, and when you need to unlock the identity itself on a device that already holds it.
 
 The phrase is shown once. Myne hides it until you reveal it and hides it again if you switch away from the window. Before the step will close, it asks you to type four of the words back, naming each by its position in the phrase. A wrong word says which position it is, and the final **Done** stays disabled until all four match, so the step cannot be dismissed early. The point is to confirm the words left the screen into your hands: the phrase is never shown again, and an identity whose phrase was never saved cannot be recovered.
 
 ## What the phrase opens
 
-For a vault you create from now on, the identity phrase is also the vault's recovery credential. Myne wraps that vault's key to your identity when it creates the vault, so the 24 words open the vault on a new device without a second phrase to keep. This is why a vault created after your identity has no recovery phrase of its own, and no account number either: the identity is both.
+It opens your **identity**, and nothing else. The identity is the keypair, the account number, and the list of vaults that account owns, which is what makes a new device able to find your vaults and be admitted to them. It does not open a vault, and it never did on a vault created today: the vault's key is wrapped under that vault's password, once.
 
-A vault you created before this existed keeps its own recovery phrase and its own account number, and opening it still works exactly as it did. Moving such a vault onto your identity is an explicit upgrade, covered in [Upgrade your vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/). Until you run it, keep that vault's phrase as well as your identity's.
+That is a deliberate split, and it is worth knowing both halves:
+
+- **The password opens the content.** A vault created under your identity has no recovery phrase of its own and no account number of its own; the identity is the account, the password is the door.
+- **The phrase proves who you are.** It is typed once per device, when that device needs to become yours.
+
+A vault you created before 2026-10-30 may still carry a recovery phrase of its own, and such a vault also has its own account number. Opening it works exactly as it did. [Upgrade your vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/) covers what changes if you run the upgrade: the phrase stops working and the vault opens with its password alone.
 
 ## After you create your identity
 
@@ -41,7 +46,7 @@ Myne lands you on your **identity home**. It shows your identity code, the publi
 - **Register this identity**, once you have a sync server to register it with. The state line above the button says which of three states the identity is in: on this device only, registered and waiting for approval, or registered and signed in. The same form is available from **Settings → Sync** once you have a vault.
 - **Forget this identity on this device** if you are moving to another one. The warning says what that does and does not remove: the identity leaves this device, while the server account and any vault it owns or joined are untouched. Recovering it elsewhere needs the same 24 words.
 
-A shared vault you join is unlocked with your **identity phrase**, never with a vault phrase you were never given.
+A shared vault you join is unlocked with **the password you choose for it on that device**, not with your identity phrase. The identity phrase is what makes you the same member to everyone else; the password is what opens the notes. If you lose that password, a fresh invite from the owner is the way back.
 
 ## In a browser
 
@@ -53,6 +58,8 @@ The difference from the desktop is what happens to it: the browser holds the ide
 
 ## Limits
 
-The identity phrase is the account. Anyone who has it can register as you, accept invitations addressed to you, and open every vault you own, on any device, for as long as those vaults exist. It cannot be rotated and there is no way to revoke it, so treat it like the key to everything the account holds rather than like a password you might change one day. Myne keeps no copy: losing it means losing the identity and the recovery path into every vault bound to it, while each vault's password still opens that vault on a device that already has it.
+The identity phrase is the account. Anyone who has it can register as you, accept invitations addressed to you, and be treated as you on any device that has no other copy of your identity. It cannot be rotated and there is no way to revoke it, so treat it like the key to who you are rather than like a password you might change one day.
+
+What it does **not** do is open a vault. Losing the phrase costs you the identity: the account number, the vault list, and the ability to bring a new device in. It does not cost you the notes on a device that already has the vault, because those open with the vault's own password. Myne keeps no copy of either, so a forgotten password with no backup is a lost vault and a lost phrase is a lost identity, and they are two different accidents.
 
 A browser page can be imitated in a way an installed app cannot, and a fake page asking for your 24 words is the one attack this model cannot stop. Read the address before you type them, and never type them into a page you reached from a link in a message. [Recovery phrase scams](/user-guide/safety-and-recovery/recovery-phrase-scams/) covers what to watch for.

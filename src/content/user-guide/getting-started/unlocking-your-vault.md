@@ -1,14 +1,14 @@
 ---
 title: "Unlocking your vault"
 category: "getting-started"
-updated: 2026-10-18
+updated: 2026-10-30
 summary: "How to unlock an existing vault with your master password each time you open Myne, what the unlock screen shows, and what it means for a vault to be locked."
 tags: ["vault", "security"]
 ---
 
-Once a vault exists, Myne keeps it locked until you enter your master password. This article covers what you see when you open the app, the message you get when a password doesn't work and why it is deliberately vague, and how to lock the vault yourself when you step away.
+Once a vault exists, Myne keeps it locked until you enter its master password, and for a vault created today that is the only way in. This article covers what you see when you open the app, what the unlock screen offers and why the offer depends on the vault, the message you get when a password doesn't work and why it is deliberately vague, and how to lock the vault yourself when you step away.
 
-![The unlock screen: the vault's name, the master-password field, and the recovery-phrase and delete-vault links below it.](./unlocking-your-vault.png)
+![The unlock screen: the vault's name and the master-password field, with the links below it chosen for that vault.](./unlocking-your-vault.png)
 
 ## What you see when you open Myne
 
@@ -30,7 +30,13 @@ If you turn on quick unlock, the Unlock screen leads with a faster re-entry opti
 
 ### The links under the password field
 
-Two links sit under the password field. **Forgot your password? Unlock with recovery phrase** starts the recovery flow. **Lost both password and recovery phrase? Delete vault and start over** is the only remaining option when both are gone — and it is irreversible: deleting the vault destroys its notes, and nothing brings them back except a backup you took earlier. If you keep more than one vault, a **Choose a different vault** link takes you back to the picker.
+What sits under the password field depends on the vault, and Myne checks rather than guessing.
+
+- **A vault created today** has no second credential, so there is no recovery link. The screen says the vault opens with its password only, which is the honest version of an empty space: a link that could only fail is worse than no link.
+- **A vault that still carries its own recovery phrase** (created before 2026-10-30, and not yet upgraded) shows **Forgot your password? Unlock with recovery phrase**, which starts the recovery flow. [Upgrade your vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/) covers how such a vault moves to the password-only shape, and what that removes.
+- **A vault an owner shared with you** has neither: it opens with the password, PIN or biometric you set for it on this device, and a forgotten one is replaced by a fresh invite rather than by a phrase.
+
+**Lost both password and recovery phrase? Delete vault and start over** appears when both are gone, and it is irreversible: deleting the vault destroys its notes, and nothing brings them back except a backup you took earlier. If you keep more than one vault, a **Choose a different vault** link takes you back to the picker.
 
 ### When the password doesn't work
 
@@ -44,7 +50,7 @@ The message is intentionally ambiguous, and the ambiguity is a privacy property,
 
 The Welcome screen also carries a **Restore from backup** door. If you are setting up on a new machine, or your vault file is damaged, you restore from a `.myne-backup` file rather than unlocking an existing vault. The how and the caveats live in [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/).
 
-The third door, **Add this device to an account**, is for a vault that already exists on another device and syncs. You give the sync server, your account number and your master password — no recovery phrase — and this device waits until a device already signed in approves it; the vault then arrives over sync rather than from a file. Before a device syncs for the first time, Myne shows you the beta terms and waits for you to accept them. They state what sync sends to the server you choose, what happens if you lose both your master password and your recovery phrase, what happens if that server goes away, and what its operator can see and do. Each device is asked separately, because the acceptance is not carried across by sync. [Add a device](/user-guide/sync-and-devices/add-a-device/) covers that flow. The same door is reachable later from the vault picker and the vault switcher.
+The third door, **Add this device to an account**, is for a vault that already exists on another device and syncs. You give the sync server and your identity phrase, and this device waits until a device already signed in approves it; the vault then arrives over sync rather than from a file, and it opens with its own master password. Before a device syncs for the first time, Myne shows you the beta terms and waits for you to accept them. They state what sync sends to the server you choose, what happens if you lose your master password, what happens if that server goes away, and what its operator can see and do. Each device is asked separately, because the acceptance is not carried across by sync. [Add a device](/user-guide/sync-and-devices/add-a-device/) covers that flow. The same door is reachable later from the vault picker and the vault switcher.
 
 ## Locking the vault
 
@@ -52,4 +58,4 @@ The bottom bar has a **Lock** control, next to Settings. Selecting it locks the 
 
 ## Limits
 
-The Unlock screen protects your vault against someone who has your computer but not your password; its strength is your password's strength and the deliberately slow key derivation behind it. It does not protect a vault that is already unlocked and open on screen; lock it when you step away. Quick unlock is a convenience layer over that same encrypted vault, not a stronger gate — [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/) covers its trade-offs.
+The Unlock screen protects your vault against someone who has your computer but not your password; its strength is your password's strength and the deliberately slow key derivation behind it. For a vault created today there is no second credential behind it either, so that strength is the whole barrier rather than one of two: a forgotten password with no backup is a lost vault. It does not protect a vault that is already unlocked and open on screen; lock it when you step away. Quick unlock is a convenience layer over that same encrypted vault, not a stronger gate — [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/) covers its trade-offs.

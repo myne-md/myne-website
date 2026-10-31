@@ -56,7 +56,7 @@ A published release reaches this site in one release pass (owned by
 4. Deploy **by hand over SSH** (`operations/runbooks/website-deploy.md`); this repo has had no CI
    since 2026-10-01, so a push builds and deploys nothing.
 
-**Independent of public/team-only:** a user-facing feature ships with its `/user-guide` update in the
+**Whatever the release ships:** a user-facing feature ships with its `/user-guide` update in the
 same change (root `AGENTS.md` standing obligation). The site's hashes are the *second witness* for
 release integrity (`design-notes/ops/0496`), so they come from the signed roster and are never
 fetched — a compromise of the downloads origin must not supply both the binary and its hash.

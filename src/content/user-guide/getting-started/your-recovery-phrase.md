@@ -1,31 +1,31 @@
 ---
 title: "Your recovery phrase"
 category: "getting-started"
-updated: 2026-10-22
+updated: 2026-10-30
 summary: "The 24-word phrase Myne shows you once, which phrase you were given and what it opens, the confirmation step that follows it, how the phrase screen protects the words while they are on display, and where to keep them."
 tags: ["recovery", "vault", "security"]
 ---
 
-Your recovery phrase is 24 standard English words that act as the way back into your account if a password is lost. You see it once, while something is being created. This article explains which phrase you were given, the confirmation step that follows it, how the phrase screen protects the words while they are on display, and where to keep them.
+Your recovery phrase is 24 standard English words that prove who you are. You see it once, while something is being created. This article explains which phrase you were given, what it does and does not open, the confirmation step that follows it, how the phrase screen protects the words while they are on display, and where to keep them.
 
-![Your master password and your 24-word phrase are two independent ways to open the same vault; the phrase is the offline way back and is never uploaded.](./your-recovery-phrase.svg)
+![Your identity phrase and your master password do different jobs: the password opens your notes, the phrase proves who you are.](./your-recovery-phrase.svg)
 
 ## Which phrase you have
 
-Myne has two phrases that look and behave the same. They differ in what they open, so check which one your setup showed you.
+Myne has two phrases that look and behave the same. They differ in what they open, and only one of them is created today.
 
-- **The identity phrase** is created first, on a fresh install, and it is the one most people now have. It recovers your **identity**: it is how you prove the identity is yours, how you bring a device into your account, and how you get back into **every vault you own**, because each vault you create from now on has its key wrapped to that identity. Vaults created this way have no phrase of their own.
-- **A vault recovery phrase** recovers **one** vault. You have one of these if the vault was created before identities existed or by an older version of Myne. It arrives in a **recovery kit** together with that vault's account number.
+- **The identity phrase** is created first, on a fresh install, and it is the one most people have. It recovers your **identity**: it is how you prove the identity is yours, how you bring a new device into your account, and how you find the vaults that account owns. It opens **no vault**. The vaults you create under an identity open with their own password and with nothing else.
+- **A vault recovery phrase** belonged to **one** vault. You have one of these if the vault was created before identities existed or by an older version of Myne. It arrived in a **recovery kit** together with that vault's account number. Myne no longer creates these, and the vaults that still have one keep it until their owner runs the format upgrade.
 
-If you are not sure which you have, look at what Myne asks for when you bring in a new device: the identity phrase is what an owner's device join asks for, and a vault phrase only appears for a vault that still carries one. [Upgrade your vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/) is how a vault moves onto one-phrase recovery.
+If you are not sure which you have, open the vault's **Settings → Vault**. A **Vault format** block offering **Retire my vault phrase** means that vault still has a recovery phrase of its own. No block means there is nothing to retire. [Upgrade your vault format](/user-guide/safety-and-recovery/upgrade-your-vault-format/) covers what that upgrade does and what it removes.
 
 Everything below applies to both.
 
 ## What the phrase is
 
 - **24 words from a standard list.** They are ordinary recovery words (the BIP-39 wordlist), chosen so they are easy to copy by hand and check for typos.
-- **A second, independent credential.** The phrase opens what it belongs to on its own; you do not need the password as well.
-- **It survives password changes.** Changing a vault's master password does not change any phrase; the same 24 words keep working.
+- **A credential in its own right, for one job.** The identity phrase is who you are; a vault phrase was the way into one vault. Neither needs the other's password.
+- **It survives password changes.** Changing a vault's master password does not change any phrase; the same 24 words keep working for the job they have.
 - **It is never sent anywhere.** There is no server copy and no upload, by design. That is also why no one can recover it for you; see the limit at the end.
 
 ## Confirming the phrase
@@ -60,10 +60,14 @@ Store the phrase the way you would store a spare key:
 - **In a password manager** is fine if you already trust one with your other secrets.
 - **"Save as file"** writes a plaintext `myne-recovery-phrase.txt`. On the desktop app it says whether the write landed, so a save that failed is not left looking like one that worked, on the one screen where the words are shown once and never again. In a browser it can only tell you the file was sent to your downloads: your browser chooses where it goes and Myne never sees whether it arrived, so check. In the **desktop and mobile apps**, and where the operating system supports file permissions, Myne writes that file readable only by your own user account, and never touches it again. A browser download is the browser's file, written wherever your downloads go and with whatever permissions that folder gives it; Myne has no hand in either. After that, protecting it is yours. Use it only as a transfer step. A plaintext copy of the phrase left **on the same device it protects** defeats the point: anyone who reaches that device gets both the vault and the key to it. Move the file to separate, safe storage, then delete the local copy.
 
-If you later forget a password, the phrase is how you get back in; see [If you forget your password](/user-guide/safety-and-recovery/if-you-forget-your-password/).
+Your password and your phrase are two different jobs, and only one of them gets your notes back: see [If you forget your password](/user-guide/safety-and-recovery/if-you-forget-your-password/) for what is and is not recoverable.
 
 ## Limits
 
-A phrase is exactly as powerful as the password beside it, and sometimes more. The identity phrase opens every vault you own; a vault phrase opens that one vault and any backup ever made of it, without its password. Neither can be revoked, rotated, or recovered by Myne, because Myne never had a copy.
+The two phrases protect different things, and it is worth being blunt about the difference.
 
-That is also the shape of the attack worth knowing about: anyone who has the words and can reach a page that asks for them is you. [Recovery phrase scams](/user-guide/safety-and-recovery/recovery-phrase-scams/) covers how to tell a real prompt from a fake one.
+The **identity phrase** recovers who you are: the keypair, the account number, and the list of vaults that account owns. Anyone who has it can register as you, accept invitations addressed to you, and be treated as you on a device that has no other copy of your identity. It does not open a single note.
+
+A **vault recovery phrase** opened one vault and any backup ever made of it, without that vault's password. Vaults created today do not have one, and the format upgrade removes the ones that do, after which a forgotten password means a lost vault.
+
+Neither phrase can be revoked, rotated, or recovered by Myne, because Myne never had a copy. That is also the shape of the attack worth knowing about: anyone who has the words and can reach a page that asks for them is you. [Recovery phrase scams](/user-guide/safety-and-recovery/recovery-phrase-scams/) covers how to tell a real prompt from a fake one.

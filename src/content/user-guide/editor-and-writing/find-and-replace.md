@@ -1,12 +1,12 @@
 ---
 title: "Find and replace in a note"
 category: "editor-and-writing"
-updated: 2026-08-30
+updated: 2026-10-31
 summary: "Open the in-note find bar with ⌘F to search the current note, step through matches, toggle case sensitivity, and reveal a replace row for replace-one or one-undo replace-all."
 tags: ["editor", "search"]
 ---
 
-The in-note find bar searches the note you are reading. Press `⌘F` (or `Ctrl F`) to dock it at the top of the editor pane, type into the **Find in note** box, and Myne highlights every match and shows a live count. Step through matches with Enter and Shift+Enter, toggle case sensitivity with the **Aa** button, and open a second row to replace the current match or rewrite every occurrence in one undoable step.
+The in-note find bar searches the note you are reading. Press `⌘F` (or `Ctrl F`) to dock it at the top of the editor pane, type into the **Find in note** box at its left edge, and Myne highlights every match and shows a live count. Step through matches with Enter and Shift+Enter, toggle case sensitivity with the **Aa** button, and open a second row to replace the current match or rewrite every occurrence in one undoable step.
 
 ![The find and replace bar open over a note, with a search term entered.](./find-and-replace.png)
 
@@ -26,7 +26,7 @@ By default find ignores case, so `note` also matches `Note` and `NOTE`. The **Aa
 
 ## Replacing text
 
-The chevron at the lead edge of the bar (**Toggle replace**) expands a second row with a **Replace with** input and two buttons.
+The disclosure button beside the match controls, at the right-hand end of the bar (**Toggle replace**), expands a second row with a **Replace with** input and two buttons.
 
 - **Replace** swaps the current match for the replacement text and advances to the next match. Pressing Enter in the **Replace with** field does the same thing.
 - **Replace all** shows the live match count in its label, for example **Replace all (12)**, and rewrites every occurrence at once. This happens as a single undoable step, so one `⌘Z` (or `Ctrl Z`) reverts the whole bulk replace, not just the last match.

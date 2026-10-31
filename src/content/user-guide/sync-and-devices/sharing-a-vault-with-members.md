@@ -64,7 +64,11 @@ To change that password, or replace it with a PIN or a device biometric, use **S
 
 ## Unlocking your identity on a device
 
-Sync signs everything you push with your identity, so a shared vault syncs only while your identity is unlocked for the session. If it is not, the sync status reads **Unlock your identity to sync** with an action that opens the **Identity** block's recovery-phrase entry.
+Sync signs everything you push with a key that stays on this device. The first time you unlock the identity, this device derives its own signing key from it and stores that key in the operating system's keychain, sealed to this device and excluded from backups. From then on the vault syncs without asking for your identity, and the identity can stay locked.
+
+Your identity is still needed for the things that belong to you rather than to the device: registering the account, joining a new device, publishing a vault, and inviting or removing members. Those actions ask for the recovery phrase even while sync is running.
+
+On a device with no stored signing key, the sync status reads **Unlock your identity to sync** with an action that opens the **Identity** block's recovery-phrase entry, and it asks again after every lock until a device key is stored. That is the state of a device whose operating system refused to store the key, and of any device before its first identity unlock.
 
 You only do this once per device. The first time you unlock the identity, the vault remembers it in a device-local file sealed with the vault's own key, so a later unlock of that vault installs it for you. To drop it, use **Lock member identity** in the **Vault members** panel (which stands it down until you unlock again) or **Forget this identity** (which erases the remembered copy). The remembered copy is never synced and never leaves the device.
 

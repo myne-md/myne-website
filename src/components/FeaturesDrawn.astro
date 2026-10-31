@@ -1,0 +1,550 @@
+---
+/*
+ * The two surfaces on /features that are drawn rather than photographed.
+ *
+ * ── Why drawn, when every other block carries a capture ──────────────────
+ *
+ * Meeting notes and Sync server replaced Markdown and Portability, and neither
+ * new subject exists in the capture pair the page needs: the guide frames on
+ * disk are a light run only, and a light capture shipped as a "pair" is exactly
+ * the defect the hero already had to fix once. A single-theme picture beside a
+ * claim is worse than no picture, because the reader in the other theme gets a
+ * frame that flickers against its own page.
+ *
+ * What was there instead was worse still: the block rendered no visual at all,
+ * so the section ran its copy across three-quarters of the row and left an
+ * empty half beside it, and the deck showed a title card with two lines of
+ * text on a blank plate. Two of seven sections read as unfinished, which is
+ * what "some of the screenshots are gone" means from the outside.
+ *
+ * So these are DRAWN, from the page's own tokens, which makes them the only
+ * illustrations on the site that follow the theme for free: a light reader gets
+ * a light card, because every colour here is a variable.
+ *
+ * ── The plate is paper, and the accent is rationed ───────────────────────
+ *
+ * `styles/panel.css` holds the plate: transparent, one hairline border, no
+ * shadow, no gradient, no glow. This file holds what is each panel's own.
+ *
+ * The meeting panel spends its entire accent budget on the voice line, because
+ * that is the only thing on it that is actually sound: the transcript label, the
+ * fact values and the foot are ink. The first version had a blue waveform, a
+ * blue label, blue chips and a blue corner wash, which is a panel that is
+ * uniformly lit and therefore emphasises nothing.
+ *
+ * The server panel spends it on the packets crossing the wire and on the two
+ * "none" values, which are the section's whole claim. Its nodes carry icons
+ * because a flow with three unlabelled boxes is a diagram of nothing.
+ *
+ * ── The copy rule still applies ──────────────────────────────────────────
+ *
+ * Nothing in these panels is a new claim. Every line restates the section it
+ * sits in or the guide behind it: the recording path is behind Developer mode,
+ * the system-audio tap is macOS-only, the transcript is written on the device,
+ * the server holds ciphertext and no keys. A drawn panel is not a licence to
+ * say something the threat model does not.
+ */
+import Icon from "./Icon.astro";
+import { voicePoints, VOICE_WINDOW } from "../scripts/voice";
+
+interface Props {
+  variant: "meeting" | "server";
+  /** Fill the deck's 1400×885 frame rather than sitting in a section column. */
+  bleed?: boolean;
+}
+
+const { variant, bleed = false } = Astro.props;
+
+/* The voice line is `scripts/voice.ts`, shared with the per-frame redraw in
+   pages/features.astro so the two cannot drift. This file renders the frame at
+   `time = 0`, which is what a reader with no JavaScript sees. */
+const VOICE = voicePoints(0);
+---
+
+<div class:list={["mp fs", `fs--${variant}`, { "fs--bleed": bleed }]}>
+  {
+    variant === "meeting" ? (
+      <>
+        <div class="mp__head fs__head">
+          <span class="mp__pill mp__pill--rec fs__rec">
+            <i class="mp__dot" aria-hidden="true" />
+            rec
+          </span>
+          <span class="mono fs__clock">42:18</span>
+          <span class="mono fs__head-right">new note</span>
+        </div>
+
+        {/* The one accent in the panel, and the only thing on it that moves:
+            the voice going in. */}
+        <div class="fs__voice">
+          <svg
+            class="fs__line"
+            viewBox={`0 0 ${VOICE_WINDOW} 60`}
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            {/* The shape here is the FIRST frame, rendered at build time: a
+                reader with no JS, or with reduced motion, gets a still voice
+                rather than an empty band. `data-*` carries the same numbers the
+                generator used so the runtime cannot drift from it, and the
+                page's script redraws the points in place, which is the
+                animation: the peaks move, the line does not travel. */}
+            <polyline
+              points={VOICE}
+              data-voice
+            />
+          </svg>
+        </div>
+
+        <dl class="mp__facts fs__facts">
+          <div class="mp__fact">
+            <dt>microphone</dt>
+            <dd>this device</dd>
+          </div>
+          <div class="mp__fact">
+            <dt>system audio</dt>
+            <dd>macOS 14.2 and later</dd>
+          </div>
+        </dl>
+
+        <div class="fs__block">
+          <span class="mono up fs__label">transcript · written here</span>
+          <p class="fs__line-row">
+            <b class="mono">You</b>
+            Can we ship the sync change this week?
+          </p>
+          <p class="fs__line-row">
+            <b class="mono">Ana</b>
+            Not until the migration runs on a real vault.
+          </p>
+        </div>
+
+        <p class="mp__foot">
+          audio attached · note saved on this device · nothing sent anywhere
+        </p>
+      </>
+    ) : (
+      <>
+        <div class="mp__head fs__head">
+          <span class="mp__pill mp__pill--live fs__rec">
+            <i class="mp__dot" aria-hidden="true" />
+            running
+          </span>
+          <span class="mono fs__head-right">your machine</span>
+        </div>
+
+        {/* The diagram, and the whole reason it is drawn rather than shot: the
+            claim is a journey (a note leaves, crosses a server that cannot read
+            it, arrives), and a flow is the only shape that shows a journey
+            instead of asserting one.
+
+            A node graph, not a row of labels: each end is a box, the middle is
+            the box the reader has to run, and the edges carry a moving packet
+            and a shield so the thing being moved is visibly sealed the whole way
+            across. The round trip is drawn in both directions, because a sync
+            that only went one way would not be a sync. */}
+        <div class="fs__flow">
+          <div class="fs__node">
+            <Icon name="file-text" size={15} class="fs__node-icon" />
+            <span class="fs__node-t">this device</span>
+            <span class="fs__node-sub fs__node-sub--muted">writes a note</span>
+          </div>
+
+          <div class="fs__edge" aria-hidden="true">
+            <span class="fs__edge-line" />
+            <span class="fs__edge-mark">
+              <Icon name="shield-check" size={13} />
+            </span>
+            <span class="fs__pkt" style="--i:0" />
+            <span class="fs__pkt" style="--i:1" />
+            <span class="fs__edge-head fs__edge-head--out" />
+          </div>
+
+          <div class="fs__node fs__node--hub">
+            <Icon name="server" size={15} class="fs__node-icon" />
+            <span class="fs__node-t">your server</span>
+            <span class="fs__node-sub">no key</span>
+          </div>
+
+          <div class="fs__edge fs__edge--back" aria-hidden="true">
+            <span class="fs__edge-line" />
+            <span class="fs__edge-mark">
+              <Icon name="shield-check" size={13} />
+            </span>
+            <span class="fs__pkt" style="--i:0" />
+            <span class="fs__pkt" style="--i:1" />
+            <span class="fs__edge-head fs__edge-head--back" />
+          </div>
+
+          <div class="fs__node">
+            <Icon name="hard-drive" size={15} class="fs__node-icon" />
+            <span class="fs__node-t">that device</span>
+            <span class="fs__node-sub fs__node-sub--muted">reads it back</span>
+          </div>
+        </div>
+
+        <pre class="fs__code"><span class="fs__prompt">$</span> docker run -d -p 8080:8080 ghcr.io/myne-md/myne-server</pre>
+
+        <p class="mp__foot">sealed before it leaves this device</p>
+      </>
+    )
+  }
+</div>
+
+<style>
+  /* The plate is `styles/panel.css`. Everything here is one panel's own. */
+  .fs {
+    display: flex;
+    flex-direction: column;
+  }
+  /* In the deck the panel fills the 1400×885 frame, so it gets the room a
+     window would: the bands spread out and the type steps up. */
+  .fs--bleed {
+    height: 100%;
+  }
+  /* The deck hands every slide the SAME 1400×885 box (an image fills it with
+     `cover`), so a drawn panel has to grow into it too. Centring the whole
+     stack left one empty band at the bottom of the meeting panel and under the
+     server diagram, which read as a missing image with a border. Instead the
+     one band that can carry extra height takes it: the voice window in the
+     meeting panel, the flow in the server one. */
+  .fs--bleed .fs__voice {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 96px;
+  }
+  /* The server panel's graph is the content, so it takes the slack: the three
+     boxes grow with the panel and the head and the command line stay pinned to
+     the ends. Spreading the slack between the bands instead left the diagram
+     itself small, which is the one thing in the panel that has to be read. */
+  .fs--bleed.fs--server .fs__flow {
+    flex: 1 1 auto;
+  }
+  .fs--bleed .fs__code {
+    margin-top: 0;
+  }
+  .fs--bleed .mp__foot,
+  .fs--bleed .mp__fact dt,
+  .fs--bleed .fs__label {
+    font-size: 9.5px;
+  }
+  .fs--bleed .fs__flow {
+    padding: 26px 20px 22px;
+  }
+  /* The graph IS the panel in this frame, so the boxes grow with it instead of
+     hovering in the middle of their band: three columns of the height the deck
+     gives them, which is the only way a diagram reads at arm's length. */
+  .fs--bleed .fs__flow {
+    align-items: stretch;
+  }
+  .fs--bleed .fs__node {
+    padding: 18px 22px;
+    gap: 9px;
+    min-width: 124px;
+    justify-content: center;
+  }
+  .fs--bleed .fs__node-t {
+    font-size: 12.5px;
+  }
+  .fs--bleed .fs__node-sub {
+    font-size: 9.5px;
+  }
+  .fs--bleed :global(.fs__node-icon) {
+    width: 22px;
+    height: 22px;
+  }
+  .fs--bleed .fs__code {
+    font-size: 11.5px;
+  }
+
+  .fs__head {
+    padding: 10px 14px;
+  }
+  .fs__head-right {
+    margin-left: auto;
+  }
+  .fs__clock {
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+  }
+
+  /* ---- the voice line ---------------------------------------------------
+     A window, not a picture: the polyline is three periods wide and the group
+     slides by exactly one period, so the loop has no seam. `preserveAspectRatio
+     ="none"` stretches it to whatever width the panel gets, and `vector-effect`
+     keeps the stroke 1.4px instead of stretching it with the box, which is the
+     difference between a line and a smear. The mask fades both ends so the
+     stroke enters and leaves the frame rather than being cut by it. */
+  .fs__voice {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 0 14px;
+    overflow: hidden;
+  }
+  .fs__line {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* A mask reads alpha only, so the opaque stop can be any colour and
+       `currentColor` keeps a literal out of the sheet (the same reason the
+       landing ticker's mask uses it). */
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      currentColor 6%,
+      currentColor 94%,
+      transparent
+    );
+  }
+  .fs__line polyline {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  /* ---- facts ------------------------------------------------------------ */
+  .fs__facts {
+    padding: 12px 14px;
+  }
+  .fs__facts--row {
+    border-top: 1px solid rgb(var(--line-rgb) / 0.14);
+  }
+
+  /* ---- transcript ------------------------------------------------------- */
+  .fs__block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px;
+    border-top: 1px solid rgb(var(--line-rgb) / 0.14);
+  }
+  .fs__label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--ink-4);
+    letter-spacing: 0.1em;
+  }
+  .fs__line-row {
+    display: flex;
+    gap: 9px;
+    margin: 0;
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: var(--ink-3);
+  }
+  .fs__line-row b {
+    flex: none;
+    color: var(--ink-4);
+    font-weight: 500;
+  }
+
+  /* ---- the sync flow ---------------------------------------------------- */
+  .fs__flow {
+    display: grid;
+    grid-template-columns: auto minmax(22px, 1fr) auto minmax(22px, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+  }
+  /* Icon beside the label, never stacked: three columns of stacked kicker,
+     value and sub-line is what made the diagram taller than the copy beside
+     it, for four words of text. */
+  /* Three boxes and two edges, filling whatever height the panel has: a node
+     graph that hovers in the middle of a tall panel reads as a diagram nobody
+     finished. */
+  .fs__flow {
+    display: grid;
+    grid-template-columns: auto minmax(54px, 1fr) auto minmax(54px, 1fr) auto;
+    align-items: center;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 18px 14px;
+  }
+  .fs__node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 14px;
+    border: 1px solid rgb(var(--line-rgb) / 0.16);
+    border-radius: 9px;
+    background: rgb(var(--paper-rgb) / 0.5);
+    white-space: nowrap;
+  }
+  :global(.fs__node-icon) {
+    color: var(--ink-4);
+  }
+  .fs__node-t {
+    font-size: 11px;
+    color: var(--ink-2);
+  }
+  /* The hub is the only boxed node with an accent edge: it is the thing the
+     reader has to run, and therefore the thing being explained. One hairline,
+     no fill, no glow. */
+  .fs__node--hub {
+    border-color: rgb(var(--accent-rgb) / 0.34);
+  }
+  .fs__node--hub :global(.fs__node-icon) {
+    color: var(--accent);
+  }
+  /* The claim, said once and in the smallest type on the panel. */
+  .fs__node-sub {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+  }
+  /* The two ends state what they DO; only the hub's line is the claim, so only
+     that one carries accent. Three accent sub-lines would spend the colour on
+     the diagram's furniture. */
+  .fs__node-sub--muted {
+    color: var(--ink-4);
+  }
+
+  /* ---- the edges -------------------------------------------------------- */
+  /* Two lanes, not one centre line: the upload leaves high and the return comes
+     back low, so the two halves of the round trip are told apart at a glance and
+     the height the panel gives the graph is used instead of pooled around a
+     single hairline. */
+  .fs__edge {
+    --lane: 42%;
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fs__edge--back {
+    --lane: 58%;
+  }
+  .fs__edge-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--lane);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgb(var(--line-rgb) / 0.16),
+      rgb(var(--line-rgb) / 0.34),
+      rgb(var(--line-rgb) / 0.16)
+    );
+  }
+  /* The shield sits ON the line and masks it with the page's own paper, which is
+     what the plate is transparent onto: no second surface, no seam. */
+  .fs__edge-mark {
+    position: relative;
+    top: calc(var(--lane) - 50%);
+    padding: 0 7px;
+    background: var(--paper);
+    color: var(--ink-4);
+    line-height: 0;
+  }
+  /* The arrowhead: the direction of travel, said once, at the far end. */
+  .fs__edge-head {
+    position: absolute;
+    top: var(--lane);
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-top: 1px solid rgb(var(--line-rgb) / 0.5);
+    border-right: 1px solid rgb(var(--line-rgb) / 0.5);
+  }
+  .fs__edge-head--out {
+    right: 0;
+    transform: rotate(45deg);
+  }
+  .fs__edge-head--back {
+    left: 0;
+    transform: rotate(-135deg);
+  }
+  /* Sealed packets crossing. The glow is on the packet, not on the plate: the
+     eye follows one small blue thing moving, which is what makes the diagram
+     read as a journey instead of a table of file names. */
+  .fs__pkt {
+    position: absolute;
+    top: var(--lane);
+    left: 0;
+    width: 4px;
+    height: 4px;
+    margin: -2px 0 0 -2px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 7px rgb(var(--accent-rgb) / 0.6);
+    opacity: 0;
+    animation: fs-travel 3.6s linear infinite;
+    animation-delay: calc(var(--i) * -1.8s);
+  }
+  /* The return leg runs the other way: the same packets, coming back. */
+  .fs__edge--back .fs__pkt {
+    animation-name: fs-travel-back;
+  }
+  @keyframes fs-travel {
+    0% {
+      left: 0%;
+      opacity: 0;
+    }
+    14% {
+      opacity: 1;
+    }
+    86% {
+      opacity: 1;
+    }
+    100% {
+      left: 100%;
+      opacity: 0;
+    }
+  }
+  @keyframes fs-travel-back {
+    0% {
+      left: 100%;
+      opacity: 0;
+    }
+    14% {
+      opacity: 1;
+    }
+    86% {
+      opacity: 1;
+    }
+    100% {
+      left: 0%;
+      opacity: 0;
+    }
+  }
+
+  /* ---- the command line ------------------------------------------------- */
+  .fs__code {
+    margin: 0 14px 12px;
+    padding: 10px 12px;
+    border: 1px solid rgb(var(--line-rgb) / 0.12);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    line-height: 1.7;
+    color: var(--ink-3);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .fs__prompt {
+    color: var(--ink-4);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* The build-time frame is already the voice's shape, so there is nothing to
+       switch off here: the script that redraws it never starts. */
+    /* The flow still has to read as a flow, so the packets park along the line
+       rather than disappearing with their animation. */
+    .fs__pkt {
+      animation: none;
+      opacity: 0.55;
+      left: calc(28% + var(--i) * 30%);
+    }
+    .fs__edge--back .fs__pkt {
+      left: calc(72% - var(--i) * 30%);
+    }
+  }
+</style>

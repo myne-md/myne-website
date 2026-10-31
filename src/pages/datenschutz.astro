@@ -13,6 +13,8 @@
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import LegalContents from "../components/LegalContents.astro";
+import LegalTable from "../components/LegalTable.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Datenschutzerklärung — Myne";
@@ -23,6 +25,23 @@ const ogImage = absoluteOg("datenschutz", Astro.site!);
 
 const effective = "16. Oktober 2026";
 
+// The German twin of the English page's spine. Same anchors, same order: the
+// two files are the same document, so a reader who switches language keeps
+// their place, and a heading added to one without the other is visible here.
+const contents = [
+  { id: "network", label: "Wann die App ins Netz geht" },
+  { id: "on-device", label: "Was auf Ihrem Gerät bleibt" },
+  { id: "server", label: "Was der Sync-Server speichert" },
+  { id: "never", label: "Was wir nie haben" },
+  { id: "retention", label: "Speicherdauer und Löschung" },
+  { id: "web-app", label: "Die Web-App in Ihrem Browser" },
+  { id: "donations", label: "Spenden" },
+  { id: "rights", label: "Ihre Rechte" },
+  { id: "controller", label: "Verantwortlicher" },
+  { id: "abuse", label: "Missbrauchsmeldungen und behördliche Anfragen" },
+  { id: "changes", label: "Änderungen" },
+];
+
 const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
@@ -32,14 +51,6 @@ const body =
   "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
   "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
-const tableWrap = "margin-top:22px;overflow-x:auto;";
-const table =
-  "width:100%;border-collapse:collapse;font-size:14px;line-height:1.6;min-width:640px;";
-const th =
-  "text-align:left;padding:10px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.14);color:var(--ink-1);font-weight:650;white-space:nowrap;";
-const td =
-  "padding:10px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.06);color:var(--ink-3);vertical-align:top;";
-const tdEm = td + "color:var(--ink-1);white-space:nowrap;";
 
 const network = [
   {
@@ -232,7 +243,9 @@ const notStored = [
           </p>
         </div>
 
-        <h2 style={h2}>Wann die App ins Netz geht</h2>
+        <LegalContents items={contents} title="Auf dieser Seite" />
+
+        <h2 id="network" style={h2}>Wann die App ins Netz geht</h2>
         <p style={body}>
           Die meisten Datenschutzerklärungen beschreiben, was ein Unternehmen zusagt. Diese Tabelle
           beschreibt, was das Programm tut — Funktion für Funktion. Sie ist aus dem Code abgeleitet:
@@ -241,30 +254,12 @@ const notStored = [
           zu sein.
         </p>
 
-        <div style={tableWrap}>
-          <table style={table}>
-            <thead>
-              <tr>
-                <th style={th}>Funktion</th>
-                <th style={th}>Verlässt das Gerät?</th>
-                <th style={th}>Wohin</th>
-                <th style={th}>Wann</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                network.map((r) => (
-                  <tr>
-                    <td style={tdEm}>{r.feature}</td>
-                    <td style={tdEm}>{r.goes}</td>
-                    <td style={td}>{r.where}</td>
-                    <td style={td}>{r.when}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
+        <LegalTable
+          head={["Funktion", "Verlässt das Gerät?", "Wohin", "Wann"]}
+          rows={network.map((r) => [r.feature, r.goes, r.where, r.when])}
+          widths={["17%", "29%", "23%", "31%"]}
+          bleed
+        />
 
         <p style={body}>
           Zwei Zeilen verdienen mehr als eine Fußnote. Die <strong style="color:var(--ink-1);"
@@ -304,7 +299,7 @@ const notStored = [
         <!-- myne-md/myne#860. Keines steht in der Tabelle oben, weil keines  -->
         <!-- das Netz berührt: das ist die Hälfte, die den Satz "keine       -->
         <!-- Absturzberichterstattung" wahr statt bloß großzügig macht.      -->
-        <h2 style={h2}>Was auf Ihrem Gerät bleibt</h2>
+        <h2 id="on-device" style={h2}>Was auf Ihrem Gerät bleibt</h2>
         <p style={body}>
           Zwei Dinge, die die Desktop-App schreibt, gehören hier genannt, weil beide im Klartext auf
           Ihrer eigenen Festplatte liegen. Keines von beiden geht irgendwohin: es gibt keinen
@@ -333,7 +328,7 @@ const notStored = [
           </li>
         </ul>
 
-        <h2 style={h2}>Was der Sync-Server speichert</h2>
+        <h2 id="server" style={h2}>Was der Sync-Server speichert</h2>
         <p style={body}>
           Der Server ist ein blinder Blob-Speicher: Er nimmt Chiffrat entgegen, verwahrt es und gibt
           es zurück, und führt darauf nur strukturelle Operationen aus — einen Zeiger fortschreiben,
@@ -341,28 +336,13 @@ const notStored = [
           nichts, weil er nichts besitzt, womit er es könnte.
         </p>
 
-        <div style={tableWrap}>
-          <table style={table}>
-            <thead>
-              <tr>
-                <th style={th}>Was</th>
-                <th style={th}>Wozu es existiert</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                stored.map(([what, why]) => (
-                  <tr>
-                    <td style={tdEm}>{what}</td>
-                    <td style={td}>{why}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
+        <LegalTable
+          head={["Was", "Wozu es existiert"]}
+          rows={stored.map(([what, why]) => [what, why])}
+          widths={["22%", "78%"]}
+        />
 
-        <h2 style={h2}>Was wir nie haben</h2>
+        <h2 id="never" style={h2}>Was wir nie haben</h2>
         <p style={body}>
           Diese Liste trägt so viel wie die vorstehende, denn sie bestimmt die Grenze dessen, was
           eine Anfrage an uns hervorbringen kann — Ihre wie die eines Gerichts.
@@ -378,7 +358,7 @@ const notStored = [
           eigener Installation, kann lesen, wann Sie etwas geschrieben haben.
         </p>
 
-        <h2 style={h2}>Speicherdauer und Löschung</h2>
+        <h2 id="retention" style={h2}>Speicherdauer und Löschung</h2>
         <p style={body}>
           Alles unter „Was der Sync-Server speichert" Aufgeführte wird bis zur Löschung Ihres Kontos
           aufbewahrt und nicht länger. Die Löschung entfernt den Vault, die Anhänge, das
@@ -407,7 +387,7 @@ const notStored = [
           unlesbar wie das Original.
         </p>
 
-        <h2 style={h2}>Die Web-App und was sie in Ihrem Browser ablegt</h2>
+        <h2 id="web-app" style={h2}>Die Web-App und was sie in Ihrem Browser ablegt</h2>
         <p style={body}>
           Der Browser-Client legt Ihren verschlüsselten Vault im Speicher Ihres eigenen Browsers ab
           (OPFS), damit er ohne vollständigen Neu-Abruf arbeiten kann und Ihre Notizen ein Neuladen
@@ -433,7 +413,7 @@ const notStored = [
           Ihrer Browserdaten verschwindet sie.
         </p>
 
-        <h2 style={h2}>Spenden</h2>
+        <h2 id="donations" style={h2}>Spenden</h2>
         <p style={body}>
           <strong style="color:var(--ink-1);">Myne nimmt seit dem 16. Oktober 2026 keine Spenden mehr
           an.</strong> Die Sammlung über Open Collective wurde geschlossen; es gibt daher keinen
@@ -445,7 +425,7 @@ const notStored = [
           nicht sein — am Konto ist nichts, womit sich verknüpfen ließe.
         </p>
 
-        <h2 style={h2}>Ihre Rechte</h2>
+        <h2 id="rights" style={h2}>Ihre Rechte</h2>
         <p style={body}>
           Nach der DSGVO haben Sie das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der
           Verarbeitung, Datenübertragbarkeit und Widerspruch. Zwei davon wirken hier anders, und in
@@ -470,7 +450,7 @@ const notStored = [
           >, Stahnsdorfer Damm 77, 14532 Kleinmachnow.
         </p>
 
-        <h2 style={h2}>Verantwortlicher</h2>
+        <h2 id="controller" style={h2}>Verantwortlicher</h2>
         <div style={cardStyle}>
           <p style="margin:0;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Ömer Duran<br />
@@ -500,7 +480,7 @@ const notStored = [
           Deutschland, und Zugriff auf das Produktivsystem hat eine einzige Person.
         </p>
 
-        <h2 style={h2}>Missbrauchsmeldungen und behördliche Anfragen</h2>
+        <h2 id="abuse" style={h2}>Missbrauchsmeldungen und behördliche Anfragen</h2>
         <p style={body}>
           Meldungen richten Sie bitte an
           <a href="mailto:abuse@myne.md" style="color:var(--accent);">abuse@myne.md</a>. Wir können nicht
@@ -521,7 +501,7 @@ const notStored = [
           Rechtsgrundlage, und jene Seite beschreibt ein Angebot, das Myne nicht mehr macht.
         </p>
 
-        <h2 style={h2}>Änderungen</h2>
+        <h2 id="changes" style={h2}>Änderungen</h2>
         <p style={body}>
           Ändert sich diese Erklärung in einer Weise, die Sie betrifft, zeigen die Anwendungen Ihnen
           die neue Fassung, statt die Seite still auszutauschen. Jede Fassung trägt ihr

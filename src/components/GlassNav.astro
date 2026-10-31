@@ -537,6 +537,14 @@ const links = [
       transition: none;
     }
   }
+
+  /* Named so the client router snapshots the bar apart from the page under it.
+     An unnamed fixed element inside `root` inherits the page's transition and
+     slides with the outgoing article, which reads as the whole site moving
+     rather than the content. */
+  .gnav {
+    view-transition-name: myne-nav;
+  }
 </style>
 
 <script>

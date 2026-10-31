@@ -62,18 +62,28 @@ const rows: [string, string, string, string][] = [
 ];
 ---
 
-<div class="vl" data-vault>
-  <div class="mono up vl__head">
-    <span>vault · on disk</span>
-    <span class="vl__state">sealed</span>
+<div class="mp vl" data-vault data-motion="scale">
+  <div class="mp__head vl__head">
+    <span class="vl__title">
+      <svg class="vl__folder" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 7.5A1.5 1.5 0 0 1 4.5 6H9l2 2.5h8.5A1.5 1.5 0 0 1 21 10v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18Z" />
+      </svg>
+      vault · on disk
+    </span>
+    <span class="mp__pill vl__state">
+      <i class="mp__dot vl__dot" aria-hidden="true"></i>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="4" y="10" width="16" height="11" rx="2" />
+        <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+      </svg>
+      sealed
+    </span>
   </div>
   <ul class="mono vl__rows">
     {
       rows.map(([name, magic, size, note]) => (
         <li class="vl__row" data-vault-row data-vault-note={note}>
-          <span class="vl__tick" aria-hidden="true">
-            ├
-          </span>
+          <span class="vl__tick" aria-hidden="true" />
           <span class="vl__name" data-vault-name data-vault-label={name}>
             {name}
           </span>
@@ -83,86 +93,130 @@ const rows: [string, string, string, string][] = [
       ))
     }
   </ul>
-  <p class="mono vl__note" data-vault-note-out>
+  <p class="mp__foot vl__note" data-vault-note-out>
     notes/ is flat · no titles, no folder names, no text
   </p>
 </div>
 
 <style>
-  /* Deliberately NOT a box. It began as a bordered card with a header strip and
-     a footer strip, which read as a widget sitting in the section rather than as
-     the vault itself; a listing bounded top and bottom by a hairline reads as a
-     `tree` a reader could scroll. */
+  /* The plate itself is `styles/panel.css`: transparent, one hairline border,
+     no shadow, no gradient. This file only holds what is the vault listing's
+     own, which is the tree.
+     ── What changed and why ───────────────────────────────────────────────
+     The first version was deliberately boxless: hairlines top and bottom, rows
+     floating on the page, on the theory that a `tree` should not look like a
+     widget. In place, beside a section that already carries a dashed outer
+     border, it read as a stray table someone had pasted in: nothing said the
+     panel was a PLATE holding the vault. So it became one, and the plate then
+     overshot: a corner glow, a sheen, an inset highlight, a 60px shadow and a
+     light travelling the top edge, which together made a file listing look like
+     a lit screen. A screen is the one thing this panel must not look like. */
   .vl {
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    max-width: 460px;
+    max-width: 520px;
     margin: 0 auto;
     font-size: 11.5px;
   }
+
   .vl__head {
-    display: flex;
-    align-items: baseline;
     justify-content: space-between;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgb(var(--line-rgb) / 0.12);
-    font-size: 9.5px;
+    gap: 12px;
+    padding: 10px 14px;
+  }
+  .vl__title {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .vl__folder {
     color: var(--ink-4);
   }
   .vl__state {
+    border-color: rgb(var(--accent-rgb) / 0.4);
     color: var(--accent);
   }
+
   .vl__rows {
+    position: relative;
     list-style: none;
     margin: 0;
-    padding: 10px 0;
+    padding: 9px 0 9px 15px;
+  }
+  /* The tree rail. One line, drawn once by the list rather than by every row,
+     so the connectors below cannot drift out of alignment with each other. */
+  .vl__rows::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 12px;
+    bottom: 12px;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgb(var(--line-rgb) / 0.18) 12%,
+      rgb(var(--line-rgb) / 0.18) 88%,
+      transparent
+    );
   }
   .vl__row {
+    position: relative;
     display: grid;
-    grid-template-columns: 14px minmax(0, 1fr) auto 54px;
+    grid-template-columns: 12px minmax(0, 1fr) auto 48px;
     gap: 10px;
-    align-items: baseline;
-    padding: 5px 8px 5px 0;
-    border-left: 2px solid transparent;
+    align-items: center;
+    padding: 6px 8px 6px 2px;
+    border-radius: 6px;
     cursor: default;
     transition:
-      border-color var(--duration-fast) var(--ease-standard),
-      background var(--duration-fast) var(--ease-standard);
+      background var(--duration-fast) var(--ease-standard),
+      transform var(--duration-base) var(--ease-out);
   }
   .vl__row:hover {
-    border-left-color: var(--accent);
-    background: rgb(var(--line-rgb) / 0.03);
+    background: rgb(var(--line-rgb) / 0.05);
   }
-  .vl__tick {
-    color: var(--ink-4);
-    opacity: 0.7;
+  /* The row's own stub off the rail. */
+  .vl__tick::before {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 1px;
+    background: rgb(var(--line-rgb) / 0.22);
   }
   .vl__name {
     color: var(--ink-2);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    transition: color var(--duration-fast) var(--ease-standard);
   }
   .vl__row:hover .vl__name {
     color: var(--ink-0);
   }
-  .vl__magic,
-  .vl__size {
+  .vl__magic {
+    padding: 1px 5px;
+    border: 1px solid rgb(var(--line-rgb) / 0.13);
+    border-radius: 4px;
+    font-size: 9px;
+    letter-spacing: 0.04em;
     color: var(--ink-4);
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard);
   }
   .vl__row:hover .vl__magic {
+    border-color: rgb(var(--accent-rgb) / 0.45);
+    background: rgb(var(--accent-rgb) / 0.1);
     color: var(--accent);
   }
   .vl__size {
+    color: var(--ink-4);
     text-align: right;
   }
   /* The answer line. Reserved height so a hover never moves the section. */
   .vl__note {
-    min-height: 3.4em;
-    margin: 0;
-    padding-top: 12px;
-    border-top: 1px solid rgb(var(--line-rgb) / 0.12);
+    min-height: 3.2em;
     font-size: 10.5px;
     line-height: 1.7;
     color: var(--ink-4);
@@ -170,6 +224,15 @@ const rows: [string, string, string, string][] = [
   }
   .vl[data-hover] .vl__note {
     color: var(--ink-2);
+  }
+
+  /* The rows band needs its own breathing room now that the plate has none of
+     its own. */
+  .vl__rows {
+    padding: 8px 14px 8px 28px;
+  }
+  .vl__rows::before {
+    left: 17px;
   }
 </style>
 

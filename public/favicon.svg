@@ -1,4 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#1a1a17"/>
-  <text x="16" y="22" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#fbfbfa">M</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Myne">
+  <!--
+    The navbar mark, byte for byte: same path, same 2.8 stroke, same round
+    caps and joins, drawn on nothing. A favicon with a tile reads as an app
+    icon for something else; the tab strip already supplies the surface, so
+    this file supplies only the glyph.
+
+    The colour follows the BROWSER's scheme, not the site's: the site's theme is
+    a reader's stored choice on the page, while the tab strip belongs to the OS.
+    Light chrome gets the black mark, dark chrome the white one. The base rule
+    is the black one because a browser old enough to ignore the media query is
+    also old enough to be sitting in light chrome, and a black mark on a dark
+    tab strip is merely low contrast while a white one on a light strip is gone.
+  -->
+  <style>
+    .mark { stroke: #0f0f0e; }
+    @media (prefers-color-scheme: dark) {
+      .mark { stroke: #fbfbfa; }
+    }
+  </style>
+  <path
+    class="mark"
+    d="M8 22 V10 L16 18 L24 10 V22"
+    fill="none"
+    stroke-width="2.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
 </svg>

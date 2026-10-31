@@ -154,11 +154,19 @@ const { name, size = 24, class: extraClass } = Astro.props;
     </>
   )}
   {name === "bot" && (
+    /* The eyes are two SHORT BARS near the middle, not two dots at the edges of
+       the head. At the sizes this icon is actually drawn at (11px in the bento,
+       15px on /features) a `h.01` dot is under a pixel and a half, so the
+       original read as two specks stuck to the corners of a wide empty box,
+       which is what "the eyes look weird" was. A bar survives the downscale
+       because it has length; putting them in from the edges gives the face a
+       centre. The head is rounded further and the antenna sits on the middle. */
     <>
-      <path d="M12 8V4H8" />
-      <rect x="2" y="8" width="20" height="12" rx="2" />
-      <path d="M6 12h.01" />
-      <path d="M18 12h.01" />
+      <path d="M12 7.5V4" />
+      <path d="M9.5 4h5" />
+      <rect x="3" y="7.5" width="18" height="12" rx="4" />
+      <path d="M9.25 12v2.6" />
+      <path d="M14.75 12v2.6" />
     </>
   )}
   {name === "user" && (

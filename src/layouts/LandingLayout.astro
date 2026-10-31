@@ -14,6 +14,8 @@
 import { ClientRouter } from "astro:transitions";
 import "../styles/fonts.css";
 import "../styles/tokens.css";
+import "../styles/motion.css";
+import "../styles/panel.css";
 
 interface Props {
   title: string;
@@ -235,6 +237,19 @@ const canonicalUrl =
     ) : (
       <div class="page-curtain" aria-hidden="true"></div>
     )}
+    {/* Page progress, 2px along the top edge. Rendered on every route because
+        every route here is one long column with no rail to say how much is
+        left. Fixed and default-scaled to 0, so it costs nothing on a page
+        whose reader never scrolls; scripts/motion.ts drives the fill. */}
+    <div class="scroll-rail" data-scroll-rail aria-hidden="true">
+      <span class="scroll-rail__fill" data-scroll-rail-fill></span>
+    </div>
     <slot />
+    {/* Site-wide motion. One module for the whole site: the reveals, the
+        pointer spotlight and the progress rail speak the same vocabulary, and
+        a second copy per page is how they stop agreeing. */}
+    <script>
+      import "../scripts/motion";
+    </script>
   </body>
 </html>

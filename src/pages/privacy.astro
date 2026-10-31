@@ -17,6 +17,8 @@
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import LegalContents from "../components/LegalContents.astro";
+import LegalTable from "../components/LegalTable.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Privacy Policy — Myne";
@@ -27,6 +29,24 @@ const ogImage = absoluteOg("privacy", Astro.site!);
 
 const effective = "16 October 2026";
 
+// The page's own spine: every h2 below, in order, with the anchor it carries.
+// The contents block renders from this, and a heading added without an entry
+// here is a section a reader cannot jump to, which is why it sits immediately
+// above the headings rather than at the bottom of the file.
+const contents = [
+  { id: "network", label: "When the app talks to the network" },
+  { id: "on-device", label: "What stays on your device" },
+  { id: "server", label: "What the sync server stores" },
+  { id: "never", label: "What we never have" },
+  { id: "retention", label: "How long we keep it, and how you delete it" },
+  { id: "web-app", label: "The web app, in your browser" },
+  { id: "donations", label: "Donations" },
+  { id: "rights", label: "Your rights" },
+  { id: "controller", label: "Who is responsible" },
+  { id: "abuse", label: "Abuse reports and legal requests" },
+  { id: "changes", label: "Changes" },
+];
+
 const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
@@ -36,14 +56,6 @@ const body =
   "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
   "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
-const tableWrap = "margin-top:22px;overflow-x:auto;";
-const table =
-  "width:100%;border-collapse:collapse;font-size:14px;line-height:1.6;min-width:640px;";
-const th =
-  "text-align:left;padding:10px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.14);color:var(--ink-1);font-weight:650;white-space:nowrap;";
-const td =
-  "padding:10px 14px;border-bottom:1px solid rgb(var(--line-rgb) / 0.06);color:var(--ink-3);vertical-align:top;";
-const tdEm = td + "color:var(--ink-1);white-space:nowrap;";
 
 // Every row below is a statement about code, not about intent. The inventory
 // was read out of the tree on 2026-08-12: the CSP `connect-src` in
@@ -242,10 +254,12 @@ const notStored = [
           </p>
         </div>
 
+        <LegalContents items={contents} />
+
         <!-- ── The network table. Issue #7 called this the most convincing -->
         <!-- section, and it is, but only because it is derived from the    -->
         <!-- code rather than from the marketing copy.                      -->
-        <h2 style={h2}>When the app talks to the network</h2>
+        <h2 id="network" style={h2}>When the app talks to the network</h2>
         <p style={body}>
           Most privacy policies describe what a company promises. This table describes what the
           program does, feature by feature. It is derived from the code — the content-security
@@ -253,30 +267,12 @@ const notStored = [
           appears without being recorded first.
         </p>
 
-        <div style={tableWrap}>
-          <table style={table}>
-            <thead>
-              <tr>
-                <th style={th}>Feature</th>
-                <th style={th}>Leaves your device?</th>
-                <th style={th}>Where to</th>
-                <th style={th}>When</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                network.map((r) => (
-                  <tr>
-                    <td style={tdEm}>{r.feature}</td>
-                    <td style={tdEm}>{r.goes}</td>
-                    <td style={td}>{r.where}</td>
-                    <td style={td}>{r.when}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
+        <LegalTable
+          head={["Feature", "Leaves your device?", "Where to", "When"]}
+          rows={network.map((r) => [r.feature, r.goes, r.where, r.when])}
+          widths={["17%", "29%", "23%", "31%"]}
+          bleed
+        />
 
         <p style={body}>
           Two rows deserve emphasis rather than a footnote. <strong style="color:var(--ink-1);"
@@ -313,7 +309,7 @@ const notStored = [
         <!-- myne-md/myne#860. Neither is in the network table above, because   -->
         <!-- neither crosses the network: this is the half a reader needs so    -->
         <!-- that "no crash reports" is a true sentence rather than a loose one.-->
-        <h2 style={h2}>What stays on your device</h2>
+        <h2 id="on-device" style={h2}>What stays on your device</h2>
         <p style={body}>
           Two things the desktop writes are worth naming, because both are plain text on your own
           disk. Neither of them goes anywhere: there is no reporting endpoint, no beacon and no
@@ -341,7 +337,7 @@ const notStored = [
 
         <!-- ── What the server holds. §1.3 of server-protocol.md is the -->
         <!-- ceiling; this list may not be shorter than it.              -->
-        <h2 style={h2}>What the sync server stores</h2>
+        <h2 id="server" style={h2}>What the sync server stores</h2>
         <p style={body}>
           The server is a blind blob store: it accepts, keeps and hands back ciphertext, and performs
           only structural operations on it — advancing a pointer, incrementing a counter, counting
@@ -355,28 +351,13 @@ const notStored = [
           one for a closed group of people who asked for it, and the same rows apply there.
         </p>
 
-        <div style={tableWrap}>
-          <table style={table}>
-            <thead>
-              <tr>
-                <th style={th}>What</th>
-                <th style={th}>Why it exists</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                stored.map(([what, why]) => (
-                  <tr>
-                    <td style={tdEm}>{what}</td>
-                    <td style={td}>{why}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
+        <LegalTable
+          head={["What", "Why it exists"]}
+          rows={stored.map(([what, why]) => [what, why])}
+          widths={["22%", "78%"]}
+        />
 
-        <h2 style={h2}>What we never have</h2>
+        <h2 id="never" style={h2}>What we never have</h2>
         <p style={body}>
           This list is as load-bearing as the one above it, because it sets the limit of what any
           request to us can produce — yours, or a court's.
@@ -392,7 +373,7 @@ const notStored = [
           something.
         </p>
 
-        <h2 style={h2}>How long we keep it, and how you delete it</h2>
+        <h2 id="retention" style={h2}>How long we keep it, and how you delete it</h2>
         <p style={body}>
           Everything listed under "what the sync server stores" is kept until you delete your
           account, and no longer. Deleting removes the vault, the attachments, the device registry,
@@ -419,7 +400,7 @@ const notStored = [
           originals.
         </p>
 
-        <h2 style={h2}>The web app, and what it stores in your browser</h2>
+        <h2 id="web-app" style={h2}>The web app, and what it stores in your browser</h2>
         <p style={body}>
           The browser client keeps your encrypted vault in your browser's own storage (OPFS), so it
           can work without re-downloading everything and so your notes survive a reload. This is
@@ -443,7 +424,7 @@ const notStored = [
           anywhere. Clearing your browser data removes it.
         </p>
 
-        <h2 style={h2}>Donations</h2>
+        <h2 id="donations" style={h2}>Donations</h2>
         <p style={body}>
           <strong style="color:var(--ink-1);">Myne takes no donations, as of 16 October 2026.</strong> The
           Open Collective collection was closed, so there is no payment path to describe and no
@@ -454,7 +435,7 @@ const notStored = [
           to a donation because there was nothing on the account to link to.
         </p>
 
-        <h2 style={h2}>Your rights</h2>
+        <h2 id="rights" style={h2}>Your rights</h2>
         <p style={body}>
           Under the GDPR you have the right to access, rectify, erase, restrict and port your data,
           and to object to processing. Two of these work differently here, and the reason is the
@@ -477,7 +458,7 @@ const notStored = [
           >, Stahnsdorfer Damm 77, 14532 Kleinmachnow.
         </p>
 
-        <h2 style={h2}>Who is responsible</h2>
+        <h2 id="controller" style={h2}>Who is responsible</h2>
         <div style={cardStyle}>
           <p style="margin:0;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Ömer Duran<br />
@@ -505,7 +486,7 @@ const notStored = [
           the production system is held by one person.
         </p>
 
-        <h2 style={h2}>Abuse reports and legal requests</h2>
+        <h2 id="abuse" style={h2}>Abuse reports and legal requests</h2>
         <p style={body}>
           Reports go to <a href="mailto:abuse@myne.md" style="color:var(--accent);">abuse@myne.md</a>. We
           cannot read what people store, so we cannot screen it, and we do not pretend otherwise. On
@@ -523,7 +504,7 @@ const notStored = [
           offering Myne no longer makes.
         </p>
 
-        <h2 style={h2}>Changes</h2>
+        <h2 id="changes" style={h2}>Changes</h2>
         <p style={body}>
           If this policy changes in a way that affects you, the apps show you the new version rather
           than quietly swapping the page. Each version carries its effective date, and the previous

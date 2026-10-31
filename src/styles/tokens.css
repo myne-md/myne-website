@@ -165,6 +165,16 @@
   --duration-fast: 120ms;
   --duration-base: 180ms;
   --duration-slow: 260ms;
+  /* The site's expressive half. `--ease-standard` and friends above are the
+     CHROME curve: state changes on a control, where anything springy reads as
+     lag. These are the curves for things that arrive: a section entering, a
+     card landing, a route swapping. Two different jobs, so two different
+     tokens rather than one curve asked to do both. */
+  --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring:    cubic-bezier(0.34, 1.32, 0.64, 1);
+  --duration-enter: 620ms;
+  --duration-exit:  320ms;
 
   /* -- Chrome metrics (theme-independent) -----------------------------
      One number per chrome dimension. They are tokens rather than literals

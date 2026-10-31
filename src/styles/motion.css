@@ -1,0 +1,333 @@
+/* =========================================================================
+   Motion: the site's one animation vocabulary.
+
+   ── Why a shared file ──────────────────────────────────────────────────────
+
+   Every page here used to carry its own handful of transitions, written inline
+   or inside a scoped <style>, and the sum read as a static document with a few
+   hover colours: nothing arrived, nothing left, and a navigation was a full
+   white-ish blink. This file is the layer that makes an entrance an ENTRANCE,
+   and it is shared rather than repeated for the usual reason, a page that
+   invents its own curve is a page that is subtly out of step with the rest.
+
+   ── The two rules that keep it from being a nuisance ──────────────────────
+
+   1. NOTHING IS HIDDEN UNTIL THE SCRIPT HAS RUN. The reveal rules are gated on
+      `html.motion-ready`, which `scripts/motion.ts` sets and only sets after it
+      has an IntersectionObserver in hand. JS off, an old browser, an exception
+      in that file, a crawler: the page renders in its final state. The opposite
+      order, hide in CSS and rely on JS to show, is how a marketing site ships a
+      blank body to a reader whose script tag 404'd.
+   2. `prefers-reduced-motion: reduce` turns all of it off, twice: this file
+      carries its own guard, and `LandingLayout`'s global block already forces
+      `animation: none` / `transition: none`. The second one is the belt.
+
+   ── What is in here ───────────────────────────────────────────────────────
+
+   · reveal variants (`data-motion="rise|fade|scale|clip|line"`)
+   · staggered groups (`data-motion-group`, children get `--motion-i`)
+   · the pointer spotlight a card can ask for (`data-spotlight`)
+   · the guide's route transition (the one client-routed lane on the site)
+   · micro-interactions that are safe site-wide (press, sheen, underline)
+   ========================================================================= */
+
+/* ------------------------------------------------------------------ tokens */
+:root {
+  /* One distance, so a "rise" is the same rise everywhere. */
+  --motion-rise: 26px;
+  /* A reveal's delay steps by this per child of a `data-motion-group`. */
+  --motion-step: 90ms;
+}
+
+/* ================================================================ reveals */
+/* Gated on the class the script adds, so the no-JS state is the finished
+   state. See rule 1 in the header. */
+html.motion-ready [data-motion]:not(.is-in) {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+html.motion-ready [data-motion] {
+  transition:
+    opacity var(--duration-enter) var(--ease-out-expo),
+    transform var(--duration-enter) var(--ease-out-expo),
+    clip-path var(--duration-enter) var(--ease-out-expo);
+  transition-delay: calc(var(--motion-i, 0) * var(--motion-step));
+}
+
+html.motion-ready [data-motion]:not(.is-in)[data-motion="rise"] {
+  transform: translate3d(0, var(--motion-rise), 0);
+}
+html.motion-ready [data-motion]:not(.is-in)[data-motion="fade"] {
+  transform: none;
+}
+html.motion-ready [data-motion]:not(.is-in)[data-motion="scale"] {
+  transform: scale(0.965);
+}
+/* A wipe rather than a fade, for a surface with an edge worth drawing: the
+   capture frames, the policy cards. Cutting on the X axis would read as the
+   element loading; cutting on Y reads as it being laid down. */
+html.motion-ready [data-motion]:not(.is-in)[data-motion="clip"] {
+  transform: translate3d(0, 14px, 0);
+  clip-path: inset(0 0 100% 0);
+}
+html.motion-ready [data-motion].is-in[data-motion="clip"] {
+  clip-path: inset(0 0 0 0);
+}
+/* An underline or a rule that draws itself in. `--motion-axis` picks which
+   edge it grows from, so one class serves a horizontal rule and a vertical
+   rail. */
+html.motion-ready [data-motion]:not(.is-in)[data-motion="line"] {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+html.motion-ready [data-motion].is-in[data-motion="line"] {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+html.motion-ready [data-motion][data-motion-axis="y"] {
+  transform-origin: center top;
+}
+html.motion-ready [data-motion]:not(.is-in)[data-motion="line"][data-motion-axis="y"] {
+  transform: scaleY(0);
+}
+html.motion-ready [data-motion].is-in[data-motion="line"][data-motion-axis="y"] {
+  transform: scaleY(1);
+}
+
+/* Once it has landed, stop paying for the compositor hint. */
+html.motion-ready [data-motion].is-in {
+  will-change: auto;
+}
+
+/* ================================================================ spotlight
+   A card that answers the pointer. The script writes `--mx`/`--my` in px on
+   the element; everything else is CSS, so a card opts in with one attribute and
+   no per-card code. The light is DERIVED from --accent-rgb, so it is the
+   theme's own colour in both palettes rather than a second palette to keep. */
+[data-spotlight] {
+  position: relative;
+  isolation: isolate;
+}
+[data-spotlight]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-standard);
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgb(var(--accent-rgb) / 0.14),
+    transparent 68%
+  );
+}
+[data-spotlight]:hover::after,
+[data-spotlight]:focus-within::after {
+  opacity: 1;
+}
+
+/* ============================================================= first paint
+   The opening components arrive instead of existing. Armed by `motion-enter`
+   for the length of the sequence only (see `choreograph()`), so this cannot
+   replay on a later navigation and no element keeps a blur filter alive after
+   it lands. `--enter-i` is the element's position in the sequence. */
+@media (prefers-reduced-motion: no-preference) {
+  html.motion-enter [data-enter] {
+    animation: enter-rise var(--duration-enter) var(--ease-out-expo) both;
+    animation-delay: calc(var(--enter-i, 0) * 70ms);
+  }
+}
+@keyframes enter-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+/* ======================================================= route transitions
+   The user guide is the site's only client-routed lane (`LandingLayout`'s
+   `clientRouter`), so this is the transition a reader meets when moving
+   between two articles: the outgoing page lifts and clears, the incoming one
+   settles up into place. Anything animating only one of the two snapshots
+   reads as a flicker, hence the pair. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: myne-vt-out 240ms var(--ease-out-quint) both;
+  }
+  ::view-transition-new(root) {
+    /* Long and easing-out, not short and linear. The first pass cleared the old
+       page in 320ms and dropped the new one in at a flat 480ms, which at this
+       type size reads as a cut with a fade smeared over it rather than as one
+       page replacing another. */
+    animation: myne-vt-in 640ms var(--ease-out-expo) both;
+  }
+}
+@keyframes myne-vt-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -14px, 0) scale(0.994);
+  }
+}
+@keyframes myne-vt-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(0.994);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The chrome does not travel with the content: the bar and the guide rail are
+   named (`.gnav` in GlassNav, `.ug-sidebar` here) so they are snapshotted apart
+   from `root` and simply persist. An unnamed element inside `root` would get
+   the lift above and slide with the page underneath it.
+
+   ── `display: none` on the OLD half, never `animation: none` on both ─────
+   Turning the animation off does not hide the outgoing snapshot: it freezes it
+   at full opacity ON TOP of the incoming one, for the whole length of the
+   transition. On the guide rail that is two category trees painted over each
+   other, every label doubled and offset by a line, which is exactly what a
+   reader saw crossing between two articles. Hiding the old half leaves one
+   copy on screen, and it is the one that matches the URL. */
+.ug-sidebar {
+  view-transition-name: myne-guide-rail;
+}
+::view-transition-old(myne-nav),
+::view-transition-old(myne-guide-rail) {
+  display: none;
+}
+::view-transition-new(myne-nav),
+::view-transition-new(myne-guide-rail) {
+  animation: none;
+}
+
+/* ============================================================ micro-motion
+   Small, site-wide, and deliberately timid: these fire on every link on the
+   site, so anything with a travel distance would make the whole page twitch. */
+@media (prefers-reduced-motion: no-preference) {
+  a,
+  button,
+  summary,
+  [role="button"] {
+    transition:
+      color var(--duration-base) var(--ease-standard),
+      background-color var(--duration-base) var(--ease-standard),
+      border-color var(--duration-base) var(--ease-standard),
+      box-shadow var(--duration-base) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-spring);
+  }
+  /* A press that says the control took the input. 1.5%, not 5%: at 12px of
+     label text a bigger scale makes the label look like it re-rendered. */
+  a:active,
+  button:active,
+  [role="button"]:active {
+    transform: scale(0.985);
+  }
+  /* A filled primary button gets a light sweep across it on hover. The sweep
+     is a pseudo-element, so nothing about the label moves. */
+  .myne-sheen {
+    position: relative;
+    overflow: hidden;
+  }
+  .myne-sheen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgb(var(--paper-rgb) / 0.35) 48%,
+      transparent 74%
+    );
+    transform: translateX(-120%);
+    transition: transform 620ms var(--ease-out-expo);
+    pointer-events: none;
+  }
+  .myne-sheen:hover::before {
+    transform: translateX(120%);
+  }
+}
+
+/* ============================================================= scroll rail
+   The page's own progress, 2px along the top edge. It exists because every
+   route here is a long single column with no sidebar to say how much is left;
+   it is drawn under the nav rather than over it, so it never competes with a
+   control for the same pixels. */
+.scroll-rail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 101;
+  pointer-events: none;
+  background: transparent;
+}
+.scroll-rail__fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--accent-rgb) / 0.15),
+    var(--accent)
+  );
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-standard);
+}
+.scroll-rail[data-on] .scroll-rail__fill {
+  opacity: 0.9;
+}
+
+/* ==================================================================== masks
+   A scroll container that fades at its own edges instead of ending on a hard
+   cut mid-word. The guide rail uses it; it is generic because any list that
+   scrolls inside a fixed height wants the same treatment. */
+/* Bottom only. A rail whose first row is already at the top of its own scroll
+   container has nothing to fade IN, and a top fade dims the very row that says
+   which category the reader is in. */
+.edge-fade-b {
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 calc(100% - 26px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 calc(100% - 26px),
+    transparent 100%
+  );
+}
+
+.edge-fade {
+  --edge-fade: 28px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--edge-fade),
+    #000 calc(100% - var(--edge-fade)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--edge-fade),
+    #000 calc(100% - var(--edge-fade)),
+    transparent 100%
+  );
+}

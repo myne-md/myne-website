@@ -78,7 +78,7 @@ On a device that already has access:
 
 1. Open **Settings → Sync → Devices and members**, then choose the **+** next to **Devices** to open **Add a device with a QR**.
 2. For the account-number kind, paste your account number into the **Account number** field: Myne does not store that number, so you supply it from your own saved copy. The identity kind has no field at all.
-3. Choose **Make QR**. A QR code appears, labelled **Scan with the iOS app**. The code carries the Myne mark in its centre, so the person scanning can see at a glance that it is a Myne code and not some other QR on the screen.
+3. Choose **Make QR**. A QR code appears, labelled **Scan with the mobile app**. The code carries the Myne mark in its centre, so the person scanning can see at a glance that it is a Myne code and not some other QR on the screen.
 4. On the new device, open the Myne app and scan the code. The sync server address and account number are filled in for you; enter that device's password to continue.
 
 On a phone the confirm step shows the server and the account number. The new device checks the server's certificate against the public certificate authorities on its own first connection, the same check every connection gets; no fingerprint is carried by the code or compared.

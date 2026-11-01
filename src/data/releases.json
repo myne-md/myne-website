@@ -7,10 +7,107 @@
     "RWSzhweIGbX53vxsmyZ218e3pqUU8/zKiqHMarzXv3Ddx4rcyvDQOT5k"
   ],
   "channels": {
-    "stable": "v0.11.2",
-    "beta": "v0.11.2"
+    "stable": "v0.11.3",
+    "beta": "v0.11.3"
   },
   "releases": [
+    {
+      "tag": "v0.11.3",
+      "version": "0.11.3",
+      "date": "2026-11-01",
+      "assets": [
+        {
+          "name": "Myne_0.11.3_aarch64.AppImage",
+          "bytes": 257165832,
+          "sha256": "a7fd80290977030ceb8a99a0bb81097824c94a45f1feedd1099c17cfb4b7f972"
+        },
+        {
+          "name": "Myne_0.11.3_amd64.AppImage",
+          "bytes": 263531000,
+          "sha256": "a8d914451b6ed6aa08a63ac46f9b36c61b314ef83e86b023cf5c2db760bc8cea"
+        },
+        {
+          "name": "Myne_0.11.3_amd64.deb",
+          "bytes": 163683120,
+          "sha256": "9402980eddc198559bc14390b2fb80841b1a44a3804878bf9da8ddf6b853aaff"
+        },
+        {
+          "name": "Myne_0.11.3_arm64.deb",
+          "bytes": 161077166,
+          "sha256": "428f5fdeae441b8939b67c66a8e9812b18c1bfe15d184b2e1fcf2fdbcf607aae"
+        },
+        {
+          "name": "Myne_0.11.3_universal.aab",
+          "bytes": 206827382,
+          "sha256": "aacf668fe031c8d714cfe8db7e6dad161f7810e19a55a92df9dd54a843b30800"
+        },
+        {
+          "name": "Myne_0.11.3_universal.apk",
+          "bytes": 335313251,
+          "sha256": "32ae5c5f532af5d304125ab897c7742360032bf3d07a96fe35f799fbdee94d60"
+        },
+        {
+          "name": "Myne_0.11.3_universal.dmg",
+          "bytes": 208114798,
+          "sha256": "7f2cab9061b0f6e3a194eba77d6e5977980a93748b8b366ca39243c93ce9d4af"
+        },
+        {
+          "name": "Myne_0.11.3_universal.pkg",
+          "bytes": 208281561,
+          "sha256": "84b90954f7832b4c598e7df383308a745d28672e33b8fee1981d12da9ce529fd"
+        },
+        {
+          "name": "Myne_0.11.3.ipa",
+          "bytes": 94336549,
+          "sha256": "915474d3df19945871e4aa2ba7571e2ce9f21813d15b27cf5215562bb46480f4"
+        },
+        {
+          "name": "myne-bin-0.11.3-1-x86_64.pkg.tar.zst",
+          "bytes": 161120579,
+          "sha256": "12bffe525050696320738637203288f196010ae7cbc51dbc640ec8e13e34cda4"
+        },
+        {
+          "name": "myne-clipper-0.11.3.zip",
+          "bytes": 52417,
+          "sha256": "e066bdc9ccb2d2c98fc8f1c34a0fc54b2e7aaf803015c1b9ea832e652d64e96c"
+        },
+        {
+          "name": "myne-decrypt-aarch64-unknown-linux-gnu",
+          "bytes": 3797456,
+          "sha256": "e64e0491f8cda15d9d396e813dea914a57131ed74cf0981ccd29e10c53fb949e"
+        },
+        {
+          "name": "myne-decrypt-universal-apple-darwin",
+          "bytes": 6912960,
+          "sha256": "9fecb09ee60afbba809680e4e7d347636e1f4d95747e0b1f1c27e4fa546719d3"
+        },
+        {
+          "name": "myne-decrypt-x86_64-pc-windows-msvc.exe",
+          "bytes": 3138560,
+          "sha256": "57952ee3392bd12054137319cfe03e7e77ee95ee4d9e19300ef891395dbd9825"
+        },
+        {
+          "name": "myne-decrypt-x86_64-unknown-linux-gnu",
+          "bytes": 4017056,
+          "sha256": "84bd8555addfb68e17ec4bdfa6796ed95dcd6f0e626119717f35b88b4a57e86a"
+        },
+        {
+          "name": "Myne.app.tar.gz",
+          "bytes": 208274447,
+          "sha256": "7fe43b186b4b632a685fcdd98e9bcde6f4c4b2331d93f3c1839aff18fe61119b"
+        },
+        {
+          "name": "flake.nix",
+          "bytes": 2399,
+          "sha256": "6be565818c8c5dbf120c38c0668313dce7d0432b2a5e7196bf57bd890b11ebbb"
+        },
+        {
+          "name": "flake.lock",
+          "bytes": 567,
+          "sha256": "42bad7791ef69530577c036a45a545a8734df47c8db2601280c34634e66e52a3"
+        }
+      ]
+    },
     {
       "tag": "v0.11.2",
       "version": "0.11.2",
@@ -446,48 +543,6 @@
           "name": "myne-bin-0.6.0-1-x86_64.pkg.tar.zst",
           "bytes": 495326918,
           "sha256": "169e616a7d550c8e730f25e0dad02b8ea3fdb646ce1331082d132e3bd4577a67"
-        }
-      ]
-    },
-    {
-      "tag": "v0.5.0",
-      "version": "0.5.0",
-      "date": "2026-08-15",
-      "assets": [
-        {
-          "name": "Myne_0.5.0_aarch64.AppImage",
-          "bytes": 585619976,
-          "sha256": "41dc4727dbaa17ba86a742041ebf2fca7f93e5712636971f1519e2b40021c26e"
-        },
-        {
-          "name": "Myne_0.5.0_amd64.AppImage",
-          "bytes": 590428664,
-          "sha256": "4503f31337319ee2d2675e63268024c84798cc171598dae36515d3cb6afbfbbd"
-        },
-        {
-          "name": "Myne_0.5.0_amd64.deb",
-          "bytes": 496076406,
-          "sha256": "e4ea227ba1df344cd52fccb82f1a2d562b7d2948b38d880b0252f9d87fa805a9"
-        },
-        {
-          "name": "Myne_0.5.0_arm64.deb",
-          "bytes": 495536818,
-          "sha256": "ae61c5ae523460d80c03ac8090c674e57d2c197216c5543eb8be8b5d63a9c14d"
-        },
-        {
-          "name": "Myne_0.5.0_universal.apk",
-          "bytes": 286730485,
-          "sha256": "33acf5b0c047f6a6aaa13835ee3ffed7a475ba22d47723070db9cb14b7bb0ee6"
-        },
-        {
-          "name": "Myne_0.5.0_universal.dmg",
-          "bytes": 537064404,
-          "sha256": "4597613c34335feb3a1700162940889d1f1d77ad7aa2e29c63fc7ecbff88cb18"
-        },
-        {
-          "name": "myne-bin-0.5.0-1-x86_64.pkg.tar.zst",
-          "bytes": 494781926,
-          "sha256": "07c29b07970cb922e8f2d17ad7f1747f04497d73d5225fd08a5e8b20374e74c8"
         }
       ]
     }

@@ -66,6 +66,7 @@ const macos = items("macos");
 const linux = items("linux");
 const android = items("android");
 const ios = items("ios");
+const windows = items("windows");
 const clipper = items("clipper");
 const cli = items("cli");
 
@@ -160,19 +161,25 @@ const newestWith = (key: string) =>
             </div>
           </div>
 
-          <div class="dl-card dl-card--empty">
+          <div class={windows.length === 0 ? "dl-card dl-card--empty" : "dl-card"}>
             <svg class="dl-card__icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d={PLATFORM_ICON.windows} />
             </svg>
             <div class="dl-card__os">Windows</div>
-            <div class="mono up dl-card__sub">not yet built</div>
+            <div class="mono up dl-card__sub">x86_64</div>
             <p class="dl-card__note">
-              No Windows installer is published in any release so far. If one
-              ships, it appears here and in the archive; until then there is
-              nothing to download that would run.
+              Windows 10 or later, x86_64. The installer is <strong>unsigned</strong>:
+              no Authenticode certificate exists yet, so SmartScreen asks before it
+              runs. Nothing on this release has been executed on Windows.
             </p>
             <div class="dl-card__list">
-              <span class="mono up dl-none">Nothing to download</span>
+              {windows.length === 0 && <span class="mono up dl-none">{nothing}</span>}
+              {windows.map((item) => (
+                <a class="dl-link mono" href={item.url}>
+                  <span>{item.label}</span>
+                  <span class="dl-link__size">{item.size} ↓</span>
+                </a>
+              ))}
             </div>
           </div>
 

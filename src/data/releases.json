@@ -57,6 +57,11 @@
           "sha256": "84b90954f7832b4c598e7df383308a745d28672e33b8fee1981d12da9ce529fd"
         },
         {
+          "name": "Myne_0.11.3_x64-setup.exe",
+          "bytes": 138783526,
+          "sha256": "e1caceefb6790cdaeac89a507169b147d13d3c72745101d314c3ebeabfd8f0f1"
+        },
+        {
           "name": "Myne_0.11.3.ipa",
           "bytes": 94336549,
           "sha256": "915474d3df19945871e4aa2ba7571e2ce9f21813d15b27cf5215562bb46480f4"

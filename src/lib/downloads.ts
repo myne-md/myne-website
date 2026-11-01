@@ -128,6 +128,14 @@ function classify(name: string): { key: string; title: string; note: string; lab
       label: "iOS .ipa",
     };
   }
+  if (/^Myne_.*-setup\.exe$/.test(name)) {
+    return {
+      key: "windows",
+      title: "Windows",
+      note: "Windows 10 or later, x86_64. Unsigned: no Authenticode certificate exists yet, and no Windows installer has been executed on Windows.",
+      label: `NSIS installer · ${arch(name) || "x86_64"}`,
+    };
+  }
   if (/^myne-clipper-.*\.zip$/.test(name)) {
     return {
       key: "clipper",

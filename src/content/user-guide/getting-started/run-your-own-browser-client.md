@@ -23,7 +23,7 @@ name: myne-web
 
 services:
   app:
-    image: ghcr.io/myne-md/myne-web:v0.8.1
+    image: ghcr.io/myne-md/myne-web:v0.11.3
     # The same release the Helm chart below installs (its `--version` and this tag
     # move together; both are published tags, and the chart's `values.yaml` is what
     # says which one is current). A stale tag here is the quiet kind of drift: the
@@ -156,7 +156,7 @@ The same image installs from a Helm chart instead of a compose file: `myne-web` 
 
 ```sh
 helm install myne-web oci://ghcr.io/myne-md/charts/myne-web \
-  --version 0.8.1 \
+  --version 0.11.3 \
   --namespace myne \
   --set syncOrigin=https://sync.your.domain \
   --set ingress.enabled=true \

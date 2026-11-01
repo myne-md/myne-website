@@ -188,11 +188,13 @@ const newestWith = (key: string) =>
               <path d={PLATFORM_ICON.linux} />
             </svg>
             <div class="dl-card__os">Linux</div>
-            <div class="mono up dl-card__sub">AppImage · deb · tarball · Arch</div>
+            <div class="mono up dl-card__sub">AppImage · deb · rpm · Flatpak · snap · Arch</div>
             <p class="dl-card__note">
               Any modern x86_64 or arm64 distribution. The AppImage needs no
-              install, just the executable bit. Packages carry no signature, so
-              your package manager will not vouch for them.
+              install, just the executable bit. The .rpm needs glibc 2.39, which
+              means Fedora 40 or newer and openSUSE Tumbleweed, not Leap 15 or
+              RHEL 9. Packages carry no signature, so your package manager will
+              not vouch for them.
             </p>
             <div class="dl-card__list">
               {linux.length === 0 &&

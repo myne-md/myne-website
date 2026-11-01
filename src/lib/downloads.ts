@@ -29,6 +29,8 @@ export interface DownloadItem {
   url: string;
   size: string;
   sha256: string;
+  /** Sort key inside a group: installer kind, so the newest format is not the first row. */
+  order: number;
 }
 
 export interface DownloadGroup {
@@ -46,22 +48,47 @@ const SKIP = [
   /\.sig$/, // the updater's detached signature
 ];
 
-const arch = (name: string): string => {
-  if (/universal/.test(name)) return "Universal";
-  if (/aarch64|arm64|apple-darwin/.test(name)) return "Apple Silicon · arm64";
+/**
+ * Which architecture the reader is choosing between, worded for ITS platform.
+ *
+ * The label used to be computed from the file name alone, so every `arm64` and
+ * `aarch64` asset was called "Apple Silicon" — including the Linux .deb and
+ * AppImage, where Apple has nothing to do with it. A target triple is accurate
+ * and unreadable, which is the other half of the same mistake.
+ */
+function arch(name: string, platform: "macos" | "linux" | "windows" | "android"): string {
+  if (platform === "macos") return /universal/.test(name) ? "Universal" : "Apple Silicon · arm64";
+  if (platform === "android") {
+    if (name.includes("arm64-v8a")) return "arm64-v8a";
+    if (name.includes("armeabi-v7a")) return "armeabi-v7a";
+    if (/app-arm64-release/.test(name)) return "arm64";
+    if (/app-arm-release/.test(name)) return "arm";
+    if (/app-x86_64-release/.test(name)) return "x86_64";
+    if (/app-x86-release/.test(name)) return "x86";
+    if (/x86\.apk$/.test(name)) return "x86";
+    return "universal";
+  }
+  // Linux and Windows: Arch spells it `aarch64`, everyone else `arm64`.
+  if (/aarch64|arm64/.test(name)) return name.endsWith(".pkg.tar.zst") ? "aarch64" : "arm64";
   if (/x86_64|amd64/.test(name)) return "x86_64";
-  if (/arm64-v8a/.test(name)) return "arm64-v8a";
-  if (/armeabi-v7a|app-arm-release/.test(name)) return "armeabi-v7a";
-  if (/app-arm64-release/.test(name)) return "arm64";
-  if (/x86-release/.test(name)) return "x86";
-  if (/app-x86_64-release/.test(name)) return "x86_64";
-  if (/x86\.apk$/.test(name)) return "x86";
-  if (/arm64\.deb$|arm64\.tar\.gz$|aarch64\.AppImage$/.test(name)) return "arm64";
   return "";
+}
+
+/** A published decrypter binary is named after its Rust target triple. */
+const TRIPLE: Record<string, string> = {
+  "aarch64-unknown-linux-gnu": "Linux · arm64",
+  "x86_64-unknown-linux-gnu": "Linux · x86_64",
+  "universal-apple-darwin": "macOS · Universal",
+  "x86_64-pc-windows-msvc": "Windows · x86_64",
 };
 
+const LINUX_NOTE =
+  "x86_64 and arm64. The AppImage needs no install, just the executable bit.";
+
 /** Where an asset belongs, or null when it is not for a person to install. */
-function classify(name: string): { key: string; title: string; note: string; label: string } | null {
+function classify(
+  name: string,
+): { key: string; title: string; note: string; label: string; order?: number } | null {
   if (SKIP.some((re) => re.test(name))) return null;
 
   if (name.endsWith(".dmg")) {
@@ -69,7 +96,7 @@ function classify(name: string): { key: string; title: string; note: string; lab
       key: "macos",
       title: "macOS",
       note: "macOS 11 Big Sur or later. Drag the app to Applications.",
-      label: `${arch(name) || "Universal"} .dmg`,
+      label: `${arch(name, "macos") || "Universal"} .dmg`,
     };
   }
   if (name.endsWith(".pkg")) {
@@ -77,31 +104,61 @@ function classify(name: string): { key: string; title: string; note: string; lab
       key: "macos",
       title: "macOS",
       note: "macOS 11 Big Sur or later. Drag the app to Applications.",
-      label: `${arch(name) || "Universal"} .pkg installer`,
+      label: `${arch(name, "macos") || "Universal"} .pkg installer`,
     };
   }
   if (name.endsWith(".AppImage")) {
     return {
       key: "linux",
       title: "Linux",
-      note: "x86_64 and arm64. The AppImage needs no install, just the executable bit.",
-      label: `AppImage · ${arch(name) || "x86_64"}`,
+      note: LINUX_NOTE,
+      label: `AppImage · ${arch(name, "linux") || "x86_64"}`,
+      order: 10,
     };
   }
   if (name.endsWith(".deb")) {
     return {
       key: "linux",
       title: "Linux",
-      note: "x86_64 and arm64. The AppImage needs no install, just the executable bit.",
-      label: `.deb · ${arch(name) || "x86_64"}`,
+      note: LINUX_NOTE,
+      label: `.deb · ${arch(name, "linux") || "x86_64"}`,
+      order: 20,
+    };
+  }
+  if (name.endsWith(".rpm")) {
+    return {
+      key: "linux",
+      title: "Linux",
+      note: LINUX_NOTE,
+      label: `.rpm · ${arch(name, "linux") || "x86_64"}`,
+      order: 30,
+    };
+  }
+  if (name.endsWith(".flatpak")) {
+    return {
+      key: "linux",
+      title: "Linux",
+      note: LINUX_NOTE,
+      label: `Flatpak · ${arch(name, "linux") || "x86_64"}`,
+      order: 40,
+    };
+  }
+  if (name.endsWith(".snap")) {
+    return {
+      key: "linux",
+      title: "Linux",
+      note: LINUX_NOTE,
+      label: `Snap · ${arch(name, "linux") || "amd64"}`,
+      order: 50,
     };
   }
   if (name.endsWith(".pkg.tar.zst")) {
     return {
       key: "linux",
       title: "Linux",
-      note: "x86_64 and arm64. The AppImage needs no install, just the executable bit.",
-      label: "Arch package · x86_64",
+      note: LINUX_NOTE,
+      label: `Arch package · ${arch(name, "linux") || "x86_64"}`,
+      order: 60,
     };
   }
   if (/^Myne_.*\.tar\.gz$/.test(name)) {
@@ -109,7 +166,8 @@ function classify(name: string): { key: string; title: string; note: string; lab
       key: "linux",
       title: "Linux",
       note: "x86_64 and arm64. The AppImage needs no install, just the executable bit.",
-      label: `Portable tarball · ${arch(name) || "x86_64"}`,
+      label: `Portable tarball · ${arch(name, "linux") || "x86_64"}`,
+      order: 70,
     };
   }
   if (name.endsWith(".apk")) {
@@ -117,7 +175,7 @@ function classify(name: string): { key: string; title: string; note: string; lab
       key: "android",
       title: "Android",
       note: "Sideload the APK for your phone's ABI. Any file manager can install it once you allow the source.",
-      label: `APK · ${arch(name) || "unknown ABI"}`,
+      label: `APK · ${arch(name, "android")}`,
     };
   }
   if (name.endsWith(".ipa")) {
@@ -133,7 +191,7 @@ function classify(name: string): { key: string; title: string; note: string; lab
       key: "windows",
       title: "Windows",
       note: "Windows 10 or later, x86_64. Unsigned: no Authenticode certificate exists yet, and no Windows installer has been executed on Windows.",
-      label: `NSIS installer · ${arch(name) || "x86_64"}`,
+      label: `NSIS installer · ${arch(name, "windows") || "x86_64"}`,
     };
   }
   if (/^myne-clipper-.*\.zip$/.test(name)) {
@@ -149,7 +207,10 @@ function classify(name: string): { key: string; title: string; note: string; lab
       key: "cli",
       title: "Command line",
       note: "The standalone decrypter: opens a vault without the app installed. It holds no keys of its own.",
-      label: `myne-decrypt · ${name.replace(/^myne-decrypt-/, "").replace(/\.exe$/, "")}`,
+      label: `myne-decrypt · ${
+        TRIPLE[name.replace(/^myne-decrypt-/, "").replace(/\.exe$/, "")] ??
+        name.replace(/^myne-decrypt-/, "").replace(/\.exe$/, "")
+      }`,
     };
   }
   return {
@@ -177,7 +238,15 @@ export function downloadGroups(release: Release): DownloadGroup[] {
       url: assetUrl(asset.name, release.tag),
       size: humanSize(asset.bytes),
       sha256: asset.sha256,
+      order: where.order ?? 100,
     });
+  }
+
+  // Within a group the reader is choosing between install kinds first and
+  // architectures second, so the order is set by classify() rather than by the
+  // order the release happens to publish files in.
+  for (const group of groups.values()) {
+    group.items.sort((a, b) => a.order - b.order || a.label.localeCompare(b.label));
   }
 
   return [...groups.values()];

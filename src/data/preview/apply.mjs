@@ -135,6 +135,101 @@ export function paintableEntries(palette) {
 }
 
 /**
+ * Parse a CSS color to 0-255 RGB, or `null` when the form is not one this
+ * module understands. Covers what the theme value allowlist admits: 3/4/6/8
+ * digit hex, `rgb()`/`rgba()` with commas or spaces, and `hsl()`/`hsla()`.
+ *
+ * @param {string} value
+ * @returns {[number, number, number] | null}
+ */
+export function parseColorToRgb(value) {
+  const v = String(value ?? "").trim().toLowerCase();
+  const hex = v.match(/^#([0-9a-f]{3,8})$/);
+  if (hex) {
+    let h = hex[1];
+    if (h.length === 3 || h.length === 4) {
+      h = h
+        .split("")
+        .map((c) => c + c)
+        .join("");
+    }
+    if (h.length === 6 || h.length === 8) {
+      const n = Number.parseInt(h.slice(0, 6), 16);
+      return [(n >> 16) & 0xff, (n >> 8) & 0xff, n & 0xff];
+    }
+    return null;
+  }
+  const fn = v.match(/^(rgba?|hsla?)\(([^)]*)\)$/);
+  if (!fn) return null;
+  const parts = (fn[2].match(/[-+]?[\d.]+%?/g) ?? []).slice(0, 3);
+  if (parts.length < 3) return null;
+  const nums = parts.map((t) => Number.parseFloat(t));
+  if (!nums.every((n) => Number.isFinite(n))) return null;
+  if (fn[1].startsWith("rgb")) {
+    const channels = nums.map((n, i) => (parts[i].endsWith("%") ? (n * 255) / 100 : n));
+    return channels.map((x) => Math.max(0, Math.min(255, x)));
+  }
+  const hue = ((nums[0] % 360) + 360) % 360;
+  const sat = Math.max(0, Math.min(100, nums[1])) / 100;
+  const light = Math.max(0, Math.min(100, nums[2])) / 100;
+  const a = sat * Math.min(light, 1 - light);
+  const k = (n) => (n + hue / 30) % 12;
+  const f = (n) => light - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return [f(0), f(8), f(4)].map((x) => Math.round(x * 255));
+}
+
+/** True when `background` is dark (WCAG luminance below 0.5). */
+export function isDarkBackground(background) {
+  const rgb = parseColorToRgb(background);
+  if (rgb === null) return false;
+  const lin = (c) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  };
+  const [r, g, b] = rgb;
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b) < 0.5;
+}
+
+/**
+ * The custom properties the captured sheet declares on `:root` AND again under
+ * a `[data-theme]` block: exactly the tokens whose built-in value depends on
+ * the appearance. Derived from the sheet so there is no fourth copy of the
+ * list, and read from the same document the palette is about to be painted on.
+ *
+ * @param {Document} doc
+ * @returns {string[]}
+ */
+export function appearanceVaryingTokens(doc) {
+  const base = new Set();
+  const themed = new Set();
+  const walk = (rules) => {
+    for (const rule of rules ?? []) {
+      if (rule.cssRules) {
+        walk(rule.cssRules);
+        continue;
+      }
+      const sel = rule.selectorText ?? "";
+      if (!rule.style) continue;
+      const names = [];
+      for (let i = 0; i < rule.style.length; i += 1) {
+        const prop = rule.style.item(i);
+        if (prop.startsWith("--") && !prop.startsWith("--_")) names.push(prop);
+      }
+      if (/\[data-theme/.test(sel)) names.forEach((p) => themed.add(p));
+      else if (/^:root\b/.test(sel)) names.forEach((p) => base.add(p));
+    }
+  };
+  for (const sheet of Array.from(doc.styleSheets ?? [])) {
+    try {
+      walk(sheet.cssRules);
+    } catch {
+      // A cross-origin sheet cannot be inspected; the captured one is inline.
+    }
+  }
+  return [...base].filter((p) => themed.has(p));
+}
+
+/**
  * Paint `palette` onto a live document (the builder's iframe).
  *
  * Returns whether any ornament was selected — worth surfacing so a caller can
@@ -152,14 +247,34 @@ export function paintableEntries(palette) {
 export function applyPalette(doc, palette, drawable) {
   const root = doc.documentElement;
   clearPalette(doc);
-  // A custom palette replaces the built-in wholesale rather than layering over
-  // it, exactly as the app does — otherwise the captured `data-theme` keeps
-  // supplying values the theme meant to override.
-  root.removeAttribute("data-theme");
+  // A theme is a PARTIAL palette, and the built-in sheet states the omitted
+  // tokens per appearance. Seed them for the appearance the theme declares, or
+  // a dark theme renders the light label/highlight/graph families and the light
+  // code colours (the divergence myne-md/myne#900 fixed in the app). Read before
+  // dropping the attribute: the seed comes FROM the sheet.
+  const dark = isDarkBackground(palette["--paper"] ?? "");
+  const previous = root.getAttribute("data-theme");
+  root.setAttribute("data-theme", dark ? "dark" : "light");
+  const computed = doc.defaultView.getComputedStyle(root);
+  /** @type {Record<string, string>} */
+  const canon = {};
+  for (const key of appearanceVaryingTokens(doc)) {
+    const value = computed.getPropertyValue(key).trim();
+    if (value !== "") canon[key] = value;
+  }
+  // `--info`'s dark declaration aliases `--accent`, which a computed read
+  // resolves to the BUILT-IN accent; on a custom theme the alias means the
+  // theme's own.
+  if (dark) {
+    const accent = palette["--accent"] ?? canon["--accent"];
+    if (typeof accent === "string" && accent.trim() !== "") canon["--info"] = accent;
+  }
+  if (previous === null) root.removeAttribute("data-theme");
+  else root.setAttribute("data-theme", previous);
   const attrs = ornamentAttributes(palette, drawable);
   for (const [attr, value] of Object.entries(attrs)) root.setAttribute(attr, value);
   const keys = [];
-  for (const [key, value] of paintableEntries(palette)) {
+  for (const [key, value] of paintableEntries({ ...canon, ...palette })) {
     root.style.setProperty(key, value);
     keys.push(key);
   }

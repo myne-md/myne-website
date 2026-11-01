@@ -1,7 +1,7 @@
 ---
 title: "Selection toolbar"
 category: "editor-and-writing"
-updated: 2026-10-18
+updated: 2026-11-01
 summary: "Select text and a small toolbar appears above it with a block-type control, bold, italic, strikethrough, inline code, highlight, and link. The highlight button also edits a highlight you are already inside, and Settings → Editor lets you reorder and hide the buttons."
 tags: ["editor", "markdown", "settings"]
 ---
@@ -40,7 +40,9 @@ In the editor a coloured highlight always reads back as `==text==` when your cur
 
 Open **Settings → Editor**, under **Editing**, and find **Toolbar buttons** — "Choose which formatting buttons appear on the selection toolbar, and their order." Drag a row to reorder it, move it with Alt+↑ / Alt+↓, or switch a row off to hide that button. The vocabulary is fixed: you can reorder and hide the buttons Myne offers, and you cannot add one that is not on the list.
 
-Five entries on that list — bullet list, numbered list, checklist, quote, and wikilink — are shown as disabled rows marked **Coming soon**. The toolbar does not draw them today, so they cannot be switched on.
+Every entry on that list is a working button: bullet list, numbered list, checklist, quote and wikilink all draw on the toolbar and apply to your selection. Five of them start switched off, so a toolbar you have never customized looks the way it always has; switch one on and it appears on your next selection. A button you switch off is not drawn, and a button you move changes position on the bar.
+
+Myne keeps at least one button visible. Switching off the last one on the list is refused, and the row says why, because a toolbar with nothing on it is indistinguishable from a toolbar that failed to load.
 
 Your layout is saved in the vault's encrypted preferences. The toolbar is redrawn each time you select something, so a change takes effect on your next selection.
 

@@ -1,7 +1,7 @@
 ---
 title: "Quick unlock with a PIN or Touch ID"
 category: "settings-and-privacy"
-updated: 2026-10-18
+updated: 2026-11-01
 summary: "Opt in to re-entering a vault after auto-lock with a PIN or macOS Touch ID instead of the full master password. Device-local and off by default; a PIN still needs the master password after a restart. A vault shared with you instead uses the password you set on this device when you accept."
 tags: ["security", "privacy", "settings"]
 ---
@@ -34,6 +34,8 @@ Each device opts in separately, and so does each vault — setting up quick unlo
 When [auto-lock](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/) closes a vault during a running session and quick unlock is redeemable, the Unlock screen leads with the quick-unlock affordance — a PIN field with **Unlock with PIN**, or an **Unlock with Touch ID** button — and shows one credential at a time rather than stacking both.
 
 Quick unlock never replaces the password path. A **Use password instead** link switches to the master-password form, and an **Unlock with PIN instead** link switches back, so neither side is a dead end and you can always type your password.
+
+With Touch ID, Myne's own screen says it is waiting for Touch ID while macOS's biometric prompt is up, and its button stays disabled until the prompt is answered or dismissed. The prompt itself belongs to macOS and is never drawn by Myne: it is the boundary that decides whether your fingerprint matches, and a prompt Myne could imitate would be worth nothing. **Use password instead** stays available underneath, so a prompt you cannot satisfy is not a dead end.
 
 If a PIN is wrong, the screen tells you how many tries remain — "Incorrect. <N> attempt(s) left." — counting down toward the cap described next.
 

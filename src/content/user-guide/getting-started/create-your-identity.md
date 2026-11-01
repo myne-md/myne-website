@@ -1,7 +1,7 @@
 ---
 title: "Create your identity"
 category: "getting-started"
-updated: 2026-10-30
+updated: 2026-11-01
 summary: "What a Myne identity is, why creating one needs no server, what its 24-word phrase recovers and what it does not open, how the ceremony works, and what registering the identity with a sync server adds."
 tags: ["recovery", "security", "sync"]
 ---
@@ -24,7 +24,7 @@ Before the identity exists, Myne shows you a 24-word **identity phrase**. It is 
 
 It is not a password, and it is not a way into your notes. Myne never asks you to type it to unlock a vault: your vaults keep their own passwords for that, and a vault created under your identity has no phrase of its own either. It is the phrase you reach for when you bring a new device in, when you register the identity, when you accept an invitation, and when you need to unlock the identity itself on a device that already holds it.
 
-The phrase is shown once. Myne hides it until you reveal it and hides it again if you switch away from the window. Before the step will close, it asks you to type four of the words back, naming each by its position in the phrase. A wrong word says which position it is, and the final **Done** stays disabled until all four match, so the step cannot be dismissed early. The point is to confirm the words left the screen into your hands: the phrase is never shown again, and an identity whose phrase was never saved cannot be recovered.
+The phrase is shown once. Myne hides it until you reveal it and hides it again if you switch away from the window. Once the words are on screen, the step offers **Copy** and **Save to file**, which put the phrase, and your identity code, on the clipboard or in a text file. A single document then holds everything a person needs to be you elsewhere. Both say what they did under the buttons. **Copy** is not offered on a platform whose clipboard cannot hold a secret to the standard this screen demands: there the button is absent rather than present-and-weaker, and **Save to file** is the route. Before the step will close, it asks you to type four of the words back, naming each by its position in the phrase. A wrong word says which position it is, and the final **Done** stays disabled until all four match, so the step cannot be dismissed early. The point is to confirm the words left the screen into your hands: the phrase is never shown again, and an identity whose phrase was never saved cannot be recovered.
 
 ## What the phrase opens
 
@@ -39,7 +39,7 @@ A vault you created before 2026-10-30 may still carry a recovery phrase of its o
 
 ## After you create your identity
 
-Myne lands you on your **identity home**. It shows your identity code, the public string you hand someone so they can invite you, and it lists any invitations addressed to you. From here you can:
+Myne lands you on your **identity home**. It leads with the one action it exists to offer (creating a vault, or unlocking the identity if it is sealed on this device), then lists any invitations addressed to you. Below that sits the material that makes the identity usable: your account number and your identity code, the public string you hand someone so they can invite you, each in its own card. From here you can:
 
 - **Create a vault** bound to this identity.
 - **Accept an invitation** to someone else's vault. You paste their identity code, enter your own identity phrase, and choose a password for this device. There is no fingerprint to compare out of band: the owner's code you were given is checked against the invite when you accept, and a code that does not match is refused.

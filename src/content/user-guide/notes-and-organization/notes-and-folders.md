@@ -1,7 +1,7 @@
 ---
 title: "Notes and folders"
 category: "notes-and-organization"
-updated: 2026-10-15
+updated: 2026-10-31
 summary: "How to create, rename, move, and delete notes and folders in Myne: the sidebar's create buttons, the editor's Note actions menu, where a note's title actually comes from, how folders nest and stay private, and how autosave keeps your edits."
 tags: ["notes", "folders"]
 ---
@@ -31,6 +31,8 @@ The sidebar's right-click menu is not the only way in. While a note is open, a *
 ## Folders
 
 Folders group your notes in the sidebar. You can nest them, drag notes between them, and create as many as you like. Deleting a folder that still contains notes moves the whole subtree to the Trash rather than destroying it, so nothing is lost to a misclick (see [Trash](/user-guide/notes-and-organization/trash/)).
+
+**Move to folder…**, on a note's right-click menu and on **Note actions**, opens your folders as a tree with **Vault root** at the top, rather than as a flat list: fold a folder with its own arrow to close its subfolders, and pick any folder at any depth as the destination. Searching inside the picker matches folders at every depth, including ones you have folded away, and each result names the folder it sits in.
 
 A folder can have an **index note**, an ordinary note marked as that folder's landing page. It gets no row of its own in the sidebar tree; you open it from the folder row instead, by double-clicking the row or by clicking the book icon on it. A wikilink that ends in a slash, like `[[Projects/]]`, opens the folder's index note. The feature is off by default; turn it on under **Folder notes** in Settings → Files. See [Folder notes](/user-guide/notes-and-organization/folder-notes/).
 

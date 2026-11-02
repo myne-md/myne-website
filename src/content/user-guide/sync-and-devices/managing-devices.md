@@ -28,6 +28,8 @@ The **Vault members** section of the same panel answers a different question: wh
 - A row shows the member's name when Myne has one whose signature it can check. A member who has no name, or whose name record did not check out, shows the short fingerprint instead.
 - A name record that exists without a signature behind it is marked **Name not verified** rather than shown as that member's name. A name is a label, not a credential, and this is where that shows.
 - Each row carries a role: **Owner** for the person who created the vault, **Member** for everyone else. Your own row shows **You**.
+- A member who has opened this vault on a device shows how many devices that member has **claimed**: `2 device claims`. It is a count and not a list, and it is absent when they have claimed none here rather than reading `0`.
+- If a claim could not be checked against the member list, one line under the rows says so. It names no device, because a device id nobody signed for is an allegation rather than an attribution, and the line exists so a damaged or unreadable record does not read as "nobody has claimed a device".
 - The owner is the one who sees the controls that invite someone or remove a member. A member sees the list and their own row.
 
 This list lives inside the encrypted vault, so your sync server relays it but cannot read it. One person is one row here, whatever number of devices they use, which is the difference from the device list above.

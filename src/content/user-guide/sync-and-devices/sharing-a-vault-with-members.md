@@ -46,6 +46,8 @@ If you do not want the invitation, choose **Decline** beside it instead. Myne as
 
 Every row of the **Vault members** panel (Settings → Sync → Devices and members) follows one rule: the name when that member has one, the short fingerprint when they do not, and the role badge either way. A row with no name is still identified, just less usefully, which is why the name step is part of accepting.
 
+A row also counts the devices that member has claimed in this vault, and every claim here is a **claim**: a device record is signed by the person it names and carries nothing that proves they run that machine, so a member can claim a device they do not use and miss one they do. The count is a hint about who is here, never an inventory of who owns what, which is why it reads `device claims` and never `devices`.
+
 A name is **per vault**, not per person. The same person can be called one thing in your vault and something else in another they belong to, and nothing about it follows them between vaults. Your own name syncs to the other members, so they see it without you telling them.
 
 You can change your name later from your own row, or clear it and go back to the fingerprint. A name is a label rather than a credential. It is signed by the person it names, which stops another member claiming your row, and the list marks a name it could not verify rather than showing it as that member's name. It still proves nothing about who a person is beyond the key they hold, so compare fingerprints out of band when identity matters.

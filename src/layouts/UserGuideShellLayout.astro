@@ -34,6 +34,16 @@ const {
 } = Astro.props;
 
 const manifest = getManifest();
+
+/* "myne-in-your-browser" -> "Myne in your browser".
+   The rail used to print the slug with `text-transform: capitalize`, which is
+   Title Case: every word capitalised, including "in" and "your". The guide's
+   own headings are sentence case, so the rail disagreed with the page it
+   pointed at. CSS cannot capitalise the first letter only, so it happens here. */
+function sentenceCase(slug: string): string {
+  const words = slug.replace(/-/g, " ");
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
 ---
 
 <LandingLayout
@@ -72,11 +82,26 @@ const manifest = getManifest();
               aria-label="User guide sections"
               transition:persist="ug-sidebar"
             >
-              <nav class="ug-sidebar__nav" data-ug-nav>
+              {/* The inner wrapper is what sticks, and the aside itself stays
+                  a full-height grid cell. Two things fall out of that split: the
+                  hairline on the aside runs from the top of the page to the
+                  bottom (a sticky element is only as tall as its own content, so
+                  it used to stop where the list did), and the list gets a
+                  BOUNDED height to scroll inside. Without the bound the nav was
+                  `overflow-y: auto` on an auto-height flex item, which is a
+                  scrollbar that never appears: the item grew to its content and
+                  the overflow simply spilled past the sticky box. */}
+              <div class="ug-sidebar__inner">
+              <nav class="ug-sidebar__nav edge-fade-b" data-ug-nav>
                 {manifest.map((cat) => {
                   const isActiveCategory = cat.slug === currentCategory;
                   return (
-                    <div class="ug-sidebar__category">
+                    <div
+                      class:list={[
+                        "ug-sidebar__category",
+                        { "is-open": isActiveCategory },
+                      ]}
+                    >
                       <a
                         href={`/user-guide/${cat.slug}/`}
                         class:list={[
@@ -86,13 +111,34 @@ const manifest = getManifest();
                           { active: isActiveCategory },
                         ]}
                       >
-                        {cat.label}
+                        <span class="ug-sidebar__cat-label">{cat.label}</span>
+                        <span class="ug-sidebar__cat-count">
+                          {String(cat.articles.length).padStart(2, "0")}
+                        </span>
                       </a>
+                      {/* Only the active category SHOWS its articles, but all
+                          of them stay in the markup.
+                          ── Why ─────────────────────────────────────────────
+                          Every category used to be expanded, always. The guide
+                          has more than a hundred articles, so the rail was a
+                          wall of same-weight links from the first screen down,
+                          with the one thing a reader needs, where they are
+                          now, somewhere inside it. Collapsing to the active
+                          category keeps the rail inside the viewport and turns
+                          the other categories into signposts with a count,
+                          which is what they are until you go there.
+
+                          The lists are all rendered and `is-open` hides the
+                          rest, rather than rendering one list server-side: the
+                          aside is `transition:persist`, so its DOM survives a
+                          client-side navigation. A list that only existed for
+                          the page you arrived from would stay behind, and
+                          crossing from Getting started to Markdown would land
+                          on a rail with no articles in it at all. */}
                       {cat.articles.length > 0 && (
                         <ul class="ug-sidebar__articles">
                           {cat.articles.map((slug) => {
-                            const isActive =
-                              isActiveCategory && slug === currentSlug;
+                            const isActive = slug === currentSlug;
                             return (
                               <li>
                                 <a
@@ -103,7 +149,7 @@ const manifest = getManifest();
                                   ]}
                                   aria-current={isActive ? "page" : undefined}
                                 >
-                                  {slug.replace(/-/g, " ")}
+                                  {sentenceCase(slug)}
                                 </a>
                               </li>
                             );
@@ -114,6 +160,7 @@ const manifest = getManifest();
                   );
                 })}
               </nav>
+              </div>
             </aside>
         )}
         <div class="ug-shell-main">
@@ -352,6 +399,21 @@ const manifest = getManifest();
         .forEach((a) => {
           const href = a.getAttribute("href") || "";
           a.classList.toggle("active", href !== "" && path.startsWith(href));
+        });
+      // Which category is expanded follows the URL, not the page you arrived
+      // from. The aside is persisted, so without this a reader crossing from
+      // one category to another keeps the old section's list expanded and gets
+      // none of the new one's.
+      document
+        .querySelectorAll<HTMLElement>(".ug-sidebar__category")
+        .forEach((cat) => {
+          const link = cat.querySelector<HTMLAnchorElement>(
+            ":scope > .ug-sidebar__cat-link",
+          );
+          cat.classList.toggle(
+            "is-open",
+            link?.classList.contains("active") === true,
+          );
         });
     };
 

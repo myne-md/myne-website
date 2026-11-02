@@ -1,0 +1,308 @@
+---
+/**
+ * A data table on a legal page.
+ *
+ * ── Why this component exists ───────────────────────────────────────────────
+ * `/privacy` and `/datenschutz` are the same document in two languages, and each
+ * built its own tables out of inline style strings copied between the two files.
+ * Both copies carried the same defect, and it was invisible on a phone and
+ * unmissable on a desktop:
+ *
+ *   const tdEm = td + "color:var(--ink-1);white-space:nowrap;";
+ *
+ * Every cell in the first TWO columns was `nowrap`. The "Leaves your device?"
+ * column carries paragraphs, one of them a hundred words long, so the browser
+ * laid it out as ONE line: the table measured 7 264 px wide inside an 820 px
+ * column, the last two columns were pushed off-screen behind a horizontal
+ * scrollbar with no affordance, and the two columns the reader could still see
+ * were crushed to 169 px so their text stood 500 px tall. What it looked like
+ * was a broken layout with enormous empty rows. What it was, was one inherited
+ * CSS property.
+ *
+ * So the widths are declared rather than negotiated, no cell is `nowrap` except
+ * the row's own name, every cell wraps long identifiers, and below the
+ * breakpoint the table stops being a table: each row becomes a card, each cell
+ * carries its column name above it, and nothing scrolls sideways.
+ */
+interface Props {
+  /** Column names, in order. Also the labels the stacked cards use. */
+  head: string[];
+  /** Row cells, same length as `head`. Rendered as text (escaped). */
+  rows: string[][];
+  /** Column widths as CSS lengths. Optional; omit for even columns. */
+  widths?: string[];
+  /**
+   * Let the table break out of an 820 px prose column on a wide screen. On for
+   * the four-column network table, off for two columns, which fit as they are.
+   */
+  bleed?: boolean;
+}
+
+const { head, rows, widths, bleed = false } = Astro.props;
+
+/* Above this, a cell is a paragraph rather than a fact and the row becomes a
+   block. 240 is measured: the longest cell that still reads well in a 300px
+   column is about 40 words, and the entries over it are 100 to 160. */
+const LONG_CELL = 240;
+---
+
+<div class:list={["lt-wrap", { "lt-wrap--bleed": bleed }]}>
+  <table class="lt">
+    {
+      widths && (
+        <colgroup>
+          {widths.map((w) => (
+            <col style={`width:${w}`} />
+          ))}
+        </colgroup>
+      )
+    }
+    <thead>
+      <tr>
+        {head.map((h) => <th scope="col">{h}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((cells) =>
+          cells.some((c) => c.length > LONG_CELL) ? (
+            /* One entry in this table runs to a hundred words and has to: it
+               is the AI data-flow paragraph, and shortening it would be a
+               legal change, not a layout one. Left in a 29% column it stood
+               thirty lines tall beside three short cells, so the row read as
+               a broken table with an empty half. It now takes the full width
+               as a labelled block, and the short rows keep the column rhythm.
+               Nothing is hidden and no cell is rewritten. */
+            <tr class="lt-tr--long">
+              <td colspan={head.length}>
+                <div class="lt-long">
+                  <p class="lt-long__name">{cells[0]}</p>
+                  <dl class="lt-long__facts">
+                    {cells.slice(1).map((cell, i) => (
+                      <div class="lt-long__fact">
+                        <dt>{head[i + 1]}</dt>
+                        <dd>{cell}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </td>
+            </tr>
+          ) : (
+            <tr>
+              {cells.map((cell, i) => (
+                <td data-label={head[i]}>{cell}</td>
+              ))}
+            </tr>
+          ),
+        )
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .lt-wrap {
+    margin-top: 22px;
+    /* Sits in an 820px prose column. On a screen with room to spare the wide
+       table takes it, symmetrically, so it stays centred on the prose whether
+       that column is centred or not. */
+    --lt-bleed: 0px;
+    margin-inline: calc(-1 * var(--lt-bleed));
+  }
+  @media (min-width: 1200px) {
+    .lt-wrap--bleed {
+      --lt-bleed: 140px;
+    }
+  }
+
+  .lt {
+    /* A cell needs left padding as well as right, or the row's hover band
+       starts flush against the first letter and reads as a redaction rather
+       than a highlight. The table then pulls itself back by exactly that
+       padding, so the text still lines up with the prose above it while the
+       band has room on both sides. */
+    width: calc(100% + var(--lt-pad) * 2);
+    margin-inline: calc(-1 * var(--lt-pad));
+    --lt-pad: 16px;
+    /* Declared widths, not the browser's min-content negotiation: the bug this
+       component replaced was the negotiation, with one column winning it all. */
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    line-height: 1.6;
+    text-align: left;
+  }
+
+  .lt th {
+    padding: 0 16px 10px;
+    border-bottom: 1px solid rgb(var(--line-rgb) / 0.16);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    vertical-align: bottom;
+  }
+
+  .lt td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgb(var(--line-rgb) / 0.07);
+    vertical-align: top;
+    color: var(--ink-3);
+    /* A vault blob id or a route name has no space to break at, and a fixed
+       column is exactly where it would otherwise spill. */
+    overflow-wrap: anywhere;
+  }
+
+  /* The row's own name: the one thing a reader scans the column for. */
+  .lt td:first-child {
+    color: var(--ink-1);
+    font-weight: 500;
+  }
+  .lt tbody tr:hover td {
+    background: rgb(var(--accent-rgb) / 0.035);
+  }
+  /* The band ends in a corner rather than a square cut. */
+  .lt tbody tr:hover td:first-child {
+    border-radius: 6px 0 0 6px;
+  }
+  .lt tbody tr:hover td:last-child {
+    border-radius: 0 6px 6px 0;
+  }
+  .lt tbody tr:last-child td {
+    border-bottom-color: rgb(var(--line-rgb) / 0.14);
+  }
+
+  /* ── A long entry, given the whole width ──────────────────────────────────
+     Same shape as the phone cards, on purpose: the label above the value is
+     what a reader needs once a cell stops sitting under its column header. */
+  .lt td[colspan] {
+    padding: 0;
+  }
+  .lt-long {
+    padding: 18px 16px 20px;
+    border-bottom: 1px solid rgb(var(--line-rgb) / 0.07);
+  }
+  .lt-long__name {
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink-0);
+  }
+  .lt-long__facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px 24px;
+    margin: 0;
+  }
+  .lt-long__fact dt {
+    margin-bottom: 3px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+  .lt-long__fact dd {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink-3);
+    overflow-wrap: anywhere;
+  }
+  .lt tbody tr:hover .lt-long {
+    background: rgb(var(--accent-rgb) / 0.035);
+    border-radius: 6px;
+  }
+
+  /* ── Stacked cards ────────────────────────────────────────────────────────
+     Four columns do not fit on a phone, and a sideways-scrolling table is the
+     thing that made the desktop version unreadable in the first place. So the
+     table stops being a table: each row is a card, and every cell repeats its
+     column name above the value it holds, which is what makes a cell legible
+     once the header row is gone. `data-label` carries the name, set from
+     `head`, so a new column needs no extra markup here. */
+  @media (max-width: 760px) {
+    .lt-wrap {
+      --lt-bleed: 0px;
+    }
+    .lt,
+    .lt tbody,
+    .lt tr,
+    .lt td {
+      display: block;
+      width: 100%;
+    }
+    .lt colgroup,
+    .lt thead {
+      display: none;
+    }
+    .lt {
+      border-collapse: separate;
+    }
+    .lt tr {
+      border: 1px solid rgb(var(--line-rgb) / 0.1);
+      border-radius: var(--radius-2);
+      background: var(--paper-2);
+      padding: 16px 18px 18px;
+    }
+    .lt tr + tr {
+      margin-top: 12px;
+    }
+    .lt td {
+      padding: 0;
+      border: 0;
+      font-size: 14px;
+    }
+    .lt td + td {
+      margin-top: 12px;
+    }
+    .lt td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 3px;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+    }
+    /* A long row's single cell is the card BODY, not its title, so it must not
+       inherit the title styling the rule below gives `:first-child`. */
+    .lt td[colspan] {
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: normal;
+      color: var(--ink-3);
+    }
+    /* The first cell is the card's title, so it needs no label above it. */
+    .lt td:first-child {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink-0);
+      letter-spacing: -0.01em;
+    }
+    .lt td:first-child::before {
+      display: none;
+    }
+    .lt tbody tr:hover td {
+      background: transparent;
+    }
+    /* Inside a card the block is just another card body. */
+    .lt-long {
+      padding: 0;
+      border: 0;
+    }
+    .lt-long__facts {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .lt tbody tr:hover .lt-long {
+      background: transparent;
+    }
+  }
+</style>

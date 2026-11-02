@@ -1,0 +1,107 @@
+---
+/**
+ * The contents block on a legal page.
+ *
+ * `/privacy` is 13 000 px tall with twelve sections, and it had no way in except
+ * scrolling: no anchor, no list, nothing that says what the document covers
+ * before asking a reader to read it. On a phone that is a screen and a half of
+ * prose before the sentence that answers the question somebody came for.
+ *
+ * The block is plain HTML with no script. A sticky rail like the guide's would
+ * be the wrong shape here twice over: a legal page is read once and linearly,
+ * and the rail cannot exist on the narrow screen where the need is greatest.
+ * Jump links work in both places, and they degrade to a list of anchors.
+ */
+interface Props {
+  items: { id: string; label: string }[];
+  /** The block's own heading. German twin passes its own; see /datenschutz. */
+  title?: string;
+}
+const { items, title = "On this page" } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <nav class="lc" aria-labelledby="legal-contents">
+      <p class="lc__title" id="legal-contents">
+        {title}
+      </p>
+      <ol class="lc__list">
+        {items.map((item, i) => (
+          <li>
+            <a href={`#${item.id}`}>
+              <span class="lc__n">{String(i + 1).padStart(2, "0")}</span>
+              <span class="lc__label">{item.label}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
+
+<style>
+  .lc {
+    margin-top: 26px;
+    border: 1px solid rgb(var(--line-rgb) / 0.1);
+    border-radius: var(--radius-3);
+    padding: 20px 22px 22px;
+    background: color-mix(in srgb, var(--paper-2) 60%, transparent);
+  }
+  .lc__title {
+    margin: 0 0 14px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+  .lc__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 2px 28px;
+  }
+  @media (min-width: 720px) {
+    .lc__list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .lc__list a {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 5px 0;
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: var(--ink-3);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+  .lc__n {
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--ink-4);
+    font-variant-numeric: tabular-nums;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+  .lc__list a:hover {
+    color: var(--ink-0);
+  }
+  /* The global focus ring covers the buttons; these are plain links, so they
+     need their own or a keyboard reader tabs through the contents blind. */
+  .lc__list a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+  .lc__list a:hover .lc__n {
+    color: var(--accent);
+  }
+  .lc__label {
+    min-width: 0;
+  }
+</style>

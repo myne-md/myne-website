@@ -684,30 +684,64 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
   padding: 0;
 }
 
-/* ---- sidebar: search + section groups -------------------------------- */
+/* ---- sidebar: the guide's own rail -----------------------------------
+   ── What this is now ─────────────────────────────────────────────────────
+   The rail had drifted into a bare list floating on the page: no rule, no
+   container, every category expanded at once, and the active row marked by a
+   grey rounded box that was the same weight as a hover. On a guide with a
+   hundred articles that is a wall of links, and the one thing a reader needs
+   from it, where am I now, is a slightly lighter rectangle inside it.
+
+   Now: one hairline holding the rail off the article, a numeral count on every
+   collapsed category, the active category expanded under an accent label, and
+   an accent bar on the row you are reading. The list is short enough to see at
+   once, which is the whole job of a sidebar. */
 .ug-root .ug-sidebar {
   width: auto;
   background: transparent;
   border: 0;
-  position: sticky;
+  border-right: 1px solid rgb(var(--line-rgb) / 0.07);
+  /* Full height, not "as tall as the list". The rail is a section: its hairline
+     runs from the top of the page to the bottom, the way the article column
+     does, instead of stopping in mid-air under the last category. */
+  align-self: stretch;
+  /* The base `.ug-sidebar` rule above still carries the old drawer's
+     `height: calc(100vh - …)` and `overflow-y: auto`. Both have to go: a
+     specified height outranks `align-self: stretch` (which is why the rail
+     stopped at 656px while the article ran to 2653), and an overflow box on the
+     aside would be a second scrollbar beside the nav's own. */
+  height: auto;
+  overflow: visible;
+  padding: 0 18px 0 0;
+}
+.ug-root .ug-sidebar__inner {
   /* Pinned at the page's own top offset, so the tree is in the same place on
      the first scroll as it is at rest. At `top: 84px` against a page whose
      top offset was 96px, the sidebar slid 12px up as soon as the reader began
      to scroll: the natural position outranked the sticky one until the two
-     met, which reads as the tree flinching rather than as the tree sticking. */
+     met, which reads as the tree flinching rather than as the tree sticking.
+     The height is the viewport's, minus that offset and a little air, because
+     a bounded box is the only thing a scrollbar can live in. */
+  position: sticky;
   top: var(--page-top);
-  height: auto;
-  max-height: calc(100vh - var(--page-top) - 26px);
-  padding: 0;
+  height: calc(100dvh - var(--page-top) - 22px);
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  min-height: 0;
 }
 .ug-root .ug-sidebar__nav {
+  flex: 1 1 auto;
   overflow-y: auto;
   min-height: 0;
   padding-right: 8px;
-  gap: 24px;
+  /* Room for the bottom fade, and then some. Without it the last category in
+     the tree sits flush against the box's edge at maximum scroll, so the mask
+     fades it to nearly nothing AND `overflow-y: auto` has already clipped its
+     bottom half: the row is on screen, looks like a ghost, and the part of it a
+     reader can see is not the part that takes the click. 28px is the fade (26)
+     plus the air that keeps a row clear of it. */
+  padding-bottom: 28px;
+  gap: 18px;
   /* Firefox: a thin thumb on a transparent track. */
   scrollbar-width: thin;
   scrollbar-color: rgb(var(--line-rgb) / 0.14) transparent;
@@ -731,42 +765,97 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
   background: rgb(var(--accent-rgb) / 0.55);
 }
 .ug-root .ug-sidebar__category {
-  gap: 8px;
+  gap: 6px;
 }
 .ug-root .ug-sidebar__cat-link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
   font-size: 10px;
   font-weight: 500;
   color: var(--ink-3);
   letter-spacing: 0.1em;
-  padding: 0 0 2px 2px;
+  padding: 0 2px 0 11px;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+.ug-root .ug-sidebar__cat-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ug-root .ug-sidebar__cat-count {
+  flex: none;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--ink-4);
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
 }
 .ug-root .ug-sidebar__cat-link:hover {
-  color: var(--ink-2);
+  color: var(--ink-1);
 }
+/* The active category reads as brighter, not as blue. It does not need colour
+   to say where the reader is: it is the only category whose articles are open,
+   and the accent already marks the row they are reading. A blue 10px caps label
+   measured dimmer than the grey siblings it had to outrank. */
 .ug-root .ug-sidebar__cat-link.active {
-  color: var(--accent);
+  color: var(--ink-0);
 }
+.ug-root .ug-sidebar__cat-link.active .ug-sidebar__cat-count {
+  color: var(--ink-3);
+  opacity: 1;
+}
+/* Only the open category's list is painted; every list is in the DOM so the
+   persisted aside can be re-opened client-side without a re-render. */
+.ug-root .ug-sidebar__category:not(.is-open) > .ug-sidebar__articles {
+  display: none;
+}
+/* The list hangs off a rail, so the active row's accent bar is a lit segment of
+   that rail rather than a floating stripe beside it. */
 .ug-root .ug-sidebar__articles {
+  position: relative;
   padding-left: 0;
-  gap: 2px;
+  gap: 1px;
+  margin: 2px 0 0;
+  list-style: none;
+}
+.ug-root .ug-sidebar__articles::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background: rgb(var(--line-rgb) / 0.1);
 }
 .ug-root .ug-sidebar__article {
+  display: block;
   font-size: 13px;
   line-height: 1.4;
   color: var(--ink-3);
-  padding: 6px 10px;
-  border-radius: 6px;
+  padding: 6px 10px 6px 14px;
+  border-radius: 0 6px 6px 0;
   border-left: 2px solid transparent;
-  transition: color 0.15s ease, background 0.15s ease;
+  text-decoration: none;
+  text-transform: none;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    padding-left var(--duration-base) var(--ease-out);
 }
 .ug-root .ug-sidebar__article:hover {
-  background: transparent;
+  background: rgb(var(--line-rgb) / 0.035);
   color: var(--ink-1);
+  padding-left: 17px;
 }
 .ug-root .ug-sidebar__article.active {
-  color: var(--ink-1);
-  background: rgb(var(--accent-rgb) / 0.08);
-  border-left-color: transparent;
+  color: var(--ink-0);
+  background: rgb(var(--accent-rgb) / 0.1);
+  border-left-color: var(--accent);
 }
 
 /* ---- right rail (On this page) --------------------------------------- */
@@ -927,6 +1016,19 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
   to {
     opacity: 1;
     scale: 1;
+  }
+}
+/* The scrim and the image both arrive with a transition rather than a snap, so
+   a reader who asked for reduced motion gets neither: the overlay appears and
+   the picture is simply there. The global 0.001ms reset would have made these
+   instantaneous, which still runs them. */
+@media (prefers-reduced-motion: reduce) {
+  .ug-lightbox,
+  .ug-lightbox[data-open] {
+    transition: none;
+  }
+  .ug-lightbox[data-open] .ug-lightbox__img {
+    animation: none;
   }
 }
 .ug-lightbox__img {

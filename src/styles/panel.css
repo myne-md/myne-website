@@ -1,0 +1,149 @@
+/* ============================================================ drawn panels
+ *
+ * One language for the three surfaces on this site that are DRAWN rather than
+ * photographed: the landing's vault listing, and the meeting-notes and
+ * sync-server panels on /features.
+ *
+ * ── What this replaced, and why ──────────────────────────────────────────
+ *
+ * Each panel had grown its own plate: a radial accent wash in one corner, a
+ * linear sheen in another, an inset highlight on the top edge, a 60px drop
+ * shadow, and (on one of them) a light travelling its top border. Every one of
+ * those was defensible alone and together they read as a single blue-grey glow
+ * that made three different subjects look like the same widget. Worse, a glow
+ * is a claim: a lit plate looks like a screen, and the whole argument of these
+ * panels is that they are NOT screens, they are the shape of the thing.
+ *
+ * So the plate is now paper: transparent, one hairline border, one radius, no
+ * shadow, no gradient, no glow. Depth comes from the border and from the
+ * hairlines between bands, the way it does in a printed table. Accent is
+ * rationed to the places where it carries meaning, and there are few of them.
+ */
+.mp {
+  position: relative;
+  border: 1px solid rgb(var(--line-rgb) / 0.2);
+  border-radius: 10px;
+  /* Transparent, not `--paper-2`: the page shows through, so the panel sits ON
+     the page rather than floating above it. */
+  background: transparent;
+  overflow: hidden;
+  color: var(--ink-2);
+}
+
+/* The header band: a mono label on the left, state on the right. */
+.mp__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgb(var(--line-rgb) / 0.14);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.mp__head-right {
+  margin-left: auto;
+}
+
+/* A pill is an outline with a dot in it. No fill: a filled pill on a flat plate
+   is the one thing that puts a highlight back. */
+.mp__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px 2px 6px;
+  border: 1px solid rgb(var(--line-rgb) / 0.22);
+  border-radius: var(--radius-pill);
+  color: var(--ink-3);
+  letter-spacing: 0.1em;
+}
+.mp__pill--live {
+  border-color: rgb(var(--accent-rgb) / 0.4);
+  color: var(--accent);
+}
+.mp__pill--rec {
+  border-color: rgb(var(--danger-rgb) / 0.4);
+  color: var(--danger);
+}
+.mp__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: mp-pulse 2.6s var(--ease-standard) infinite;
+}
+@keyframes mp-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.32;
+  }
+}
+
+/* The closing line of a panel: one sentence of mono fact. */
+.mp__foot {
+  margin: 0;
+  padding: 10px 14px 11px;
+  border-top: 1px solid rgb(var(--line-rgb) / 0.14);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  line-height: 1.6;
+  color: var(--ink-4);
+}
+
+/* A labelled fact: mono caps above the value, the way a drawing is annotated. */
+.mp__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0;
+  padding: 12px 14px;
+}
+.mp__fact {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.mp__fact dt {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.mp__fact dd {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+
+/* Three facts side by side, label above value: the shape a drawing annotates
+   with, and the only one that survives a narrow panel. */
+.mp__facts--row {
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+.mp__facts--row .mp__fact {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+/* The one accent a panel is allowed to spend on a fact it is making a claim
+   about ("keys held: none"). */
+.mp__none {
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp__dot {
+    animation: none;
+  }
+}

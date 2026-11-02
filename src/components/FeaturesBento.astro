@@ -155,7 +155,7 @@ const COLLAB_LINES = [
   aria-labelledby="fb-heading"
 >
   <div class="fb-inner">
-    <header class="fb-head" data-reveal>
+    <header class="fb-head" data-motion="rise">
       <span class="mono up fb-eyebrow">Features</span>
       <h2 id="fb-heading" class="fb-head__title">
         Read it, link it, share it. Sealed underneath.
@@ -166,11 +166,15 @@ const COLLAB_LINES = [
       </p>
     </header>
 
-    <div class="fb-grid" data-reveal>
+    <div class="fb-grid" data-motion-group data-motion-step="70">
+      {/* The cards are the group's children, so each one lands on its own beat
+          and the grid reads as being dealt rather than as a block appearing. */}
       {
         cells.map((c) => (
           <a
             href={`/features/#${c.id}`}
+            data-motion="rise"
+            data-spotlight
             class:list={[
               "fb-card",
               c.size === "wide" && "fb-card--wide",

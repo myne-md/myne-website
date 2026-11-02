@@ -66,6 +66,7 @@ import AppShowcase from "../components/AppShowcase.astro";
 import GlassNav from "../components/GlassNav.astro";
 import Icon from "../components/Icon.astro";
 import ShotFrame from "../components/ShotFrame.astro";
+import FeaturesDrawn from "../components/FeaturesDrawn.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
 
@@ -104,6 +105,13 @@ interface Section {
   /** Where this is explained in full. */
   guide: { href: string; label: string };
   icon: IconName;
+  /** A DRAWN panel, for the sections with no capture pair.
+   *
+   *  Two of the seven carry one of these instead of a photograph, and the
+   *  reason is in `FeaturesDrawn.astro`'s header: drawing follows the theme, a
+   *  single-theme capture does not, and the alternative that was actually
+   *  shipped for a while (no visual at all) left half of the row empty. */
+  drawn?: "meeting" | "server";
   /** The capture that illustrates this section, and what it shows.
    *
    *  Optional, and two sections have none: Meeting notes and Sync server
@@ -206,8 +214,7 @@ const sections: Section[] = [
       label: "Meeting notes",
     },
     icon: "mic",
-    /* No capture of this surface exists in either theme yet, and inventing one
-       is worse than the gap: see the note on `shot` below. */
+    drawn: "meeting",
   },
   {
     id: "encryption",
@@ -326,7 +333,7 @@ const sections: Section[] = [
       label: "Run your own server",
     },
     icon: "server",
-    /* No UI to photograph: this surface is a container image. See `shot`. */
+    drawn: "server",
   },
 ];
 
@@ -363,12 +370,10 @@ const sections: Section[] = [
                   data-feat-chip={s.id}
                 >
                   <span class="feat-chip__icon">
-                    <Icon name={s.icon} size={15} />
+                    <Icon name={s.icon} size={16} />
                   </span>
-                  <span class="feat-chip__text">
-                    <i class="mono">{s.index}</i>
-                    <b class="mono up">{s.kicker}</b>
-                  </span>
+                  <span class="feat-chip__label">{s.kicker}</span>
+                  <span class="mono feat-chip__index">{s.index}</span>
                 </button>
               ))
             }
@@ -378,8 +383,8 @@ const sections: Section[] = [
             <a class="feat-chip feat-chip--link" href="#collaboration">
               <span class="feat-chip__icon">
                 <svg
-                  width="15"
-                  height="15"
+                  width="16"
+                  height="16"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -392,10 +397,8 @@ const sections: Section[] = [
                   <path d="m19 12-7 7-7-7" />
                 </svg>
               </span>
-              <span class="feat-chip__text">
-                <i class="mono">↓</i>
-                <b class="mono up">Read on</b>
-              </span>
+              <span class="feat-chip__label">Read on</span>
+              <span class="mono feat-chip__index">↓</span>
             </a>
           </div>
         </div>
@@ -451,9 +454,12 @@ const sections: Section[] = [
                           />
                         </>
                       ))}
-                    {/* A section with no capture gets a text slide instead of an
-                        empty frame. See the `shot` note on the Section type. */}
-                    {!s.shot && (
+                    {/* A section with no capture shows its DRAWN panel, sized
+                        to the frame like the other slides so switching between
+                        them does not re-lay-out the page. A text card is the
+                        last resort and nothing uses it now. */}
+                    {s.drawn && <FeaturesDrawn variant={s.drawn} bleed />}
+                    {!s.shot && !s.drawn && (
                       <span class="feat-slide__card">
                         <span class="mono up feat-slide__kicker">
                           {s.index} · {s.kicker}
@@ -483,7 +489,7 @@ const sections: Section[] = [
         sections.map((s, i) => (
           <article
             id={s.id}
-            class:list={["feat-block", { "feat-block--flip": i % 2 === 1 }]}
+            class:list={["feat-block", { "feat-block--flip": i % 2 === 0 }]}
           >
             <div class="feat-inner feat-block__grid">
               <div class="feat-block__copy">
@@ -516,7 +522,12 @@ const sections: Section[] = [
                 </a>
               </div>
 
-              <div class:list={["feat-block__visual", { "is-empty": !s.shot }]}>
+              <div
+                class:list={[
+                  "feat-block__visual",
+                  { "is-empty": !s.shot && !s.drawn },
+                ]}
+              >
                 {s.shot && (
                   <AppShowcase
                     dark={`/app/p-${s.id}.webp`}
@@ -526,6 +537,7 @@ const sections: Section[] = [
                     h={885}
                   />
                 )}
+                {!s.shot && s.drawn && <FeaturesDrawn variant={s.drawn} />}
               </div>
             </div>
           </article>
@@ -583,13 +595,20 @@ const sections: Section[] = [
     gap: 56px;
     align-items: center;
   }
-  /* The frame is capped rather than filling its column. At 1280 the column is
-     ~690px, which made the app's own sidebar and right panel large enough to be
-     read as text and pull attention off the claim beside them. */
+  /* Both halves are the same width, and neither is capped.
+     ── What changed ────────────────────────────────────────────────────────
+     The frame used to be capped at 600px and pushed to the right edge of its
+     column, on the theory that a full-width capture made the app's own sidebar
+     legible enough to compete with the headline. In place the effect was the
+     opposite of a claim: the two columns are 1fr/1fr, so the right half LOOKED
+     narrower than the left by exactly the capped remainder, and the hero read
+     as an off-centre layout rather than as a split. The grid is the thing that
+     decides the width now; the capture keeps its own 1400×885 ratio and simply
+     fills what it is given. */
   .feat-hero__window {
     width: 100%;
-    max-width: 600px;
-    margin-left: auto;
+    max-width: 100%;
+    margin-left: 0;
   }
   .feat-hero__copy {
     display: flex;
@@ -617,44 +636,58 @@ const sections: Section[] = [
   }
 
   /* ---- the chips ------------------------------------------------------
-     Square rather than pill: each one is a control that swaps the frame beside
-     it, and a pill reads as a filter for a list. */
+     A control that swaps the frame beside it, so it is a KEY rather than a
+     tag: a tile with its own icon plate, its own numeral and a rail that lights
+     when it is the one on screen.
+
+     ── What this replaced, and why ─────────────────────────────────────────
+     Two versions ago these were 10px uppercase labels on transparent stock
+     with a 26px grey outline icon. Measured in place: on a 1440 window each
+     label was smaller than the body copy beneath the hero and the same weight
+     as the section numbers, so the grid read as a legend for the picture
+     rather than as the page's navigation, and the only colour on the whole
+     left half was the one-line accent of the active tile. The picker is the
+     first thing a reader's eye lands on after the headline, so it now carries
+     the accent: an icon plate in the theme colour on every tile, a numeral in
+     the same colour, and a lit rail on the active one. */
   .feat-chips {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
+    /* Not the full column: at the hero's own width the eight tiles stretched
+       to 297px each and the picker outweighed the headline it sits under. */
+    max-width: 496px;
     margin-top: auto;
-    padding-top: 36px;
+    padding-top: 32px;
   }
+  /* A flat tile whose BORDER is the only thing that moves. No fill, no glass,
+     no glow, no lit rail: three earlier versions each added one of those and
+     the grid read as eight lit buttons competing with the frame they control.
+     The picker is a key, and a key's state is its edge. */
   .feat-chip {
-    display: flex;
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr) auto;
     align-items: center;
     gap: 10px;
-    padding: 11px 12px;
-    border: 1px solid rgb(var(--line-rgb) / 0.14);
-    border-radius: var(--radius-2);
+    padding: 9px 12px;
+    border: 1px solid rgb(var(--line-rgb) / 0.13);
+    border-radius: 8px;
     background: transparent;
-    color: var(--ink-3);
+    color: var(--ink-2);
     text-align: left;
     text-decoration: none;
     cursor: pointer;
-    transition:
-      border-color var(--duration-fast) var(--ease-standard),
-      background var(--duration-fast) var(--ease-standard),
-      color var(--duration-fast) var(--ease-standard);
+    transition: border-color var(--duration-base) var(--ease-standard);
   }
   .feat-chip:hover {
-    border-color: rgb(var(--accent-rgb) / 0.4);
-    color: var(--ink-1);
+    border-color: rgb(var(--line-rgb) / 0.3);
   }
   .feat-chip:focus-visible {
     outline: none;
     box-shadow: var(--ring);
   }
   .feat-chip.is-on {
-    border-color: rgb(var(--accent-rgb) / 0.5);
-    background: var(--accent-soft);
-    color: var(--ink-0);
+    border-color: rgb(var(--accent-rgb) / 0.7);
   }
   .feat-chip__icon {
     display: inline-flex;
@@ -662,36 +695,35 @@ const sections: Section[] = [
     justify-content: center;
     width: 26px;
     height: 26px;
-    flex-shrink: 0;
-    border: 1px solid rgb(var(--line-rgb) / 0.12);
-    border-radius: var(--radius-1);
-    color: var(--ink-4);
-    transition: color var(--duration-fast) var(--ease-standard);
+    color: var(--ink-3);
   }
-  .feat-chip.is-on .feat-chip__icon,
-  .feat-chip:hover .feat-chip__icon {
-    color: var(--accent);
+  .feat-chip__icon svg {
+    width: 15px;
+    height: 15px;
   }
-  .feat-chip__text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  .feat-chip__label {
     min-width: 0;
-  }
-  .feat-chip__text i {
-    font-style: normal;
-    font-size: 9px;
-    color: var(--ink-4);
-  }
-  .feat-chip--link {
-    color: var(--ink-4);
-  }
-  .feat-chip__text b {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 600;
+    letter-spacing: -0.005em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .feat-chip__index {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--ink-4);
+  }
+  /* The eighth cell is a link, not a section, and it must not read as an
+     eighth feature: dashed edge, and it keeps the same flat stock. */
+  .feat-chip--link {
+    border-style: dashed;
+    border-color: rgb(var(--line-rgb) / 0.16);
+    color: var(--ink-3);
+  }
+  .feat-chip--link:hover {
+    border-color: rgb(var(--line-rgb) / 0.34);
   }
 
   /* ---- the deck --------------------------------------------------------
@@ -801,9 +833,28 @@ const sections: Section[] = [
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 56px;
-    align-items: center;
+    /* `start`, not `center`: the visual is sticky from the top of its own
+       column, and a centred item never has room to stick (the client rect it
+       would stick within is the centring gap). */
+    align-items: start;
     padding-top: 34px;
     border-top: 1px solid rgb(var(--line-rgb) / 0.12);
+  }
+  /* The evidence stays with the claim.
+     ── What changed and why ────────────────────────────────────────────────
+     The capture used to be vertically centred in the row. That is fine while
+     the copy is shorter than the picture and wrong the moment it is not: the
+     row grows to the taller column, the picture sits in the middle of a hole,
+     and by the time a reader has reached the third bullet the screenshot beside
+     it has scrolled out of view, so the section ends in text with an empty
+     half. Sticking it costs nothing when the copy is short (a sticky element
+     only moves once the row is taller than the viewport allows) and keeps the
+     picture beside the sentence it illustrates however long the copy gets.
+     `top` clears the fixed bar plus one line of breathing room. */
+  .feat-block__visual {
+    position: sticky;
+    top: calc(var(--nav-h) + 28px);
+    align-self: start;
   }
   /* A section with no capture (Meeting notes, Sync server) runs its copy
      across the full measure instead of leaving half the row empty. */
@@ -813,9 +864,13 @@ const sections: Section[] = [
   .feat-block__grid:has(.feat-block__visual.is-empty) .feat-block__copy {
     max-width: 74ch;
   }
-  /* Odd blocks put the frame on the left. The order is set on the children
-     rather than by the source order, so the reading order of the DOM stays
-     claim-then-evidence on every block. */
+  /* The FIRST block puts its frame on the left, and every other block swaps
+     sides from there. Starting copy-left would repeat the hero above it, which
+     is also copy-left, and a zig-zag whose first move is the same direction as
+     the section it follows is not a zig-zag: the reader sees one long column of
+     text with pictures on the right, then a single break. The order is set on
+     the children rather than by the source order, so the reading order of the
+     DOM stays claim-then-evidence on every block. */
   .feat-block--flip .feat-block__copy {
     order: 2;
   }
@@ -1012,6 +1067,11 @@ const sections: Section[] = [
     .feat-block--flip .feat-block__visual {
       order: 0;
     }
+    /* One column: the picture now sits BELOW the copy, so there is no sentence
+       beside it to stay with. Sticky would pin it to a row it already fills. */
+    .feat-block__visual {
+      position: static;
+    }
     .feat-block {
       padding-top: 64px;
     }
@@ -1025,14 +1085,19 @@ const sections: Section[] = [
        still reads as a grid of controls. The index line goes, because at this
        size it is the part nothing depends on. */
     .feat-chip {
+      grid-template-columns: 26px minmax(0, 1fr);
       padding: 9px 10px;
       gap: 8px;
     }
-    .feat-chip__text i {
+    .feat-chip__icon {
+      width: 26px;
+      height: 26px;
+    }
+    .feat-chip__index {
       display: none;
     }
-    .feat-chip__text b {
-      font-size: 9px;
+    .feat-chip__label {
+      font-size: 11.5px;
     }
     .feat-lede,
     .feat-block__lede {
@@ -1050,6 +1115,8 @@ const sections: Section[] = [
 </style>
 
 <script>
+  import { voicePoints } from "../scripts/voice";
+
   // ---------- the hero deck ----------
   //
   // Eight chips, eight slides in one frame. Clicking a chip selects its slide
@@ -1130,5 +1197,58 @@ const sections: Section[] = [
     } else {
       disarmBar();
     }
+  }
+
+  // ---------- the voice line ----------
+  //
+  // The meeting panel's stroke is a voice going into a microphone, and a
+  // recording that does not move reads as a chart of something that already
+  // ended. So the line is REDRAWN, about thirty times a second, from the same
+  // amplitude field the build-time frame uses: one bell-shaped group of peaks in
+  // the middle of the panel, its lobes each moving at their own speed so nothing
+  // repeats, and a single level over the group so it swells and drops the way a
+  // person talking does.
+  const voiceLines = Array.from(
+    document.querySelectorAll<SVGPolylineElement>("[data-voice]"),
+  );
+  const stillVoice = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (voiceLines.length && !stillVoice) {
+    /* The same drawing the component builds, from the same module: one
+       function of time, so a frame drawn here can never disagree with the frame
+       the server rendered. */
+    const shapes = voiceLines.map(() => (time: number) => voicePoints(time, 6));
+
+    const visible = new Set<SVGPolylineElement>();
+    let raf = 0;
+    let started = 0;
+    let last = 0;
+    const tick = (now: number) => {
+      raf = window.requestAnimationFrame(tick);
+      if (now - last < 33) return;
+      last = now;
+      if (!started) started = now;
+      const time = (now - started) / 1000;
+      voiceLines.forEach((el, i) => {
+        if (visible.has(el)) el.setAttribute("points", shapes[i]!(time));
+      });
+    };
+
+    // Only the panel on screen is redrawn: the same drawing appears in the deck
+    // AND in the meeting section, and the one that is scrolled away or sitting
+    // in a hidden slide costs nothing.
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        const el = entry.target as SVGPolylineElement;
+        if (entry.isIntersecting) visible.add(el);
+        else visible.delete(el);
+      }
+      if (visible.size && !raf) raf = window.requestAnimationFrame(tick);
+      else if (!visible.size && raf) {
+        window.cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    });
+    voiceLines.forEach((el) => io.observe(el));
   }
 </script>

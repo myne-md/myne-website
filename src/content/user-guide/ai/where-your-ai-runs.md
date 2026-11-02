@@ -1,7 +1,7 @@
 ---
 title: "Where your AI runs"
 category: "ai"
-updated: 2026-10-18
+updated: 2026-11-01
 summary: "Myne never sends your notes anywhere you have not named, and it downloads a model only when you ask, from Myne's own origin. This page covers the three things you can name (a model file here, a runtime here, or a remote provider), what each means for where your notes go, and the consent screen and API key a provider adds."
 tags: ["ai", "privacy", "security", "settings"]
 ---
@@ -44,7 +44,7 @@ That second step never reaches a provider, in any configuration, even when a pro
 
 ## Naming a remote provider
 
-On a computer, the **Choose provider** dropdown on the **General** tab is where you name a service to send requests to instead. The choices are **On this device**, Ollama Cloud and OpenRouter, a closed list rather than a free-form address, because a destination you type is one the consent screen cannot name. **On this device** is the default and means no service off this computer is contacted at all. A phone lays this out differently (see [On a phone](#on-a-phone) below): its provider section lists the services, and its default is **None**.
+On a computer, the **Choose provider** dropdown on the **General** tab is where you name a service to send requests to instead. The choices are **On this device**, Ollama Cloud, OpenRouter, **OpenCode Zen** and **OpenCode Go**, a closed list rather than a free-form address, because a destination you type is one the consent screen cannot name. Zen and Go are two products of the same operator: Zen bills per request, Go is a subscription with a monthly allowance, and each needs the API key from your own account with it. **On this device** is the default and means no service off this computer is contacted at all. A phone lays this out differently (see [On a phone](#on-a-phone) below): its provider section lists the services, and its default is **None**.
 
 Choosing a provider for the first time shows a consent screen before anything is stored or sent. It is headed "Before Myne sends anything to …" and answers seven questions in labelled sections:
 

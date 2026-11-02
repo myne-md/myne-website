@@ -1,7 +1,7 @@
 ---
 title: "Teach Myne your vault"
 category: "ai"
-updated: 2026-10-22
+updated: 2026-11-01
 summary: "How the one-time reviewed seed turns your vault's structure into a few memory entries: what it sends, what it never sends, how to review and edit every line, where the entries live, and how to remove them."
 tags: ["ai", "memory", "privacy"]
 ---
@@ -36,7 +36,7 @@ The model returns between three and ten entries: things like the projects and ar
 
 - **Uncheck** anything you do not want remembered.
 - **Edit** the wording until it says what you mean.
-- **Save** writes only the checked entries.
+- **Save** writes only the checked entries and closes the wizard; a short message tells you how many were saved, and the Memory panel behind it lists them.
 
 Myne checks the whole batch before writing anything. An entry that is empty, over the limit, or that reads like an instruction to the assistant rather than a fact is refused, marked in the list, and the rest stay selectable. Nothing is written until the batch passes.
 

@@ -1,7 +1,7 @@
 ---
 title: "Diagnostic logging and bug reports"
 category: "settings-and-privacy"
-updated: 2026-10-16
+updated: 2026-11-01
 summary: "How to switch on the device-local diagnostic log, what it records and does not, and how to hand a report to us without Myne sending anything."
 tags: ["settings", "privacy", "security"]
 ---
@@ -23,7 +23,7 @@ Myne caps the file size and drops the oldest entries first, so leaving logging o
 ## Copy the details into a report
 
 1. Open **Settings**, then **About**.
-2. Under **Report details** you can read the exact block that will be copied. It names the build, the channel, the commit, the engine and whether Myne could read a failure code.
+2. Under **Report details** you can read the exact block that will be copied. It names the build, the channel, the commit, the engine and whether Myne could read a failure code. The engine line names the web engine your build actually runs on, resolved from the version string the engine reports, so a report from a Mac, a Linux machine and the browser client each say which engine they were on. On desktop the block also carries a note about the two lines that read oddly there by design: the bundle hash is unknown because a desktop build has no served bundle to hash (the commit identifies it), and the storage figures measure the app window's own store rather than the vault on disk.
 3. Press **Copy diagnostics** and paste it wherever you are reporting the problem.
 
 Nothing in that block identifies you, your vault or your notes. If the copy fails, Myne says so rather than leaving you to paste whatever was on your clipboard before.

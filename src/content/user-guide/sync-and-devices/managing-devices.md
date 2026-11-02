@@ -1,7 +1,7 @@
 ---
 title: "Managing devices"
 category: "sync-and-devices"
-updated: 2026-10-22
+updated: 2026-11-02
 summary: "View the devices on your account, rename one, and remove one. Covers the device list, the Vault members panel and what each shows, what removal really does (it revokes sync access, never a remote wipe), how removing a device differs from removing a member, resetting sync locally, and the recovered notes kept when a deletion arrives by sync."
 tags: ["devices", "sync", "security"]
 ---
@@ -16,7 +16,7 @@ One thing to know before the two lists: on an account that came from your identi
 
 Under **Settings → Sync → Devices and members**, in the **Devices** section, you see:
 
-- **Your devices**: the approved devices on the account. The one you are using is marked **This device**. Each shows an editable name, which it was given when it was added; a device enrolled before names existed falls back to a short name derived from its identifier. The **Rename** action on a row turns the name into an editable field in place: Enter saves it, Esc cancels. A device's name is also what labels its revisions in a note's [version history](/user-guide/safety-and-recovery/note-snapshots/), where a device you have not named shows a short code instead.
+- **Your devices**: the approved devices on the account. The one you are using is marked **This device**. Each shows an editable name, which it was given when it was added. A device that arrives without one (a device added before names existed, or one whose name never got written) names itself the next time you open this panel, using the word for its platform: "Mac", "Windows PC", "Linux PC", "iPhone", "Android phone". Until then it falls back to a short name derived from its identifier. Under a name the row also shows the device's six-character code, so two devices that ended up with the same name stay apart; a row with no name yet has no code line, because its title is already that code. The **Rename** action on a row turns the name into an editable field in place: Enter saves it, Esc cancels. A device's name is also what labels its revisions in a note's [version history](/user-guide/safety-and-recovery/note-snapshots/), where a device you have not named shows a short code instead.
 - **Awaiting approval**: devices that have connected with a password and are waiting for an existing device to approve them. Approving one starts the verification-code compare described in [Add a device](/user-guide/sync-and-devices/add-a-device/).
 
 This list is the server's own roster of enrolled devices, so it counts installations rather than people: two of your own computers are two rows, and your computer and your phone are two more. It holds no name, no note content and no key material, and the server cannot read what any device carries.

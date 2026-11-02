@@ -68,7 +68,7 @@ To change that password, or replace it with a PIN or a device biometric, use **S
 
 Sync signs everything you push with a key that stays on this device. The first time you unlock the identity, this device derives its own signing key from it and stores that key in the operating system's keychain, sealed to this device and excluded from backups. From then on the vault syncs without asking for your identity, and the identity can stay locked.
 
-Your identity is still needed for the things that belong to you rather than to the device: registering the account, joining a new device, publishing a vault, and inviting or removing members. Those actions ask for the recovery phrase even while sync is running.
+Your identity is still needed for the things that belong to you rather than to the device: registering the account, joining a new device, and inviting or removing members. Those actions ask for the recovery phrase even while sync is running. Putting a vault on a server is not one of them, so it does not ask: it happens on its own once the device has a server and a registered identity.
 
 On a device with no stored signing key, the sync status reads **Unlock your identity to sync** with an action that opens the **Identity** block's recovery-phrase entry, and it asks again after every lock until a device key is stored. That is the state of a device whose operating system refused to store the key, and of any device before its first identity unlock.
 

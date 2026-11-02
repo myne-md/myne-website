@@ -1,12 +1,12 @@
 ---
 title: "Turn on sync"
 category: "sync-and-devices"
-updated: 2026-10-23
-summary: "Choose a sync server, publish the vault you want on it, accept the beta terms on this device, and connect your first device. Covers what identifies your account instead of an email, how Myne checks the server's certificate automatically, the browser client's fixed server, and the first-device self-approval."
+updated: 2026-11-02
+summary: "Choose a sync server, accept the beta terms on this device, and connect your first device. Covers what puts the vault on the server without a separate step, what identifies your account instead of an email, how Myne checks the server's certificate automatically, the browser client's fixed server, and the first-device self-approval."
 tags: ["sync", "settings", "devices"]
 ---
 
-Turning on sync has four parts: pointing Myne at a server, publishing the vault you want on it, accepting the beta terms on this device, and connecting the device to your account. This page covers the first device, the one that seeds the account. Adding a second device is covered separately in [Add a device](/user-guide/sync-and-devices/add-a-device/).
+Turning on sync has three parts: pointing Myne at a server, accepting the beta terms on this device, and connecting the device to your account. The vault itself goes up as soon as those are in place, with nothing to press. This page covers the first device, the one that seeds the account. Adding a second device is covered separately in [Add a device](/user-guide/sync-and-devices/add-a-device/).
 
 ![The Sync settings panel, where a sync server is configured and this device's sync is turned on.](./turn-on-sync.png)
 
@@ -14,7 +14,7 @@ Turning on sync has four parts: pointing Myne at a server, publishing the vault 
 
 - An unlocked vault.
 - A sync server address: the `https://` address of the server you run yourself. Myne operates no server of its own. If you do not have one yet, [Run your own sync server](/user-guide/sync-and-devices/run-your-own-sync-server/) brings one up on a machine you control.
-- The identity that owns the vault, unlocked, and registered with that server. A vault created from your identity is bound to it, and publishing needs the identity present. If the identity is not registered yet, the publish row says so, and the **Identity** block above it offers **Register this identity**.
+- The identity that owns the vault, unlocked, and registered with that server. A vault created from your identity is bound to it, and it can only reach a server under a registered identity. If the identity is not registered yet, the **Identity** block offers **Register this identity**.
 - Your account number, only if the vault still has its own. A vault created before identities existed, and a vault created in a browser, still carries a vault account number, and Myne asked you to save it once at creation. A vault created from your identity has no number of its own.
 
 ## What identifies your account
@@ -38,15 +38,15 @@ For an `https` server, Myne checks the server's certificate against the public c
 
 Enter the **same** server URL on every device you want to sync.
 
-## Publish the vault
+## The vault goes up on its own
 
-Publishing binds this vault to your identity and records where it lives on the server. A refusal is reported in red on the row itself, with the reason, and the button stays available so you can retry once the cause is fixed. The commonest reason is an identity that has never been registered, and the same panel holds the fix.
+There is nothing to press. The moment this device has a server, an unlocked vault and a **registered** identity, Myne puts the vault on the server by itself and it stops being local-only. Registering the identity is what does it. If this device already had a server and a registered identity when you created the vault, the upload happens on the next thing you do that syncs (an edit, or **Sync now**), not on a timer while you are away.
 
-Setting a server does not put a vault on it. A vault you created stays device-local until you publish it, and publishing is an explicit act, so you know when a vault stops being yours alone.
+That first upload binds the vault to your identity and records where it lives on the server, which is what lets your other devices find it. It is safe to repeat: if the server already holds this vault, Myne takes the server's copy rather than writing over it, so a second device cannot damage the vault by connecting later.
 
-Open **Settings → Sync → Devices and members**. The **Publish to your server** row says which state the vault is in: it exists only on this device, or it is published and your other devices can reach it. Choose **Publish this vault**; Myne binds the vault to your identity on the server, which is also what lets a second device find it. Publishing is idempotent, so a retry after a failure is safe, and a failure leaves the vault unchanged on this device.
+A vault that already belongs to a different identity is refused rather than taken over, and a shared vault can only be put on a server by its owner. A refusal is reported in the sync status line, with the reason; the commonest is an identity that has never been registered, and the **Identity** block above holds that fix.
 
-A vault that already belongs to a different identity is refused rather than published over, and a shared vault can only be published by its owner.
+Where you can see which state a vault is in: the vault lists mark it, in the vault picker and in the vault switcher, as either existing only on this device or being on your server. Settings → Sync shows the live status of this device, not the vault's state.
 
 ## The server's certificate is checked automatically
 
@@ -73,7 +73,7 @@ Choose **I understand, turn on sync** to accept, or **Cancel** to close the dial
 
 ## The first device
 
-The first device on an account is the one you are setting up now, so there is nothing yet to approve it against: it self-approves. For a vault published from your identity, that is the device that published it, and the publishing act is what puts the vault on the server. From this point, sync status shows **Synced** when the device is up to date (see [Reading sync status](/user-guide/sync-and-devices/sync-status/)), and any further device you connect will wait for approval from a device that already has access.
+The first device on an account is the one you are setting up now, so there is nothing yet to approve it against: it self-approves. For a vault that reached the server from your identity, that is the device that put it there. From this point, sync status shows **Synced** when the device is up to date (see [Reading sync status](/user-guide/sync-and-devices/sync-status/)), and any further device you connect will wait for approval from a device that already has access.
 
 ## Limits
 

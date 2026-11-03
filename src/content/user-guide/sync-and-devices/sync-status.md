@@ -1,8 +1,8 @@
 ---
 title: "Reading sync status"
 category: "sync-and-devices"
-updated: 2026-10-16
-summary: "How to read the sync status indicator and the banners: the coloured status dot, the named failure states including a certificate that could not be verified, the manual sync-now action, the first-sync download count, the banner that appears once sync has been failing for days, and the honest integrity alert when Myne rejects out-of-date or altered data."
+updated: 2026-11-02
+summary: "How to read the sync status indicator and the banners: the status dot, the named failure states including a closed identity and a device signing key that is no longer on the device, the manual sync-now action, the first-sync download count, the days-long failure banner, and the integrity alert."
 tags: ["sync", "security"]
 ---
 
@@ -29,7 +29,11 @@ Where Myne can name the reason a sync failed, it does so instead of showing the 
 - **Storage full: uploads paused**, **A file is too large to upload** and **Account frozen: uploads paused**. These are the three states covered in [Storage and account limits](/user-guide/sync-and-devices/storage-and-limits/).
 - **Storage full: syncing paused**. This device's own disk is full, not your account's ceiling. Free space on the machine.
 - **This device was removed from your account** — someone removed it from another device; see [Managing devices](/user-guide/sync-and-devices/managing-devices/).
+- **Unlock your identity to sync** — this vault has an identity and it is closed on this device. Publishing this device's own signing key needs it, so sync stops rather than sending a head other devices cannot check. Enter your 24-word phrase in the **Identity** block of the same panel; see [Unlocking your vault](/user-guide/getting-started/unlocking-your-vault/#when-myne-asks-for-the-phrase).
+- **This device's signing key is missing, so sync cannot run** — the key this device published is no longer in the system key store, so the other devices cannot resolve what it signs. The repair is the same phrase, and the button beside the row reads **Repair this device**. It has its own sentence rather than sharing the one above, because the two states used to share it and the second one is not about your identity being closed.
 - **Couldn't verify the sync server's HTTPS connection** — the server's certificate did not pass the check against the public certificate authorities. Verify the address and that the certificate is valid; see below.
+
+Under the status row the panel also names the reason on one line, in plain words, whenever the failure is about this device's authority to sync. It is there so a bug report can carry the cause instead of a screenshot of a sentence.
 
 A **Sync now** button triggers an immediate sync. It is hidden when there is nothing to trigger — when sync is off, when the device is not enrolled, or while it is awaiting approval.
 

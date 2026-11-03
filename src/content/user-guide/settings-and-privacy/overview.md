@@ -12,7 +12,8 @@ Settings is where you adjust how Myne works, and this section also explains the 
 
 With a vault open, open Settings from the gear in the bottom bar or with `⌘,`. It opens over the editor. The left rail lists its panels, in order:
 
-- **Account** names the account this device groups its vaults under, lists those vaults, and pairs connected browser extensions with the clipper. See [Account](/user-guide/settings-and-privacy/account/).
+- **Account** names the account this device groups its vaults under and lists those vaults. See [Account](/user-guide/settings-and-privacy/account/).
+- **Browser extensions** holds the clipper's switch and the browsers paired with it, because a connected browser is software you added rather than a fact about your identity. See [Browser clipper](/user-guide/attachments-and-import/browser-clipper/).
 - **Vault** holds this vault's own label and icon, the Change password action, and, under Danger zone, Delete vault. See [Vault](/user-guide/settings-and-privacy/vault/).
 - **Privacy** holds screen-capture protection, whether vault names appear on the lock screen, auto-lock, and quick unlock, in that order. See [Auto-lock and screen-capture protection](/user-guide/settings-and-privacy/auto-lock-and-screen-capture/), [Quick unlock](/user-guide/settings-and-privacy/quick-unlock/), and [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/).
 - **Sync** connects a sync server, adds and manages the devices on your account, resolves sync conflicts, and holds the vault-format upgrade. See the [Sync and devices](/user-guide/sync-and-devices/overview/) section.

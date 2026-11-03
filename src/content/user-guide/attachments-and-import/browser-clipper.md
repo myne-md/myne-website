@@ -8,7 +8,7 @@ tags: ["attachments", "import"]
 
 The Myne Clipper is a browser extension that saves a web page into your vault as a note. It talks to the desktop app over a local bridge rather than a network service, and it holds no keys: it can only create clip notes, and only while your vault is unlocked. This page covers installing the extension, pairing it to your open vault, what gets saved, and managing the browsers you have paired.
 
-![The Connected extensions section of the Account settings, where browsers paired with the clipper are listed and can be revoked.](./browser-clipper.png)
+![The Connected extensions section of the Browser extensions settings, where browsers paired with the clipper are listed and can be revoked.](./browser-clipper.png)
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ The Myne Clipper is a browser extension that saves a web page into your vault as
 The desktop side does not register the native-messaging host — the local bridge the extension uses to reach the app — until you ask it to. The setting ships off, so turn it on before you install or pair the extension; an extension installed while the host is unregistered has nothing to talk to, and pairing will not start.
 
 1. Open Settings from the gear in the bottom bar or with `⌘,`.
-2. In the **Account** panel, find **Browser clipper** and switch it on. Turning it on registers the native-messaging host; turning it off removes it again.
+2. Open **Settings → Browser extensions** and switch **Browser clipper** on. Turning it on registers the native-messaging host; turning it off removes it again.
 
 Then install the Myne Clipper extension in your browser from its extension listing. The extension and the desktop app find each other through the registered host.
 
@@ -50,7 +50,7 @@ Clips always save to the vault root. The extension cannot choose a folder or app
 
 ## Managing paired browsers
 
-The same **Account** panel lists the browsers you have paired, under **Connected extensions**. Each row shows the browser it runs in — for example **Chrome / Edge** or **Firefox** — and when it was connected. Chrome and Edge share a row because they cannot be told apart from the extension identifier alone.
+The same **Browser extensions** panel lists the browsers you have paired, under **Connected extensions**. Each row shows the browser it runs in — for example **Chrome / Edge** or **Firefox** — and when it was connected. Chrome and Edge share a row because they cannot be told apart from the extension identifier alone.
 
 To disconnect a browser, choose **Revoke** on its row. Revoking is immediate and durable on the desktop side: the token is dropped, and that extension must pair again before it can clip. When nothing is paired, the section reads "No connected extensions."
 

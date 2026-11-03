@@ -2,13 +2,13 @@
 title: "Account"
 category: "settings-and-privacy"
 updated: 2026-10-23
-summary: "The Account panel names the account that groups the vaults on this device, lists those vaults with their state and grouping actions, shows your identity's account number, and holds the browser-extension pairing controls. This page also explains the two kinds of account number and which one your vault has."
+summary: "The Account panel names the account that groups the vaults on this device, lists those vaults with their state and grouping actions, and shows your identity's account number. This page also explains the two kinds of account number and which one your vault has."
 tags: ["settings", "devices", "security"]
 ---
 
-The **Account** panel is the account-level surface: it names the account this device groups vaults under, lists the vaults in that group, and holds the browser-extension pairing controls. It sits first in the settings rail. It shows your identity's account number when this device holds an identity, and it never shows a vault's own number, which this page explains below.
+The **Account** panel is the account-level surface: it names the account this device groups vaults under and lists the vaults in that group. The browser clipper has its own panel: see [Browser clipper](/user-guide/attachments-and-import/browser-clipper/). It sits first in the settings rail. It shows your identity's account number when this device holds an identity, and it never shows a vault's own number, which this page explains below.
 
-![The Account settings panel, here on a vault that stands on its own rather than in a group, with the browser-extension pairing controls below it.](./account.png)
+![The Account settings panel, here on a vault that stands on its own rather than in a group.](./account.png)
 
 ## Prerequisites
 
@@ -23,12 +23,10 @@ On a phone, the vault-scoped controls live in a **Vault** category of their own 
 - **Vaults**: the vaults this device groups together, with a count, under the heading **This account**. It is a read-out: each row shows the vault's icon and name and a second line for its state (this vault, when it was last opened, whether it is on your sync server or device only, or that this device could not read it), and the roster offers no actions. There is nothing here to rearrange, because Myne holds one account at a time; [Multiple vaults](/user-guide/safety-and-recovery/multiple-vaults/) explains why the move and split controls are gone rather than merely absent.
 - **Account number**: your identity's number, with a **Copy** button. It is derived from your identity phrase, so it needs no saving and cannot be lost; see the section below. On a device with no identity the row says so instead of showing a value.
 - **Open Sync**: a button to the Sync panel, where devices, the members of a shared vault and your person identity live. Before this button existed the panel only said where to go.
-- **Browser clipper**: a switch that registers the native-messaging host the Myne browser extension talks to. It is on by default; turning it off removes the host, so no extension can reach this app until you turn it back on. See [Browser clipper](/user-guide/attachments-and-import/browser-clipper/).
-- **Connected extensions**: the browser extensions currently paired with this vault, with a per-row Revoke. A revoked extension has to pair again before it can send clips.
 
 The group heading and the vault's own name are two different things, and the split is deliberate: the heading is a per-device arrangement of vaults, built from their names, while the **vault** is the sealed container itself, whose label and icon live in the [Vault panel](/user-guide/settings-and-privacy/vault/) and travel with it. A vault keeps its label wherever it goes; the grouping describes only this device's own arrangement of them.
 
-In a browser the panel is shorter: browser extensions do not pair with a browser tab, so the clipper switch and the extension list are absent there, and the vault roster is what remains.
+In a browser the panel is shorter: browser extensions do not pair with a browser tab, so there is no clipper panel or extension list there, and the vault roster is what remains.
 
 ## Your account number
 

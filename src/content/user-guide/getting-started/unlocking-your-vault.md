@@ -1,7 +1,7 @@
 ---
 title: "Unlocking your vault"
 category: "getting-started"
-updated: 2026-10-30
+updated: 2026-11-02
 summary: "How to unlock an existing vault with your master password each time you open Myne, what the unlock screen shows, and what it means for a vault to be locked."
 tags: ["vault", "security"]
 ---
@@ -45,6 +45,18 @@ If unlocking fails, you see one message:
 > Wrong password or vault file is corrupted.
 
 The message is intentionally ambiguous, and the ambiguity is a privacy property, not a missing feature. Myne genuinely cannot tell you which of the two it is: distinguishing "wrong password" from "damaged file" would mean checking your data against something it could only know by holding a copy of what it is protecting. It refuses to know that. So it reports the honest, combined outcome. Check your password first; if you are sure it is right, the vault file may be damaged, and [Restore from a backup](/user-guide/safety-and-recovery/restore-from-a-backup/) is the way back.
+
+## When Myne asks for the phrase
+
+The master password opens the vault. Your 24-word phrase is a different credential: it opens your **identity**, the thing that says which person you are, and it is asked for in three situations that the password cannot answer.
+
+- **Sharing and membership.** Creating a vault invites nobody; inviting someone, accepting an invite, or removing a member is signed with your identity.
+- **Publishing this device's signing key.** Each device signs what it syncs, and the key that does it is created at the one moment your identity is open. Until that has happened, sync refuses and says **Unlock your identity to sync**.
+- **Repairing a device whose key is gone.** If the key this device published is no longer in the system key store (a keychain item removed, a store that stopped answering), the status row says **This device's signing key is missing, so sync cannot run** and the repair is the same phrase.
+
+The phrase is never needed to open a vault, including a vault you own: there is one password per vault and it stays the password.
+
+**Some platforms cannot keep a device key at all**, and Myne tells you that instead of asking for the phrase and failing. A browser has no OS key store, so a vault in a browser tab asks for the phrase once per session; so does a Linux desktop session with no secret service running (a minimal window manager, a remote shell, a session started before the keyring). The status row and the Settings panel are where that shows up: on those platforms sync works from the moment the identity is open and stops when it closes, which is the honest shape of the guarantee rather than a bug to report.
 
 ## Restoring or joining instead of unlocking
 

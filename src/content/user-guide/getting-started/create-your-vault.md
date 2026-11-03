@@ -1,7 +1,7 @@
 ---
 title: "Create your vault"
 category: "getting-started"
-updated: 2026-10-22
+updated: 2026-11-02
 summary: "The vault-creation flow after your identity exists: a short safety briefing, a name for the vault, a master password, and the vault opens. No vault recovery phrase and no account number, because the identity you just created is both."
 tags: ["vault", "basics"]
 ---
@@ -50,6 +50,8 @@ When it finishes you see **Your vault is ready.** and a **Done** button that tak
 
 - **Show vault folder** opens the directory on disk where Myne keeps this vault's encrypted files.
 - **Back up this vault now** writes an encrypted backup you can keep elsewhere. It is worth taking. How backups work and the habit worth building are in [Back up your vault](/user-guide/safety-and-recovery/back-up-your-vault/).
+
+The first time this vault syncs, this device publishes its own signing key, which is what lets it sync afterwards without asking for your phrase every time. That happens once per device, and it needs your identity open, which is why the ceremony asks for the phrase before the vault exists rather than after the first lock. A platform with no OS key store (a browser, or a Linux session with no keyring) cannot keep a key, so nothing is published there and the phrase is asked for once per session instead. See [Unlocking your vault](/user-guide/getting-started/unlocking-your-vault/#when-myne-asks-for-the-phrase).
 
 Neither appears in a browser, and neither is missing by accident: there is no folder to open and no save dialog to write a backup through, so both controls are left out of the browser build rather than shown and refused. Your notes there live in the browser's own storage for the site, and the server keeps the copy a new browser re-downloads. See [Myne in your browser](/user-guide/getting-started/myne-in-your-browser/).
 

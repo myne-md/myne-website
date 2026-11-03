@@ -8,9 +8,31 @@
   ],
   "channels": {
     "stable": "v0.11.4",
-    "beta": "v0.11.4"
+    "beta": "v0.12.0"
   },
   "releases": [
+    {
+      "tag": "v0.12.0",
+      "version": "0.12.0",
+      "date": "2026-11-03",
+      "assets": [
+        {
+          "name": "Myne_0.12.0_aarch64.dmg",
+          "bytes": 156199495,
+          "sha256": "2b2cf22ba931d05518d4cc81513f2c1f6817434923ba888e0020922a56c8fcbf"
+        },
+        {
+          "name": "Myne_0.12.0_ios.ipa",
+          "bytes": 94333519,
+          "sha256": "be1ed25d1d3155f6be305d2422eddced6409cb8116bf166b52cd5ac2855e44fb"
+        },
+        {
+          "name": "Myne.app.tar.gz",
+          "bytes": 156221787,
+          "sha256": "34129bf01c0daf2e771ca080351205d344d1fcd263b3491747668555d056cdc6"
+        }
+      ]
+    },
     {
       "tag": "v0.11.4",
       "version": "0.11.4",

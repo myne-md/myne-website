@@ -1,7 +1,7 @@
 ---
 title: "Vault"
 category: "settings-and-privacy"
-updated: 2026-10-15
+updated: 2026-11-04
 summary: "The Vault panel is where you name and draw this vault, change the master password that opens it, and delete it. This article covers the vault label and icon, the Change password action, and the danger zone, plus what the same controls do in a browser."
 tags: ["vault", "settings", "security"]
 ---
@@ -20,7 +20,7 @@ Open Settings from the gear in the bottom bar or with `⌘,`, then choose **Vaul
 
 - **Vault label and icon**: a name and glyph for this vault, shown in the in-app vault switcher and on the startup vault picker before you unlock. Both are stored encrypted inside the vault. See [Working with multiple vaults](/user-guide/safety-and-recovery/multiple-vaults/).
 - **Change password**: rotate your master password while keeping the same vault. See [Change your password](/user-guide/settings-and-privacy/change-your-password/).
-- **Danger zone**: the **Delete vault…** action, covered below.
+- **Danger zone**: the delete form itself, which asks you to type **DELETE**, covered below. There is no button in front of it: the trigger and the confirmation are the same step.
 
 The vault label is also kept in a sealed device-local copy, so the locked vault picker can show this vault's name after a restart. Renaming updates that copy only on the device you rename from, and Myne says so under the field while the change is pending. Until you unlock the vault on your other devices, their lock screens keep showing whatever they stored last: an earlier name, or a placeholder if they never stored one. Clearing the label works the same way, so emptying the field here does not reach the copy sitting on another device's lock screen. See [Vault names on the lock screen](/user-guide/settings-and-privacy/vault-names-on-the-lock-screen/).
 

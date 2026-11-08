@@ -1,7 +1,7 @@
 ---
 title: "Turning on AI"
 category: "ai"
-updated: 2026-10-22
+updated: 2026-11-04
 summary: "Enable the AI beta opt-in in Settings, give Myne something to run (model files you downloaded yourself, a runtime on this computer, or a provider you name), understand what 'ready' means, and exclude folders you never want AI to read or index. On a phone there is no on-device option and the approval is per device."
 tags: ["ai", "settings"]
 ---
@@ -120,7 +120,7 @@ Myne can remember a large but limited number of folders across all of its folder
 
 Agent runs can remember things about you between runs: facts they learned while working, such as how you like answers written. This memory is off the same switch as everything else on this page. A vault that never turned AI on carries no memory at all.
 
-You do not approve each thing it remembers. Instead, everything it writes is visible and editable, in two places. The **memory button** in the AI Chat tab header opens the live list beside the conversation. **Settings → AI** holds the full panel (on a computer, on the **Advanced** tab, with the list under **Memory** as **What the assistant remembers** and the voice preferences under **Preferences**): the same list with edit and delete, a **Clear all memory** button that removes every entry after a confirm, and a voice-preferences editor, one instruction per line, for standing rules about tone, length, or language. A run that wrote something says so on its own turn with a one-line marker, so the write is never silent.
+You do not approve each thing it remembers. Instead, everything it writes is visible and editable, in one place: **Settings → AI** holds the panel (on a computer, on the **Advanced** tab, with the list under **Memory** as **What the assistant remembers** and the voice preferences under **Preferences**): the same list with edit and delete, a **Clear all memory** button that removes every entry after a confirm, and a voice-preferences editor, one instruction per line, for standing rules about tone, length, or language. A run that wrote something says so on its own turn with a one-line marker, so the write is never silent.
 
 Three properties are worth knowing. First, at most one entry per run: a run cannot fill your memory in one go. The roster holds at most 100 entries; when it is full, new entries are refused until you edit or delete one. Second, memory only learns from notes AI was allowed to read. The run that learns is the same run whose reading the exclusion box above constrains, so anything remembered came from notes AI could see. There is no second exclusion check at the moment of remembering; the boundary is the reading, not the writing. Third, memory entries and voice preferences are vault content like notes: encrypted at rest, synced to your other devices, and included in backups.
 

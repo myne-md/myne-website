@@ -1,8 +1,8 @@
 ---
 title: "App updates"
 category: "settings-and-privacy"
-updated: 2026-10-15
-summary: "Myne checks for new desktop releases and installs them for you. The About panel holds the update channel, a manual check, and the automatic check that is on by default, and a finished install restarts the app on its own."
+updated: 2026-11-04
+summary: "Myne checks for new desktop releases and installs them for you. The About panel holds the update channel, one button that checks and then becomes the install, and the automatic check that is on by default, and a finished install restarts the app on its own."
 tags: ["settings", "security", "privacy"]
 ---
 
@@ -20,7 +20,8 @@ Updates are a desktop feature. Myne checks whether a newer release exists, and w
 **Settings → About** holds the update controls:
 
 - An **update channel** line, reading **Stable** or **Beta**. The channel is fixed when the build was made, so this copy follows the channel it was built for and there is nothing to choose here.
-- A **Check for updates** button, to check by hand.
+- A **Check for updates** button, to check by hand. Once a check finds a newer version, the
+  same button becomes **Restart to update**, so the row holds one control rather than two.
 - A **status line**, reporting what the last check found.
 
 ## Checking by hand
@@ -52,10 +53,10 @@ Pressing **Update and restart** does not start the download. It expands the noti
 The install then runs like this:
 
 1. Press **Update and restart** in the notice. The notice expands into the confirmation.
-2. Read the confirmation and proceed. Myne locks your vault, so the session ends, and the app switches to a full-window **Updating Myne** screen showing the version being installed.
-3. Wait for it. On a slow connection the download and install take a few minutes. Myne restarts on its own when they finish.
+2. Read the confirmation and proceed. Myne locks your vault, so the session ends, and the app switches to a full-window updating screen showing the version being installed.
+3. Wait for it. On a slow connection the download and install take a few minutes. Myne restarts on its own when they finish. The screen says where it has got to rather than only that something is happening: a bar fills as the download arrives, the line under it reads how much of how much, and the phase word steps through **Downloading**, **Verifying** and **Installing**. When the release file does not report its size, the bar sweeps instead of filling and the line reads only what has arrived.
 
-If the install fails, the version you were running is untouched and your notes are safe. The **Updating Myne** screen then offers **Try again**, which starts the download over, and **Back to unlock**, because the vault was locked before the install began.
+If the install fails, the version you were running is untouched and your notes are safe. The updating screen then offers **Try again**, which starts the download over, and **Back to unlock**, because the vault was locked before the install began.
 
 ## Limits
 

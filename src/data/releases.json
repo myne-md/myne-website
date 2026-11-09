@@ -7,10 +7,117 @@
     "RWSzhweIGbX53vxsmyZ218e3pqUU8/zKiqHMarzXv3Ddx4rcyvDQOT5k"
   ],
   "channels": {
-    "stable": "v0.11.4",
-    "beta": "v0.16.0"
+    "stable": "v0.17.0",
+    "beta": "v0.17.0"
   },
   "releases": [
+    {
+      "tag": "v0.17.0",
+      "version": "0.17.0",
+      "date": "2026-11-08",
+      "assets": [
+        {
+          "name": "Myne_0.17.0_aarch64.AppImage",
+          "bytes": 257247752,
+          "sha256": "2e70f455e43b425ca9c653d20dfe854e75c8aa6daf4b6533d0d5496b01a76075"
+        },
+        {
+          "name": "Myne_0.17.0_amd64.AppImage",
+          "bytes": 263653880,
+          "sha256": "66b1245e90ff73cc6478b8e4db7af07f8fc81afe4ffb1a31c00ef41fd12633cf"
+        },
+        {
+          "name": "Myne_0.17.0_amd64.deb",
+          "bytes": 163817948,
+          "sha256": "10e8518323883b8baca761b9fab490e1d87808ac1850dab1306ee64d5a503c62"
+        },
+        {
+          "name": "Myne_0.17.0_amd64.flatpak",
+          "bytes": 144052728,
+          "sha256": "fa45c12e641a1a70498465b81adb54d078f2bccd251bb010398a65b61b66adb0"
+        },
+        {
+          "name": "myne_0.17.0_amd64.snap",
+          "bytes": 149938176,
+          "sha256": "d33d73ced54d4f8dd269a7322a7af1e98df09347ecdad6a1aa3e8f3048a88b33"
+        },
+        {
+          "name": "Myne_0.17.0_arm64.deb",
+          "bytes": 161192094,
+          "sha256": "7ab93da8bbd70c3368c0542d2aed17b29a4dd893e6ada4a9ab0b6062553db3e8"
+        },
+        {
+          "name": "myne_0.17.0_arm64.snap",
+          "bytes": 146513920,
+          "sha256": "7f9fcc88c2121ed1242bda7b61384c9cfe2ea8c7720fa3542f8cb576c4ff1fd7"
+        },
+        {
+          "name": "Myne_0.17.0_universal.aab",
+          "bytes": 207619609,
+          "sha256": "a5a02f60bcbbbf8df218b9f08b22f5e2d705ac3fed8a64d0e013e8f391419bdd"
+        },
+        {
+          "name": "Myne_0.17.0_universal.apk",
+          "bytes": 337720487,
+          "sha256": "6e29878b35f8b6d44265748dccc80f1846d212c0c5c2cfda307d44c5d1784b98"
+        },
+        {
+          "name": "Myne_0.17.0_universal.dmg",
+          "bytes": 208248039,
+          "sha256": "90c01dad7d23658165f70a8a88adb0273de07853a17d7c797219da57718f83c9"
+        },
+        {
+          "name": "Myne_0.17.0_x64-setup.exe",
+          "bytes": 138811049,
+          "sha256": "0826b41487309765761cea9da693144dfe35e7d31edca60895fae01385f6a15d"
+        },
+        {
+          "name": "Myne_0.17.0.ipa",
+          "bytes": 91603154,
+          "sha256": "91e3e213f111d7af6735873baf6737aad7418cc87ef0305339068d4a91da3a4b"
+        },
+        {
+          "name": "Myne-0.17.0-1.aarch64.rpm",
+          "bytes": 161172479,
+          "sha256": "521ae0be14e04ee3f9b024fdd198f280df37df2494115d3d4a4e3c60bc82e3e6"
+        },
+        {
+          "name": "Myne-0.17.0-1.x86_64.rpm",
+          "bytes": 163805849,
+          "sha256": "28a145c4ed2e7bd5b716f80265379eb3a756e88b71aed5ad75cdd72351d0a16c"
+        },
+        {
+          "name": "myne-bin-0.17.0-1-aarch64.pkg.tar.zst",
+          "bytes": 158324211,
+          "sha256": "5095cd90476d95b1eb02949ee274a7918e52811a95f0a153097c924d860e2b54"
+        },
+        {
+          "name": "myne-bin-0.17.0-1-x86_64.pkg.tar.zst",
+          "bytes": 161143953,
+          "sha256": "3f72268ca3424b729431bace18f515fc23e0935ad34e4850bc5d43dd604c139f"
+        },
+        {
+          "name": "myne-clipper-0.17.0.zip",
+          "bytes": 52419,
+          "sha256": "595cd7c8b3c320d429b80e116dc50332b44fe12eeaf04ea14e8ebc6b7fc004c0"
+        },
+        {
+          "name": "Myne.app.tar.gz",
+          "bytes": 208453230,
+          "sha256": "72e45edfde7dd1d670f0489d67758465ef9a2c482864c8b7fb60a42ef29f7b07"
+        },
+        {
+          "name": "flake.nix",
+          "bytes": 2399,
+          "sha256": "e2a53e4dadedf4db771eaddc9097e316b3f26136d7cd78c6837dec36cc2b18d3"
+        },
+        {
+          "name": "flake.lock",
+          "bytes": 567,
+          "sha256": "42bad7791ef69530577c036a45a545a8734df47c8db2601280c34634e66e52a3"
+        }
+      ]
+    },
     {
       "tag": "v0.16.0",
       "version": "0.16.0",

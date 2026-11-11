@@ -23,7 +23,7 @@ name: myne-web
 
 services:
   app:
-    image: ghcr.io/myne-md/myne-web:v0.11.4
+    image: ghcr.io/myne-md/myne-web:v0.18.0
     # The same release the Helm chart below installs (its `--version` and this tag
     # move together; both are published tags, and the chart's `values.yaml` is what
     # says which one is current). A stale tag here is the quiet kind of drift: the

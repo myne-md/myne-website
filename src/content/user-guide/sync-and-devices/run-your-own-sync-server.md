@@ -23,7 +23,7 @@ name: myne-server
 
 services:
   server:
-    image: ${MYNE_SERVER_IMAGE:-ghcr.io/myne-md/myne-server@sha256:a212b140f4a89a0659fc2b955624b3b4778d3b27b002f008358795a6eaaaf387}
+    image: ${MYNE_SERVER_IMAGE:-ghcr.io/myne-md/myne-server@sha256:2cd34e0064df3f0f6be296fb2eeb9a0bc82d686bfcd81b2c7c04cdb8e9d396bd}
     restart: unless-stopped
     environment:
       MYNE_SERVER_ADDR: ":8080"

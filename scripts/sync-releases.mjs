@@ -110,6 +110,12 @@ if (!Array.isArray(index.releases) || index.releases.length === 0) {
   fail("index.json carries no releases");
 }
 
+/* 2b. Which release WAS a beta. See the comment on the `channel` field below for
+       why this is not read off the origin. A label, never a hash: hashes keep
+       coming only from the signed index, so a mislabelled row cannot change a
+       byte a reader verifies. */
+const PRERELEASE_OF = await ghPrereleases();
+
 const releases = index.releases.map((r) => {
   if (!TAG.test(r.tag ?? "")) fail(`bad tag: ${JSON.stringify(r.tag)}`);
   if (!DATE.test(r.date ?? "")) fail(`${r.tag}: bad date ${JSON.stringify(r.date)}`);
@@ -134,11 +140,64 @@ const releases = index.releases.map((r) => {
     }
     return { name: a.name, bytes: a.bytes, sha256: a.sha256 };
   });
-  return { tag: r.tag, version, date: r.date, assets };
+  return {
+    tag: r.tag,
+    version,
+    date: r.date,
+    /** Whether this release went out on the beta channel only. From GitHub,
+     *  which is the only place the split is published for a PAST release; the
+     *  origin's index carries no channel and `latest-beta.json` names only the
+     *  current one. `null` when the tag is unknown there (or `gh` could not
+     *  answer), which renders as no chip rather than as a guess. */
+    channel: PRERELEASE_OF.has(r.tag)
+      ? PRERELEASE_OF.get(r.tag)
+        ? "beta"
+        : "stable"
+      : null,
+    assets,
+  };
 });
 
+/**
+ * `tag -> isPrerelease` for every release GitHub publishes.
+ *
+ * A function DECLARATION rather than a const arrow, because it is called from
+ * step 2b above it: a `const` would be in its temporal dead zone there, and the
+ * failure is a ReferenceError at the top of the script rather than a wrong row.
+ */
+async function ghPrereleases() {
+  let raw = "";
+  try {
+    raw = execFileSync(
+      "gh",
+      [
+        "api",
+        "--paginate",
+        "repos/myne-md/myne/releases?per_page=100",
+        "--jq",
+        '.[] | "\\(.tag_name) \\(.prerelease)"',
+      ],
+      { encoding: "utf8", maxBuffer: 8 * 1024 * 1024 },
+    );
+  } catch (err) {
+    console.warn(
+      "sync-releases: gh could not list the releases, so no row gets a channel " +
+        "this run. Every row still carries its origin-verified hashes.\n" +
+        String(err.stderr || err.message).trim(),
+    );
+    return new Map();
+  }
+  const map = new Map();
+  for (const line of raw.split("\n")) {
+    const [tag, flag] = line.trim().split(" ");
+    if (tag) map.set(tag, flag === "true");
+  }
+  return map;
+}
+
 /* 3. Channels. The updater manifests are the only place the stable/beta split
-      exists, so they are the source for it rather than a hand-kept pair. */
+      exists for the CURRENT build, so they are the source for it rather than a
+      hand-kept pair. */
 const channelOf = async (file) => {
   const raw = await get(`/releases/${file}`);
   const manifest = JSON.parse(raw);
@@ -163,6 +222,7 @@ for (const [name, tag] of [
 }
 
 releases.sort((a, b) => b.date.localeCompare(a.date));
+const betas = releases.filter((r) => r.channel === "beta").length;
 
 const snapshot = {
   note:
@@ -200,7 +260,7 @@ if (check) {
 
 writeFileSync(OUT, next);
 console.log(
-  `sync-releases: ${releases.length} releases, ${releases.reduce(
+  `sync-releases: ${releases.length} releases (${betas} beta), ${releases.reduce(
     (n, r) => n + r.assets.length,
     0,
   )} assets. stable ${stable}, beta ${beta}.`,

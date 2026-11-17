@@ -15,6 +15,7 @@
       "tag": "v0.18.0",
       "version": "0.18.0",
       "date": "2026-11-11",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne-0.18.0-1.aarch64.rpm",
@@ -127,6 +128,7 @@
       "tag": "v0.17.0",
       "version": "0.17.0",
       "date": "2026-11-08",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne_0.17.0_aarch64.AppImage",
@@ -234,6 +236,7 @@
       "tag": "v0.16.0",
       "version": "0.16.0",
       "date": "2026-11-06",
+      "channel": "beta",
       "assets": [
         {
           "name": "Myne_0.16.0_aarch64.dmg",
@@ -256,6 +259,7 @@
       "tag": "v0.15.0",
       "version": "0.15.0",
       "date": "2026-11-05",
+      "channel": "beta",
       "assets": [
         {
           "name": "Myne_0.15.0_aarch64.dmg",
@@ -278,6 +282,7 @@
       "tag": "v0.14.0",
       "version": "0.14.0",
       "date": "2026-11-04",
+      "channel": "beta",
       "assets": [
         {
           "name": "Myne_0.14.0_aarch64.dmg",
@@ -300,6 +305,7 @@
       "tag": "v0.13.0",
       "version": "0.13.0",
       "date": "2026-11-04",
+      "channel": "beta",
       "assets": [
         {
           "name": "Myne_0.13.0_aarch64.dmg",
@@ -322,6 +328,7 @@
       "tag": "v0.12.0",
       "version": "0.12.0",
       "date": "2026-11-03",
+      "channel": "beta",
       "assets": [
         {
           "name": "Myne_0.12.0_aarch64.dmg",
@@ -344,6 +351,7 @@
       "tag": "v0.11.4",
       "version": "0.11.4",
       "date": "2026-11-02",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne_0.11.4_aarch64.AppImage",
@@ -476,6 +484,7 @@
       "tag": "v0.11.3",
       "version": "0.11.3",
       "date": "2026-11-01",
+      "channel": "stable",
       "assets": [
         {
           "name": "flake.lock",
@@ -608,6 +617,7 @@
       "tag": "v0.11.2",
       "version": "0.11.2",
       "date": "2026-10-31",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne_0.11.2_aarch64.AppImage",
@@ -705,6 +715,7 @@
       "tag": "v0.11.0",
       "version": "0.11.0",
       "date": "2026-10-27",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne_0.11.0_amd64.AppImage",
@@ -777,6 +788,7 @@
       "tag": "v0.10.0",
       "version": "0.10.0",
       "date": "2026-10-14",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne_0.10.0_aarch64.dmg",
@@ -789,6 +801,7 @@
       "tag": "v0.9.4",
       "version": "0.9.4",
       "date": "2026-10-09",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne_0.9.4_aarch64.dmg",
@@ -811,6 +824,7 @@
       "tag": "v0.9.0",
       "version": "0.9.0",
       "date": "2026-10-03",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne_0.9.0_aarch64.AppImage",
@@ -918,6 +932,7 @@
       "tag": "v0.8.1",
       "version": "0.8.1",
       "date": "2026-09-29",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne_0.8.1_universal.dmg",
@@ -930,6 +945,7 @@
       "tag": "v0.8.0",
       "version": "0.8.0",
       "date": "2026-09-23",
+      "channel": "stable",
       "assets": [
         {
           "name": "app-arm-release.apk",
@@ -977,6 +993,7 @@
       "tag": "v0.7.0",
       "version": "0.7.0",
       "date": "2026-09-02",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne_0.7.0_aarch64.AppImage",
@@ -1009,6 +1026,7 @@
       "tag": "v0.6.0",
       "version": "0.6.0",
       "date": "2026-08-26",
+      "channel": "stable",
       "assets": [
         {
           "name": "Myne_0.6.0_aarch64.AppImage",

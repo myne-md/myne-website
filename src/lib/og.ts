@@ -207,6 +207,7 @@ export type OgKey =
   | "roadmap"
   | "spec"
   | "security"
+  | "press"
   | "ledger"
   | "guide"
   | "privacy"
@@ -264,6 +265,14 @@ export const PAGE_OG: Record<OgKey, PageOg> = {
       "KDF parameters, AEAD construction, the key hierarchy, recovery derivation, and the account-number scheme — the at-rest encryption, in the open.",
     note: "myne-protocol-v0.1",
     path: "spec",
+  },
+  press: {
+    kicker: "Press",
+    title: "What to call it.",
+    description:
+      "Descriptions ready to copy, the facts at a glance, stills of the real product, the marks with their terms, and press@myne.md.",
+    note: "facts and assets",
+    path: "press",
   },
   security: {
     kicker: "Security",

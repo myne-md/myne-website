@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 32" fill="none">
+  <rect width="32" height="32" rx="6" fill="#1a1a17"></rect>
+  <path d="M8 22 V10 L16 18 L24 10 V22" stroke="#fbfbfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+  <text x="44" y="22" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#1a1a17" letter-spacing="-0.02em">Myne</text>
+</svg>

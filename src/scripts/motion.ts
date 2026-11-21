@@ -17,6 +17,8 @@
    turned reduced motion on (or off) mid-session kept the answer they arrived
    with, and the module outlives a client-side navigation, so the stale answer
    survived every page after it too. */
+import { GEOMETRY_COLLAPSING, revealDue } from "../lib/reveal.mjs";
+
 const prefersReduced = () =>
   window.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
 
@@ -72,9 +74,62 @@ function scanReveals(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>("[data-motion]").forEach((el) => {
     if (el.dataset.motionBound === "1") return;
     el.dataset.motionBound = "1";
+    if (COLLAPSING.has(el.dataset.motion ?? "")) {
+      // Handled below, never observed: see `sweep` and `lib/reveal.mjs`.
+      pending.add(el);
+      return;
+    }
     observer.observe(el);
   });
+
+  sweep();
 }
+
+/** The variants whose hidden state collapses their own box. */
+const COLLAPSING = new Set<string>(GEOMETRY_COLLAPSING);
+
+/** Bound, not yet revealed. A Set keeps the sweep idempotent across re-scans. */
+const pending = new Set<HTMLElement>();
+
+/**
+ * Reveal the collapsing variants from their layout box rather than their
+ * visible area.
+ *
+ * An observer cannot do this job: it measures the intersection, the hidden
+ * state exists to make that intersection zero, and so the callback that would
+ * undo the hidden state never fires. `offsetHeight` is the layout box and
+ * ignores the element's own transform, which is why a `scaleY(0)` wipe is
+ * measurable here, and `clip-path` does not move the client rect at all.
+ */
+function sweep() {
+  if (pending.size === 0) return;
+  const viewportHeight = window.innerHeight;
+  for (const el of pending) {
+    if (!el.isConnected) {
+      pending.delete(el);
+      continue;
+    }
+    const rect = el.getBoundingClientRect();
+    const height = el.offsetHeight || rect.height;
+    if (revealDue({ top: rect.top, height }, viewportHeight)) {
+      el.classList.add("is-in");
+      pending.delete(el);
+    }
+  }
+}
+
+/** The sweep's trigger: the same scroll the rail already listens to. */
+let sweepFrame = 0;
+function onViewportChange() {
+  if (sweepFrame) return;
+  sweepFrame = requestAnimationFrame(() => {
+    sweepFrame = 0;
+    sweep();
+  });
+}
+window.addEventListener("scroll", onViewportChange, { passive: true });
+window.addEventListener("resize", onViewportChange, { passive: true });
+window.addEventListener("load", onViewportChange);
 
 /** The spotlight: a card that follows the pointer. */
 function bindSpotlights(root: ParentNode = document) {

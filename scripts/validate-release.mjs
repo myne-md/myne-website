@@ -79,6 +79,13 @@ for (const r of releases) {
   if (r.tag !== `v${r.version}`) {
     fail.push(`${where}: tag and version disagree (${r.tag} vs ${r.version})`);
   }
+  // The channel is a LABEL the archive renders, so an out-of-range value is not
+  // a security problem — it is a row that claims a kind of build it was not.
+  // `null` is honest (the sync could not reach GitHub); anything else must be
+  // one of the two.
+  if (![null, undefined, "stable", "beta"].includes(r.channel)) {
+    fail.push(`${where}: channel is ${JSON.stringify(r.channel)}, not stable/beta/null`);
+  }
   if (!Array.isArray(r.assets) || r.assets.length === 0) {
     fail.push(`${where}: no assets`);
     continue;
@@ -127,6 +134,7 @@ if (fail.length) {
 }
 
 console.log(
-  `validate-release: ok — ${releases.length} releases, ${assetTotal} assets, ` +
+  `validate-release: ok — ${releases.length} releases ` +
+    `(${releases.filter((r) => r.channel === "beta").length} beta), ${assetTotal} assets, ` +
     `stable ${data.channels.stable}, beta ${data.channels.beta}`,
 );

@@ -27,6 +27,9 @@ interface Props {
     | "roadmap"
     | "ledger"
     | "download"
+    /** /press is linked from the footer, not the nav: it is for someone who was
+     *  told it exists, and a journalist is not browsing the marketing nav. */
+    | "press"
     | "spec"
     | "security"
     /** Legal pages live in the footer, not the nav, they pass this so no

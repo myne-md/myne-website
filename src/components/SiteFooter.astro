@@ -60,7 +60,7 @@ import VersionBadge from "./VersionBadge.astro";
   <div style="max-width:var(--content-max);margin:0 auto;">
     <div
       class="mono up foot-nav"
-      style="display:grid;grid-template-columns:repeat(6,1fr);gap:18px;font-size:11px;color:var(--ink-3);border-top:1px solid rgb(var(--line-rgb) / 0.1);border-bottom:1px solid rgb(var(--line-rgb) / 0.1);padding:22px 0;"
+      style="display:grid;grid-template-columns:repeat(7,1fr);gap:18px;font-size:11px;color:var(--ink-3);border-top:1px solid rgb(var(--line-rgb) / 0.1);border-bottom:1px solid rgb(var(--line-rgb) / 0.1);padding:22px 0;"
     >
       <a href="/download/" style="color:inherit;text-decoration:none;">Download</a>
       <a href="/features/" style="color:inherit;text-decoration:none;">Features</a>
@@ -71,6 +71,10 @@ import VersionBadge from "./VersionBadge.astro";
         style="color:inherit;text-decoration:none;">Guide</a
       >
       <a href="/themes/" style="color:inherit;text-decoration:none;">Themes</a>
+      {/* Last, and only here: /press is for someone who was told it exists, so
+          it does not earn a slot in the top nav but has to be findable from
+          every page. */}
+      <a href="/press/" style="color:inherit;text-decoration:none;">Press</a>
     </div>
     <div
       style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;gap:24px;flex-wrap:wrap;"

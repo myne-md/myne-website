@@ -31,6 +31,23 @@
  * is stated rather than glossed. The remaining gap is real and says so: no
  * desktop build is reproducible yet, so nobody outside the project can rebuild
  * a release and compare it byte for byte.
+ *
+ * ── The archive, and why it is two shapes at once ─────────────────────────
+ *
+ * Every release ships in the HTML and the page hides the tail on load (the
+ * script at the bottom, `src/lib/archive.mjs` for the arithmetic). The newest
+ * seven read as the short list they are useful as, and "Load more" appends a
+ * page at a time. Hiding is the enhancement rather than the markup because the
+ * archive is the one list here whose job is being complete: a reader without
+ * JavaScript gets all of it.
+ *
+ * A row that went out on the beta channel alone carries a `beta` chip, which is
+ * a LABEL and nothing more. `src/data/releases.json` learns it from GitHub at
+ * sync time (`scripts/sync-releases.mjs`), because the origin's signed index
+ * carries no channel and `latest-beta.json` names only the current build. The
+ * hashes still come from that signed index alone, so a mislabelled row cannot
+ * change a byte a reader verifies — it can only tell them the wrong kind of
+ * build, which `scripts/validate-release.mjs` also refuses.
  */
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
@@ -47,6 +64,7 @@ import {
   checksumsUrl,
   humanDate,
   humanSize,
+  isBeta,
   releaseDirUrl,
   signatureUrl,
 } from "../data/release";
@@ -124,12 +142,68 @@ const newestWith = (key: string) =>
           <span class="dl-channels__sep" aria-hidden="true">/</span>
           <span>
             <i class="up">Beta</i> {BETA.tag}
-            {CHANNELS_MATCH ? " · same build" : ` · ${humanDate(BETA.date)}`}
+            {CHANNELS_MATCH ? (
+              " · same build"
+            ) : (
+              <>
+                {" · "}
+                <a class="dl-channels__jump" href="#beta">{humanDate(BETA.date)} ↓</a>
+              </>
+            )}
           </span>
           <a class="dl-channels__link" href="#archive">archive ↓</a>
         </div>
       </div>
     </section>
+
+    {/* ===================== BETA =====================
+        Shown ONLY while the two channels name different builds, which is the
+        state during a beta cycle: a beta is cut on the beta channel alone and
+        carries the beta artefact set (macOS Apple Silicon and iOS), so the
+        cards below belong to the release channel and this block is the beta's
+        own door. When the channels agree — the normal state between releases —
+        the line above says "same build" and this block would be a second copy
+        of the cards, which is why it is absent rather than collapsed. */}
+    {!CHANNELS_MATCH && (
+      <section class="dl-section dl-section--beta" id="beta">
+        <div class="dl-inner">
+          <div class="dl-label-row">
+            <span class="mono up dl-label">Beta channel</span>
+            <span class="dl-label-note">{humanDate(BETA.date)} · {BETA.tag}</span>
+          </div>
+          <p class="dl-body">
+            The build the app's own updater collects when it is set to the beta
+            channel, published ahead of the release channel. Betas ship the
+            Apple Silicon macOS and iOS builds, so a platform without a row here
+            has no beta build for this cycle. Hashes verify against the same
+            signed <code class="mono">SHA256SUMS</code> as every other release.
+          </p>
+          <ul class="dl-items dl-items--flat">
+            {downloadGroups(BETA)
+              .flatMap((g) => g.items)
+              .map((item) => (
+                <li class="dl-item">
+                  <a class="dl-item__link" href={item.url}>
+                    <span class="dl-item__name">{item.name}</span>
+                    <span class="dl-item__size mono">{item.size} ↓</span>
+                  </a>
+                  <code class="dl-item__hash" title={item.sha256}>
+                    {item.sha256.slice(0, 16)}…
+                  </code>
+                </li>
+              ))}
+            <li class="dl-item dl-item--more">
+              <a class="mono up" href={checksumsUrl(BETA.tag)}>
+                {BETA.tag} SHA256SUMS and its signature ↓
+              </a>
+              <span class="dl-item__size mono">
+                {humanSize(BETA.assets.reduce((n, a) => n + a.bytes, 0))} total
+              </span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    )}
 
     <!-- ===================== DESKTOP ===================== -->
     <section class="dl-section">
@@ -435,12 +509,24 @@ sha256sum -c SHA256SUMS <span class="dl-code__dim"># macOS: shasum -a 256 -c SHA
           useful next to the file it belongs to.
         </p>
 
-        <div class="dl-archive">
+        <div class="dl-archive" data-archive>
           {
             RELEASES.map((release) => (
-              <details class="dl-release">
+              <details
+                class={isBeta(release) ? "dl-release dl-release--beta" : "dl-release"}
+                data-channel={release.channel ?? "unknown"}
+              >
                 <summary>
                   <span class="dl-release__tag mono">{release.tag}</span>
+                  {/* Its own column rather than glued to the tag: the tag
+                      column is a fixed 8ch so rows line up, and a chip inside
+                      it would shorten the tag or push the column wide for
+                      every row to fit the five that need it. An empty cell
+                      keeps the grid aligned and says nothing, which is right:
+                      a stable release is the default and needs no badge. */}
+                  <span class="dl-release__channel mono up">
+                    {isBeta(release) ? <span class="dl-beta">beta</span> : null}
+                  </span>
                   <span class="dl-release__date mono">{release.date}</span>
                   <span class="dl-release__what">{releaseSummary(release)}</span>
                   <span class="dl-release__count mono">
@@ -475,12 +561,71 @@ sha256sum -c SHA256SUMS <span class="dl-code__dim"># macOS: shasum -a 256 -c SHA
             ))
           }
         </div>
+
+        {/* Rendered hidden and un-hidden by the script below, so a reader with
+            no JavaScript keeps every release instead of losing the tail. The
+            count is the fact that answers "is it worth pressing". */}
+        <div class="dl-archive__foot">
+          <p class="mono up dl-archive__progress" data-archive-progress hidden></p>
+          <button type="button" class="mono up dl-archive__more" data-archive-more hidden>
+            Load more
+          </button>
+        </div>
       </div>
     </section>
 
     <SiteFooter />
   </div>
 </LandingLayout>
+
+{/* Progressive enhancement, and the ORDER matters: the rows ship visible and
+    this hides the tail, so a reader without JavaScript has the complete archive
+    rather than the first seven. The 12 KB of markup this costs is the price of
+    that, and it is the right trade for the one list on the site whose job is
+    being complete. */}
+<script>
+  import { archiveProgress } from "../lib/archive.mjs";
+
+  const root = document.querySelector<HTMLElement>("[data-archive]");
+  const more = document.querySelector<HTMLButtonElement>("[data-archive-more]");
+  const counter = document.querySelector<HTMLElement>("[data-archive-progress]");
+
+  if (root && more && counter) {
+    const rows = [...root.querySelectorAll<HTMLElement>(":scope > details")];
+    const total = rows.length;
+    // The row a reader has expanded is a choice about THIS page, not about how
+    // much history to reveal, so revealing more rows never collapses one.
+    let presses = 0;
+    let shown = 0;
+
+    const apply = () => {
+      const progress = archiveProgress({ total, presses, label: "releases" });
+      rows.forEach((row, index) => {
+        row.hidden = index >= progress.shown;
+      });
+      shown = progress.shown;
+      counter.textContent = progress.text;
+      counter.hidden = false;
+      more.hidden = !progress.hasMore;
+      return progress;
+    };
+
+    more.addEventListener("click", () => {
+      const before = shown;
+      presses += 1;
+      const progress = apply();
+      // The button disappears on the last press, so focus moves to the first row
+      // that press revealed rather than falling back to the top of the document.
+      if (!progress.hasMore) {
+        rows[before]?.querySelector<HTMLElement>("summary")?.focus();
+      } else {
+        more.focus();
+      }
+    });
+
+    apply();
+  }
+</script>
 
 <style>
   .dl-root {
@@ -768,7 +913,7 @@ sha256sum -c SHA256SUMS <span class="dl-code__dim"># macOS: shasum -a 256 -c SHA
   }
   .dl-release summary {
     display: grid;
-    grid-template-columns: 8ch 11ch 1fr auto;
+    grid-template-columns: 8ch 5.5ch 11ch 1fr auto;
     gap: 16px;
     align-items: baseline;
     padding: 14px 0;
@@ -784,6 +929,20 @@ sha256sum -c SHA256SUMS <span class="dl-code__dim"># macOS: shasum -a 256 -c SHA
   .dl-release__tag {
     font-size: 12.5px;
     font-weight: 600;
+  }
+  /* A beta row is a different KIND of build, not a different ranking: the chip
+     says which channel it went out on and the tag loses its emphasis, so the
+     eye lands on the release rows first without the row shouting. */
+  .dl-release--beta .dl-release__tag {
+    color: var(--ink-3);
+  }
+  .dl-beta {
+    font-size: 9px;
+    color: var(--accent);
+    border: 1px solid rgb(var(--accent-rgb) / 0.4);
+    border-radius: 999px;
+    padding: 2px 7px;
+    white-space: nowrap;
   }
   .dl-release__date,
   .dl-release__count {
@@ -843,6 +1002,52 @@ sha256sum -c SHA256SUMS <span class="dl-code__dim"># macOS: shasum -a 256 -c SHA
     text-decoration: none;
   }
 
+  /* The beta block's list is not inside a <details>, so it does not carry the
+     archive's 8ch indent. */
+  .dl-items--flat {
+    margin-left: 0;
+  }
+  .dl-section--beta {
+    border-top: 1px solid rgb(var(--line-rgb) / 0.12);
+  }
+  .dl-channels__jump {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .dl-channels__jump:hover {
+    text-decoration: underline;
+  }
+  .dl-archive__foot {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 16px 0 0;
+  }
+  .dl-archive__progress {
+    margin: 0;
+    font-size: 9.5px;
+    color: var(--ink-4);
+  }
+  .dl-archive__more {
+    font-size: 9.5px;
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid rgb(var(--line-rgb) / 0.2);
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .dl-archive__more:hover {
+    border-color: var(--accent);
+  }
+  .dl-archive__more[hidden],
+  .dl-archive__progress[hidden] {
+    display: none;
+  }
+  .dl-release[hidden] {
+    display: none;
+  }
+
   /* ---- narrow ---------------------------------------------------------- */
   @media (max-width: 1079px) {
     .dl-cards--3,
@@ -860,8 +1065,8 @@ sha256sum -c SHA256SUMS <span class="dl-code__dim"># macOS: shasum -a 256 -c SHA
       display: none;
     }
     .dl-release summary {
-      grid-template-columns: 1fr auto;
-      gap: 4px 12px;
+      grid-template-columns: 7ch 5ch 1fr auto;
+      gap: 4px 10px;
     }
     .dl-release__date {
       display: none;

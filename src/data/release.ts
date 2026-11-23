@@ -49,6 +49,15 @@ export interface Release {
   tag: string;
   version: string;
   date: string;
+  /**
+   * Which channel this release went out on, as GitHub publishes it (a beta is
+   * a prerelease). `null` when the tag is unknown to GitHub or the sync could
+   * not reach it — rendered as no chip rather than as a guess.
+   *
+   * This is a LABEL, not a source of hashes: a beta build's files are verified
+   * by exactly the same signed SHA256SUMS as a stable one.
+   */
+  channel: "stable" | "beta" | null;
   assets: ReleaseAsset[];
 }
 
@@ -76,8 +85,14 @@ export const MINISIGN_PUBKEYS: string[] = snapshot.pubkeys;
  */
 export const CHANNELS: { stable: string; beta: string } = snapshot.channels;
 
-/** Newest first. */
-export const RELEASES: Release[] = snapshot.releases;
+/** Newest first.
+ *
+ * The cast is the JSON boundary rather than a shortcut: `JSON.stringify` typed
+ * `channel` as `string`, and the union it belongs to is held where the roster
+ * is validated, not here. `scripts/validate-release.mjs` rejects any value
+ * outside `stable | beta | null`, so a hand-edited roster cannot arrive with a
+ * fourth channel and quietly render as a stable row. */
+export const RELEASES: Release[] = snapshot.releases as Release[];
 
 export function releaseByTag(tag: string): Release | undefined {
   return RELEASES.find((r) => r.tag === tag);
@@ -132,6 +147,11 @@ export function assetByName(name: string, tag: string = RELEASE_TAG): ReleaseAss
   // page whose whole job is handing people a working installer.
   if (!found) throw new Error(`release.ts: ${tag} has no asset named ${name}`);
   return found;
+}
+
+/** True when this release was published on the beta channel only. */
+export function isBeta(release: Release): boolean {
+  return release.channel === "beta";
 }
 
 /** "512 MB" — what a person reads before clicking a half-gigabyte link. */

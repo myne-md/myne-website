@@ -156,7 +156,7 @@ The same image installs from a Helm chart instead of a compose file: `myne-web` 
 
 ```sh
 helm install myne-web oci://ghcr.io/myne-md/charts/myne-web \
-  --version 0.11.4 \
+  --version 0.18.0 \
   --namespace myne \
   --set syncOrigin=https://sync.your.domain \
   --set ingress.enabled=true \

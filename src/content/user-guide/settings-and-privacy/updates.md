@@ -1,8 +1,8 @@
 ---
 title: "App updates"
 category: "settings-and-privacy"
-updated: 2026-11-04
-summary: "Myne checks for new desktop releases and installs them for you. The About panel holds the update channel, one button that checks and then becomes the install, and the automatic check that is on by default, and a finished install restarts the app on its own."
+updated: 2026-11-23
+summary: "Myne checks for new desktop releases and installs them for you. The About panel holds the update channel, one button that checks and then becomes the install, and the automatic check that is on by default. One install runs at a time, a finished install restarts the app on its own, and a verified download that refuses to install offers a way forward."
 tags: ["settings", "security", "privacy"]
 ---
 
@@ -66,7 +66,11 @@ The automatic check is on by default and can be turned off, but with it off Myne
 
 Myne verifies every update against an offline release key before installing it, so what gets installed is the release Myne signed. That check covers the update itself. It says nothing about the rest of your machine, and it does not change how your notes are stored.
 
-An install needs a connection, and it restarts the app when it finishes, so the session you were in ends first. If it fails, the running version stays as it was and your notes are untouched. The **Settings → About** button is a separate door with its own behaviour: it installs without locking your vault first, so use the notice when you want the flow the steps above describe.
+An install needs a connection, and it restarts the app when it finishes, so the session you were in ends first. If it fails, the running version stays as it was and your notes are untouched.
+
+**There is one install at a time, and one flow for all of it.** The notice and the **Settings → About** row start the same install rather than two doors onto one command: pressing the row while a download is running does not start a second one, and the row shows the work that is already happening. When Myne cannot start the install from the row at all, it says so and installs nothing: **Myne could not start the update from here, so nothing was installed. Try again in a moment.**
+
+When a verified download refuses to install, the updating screen offers the way forward rather than a dead end: **Try again**, and, if that keeps failing, the download page so you can install the release by hand. The app you already have stays untouched either way, as the screen says: **If it keeps happening, download the new version from myne.md and install it by hand. The app you have now is untouched.**
 
 ## Shortcuts
 

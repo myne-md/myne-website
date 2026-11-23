@@ -1,8 +1,8 @@
 ---
 title: "The attachments library"
 category: "attachments-and-import"
-updated: 2026-10-16
-summary: "How the attachments library lists every file in your vault, how to search, filter and sort it, what the per-item menu can do to a file, how to see which notes use a given attachment, and what the unused-attachment cleanup checks before it deletes anything."
+updated: 2026-11-23
+summary: "How the attachments library lists every file in your vault, how to search, filter and sort it, how to file a file into a folder and move several at once, how to import a whole folder tree, what the per-item menu can do to a file, how to see which notes use a given attachment, and what the unused-attachment cleanup checks before it deletes anything."
 tags: ["attachments"]
 ---
 
@@ -45,9 +45,27 @@ An audio attachment can be transcribed. **Transcribe** runs speech-to-text on th
 
 Where those two actions live depends on the client. On a computer they are entries in the item's `⋮` menu: **Transcribe**, and **View transcription** once a transcript exists. On a phone or tablet the file itself is the control: tap an audio file's name and its transcript opens in a sheet. The sheet shows the transcript an earlier run wrote, or offers **Transcribe** when there is none, and it is where a phone reads and keeps one. It scrolls a long transcript, sets the model's phrases as paragraphs, and carries **Copy** and **Save as note**; opened from the editor it also carries **Insert transcript into note**. **Save as note** writes a new note holding the audio embed, a **Transcript** heading and the text, so the transcript travels with its recording. Once a transcript exists, **Transcribe** stays available in the sheet's header so a newer model can re-derive it.
 
+## Filing files into folders
+
+An attachment carries a folder, and it is the same folder namespace your notes already use. Filing a file therefore means the same thing it means for a note: `Ders Notları/` is one folder, and a file filed there sits in the same tree as the notes filed there.
+
+- **One file**: open the `⋮` menu and choose **Move**, or use the folder picker on the card. The picker lists **All folders**, **No folder** and every folder the vault holds.
+- **Several at once**: press the select control on the rows or cards you want, and the toolbar reports **2 selected**. Choose **Move the selected files to a folder** and pick the destination once. The move is all or nothing: if one row cannot be validated, nothing is written and the toolbar says **Could not move the selected files. Nothing changed; try again.**
+- **The folder filter**: the folder control above the grid scopes the library to one folder. **All folders** is the whole library, so a file you cannot find is usually behind a filter that is still on.
+
+A file with no folder is not broken. It stays in the library under **No folder**, and the command palette lists it as a file that no note uses.
+
+Renaming a folder rewrites the files filed under it, so they stay in the same tree as the notes beside them. When that rewrite fails, Myne says so in full rather than leaving the two halves apart: the folder is renamed, the files still name the old folder, and the message tells you to move them again by hand from Attachments or to rename the folder back and forward once. Nothing is lost either way; the files are still in the library, only outside the tree.
+
+## Importing a whole folder
+
+**Import a folder** takes a directory tree from your computer and files every file in it into the matching vault folder. It reports progress as **Importing 12 of 40**, then a closing line: **12 files imported, 3 skipped.** A file is skipped rather than imported when it is already in the vault or cannot be read. **Stop** ends the run early and keeps what it already wrote: **Stopped after 12 files. What was imported is in the library.**
+
+A folder Myne cannot read stops the import before anything is written: **Could not read that folder. Nothing was imported.** That is deliberate, because a partial tree is harder to reason about than no tree.
+
 ## Importing from the library
 
-You can bring a file in from the library with its **Import attachment** picker. Importing makes the file available; **embedding it into a note still happens in the editor**, the same as adding any attachment.
+You can bring a single file in from the library with its **Import attachment** picker. Importing makes the file available; **embedding it into a note still happens in the editor**, the same as adding any attachment.
 
 ## Limits
 

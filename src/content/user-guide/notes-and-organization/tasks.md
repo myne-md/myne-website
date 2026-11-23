@@ -1,7 +1,7 @@
 ---
 title: "Tasks"
 category: "notes-and-organization"
-updated: 2026-10-16
+updated: 2026-11-23
 summary: "How tasks work in Myne: checkbox lines that carry due, reminder, priority, and repeat chips you set from controls rather than typing, a field editor that opens as a sheet on a phone, field editing from a Tasks list, whole-note tasks, a Tasks panel and an embedded task-list block, and local reminders. All of it stays plain markdown inside your notes."
 tags: ["notes", "editor", "markdown", "import"]
 ---
@@ -90,6 +90,8 @@ A task line can carry a reminder. Set one from the **Reminder** chip, from the t
 Myne's reminders are **local**: while the app is open and your vault unlocked, a due reminder appears as a toast in the app. There is no server that pushes reminders to your devices, and a reminder does not fire while Myne is closed.
 
 The toast says a reminder is due and nothing more. It never quotes the task, its note, or its title. That is deliberate: a reminder can surface over a shared screen, so the notice stays content-free, and the task surfaces are where you go to see which one it was.
+
+On macOS the app can also hand a registration to the operating system, so macOS may ask for permission to show notifications. Myne does not yet promise that a reminder arrives while the app is closed: the panel still says **Reminders appear only while Myne is open**, and that sentence is the boundary of the claim. A registration that fires while the app is closed runs no code, opens no vault and reads no note.
 
 Reminders are on to begin with. Turn them off with **Task reminders** under **Settings → Editor → Writing**; existing reminders stay written in your notes and simply stop being announced.
 

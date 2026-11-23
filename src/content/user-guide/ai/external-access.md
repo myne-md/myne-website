@@ -1,7 +1,7 @@
 ---
 title: "Let an AI tool read your vault"
 category: "ai"
-updated: 2026-10-29
+updated: 2026-11-23
 summary: "External access lets a program you configure reach your vault except for the folders you leave out, through the myne-mcp helper that ships inside Myne. It is off until you turn it on, reads only in this build, approved device by device, and what the connected tool does with what it reads is outside Myne."
 tags: ["ai", "privacy", "security"]
 ---
@@ -13,14 +13,14 @@ This is the surface to reach for when you want an assistant you already run to l
 ## Prerequisites
 
 - The desktop app on a computer. External access is absent on the web client and on a phone, and an absent control is not the same as a disabled one: those clients have no sidecar to run.
-- **Developer mode** on: Settings → **About** → **Developer mode**. The whole AI panel, External access included, lives in the **Developer** group in Settings and that group stays hidden until you turn the mode on. See [Developer mode](/user-guide/settings-and-privacy/developer-mode/).
+- **Connections** visible: Settings → **Connections**. That panel is top-level and needs no Developer mode; it lists the CLI, the browser clipper and the external MCP clients in one place, because all three are doors into the same vault (myne-md/myne#1077).
 - The client you want to connect, installed and able to start a program as its MCP server. Myne does not install or configure that program.
 - An unlocked vault. The connection list can be read while the vault is locked, but nothing on the other side of it answers until you unlock.
 
 ## Turning it on and approving a connection
 
-1. Open **Settings → AI**, choose the **Limits** topic, and find the **External access** section. While it is off, the line under the switch reads **Off. No AI tool can reach this vault through `myne-mcp`.**
-2. Turn the switch on. This is the door itself, and it is the **same switch** as Settings → CLI → **Terminal access**: one door with two ways in, `myne` for you and `myne-mcp` for a program you configure. Turning either one off closes both.
+1. Open **Settings → Connections** and find the **External MCP clients** section. While it is off, the line under the switch reads **Off. No AI tool can reach this vault through `myne-mcp`.**
+2. Turn the switch on. This is the door itself, and it is the **same switch** as **Terminal access** in the section above: one door with two ways in, `myne` for you and `myne-mcp` for a program you configure. Turning either one off closes both.
 3. Press **Approve a connection** and give it a **Connection name**. The name is what the grant is keyed on, so it has to be the name your client sends, not a title you will remember. The form refuses an empty name and refuses `unnamed-client`, because that is what a client with no name of its own arrives as, and approving it would approve every unconfigured client on the machine.
 4. Choose which folders it may read. The form counts what the choice covers as you make it: **Shares 3 notes in 2 folders.** Everything is shared unless you **Leave out** a folder, and leaving one out also leaves out everything inside it. Folders you have already left out of Myne's own AI, or of the terminal client, are left out here too and are shown as such, so this list starts from the exclusions you have already made rather than from nothing. This is the one place in the app where the whole vault is on the table, so read the count before you press **Approve**.
 5. Press **Approve**. What you approved is the list of folders it may **not** read, so a folder you create afterwards is readable without asking you again. If that is not what you want for a new folder, add it to the connection's list of folders left out; the connection row says how many are left out and lets you change them.
@@ -35,7 +35,7 @@ The section then lists the connection, what it may read, and when it last used t
 
 Two halves, and the second is much narrower than the first. **Reading** covers the folders you did not leave out and nothing else. **Writing** covers only the folders you named on the approval form, matches them exactly, and cannot reach a folder it may not read. A connection that was approved without a write folder can look and cannot change anything.
 
-**It reads with four verbs**: search the folders it was granted, read one note from them in full, list those folders with how many notes each holds, and report whether the vault is open. **It writes with four more**: create a note in a named folder, append text to the end of an existing note, replace an exact passage in one, and move a note between folders. Nothing reaches outside the vault: no file system, no attachments, no network fetch, no shell, no clipboard, and no verb that deletes or renames anything, because an operation whose result you cannot see is not something a named grant can authorise. That is a property of the shipped list of verbs rather than a setting, so a later build cannot add one without you reading about it.
+**It reads with eight verbs**: search the folders it was granted, read one note from them in full, list those folders with how many notes each holds, list the saved views, report whether the vault is open, list the attachments those notes carry, read one attachment's extracted text, and read the calendar. **It writes with five more**: create a note in a named folder, append text to the end of an existing note, replace an exact passage in one, change one task field on one line, and move a note between folders. Nothing reaches outside the vault: no file system, no network fetch, no shell, no clipboard, no attachment write or export, and no verb that deletes or renames anything, because an operation whose result you cannot see is not something a named grant can authorise. Two verbs a client might expect are refused rather than faked, and the refusal says so. That is a property of the shipped list of verbs rather than a setting, so a later build cannot add one without you reading about it.
 
 ### What a write actually does
 

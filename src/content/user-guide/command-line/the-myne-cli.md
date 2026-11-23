@@ -1,7 +1,7 @@
 ---
 title: "The myne CLI"
 category: "command-line"
-updated: 2026-10-15
+updated: 2026-11-23
 summary: "The myne command reads, searches, and creates notes from a terminal by talking to the running, unlocked app over a local socket. This article covers turning on terminal access, getting your shell to find the command, the ten commands, the stable --json output, and what each refusal means."
 tags: ["notes", "search", "settings", "privacy"]
 ---
@@ -13,7 +13,7 @@ The `myne` command reads, searches, and creates notes from a terminal by talking
 ## Prerequisites
 
 - The Myne app open and unlocked. The command line drives the running app; it cannot open a locked vault.
-- Developer mode on, and **Terminal access** on in Settings → CLI (below). Both are off until you turn them on.
+- **Terminal access** on in Settings → Connections (below). It is off until you turn it on.
 - macOS or Linux. There is no Windows version of the command line.
 
 ## Turning on terminal access
@@ -70,7 +70,7 @@ A note you create or append to from the terminal appears in the open app straigh
 
 ## Folders the terminal never sees
 
-Settings → CLI carries a list of folders the terminal is never given, under **Folders the terminal never sees** — one folder path per line. Notes in those folders are left out of `list`, `search`, and `show`, and `new --folder` refuses to write into one. They stay fully available in the app.
+Settings → Connections carries a list of folders the terminal is never given, under **Folders the terminal never sees** — one folder path per line. Notes in those folders are left out of `list`, `search`, and `show`, and `new --folder` refuses to write into one. They stay fully available in the app.
 
 You can fill the list before you turn terminal access on, which is the safer order. Myne decrypts a note to read the folder it is in and then declines to hand it over, so the filtering happens on the way out rather than by keeping a separate, narrower index.
 
@@ -107,7 +107,7 @@ Add the global `--json` flag before any command for a stable, single-line envelo
 
 ## Pace
 
-Myne answers at most 120 terminal commands a minute. Past that, commands are refused with exit code 8 and the message `Too many requests in a short time. Wait a moment and try again, or turn the CLI rate limit off in Myne's Settings.`, and the next minute lets them through again. The limit paces a runaway script; it decides nothing about which program is allowed to ask, and it is not a permission check. For bulk work, such as piping every note through another tool, turn on **Let the terminal run at full speed** in Settings → CLI.
+Myne answers at most 120 terminal commands a minute. Past that, commands are refused with exit code 8 and the message `Too many requests in a short time. Wait a moment and try again, or turn the CLI rate limit off in Myne's Settings.`, and the next minute lets them through again. The limit paces a runaway script; it decides nothing about which program is allowed to ask, and it is not a permission check. For bulk work, such as piping every note through another tool, turn on **Let the terminal run at full speed** in Settings → Connections.
 
 ## When a command is refused
 

@@ -64,7 +64,7 @@ pnpm preview        # serve dist/ locally
 `.github/workflows/ci.yml` runs the build and test suite on every change to
 `develop` and on pull requests. On a push to `release` it also builds the image
 with `SITE=https://myne.md` and pushes it to the private
-`ghcr.io/myne-md/myne-website-prod` package. The server pulls the `release` tag
+`ghcr.io/myne-md/myne-website-release` package. The server pulls the `release` tag
 on a systemd timer; there is no SSH deploy step and no deploy secret in the
 repository.
 

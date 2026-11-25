@@ -58,7 +58,7 @@ jobs:
           build-args: |
             SITE=https://myne.md
           tags: |
-            ghcr.io/myne-md/myne-website-prod:sha-${{ github.sha }}
-            ghcr.io/myne-md/myne-website-prod:release
+            ghcr.io/myne-md/myne-website-release:sha-${{ github.sha }}
+            ghcr.io/myne-md/myne-website-release:release
           cache-from: type=gha
           cache-to: type=gha,mode=max

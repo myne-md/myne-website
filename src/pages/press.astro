@@ -66,7 +66,7 @@ const BOILERPLATE = [
 const STILLS = [
   { name: "desktop", label: "Desktop · editor and sidebar", note: "1440×900 · dark and light" },
   { name: "phone", label: "Phone · notes list and editor", note: "390×844 · dark and light" },
-  { name: "p-encryption", label: "Encryption", note: "detail · dark and light" },
+  { name: "p-encryption", label: "Encryption", note: "detail · dark" },
   { name: "p-markdown", label: "Markdown editing", note: "detail · dark and light" },
   { name: "p-search", label: "Search", note: "detail · dark and light" },
   { name: "p-graph", label: "Link graph", note: "detail · dark and light" },
@@ -266,7 +266,9 @@ const mono = "font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace
               <div class="mono" style="margin-top:4px;font-size:10px;color:var(--ink-4);">{still.note}</div>
               <div style="margin-top:10px;display:flex;gap:14px;">
                 <a class="mono up" href={`/app/${still.name}.webp`} style="font-size:9.5px;color:var(--accent);text-decoration:none;">dark ↓</a>
-                <a class="mono up" href={`/app/${still.name}-light.webp`} style="font-size:9.5px;color:var(--accent);text-decoration:none;">light ↓</a>
+                {still.name !== "p-encryption" && (
+                  <a class="mono up" href={`/app/${still.name}-light.webp`} style="font-size:9.5px;color:var(--accent);text-decoration:none;">light ↓</a>
+                )}
               </div>
             </div>
           ))}

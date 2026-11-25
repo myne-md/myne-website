@@ -93,6 +93,6 @@ Marketing copy may **not** exceed the guarantees in the main repo's [`docs/threa
 
 ## License
 
-Code in this repo is MIT — see [`LICENSE`](./LICENSE); marketing content does not need copyleft. This mirrors the project's split: the main repo's `docs/` specs stay permissive (CC-BY-4.0) so independent implementations can reuse them, while the Myne application code is AGPL-3.0.
+Code in this repo is MIT — see [`LICENSE`](./LICENSE); marketing content does not need copyleft. This mirrors the project's split: the main repo's `docs/` specs stay permissive (CC-BY-4.0) so independent implementations can reuse them, while the Myne application code is AGPL-3.0-only.
 
 The two webfonts in `public/fonts/` are **not** MIT: they are under the SIL Open Font License 1.1, whose text and both copyright lines ship beside them as [`public/fonts/OFL.txt`](./public/fonts/OFL.txt). It is the same file the app commits at `public/fonts/LICENSE.txt`, kept byte-identical so the two copies cannot drift.

@@ -20,7 +20,7 @@ export const GET: APIRoute = ({ site }) => {
 
   const body = `# Myne
 
-> Privacy-first, end-to-end encrypted markdown notes. Every byte is encrypted on your device before it leaves; there is no email at signup, and the server stores only ciphertext at rest. Open source (AGPL-3.0) with a public protocol spec and threat model. Alpha.
+> Privacy-first, end-to-end encrypted markdown notes. Every byte is encrypted on your device before it leaves; there is no email at signup, and the server stores only ciphertext at rest. Open source (AGPL-3.0-only-only) with a public protocol spec and threat model. Alpha.
 
 Myne is a notes app — desktop-first, with an open-source sync server and an open-source browser client you run yourself (Myne hosts no instance of either) — built on a Rust crypto core (Argon2id key derivation, XChaCha20-Poly1305 authenticated encryption). Encryption is always on — there is no plaintext mode and no encryption opt-in. Recovery is user-held through a 24-word phrase; there is no email reset, by design, because a reset link would be a backdoor. Whatever server you point the client at shares the same zero-knowledge trust boundary: it stores and routes ciphertext and never holds a key.
 
@@ -28,8 +28,7 @@ Myne is a notes app — desktop-first, with an open-source sync server and an op
 - [Home](${origin}/): What Myne is and how it seals your notes.
 - [Compare](${origin}/#capab): How Myne lines up against Obsidian, Standard Notes, Joplin, and Notesnook.
 - [Features](${origin}/features/): What is actually in it: collaboration on a shared vault, the on-device assistant, meeting notes recorded and transcribed on the device, encryption, the graph, search, and a sync server you can run yourself, each with the limits it stops at.
-- [Download](${origin}/download/): Installers in a stable channel and a beta channel, each with its SHA-256 and a signed checksum list, plus the full release archive. Alpha.
-- [Run the browser client](https://myne.md/user-guide/getting-started/run-your-own-browser-client/): the desktop-browser client is a container image you serve yourself. A window onto a synced vault, so it requires sync. Creating a vault, recovering one with a recovery phrase, resetting a forgotten password and adding a device with the phrase all work there. A browser joining an ACCOUNT THAT ALREADY EXISTS stays pending until one of your other devices approves it; a browser that creates the account, or recovers it with the phrase, is approved as the first device. Alpha.
+- [Run the browser client](https://myne.md/user-guide/getting-started/run-your-own-browser-client/): the desktop-browser client is built from source and served yourself. A window onto a synced vault, so it requires sync. Creating a vault, recovering one with a recovery phrase, resetting a forgotten password and adding a device with the phrase all work there. A browser joining an ACCOUNT THAT ALREADY EXISTS stays pending until one of your other devices approves it; a browser that creates the account, or recovers it with the phrase, is approved as the first device. Alpha.
 - [User guide](${origin}/user-guide/): The manual for the encrypted desktop app — getting started, the editor, organizing notes, markdown, attachments, search, settings, and recovery.
 
 ## Project

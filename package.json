@@ -11,11 +11,9 @@
     "dev": "astro dev",
     "test": "node --test src/lib/*.test.mjs src/lib/themeBuilder/*.test.mjs scripts/*.test.mjs",
     "sync-themes": "node scripts/sync-themes.mjs",
-    "sync-releases": "node scripts/sync-releases.mjs",
-    "check-releases": "node scripts/sync-releases.mjs --check",
     "sync-preview": "node scripts/sync-preview.mjs",
     "validate-sidebar": "node scripts/validate-sidebar.mjs",
-    "build": "node scripts/validate-sidebar.mjs && node scripts/validate-release.mjs && astro build && node scripts/validate-app-shots.mjs && node scripts/ship-notice.mjs",
+    "build": "node scripts/validate-sidebar.mjs && astro build && node scripts/validate-app-shots.mjs && node scripts/ship-notice.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "prep-shots": "node scripts/prep-marketing-shots.mjs"

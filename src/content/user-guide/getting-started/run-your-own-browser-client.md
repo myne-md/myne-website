@@ -2,17 +2,17 @@
 title: "Run your own browser client"
 category: "getting-started"
 updated: 2026-10-16
-summary: "Serve the Myne browser client from an address you control: a published container image, a domain, and a TLS terminator. Covers the required sync origin, what changes about the code-delivery trust boundary when you operate it, and why there is nothing to back up."
+summary: "Serve the Myne browser client from an address you control: a source build, a domain, and a TLS terminator. Covers the required sync origin, what changes about the code-delivery trust boundary when you operate it, and why there is nothing to back up."
 tags: ["basics", "sync", "privacy", "security"]
 ---
 
-The browser client is published as a container image, so you serve it from an address you control. Myne offers no hosted client of its own, so this is the only way to run one. The one thing that changes from a client somebody else serves is who hands the page its code on every visit, and that is worth being precise about before you point anyone else's notes at it. This page covers running one, the one setting it cannot start without, and the obligation you take on if anyone else uses it.
+The browser client is built from source, so you serve it from an address you control. Myne offers no hosted client of its own, so this is the only way to run one. The one thing that changes from a client somebody else serves is who hands the page its code on every visit, and that is worth being precise about before you point anyone else's notes at it. This page covers running one, the one setting it cannot start without, and the obligation you take on if anyone else uses it.
 
 ## Before you start
 
 - **A sync server.** The browser client holds an encrypted copy of a vault that arrives over sync, so it has nothing to show without one. It cannot create a standalone vault and it will not open offline. [Run your own sync server](/user-guide/sync-and-devices/run-your-own-sync-server/) brings one up, and the two have to be told about each other — see [Pointing them at each other](#pointing-them-at-each-other) below.
 - **A public domain and a machine that serves ports 80 and 443.** The container serves plain HTTP and expects a TLS terminator in front of it, the same way the sync server's edge does. A browser refuses to give a page your master password over anything else, so an instance reachable only over `http` is not a weaker version of this, it is a broken one.
-- **An `amd64` machine, or a way to emulate one.** The published images are `linux/amd64` only. On an Apple Silicon or ARM Linux host, add `platform: linux/amd64` to the service and let Docker run it under emulation; it works, and it is slower. Building the image yourself on your own architecture avoids that entirely, at the cost of needing the source, which is not published.
+- **A machine to build on.** Build on your own architecture from the published tag; the source is public, so no published-image platform restriction applies.
 
 ## Bring it up
 
@@ -23,14 +23,12 @@ name: myne-web
 
 services:
   app:
-    image: ghcr.io/myne-md/myne-web:v0.18.0
-    # The same release the Helm chart below installs (its `--version` and this tag
-    # move together; both are published tags, and the chart's `values.yaml` is what
-    # says which one is current). A stale tag here is the quiet kind of drift: the
-    # compose path and the Kubernetes path would be serving different builds of the
-    # same product, and nothing on either path would say so.
-    platform: linux/amd64
-    # Only needed on an ARM host. The published images are linux/amd64.
+    build:
+      context: https://github.com/myne-md/myne.git#v0.19.0
+      dockerfile: web/container/Dockerfile
+    # Build the same source tag the rest of this page names. A stale tag here is
+    # the quiet kind of drift: the compose path and the release would serve
+    # different builds of the same product.
     restart: unless-stopped
     environment:
       MYNE_SYNC_ORIGIN: "https://sync.your.domain"

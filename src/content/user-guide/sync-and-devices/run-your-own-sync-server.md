@@ -6,7 +6,7 @@ summary: "Bring up the Myne sync server on a machine you control: a pinned conta
 tags: ["sync", "security", "privacy"]
 ---
 
-Myne's sync server is open source and ships as a container image, so you can run the same zero-knowledge server Myne ships, on a machine you control. Running it yourself changes who operates the server, not what it can see: it holds encrypted blobs and no keys either way. This page covers bringing one up, pointing a device at it, and the things that become your responsibility once it is yours.
+Myne's sync server is open source and built from the same tree, so you can run the same zero-knowledge server Myne ships, on a machine you control. Running it yourself changes who operates the server, not what it can see: it holds encrypted blobs and no keys either way. This page covers bringing one up, pointing a device at it, and the things that become your responsibility once it is yours.
 
 ## Prerequisites
 
@@ -286,7 +286,7 @@ The value is the client's **origin** — scheme, host, and port, with no path an
 
 There is one more line in the browser client's own deployment that has to name this server, and the two files fail in opposite directions if you only set one of them. [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/) has the pair side by side.
 
-The browser client has no certificate control and no field to change the server address. The address is fixed when the deployment is built, and the sync origin comes from a setting on the deployment rather than from anything you can edit in the app. It ships as a public container image, so you can run your own: [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/) covers it, including the setting on this side that has to name your address.
+The browser client has no certificate control and no field to change the server address. The address is fixed when the deployment is built, and the sync origin comes from a setting on the deployment rather than from anything you can edit in the app. It is built from source, so you can run your own: [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/) covers it, including the setting on this side that has to name your address.
 
 ## On Kubernetes
 
@@ -382,7 +382,7 @@ Two properties of the server itself are worth knowing, and both are the same on 
 
 **The compose file on this page is the runnable copy.** The same stack file exists in Myne's operations repository, and the two can drift. If a line here contradicts what you were given elsewhere, the operations repository is the one that is deployed. [Myne in a browser](/user-guide/getting-started/myne-in-your-browser/) covers the client-side half.
 
-**Myne's source is not published, which is why things cannot be rebuilt — not why they cannot be run.** The sync server and the browser client both ship as public container images, which is what makes the rest of this page followable, and the browser client bundles its own security headers so a self-hosted instance is not a weaker copy. What nobody outside the project can do is rebuild a release and compare it byte for byte, and the desktop installers carry no signature for your operating system to check. Serving the bundle to other people is a different matter, and the honest position is in [Myne in a browser](/user-guide/getting-started/myne-in-your-browser/): an instance you run is yours to serve, and it removes an outside operator from the path for your own use, but not for anyone else using it.
+**Myne's source is not published, which is why things cannot be rebuilt — not why they cannot be run.** The sync server and the browser client are both built from source, which is what makes the rest of this page followable, and the browser client bundles its own security headers so a self-hosted instance is not a weaker copy. What nobody outside the project can do is rebuild a release and compare it byte for byte, and the desktop installers carry no signature for your operating system to check. Serving the bundle to other people is a different matter, and the honest position is in [Myne in a browser](/user-guide/getting-started/myne-in-your-browser/): an instance you run is yours to serve, and it removes an outside operator from the path for your own use, but not for anyone else using it.
 
 **Running the server does not make it trustworthy, and no server is.** A server operator can see that a device connected, the connection's IP for as long as it lasts, how many devices the account has, and the size and count of the encrypted blobs. It cannot read a note. What changes when you self-host is which person can do that, not whether they can.
 

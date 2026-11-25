@@ -68,10 +68,10 @@ const ogImage = absoluteOg("home", Astro.site!);
             </p>
             <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;">
               <a
-                href="/download/"
+                href="https://github.com/myne-md/myne"
                 class="up"
                 style="background:var(--ink-1);color:var(--paper);text-decoration:none;padding:13px 22px;font-size:11px;font-weight:700;letter-spacing:0.08em;"
-                >Download</a
+                >Build from source</a
               >
               <a
                 href="/spec/"
@@ -179,11 +179,10 @@ const ogImage = absoluteOg("home", Astro.site!);
           <span style="color:var(--warning);">Partial</span> means a claim that
           holds with a condition, or one Myne still owes: on the Myne column those
           are zero-knowledge sync (in hardening, on a server you run yourself,
-          since Myne offers no hosted instance), self-hosted sync (the same
-          server, published as a container image), meeting recording (behind
-          Developer mode while its capture path is verified) and signed builds
-          (macOS notarized, Android OS-verified, Windows and Linux unsigned). No
-          vendor here publishes a reproducible build, so that is not scored.
+          since Myne offers no hosted instance), self-hosted sync (built and run
+          from source), and meeting recording (behind Developer mode while its
+          capture path is verified). No vendor here publishes a reproducible
+          build, so that is not scored.
         </p>
       </div>
     </section>
@@ -632,7 +631,6 @@ const ogImage = absoluteOg("home", Astro.site!);
       ["Open-source full stack", Y, N, Y, Y, Y],
       ["One integrated app", Y, Y, Y, Y, Y],
       ["No plaintext mode for notes", Y, N, Y, N, Y],
-      ["Signed builds", P, P, P, P, P],
       ["No feature paywall", Y, Y, P, Y, P],
     ];
     rows.forEach((r) => {
@@ -820,7 +818,7 @@ const ogImage = absoluteOg("home", Astro.site!);
       ],
       [
         "Is it actually open source?",
-        "Client, server, and protocol spec are all open — AGPL-3.0 for code, CC-BY-4.0 for docs. No open core, no proprietary build.",
+        "Client, server, and protocol spec are all open — AGPL-3.0-only for code, CC-BY-4.0 for docs. No open core, no proprietary build.",
       ],
       [
         "What if Myne shuts down?",

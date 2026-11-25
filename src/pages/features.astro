@@ -311,11 +311,11 @@ const sections: Section[] = [
     index: "07",
     kicker: "Sync server",
     title: "The server is a program you run",
-    lede: "Sync moves ciphertext the server holds no key for. That server is open source and ships as a container image, so you can run it on a machine you control.",
+    lede: "Sync moves ciphertext the server holds no key for. That server is open source and built from the same tree, so you can run it on a machine you control.",
     points: [
       {
-        t: "The same server, from the same image",
-        d: "Pinned by image digest, so the file resolves to the same bytes on every machine, with a build for amd64 and one for arm64.",
+        t: "The same server, from the same source",
+        d: "Build the pinned tag with the documented toolchain, or compile the server crate directly; the source is the distribution.",
       },
       {
         t: "Running it changes the operator, not the trust",
@@ -551,7 +551,7 @@ const sections: Section[] = [
         <h2>The claims are checkable. Start there.</h2>
         <p>
           The protocol, the key derivation and the account-number scheme are
-          public, and the app is open source under AGPL-3.0. If a sentence on
+          public, and the app is open source under AGPL-3.0-only-only. If a sentence on
           this page is not something you can verify, that is a bug, not a
           footnote.
         </p>

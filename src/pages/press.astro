@@ -32,7 +32,6 @@ import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
-import { STABLE, humanDate } from "../data/release";
 
 const title = "Press — Myne";
 const description =
@@ -57,7 +56,7 @@ const BOILERPLATE = [
   {
     id: "long",
     label: "Long",
-    text: "Myne is a local-first, end-to-end encrypted notes app for macOS, Windows, Linux, iOS and the browser. A vault is a folder of ordinary files whose contents are sealed one note at a time, so the app can search, edit and sync without any of it being readable to anyone who does not hold the key. That key comes from a password or a recovery phrase and never leaves the device; the sync server stores blobs it cannot open and passes them between your devices. Shared vaults extend the same design: a member's access is a key wrapped to their own person key, so removing someone is a key change rather than a promise. The app is open source under AGPL-3.0, the specifications are published under CC-BY-4.0 so an independent client can be written from them, and the sync server can be self-hosted. Myne is in alpha.",
+    text: "Myne is a local-first, end-to-end encrypted notes app for macOS, Windows, Linux, iOS and the browser. A vault is a folder of ordinary files whose contents are sealed one note at a time, so the app can search, edit and sync without any of it being readable to anyone who does not hold the key. That key comes from a password or a recovery phrase and never leaves the device; the sync server stores blobs it cannot open and passes them between your devices. Shared vaults extend the same design: a member's access is a key wrapped to their own person key, so removing someone is a key change rather than a promise. The app is open source under AGPL-3.0-only-only, the specifications are published under CC-BY-4.0 so an independent client can be written from them, and the sync server can be self-hosted. Myne is in alpha.",
   },
 ];
 
@@ -83,9 +82,8 @@ const BRAND = [
   { href: "/brand/myne-field.webp", label: "Banner", note: "WebP · the app on a laptop" },
 ];
 
-/* Dated facts a reader can check against the release archive on /download. The
-   first two are history and are written down; the third is read from the roster
-   so it cannot fall out of date the way a hand-typed version does. */
+/* Dated facts a reader can check against the tagged source. The first two are
+   history and are written down; the third is the current source version. */
 const MILESTONES = [
   { date: "1 August 2026", what: "v0.1.0, the first public release." },
   {
@@ -126,8 +124,7 @@ const mono = "font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace
         <p style="margin-top:22px;max-width:66ch;font-size:16px;line-height:1.65;color:var(--ink-3);">
           Descriptions you can copy, the facts at a glance, stills of the real
           product, and the marks with their terms. Everything here is either
-          dated or checkable against the release archive on
-          <a href="/download/" style="color:var(--accent);text-decoration:none;">/download</a>.
+          dated or checkable against the tagged source in the repository.
         </p>
         <p style="margin-top:14px;font-size:13px;line-height:1.7;color:var(--ink-4);">
           Writing about it and want to check a claim first? Mail
@@ -193,7 +190,7 @@ const mono = "font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace
 
           <dt class="mono up" style={`${mono}color:var(--ink-4);`}>Licence</dt>
           <dd style="margin:0;color:var(--ink-2);">
-            AGPL-3.0 for the application, CC-BY-4.0 for the specifications, so an
+            AGPL-3.0-only-only for the application, CC-BY-4.0 for the specifications, so an
             independent client can be built from them.
           </dd>
 
@@ -205,7 +202,7 @@ const mono = "font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace
 
           <dt class="mono up" style={`${mono}color:var(--ink-4);`}>Current</dt>
           <dd style="margin:0;color:var(--ink-2);">
-            {STABLE.tag}, published {humanDate(STABLE.date)}.
+            v0.19.0, tagged in the source repository.
           </dd>
 
           <dt class="mono up" style={`${mono}color:var(--ink-4);`}>Self-hosting</dt>
@@ -236,10 +233,10 @@ const mono = "font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace
             </li>
           ))}
           <li style="display:grid;grid-template-columns:16ch 1fr;gap:18px;font-size:14px;line-height:1.65;">
-            <span class="mono" style="color:var(--ink-4);font-size:11px;">{humanDate(STABLE.date)}</span>
+            <span class="mono" style="color:var(--ink-4);font-size:11px;">source-only</span>
             <span style="color:var(--ink-2);">
-              {STABLE.tag}, the current release. The full list, with a hash beside
-              every file, is in the <a href="/download/#archive" style="color:var(--accent);text-decoration:none;">archive</a>.
+              v0.19.0 is the current source release. Build it from the tagged
+              tree; no installers are published.
             </span>
           </li>
         </ul>

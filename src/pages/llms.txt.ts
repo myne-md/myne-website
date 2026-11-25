@@ -20,7 +20,7 @@ export const GET: APIRoute = ({ site }) => {
 
   const body = `# Myne
 
-> Privacy-first, end-to-end encrypted markdown notes. Every byte is encrypted on your device before it leaves; there is no email at signup, and the server stores only ciphertext at rest. Open source (AGPL-3.0-only-only) with a public protocol spec and threat model. Alpha.
+> Privacy-first, end-to-end encrypted markdown notes. Every byte is encrypted on your device before it leaves; there is no email at signup, and the server stores only ciphertext at rest. Open source (AGPL-3.0-only) with a public protocol spec and threat model. Alpha.
 
 Myne is a notes app — desktop-first, with an open-source sync server and an open-source browser client you run yourself (Myne hosts no instance of either) — built on a Rust crypto core (Argon2id key derivation, XChaCha20-Poly1305 authenticated encryption). Encryption is always on — there is no plaintext mode and no encryption opt-in. Recovery is user-held through a 24-word phrase; there is no email reset, by design, because a reset link would be a backdoor. Whatever server you point the client at shares the same zero-knowledge trust boundary: it stores and routes ciphertext and never holds a key.
 

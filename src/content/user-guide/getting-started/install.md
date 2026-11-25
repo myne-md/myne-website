@@ -31,19 +31,9 @@ Myne is attempting a reproducible build for exactly this reason. A build that re
 
 ## NixOS
 
-NixOS does not run the Linux downloads directly. Both the AppImage and the `.deb` expect a normal filesystem layout, which a NixOS system deliberately does not have, so neither will start on its own. Two routes work, and both end up running the same build.
+No prebuilt Nix package or AppImage wrapper is published. The repository's flake exposes a **development shell** (`nix develop`), not a runnable Myne package; it deliberately has no `packages` or `apps` output. Build from the tagged source with your normal Tauri/Rust toolchain.
 
-**Through `appimage-run`, from nixpkgs.** This unpacks the AppImage into the layout it expects and launches it. It is the shorter path, it needs nothing from us beyond the AppImage itself, and it is the one to reach for if you just want to try Myne.
-
-**Through the flake we publish with each Linux release.** Myne wraps that same AppImage in a small Nix flake using `appimageTools.wrapType2`, which gives you a package that behaves like any other Nix build. It is published beside the installers of the release it belongs to, for that release's version. Ask whoever gave you your download for the release's address.
-
-Three things about the flake are worth knowing before you use it, and all three are properties of what it is rather than caveats bolted on.
-
-It **fetches the released AppImage** and wraps it; it does not build Myne from source. A from-source NixOS build does not exist. That also means the thing you end up running is the same **unsigned** build the AppImage is, so your computer warns you on first launch exactly as described in the next section. Wrapping changes how the filesystem looks to the program, not who vouches for it.
-
-It is published **only for releases that built both the x86-64 and the arm64 AppImage**, because it pins one per architecture. A release that built one, or neither, has no flake — that is not a fault, and the two routes above are why it does not matter much.
-
-And it is **not in nixpkgs**, because we have not submitted it there. It is not a `nix-env -iA nixpkgs.myne`, and it is not an argument that Myne is packaged for NixOS. It is the release AppImage, reachable without the `appimage-run` incantation.
+The flake does not fetch an AppImage, does not wrap a release, and does not claim a from-source Nix package exists. That keeps the Nix surface consistent with the rest of this page: source-only, no binary distribution.
 
 ## Your computer will warn you on first launch
 
@@ -67,9 +57,9 @@ On macOS, `shasum -a 256 -c SHA256SUMS` does the second step. The same hashes ar
 
 What the signature does not cover is worth stating plainly: it authenticates the hash list, not the installer, and it is not something your operating system checks.
 
-On desktop, Myne now updates itself. It checks for a newer version shortly after launch and once a day, and when one is available it verifies the download against the same offline release key before installing it, so a downloaded update your operating system cannot vouch for is still checked against a key we publish. You can turn the automatic check off in Settings under About, and check by hand there too. The check sends only your version and platform to our download host, which keeps no IP logs; it sends nothing about your notes or your account. Android still updates by you installing a new APK, or through F-Droid once that listing exists, and the browser client is re-sent on every load.
+No binary update channel exists. The desktop app is built from source; this site publishes no installers, no updater manifests and no automatic update. If you replace a build, rebuild it from the tagged source and keep your own copy; the app does not check a vendor origin for a newer binary.
 
-The desktop installers are **not reproducible**, and Myne's source is published today, so nobody outside the project can rebuild a release and compare it byte for byte. That check exists only for the browser client's WebAssembly, and only inside a fixed reference build environment. What holds the desktop side instead is the hash list above: it is signed with a key kept offline and on neither server, and the same hashes are published on a second site with its own machine and its own deploy chain, so one compromised host cannot make its lie agree with the other. The desktop update channel is signature-gated: an update installs only if its signature verifies against the offline release key and its version is strictly newer, so a substituted file is refused rather than installed, and a downgrade is refused too. Where this fits in the wider picture is in the [privacy model](/user-guide/settings-and-privacy/privacy-model/).
+The desktop build is not reproducible, and no current installer or update channel is offered. Historical release hash lists remain a record of the archived binaries; they are not a download channel and do not describe a current update path. Where this fits in the wider picture is in the [privacy model](/user-guide/settings-and-privacy/privacy-model/).
 
 ## Limits
 

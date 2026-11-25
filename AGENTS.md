@@ -61,12 +61,16 @@ pnpm preview        # serve dist/ locally
 
 ## CI and deploy
 
-`.github/workflows/ci.yml` runs the build and test suite on every push and pull
-request. On a push to the deploy branch it also builds the image with
-`SITE=https://myne.md` and pushes it to the private
+`.github/workflows/ci.yml` runs the build and test suite on every change to
+`develop` and on pull requests. On a push to `release` it also builds the image
+with `SITE=https://myne.md` and pushes it to the private
 `ghcr.io/myne-md/myne-website-prod` package. The server pulls the `release` tag
 on a systemd timer; there is no SSH deploy step and no deploy secret in the
 repository.
+
+Branch model: ordinary work lands on `develop`; when the site should go live,
+`release` is fast-forwarded to the commit to ship. Only `release` publishes an
+image.
 
 Pull requests never receive registry credentials. Do not add a workflow that
 needs a secret to the public lane.

@@ -22,7 +22,7 @@ Do NOT mention AI/assistant tooling anywhere — the commit-msg hook rejects att
 
 ## How was this tested?
 
-<!-- Built locally? Checked the preview deploy (preview.example.com)? -->
+<!-- Built locally? Checked the production deploy? -->
 
 ## Screenshots
 

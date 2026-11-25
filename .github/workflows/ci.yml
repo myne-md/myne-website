@@ -6,7 +6,7 @@ name: ci
 
 on:
   push:
-    branches: [oss-prep-deps]
+    branches: [develop, release]
   pull_request:
 
 permissions:
@@ -36,7 +36,7 @@ jobs:
 
   image:
     needs: web
-    if: github.event_name == 'push' && github.ref == 'refs/heads/oss-prep-deps'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/release'
     runs-on: ubuntu-24.04
     permissions:
       contents: read

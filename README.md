@@ -22,13 +22,13 @@ What exists today:
 - **Legal pages** — `/privacy` is live and linked. `/impressum`, `/terms`, `/nutzungsbedingungen`, `/law-enforcement`, `/behoerdenanfragen`, `/notice` and `/meldung` are kept and build, but are deliberately delisted from the sitemap, the footer and their own `robots` prop together: `/impressum` until its address is real, and the rest because they describe a service Myne no longer offers. Several carry a German version that is the same document rather than a shortened rendering.
 - **`/.well-known/security.txt`** — RFC 9116 disclosure, served from the apex (`public/.well-known/security.txt`).
 - **OG image generation** — built at compile time with `satori` + `@resvg/resvg-js` (no headless browser).
-- **Deploy** — GitHub Actions builds the image on the deploy branch and pushes it to the private `ghcr.io/myne-md/myne-website-prod` package; the server pulls the `release` tag on a systemd timer and recreates the container. Pull requests never receive registry credentials.
+- **Deploy** — normal changes land on `develop`; GitHub Actions builds and tests every change there and on pull requests. A push to `release` builds the image and pushes it to the private `ghcr.io/myne-md/myne-website-prod` package; the server pulls the `release` tag on a systemd timer and recreates the container. Pull requests never receive registry credentials.
 
 Marketing copy, pricing, and the bug-bounty page are intentionally conservative: the security page is acknowledgment-only (no monetary bounty yet), matching `docs/threat-model.md` §6.
 
 ## How it works
 
-Astro builds the whole thing to static HTML at compile time. The `site` value (and therefore canonical URLs, the sitemap, and RSS absolute links) is set per environment by the Docker build — `https://myne.md` for release, `https://preview.example.com` for preview — so the same source produces both deployments. There is no server runtime: nginx serves the static `dist/`. No analytics, no third-party trackers.
+Astro builds the whole thing to static HTML at compile time. The `site` value (and therefore canonical URLs, the sitemap, and RSS absolute links) is set by the Docker build — `https://myne.md` — or falls back to the local default. There is one deployment, `myne.md`. There is no server runtime: nginx serves the static `dist/`. No analytics, no third-party trackers.
 
 ## Themes
 

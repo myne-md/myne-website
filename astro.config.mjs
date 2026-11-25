@@ -5,8 +5,8 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   // `site` drives canonical URLs, the sitemap and RSS absolute links. The
-  // Docker build sets SITE per environment (release → https://myne.md,
-  // preview → https://preview.example.com); falls back to the prod apex locally.
+  // Docker build sets SITE=https://myne.md; falls back to the prod apex
+  // locally.
   site: process.env.SITE ?? 'https://myne.md',
   // Default (sharp) image service: markdown images — the user-guide
   // screenshots especially — get responsive `srcset` widths, intrinsic
@@ -41,9 +41,7 @@ export default defineConfig({
     // because it looks compliant. Leaving it out of the footer is not enough
     // on the prod origin: robots.txt there is `Allow: /` and the sitemap is
     // advertised in it, so a listed URL gets indexed whether or not anything
-    // links to it. (On preview.example.com the host nginx sends
-    // `X-Robots-Tag: noindex` for the whole origin, which is why this never
-    // mattered there.) The page stays reachable by URL — it is written and
+    // links to it. The page stays reachable by URL — it is written and
     // correct apart from the address — it just does not get advertised.
     // Drop this filter and the page's `robots` prop together when the
     // address lands.

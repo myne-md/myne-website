@@ -32,7 +32,6 @@ body:
       label: Which environment?
       options:
         - Production (myne.md)
-        - Preview (preview.example.com)
         - Local dev
     validations:
       required: true

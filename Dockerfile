@@ -1,11 +1,10 @@
 # syntax=docker/dockerfile:1.7
 # Build the static Astro site, then serve it with nginx.
 #
-# Build target is selected with --build-arg SITE (set by .woodpecker.yml):
-#   release  → SITE=https://myne.md          (prod,    myne.md)
-#   preview  → SITE=https://preview.example.com  (staging, preview.example.com)
-# SITE feeds astro.config.mjs `site:` so canonical URLs + sitemap + RSS are
-# absolute and correct per environment.
+# SITE is a build arg, set by .github/workflows/ci.yml:
+#   release  → SITE=https://myne.md
+# It feeds astro.config.mjs `site:` so canonical URLs, the sitemap and RSS are
+# absolute and correct.
 
 FROM node:22-alpine AS builder
 WORKDIR /app

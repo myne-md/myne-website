@@ -2,7 +2,7 @@
 title: "Run your own sync server"
 category: "sync-and-devices"
 updated: 2026-10-19
-summary: "Bring up the Myne sync server on a machine you control: a pinned container image, a compose file, and a domain. Covers the TLS edge, the policy knobs, the operator panel, sizing, backup, and what operating the server makes you responsible for."
+summary: "Bring up the Myne sync server on a machine you control: a pinned source tag, a compose file, and a domain. Covers the TLS edge, the policy knobs, the operator panel, sizing, backup, and what operating the server makes you responsible for."
 tags: ["sync", "security", "privacy"]
 ---
 

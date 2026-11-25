@@ -46,15 +46,15 @@ export default defineConfig({
     // mattered there.) The page stays reachable by URL — it is written and
     // correct apart from the address — it just does not get advertised.
     // Drop this filter and the page's `robots` prop together when the
-    // address lands (example-org/operations#9).
+    // address lands.
     //
     // The rest of the legal roster joined it on 2026-10-16, and four of those
     // pages were DELETED on 2026-10-17 rather than merely unlisted. /terms/ and
     // /nutzungsbedingungen/ are the hosted-sync beta terms, and the offering
     // they are the terms of is closed; /law-enforcement/, /behoerdenanfragen/,
     // /notice/ and /meldung/ said what a Myne-run server holds and how to
-    // notify it about content, and Myne operates no such server
-    // (`design-notes/sync/0696`). A page about a mechanism that does not
+    // notify it about content, and Myne operates no such server. A page about
+    // a mechanism that does not
     // exist is not a quieter version of the page — it is a claim, so those four
     // are gone, and the "never have" inventory the law-enforcement page carried
     // moved to `docs/self-host-policy.md`. /privacy/ is deliberately NOT in this

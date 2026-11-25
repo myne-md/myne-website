@@ -203,7 +203,7 @@ Each of these bounds storage or abuse. None of them can weaken the zero-knowledg
 | `MYNE_METRICS_ADDR` | empty | Where to serve Prometheus counters, on their own listener. Off by default. A non-loopback address is normal here, since another machine usually scrapes them. |
 | `MYNE_BACKUP_ENABLED` and friends | off | The built-in encrypted off-box backup. Off unless you set it; see [backing it up](#backing-it-up). |
 
-`operations` ships an annotated copy of all of this, `bundle/bundle.env.example`, and that file is the one you edit. The server's own README carries the same list. What each knob obliges you to do, and what it costs, is written out as an operator contract in the specification (`self-host-policy.md`), which is the normative half; it has no web address yet, so the obligations that follow from it are summarised under [What you take on](#what-you-take-on) below. This page is the how.
+The sync server repository ships an annotated `bundle.env.example`, and that file is the one you edit. The server's own README carries the same list. What each knob obliges you to do, and what it costs, is written out as an operator contract in the specification (`self-host-policy.md`), which is the normative half; it has no web address yet, so the obligations that follow from it are summarised under [What you take on](#what-you-take-on) below. This page is the how.
 
 ## The operator panel
 

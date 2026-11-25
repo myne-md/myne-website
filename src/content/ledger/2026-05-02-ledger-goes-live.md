@@ -9,8 +9,8 @@ tags: [meta, ledger]
 
 This is the first entry in the Myne ledger. It exists so that there is one
 public-facing surface, in plain English, where you can see *what changed in
-Myne and why* — at a higher resolution than `design-notes.md` (one-line
-ledger of decisions) but with the same append-only discipline.
+Myne and why* — at a higher resolution than the project's internal decision
+log, but with the same append-only discipline.
 
 ## What it is
 
@@ -35,7 +35,7 @@ Only changes to:
 
 - the threat model (`docs/threat-model.md`)
 - the protocol (`docs/spec/protocol.md`, `docs/spec/account-number.md`)
-- the spec layer (`docs/glossary.md`, `design-notes.md`)
+- the spec layer (`docs/glossary.md` and the internal decision log)
 - public-facing behavior (recovery flow, account-number rendering, sync
   semantics)
 

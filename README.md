@@ -19,10 +19,10 @@ What exists today:
 - **User guide** (`/user-guide`) — the article collection under `src/content/user-guide/`, served from a Markdown content collection with a validated sidebar. It is **live with real content**: the per-page `noindex`, the draft banner and the sitemap exclusion were dropped together at go-live, so the sitemap filter in `astro.config.mjs` no longer names it.
 - **Theme gallery and builder** (`/themes`, `/themes/builder`) — the community gallery, plus a theme builder kept pinned dark.
 - **Static surfaces** — `/download` (stable + beta channels and the full release archive), `/security`, `/spec`, a `404`, plus build-time `robots.txt`, `llms.txt`, and a sitemap.
-- **Legal pages** — `/privacy` is live and linked. `/impressum`, `/terms`, `/nutzungsbedingungen`, `/law-enforcement`, `/behoerdenanfragen`, `/notice` and `/meldung` are kept and build, but are deliberately delisted from the sitemap, the footer and their own `robots` prop together: `/impressum` until its address is real, and the rest because they describe a service Myne no longer offers (`design-notes/sync/0696`). Several carry a German version that is the same document rather than a shortened rendering.
+- **Legal pages** — `/privacy` is live and linked. `/impressum`, `/terms`, `/nutzungsbedingungen`, `/law-enforcement`, `/behoerdenanfragen`, `/notice` and `/meldung` are kept and build, but are deliberately delisted from the sitemap, the footer and their own `robots` prop together: `/impressum` until its address is real, and the rest because they describe a service Myne no longer offers. Several carry a German version that is the same document rather than a shortened rendering.
 - **`/.well-known/security.txt`** — RFC 9116 disclosure, served from the apex (`public/.well-known/security.txt`).
 - **OG image generation** — built at compile time with `satori` + `@resvg/resvg-js` (no headless browser).
-- **Deploy** — Dockerized Astro static output behind nginx, rolled by hand over SSH to `myne.md` (prod) and `preview.example.com` (staging). Procedure: [`operations/runbooks/website-deploy.md`](https://github.com/example-org/operations/blob/develop/runbooks/website-deploy.md). There is **no deploy pipeline at all**: the only GitHub workflow is issue triage (`.github/workflows/triage.yml`), and the site goes out by hand.
+- **Deploy** — GitHub Actions builds the image on the deploy branch and pushes it to the private `ghcr.io/myne-md/myne-website-prod` package; the server pulls the `release` tag on a systemd timer and recreates the container. Pull requests never receive registry credentials.
 
 Marketing copy, pricing, and the bug-bounty page are intentionally conservative: the security page is acknowledgment-only (no monetary bounty yet), matching `docs/threat-model.md` §6.
 
@@ -83,7 +83,7 @@ Node is pinned via `engines` (≥ 22.12) to match the main repo. Git hooks run t
 
 ## Discipline
 
-Marketing copy may **not** exceed the guarantees in the main repo's [`docs/threat-model.md`](https://github.com/myne-md/myne/blob/develop/docs/threat-model.md) (normative) — this rule extends to every `/user-guide` article. Brand voice and the "Myne is / Myne is not" lists live in [`docs/vision.md`](https://github.com/myne-md/myne/blob/develop/docs/vision.md). When a claim is in doubt, downgrade it. Adding a tracker or analytics requires a corresponding `design-notes.md` entry. See [`AGENTS.md`](./AGENTS.md) for the full content discipline.
+Marketing copy may **not** exceed the guarantees in the main repo's public [`docs/threat-model.md`](https://github.com/myne-md/myne/blob/develop/docs/threat-model.md) (normative) — this rule extends to every `/user-guide` article. When a claim is in doubt, downgrade it. Adding a tracker or analytics requires an explicit maintainer decision. See [`AGENTS.md`](./AGENTS.md) for the full content discipline.
 
 ## Related repos
 
@@ -93,6 +93,6 @@ Marketing copy may **not** exceed the guarantees in the main repo's [`docs/threa
 
 ## License
 
-Code in this repo is MIT — see [`LICENSE`](./LICENSE); marketing content does not need copyleft. This mirrors the project's split: the main repo's `docs/` specs stay permissive (CC-BY-4.0) so independent implementations can reuse them, while the Myne application code is AGPL-3.0-only.
+Code is MIT — see [`LICENSE`](./LICENSE). Prose and marketing copy are CC-BY-4.0 ([`LICENSE-CONTENT`](./LICENSE-CONTENT)); screenshots, app renders and the Myne Marks are all rights reserved ([`LICENSE-ASSETS`](./LICENSE-ASSETS)). [`LICENSING.md`](./LICENSING.md) is the scope table, and [`TRADEMARK.md`](./TRADEMARK.md) covers the name and marks.
 
 The two webfonts in `public/fonts/` are **not** MIT: they are under the SIL Open Font License 1.1, whose text and both copyright lines ship beside them as [`public/fonts/OFL.txt`](./public/fonts/OFL.txt). It is the same file the app commits at `public/fonts/LICENSE.txt`, kept byte-identical so the two copies cannot drift.

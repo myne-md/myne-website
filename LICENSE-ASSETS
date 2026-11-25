@@ -1,0 +1,18 @@
+Myne website visual assets
+Copyright (C) 2026 Myne contributors. All rights reserved.
+
+This file covers the visual and brand assets of this repository: the app icon,
+logo, wordmark and other Myne Marks, screenshots and app renders, story and
+theme-preview captures, Open Graph images, illustrations, and bundled imagery
+under public/ and src/assets/. These assets are NOT licensed under MIT or
+CC-BY-4.0.
+
+You may not copy, redistribute, sublicense or use these assets in a way that
+suggests endorsement by or affiliation with Myne without prior written
+permission, except for referential use (a review, article, tutorial or
+comparison) and except as required to exercise the MIT rights in the code.
+
+Third-party assets keep their own licences; see LICENSING.md and
+public/fonts/OFL.txt. The Myne Marks policy is in TRADEMARK.md.
+
+Contact: 78652445+omerdduran@users.noreply.github.com

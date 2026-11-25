@@ -1,524 +1,155 @@
 ---
-// Privacy policy.
-//
-// Two rules govern every sentence on this page, and they pull in opposite
-// directions on purpose:
-//
-//   1. It may not exceed `docs/threat-model.md` or `server-protocol.md` §1.3.
-//      "We know nothing about you" is NOT writable here: the device registry,
-//      the quota counters and the SCRAM verifier genuinely exist and are named
-//      below. A policy that overclaims is worse than one that admits a counter.
-//   2. It may not claim less than the project's Art. 30 processing record,
-//      which is the internal inventory this page is derived from. If the two
-//      disagree, one of them is wrong and it is a bug in both.
-//
-// The German version is `datenschutz.astro` and is the same document, not a
-// summary of it. Change one, change the other in the same commit.
+// Privacy policy for the source-only site. It covers myne.md, not a server
+// run by someone else; the app's sync and AI providers are chosen by the user.
+// The German version is `datenschutz.astro`; change both in the same commit.
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
 import SiteFooter from "../components/SiteFooter.astro";
-import LegalContents from "../components/LegalContents.astro";
-import LegalTable from "../components/LegalTable.astro";
 import { absoluteOg } from "../lib/og";
 
 const title = "Privacy Policy — Myne";
 const description =
-  "What Myne stores, what it cannot store, and when the app talks to the network. No email at signup, no IP logs, no analytics — and a per-feature table of every network call the app makes.";
+  "What myne.md processes, what it does not, and how the source-only project handles hosting logs, email and self-hosted servers.";
 const canonical = new URL("/privacy/", Astro.site!).toString();
 const ogImage = absoluteOg("privacy", Astro.site!);
-
-const effective = "16 October 2026";
-
-// The page's own spine: every h2 below, in order, with the anchor it carries.
-// The contents block renders from this, and a heading added without an entry
-// here is a section a reader cannot jump to, which is why it sits immediately
-// above the headings rather than at the bottom of the file.
-const contents = [
-  { id: "network", label: "When the app talks to the network" },
-  { id: "on-device", label: "What stays on your device" },
-  { id: "server", label: "What the sync server stores" },
-  { id: "never", label: "What we never have" },
-  { id: "retention", label: "How long we keep it, and how you delete it" },
-  { id: "web-app", label: "The web app, in your browser" },
-  { id: "donations", label: "Donations" },
-  { id: "rights", label: "Your rights" },
-  { id: "controller", label: "Who is responsible" },
-  { id: "abuse", label: "Abuse reports and legal requests" },
-  { id: "changes", label: "Changes" },
-];
+const effective = "25 November 2026";
 
 const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
-const h3 =
-  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:var(--ink-1);";
 const body =
   "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
   "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
-
-// Every row below is a statement about code, not about intent. The inventory
-// was read out of the tree on 2026-08-12: the CSP `connect-src` in
-// `src-tauri/tauri.conf.json` and `web/csp.ts`, the egress call-site ratchet in
-// `src-tauri/scripts/ai-no-network-check.sh` (check 4), and the socket ratchet
-// in `core/src/plugins/sync/no_bypass.rs`. Adding a row is a code change.
-const network = [
-  {
-    feature: "Sync",
-    goes: "Yes",
-    where: "The sync server you configured. Myne runs none of its own",
-    when: "While sync is switched on. Your notes leave encrypted, and the server cannot read them.",
-  },
-  {
-    feature: "Live collaboration",
-    goes: "Yes, sealed — never plaintext",
-    where: "The same sync server, over its awareness relay",
-    when: "While a note you are co-editing is open and your vault is unlocked. The server sees an opaque per-note room and how active it is, never which note it is, and never what you typed. There is no separate switch: turning sync on turns this on.",
-  },
-  {
-    feature: "Member removal (shared vaults)",
-    goes: "Yes, sealed to each remaining member",
-    where: "The same sync server",
-    when: "Only when an owner removes a member from a shared vault: the rotated group key is posted once for each remaining member, so they can re-key. Until each of them fetches it, those packages stay on the server.",
-  },
-  {
-    feature: "Spell check",
-    goes: "No",
-    where: "—",
-    when: "Dictionaries ship with the app; your personal word list lives inside the encrypted vault.",
-  },
-  {
-    feature: "On-device AI",
-    goes: "No",
-    where: "—",
-    when: "The model runs on your machine. The speech-to-text and image-text models ship inside the app; the tag and semantic-search models are fetched on demand (see the next row) and run here once downloaded.",
-  },
-  {
-    feature: "AI model download",
-    goes: "Yes — no note content",
-    where: "downloads.myne.md, Myne's own origin",
-    when: "Only when you click Download in Settings → AI. Each file is checked against a fingerprint built into the app before it is used, so a tampered download is rejected. The request reveals your IP address to Myne's own origin and nothing else, and that origin keeps no IP logs and no analytics.",
-  },
-  {
-    feature: "AI via a local runtime",
-    goes: "Loopback only",
-    where: "127.0.0.1 on your own machine",
-    when: "Only if you configure one. The address cannot be anything but loopback — the code rejects any other host rather than trusting what it resolves to.",
-  },
-  {
-    feature: "AI via a remote provider",
-    goes: "Yes: note text leaves your device. An agent run also sends the titles, identifiers and folder paths of the notes it may read, before it has read a single one of them. Unless you narrow it, that set is your whole vault minus the folders you excluded from AI. It also carries what it remembers about you: distilled facts from earlier runs (at most 100 entries) and your voice preferences, each entry with a stable identifier. It carries the conversation you can see up to that point as well — the last few turns, and the conversation setting in the AI panel raises how many, up to a fixed ceiling. It carries the list of settings the agent may offer to change: identifiers only, no values and nothing about you. When the provider is OpenRouter, Myne also asks it to keep that part of the request for as long as it caches prompts, and asks for the fastest upstream route — a statement about speed, not about how that route handles data. A meeting-notes run sends the transcript of the recording: other people's speech as well as your own.",
-    where: "The provider you named",
-    when: "Only when every condition is true, and the set differs by platform. On a computer there are five: you named a provider, you consented to that specific provider, you supplied its key, AI is enabled, and developer mode is on. On a phone the first four apply and there is no developer mode, so there are four. Every one of them is off by default, and with none named the code path is unreachable rather than merely disabled. One request per thing you ask for, except an agent run and a meeting-notes run, which each make a bounded series of them: how many is decided by the model, not by us.",
-  },
-  {
-    feature: "Web clipper",
-    goes: "No",
-    where: "—",
-    when: "The browser extension talks to the app over a local channel on your own machine.",
-  },
-  {
-    feature: "Tor routing",
-    goes: "On desktop, routes sync and AI provider requests through Tor",
-    where: "The Tor network, then your sync server or the AI provider",
-    when: "Only if you switch it on. On iOS and Android there is no Tor option, so while sync is on there neither your connection nor the live-collaboration presence signal can be hidden.",
-  },
-  {
-    feature: "Update check",
-    goes: "Your version and platform, plus your IP (which the origin does not log). Never your notes or your account.",
-    where: "downloads.myne.md",
-    when: "Automatically, on by default: shortly after launch and about once a day. Turn it off in Settings → About, where you can also check by hand. The update itself is verified against an offline release key before it installs.",
-  },
-  {
-    feature: "Analytics, telemetry, crash reports",
-    goes: "None",
-    where: "—",
-    when: "Never. No analytics, no telemetry, and no crash is reported anywhere. The desktop does keep two plain-text things on your own device; neither leaves it. See \u201cWhat stays on your device\u201d below.",
-  },
-  {
-    feature: "Fonts, CDNs, third-party assets",
-    goes: "None",
-    where: "—",
-    when: "Every asset is inside the app. The web app's content-security policy names exactly one external origin — your sync server — and the build is checked for third-party origins before it ships.",
-  },
-];
-
-const stored = [
-  [
-    "account_number_hash",
-    "A 16-byte hash of your account number. The only account identifier the server has.",
-  ],
-  [
-    "SCRAM verifier",
-    "What the server checks your login against. It is not your password and cannot be turned back into it.",
-  ],
-  [
-    "Encrypted blobs",
-    "Your notes and attachments as ciphertext. We hold no key that opens them.",
-  ],
-  [
-    "Version counter",
-    "A number per blob, used to detect conflicting edits. It says that something changed, never when and never what.",
-  ],
-  ["Head pointer", "One pointer per vault to the latest state you pushed."],
-  [
-    "Device registry",
-    "One record per device you enrolled, with a device id you generated. Needed because revoking a device requires knowing it exists — this is the one place your device count is unavoidably visible to the server.",
-  ],
-  [
-    "Counters",
-    "Total bytes stored and number of devices, for the quota and the rate limit.",
-  ],
-  [
-    "Account policy",
-    "Whether the account is frozen, and any storage or device limit set specifically for it. A freeze blocks writing; it never blocks reading what is already there. This is the one thing on this list the server keeps in plain text — it has to be readable to be enforced, and it says nothing about you beyond a limit and a flag.",
-  ],
-  [
-    "Agent memory",
-    "Short facts an agent run distilled about you, at most one entry per run and at most 100 live entries, each a short piece of text with a stable id. Written without a separate approval — the control is that you can see and edit the whole list, that a run which wrote one says so on its turn, and that clearing all of it is one action.",
-  ],
-  [
-    "Agent personality",
-    "The voice directive you wrote for the agent. One value, replaced rather than versioned.",
-  ],
-  [
-    "Member display names",
-    "On a shared vault: the name each member chose, one row per person, signed by the person it names. Visible in the member list, and a removed member's row is cleared rather than edited.",
-  ],
-  [
-    "Device bindings",
-    "On a shared vault: which person each enrolled device belongs to. One row per device, signed by the person it claims, so a member cannot claim somebody else's device.",
-  ],
-  [
-    "Retired group keys",
-    "On a shared vault: when an owner removes a member, the rotated key is posted once for each remaining member so they can re-key. Those packages are retired rather than kept, and the server holds no key that opens any of them.",
-  ],
-  [
-    "Person profile",
-    "The per-person profile your own device keeps on the server, sealed with your recovery phrase rather than with the vault key. The server cannot read it, and it is the one store that follows you between vaults.",
-  ],
-];
-
-const notStored = [
-  "Email address, name, postal address, phone number",
-  "Payment details — the beta is free and takes none",
-  "IP addresses in access logs or analytics; the short-lived local fail2ban buffer is the only exception and is not used for profiling",
-  "Readable content, note titles, folder names, tags",
-  "Timestamps that mean anything to you — those live inside the ciphertext",
-  "Cookies, analytics identifiers, advertising identifiers, fingerprints",
-];
+const listStyle = body + "padding-left:20px;";
 ---
 
 <LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
-  <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
-  >
+  <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;">
     <GlassNav active="legal" />
 
     <section id="top" style="padding:var(--page-top) var(--gutter) 70px;">
       <div style="max-width:820px;margin:0 auto;">
         <div class="mono up" style={eyebrow}>Legal</div>
-        <h1
-          style="font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-0.03em;line-height:1.05;"
-        >
+        <h1 style="font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-0.03em;line-height:1.05;">
           Privacy Policy
         </h1>
         <p style={body}>
-          Effective {effective}. It covers myne.md, the model-download origin and the desktop, mobile
-          and browser clients. <strong style="color:var(--ink-1);">Myne runs no sync service of its own</strong>,
-          so if you use sync, the server holding your ciphertext is one you run or one somebody else
-          runs; that operator is the controller for what it holds, not us. The section below is
-          written to be read either way.
+          Effective {effective}. This policy covers <strong>myne.md</strong> and the project's public
+          infrastructure. It does not cover a sync server run by you or by someone else: that operator
+          decides what it stores and is the controller for it. Myne runs no hosted sync, storage or
+          account service of its own.
         </p>
 
-        <!-- ── The summary. Cryptee's shape: the plain reading first, the -->
-        <!-- legal text after. Someone who reads only this box should come -->
-        <!-- away with an accurate picture, not a flattering one.          -->
         <div style={cardStyle}>
           <div class="mono up" style={eyebrow}>The short version</div>
           <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
-            Your notes are encrypted on your device before they go anywhere, and we hold no key that
-            opens them. Signing up takes no email address — your account is a 20-character number
-            you keep. We do not write client IP addresses to access logs or analytics, set no cookies,
-            run no analytics, and load nothing from anyone else's server. The host firewall keeps a
-            short-lived local fail2ban buffer to block brute-force attempts; it is not an analytics
-            record and is dropped on its documented schedule.
-          </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
-            What we do have is short and worth naming rather than glossing: a hash that identifies
-            your account, a login verifier, your encrypted blobs, a record of which devices you
-            enrolled, and two counters for storage and rate limits. That is the whole list, and it
-            is below in full.
-          </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
-            The flip side of holding no key: if you lose your password <em>and</em> your recovery phrase,
-            nobody — including us — can get your notes back.
+            This is a static website. There are no accounts, no newsletter, no cookies, no analytics
+            and no advertising. The only personal data the site processes is what your browser sends
+            to fetch a page, what you put in an email to us, and a short-lived local firewall buffer
+            that blocks brute-force requests. Your notes never reach this website.
           </p>
         </div>
 
-        <LegalContents items={contents} />
-
-        <!-- ── The network table. Issue #7 called this the most convincing -->
-        <!-- section, and it is, but only because it is derived from the    -->
-        <!-- code rather than from the marketing copy.                      -->
-        <h2 id="network" style={h2}>When the app talks to the network</h2>
+        <h2 style={h2}>Hosting and server logs</h2>
         <p style={body}>
-          Most privacy policies describe what a company promises. This table describes what the
-          program does, feature by feature. It is derived from the code — the content-security
-          policy that bounds the app, and two ratchets in the build that fail if a new outbound call
-          appears without being recorded first.
+          The site is hosted by <strong>Hetzner Online GmbH</strong>, Industriestr. 25, 91710
+          Gunzenhausen, Germany, in its Falkenstein data centre. Hetzner processes request data on our
+          behalf under an Art. 28 GDPR processing agreement. No data is transferred outside the EU.
+        </p>
+        <p style={body}>
+          The web server keeps short-lived operational logs. Client IP addresses, ports and forwarding
+          headers are filtered out of access and error logs; what remains is the host, requested path,
+          status, timing and error trace needed to run and secure the site. A separate local fail2ban
+          buffer keeps the client address for at most one hour (and at most about 2 MiB on disk) so
+          that repeated abusive requests can be blocked. It is a security measure, not an analytics
+          record, and it is deleted on that schedule.
+        </p>
+        <p style={body}>
+          The legal basis is our legitimate interest in providing a secure website (Art. 6(1)(f)
+          GDPR). We do not merge these logs with other data or use them to identify visitors.
         </p>
 
-        <LegalTable
-          head={["Feature", "Leaves your device?", "Where to", "When"]}
-          rows={network.map((r) => [r.feature, r.goes, r.where, r.when])}
-          widths={["17%", "29%", "23%", "31%"]}
-          bleed
-        />
-
+        <h2 style={h2}>Cookies and local storage</h2>
         <p style={body}>
-          Two rows deserve emphasis rather than a footnote. <strong style="color:var(--ink-1);"
-            >Sync</strong
-          > sends your notes, encrypted, to the server you chose — that is the feature. <strong
-            style="color:var(--ink-1);">AI via a remote provider</strong
-          > sends note text <em>in the clear</em> to a company that is not us, because that is what asking
-          a remote model to read your note means. It is off, and turning it on takes five deliberate
-          steps on a computer and four on a phone, which has no developer mode; once on, that
-          provider's privacy policy governs what they do with what you send. We do
-          not proxy it and we never see it.
-        </p>
-        <p style={body}>
-          One part of that is worth spelling out, because it is not what &ldquo;note text&rdquo; brings to
-          mind. When you let the AI propose <strong style="color:var(--ink-1);">changes</strong> to a set of
-          notes, the first thing it receives is the <em>list</em>: the title, identifier and folder path
-          of every note it may read, sent before it has read a single one of them. That set is your
-          whole vault minus the folders you excluded from AI unless you narrow it on the composer, so
-          starting a conversation and then stopping the run still sent every one of those titles, and
-          the folder each note sits in. Titles are often the most revealing line in a note. The identifiers are stable, so a provider that keeps requests
-          can tell that two of them concern the same note.
-        </p>
-        <p style={body}>
-          Memory deserves the same spelling-out. When the assistant works for you across runs, it keeps
-          distilled facts &mdash; how you like answers written, standing rules you taught it &mdash; and
-          sends them along with every agent run, on every arm: your computer&rsquo;s loopback runtime
-          and a remote provider receive the same system turn. Each entry travels with a stable
-          identifier, so a provider that keeps requests can link the same memory across runs. The
-          assistant writes at most one entry per run, and everything it remembers is visible and
-          editable in the app &mdash; the memory list, never a silent write.
+          We set no cookies and run no analytics, tracking pixels or third-party scripts. If you switch
+          the site to light mode, that choice is stored in your browser's local storage under the key
+          <code>myne-theme</code>. It stays on your device, is written only when you click the switch,
+          and is never sent to us. Clearing site data removes it.
         </p>
 
-        <!-- ── The two device-local plain text artefacts the desktop writes. ── -->
-        <!-- myne-md/myne#860. Neither is in the network table above, because   -->
-        <!-- neither crosses the network: this is the half a reader needs so    -->
-        <!-- that "no crash reports" is a true sentence rather than a loose one.-->
-        <h2 id="on-device" style={h2}>What stays on your device</h2>
+        <h2 style={h2}>Email</h2>
         <p style={body}>
-          Two things the desktop writes are worth naming, because both are plain text on your own
-          disk. Neither of them goes anywhere: there is no reporting endpoint, no beacon and no
-          automatic send, so a report exists only once you decide to hand one to someone.
-        </p>
-        <ul style={body + "padding-left:20px;"}>
-          <li style="margin-top:8px;">
-            <strong style="color:var(--ink-1);">A diagnostic log, off until you turn it on.</strong> Under
-            Settings &rarr; About you can switch on a plain-text record of what the app is doing, so
-            that a bug report can say what happened instead of only what you saw. It sits in this
-            device&rsquo;s log folder rather than inside your vault, it holds only Myne&rsquo;s own
-            messages and never the libraries the app is built on, its size is capped with the oldest
-            entries dropped first, and <strong style="color:var(--ink-1);">switching it off deletes it</strong>.
-            It never records your note text, a note title or a file path.
-          </li>
-          <li style="margin-top:8px;">
-            <strong style="color:var(--ink-1);">One crash record, written whether or not the log is on.</strong>
-            If the app crashes, it writes a single small file holding the source location, the version
-            and your platform, and nothing else: no crash message and nothing about your notes,
-            because a crash message is arbitrary text from arbitrary code. Only the most recent crash
-            is kept and the next one replaces it. Settings &rarr; About shows it with its date, so its
-            existence is never hidden, and a Delete there removes it.
-          </li>
-        </ul>
-
-        <!-- ── What the server holds. §1.3 of server-protocol.md is the -->
-        <!-- ceiling; this list may not be shorter than it.              -->
-        <h2 id="server" style={h2}>What the sync server stores</h2>
-        <p style={body}>
-          The server is a blind blob store: it accepts, keeps and hands back ciphertext, and performs
-          only structural operations on it — advancing a pointer, incrementing a counter, counting
-          bytes. It never decrypts, merges or interprets anything, because it holds nothing that
-          could.
-        </p>
-        <p style={body}>
-          This list describes the software, not an address. If you point Myne at a server you run, the
-          rows below are what <em>your</em> server holds and you are the controller for them. Myne
-          operates no server it offers to the public, so the only instance it holds anything on is
-          one for a closed group of people who asked for it, and the same rows apply there.
+          If you write to <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>,
+          <a href="mailto:privacy@myne.md" style="color:var(--accent);">privacy@myne.md</a>,
+          <a href="mailto:security@myne.md" style="color:var(--accent);">security@myne.md</a> or
+          <a href="mailto:source@myne.md" style="color:var(--accent);">source@myne.md</a>, we receive
+          your address, the message and anything you attach. We use it only to answer you or to handle
+          the request (Art. 6(1)(b) or (f) GDPR) and keep it only as long as needed for that purpose,
+          a legal obligation, or the security of the project. We do not use it for marketing and do
+          not sell it.
         </p>
 
-        <LegalTable
-          head={["What", "Why it exists"]}
-          rows={stored.map(([what, why]) => [what, why])}
-          widths={["22%", "78%"]}
-        />
-
-        <h2 id="never" style={h2}>What we never have</h2>
+        <h2 style={h2}>The app and self-hosted servers</h2>
         <p style={body}>
-          This list is as load-bearing as the one above it, because it sets the limit of what any
-          request to us can produce — yours, or a court's.
+          The Myne app is local-first: your vault is created and encrypted on your device. This policy
+          does not describe what a self-hosted server, a sync provider or an AI provider does with the
+          data you choose to send it; that is the operator's or provider's policy. If you enable sync,
+          the server you configure holds ciphertext and the account metadata described in the app's
+          documentation; you or your operator are the controller for that server.
         </p>
-        <ul style={body + "padding-left:20px;"}>
-          {notStored.map((x) => <li style="margin-top:8px;">{x}</li>)}
-        </ul>
         <p style={body}>
-          Some of these are architectural rather than promised. Sign-up asks for no email because
-          there is no field for one. Rate limiting counts per account rather than per address
-          because the server never keeps an address to count. Your timestamps are inside the
-          encrypted blob, so no operator — us, or anyone self-hosting — can read when you wrote
-          something.
+          The app contains no telemetry and no analytics. Its update check and model downloads, when
+          enabled, contact Myne's own origin with the version/platform or the requested file; the
+          origin is configured not to keep client IP logs or analytics. No note content is sent.
         </p>
 
-        <h2 id="retention" style={h2}>How long we keep it, and how you delete it</h2>
+        <h2 style={h2}>Your rights</h2>
         <p style={body}>
-          Everything listed under "what the sync server stores" is kept until you delete your
-          account, and no longer. Deleting removes the vault, the attachments, the device registry,
-          the login verifier and the counters.
-        </p>
-        <p style={body}>
-          Deletion happens on the server, and whoever operates it performs it: you, if you run it;
-          the person who does, if you do not. Myne holds no email address, so a deletion request by
-          email is one nobody could verify — anyone who learned your account number could otherwise
-          have your vault destroyed. There is no in-app deletion button today.
-        </p>
-
-        <h3 style={h3}>Backups</h3>
-        <p style={body}>
-          Encrypted backups run on a <strong style="color:var(--ink-1);">14-day rotation</strong>. A
-          deleted account therefore disappears from the live service immediately and from the last
-          backup set <strong style="color:var(--ink-1);">within 14 days</strong>. We are stating the
-          number because most services do not: "deleted immediately" is rarely true of anyone who
-          keeps backups, and a policy that omits the backup window is describing a system that does
-          not exist.
-        </p>
-        <p style={body}>
-          Backups hold the same ciphertext the server holds. They are as unreadable to us as the
-          originals.
+          Under the GDPR you have the right to access, rectify, erase, restrict and port your personal
+          data, and to object to processing based on legitimate interests. Write to
+          <a href="mailto:privacy@myne.md" style="color:var(--accent);">privacy@myne.md</a>. Because the
+          site has no accounts, most requests will concern an email you sent us or a server log; we
+          will explain what we hold and what we cannot retrieve. You may also complain to a supervisory
+          authority. Ours is the
+          <span style="color:var(--ink-1);">Landesbeauftragte für den Datenschutz und für das Recht auf
+          Akteneinsicht Brandenburg</span>, Stahnsdorfer Damm 77, 14532 Kleinmachnow.
         </p>
 
-        <h2 id="web-app" style={h2}>The web app, and what it stores in your browser</h2>
-        <p style={body}>
-          The browser client keeps your encrypted vault in your browser's own storage (OPFS), so it
-          can work without re-downloading everything and so your notes survive a reload. This is
-          storage on your device, not on ours, and it holds the same ciphertext. Which address it
-          lives under is the address serving the client, which is one you or somebody else runs; the
-          storage is scoped to that origin, so a vault in one client's storage is not reachable from
-          another.
-        </p>
-        <p style={body}>
-          Under § 25 TDDDG this needs no consent banner: it is strictly necessary for the service
-          you explicitly requested — a notes app that cannot store your notes is not the service. We
-          describe it here rather than asking you to click a box, because the box would be
-          theatre. We set no cookies at all, and we store nothing for any purpose other than running
-          the page or the app you opened.
-        </p>
-        <p style={body}>
-          One more thing is stored, and only if you use it: switching the site to light keeps that
-          choice in your browser's local storage under the key <code>myne-theme</code>, so the next
-          page opens in the theme you picked. It is a display preference on your own device, it is
-          written only when you click the switch, it says nothing about you, and it is never sent
-          anywhere. Clearing your browser data removes it.
-        </p>
-
-        <h2 id="donations" style={h2}>Donations</h2>
-        <p style={body}>
-          <strong style="color:var(--ink-1);">Myne takes no donations, as of 16 October 2026.</strong> The
-          Open Collective collection was closed, so there is no payment path to describe and no
-          payment processor in the chain. The section below about processors therefore lists none.
-          This is recorded rather than deleted because a donor whose data reached the fiscal host
-          before that date is owed the sentence: payment details reached them and never us, we saw
-          the amount and whatever name the donor chose to show, and a Myne account was never linked
-          to a donation because there was nothing on the account to link to.
-        </p>
-
-        <h2 id="rights" style={h2}>Your rights</h2>
-        <p style={body}>
-          Under the GDPR you have the right to access, rectify, erase, restrict and port your data,
-          and to object to processing. Two of these work differently here, and the reason is the
-          same in both cases:
-        </p>
-        <p style={body}>
-          <strong style="color:var(--ink-1);">Access and portability.</strong> Your notes are already in your
-          hands — that is what the app is. What we hold beyond them is the short list above, and we cannot
-          decrypt any of it. An export lives in the app, and it produces more than we could.
-        </p>
-        <p style={body}>
-          <strong style="color:var(--ink-1);">Erasure.</strong> Deletion is in the app, for the verification
-          reason described above. Write to us if that path fails you and we will work it out.
-        </p>
-        <p style={body}>
-          You may also complain to a supervisory authority. Ours is
-          <span style="color:var(--ink-1);"
-            >Die Landesbeauftragte für den Datenschutz und für das Recht auf Akteneinsicht
-            Brandenburg</span
-          >, Stahnsdorfer Damm 77, 14532 Kleinmachnow.
-        </p>
-
-        <h2 id="controller" style={h2}>Who is responsible</h2>
+        <h2 style={h2}>Who is responsible</h2>
         <div style={cardStyle}>
           <p style="margin:0;font-size:15px;line-height:1.7;color:var(--ink-3);">
-            Ömer Duran<br />
+            <strong>Myne contributors</strong><br />
             Potsdam, Germany<br />
             <a href="mailto:privacy@myne.md" style="color:var(--accent);">privacy@myne.md</a>
           </p>
           <p style="margin:14px 0 0;font-size:14px;line-height:1.65;color:var(--ink-3);">
-            A postal address is not published while the site is pre-launch; the Impressum page is
-            withheld until that address is settled. privacy@myne.md reaches the controller. There is
-            no data protection officer: the thresholds of § 38 BDSG are not met, there are no employees.
+            A postal address is being added with the Impressum. Until then,
+            <a href="mailto:privacy@myne.md" style="color:var(--accent);">privacy@myne.md</a> reaches the
+            controller. There is no data protection officer: the thresholds of § 38 BDSG are not met.
           </p>
         </div>
 
-        <h3 style={h3}>Processors</h3>
+        <h3 style="font-size:16px;font-weight:650;margin-top:32px;color:var(--ink-1);">Processors</h3>
         <p style={body}>
-          <strong style="color:var(--ink-1);">Hetzner Online GmbH</strong>, Industriestr. 25, 91710
-          Gunzenhausen, runs the machines. myne.md and the model-download origin live in Hetzner's
-          Falkenstein data centre in Germany, under an Art. 28 processing agreement. There is no
-          payment processor any more, because donations stopped. There is no other processor: no CDN,
-          no analytics vendor, no crash reporting service, no email delivery service.
-        </p>
-        <p style={body}>
-          Nothing is transferred outside the EU. All processing happens in Germany, and access to
-          the production system is held by one person.
+          Hetzner Online GmbH hosts the site and processes request data under an Art. 28 agreement.
+          There is no CDN, analytics vendor, crash-reporting service or email delivery service in the
+          site's path. The project's GitHub organisation is hosted by GitHub, Inc.; your use of GitHub
+          is governed by GitHub's own privacy statement.
         </p>
 
-        <h2 id="abuse" style={h2}>Abuse reports and legal requests</h2>
+        <h2 style={h2}>Changes</h2>
         <p style={body}>
-          Reports go to <a href="mailto:abuse@myne.md" style="color:var(--accent);">abuse@myne.md</a>. We
-          cannot read what people store, so we cannot screen it, and we do not pretend otherwise. On
-          a valid report what we can do is act on the account, because that is the only instrument an
-          operator of a blind store has.
-        </p>
-        <p style={body}>
-          Requests from authorities go to <a href="mailto:legal@myne.md" style="color:var(--accent);"
-            >legal@myne.md</a
-          > and are answered against the list above and no further: we can only hand over what we have,
-          and what we have is a hash, a verifier, some counters and ciphertext we cannot open. There is
-          no key in our possession, no German law obliges a provider to break its own encryption, and
-          encrypted data is handed over encrypted. This paragraph is the whole of it, which is a
-          change: it used to point at a longer page about the legal basis, and that page describes an
-          offering Myne no longer makes.
+          We may update this policy when the site or its infrastructure changes. The effective date
+          above changes with it, and the previous text remains in the public repository history.
         </p>
 
-        <h2 id="changes" style={h2}>Changes</h2>
-        <p style={body}>
-          If this policy changes in a way that affects you, the apps show you the new version rather
-          than quietly swapping the page. Each version carries its effective date, and the previous
-          text stays available in the site's history — this page is in a public repository, so every
-          edit to it is a public commit.
-        </p>
-
-        <p style={body + "margin-top:44px;font-size:14px;color:var(--ink-3);"}>
+        <p style={body + "margin-top:44px;font-size:14px;"}>
           Deutsche Fassung: <a href="/datenschutz/" style="color:var(--accent);">Datenschutzerklärung</a>.
+          Terms: <a href="/terms/" style="color:var(--accent);">Terms</a>.
         </p>
       </div>
     </section>
-
     <SiteFooter />
   </div>
 </LandingLayout>

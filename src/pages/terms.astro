@@ -1,283 +1,121 @@
 ---
-// Beta terms of service.
-//
-// Two clauses here exist because their absence elsewhere caused real harm,
-// and both are written to be read rather than skipped:
-//
-//   Permanent data loss. A zero-knowledge service has a legal consequence
-//   most competitors' terms simply do not state (Notesnook's, for one): if
-//   the user loses both secrets, the data is gone, and no support ticket
-//   changes that. Leaving it out would let someone sign up believing a reset
-//   exists.
-//
-//   The end-of-beta guarantee. Skiff shut down and its users discovered the
-//   terms had promised them nothing. So this says the opposite explicitly:
-//   accounts continue, a paid tier would be optional, and a shutdown carries
-//   90 days' notice with export working throughout (period confirmed
-//   2026-08-12).
-//
-// The moderation paragraph is doing double duty — it is also the DSA Art. 14
-// transparency requirement, which is why it describes a capability rather
-// than a policy: we cannot screen content, so the terms cannot pretend we
-// choose not to.
-//
-// German version: `nutzungsbedingungen.astro`. Same document.
+// Current terms for the source-only project. The closed-beta terms were
+// retired on 2026-11-25; they remain in git history, not on this page.
 import LandingLayout from "../layouts/LandingLayout.astro";
 import GlassNav from "../components/GlassNav.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { absoluteOg } from "../lib/og";
 
-const title = "Beta Terms — Myne";
+const title = "Terms — Myne";
 const description =
-  "Terms for the free Myne beta: no payment, no warranty, a 250 MB quota raised on request — and the two clauses that matter most, on permanent data loss and on what happens when the beta ends.";
+  "Terms for the free, source-only Myne project: AGPL-3.0-only software, no hosted service, no warranty, and the rules for the website and the Myne name.";
 const canonical = new URL("/terms/", Astro.site!).toString();
 const ogImage = absoluteOg("terms", Astro.site!);
-
-const effective = "12 August 2026";
+const effective = "25 November 2026";
 
 const eyebrow = "font-size:11px;color:var(--accent);margin-bottom:14px;";
 const h2 =
   "font-size:clamp(19px,2.2vw,25px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:56px;";
-const h3 =
-  "font-size:16px;font-weight:650;letter-spacing:-0.01em;margin-top:32px;color:var(--ink-1);";
 const body =
   "margin-top:14px;max-width:68ch;font-size:15px;line-height:1.7;color:var(--ink-3);";
 const cardStyle =
   "border:1px solid rgb(var(--line-rgb) / 0.1);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
-const warnCard =
-  "border:1px solid rgb(var(--line-rgb) / 0.16);border-radius:12px;padding:22px;background:var(--paper-2);margin-top:22px;";
-
-const forbidden = [
-  "Storing or distributing material that is illegal where you are, or under German law",
-  "Attacking the service — attempting to overload it, break into other accounts, or bypass the quota and rate limits",
-  "Automated bulk registration of accounts",
-  "Reselling the hosted service as your own",
-];
+const listStyle = body + "padding-left:20px;";
 ---
 
-<LandingLayout
-  title={title}
-  description={description}
-  canonical={canonical}
-  ogImage={ogImage}
-  robots="noindex,nofollow"
->
-  <div
-    style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;"
-  >
+<LandingLayout title={title} description={description} canonical={canonical} ogImage={ogImage}>
+  <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink-1);background:var(--paper);min-height:100vh;">
     <GlassNav active="legal" />
 
     <section id="top" style="padding:var(--page-top) var(--gutter) 70px;">
       <div style="max-width:820px;margin:0 auto;">
         <div class="mono up" style={eyebrow}>Legal</div>
-        <h1
-          style="font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-0.03em;line-height:1.05;"
-        >
-          Beta Terms
+        <h1 style="font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-0.03em;line-height:1.05;">
+          Terms
         </h1>
         <p style={body}>
-          Effective {effective}. These terms governed the free Myne beta: the hosted sync service and the web
-          client, together with the desktop and mobile apps that used them. <strong style="color:var(--ink-1);">Myne closed that beta on 16 October 2026</strong>
-          and offers no sync service of its own, so there is nothing left for these terms to govern
-          between you and Myne. It is kept published as the record of the terms that applied while
-          the beta ran, and it is no longer linked from the site.
+          Effective {effective}. These terms cover the Myne website and the Myne software. They do not
+          cover a server run by someone else: if you use a self-hosted or third-party sync server, that
+          operator's terms and privacy policy apply to it.
         </p>
 
         <div style={cardStyle}>
           <div class="mono up" style={eyebrow}>The short version</div>
           <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
-            The beta is free and takes no payment. There is no warranty and no service level —
-            software this young breaks. If you lose your password and your recovery phrase, your
-            notes are gone permanently, and nobody can recover them. When the beta ends your account
-            keeps working; a paid tier, if one ever exists, will be a choice and not a condition.
-            And if the service ever shuts down, you get 90 days' notice with export working the
-            whole time.
+            Myne is free software under AGPL-3.0-only, published as source. We run no hosted sync,
+            storage or account service. The software and this website come with no warranty and no
+            service level. The Myne name and logo are not licensed with the code; see
+            <a href="https://github.com/myne-md/myne/blob/develop/TRADEMARK.md" style="color:var(--accent);">TRADEMARK.md</a>.
           </p>
         </div>
 
-        <h2 style={h2}>What this is</h2>
+        <h2 style={h2}>Who we are</h2>
         <p style={body}>
-          A free, non-commercial test of software still in development. No payment is taken, no
-          subscription exists, and nothing on this service is sold to you. That is not a temporary
-          promotion — it is the basis on which the service is currently offered, and much of what
-          follows rests on it.
-        </p>
-        <p style={body}>
-          You must be at least 16 years old to use Myne. That is the age at which consent to data
-          processing is valid under German law.
+          Myne is a free, non-commercial open-source project maintained by <strong>Myne contributors</strong>.
+          The project has no hosted service and no paid plan. You can reach us at
+          <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>; security reports go to
+          <a href="mailto:security@myne.md" style="color:var(--accent);">security@myne.md</a>.
         </p>
 
-        <h2 style={h2}>Your account</h2>
+        <h2 style={h2}>The software</h2>
         <p style={body}>
-          An account is a 20-character number, generated on your device. We ask for no email
-          address, no name and no payment details — which means we also have no way to identify you
-          if you lose access, and no way to verify that someone contacting us is you.
+          The Myne source is published at
+          <a href="https://github.com/myne-md/myne" rel="noopener" style="color:var(--accent);">github.com/myne-md/myne</a>
+          under the GNU Affero General Public License, version 3 only (AGPL-3.0-only). Your rights in
+          the code are those of that licence, including the source-offer rules in section 6. Nothing on
+          this page narrows them.
         </p>
         <p style={body}>
-          You are responsible for keeping the credentials that open your notes: your password, your
-          recovery phrase, and any shared-vault unlock you set on a device. Myne cannot recover them
-          for you.
+          We do not operate a hosted Myne service, do not hold your vault, and do not provide accounts,
+          storage, sync, backups or recovery. If you run Myne yourself, or use a server run by someone
+          else, you and that operator are responsible for the deployment, its data and its security.
+        </p>
+        <p style={body}>
+          If you receive a Myne binary from us, its corresponding source is available under AGPL §6.
+          Write to <a href="mailto:source@myne.md" style="color:var(--accent);">source@myne.md</a> with the
+          version and platform; we will provide the source for that binary at no charge. This offer is
+          valid for at least three years from the date of distribution. It does not cover a build made
+          by a third party from modified source.
         </p>
 
-        <!-- ── The clause the whole architecture makes necessary, and the -->
-        <!-- one most competitors' terms omit. It gets its own card.       -->
-        <div style={warnCard}>
-          <div class="mono up" style={eyebrow}>Permanent data loss</div>
-          <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-1);">
-            <strong
-              >If you lose your password and your recovery phrase, your notes cannot be recovered.
-              Not by you, and not by us.</strong
-            >
-          </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
-            This is not a support limitation that a determined request could get around. Your keys
-            are derived on your device from secrets we never receive; what we hold is ciphertext we
-            have no key for. There is no reset link, no security question and no administrative
-            override, because building one would mean holding a key — and holding a key would mean
-            being able to read your notes, and being compelled to.
-          </p>
-          <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
-            Write your recovery phrase down and keep it somewhere safe. It is the entire backup
-            plan.
-          </p>
-        </div>
+        <h2 style={h2}>The website</h2>
+        <p style={body}>
+          The text and user-guide content on this site are licensed under
+          <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener" style="color:var(--accent);">CC BY 4.0</a>.
+          The Myne name, wordmark, icon and other brand assets are not licensed for reuse; see
+          <a href="https://github.com/myne-md/myne-website/blob/develop/TRADEMARK.md" style="color:var(--accent);">TRADEMARK.md</a>
+          and <a href="https://github.com/myne-md/myne-website/blob/develop/LICENSING.md" style="color:var(--accent);">LICENSING.md</a>.
+          The source code of this website is MIT-licensed as stated in its repository.
+        </p>
+
+        <h2 style={h2}>Acceptable use</h2>
+        <ul style={listStyle}>
+          <li style="margin-top:8px;">Do not use the Myne name or logo as the name of your fork, product or service, or in a way that suggests we endorse it. A factual “built on Myne” or “Myne-compatible” reference is fine.</li>
+          <li style="margin-top:8px;">Do not attack this website, attempt to overload it, or use it to break the law.</li>
+          <li style="margin-top:8px;">Do not misrepresent the security properties of Myne. The threat model is the authority on what the software does and does not protect.</li>
+        </ul>
 
         <h2 style={h2}>No warranty, no service level</h2>
         <p style={body}>
-          The service is provided as-is, without warranty of any kind. There is no uptime
-          commitment, no support commitment and no guarantee that a given feature keeps working the
-          way it does today. Data loss caused by a bug is possible; keep your own backups. The app
-          can export everything you have, and doing so occasionally is a reasonable habit during a
-          beta.
+          The software and this website are provided “as is”, without warranty of any kind, to the
+          extent permitted by law. There is no uptime, support or data-recovery commitment. Myne is
+          encryption software: if you lose your password and recovery phrase, nobody can recover your
+          vault. Keep your own backups and test that they restore.
         </p>
 
-        <h2 style={h2}>When the AI changes your notes</h2>
+        <h2 style={h2}>Third-party links and services</h2>
         <p style={body}>
-          Myne&rsquo;s AI can propose changes to your own notes, create new ones, and change a closed
-          set of twelve vault settings — the list is shown to you in the prompt before anything is
-          sent. Nothing is written without you approving it: a note change is shown to you before it
-          is applied, as a diff, or for the settings surface as a preview block with its own apply
-          action. Either way you approve it, on its own or as a batch you chose. A change that would
-          take a note out of your note list always needs its own separate approval and can never ride
-          along inside &ldquo;approve all&rdquo;.
-        </p>
-        <p style={body}>
-          Before applying anything, an agent run records a restore point for every note it is about to
-          change, and if that record cannot be taken the run does not apply at all. One press then
-          reverts the whole run. Notes the run <em>created</em> are the exception: there is no earlier
-          version to return to, so removing one is something you do yourself. A settings change is the
-          other exception: its undo record is separate from the note restore point and is held in
-          memory only, so a setting the agent changed stays changed after a restart.
-        </p>
-        <p style={body}>
-          Within that, the no-warranty section above applies here too, and the same advice with it:
-          keep your own exports. What a model proposes is not something we can vouch for, and approving
-          a change is your decision.
-        </p>
-
-        <h2 style={h2}>Quota and limits</h2>
-        <p style={body}>
-          Each account gets 250 MB of encrypted storage. Ask and we will raise it, free — write to
-          <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>. There is no limit
-          on the number of accounts the service accepts.
-        </p>
-        <p style={body}>
-          Rate limits apply per account, to keep the service available. They are not billing
-          mechanisms and there is nothing to buy your way past.
-        </p>
-
-        <h2 style={h2}>What you may not do</h2>
-        <ul style={body + "padding-left:20px;"}>
-          {forbidden.map((x) => <li style="margin-top:8px;">{x}</li>)}
-        </ul>
-
-        <h3 style={h3}>How moderation actually works here</h3>
-        <p style={body}>
-          <strong style="color:var(--ink-1);"
-            >We cannot see your content, so we do not filter it in advance — and we could not if we
-            wanted to.</strong
-          > There is no scanning, no automated review and no proactive detection of anything, because
-          everything stored here is encrypted with keys we do not hold.
-        </p>
-        <p style={body}>
-          When a substantiated report reaches us, what we can do is act at the account level:
-          freeze the account, or delete it. We cannot remove one note and leave the rest, because we
-          cannot tell them apart.
-          {/* The pointer to /notice/ left with the page on 2026-10-17: Myne operates no offered
-              service, so there is no Art. 16 notice-and-action route to describe.
-              This paragraph is kept as the *record* of what the
-              closed beta's moderation clause said. */}
-        </p>
-        <p style={body}>
-          We may freeze or delete an account that is being used for something in the list above, or
-          where a legal obligation requires it. A freeze blocks writing and leaves reading intact,
-          so a frozen account can still be exported.
-        </p>
-
-        <h2 style={h2}>When the beta ends</h2>
-        <p style={body}>
-          <strong style="color:var(--ink-1);">Your account keeps working.</strong> The end of the beta is
-          not an expiry date: accounts and their data carry on exactly as they are. If a paid tier appears
-          later, it will be an option you can take or leave — not a gate that closes in front of data
-          you already have.
-        </p>
-        <p style={body}>
-          We are stating this because the opposite has happened to people. When a well-known
-          encrypted service shut down in 2024, its users found that nothing in its terms had
-          promised them anything at all.
-        </p>
-
-        <h2 style={h2}>If the service shuts down</h2>
-        <p style={body}>
-          Should we ever stop running the hosted service, you get
-          <strong style="color:var(--ink-1);">at least 90 days' notice</strong>. Throughout that period
-          the service stays reachable and export keeps working, so you can take your notes with you.
-        </p>
-        <p style={body}>
-          After that, you are still not stuck: the server is
-          <a href="https://github.com/myne-md" rel="noopener" style="color:var(--accent);">open source</a>
-          under the AGPL, and the client can point at any server you run. A shutdown on our side ends
-          our hosting, not your ability to use Myne.
-        </p>
-
-        <h2 style={h2}>Donations</h2>
-        <p style={body}>
-          <strong style="color:var(--ink-1);">Myne stopped taking donations on 16 October 2026</strong>
-          and the Open Collective collection was closed, so there is no donation path left to describe.
-          While it existed the rule was that a donation bought nothing: no badge, no early access, no
-          priority support, no additional storage and no influence over what gets built, and the
-          service was identical for everyone whether or not they had donated. That rule is recorded
-          here because it is the line that kept a donation a donation. The moment a contribution
-          bought something in return, it would have stopped being a gift and started being a purchase,
-          with everything that follows from that.
+          This site links to GitHub, model providers and other third-party sites. We do not control
+          them and are not responsible for their content, availability or data practices. A link is
+          not an endorsement, and their terms apply when you use them.
         </p>
 
         <h2 style={h2}>Liability</h2>
         <p style={body}>
-          We are liable for intent and gross negligence, and for injury to life, body or health,
-          under the statutory rules. For ordinary negligence we are liable only for breach of an
-          obligation essential to the purpose of this agreement, and then limited to the damage
-          typically foreseeable for a service of this kind. Because the service is provided free of
-          charge, German law limits liability further; nothing here is intended to extend beyond
-          what the law provides.
-        </p>
-        <p style={body}>
-          Mandatory statutory liability, including under the Produkthaftungsgesetz, is unaffected.
-        </p>
-
-        <h2 style={h2}>Ending it</h2>
-        <p style={body}>
-          Your account lives on the server the app points at, and removing it is done there — by
-          you if you run that server, by whoever does otherwise. It removes your vault, attachments,
-          device registry and login verifier; backups follow within the window that operator sets.
-          There is nothing to cancel and nothing to pay.
-        </p>
-
-        <h2 style={h2}>Changes to these terms</h2>
-        <p style={body}>
-          If these terms change in a way that affects you, the apps show you the new version rather
-          than swapping the page quietly. Each version carries its effective date, and the previous
-          text stays in the site's public history.
+          We are liable without limitation for intent, gross negligence, and injury to life, body or
+          health. For ordinary negligence we are liable only for breach of an obligation essential to
+          the purpose of these terms, and then only for the damage typically foreseeable for a free
+          project of this kind. This does not exclude liability that German law makes mandatory.
         </p>
 
         <h2 style={h2}>Governing law</h2>
@@ -286,19 +124,29 @@ const forbidden = [
           not deprive you of the protection of mandatory provisions of the law of your country of
           residence.
         </p>
+
+        <h2 style={h2}>Changes</h2>
         <p style={body}>
-          Questions: <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>. How we
-          handle data is in the <a href="/privacy/" style="color:var(--accent);">Privacy Policy</a>.
+          We may update these terms when the project changes. The effective date above changes with
+          them. Because there is no account or service relationship, continued use of the website
+          after an update means the new terms apply to that use. The AGPL licence on the code is not
+          changed by this page.
         </p>
 
-        <p style={body + "margin-top:44px;font-size:14px;color:var(--ink-3);"}>
-          Deutsche Fassung: <a href="/nutzungsbedingungen/" style="color:var(--accent);"
-            >Nutzungsbedingungen</a
-          >.
+        <h2 style={h2}>Contact</h2>
+        <p style={body}>
+          Questions about these terms: <a href="mailto:hello@myne.md" style="color:var(--accent);">hello@myne.md</a>.
+          Privacy: <a href="mailto:privacy@myne.md" style="color:var(--accent);">privacy@myne.md</a>.
+          Security: <a href="mailto:security@myne.md" style="color:var(--accent);">security@myne.md</a>.
+          Source requests: <a href="mailto:source@myne.md" style="color:var(--accent);">source@myne.md</a>.
+        </p>
+
+        <p style={body + "margin-top:44px;font-size:14px;"}>
+          Deutsche Fassung: <a href="/nutzungsbedingungen/" style="color:var(--accent);">Nutzungsbedingungen</a>.
+          Datenschutz: <a href="/privacy/" style="color:var(--accent);">Privacy Policy</a>.
         </p>
       </div>
     </section>
-
     <SiteFooter />
   </div>
 </LandingLayout>

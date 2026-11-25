@@ -1,26 +1,17 @@
 # Myne security contact — RFC 9116.
 # Acknowledgment-only: we credit researchers; there is no monetary bounty yet.
 #
-# Release signing keys (minisign). They sign the SHA256SUMS of every release
-# published at https://downloads.myne.md/releases/ — NOT the installers, which
-# are unsigned and will make your OS warn you.
+# Myne is source-only: no binary releases are published. The minisign keys
+# below are historical release-hash keys; they do not sign a current download
+# and no installer is offered from this site.
 #
+# Historical keys (not a current distribution channel):
 #   RWRk3+M9oGvHo33oHg5kOL7a5DbNj8sR2KPLg0gwHMujnHOpQI+kX+nm
-#     current, from 2026-10-03; signs v0.9.0 and later.
 #   RWSzhweIGbX53vxsmyZ218e3pqUU8/zKiqHMarzXv3Ddx4rcyvDQOT5k
-#     previous, signed releases through v0.8.x; rotated (not compromised).
 #
-# The same keys are published at https://myne.md/download and in the download
-# origin's own /releases/index.json. Three copies on two different hosts, so
-# that compromising one of them shows up as a disagreement rather than as
-# nothing at all. Carried as a comment rather than an RFC 9116 field on
-# purpose: `Encryption:` is for keys used to encrypt reports TO us, and this
-# is not that.
-
-# Order is preference (RFC 9116 §2.5.3). The mailto is first because it is the
-# only one an outside reporter can actually reach: the GitHub advisory form
-# below is on a PRIVATE repository, so it 404s for anyone who is not an org
-# member. It stays listed for members, not as the primary channel.
+# The mailto is first because it is reachable without a GitHub account. The
+# advisory form is on the repository and becomes the preferred public channel
+# only after the flip.
 Contact: mailto:security@myne.md
 Contact: https://github.com/myne-md/myne/security/advisories/new
 Policy: https://myne.md/security/

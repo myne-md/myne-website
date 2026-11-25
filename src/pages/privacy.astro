@@ -202,7 +202,7 @@ const stored = [
 const notStored = [
   "Email address, name, postal address, phone number",
   "Payment details — the beta is free and takes none",
-  "IP addresses in any persisted form, connection logs, access times",
+  "IP addresses in access logs or analytics; the short-lived local fail2ban buffer is the only exception and is not used for profiling",
   "Readable content, note titles, folder names, tags",
   "Timestamps that mean anything to you — those live inside the ciphertext",
   "Cookies, analytics identifiers, advertising identifiers, fingerprints",
@@ -239,8 +239,10 @@ const notStored = [
           <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Your notes are encrypted on your device before they go anywhere, and we hold no key that
             opens them. Signing up takes no email address — your account is a 20-character number
-            you keep. We do not log IP addresses, set no cookies, run no analytics, and load nothing
-            from anyone else's server.
+            you keep. We do not write client IP addresses to access logs or analytics, set no cookies,
+            run no analytics, and load nothing from anyone else's server. The host firewall keeps a
+            short-lived local fail2ban buffer to block brute-force attempts; it is not an analytics
+            record and is dropped on its documented schedule.
           </p>
           <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             What we do have is short and worth naming rather than glossing: a hash that identifies
@@ -466,10 +468,9 @@ const notStored = [
             <a href="mailto:privacy@myne.md" style="color:var(--accent);">privacy@myne.md</a>
           </p>
           <p style="margin:14px 0 0;font-size:14px;line-height:1.65;color:var(--ink-3);">
-            A full postal address is available on request at the address above. There is no public
-            beta any more, so there is no hostname announcement that would carry it; the Impressum
-            page is withheld until that address is settled. There is no data protection officer: the
-            thresholds of § 38 BDSG are not met, there are no employees.
+            A postal address is not published while the site is pre-launch; the Impressum page is
+            withheld until that address is settled. privacy@myne.md reaches the controller. There is
+            no data protection officer: the thresholds of § 38 BDSG are not met, there are no employees.
           </p>
         </div>
 

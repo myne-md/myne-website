@@ -192,7 +192,7 @@ const stored = [
 const notStored = [
   "E-Mail-Adresse, Name, Anschrift, Telefonnummer",
   "Zahlungsdaten — es werden keine erhoben",
-  "IP-Adressen in irgendeiner dauerhaften Form, Verbindungsprotokolle, Zugriffszeitpunkte",
+  "IP-Adressen in Zugriffsprotokollen oder Analysen; der kurzlebige lokale fail2ban-Puffer ist die einzige Ausnahme und dient nicht der Profilbildung",
   "Lesbare Inhalte, Notiztitel, Ordnernamen, Schlagwörter",
   "Zeitangaben, die für Sie eine Bedeutung haben — diese liegen im Chiffrat",
   "Cookies, Analyse-Kennungen, Werbe-Kennungen, Fingerabdrücke",
@@ -227,9 +227,11 @@ const notStored = [
           <p style="margin:0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Ihre Notizen werden auf Ihrem Gerät verschlüsselt, bevor sie es verlassen, und wir
             besitzen keinen Schlüssel, der sie öffnet. Für die Anmeldung wird keine E-Mail-Adresse
-            verlangt — Ihr Konto ist eine 20-stellige Nummer, die Sie behalten. Wir protokollieren
-            keine IP-Adressen, setzen keine Cookies, betreiben keine Analyse und laden nichts von
-            fremden Servern nach.
+            verlangt — Ihr Konto ist eine 20-stellige Nummer, die Sie behalten. Wir schreiben keine
+            Client-IP-Adressen in Zugriffsprotokolle oder Analysen, setzen keine Cookies, betreiben
+            keine Analyse und laden nichts von fremden Servern nach. Die Host-Firewall hält einen
+            kurzlebigen lokalen fail2ban-Puffer vor, um Brute-Force-Versuche zu blockieren; er ist
+            kein Analyse-Datensatz und wird nach dem dokumentierten Zeitplan verworfen.
           </p>
           <p style="margin:14px 0 0;max-width:64ch;font-size:15px;line-height:1.7;color:var(--ink-3);">
             Was wir haben, ist kurz und wird hier benannt statt umschrieben: ein Hash, der Ihr Konto
@@ -458,11 +460,10 @@ const notStored = [
             <a href="mailto:privacy@myne.md" style="color:var(--accent);">privacy@myne.md</a>
           </p>
           <p style="margin:14px 0 0;font-size:14px;line-height:1.65;color:var(--ink-3);">
-            Eine vollständige Postanschrift ist unter der genannten Adresse auf Anfrage erhältlich.
-            Eine öffentliche Beta gibt es nicht mehr, es gibt also auch keine Hostname-Ankündigung,
-            die sie tragen würde; die Impressum-Seite bleibt zurückgehalten, bis die Anschrift
-            geklärt ist. Ein Datenschutzbeauftragter ist nicht bestellt: Die Schwellen des § 38 BDSG
-            sind nicht erreicht, es gibt keine Beschäftigten.
+            Eine Postanschrift wird vor dem öffentlichen Start nicht veröffentlicht; die
+            Impressum-Seite bleibt zurückgehalten, bis die Anschrift geklärt ist. privacy@myne.md
+            erreicht den Verantwortlichen. Ein Datenschutzbeauftragter ist nicht bestellt: Die
+            Schwellen des § 38 BDSG sind nicht erreicht, es gibt keine Beschäftigten.
           </p>
         </div>
 

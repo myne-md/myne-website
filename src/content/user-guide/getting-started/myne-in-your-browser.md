@@ -8,7 +8,7 @@ tags: ["basics", "sync", "devices", "privacy", "security"]
 
 Alongside the desktop app, Myne runs in a desktop browser: the same application compiled to run in the browser, the same interface, the same protocol, holding an encrypted copy of a vault that reaches it over sync. You can create a new account and vault there, sign in to one that already exists, or hold an identity for the session and open any vault it owns.
 
-**Myne does not serve one.** There is no `app.example.com` to open, and no browser client is offered under Myne's own name: the maintainer-run instance closed in October 2026, because offering a service under the product's name is a different thing from shipping software. The client is built from source and run by you, and [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/) is how. Everything below is about the client itself, and it holds whether the address you open is one you run or one a friend runs for you.
+**Myne does not serve one.** No browser client is offered under Myne's own name: the client is built from source and run by you, and [Run your own browser client](/user-guide/getting-started/run-your-own-browser-client/) is how. Everything below is about the client itself, and it holds whether the address you open is one you run or one a friend runs for you.
 
 This article covers the prerequisites, what the browser client is and is not, and one difference in how its code is delivered that is worth understanding before you rely on it.
 

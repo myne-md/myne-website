@@ -276,19 +276,6 @@ const links = [
     color: var(--ink-3);
     flex-shrink: 0;
   }
-  /* Primary CTA, styled identically to the Download pill. Retained after the
-     hosted web client closed (2026-10-16): nothing renders it today, and the
-     class is kept rather than deleted because the CTA is the shape a future
-     "run the browser client" entry point would use. It previously routed to
-     app.example.com, which no longer serves anything. */
-  .gnav-openapp {
-    color: var(--ink-1);
-    text-decoration: none;
-    border: 1px solid rgb(var(--line-rgb) / 0.2);
-    border-radius: 5px;
-    padding: 7px 13px;
-    font-size: 10px;
-  }
   /* Icon-only search trigger, guide pages only (opens the full-content
      search palette). The desktop copy lives inside .gnav-actions; a mobile
      twin sits in the bar next to the burger. */

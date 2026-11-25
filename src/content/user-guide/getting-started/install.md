@@ -29,7 +29,7 @@ it yourself. Myne operates no hosted client and no sync service of its own.
 
 ## What you need
 
-- **Node.js 22.12 or newer** and the pnpm version pinned in `package.json`
+- **Node.js 22.13 or newer** and the pnpm version pinned in `package.json`
   (`packageManager`).
 - **Rust**, installed through `rustup`; the repository's `rust-toolchain.toml`
   pins the exact toolchain.

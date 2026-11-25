@@ -16,14 +16,16 @@ Myne's sync server is open source and built from the same tree, so you can run t
 
 ## Bring the server up
 
-The server image is pinned by digest rather than by tag, so the file below resolves to the same bytes on every machine, and this digest is a **multi-architecture manifest list** — it carries a build for `amd64` and one for `arm64`, so the same file works on an ordinary server, a Raspberry Pi and an arm64 cloud instance. It is the bundle's own `docker-compose.yml`, reproduced here so that this page and the file you actually run cannot drift apart: every tunable is read from the environment with the shipped default beside it, which is why the rest of this page tells you to edit `.env` rather than the file. Save it as `docker-compose.yml`, and copy the annotated `bundle.env.example` beside it as `.env`:
+The server is built from the source tag pinned below rather than pulled from a public registry, so the compose file reproduces the bytes from the repository you can read. It is the bundle's own `docker-compose.yml`, reproduced here so that this page and the file you actually run cannot drift apart: every tunable is read from the environment with the shipped default beside it, which is why the rest of this page tells you to edit `.env` rather than the file. Save it as `docker-compose.yml`, and copy the annotated `bundle.env.example` beside it as `.env`:
 
 ```yaml
 name: myne-server
 
 services:
   server:
-    image: ${MYNE_SERVER_IMAGE:-ghcr.io/myne-md/myne-server@sha256:a212b140f4a89a0659fc2b955624b3b4778d3b27b002f008358795a6eaaaf387}
+    build:
+      context: https://github.com/myne-md/myne-server.git#v0.17.0
+      dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       MYNE_SERVER_ADDR: ":8080"

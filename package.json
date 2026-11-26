@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "astro dev",
     "test": "node --test src/lib/*.test.mjs src/lib/themeBuilder/*.test.mjs scripts/*.test.mjs",
+    "test:site": "node scripts/check-site.mjs",
     "sync-themes": "node scripts/sync-themes.mjs",
     "sync-preview": "node scripts/sync-preview.mjs",
     "validate-sidebar": "node scripts/validate-sidebar.mjs",

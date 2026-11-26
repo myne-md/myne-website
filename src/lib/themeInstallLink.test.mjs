@@ -65,7 +65,7 @@ describe("buildThemeInstallUrl", () => {
         name: "Warm Paper",
         palette: PALETTE,
         author: "Myne",
-        source: "https://github.com/myne-md/myne-themes/tree/main/themes/warm-paper",
+        source: "https://github.com/myne-md/myne-themes/tree/develop/themes/warm-paper",
       }),
     );
     assert.equal(withMeta.searchParams.get("author"), "Myne");
@@ -253,7 +253,7 @@ describe("buildThemeInstallUrl", () => {
       name: "Catppuccin Mocha",
       palette: real,
       author: "Catppuccin",
-      source: "https://github.com/myne-md/myne-themes/tree/main/themes/catppuccin-mocha",
+      source: "https://github.com/myne-md/myne-themes/tree/develop/themes/catppuccin-mocha",
     });
     assert.ok(url !== null);
     assert.ok(

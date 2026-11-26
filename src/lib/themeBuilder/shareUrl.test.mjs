@@ -43,7 +43,7 @@ test("buildSubmission opens GitHub's new-file page with the palette prefilled", 
   const out = buildSubmission(base);
   assert.equal(out.kind, "pr");
   const u = new URL(out.url);
-  assert.equal(u.origin + u.pathname, "https://github.com/myne-md/myne-themes/new/main");
+  assert.equal(u.origin + u.pathname, "https://github.com/myne-md/myne-themes/new/develop");
   assert.equal(u.searchParams.get("filename"), "themes/nord-dusk/theme.json");
   assert.equal(u.searchParams.get("value"), base.themeJson, "theme.json rides as the file body");
   assert.ok(u.searchParams.get("message").includes("nord-dusk"));

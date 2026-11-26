@@ -1,7 +1,7 @@
 ---
 title: "Browser clipper"
 category: "attachments-and-import"
-updated: 2026-10-28
+updated: 2026-11-26
 summary: "Save web pages into your vault with the Myne Clipper browser extension. Turn on the Browser clipper setting, pair the extension to your open vault with a numeric challenge, clip a page or selection to the vault root as markdown with its images, and manage or unpair browsers from Connected extensions."
 tags: ["attachments", "import"]
 ---
@@ -23,7 +23,7 @@ The desktop side does not register the native-messaging host — the local bridg
 1. Open Settings from the gear in the bottom bar or with `⌘,`.
 2. Open **Settings → Browser extensions** and switch **Browser clipper** on. Turning it on registers the native-messaging host; turning it off removes it again.
 
-Then install the Myne Clipper extension in your browser from its extension listing. The extension and the desktop app find each other through the registered host.
+Then build the Myne Clipper from source and load it unpacked; there is no store listing and no published binary. The [repository](https://github.com/myne-md/myne-clipper) has the exact steps for Chrome, Edge and Firefox. The extension and the desktop app find each other through the registered host.
 
 ## Pairing the extension to your vault
 

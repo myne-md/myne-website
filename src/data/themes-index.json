@@ -6,7 +6,7 @@
       "author": "Myne",
       "description": "A cabinet monitor at midnight: scanlines across the page, neon magenta on deep violet, and hard-edged panels with printed shadows.",
       "license": "CC-BY-4.0",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/arcade-crt",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/arcade-crt",
       "preview": "/themes/previews/arcade-crt.png",
       "swatches": {
         "background": "#14121f",
@@ -23,7 +23,7 @@
       "author": "Catppuccin",
       "description": "The darkest of Catppuccin's soothing pastel flavours — muted lavender and pink on deep indigo.",
       "license": "MIT",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/catppuccin-mocha",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/catppuccin-mocha",
       "preview": "/themes/previews/catppuccin-mocha.png",
       "swatches": {
         "background": "#1e1e2e",
@@ -40,7 +40,7 @@
       "author": "Dracula Theme (Zeno Rocha & contributors)",
       "description": "The famous dark theme — deep blue-grey with vivid purple, pink, and green accents.",
       "license": "MIT",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/dracula",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/dracula",
       "preview": "/themes/previews/dracula.png",
       "swatches": {
         "background": "#282a36",
@@ -57,7 +57,7 @@
       "author": "Myne",
       "description": "A warm field-notebook page: ruled paper under the text, dog-eared cards for callouts and code, and a terracotta accent.",
       "license": "CC-BY-4.0",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/field-notes",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/field-notes",
       "preview": "/themes/previews/field-notes.png",
       "swatches": {
         "background": "#f5f1e6",
@@ -74,7 +74,7 @@
       "author": "Pavel Pertsev (morhetz)",
       "description": "Retro-groove warm dark theme — earthy browns with bright orange, yellow, and aqua.",
       "license": "MIT",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/gruvbox-dark",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/gruvbox-dark",
       "preview": "/themes/previews/gruvbox-dark.png",
       "swatches": {
         "background": "#282828",
@@ -91,7 +91,7 @@
       "author": "Myne",
       "description": "A warm charcoal dark theme with an ochre accent — easy on the eyes for late-night writing.",
       "license": "CC-BY-4.0",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/nocturne",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/nocturne",
       "preview": "/themes/previews/nocturne.png",
       "swatches": {
         "background": "#17150f",
@@ -108,7 +108,7 @@
       "author": "Arctic Ice Studio & Sven Greb",
       "description": "An arctic, north-bluish palette — calm frost accents over polar-night surfaces.",
       "license": "MIT",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/nord",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/nord",
       "preview": "/themes/previews/nord.png",
       "swatches": {
         "background": "#2e3440",
@@ -125,7 +125,7 @@
       "author": "Atom (One Dark)",
       "description": "Atom's iconic One Dark — a balanced blue-grey theme with soft, legible syntax accents.",
       "license": "MIT",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/one-dark",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/one-dark",
       "preview": "/themes/previews/one-dark.png",
       "swatches": {
         "background": "#282c34",
@@ -142,7 +142,7 @@
       "author": "Ethan Schoonover",
       "description": "The precision-tuned Solarized palette, dark mode — low-glare teal base with sixteen balanced accents.",
       "license": "MIT",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/solarized-dark",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/solarized-dark",
       "preview": "/themes/previews/solarized-dark.png",
       "swatches": {
         "background": "#002b36",
@@ -159,7 +159,7 @@
       "author": "Ethan Schoonover",
       "description": "The precision-tuned Solarized palette, light mode — warm cream base with the same balanced accents.",
       "license": "MIT",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/solarized-light",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/solarized-light",
       "preview": "/themes/previews/solarized-light.png",
       "swatches": {
         "background": "#fdf6e3",
@@ -176,7 +176,7 @@
       "author": "Enkia",
       "description": "A clean, dark theme inspired by the lights of downtown Tokyo at night — blues, purples, and neon accents.",
       "license": "MIT",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/tokyo-night",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/tokyo-night",
       "preview": "/themes/previews/tokyo-night.png",
       "swatches": {
         "background": "#1a1b26",
@@ -193,7 +193,7 @@
       "author": "Myne",
       "description": "A soft, low-contrast cream light theme with a terracotta accent for long, calm writing sessions.",
       "license": "CC-BY-4.0",
-      "github": "https://github.com/myne-md/myne-themes/tree/main/themes/warm-paper",
+      "github": "https://github.com/myne-md/myne-themes/tree/develop/themes/warm-paper",
       "preview": "/themes/previews/warm-paper.png",
       "swatches": {
         "background": "#faf6ee",

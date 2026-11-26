@@ -115,7 +115,7 @@ export function buildSubmission({ slug, name, author, description, appearance, t
     message,
     description: body,
   });
-  const url = `https://github.com/${REPO}/new/main?${params.toString()}`;
+  const url = `https://github.com/${REPO}/new/develop?${params.toString()}`;
   if (url.length <= MAX_URL_LEN) return { kind: "pr", url };
   // Too large to prefill: the issue form is shorter and still works.
   return {

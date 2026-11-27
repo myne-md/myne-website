@@ -1,0 +1,19 @@
+name: pr-review
+
+# The whole pipeline lives in myne-md/.github (review/ + the reusable workflow).
+# This file only opts this repository into it. Change the pipeline there, not
+# here.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    uses: myne-md/.github/.github/workflows/pr-review.yml@main
+    secrets:
+      OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+      MYNE_BOT_PAT: ${{ secrets.MYNE_BOT_PAT }}

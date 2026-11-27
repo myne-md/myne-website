@@ -1,10 +1,13 @@
 // Static site smoke checks that need no browser and no new dependency.
 //
-// Run after `astro build` (the CI `web` job does). It answers two questions
+// Run after `astro build` (the CI `web` job does). It answers three questions
 // about the artefact rather than about the source:
 //   1. every internal href resolves to a file the build actually emitted;
 //   2. every page carries the basic accessibility landmarks a reader needs:
-//      a language, a title, one h1, a main landmark, and alt text on images.
+//      a language, a title, one h1, a main landmark, and alt text on images;
+//   3. no stylesheet ships a `-webkit-backdrop-filter` without its standard
+//      twin in the same rule — see the guard below for why that one is a bug
+//      and not a missing nicety.
 //
 // It deliberately does not attempt axe/WCAG coverage. The high-value browser
 // checks (focus order, contrast in computed styles) need a real layout engine
@@ -104,4 +107,30 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`site-smoke: ${pages.length} page(s), internal links resolve, a11y basics present`);
+// The prefixed blur name on its own is not a graceful fallback, it is a lost
+// effect: Chromium and Firefox do not implement `-webkit-backdrop-filter` at
+// all, so a rule carrying only that name paints nothing. The way to get here is
+// to hand-write both declarations — the CSS minifier treats a prefixed property
+// and its standard twin as one property and keeps the LAST of the pair — which
+// is how the site once shipped a navbar with no background. Write the standard
+// property once and let the build own the prefixes.
+for (const file of walk(ROOT).filter((path) => path.endsWith(".css"))) {
+  const css = readFileSync(file, "utf8");
+  for (const rule of css.split("}")) {
+    if (!rule.includes("-webkit-backdrop-filter")) continue;
+    if (rule.replaceAll("-webkit-backdrop-filter", "").includes("backdrop-filter")) continue;
+    const open = rule.indexOf("{");
+    const selector = open > 0 ? rule.slice(0, open).trim() : "";
+    failures.push(
+      `${relative(ROOT, file)}: ${selector || "(rule)"} sets -webkit-backdrop-filter with no standard backdrop-filter`,
+    );
+  }
+}
+
+if (failures.length > 0) {
+  console.error(`site-smoke: ${failures.length} failure(s)`);
+  for (const failure of failures) console.error(`  ${failure}`);
+  process.exit(1);
+}
+
+console.log(`site-smoke: ${pages.length} page(s), internal links resolve, a11y basics present, no prefixed-only backdrop-filter`);

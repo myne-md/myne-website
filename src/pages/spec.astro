@@ -193,7 +193,7 @@ const leadStyle =
                   m = 256 MiB · t = 3 · p = 2
                 </div>
                 <p style="margin-top:10px;font-size:12.5px;line-height:1.6;color:var(--ink-3);">
-                  RFC 9106. ~1 s on a 2024 laptop. Parameters live in
+                  RFC 9106. ~1 s on a 2024 laptop. Parameters live in{" "}
                   <span class="mono" style="font-size:11px;color:var(--ink-1);">vault.meta</span>,
                   bound into the AEAD AAD against downgrade.
                 </p>
@@ -322,8 +322,8 @@ const leadStyle =
             <div class="mono up" style={eyebrowStyle}>§6 · §9 · Per-note encryption</div>
             <h2 style={h2Style}>What lands on disk is noise.</h2>
             <p style={leadStyle}>
-              Each note is a flat
-              <span class="mono" style="font-size:13px;color:var(--ink-1);">&lt;uuid&gt;.myn</span>
+              Each note is a flat{" "}
+              <span class="mono" style="font-size:13px;color:var(--ink-1);">&lt;uuid&gt;.myn</span>{" "}
               file. Folders are virtual — the hierarchy is a path string inside
               the encrypted frontmatter, so a filesystem observer sees only
               opaque blobs. The on-disk layout:

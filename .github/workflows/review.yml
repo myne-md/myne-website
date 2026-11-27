@@ -1,0 +1,26 @@
+name: pr-review
+
+# The whole pipeline lives in myne-md/.github (review/ + the reusable workflow).
+# This file only opts this repository into it. Change the pipeline there, not
+# here.
+#
+# Fork PRs are skipped by the reusable workflow: GitHub withholds secrets from
+# them. Reviews on this repository therefore cover same-repository branches.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    uses: myne-md/.github/.github/workflows/pr-review.yml@main
+    secrets:
+      OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+      MYNE_BOT_PAT: ${{ secrets.MYNE_BOT_PAT }}

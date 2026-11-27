@@ -20,18 +20,18 @@
     "prep-shots": "node scripts/prep-marketing-shots.mjs"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.18",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "astro": "^7.4.13",
-    "markdown-it": "^14.1.1"
+    "markdown-it": "^14.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@fontsource/inter": "^5.2.8",
     "@resvg/resvg-js": "^2.6.2",
     "@types/markdown-it": "^14.1.2",
-    "satori": "^0.26.0",
+    "satori": "^0.33.5",
     "sharp": "0.35.5",
     "typescript": "~5.8.3"
   }

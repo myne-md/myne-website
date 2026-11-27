@@ -984,7 +984,6 @@ body[data-userguide-sidebar="open"] .ug-mobile-toggle__icon--close { display: bl
   justify-content: center;
   background: rgb(var(--scrim-rgb) / 0.92);
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   cursor: zoom-out;
   touch-action: none;
   overscroll-behavior: contain;
